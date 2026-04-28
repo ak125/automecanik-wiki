@@ -15,3 +15,9 @@
 - **Branche** : `feat/phase-e-pilot-proposals`
 - **Décision** : feat(phase-e): pilot proposals (4) + schema bug fix + validator _*.md skip
 - **Sortie** : PR #3 | commits 9b61e5d
+
+## 2026-04-28 — feat/phase-e-pilot-proposals (auto)
+
+- **Branche** : `feat/phase-e-pilot-proposals`
+- **Décision** : fix(phase-e): apply mdformat + skip _*.md in validator argv path (+2 other commits)
+- **Sortie** : PR #3 | commits 1b42110 1d0092e 9b61e5d

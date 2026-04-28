@@ -1,6 +1,6 @@
 ---
-schema_version: "1.0.0"
-id: "gamme:plaquette-de-frein"
+schema_version: 1.0.0
+id: gamme:plaquette-de-frein
 entity_type: gamme
 slug: plaquette-de-frein
 title: Plaquette de frein
@@ -10,20 +10,20 @@ aliases:
   - brake pads
   - garniture de frein
 lang: fr
-created_at: "2026-04-28"
-updated_at: "2026-04-28"
+created_at: '2026-04-28'
+updated_at: '2026-04-28'
 truth_level: L3
 source_refs:
   - kind: recycled
     origin_repo: automecanik-rag
     origin_path: knowledge/gammes/plaquette-de-frein.md
-    captured_at: "2026-04-28"
+    captured_at: '2026-04-28'
 provenance:
   ingested_by: human:@fafa
-  promoted_from: null
+  promoted_from:
 review_status: proposed
-reviewed_by: null
-reviewed_at: null
+reviewed_by:
+reviewed_at:
 review_notes: |
   Pilote ADR-031 Phase E. Source = canon freinage 13/13 dans automecanik-rag.
   À reviewer humainement avant promotion vers wiki/gamme/.

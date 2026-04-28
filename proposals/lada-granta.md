@@ -1,6 +1,6 @@
 ---
-schema_version: "1.0.0"
-id: "vehicle:lada-granta"
+schema_version: 1.0.0
+id: vehicle:lada-granta
 entity_type: vehicle
 slug: lada-granta
 title: Lada Granta
@@ -8,20 +8,20 @@ aliases:
   - LADA GRANTA
   - granta
 lang: fr
-created_at: "2026-04-28"
-updated_at: "2026-04-28"
+created_at: '2026-04-28'
+updated_at: '2026-04-28'
 truth_level: L3
 source_refs:
   - kind: recycled
     origin_repo: automecanik-rag
     origin_path: knowledge/vehicles/lada-granta.md
-    captured_at: "2026-04-28"
+    captured_at: '2026-04-28'
 provenance:
   ingested_by: human:@fafa
-  promoted_from: null
+  promoted_from:
 review_status: proposed
-reviewed_by: null
-reviewed_at: null
+reviewed_by:
+reviewed_at:
 review_notes: |
   Pilote ADR-031 Phase E vehicle entity. Modèle low-profile Lada (NOT Clio/208/Golf
   per ADR-022 §"Stage 2 canary low-risk"). 42 fiches Lada disponibles dans le
@@ -37,17 +37,17 @@ entity_data:
   model: granta
   low_profile_canary: true
   motorizations:
-    - code: "1.6 82 ch"
+    - code: 1.6 82 ch
       fuel: essence
-    - code: "1.6 87 ch"
+    - code: 1.6 87 ch
       fuel: essence
-    - code: "1.6 90 ch"
+    - code: 1.6 90 ch
       fuel: essence
-    - code: "1.6 98 ch"
+    - code: 1.6 98 ch
       fuel: essence
-    - code: "1.6 106 ch"
+    - code: 1.6 106 ch
       fuel: essence
-    - code: "1.6 Sport 118 ch"
+    - code: 1.6 Sport 118 ch
       fuel: essence
 ---
 
@@ -82,5 +82,5 @@ Lada Granta — berline / hatchback / liftback du constructeur russe Lada (group
 - [ ] Vérifier `type_id` Supabase pour granta (FK `__auto_type_motor`)
 - [ ] Compléter `years` (plage de production)
 - [ ] Compléter `generation` (Granta I, II)
-- [ ] Filtrer les motorisations qui n'appartiennent pas à granta (Hybrid/e-* = autres modèles)
+- [ ] Filtrer les motorisations qui n'appartiennent pas à granta (Hybrid/e-\* = autres modèles)
 - [ ] Décider promotion → `wiki/vehicle/lada-granta.md` ou ajustement

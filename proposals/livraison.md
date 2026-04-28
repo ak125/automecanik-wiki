@@ -1,6 +1,6 @@
 ---
-schema_version: "1.0.0"
-id: "support:livraison"
+schema_version: 1.0.0
+id: support:livraison
 entity_type: support
 slug: livraison
 title: Conditions de livraison
@@ -9,20 +9,20 @@ aliases:
   - frais de port
   - shipping
 lang: fr
-created_at: "2026-04-28"
-updated_at: "2026-04-28"
+created_at: '2026-04-28'
+updated_at: '2026-04-28'
 truth_level: L3
 source_refs:
   - kind: recycled
     origin_repo: automecanik-rag
     origin_path: knowledge/policies/livraison.md
-    captured_at: "2026-04-28"
+    captured_at: '2026-04-28'
 provenance:
   ingested_by: human:@fafa
-  promoted_from: null
+  promoted_from:
 review_status: proposed
-reviewed_by: null
-reviewed_at: null
+reviewed_by:
+reviewed_at:
 review_notes: |
   Pilote ADR-031 Phase E support entity. Politique simple, pas de variabilité
   technique — bon candidat pour valider le flux support.

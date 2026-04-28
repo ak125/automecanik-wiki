@@ -1,6 +1,6 @@
 ---
-schema_version: "1.0.0"
-id: "constructeur:dacia"
+schema_version: 1.0.0
+id: constructeur:dacia
 entity_type: constructeur
 slug: dacia
 title: Dacia
@@ -8,20 +8,20 @@ aliases:
   - DACIA
   - Dacia Auto
 lang: fr
-created_at: "2026-04-28"
-updated_at: "2026-04-28"
+created_at: '2026-04-28'
+updated_at: '2026-04-28'
 truth_level: L3
 source_refs:
   - kind: recycled
     origin_repo: automecanik-rag
     origin_path: knowledge/constructeurs/dacia.md
-    captured_at: "2026-04-28"
+    captured_at: '2026-04-28'
 provenance:
   ingested_by: human:@fafa
-  promoted_from: null
+  promoted_from:
 review_status: proposed
-reviewed_by: null
-reviewed_at: null
+reviewed_by:
+reviewed_at:
 review_notes: |
   Pilote ADR-031 Phase E constructeur entity. Tier 3 brand low-profile per
   runbook §"Phase E" (dacia/seat/skoda parmi candidats Tier 3).

@@ -14,12 +14,12 @@
 
 4 propositions de pilote pour valider le flux raw → wiki, une par entity_type stratégique :
 
-| # | entity_type | slug | source | status |
-|---|---|---|---|---|
-| 1 | gamme | [plaquette-de-frein](plaquette-de-frein.md) | automecanik-rag/knowledge/gammes/ | pending_review |
-| 2 | vehicle | [lada-granta](lada-granta.md) | automecanik-rag/knowledge/vehicles/ | pending_review |
-| 3 | constructeur | [dacia](dacia.md) | automecanik-rag/knowledge/constructeurs/ | pending_review |
-| 4 | support | [livraison](livraison.md) | automecanik-rag/knowledge/policies/ | pending_review |
+| #   | entity_type  | slug                                        | source                                   | status         |
+| --- | ------------ | ------------------------------------------- | ---------------------------------------- | -------------- |
+| 1   | gamme        | [plaquette-de-frein](plaquette-de-frein.md) | automecanik-rag/knowledge/gammes/        | pending_review |
+| 2   | vehicle      | [lada-granta](lada-granta.md)               | automecanik-rag/knowledge/vehicles/      | pending_review |
+| 3   | constructeur | [dacia](dacia.md)                           | automecanik-rag/knowledge/constructeurs/ | pending_review |
+| 4   | support      | [livraison](livraison.md)                   | automecanik-rag/knowledge/policies/      | pending_review |
 
 ### Critères PASS Phase E
 

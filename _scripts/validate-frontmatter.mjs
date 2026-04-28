@@ -8,7 +8,7 @@
 // Exit codes: 0 = OK, 1 = validation failure, 2 = setup error.
 
 import { readFileSync, readdirSync, statSync } from "node:fs";
-import { join, relative, dirname } from "node:path";
+import { join, relative, dirname, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import Ajv from "ajv/dist/2020.js";
 import addFormats from "ajv-formats";
@@ -109,7 +109,10 @@ function main() {
   const ajv = setupAjv();
   const argv = process.argv.slice(2);
   const files = argv.length
-    ? argv.map((a) => (a.startsWith("/") ? a : join(REPO_ROOT, a))).filter((f) => f.endsWith(".md") && safeStat(f))
+    ? argv
+        .map((a) => (a.startsWith("/") ? a : join(REPO_ROOT, a)))
+        // Skip `_*.md` (meta files, no frontmatter by D19) even when passed explicitly via pre-commit.
+        .filter((f) => f.endsWith(".md") && !basename(f).startsWith("_") && safeStat(f))
     : SCAN_ROOTS.flatMap(walkMd);
 
   if (files.length === 0) {

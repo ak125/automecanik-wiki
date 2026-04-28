@@ -18,11 +18,22 @@
 - Ne jamais inventer une compatibilité véhicule
 - Ne jamais marquer `validated` ou `human_reviewed` sans validation humaine
 
-## R8 spécial
+## Workflow uniforme (tous les R)
 
-- Génération R8 future : `__rag_proposals` DB (ADR-022)
-- Migration R8 existante : raw/recycled → validation → wiki/vehicles/
-- Pas de `proposals/vehicles/` parallèle
+```
+automecanik-raw/sources/ ou recycled/
+  → proposals/<slug>.md (FLAT, entity_type dans frontmatter)
+  → validation humaine
+  → wiki/<entity_type>/<slug>.md
+  → exports/{rag,seo,support}/ (générés, gitignored)
+```
+
+Pas d'exception R8 — voir CLAUDE.md §"Note ADR-022".
+
+## Schema frontmatter v1.0
+
+5 blocs obligatoires : `core` / `traceability` / `quality` / `export-gates` / `entity_data` typé.
+Référence : `_meta/schema/frontmatter.schema.json` (à créer Phase B).
 
 ## État actuel (2026-04-28)
 

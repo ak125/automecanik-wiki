@@ -15,34 +15,35 @@ Le LLM peut **proposer, relier, résumer, extraire, enrichir**. Il ne **valide**
 
 ## Interdictions absolues
 
-- Ne **jamais** écrire directement dans `wiki/` sans instruction humaine explicite
-- Écrire d'abord dans `proposals/` (sauf véhicules R8 — voir `_meta/ingestion-contract.md`)
-- Ne **jamais** marquer une fiche `validated` ou `human_reviewed` sans validation humaine
+- Ne **jamais** écrire directement dans `wiki/<area>/` sans instruction humaine explicite
+- Écrire d'abord dans `proposals/` (FLAT — routage par frontmatter `entity_type`)
+- Ne **jamais** marquer une fiche `validated`, `human_reviewed`, ou `exportable.<x>: true` sans validation humaine
 - Ne **jamais** supprimer une source raw
 - Ne **jamais** inventer de compatibilité véhicule
 - Ne **jamais** transformer une hypothèse en fait
-- Ne **jamais** exporter vers RAG / SEO / chatbot sans `quality-gates.md` PASS
+- Ne **jamais** exporter vers RAG / SEO / chatbot sans `_meta/quality-gates.md` PASS
 - Ne **jamais** stocker de secret, token, mot de passe, fichier `.env`
+- Ne **jamais** modifier `_meta/entity-registry.json` manuellement (passe par `lineage-tracker` skill)
 
-## Workflow standard (gammes, constructeurs, support, diagnostic)
+## Workflow standard — UNIFORME pour toutes les entités
+
+Le même flux s'applique à **gammes, vehicles, constructeurs, support, diagnostic** — pas d'exception.
 
 1. Lire la source `automecanik-raw/recycled/...` ou `automecanik-raw/sources/...`
 2. Identifier les entités via `_meta/entity-registry.json`
 3. Extraire les faits — marquer `extracted` / `inferred` / `ambiguous`
-4. Créer ou modifier une fiche dans `proposals/<entity_type>/<slug>.md`
+4. Créer ou modifier une fiche dans `proposals/<slug>.md` (FLAT, `entity_type` dans frontmatter)
 5. Renseigner `source_refs:` (chemin raw + lineage)
-6. Mettre à jour `index.md`
-7. Ajouter une entrée dans `log.md`
-8. Laisser `review_status: needs_human_review`
+6. Ajouter `lineage_id` (UUIDv7) + `content_hash` (SHA-256 du body)
+7. Mettre à jour `index.md`
+8. Ajouter une entrée dans `log.md`
+9. Laisser `review_status: needs_human_review`
 
-## Workflow R8 (vehicles) — différent
+## Note ADR-022 (R8 vehicles) — sujet downstream backend
 
-Les véhicules suivent **ADR-022** (governance-vault) :
-- Génération R8 future : passe par `__rag_proposals` (DB Supabase) quand activée
-- Migration R8 existante : `automecanik-rag/knowledge/vehicles/` → `automecanik-raw/recycled/rag-knowledge/vehicles/` → validation humaine → `wiki/vehicles/`
-- Pas de dossier `proposals/vehicles/` parallèle
+Le mécanisme `__rag_proposals` (DB Supabase, ADR-022 governance-vault) est une **génération R8 future** côté backend, **distinct** du flux raw → wiki présent. Il est actuellement DORMANT (`RAG_PROPOSAL_MODE=off`).
 
-Voir `_meta/ingestion-contract.md` §"Cas R8".
+Si plus tard activé, ses sorties merged seront traitées comme **un input parmi d'autres** vers `automecanik-raw/recycled/`, puis suivront le flux uniforme jusqu'à `wiki/vehicles/`. Pas de cas spécial fichier.
 
 ## Validation humaine
 
@@ -66,12 +67,29 @@ Avant de créer un nouveau script de lint / quality / extraction, vérifier les 
 - `seo-vault-verify` (SHA256 reproductibilité, cross-refs ADR)
 - `rag-lint.py` (validation frontmatter)
 - `content-quality-gate` (scoring sections)
-- `legacy-recycler` (recycle CSV / blog)
+- `legacy-recycler` (recycle CSV / blog) — étendu pour `--target=wiki-proposal`
 - `kw-classify` (classification keywords)
 
 Étendre l'existant plutôt que créer un 4ème outil concurrent.
 
+## Structure du repo
+
+| Dossier | Rôle |
+|---|---|
+| `inbox/{web-clips,voice-notes,manual}/` | Captures temporaires non canoniques |
+| `proposals/` | Fiches en cours d'extraction (FLAT, routage par `entity_type`) |
+| `wiki/{gammes,vehicles,constructeurs,support,diagnostic}/` | Base canonique validée |
+| `maps/` | MOCs Obsidian par domaine |
+| `glossary/` | Atomic notes terminologie/synonymes |
+| `taxonomy/` | Vocabulaires contrôlés (families, intents, segments) |
+| `_meta/` | Règles, quality gates, schemas JSON, entity registry |
+| `_meta/schema/` | JSON Schemas pour frontmatter + exports |
+| `_templates/` | Squelettes Obsidian (Templater compatible) |
+| `_scripts/` | Scripts repo-local (validate-frontmatter, promote, etc.) |
+| `_audit/` | Logs de promotions, deprecations, disputes |
+| `exports/{rag,seo,support}/` | Sorties générées (gitignored sauf contrats) |
+
 ## Référence canon
 
 ADR-031 — Raw / Wiki / RAG / SEO Separation
-`ak125/governance-vault/ledger/decisions/adr/ADR-031-raw-wiki-rag-seo-separation.md`
+`ak125/governance-vault/ledger/decisions/adr/ADR-031-raw-wiki-rag-seo-separation.md` (à créer Phase C)

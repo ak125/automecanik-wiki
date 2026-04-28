@@ -1,0 +1,43 @@
+# Exports générés — contenu gitignored, contrats schema commités
+exports/rag/**
+exports/seo/**
+exports/support/**
+!exports/**/.gitkeep
+!exports/**/manifest.example.json
+
+# Obsidian workspace state (par utilisateur, non partagé)
+.obsidian/workspace.json
+.obsidian/workspaces.json
+.obsidian/cache
+.obsidian/graph.json
+.obsidian/hotkeys.json
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Secrets (tolérance zéro)
+.env
+.env.*
+*.pem
+*.key
+*.crt
+**/secrets/**
+
+# Build / temp
+*.bak
+*.tmp
+*.log
+node_modules/
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Lineage map global (généré, vit côté monorepo)
+_meta/lineage-map.global.json

@@ -6,11 +6,11 @@
 
 _Aucune fiche validée — phase pilote en cours._
 
-## Vehicles (R8)
+## Vehicles
 
 _Aucune fiche validée — phase pilote en cours._
 
-## Constructeurs (R7)
+## Constructeurs
 
 _Aucune fiche validée — phase pilote en cours._
 
@@ -22,14 +22,12 @@ _Aucune fiche validée — phase pilote en cours._
 
 _Aucune fiche validée — phase pilote en cours._
 
-## SEO
-
-_Aucune fiche validée — phase pilote en cours._
-
 ---
 
-État pilote (Phase 4 ADR-031) : 4 propositions prévues
-- `proposals/gammes/plaquette-de-frein.md` (R3/R4)
-- `proposals/constructeurs/<marque-low-profile>.md` (R7)
-- `proposals/support/livraison.md` (chatbot)
-- 1 véhicule low-profile via `automecanik-raw/recycled/` (R8)
+État pilote (Phase E — ADR-031) : 4 propositions prévues
+- `proposals/<slug-gamme>.md` (R3/R4 — `entity_type: gamme`)
+- `proposals/<slug-constructeur>.md` (R7 — `entity_type: constructeur`)
+- `proposals/<slug-support>.md` (chatbot — `entity_type: support`)
+- 1 véhicule low-profile via `automecanik-raw/recycled/` (R8 — `entity_type: vehicle`)
+
+Routage par `entity_type` dans frontmatter, pas par sous-dossier `proposals/`.

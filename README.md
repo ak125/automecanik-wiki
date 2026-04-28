@@ -22,18 +22,31 @@ La promotion `raw/recycled/` → `wiki/` est **toujours une décision humaine**,
 
 | Dossier | Rôle |
 |---|---|
-| `inbox/` | Captures temporaires (web clips, notes rapides) — non canonique |
-| `proposals/` | Fiches en cours d'extraction depuis `automecanik-raw`, avant validation humaine |
-| `wiki/` | Base canonique validée (gammes, vehicles, constructeurs, support, diagnostic, seo) |
+| `inbox/{web-clips,voice-notes,manual}/` | Captures temporaires non canoniques |
+| `proposals/` | Fiches en cours d'extraction (FLAT — routage par frontmatter `entity_type`) |
+| `wiki/{gammes,vehicles,constructeurs,support,diagnostic}/` | Base canonique validée |
 | `maps/` | MOCs Obsidian par domaine |
-| `_meta/` | Règles, quality gates, registry d'entités, contrats d'ingestion |
-| `exports/` | Sorties contrôlées par audience (rag, seo, content, support) |
+| `glossary/` | Atomic notes terminologie / synonymes |
+| `taxonomy/` | Vocabulaires contrôlés (families, intents, segments) |
+| `_meta/` | Règles, quality gates, registry, contrats d'ingestion |
+| `_meta/schema/` | JSON Schemas versionés (frontmatter + exports + entity-data) |
+| `_templates/` | Squelettes Obsidian (Templater compatible) |
+| `_scripts/` | Scripts repo-local (validate-frontmatter, promote, etc.) |
+| `_audit/` | Logs de promotions, deprecations, disputes |
+| `exports/{rag,seo,support}/` | Sorties générées (gitignored sauf contrats schema) |
+
+## Workflow uniforme — tous les R
+
+Le même flux s'applique à **gammes, vehicles, constructeurs, support, diagnostic** — pas d'exception.
+
+Voir `_meta/ingestion-contract.md` pour le détail.
 
 ## Gouvernance
 
-- ADR canon : `ak125/governance-vault/ledger/decisions/adr/ADR-031-raw-wiki-rag-seo-separation.md`
+- ADR canon : `ak125/governance-vault/ledger/decisions/adr/ADR-031-raw-wiki-rag-seo-separation.md` (à créer Phase C)
 - Règles agents : voir `CLAUDE.md` + `_meta/agent-exit-contract.md`
 - Quality gates : voir `_meta/quality-gates.md`
+- Schema frontmatter : `_meta/schema/frontmatter.schema.json` (à créer Phase B)
 
 ## Repos liés
 

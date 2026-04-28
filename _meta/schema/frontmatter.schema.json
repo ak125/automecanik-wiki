@@ -80,7 +80,7 @@
       "items": {
         "type": "object",
         "required": ["kind"],
-        "additionalProperties": false,
+        "unevaluatedProperties": false,
         "oneOf": [
           {
             "properties": {

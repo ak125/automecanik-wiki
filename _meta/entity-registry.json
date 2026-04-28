@@ -1,0 +1,10 @@
+{
+  "_comment": "Registry canonique des entités métier. Évite doublons / aliases conflictuels. Mis à jour à chaque promotion vers wiki/.",
+  "_schema_version": "1.0",
+  "_updated_at": "2026-04-28",
+  "gammes": {},
+  "vehicles": {},
+  "constructeurs": {},
+  "support": {},
+  "diagnostic": {}
+}

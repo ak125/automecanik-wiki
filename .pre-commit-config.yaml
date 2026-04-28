@@ -1,0 +1,53 @@
+# pre-commit-config.yaml — local pre-commit hooks for automecanik-wiki.
+# Install: `pip install pre-commit && pre-commit install`. CI runs the same hooks via lint.yml.
+#
+# Source of truth for tool selection: ADR-031 + Phase B.3 (D6 mdformat, not prettier).
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: [--maxkb=512]
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.4
+    hooks:
+      - id: gitleaks
+
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.17
+    hooks:
+      - id: mdformat
+        files: ^(wiki|proposals|inbox|_meta|_templates|glossary|taxonomy|maps|_audit)/.*\.md$
+        additional_dependencies:
+          - mdformat-gfm==0.3.6
+          - mdformat-frontmatter==2.0.8
+          - mdformat-tables==1.0.0
+
+  - repo: local
+    hooks:
+      - id: validate-frontmatter
+        name: validate frontmatter against _meta/schema/
+        entry: node _scripts/validate-frontmatter.mjs
+        language: system
+        files: ^(wiki|proposals)/.*\.md$
+        pass_filenames: true
+
+      - id: check-slug-uniqueness
+        name: check slug uniqueness
+        entry: node _scripts/check-slug-uniqueness.mjs
+        language: system
+        pass_filenames: false
+        files: ^(wiki|proposals)/.*\.md$
+
+      - id: check-extension-whitelist
+        name: check extension whitelist
+        entry: node _scripts/check-extension-whitelist.mjs
+        language: system
+        pass_filenames: false

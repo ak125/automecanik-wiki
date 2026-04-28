@@ -20,6 +20,7 @@ Thumbs.db
 *~
 .idea/
 .vscode/
+.claude/
 
 # Secrets (tolérance zéro)
 .env

@@ -1,0 +1,135 @@
+# Enums centralisés v1.0.0
+# Source unique pour les valeurs énumérées utilisées dans le frontmatter et les schemas.
+# Toute extension passe par bump version + entrée dans CHANGELOG.md.
+
+schema_version: "1.0.0"
+updated_at: "2026-04-28"
+
+# Niveaux de vérité (PAS de L0 — utiliser review_status: draft)
+# Aligné avec /opt/automecanik/rag/rag_config.yml weights
+truth_levels:
+  L1:
+    label: "Faits vérifiés (sourcés)"
+    weight: 1.00
+    requires_source_refs: true
+  L2:
+    label: "Règles métier"
+    weight: 0.85
+    requires_source_refs: true
+  L3:
+    label: "Hypothèses"
+    weight: 0.60
+    requires_source_refs: true
+  L4:
+    label: "Heuristiques"
+    weight: 0.40
+    requires_source_refs: false  # tolérance pour fiches recyclées schema_version: 0.legacy
+
+# États de review
+review_status:
+  - draft         # brouillon, pas encore proposé
+  - proposed      # déposé en proposals/
+  - in_review     # en cours de review humaine
+  - approved      # validé humainement (gate export)
+  - deprecated    # obsolète
+
+# Types d'entités (aligné avec automecanik-rag/namespace_guard.py — constructeur à ajouter côté rag)
+entity_types:
+  - gamme
+  - vehicle
+  - constructeur
+  - support
+  - diagnostic
+
+# Classes Weaviate cibles (cf namespace_guard.py:49-56)
+target_classes:
+  - KB_Knowledge      # contenu générique gamme/constructeur
+  - KB_Catalog        # catalogue pièces / produits
+  - KB_Diagnostic     # symptômes/causes/solutions
+  - KB_Media          # images, schémas
+  - KB_RouterMemory   # mémoire chatbot routeur
+
+# Familles de gammes (taxonomie métier, alignée avec __seo_pg_aliases families)
+families:
+  - freinage
+  - alimentation
+  - transmission
+  - moteur
+  - suspension
+  - direction
+  - electricite
+  - echappement
+  - refroidissement
+  - climatisation
+  - eclairage
+  - carrosserie
+  - habitacle
+  - pneus
+  - vitrage
+  - capote
+  - filtration
+  - distribution
+  - allumage
+  - injection
+  - turbo
+  - embrayage
+
+# Intents SEO observés (aligné avec __seo_keyword_results intent classifier)
+intents:
+  - diagnostic        # le user a un problème, cherche cause
+  - achat             # comparer prix, choisir produit
+  - comparatif        # comparer 2 produits
+  - compatibilite     # vérifier que pièce X marche sur véhicule Y
+  - remplacement      # comment remplacer
+  - entretien         # planifié
+  - guide             # tutoriel, comment faire
+  - reglementation    # normes, obligations légales
+
+# V-Levels SEO (rules-seo-vlevel.md vault)
+vlevels:
+  V1: "Super-champion (vol > X, pos top3)"
+  V2: "TOP 20 vol"
+  V3: "Champion local (par véhicule)"
+  V4: "Variant (longue traîne)"
+  V5: "Volume = 0 (RAG_ONLY_ENRICHED)"
+  V6: "Bloc B (deprecated, à éviter)"
+
+# Tiers business (constructeurs)
+constructeur_tiers:
+  1: "Marque prioritaire (Renault, Peugeot, Citroën, VW, Ford, Opel)"
+  2: "Marque secondaire (Skoda, Seat, Dacia, Fiat, Toyota)"
+  3: "Niche / low-profile (idéal pour pilote ADR-022 stage 2)"
+
+# Catégories support chatbot
+support_categories:
+  - livraison
+  - retour
+  - garantie
+  - compatibilite
+  - paiement
+  - compte
+  - service-client
+  - seo-strategy      # fiches stratégie SEO orphelines (briefs, plans de maillage)
+
+# Systèmes diagnostic (aligné avec __diag_systems)
+diagnostic_systems:
+  - freinage
+  - alimentation
+  - transmission
+  - moteur
+  - suspension
+  - direction
+  - electricite
+  - echappement
+  - refroidissement
+  - climatisation
+  - eclairage
+  - carrosserie
+  - habitacle
+
+# Source kinds pour traceability.source_refs
+source_kinds:
+  raw: "Fichier dans automecanik-raw/ (sources/, recycled/, normalized/)"
+  external_url: "URL externe avec capture archivée dans automecanik-raw/sources/web-clips/"
+  manual: "Donnée saisie humainement avec justification (rare)"
+  recycled: "Fichier recyclé d'un autre repo (origin_repo + origin_path)"

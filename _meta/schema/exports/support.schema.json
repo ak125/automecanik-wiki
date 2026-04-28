@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/exports/support.schema.json",
+  "title": "Export support manifest v1.0.0",
+  "description": "Contrat consommé par chatbot client. Sortie filtrée : pas de promesse commerciale non validée, pas de compatibilité inventée, pas de donnée interne.",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "documents"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "category", "audience", "content"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": ["livraison", "retour", "garantie", "compatibilite", "paiement", "compte", "service-client", "diagnostic"]
+          },
+          "audience": {
+            "type": "string",
+            "const": "client"
+          },
+          "content": {
+            "description": "Texte chatbot-ready. Markdown light (pas d'HTML, pas de wikilinks).",
+            "type": "string",
+            "minLength": 10
+          },
+          "faq_questions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["q", "a"],
+              "additionalProperties": false,
+              "properties": {
+                "q": { "type": "string" },
+                "a": { "type": "string" }
+              }
+            },
+            "default": []
+          },
+          "legal_reviewed_by": {
+            "description": "Email humain ayant validé le contenu pour publication chatbot. Obligatoire.",
+            "type": "string"
+          },
+          "legal_reviewed_at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}

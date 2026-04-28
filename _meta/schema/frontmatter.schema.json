@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/frontmatter.schema.json",
+  "title": "automecanik-wiki frontmatter v1.0.0",
+  "description": "Schema canonique pour frontmatter YAML des fiches wiki. 5 blocs : core / traceability / quality / export-gates / entity_data. Référence ADR-031.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "entity_type",
+    "slug",
+    "title",
+    "lang",
+    "created_at",
+    "updated_at",
+    "truth_level",
+    "review_status",
+    "exportable"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "description": "Semver du schema. Bump majeur = breaking change. v0.legacy réservé aux fiches recyclées de automecanik-rag/knowledge/ (4650 fiches, 95.7% sans source_refs).",
+      "type": "string",
+      "pattern": "^(0\\.legacy|[0-9]+\\.[0-9]+\\.[0-9]+)$"
+    },
+    "id": {
+      "description": "Identifiant URN-style. Format <entity_type>:<slug>. Unique global. Survit aux refactors de chemins.",
+      "type": "string",
+      "pattern": "^(gamme|vehicle|constructeur|support|diagnostic):[a-z0-9][a-z0-9-]*[a-z0-9]$"
+    },
+    "entity_type": {
+      "description": "Type d'entité métier. Aligné avec automecanik-rag/namespace_guard.py (constructeur à ajouter côté rag).",
+      "type": "string",
+      "enum": ["gamme", "vehicle", "constructeur", "support", "diagnostic"]
+    },
+    "slug": {
+      "description": "Slug kebab-case ASCII. Max 80 chars. Pas de double-hyphen. Doit matcher la partie après ':' dans id.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,78}[a-z0-9]$",
+      "maxLength": 80
+    },
+    "title": {
+      "description": "Titre humain libre. Accents OK.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "aliases": {
+      "description": "Synonymes pour SEO et recherche. Inclut accents/casses/anglais.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true,
+      "default": []
+    },
+    "lang": {
+      "description": "ISO 639-1. Site AutoMecanik = FR.",
+      "type": "string",
+      "enum": ["fr", "en"],
+      "default": "fr"
+    },
+    "created_at": {
+      "description": "Date ISO 8601. Immutable après création.",
+      "type": "string",
+      "format": "date"
+    },
+    "updated_at": {
+      "description": "Date ISO 8601. Bump à chaque édition substantielle (changement content_hash).",
+      "type": "string",
+      "format": "date"
+    },
+    "truth_level": {
+      "description": "L1=faits vérifiés (sourcés, weight 1.0), L2=règles métier (weight 0.85), L3=hypothèses (weight 0.6), L4=heuristiques (weight 0.4). PAS de L0 (utiliser review_status: draft).",
+      "type": "string",
+      "enum": ["L1", "L2", "L3", "L4"]
+    },
+    "source_refs": {
+      "description": "Sources avec lineage. Obligatoire (>=1 entrée) si truth_level in {L1,L2,L3}. Optionnel L4. Anti-pattern : LLM-only seed sans source_refs (cf rules-ai-antipatterns AP-XX).",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind"],
+        "additionalProperties": false,
+        "oneOf": [
+          {
+            "properties": {
+              "kind": { "const": "raw" },
+              "path": {
+                "type": "string",
+                "description": "Chemin relatif depuis automecanik-raw/ . Ex: 'recycled/rag-knowledge/gammes/X.md' ou 'normalized/catalogues/bosch-2026-q1.parquet#row=4521'."
+              },
+              "cid": {
+                "type": "string",
+                "description": "Content hash SHA-256 du fichier source. Format 'sha256:<hex>'.",
+                "pattern": "^sha256:[0-9a-f]{64}$"
+              },
+              "captured_at": { "type": "string", "format": "date" }
+            },
+            "required": ["kind", "path"]
+          },
+          {
+            "properties": {
+              "kind": { "const": "external_url" },
+              "url": { "type": "string", "format": "uri" },
+              "captured_at": { "type": "string", "format": "date" },
+              "archive_path": {
+                "type": "string",
+                "description": "Chemin relatif dans automecanik-raw/sources/web-clips/ vers la copie archivée."
+              }
+            },
+            "required": ["kind", "url", "captured_at"]
+          },
+          {
+            "properties": {
+              "kind": { "const": "manual" },
+              "note": { "type": "string", "description": "Justification humaine de l'absence d'autre source vérifiable." },
+              "author": { "type": "string", "description": "Auteur humain." }
+            },
+            "required": ["kind", "note", "author"]
+          },
+          {
+            "properties": {
+              "kind": { "const": "recycled" },
+              "origin_repo": { "type": "string", "description": "Ex: 'automecanik-rag'." },
+              "origin_path": { "type": "string", "description": "Ex: 'knowledge/gammes/plaquette-de-frein.md'." },
+              "captured_at": { "type": "string", "format": "date" }
+            },
+            "required": ["kind", "origin_repo", "origin_path"]
+          }
+        ]
+      },
+      "default": []
+    },
+    "provenance": {
+      "description": "Métadonnées de transformation.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ingested_by": {
+          "type": "string",
+          "description": "Skill ou humain qui a créé/modifié. Ex: 'skill:legacy-recycler@v0.4', 'human:@fafa'."
+        },
+        "promoted_from": {
+          "type": ["string", "null"],
+          "description": "Chemin proposals/<slug>.md d'origine. null = écrit directement (interdit en prod sauf entité racine documentée)."
+        },
+        "promoted_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "lineage_id": {
+      "description": "UUIDv7 (timestamp-prefixed, sortable). Stable cross-repo, jamais ré-écrit. Lié à automecanik-raw/manifests/lineage-map.json.",
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "content_hash": {
+      "description": "SHA-256 du body Markdown SANS frontmatter. Pour dedup et change detection (skip re-embed si hash inchangé). Format 'sha256:<hex>'.",
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "parents": {
+      "description": "Liste des lineage_id amont (mainline parents). [] = racine.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$" },
+      "default": []
+    },
+    "review_status": {
+      "description": "État de review. draft=brouillon, proposed=déposé en proposals/, in_review=en cours, approved=validé humainement (gate export), deprecated=obsolète.",
+      "type": "string",
+      "enum": ["draft", "proposed", "in_review", "approved", "deprecated"]
+    },
+    "reviewed_by": {
+      "description": "Email humain ou 'skill:<name>' si auto-approuvé L4. Null si pas encore reviewé.",
+      "type": ["string", "null"]
+    },
+    "reviewed_at": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "review_notes": {
+      "type": "string",
+      "default": ""
+    },
+    "no_disputed_claims": {
+      "description": "Bool. False = bloque export rag/seo/support automatiquement.",
+      "type": "boolean",
+      "default": true
+    },
+    "quality_score": {
+      "description": "Float 0-1 calculé par content-quality-gate skill. Optionnel.",
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "exportable": {
+      "description": "Gates d'export par audience. Tous false par défaut. Décision humaine requise pour passer à true.",
+      "type": "object",
+      "required": ["rag", "seo", "support"],
+      "additionalProperties": false,
+      "properties": {
+        "rag": { "type": "boolean", "default": false },
+        "seo": { "type": "boolean", "default": false },
+        "support": { "type": "boolean", "default": false },
+        "content": { "type": "boolean", "default": false }
+      }
+    },
+    "target_classes": {
+      "description": "Classes Weaviate cibles. Aligné avec automecanik-rag/namespace_guard.py.",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["KB_Knowledge", "KB_Catalog", "KB_Diagnostic", "KB_Media", "KB_RouterMemory"]
+      },
+      "uniqueItems": true,
+      "default": []
+    },
+    "entity_data": {
+      "description": "Données typées par entity_type. Validation déléguée à _meta/schema/entity-data/<entity_type>.schema.json.",
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "truth_level": { "enum": ["L1", "L2", "L3"] }
+        }
+      },
+      "then": {
+        "properties": {
+          "source_refs": { "minItems": 1 }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "exportable": {
+            "anyOf": [
+              { "properties": { "rag": { "const": true } } },
+              { "properties": { "seo": { "const": true } } },
+              { "properties": { "support": { "const": true } } }
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "review_status": { "const": "approved" },
+          "no_disputed_claims": { "const": true }
+        },
+        "required": ["reviewed_by", "reviewed_at"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/support.schema.json",
+  "title": "entity_data v1.0.0 — support (chatbot client)",
+  "description": "Données spécifiques aux fiches support client (livraison, retour, garantie, paiement, etc.). Chargé quand entity_type == 'support'.",
+  "type": "object",
+  "required": ["category"],
+  "additionalProperties": false,
+  "properties": {
+    "category": {
+      "description": "Catégorie de support.",
+      "type": "string",
+      "enum": ["livraison", "retour", "garantie", "compatibilite", "paiement", "compte", "service-client", "seo-strategy"]
+    },
+    "audience": {
+      "description": "Public cible. 'client' = chatbot front, 'staff' = interne.",
+      "type": "string",
+      "enum": ["client", "staff"],
+      "default": "client"
+    },
+    "faq_questions": {
+      "description": "Questions FAQ associées (pour Schema.org FAQPage à l'export).",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["q", "a"],
+        "additionalProperties": false,
+        "properties": {
+          "q": { "type": "string", "minLength": 5 },
+          "a": { "type": "string", "minLength": 5 }
+        }
+      },
+      "default": []
+    },
+    "policy_refs": {
+      "description": "Références politiques internes (CGV, mentions légales, etc.).",
+      "type": "array",
+      "items": { "type": "string" },
+      "default": []
+    },
+    "legal_reviewed_by": {
+      "description": "Email humain ayant validé légalement le contenu (obligatoire pour exportable.support: true).",
+      "type": ["string", "null"]
+    }
+  }
+}

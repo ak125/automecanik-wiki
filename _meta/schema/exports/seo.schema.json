@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/exports/seo.schema.json",
+  "title": "Export SEO manifest v1.0.0",
+  "description": "Contrat consommé par monorepo nestjs-remix-monorepo (DynamicSeoV4UltimateService) via AUTOMECANIK_WIKI_PATH. Output : JSON-LD Schema.org typés (Vehicle/Product/FAQPage/Organization).",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "exports"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_commit": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "exports": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "entity_type", "slug", "json_ld"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string" },
+          "entity_type": { "type": "string", "enum": ["gamme", "vehicle", "constructeur", "support"] },
+          "slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+          "json_ld_type": {
+            "description": "Type Schema.org. Mapping : gamme→Product+FAQPage, vehicle→Vehicle, constructeur→Organization, support→FAQPage.",
+            "type": "string",
+            "enum": ["Product", "Vehicle", "Organization", "FAQPage", "HowTo"]
+          },
+          "json_ld": {
+            "description": "Bloc JSON-LD Schema.org complet, prêt à embed dans <script type='application/ld+json'>.",
+            "type": "object"
+          },
+          "intents": {
+            "type": "array",
+            "items": { "type": "string" },
+            "default": []
+          },
+          "vlevel": {
+            "type": "string",
+            "enum": ["V1", "V2", "V3", "V4", "V5", "V6"]
+          },
+          "internal_links": {
+            "description": "Suggestions de maillage interne (slugs cibles).",
+            "type": "array",
+            "items": { "type": "string" },
+            "default": []
+          }
+        }
+      }
+    }
+  }
+}

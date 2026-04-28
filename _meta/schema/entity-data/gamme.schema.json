@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/gamme.schema.json",
+  "title": "entity_data v1.0.0 — gamme (R3/R4)",
+  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'.",
+  "type": "object",
+  "required": ["pg_id", "family"],
+  "additionalProperties": false,
+  "properties": {
+    "pg_id": {
+      "description": "FK vers DB pg_alias / __seo_pg_aliases. Source de vérité monorepo Supabase.",
+      "type": "integer",
+      "minimum": 1
+    },
+    "family": {
+      "description": "Famille parent (taxonomy/families.yaml). Ex: freinage, alimentation, transmission.",
+      "type": "string",
+      "pattern": "^[a-z][a-z-]*[a-z]$"
+    },
+    "related_parts": {
+      "description": "Slugs gammes liées. Crée des wikilinks Obsidian implicites.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+      "uniqueItems": true,
+      "default": []
+    },
+    "intents": {
+      "description": "Intents SEO observés (taxonomy/intents.yaml). Ex: diagnostic, achat, comparatif, compatibilite.",
+      "type": "array",
+      "items": { "type": "string", "enum": ["diagnostic", "achat", "comparatif", "compatibilite", "remplacement", "entretien", "guide"] },
+      "uniqueItems": true,
+      "default": []
+    },
+    "vlevel": {
+      "description": "V-Level SEO (rules-seo-vlevel.md vault). V1=super-champion, V2=top20, V3=champion local, V4=variant, V5=vol=0, V6=bloc B.",
+      "type": "string",
+      "enum": ["V1", "V2", "V3", "V4", "V5", "V6"]
+    },
+    "kw_top": {
+      "description": "Top keywords associés (extraits de __seo_keyword_results).",
+      "type": "array",
+      "items": { "type": "string" },
+      "maxItems": 20
+    }
+  }
+}

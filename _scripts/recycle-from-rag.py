@@ -63,6 +63,18 @@ CATEGORY_TO_ENTITY = {
     "diagnostic": "diagnostic",
 }
 
+# ADR-031 §D23: directory layout under wiki/ uses plural for natural collections
+# and keeps singular for invariants (diagnostic, support). The frontmatter
+# `entity_type:` and `id:` fields stay singular — they identify the entity, not
+# the directory.
+ENTITY_TO_WIKI_DIR = {
+    "gamme": "gammes",
+    "vehicle": "vehicles",
+    "constructeur": "constructeurs",
+    "support": "support",
+    "diagnostic": "diagnostic",
+}
+
 SUPPORT_CATEGORY_ENUM = {
     "livraison", "retour", "garantie", "compatibilite", "remboursement",
     "paiement", "compte", "service-client", "seo-strategy",
@@ -211,7 +223,8 @@ def build_proposal(source_path: Path, rag_repo: Path) -> tuple[str, dict]:
         "reviewed_at": None,
         "review_notes": (
             f"Phase F batch ADR-031. Recyclé depuis automecanik-rag par recycle-from-rag.py. "
-            f"Source body sha256={src_body_sha}. À reviewer humainement avant promotion vers wiki/{entity_type}/."
+            f"Source body sha256={src_body_sha}. À reviewer humainement avant promotion vers "
+            f"wiki/{ENTITY_TO_WIKI_DIR[entity_type]}/."
         ),
         "no_disputed_claims": True,
         "exportable": {"rag": False, "seo": False, "support": False},
@@ -219,12 +232,14 @@ def build_proposal(source_path: Path, rag_repo: Path) -> tuple[str, dict]:
         "entity_data": build_entity_data(category, source_fm, slug),
     }
 
+    wiki_dir = ENTITY_TO_WIKI_DIR[entity_type]  # ADR-031 §D23 plural where natural
+    target_wiki_path = f"wiki/{wiki_dir}/{slug}.md"
     body_lines = [
         f"# {title}",
         "",
         f"> 📥 **Proposition Phase F** — extraite par `recycle-from-rag.py` depuis `{fm['source_refs'][0]['origin_path']}`.",
         f"> source body sha256 : `{src_body_sha}`",
-        f"> À reviewer manuellement avant promotion vers `wiki/{entity_type}/{slug}.md`.",
+        f"> À reviewer manuellement avant promotion vers `{target_wiki_path}`.",
         "",
         "## Faits extraits (source body brut, à structurer)",
         "",
@@ -234,7 +249,7 @@ def build_proposal(source_path: Path, rag_repo: Path) -> tuple[str, dict]:
         "",
         f"- [ ] Vérifier `entity_data` complet et aligné DB monorepo (`{entity_type}`)",
         "- [ ] Compléter ou corriger les `aliases`",
-        "- [ ] Décider promotion vers `wiki/" + entity_type + "/" + slug + ".md` ou ajustement",
+        f"- [ ] Décider promotion vers `{target_wiki_path}` ou ajustement",
         "- [ ] Si promotion : `review_status: approved`, `reviewed_by: <email>`, `reviewed_at: <ISO>`",
         "",
     ]

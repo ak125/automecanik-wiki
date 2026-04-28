@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/diagnostic.schema.json",
+  "title": "entity_data v1.0.0 — diagnostic",
+  "description": "Données spécifiques aux fiches diagnostic (symptôme/cause/solution). Chargé quand entity_type == 'diagnostic'. Aligné avec __diag_* tables (13 systèmes, 62 symptômes, 30 ops entretien).",
+  "type": "object",
+  "required": ["system"],
+  "additionalProperties": false,
+  "properties": {
+    "system": {
+      "description": "Système véhicule concerné (cf table __diag_systems).",
+      "type": "string",
+      "enum": [
+        "freinage",
+        "alimentation",
+        "transmission",
+        "moteur",
+        "suspension",
+        "direction",
+        "electricite",
+        "echappement",
+        "refroidissement",
+        "climatisation",
+        "eclairage",
+        "carrosserie",
+        "habitacle"
+      ]
+    },
+    "symptoms": {
+      "description": "Symptômes observables. Cohérent avec __diag_symptoms.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 3 },
+      "default": []
+    },
+    "probable_causes": {
+      "description": "Causes probables ordonnées par fréquence.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["cause", "likelihood"],
+        "additionalProperties": false,
+        "properties": {
+          "cause": { "type": "string" },
+          "likelihood": { "type": "string", "enum": ["high", "medium", "low"] },
+          "related_gammes": {
+            "type": "array",
+            "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+            "default": []
+          }
+        }
+      },
+      "default": []
+    },
+    "diagnostic_steps": {
+      "description": "Étapes ordonnées de diagnostic.",
+      "type": "array",
+      "items": { "type": "string", "minLength": 5 },
+      "default": []
+    },
+    "severity": {
+      "description": "Gravité (impact sécurité). high = stop driving, medium = traiter rapidement, low = entretien planifié.",
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    },
+    "audience": {
+      "description": "Public cible (client = chatbot, staff = interne).",
+      "type": "string",
+      "enum": ["client", "staff"],
+      "default": "client"
+    }
+  }
+}

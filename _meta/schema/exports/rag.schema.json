@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/exports/rag.schema.json",
+  "title": "Export RAG manifest v1.0.0",
+  "description": "Contrat consommé par automecanik-rag/scripts/tools/wiki_ingester.py pour ingestion incrémentale Weaviate. Référence ADR-029 (state machine v5) + namespace_guard.py.",
+  "type": "object",
+  "required": ["schema_version", "generated_at", "documents"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_repo": {
+      "type": "string",
+      "const": "ak125/automecanik-wiki"
+    },
+    "source_commit": {
+      "description": "SHA Git du commit source (traçabilité reproductible).",
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "content_hash", "target_classes", "exportable_rag"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "description": "URN-style id (entity_type:slug). Match frontmatter.id.",
+            "type": "string"
+          },
+          "path": {
+            "description": "Chemin relatif depuis racine wiki (ex: 'wiki/gammes/plaquette-de-frein.md').",
+            "type": "string"
+          },
+          "content_hash": {
+            "description": "SHA-256 du body. Permet skip re-embed si inchangé.",
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          },
+          "target_classes": {
+            "description": "Classes Weaviate cibles (cf namespace_guard.py).",
+            "type": "array",
+            "items": { "type": "string", "enum": ["KB_Knowledge", "KB_Catalog", "KB_Diagnostic", "KB_Media"] },
+            "minItems": 1,
+            "uniqueItems": true
+          },
+          "exportable_rag": {
+            "type": "boolean",
+            "const": true
+          },
+          "truth_level": {
+            "type": "string",
+            "enum": ["L1", "L2", "L3", "L4"]
+          },
+          "lineage_id": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[0-9a-f]{4}-[0-9a-f]{12}$"
+          },
+          "tombstone": {
+            "description": "Si true, supprime le document côté Weaviate. Le path peut ne plus exister sur disque.",
+            "type": "boolean",
+            "default": false
+          }
+        }
+      }
+    }
+  }
+}

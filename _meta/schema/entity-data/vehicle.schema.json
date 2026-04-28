@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/vehicle.schema.json",
+  "title": "entity_data v1.0.0 — vehicle (R8)",
+  "description": "Données spécifiques aux véhicules (modèle/motorisation/type_id). Chargé quand entity_type == 'vehicle'.",
+  "type": "object",
+  "required": ["make", "model"],
+  "additionalProperties": false,
+  "properties": {
+    "make": {
+      "description": "Constructeur. Slug kebab-case aligné avec entity_data/constructeur slug.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+    },
+    "model": {
+      "description": "Modèle. Slug kebab-case.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$"
+    },
+    "generation": {
+      "description": "Génération du modèle (ex: 'iv', '2', 'mk7').",
+      "type": "string"
+    },
+    "years": {
+      "description": "Plage de production [start, end?]. end null = encore en production.",
+      "type": "array",
+      "items": { "type": ["integer", "null"], "minimum": 1900, "maximum": 2100 },
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "type_id": {
+      "description": "FK vers DB types véhicule (53959 types: 30502 legacy + 23457 remap fournisseur).",
+      "type": "integer",
+      "minimum": 1
+    },
+    "motorizations": {
+      "description": "Liste des motorisations. Cohérent avec __auto_type_motor.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["code"],
+        "additionalProperties": false,
+        "properties": {
+          "code": { "type": "string", "description": "Code constructeur (ex: '1.5 dCi 90', 'TDI 110')." },
+          "fuel": { "type": "string", "enum": ["essence", "diesel", "hybride", "electrique", "gpl", "ethanol"] },
+          "power_hp": { "type": "integer", "minimum": 1 },
+          "displacement_cc": { "type": "integer", "minimum": 0 }
+        }
+      },
+      "default": []
+    },
+    "vlevel": {
+      "description": "V-Level SEO du véhicule.",
+      "type": "string",
+      "enum": ["V1", "V2", "V3", "V4", "V5"]
+    },
+    "low_profile_canary": {
+      "description": "True = véhicule choisi pour pilote ADR-022 stage 2 (PAS Clio/208/Golf).",
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

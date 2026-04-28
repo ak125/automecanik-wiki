@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/constructeur.schema.json",
+  "title": "entity_data v1.0.0 — constructeur (R7)",
+  "description": "Données spécifiques aux constructeurs / marques auto. Chargé quand entity_type == 'constructeur'.",
+  "type": "object",
+  "required": ["name"],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "description": "Nom canonique de la marque (display, accents OK).",
+      "type": "string",
+      "minLength": 1
+    },
+    "country": {
+      "description": "Pays d'origine ISO 3166-1 alpha-2.",
+      "type": "string",
+      "pattern": "^[A-Z]{2}$"
+    },
+    "founded": {
+      "description": "Année de fondation.",
+      "type": "integer",
+      "minimum": 1700,
+      "maximum": 2100
+    },
+    "brand_aliases": {
+      "description": "Synonymes / variantes commerciales (ex: 'VW' pour 'volkswagen').",
+      "type": "array",
+      "items": { "type": "string" },
+      "uniqueItems": true,
+      "default": []
+    },
+    "models": {
+      "description": "Slugs vehicles couverts.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+      "uniqueItems": true,
+      "default": []
+    },
+    "tier": {
+      "description": "Tier business : 1=marque prioritaire (Renault/Peugeot/Citroën/VW), 2=secondaire, 3=niche/low-profile.",
+      "type": "integer",
+      "enum": [1, 2, 3]
+    },
+    "vlevel": {
+      "description": "V-Level SEO du hub marque.",
+      "type": "string",
+      "enum": ["V1", "V2", "V3", "V4", "V5"]
+    }
+  }
+}

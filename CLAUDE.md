@@ -30,14 +30,14 @@ Le LLM peut **proposer, relier, résumer, extraire, enrichir**. Il ne **valide**
 Le même flux s'applique à **gammes, vehicles, constructeurs, support, diagnostic** — pas d'exception.
 
 1. Lire la source `automecanik-raw/recycled/...` ou `automecanik-raw/sources/...`
-2. Identifier les entités via `_meta/entity-registry.json`
-3. Extraire les faits — marquer `extracted` / `inferred` / `ambiguous`
-4. Créer ou modifier une fiche dans `proposals/<slug>.md` (FLAT, `entity_type` dans frontmatter)
-5. Renseigner `source_refs:` (chemin raw + lineage)
-6. Ajouter `lineage_id` (UUIDv7) + `content_hash` (SHA-256 du body)
-7. Mettre à jour `index.md`
-8. Ajouter une entrée dans `log.md`
-9. Laisser `review_status: needs_human_review`
+1. Identifier les entités via `_meta/entity-registry.json`
+1. Extraire les faits — marquer `extracted` / `inferred` / `ambiguous`
+1. Créer ou modifier une fiche dans `proposals/<slug>.md` (FLAT, `entity_type` dans frontmatter)
+1. Renseigner `source_refs:` (chemin raw + lineage)
+1. Ajouter `lineage_id` (UUIDv7) + `content_hash` (SHA-256 du body)
+1. Mettre à jour `index.md`
+1. Ajouter une entrée dans `log.md`
+1. Laisser `review_status: needs_human_review`
 
 ## Note ADR-022 (R8 vehicles) — sujet downstream backend
 
@@ -48,6 +48,7 @@ Si plus tard activé, ses sorties merged seront traitées comme **un input parmi
 ## Validation humaine
 
 Seul l'humain peut passer :
+
 - `review_status: human_reviewed`
 - `status: validated`
 - `exportable.rag: true`
@@ -57,6 +58,7 @@ Seul l'humain peut passer :
 ## Coverage manifest obligatoire
 
 Tout audit / scan / rapport produit dans ce repo doit suivre `_meta/agent-exit-contract.md` :
+
 - statuts autorisés uniquement (pas de `COMPLETE`, `100%`, `ALL_FIXED`)
 - coverage manifest obligatoire (`scope_requested`, `files_read_count`, `excluded_paths`, `unscanned_zones`, `remaining_unknowns`, `final_status`)
 - séparation 5 états : scan | analysis | correction (proposée) | validation | verdict
@@ -64,6 +66,7 @@ Tout audit / scan / rapport produit dans ce repo doit suivre `_meta/agent-exit-c
 ## Skills à réutiliser (pas de duplication)
 
 Avant de créer un nouveau script de lint / quality / extraction, vérifier les skills existants côté monorepo :
+
 - `seo-vault-verify` (SHA256 reproductibilité, cross-refs ADR)
 - `rag-lint.py` (validation frontmatter)
 - `content-quality-gate` (scoring sections)
@@ -74,20 +77,20 @@ Avant de créer un nouveau script de lint / quality / extraction, vérifier les 
 
 ## Structure du repo
 
-| Dossier | Rôle |
-|---|---|
-| `inbox/{web-clips,voice-notes,manual}/` | Captures temporaires non canoniques |
-| `proposals/` | Fiches en cours d'extraction (FLAT, routage par `entity_type`) |
-| `wiki/{gammes,vehicles,constructeurs,support,diagnostic}/` | Base canonique validée |
-| `maps/` | MOCs Obsidian par domaine |
-| `glossary/` | Atomic notes terminologie/synonymes |
-| `taxonomy/` | Vocabulaires contrôlés (families, intents, segments) |
-| `_meta/` | Règles, quality gates, schemas JSON, entity registry |
-| `_meta/schema/` | JSON Schemas pour frontmatter + exports |
-| `_templates/` | Squelettes Obsidian (Templater compatible) |
-| `_scripts/` | Scripts repo-local (validate-frontmatter, promote, etc.) |
-| `_audit/` | Logs de promotions, deprecations, disputes |
-| `exports/{rag,seo,support}/` | Sorties générées (gitignored sauf contrats) |
+| Dossier                                                    | Rôle                                                           |
+| ---------------------------------------------------------- | -------------------------------------------------------------- |
+| `inbox/{web-clips,voice-notes,manual}/`                    | Captures temporaires non canoniques                            |
+| `proposals/`                                               | Fiches en cours d'extraction (FLAT, routage par `entity_type`) |
+| `wiki/{gammes,vehicles,constructeurs,support,diagnostic}/` | Base canonique validée                                         |
+| `maps/`                                                    | MOCs Obsidian par domaine                                      |
+| `glossary/`                                                | Atomic notes terminologie/synonymes                            |
+| `taxonomy/`                                                | Vocabulaires contrôlés (families, intents, segments)           |
+| `_meta/`                                                   | Règles, quality gates, schemas JSON, entity registry           |
+| `_meta/schema/`                                            | JSON Schemas pour frontmatter + exports                        |
+| `_templates/`                                              | Squelettes Obsidian (Templater compatible)                     |
+| `_scripts/`                                                | Scripts repo-local (validate-frontmatter, promote, etc.)       |
+| `_audit/`                                                  | Logs de promotions, deprecations, disputes                     |
+| `exports/{rag,seo,support}/`                               | Sorties générées (gitignored sauf contrats)                    |
 
 ## Référence canon
 

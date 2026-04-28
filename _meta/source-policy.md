@@ -5,16 +5,19 @@
 ## Sources autorisées (par ordre de priorité)
 
 1. **Sources internes validées** (`automecanik-raw/sources/`)
+
    - CSV Google Search Console / Google Ads
    - Catalogues fournisseurs
    - Documents internes vérifiés
 
-2. **Sources recyclées** (`automecanik-raw/recycled/`)
+1. **Sources recyclées** (`automecanik-raw/recycled/`)
+
    - Anciens fichiers `automecanik-rag/knowledge/`
    - Anciennes notes Markdown
    - Toutes marquées `source_level: secondary`, `trust_level: to_verify`
 
-3. **Web clips** (`automecanik-wiki/inbox/web-clips/` ou `automecanik-raw/sources/web-clips/`)
+1. **Web clips** (`automecanik-wiki/inbox/web-clips/` ou `automecanik-raw/sources/web-clips/`)
+
    - Captures Obsidian Web Clipper
    - Statut `inbox` jusqu'à qualification humaine
 

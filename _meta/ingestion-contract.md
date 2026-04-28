@@ -35,6 +35,7 @@ consommateurs : automecanik-rag, monorepo SEO, chatbot, site
 Schema canonique versioné : `_meta/schema/frontmatter.schema.json` (à créer Phase B).
 
 5 blocs obligatoires :
+
 - **core** : `schema_version`, `id` (URN `<entity_type>:<slug>`), `entity_type`, `slug`, `title`, `aliases`, `lang`, `created_at`, `updated_at`
 - **traceability** : `truth_level` (L1-L4, PAS L0), `source_refs` (kind/path/cid typés), `provenance`, `lineage_id` (UUIDv7), `content_hash` (SHA-256 body)
 - **quality** : `review_status` (draft/proposed/in_review/approved/deprecated), `reviewed_by`, `reviewed_at`, `review_notes`, `no_disputed_claims`, `quality_score`

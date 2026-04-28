@@ -24,7 +24,11 @@ repos:
     rev: 0.7.17
     hooks:
       - id: mdformat
-        files: ^(wiki|proposals|inbox|_meta|_templates|glossary|taxonomy|maps|_audit)/.*\.md$
+        files: \.md$
+        # _templates/ uses Obsidian Templater syntax (<% tp.file.title %>) that mdformat
+        # would escape. _meta/agent-exit-contract.md is the AEC distribution copy and must
+        # remain byte-identical to the vault canon (verified via canon-hashes.json hash).
+        exclude: ^(_templates/|_meta/agent-exit-contract\.md$)
         additional_dependencies:
           - mdformat-gfm==0.3.6
           - mdformat-frontmatter==2.0.8

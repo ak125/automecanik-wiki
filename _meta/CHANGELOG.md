@@ -3,11 +3,12 @@
 > Versionnage du schema canonique frontmatter + exports + entity-data.
 > Bump majeur (X.0) = breaking change. Bump mineur (X.Y) = ajout rétrocompatible. Bump patch (X.Y.Z) = clarification.
 
-## [1.0.0] — 2026-04-28 (Phase B.2)
+## \[1.0.0\] — 2026-04-28 (Phase B.2)
 
 Premier schema canonique livré. État de référence pour migration des 4650 fiches existantes (95.7% sans `source_refs`) en mode `schema_version: "0.legacy"` puis bump vers `1.0.0` après validation.
 
 **Schemas JSON livrés** :
+
 - `_meta/schema/frontmatter.schema.json` — schema racine, 5 blocs (core / traceability / quality / export-gates / entity_data)
   - `id` URN-style `<entity_type>:<slug>`
   - `truth_level` enum L1-L4 (PAS L0, aligné `rag_config.yml` weights)
@@ -25,21 +26,24 @@ Premier schema canonique livré. État de référence pour migration des 4650 fi
 - `_meta/schema/exports/support.schema.json` — chatbot client filtré
 
 **Enums centralisés** : `_meta/enums.yaml`
+
 - truth_levels, review_status, entity_types, target_classes (Weaviate)
 - families (22 catégories métier), intents, vlevels, support_categories, diagnostic_systems
 - source_kinds
 
 **Templates Obsidian** : `_templates/new-{gamme,vehicle,constructeur,support,diagnostic,proposal}.md`
+
 - Templater-compatible (`<% tp.file.title %>`, `<% tp.date.now() %>`)
 - Frontmatter pré-rempli avec valeurs sûres (`review_status: draft`, `exportable.*: false`, `truth_level: L4`)
 - Checklist de review intégrée
 
 **Versions futures prévues** :
+
 - v1.1 : extension `target_classes` si `namespace_guard.py` rag/ ajoute `KB_Constructeur` (PR rag/ pending)
 - v1.0.1+ : clarifications / typos
 - v2.0 : breaking change (ex: refactor `provenance` ou `lineage_id` format)
 
-## [0.0.1] — 2026-04-28 (Phase 1+3)
+## \[0.0.1\] — 2026-04-28 (Phase 1+3)
 
 - Squelette initial pushed (commit `e57218f9`)
 - Structure layout v1 (4 layers raw → wiki → exports → consumers)

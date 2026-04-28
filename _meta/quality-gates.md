@@ -6,6 +6,7 @@
 ## Promotion `proposals/` → `wiki/`
 
 Une fiche peut être promue uniquement si :
+
 - `review_status: human_reviewed`
 - Frontmatter complet : `title`, `slug`, `entity_type`, `status`, `truth_level`, `source_refs`, `provenance`
 - `source_refs:` non vide et chemins vérifiables sous `automecanik-raw/`
@@ -16,6 +17,7 @@ Une fiche peut être promue uniquement si :
 ## Export `wiki/` → `exports/rag/`
 
 Autorisé uniquement si :
+
 - `exportable.rag: true` (positionné par humain)
 - `truth_level >= L1`
 - `no_disputed_claims: true`
@@ -26,6 +28,7 @@ Autorisé uniquement si :
 ## Export `wiki/` → `exports/seo/`
 
 Autorisé uniquement si :
+
 - `exportable.seo: true` (positionné par humain)
 - `entity_type` valide (gamme, vehicle, constructeur)
 - Slug canonique présent dans `_meta/entity-registry.json`
@@ -35,6 +38,7 @@ Autorisé uniquement si :
 ## Export `wiki/` → `exports/support/` (chatbot)
 
 Autorisé uniquement si :
+
 - `exportable.support: true` (positionné par humain)
 - Contenu sûr pour client final
 - Pas de promesse commerciale non validée
@@ -44,6 +48,7 @@ Autorisé uniquement si :
 ## Réutilisation des skills existants
 
 Plutôt que créer de nouveaux outils, étendre :
+
 - `seo-vault-verify` (audit reproductible vault, SHA256, cross-refs ADR)
 - `content-quality-gate` (scoring sections, verdicts WRITE/REVIEW/BLOCK)
 - `rag-lint.py` (validation frontmatter)

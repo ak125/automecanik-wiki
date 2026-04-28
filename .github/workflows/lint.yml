@@ -1,0 +1,44 @@
+name: lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pre-commit:
+    name: pre-commit (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Node deps for local hooks
+        run: npm ci --no-audit --no-fund
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1
+
+  validate-frontmatter:
+    name: validate frontmatter (full sweep)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: npm ci --no-audit --no-fund
+      - run: node _scripts/validate-frontmatter.mjs
+      - run: node _scripts/check-slug-uniqueness.mjs
+      - run: node _scripts/check-extension-whitelist.mjs

@@ -20,20 +20,20 @@ La promotion `raw/recycled/` → `wiki/` est **toujours une décision humaine**,
 
 ## Structure
 
-| Dossier | Rôle |
-|---|---|
-| `inbox/{web-clips,voice-notes,manual}/` | Captures temporaires non canoniques |
-| `proposals/` | Fiches en cours d'extraction (FLAT — routage par frontmatter `entity_type`) |
-| `wiki/{gammes,vehicles,constructeurs,support,diagnostic}/` | Base canonique validée |
-| `maps/` | MOCs Obsidian par domaine |
-| `glossary/` | Atomic notes terminologie / synonymes |
-| `taxonomy/` | Vocabulaires contrôlés (families, intents, segments) |
-| `_meta/` | Règles, quality gates, registry, contrats d'ingestion |
-| `_meta/schema/` | JSON Schemas versionés (frontmatter + exports + entity-data) |
-| `_templates/` | Squelettes Obsidian (Templater compatible) |
-| `_scripts/` | Scripts repo-local (validate-frontmatter, promote, etc.) |
-| `_audit/` | Logs de promotions, deprecations, disputes |
-| `exports/{rag,seo,support}/` | Sorties générées (gitignored sauf contrats schema) |
+| Dossier                                                    | Rôle                                                                        |
+| ---------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `inbox/{web-clips,voice-notes,manual}/`                    | Captures temporaires non canoniques                                         |
+| `proposals/`                                               | Fiches en cours d'extraction (FLAT — routage par frontmatter `entity_type`) |
+| `wiki/{gammes,vehicles,constructeurs,support,diagnostic}/` | Base canonique validée                                                      |
+| `maps/`                                                    | MOCs Obsidian par domaine                                                   |
+| `glossary/`                                                | Atomic notes terminologie / synonymes                                       |
+| `taxonomy/`                                                | Vocabulaires contrôlés (families, intents, segments)                        |
+| `_meta/`                                                   | Règles, quality gates, registry, contrats d'ingestion                       |
+| `_meta/schema/`                                            | JSON Schemas versionés (frontmatter + exports + entity-data)                |
+| `_templates/`                                              | Squelettes Obsidian (Templater compatible)                                  |
+| `_scripts/`                                                | Scripts repo-local (validate-frontmatter, promote, etc.)                    |
+| `_audit/`                                                  | Logs de promotions, deprecations, disputes                                  |
+| `exports/{rag,seo,support}/`                               | Sorties générées (gitignored sauf contrats schema)                          |
 
 ## Workflow uniforme — tous les R
 
@@ -50,9 +50,9 @@ Voir `_meta/ingestion-contract.md` pour le détail.
 
 ## Repos liés
 
-| Repo | Rôle |
-|---|---|
-| `ak125/automecanik-raw` | Sources brutes, recyclées, normalisées |
-| `ak125/automecanik-rag` | Pipeline RAG, chunks, embeddings, chatbot |
+| Repo                          | Rôle                                          |
+| ----------------------------- | --------------------------------------------- |
+| `ak125/automecanik-raw`       | Sources brutes, recyclées, normalisées        |
+| `ak125/automecanik-rag`       | Pipeline RAG, chunks, embeddings, chatbot     |
 | `ak125/nestjs-remix-monorepo` | Application + logique SEO R0-R8 + publication |
-| `ak125/governance-vault` | ADR, règles, décisions, preuves |
+| `ak125/governance-vault`      | ADR, règles, décisions, preuves               |

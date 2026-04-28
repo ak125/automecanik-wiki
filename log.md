@@ -2,7 +2,7 @@
 
 > Journal append-only de toutes les opérations sur ce repo. Pas de modifications rétroactives.
 
-## [2026-04-28] init | Création repo `automecanik-wiki`
+## \[2026-04-28\] init | Création repo `automecanik-wiki`
 
 - Squelette initial créé : `inbox/`, `proposals/`, `wiki/`, `maps/`, `_meta/`, `exports/`
 - Règles `CLAUDE.md` + principes raw → wiki posés

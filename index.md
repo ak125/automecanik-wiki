@@ -22,9 +22,10 @@ _Aucune fiche validée — phase pilote en cours._
 
 _Aucune fiche validée — phase pilote en cours._
 
----
+______________________________________________________________________
 
 État pilote (Phase E — ADR-031) : 4 propositions prévues
+
 - `proposals/<slug-gamme>.md` (R3/R4 — `entity_type: gamme`)
 - `proposals/<slug-constructeur>.md` (R7 — `entity_type: constructeur`)
 - `proposals/<slug-support>.md` (chatbot — `entity_type: support`)

@@ -1,0 +1,37 @@
+name: agent-exit-contract-hash
+
+# Verify _meta/agent-exit-contract.md SHA-256 matches the canonical
+# distribution_sha256 published by ak125/governance-vault in
+# 99-meta/canon-hashes.json (key `aec`). Source: AEC §"Distribution canonique".
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "_meta/agent-exit-contract.md"
+      - "_scripts/check-aec-hash.sh"
+      - ".github/workflows/agent-exit-contract-hash.yml"
+  pull_request:
+    paths:
+      - "_meta/agent-exit-contract.md"
+      - "_scripts/check-aec-hash.sh"
+      - ".github/workflows/agent-exit-contract-hash.yml"
+  schedule:
+    # Daily at 03:30 UTC — catch drift from upstream canon updates between merges.
+    - cron: "30 3 * * *"
+  repository_dispatch:
+    types: [canon-updated]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify AEC distribution hash vs vault canon-hashes.json
+        env:
+          GH_TOKEN: ${{ secrets.VAULT_READ_TOKEN || secrets.GITHUB_TOKEN }}
+        run: bash _scripts/check-aec-hash.sh

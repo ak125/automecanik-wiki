@@ -26,7 +26,8 @@ function walkMd(root) {
     for (const ent of readdirSync(dir, { withFileTypes: true })) {
       const p = join(dir, ent.name);
       if (ent.isDirectory()) stack.push(p);
-      else if (ent.isFile() && ent.name.endsWith(".md")) out.push(p);
+      // Skip files prefixed with `_` (meta: _index.md, _manifest.json, etc.) — D19 convention.
+      else if (ent.isFile() && ent.name.endsWith(".md") && !ent.name.startsWith("_")) out.push(p);
     }
   }
   return out;

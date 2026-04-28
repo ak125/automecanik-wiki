@@ -41,6 +41,22 @@
       "type": "array",
       "items": { "type": "string" },
       "maxItems": 20
+    },
+    "references": {
+      "description": "Normes, standards techniques, glossaire de termes spécifiques à la gamme. Alimenté Phase F (D15bis ADR-031) depuis automecanik-rag/knowledge/reference/.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "title"],
+        "additionalProperties": false,
+        "properties": {
+          "kind": { "enum": ["norm", "glossary", "standard"] },
+          "title": { "type": "string", "minLength": 1 },
+          "summary_md": { "type": "string" },
+          "external_url": { "type": "string", "format": "uri" }
+        }
+      },
+      "default": []
     }
   }
 }

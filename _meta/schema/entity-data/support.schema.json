@@ -10,7 +10,7 @@
     "category": {
       "description": "Catégorie de support.",
       "type": "string",
-      "enum": ["livraison", "retour", "garantie", "compatibilite", "paiement", "compte", "service-client", "seo-strategy"]
+      "enum": ["livraison", "retour", "remboursement", "garantie", "compatibilite", "paiement", "compte", "service-client", "seo-strategy"]
     },
     "audience": {
       "description": "Public cible. 'client' = chatbot front, 'staff' = interne.",

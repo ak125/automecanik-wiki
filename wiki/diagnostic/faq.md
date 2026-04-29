@@ -29,7 +29,7 @@ exportable:
   rag: false
   seo: true
   support: true
-target_classes: ['schema_org:FAQPage']
+target_classes: []
 entity_data:
   faq:
     - question: Comment savoir quel est le problème de ma voiture ?

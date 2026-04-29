@@ -40,7 +40,7 @@ repos:
   - repo: local
     hooks:
       - id: validate-frontmatter
-        name: validate frontmatter against _meta/schema/
+        name: validate frontmatter against _meta/schema/ (Node legacy)
         entry: node _scripts/validate-frontmatter.mjs
         language: system
         files: ^(wiki|proposals)/.*\.md$
@@ -58,3 +58,25 @@ repos:
         entry: node _scripts/check-extension-whitelist.mjs
         language: system
         pass_filenames: false
+
+      # Plan rev 6 §G9-A — Python MVP scripts (quality gates §2 + confidence_score §4)
+      - id: wiki-frontmatter-schema-py
+        name: Validate frontmatter (JSON Schema 2020-12, Python)
+        entry: python3 _scripts/validate-frontmatter.py
+        language: system
+        files: ^(wiki|proposals)/.*\.md$
+        exclude: ^(wiki|proposals)/_
+
+      - id: wiki-quality-gates
+        name: Run quality gates §2 (schema, sources, catalog_leak, commercial_promise, safety_unsourced)
+        entry: python3 _scripts/quality-gates.py
+        language: system
+        files: ^(wiki|proposals)/.*\.md$
+        exclude: ^(wiki|proposals)/_
+
+      - id: wiki-confidence-score
+        name: Verify confidence_score matches formula §4 (check-only ; --fix manuel séparé)
+        entry: python3 _scripts/compute-confidence-score.py --check
+        language: system
+        files: ^(wiki|proposals)/.*\.md$
+        exclude: ^(wiki|proposals)/_

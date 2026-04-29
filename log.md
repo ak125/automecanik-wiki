@@ -21,3 +21,9 @@
 - **Branche** : `feat/phase-e-pilot-proposals`
 - **Décision** : fix(phase-e): apply mdformat + skip _*.md in validator argv path (+2 other commits)
 - **Sortie** : PR #3 | commits 1b42110 1d0092e 9b61e5d
+
+## 2026-04-29 — feat/phase-f3-vehicles-batch (auto)
+
+- **Branche** : `feat/phase-f3-vehicles-batch`
+- **Décision** : feat(phase-f3): vehicles batch — 7 proposals + 1 skip + lada-granta cleanup
+- **Sortie** : PR #6 | commits ab66984

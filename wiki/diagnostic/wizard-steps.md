@@ -12,17 +12,16 @@ created_at: '2026-04-29'
 updated_at: '2026-04-29'
 truth_level: L4
 source_refs:
-  - kind: snapshot
-    origin_repo: nestjs-remix-monorepo
-    origin_path: frontend/app/components/diagnostic-wizard/DiagnosticWizard.tsx
-    origin_lines: '35-47'
+  - kind: raw
+    path: sources/diagnostic/wizard-steps.md
     captured_at: '2026-04-29'
 provenance:
-  ingested_by: claude:adr-032-rg-1
+  ingested_by: skill:adr-032-rg-1@claude
   promoted_from: proposals/diagnostic-wizard-steps.md
-review_status: published
-reviewed_by: claude
-reviewed_at: '2026-04-29'
+  promoted_at: '2026-04-29T17:00:00Z'
+review_status: approved
+reviewed_by: skill:adr-032-rg-1@claude
+reviewed_at: '2026-04-29T17:00:00Z'
 review_notes: |
   Snapshot 1:1 des constants TS hardcodés actuels frontend.
   Pas de modification éditoriale. Promotion auto justifiée par

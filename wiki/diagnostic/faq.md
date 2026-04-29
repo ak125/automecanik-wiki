@@ -12,17 +12,16 @@ created_at: '2026-04-29'
 updated_at: '2026-04-29'
 truth_level: L4
 source_refs:
-  - kind: snapshot
-    origin_repo: nestjs-remix-monorepo
-    origin_path: frontend/app/routes/diagnostic-auto._index.tsx
-    origin_lines: '335-384'
+  - kind: raw
+    path: sources/diagnostic/faq.md
     captured_at: '2026-04-29'
 provenance:
-  ingested_by: claude:adr-032-rg-1
+  ingested_by: skill:adr-032-rg-1@claude
   promoted_from: proposals/diagnostic-faq.md
-review_status: published
-reviewed_by: claude
-reviewed_at: '2026-04-29'
+  promoted_at: '2026-04-29T17:00:00Z'
+review_status: approved
+reviewed_by: skill:adr-032-rg-1@claude
+reviewed_at: '2026-04-29T17:00:00Z'
 review_notes: |
   Snapshot 1:1 du FAQ_DATA hardcodé (7 Q/A consommées par schema_org JSON-LD FAQPage côté SEO).
 no_disputed_claims: true

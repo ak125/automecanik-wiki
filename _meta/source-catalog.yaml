@@ -1,0 +1,70 @@
+# source-catalog.yaml — référentiel canonique des slugs sources stables
+#
+# Référence ADR-033 §D1 : `diagnostic_relations[].sources[]` doit citer un slug stable
+# (pas une URL brute). Ce fichier est le registre canon.
+#
+# Règle d'enforcement (`_scripts/quality-gates.py`) :
+#   tout slug cité dans `diagnostic_relations[].sources[]` (ou autre source_refs typé slug)
+#   DOIT exister dans `sources[].slug` ci-dessous. Sinon → blocked_reasons: [source_slug_unknown].
+#
+# Ajout d'une nouvelle source :
+#   - PR avec entrée minimale (slug, title, type, archived_at, license)
+#   - `type` détermine `max_confidence` autorisé (cf. `_meta/source-policy.md` §9)
+#
+# Référence canon : `_meta/source-policy.md`, ADR-033
+
+schema_version: 1.0.0
+updated_at: '2026-04-29'
+
+# Mapping source_type → max confidence autorisée (cf. source-policy.md §9)
+# - oem_manual / oem_workshop / tecdoc_official / normative_standard / parts_feed_certified → high
+# - brochure / formation / marketing / blog_pro → medium
+# - forum / wiki_externe / blog_consumer → low
+
+sources:
+  - slug: bosch_fad_2020
+    title: 'Bosch FAD 2020 — Brochure Réparation Freinage'
+    type: brochure                              # → max confidence: medium
+    publisher: 'Bosch Automotive Aftermarket'
+    year: 2020
+    archived_at: 'automecanik-raw/recycled/rag-knowledge/bosch-freinage-brochure-reparation-fad-2020-fr.md'
+    pages_referenced: [27, 31]
+    license: third_party_extract
+    notes: |
+      Brochure pédagogique. Probabilités et causes citées à corroborer avec OEM
+      ou TecDoc avant atteindre confidence: high. Source utile pour amorcer un
+      sourcing initial mais insuffisante seule pour diagnostic_safe: true.
+
+  - slug: oem_renault_clio_iii_workshop
+    title: "Manuel d'atelier Renault Clio III — section freinage"
+    type: oem_workshop                          # → max confidence: high
+    publisher: Renault
+    year: null
+    archived_at: 'automecanik-raw/sources/web-clips/oem-renault-clio-iii-brake-noise.md'
+    license: captured_for_internal_review
+    notes: |
+      Manuel atelier OEM. Source haute fiabilité une fois capturée et archivée.
+      À utiliser comme corroboration second source pour atteindre source_policy:
+      2_medium_concordant ou 1_high.
+
+  - slug: tecdoc_15_02_01_brake_noise
+    title: 'TecDoc fiche 15.02.01 — Diagnostic bruits freinage'
+    type: tecdoc_official                       # → max confidence: high
+    publisher: TecDoc
+    year: null
+    archived_at: 'automecanik-raw/sources/catalogues/tecdoc/15-02-01-brake-noise.md'
+    license: third_party_index
+    notes: |
+      Référence TecDoc officielle pour diagnostic des bruits de freinage.
+      Source de référence sectorielle.
+
+  - slug: oem_filter_maintenance_general
+    title: 'Constructeurs OEM — recommandations entretien filtres'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Constructeurs (générique)'
+    year: null
+    archived_at: 'automecanik-raw/sources/catalogues/oem-filter-intervals.md'
+    license: captured_for_internal_review
+    notes: |
+      Compilation des recommandations OEM concernant les intervalles d'entretien
+      des filtres (filtre à air, filtre à huile, filtre habitacle).

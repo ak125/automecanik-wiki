@@ -1,0 +1,53 @@
+name: wiki-quality-gates
+
+# Plan rev 6 §G8 — quality gates Python sur PRs et push main.
+# Re-execute les 3 scripts MVP §G9-A en CI bloquante.
+# Réplique côté CI ce que pre-commit fait local — défense en profondeur (§12 quality-gates).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'proposals/**/*.md'
+      - 'wiki/**/*.md'
+      - '_scripts/*.py'
+      - '_meta/schema/**'
+  pull_request:
+    paths:
+      - 'proposals/**/*.md'
+      - 'wiki/**/*.md'
+      - '_scripts/*.py'
+      - '_meta/schema/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  python-gates:
+    name: Python quality gates (validate-frontmatter, quality-gates, compute-confidence-score)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python deps
+        run: pip install --quiet -r _scripts/tests/requirements-dev.txt
+
+      - name: validate-frontmatter (schema v1.0+v2.0)
+        run: python3 _scripts/validate-frontmatter.py --all
+
+      - name: quality-gates §2 + §5.bis (ADR-033 + ADR-032 gates)
+        run: python3 _scripts/quality-gates.py --all
+
+      - name: compute-confidence-score --check (formula §4)
+        run: python3 _scripts/compute-confidence-score.py --check --all
+        continue-on-error: true   # tolérance phase d'amorçage
+
+      - name: compute-symptom-confidence --check (ADR-033 §C8)
+        run: python3 _scripts/compute-symptom-confidence.py --check --all
+        continue-on-error: true   # tolérance phase d'amorçage
+
+      - name: pytest fixtures (gates ADR-033 + ADR-032)
+        run: cd _scripts/tests && python3 -m pytest -v

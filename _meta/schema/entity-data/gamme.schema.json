@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/gamme.schema.json",
-  "title": "entity_data v1.0.0 — gamme (R3/R4)",
-  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'.",
+  "title": "entity_data v2.0.0 — gamme (R3/R4)",
+  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'. v2.0.0 ajoute le bloc maintenance (canon ADR-032 §D1). diagnostic_relations[] est top-level frontmatter (canon ADR-033 §D1), géré dans frontmatter.schema.json.",
   "type": "object",
   "required": ["pg_id", "family"],
   "additionalProperties": false,
@@ -57,6 +57,27 @@
         }
       },
       "default": []
+    },
+    "maintenance": {
+      "description": "Canon ADR-032 §D1 — bloc maintenance pour gammes liées à un kg_nodes.MaintenanceInterval. Joint runtime via kg_nodes.node_alias ↔ filename wiki gamme. Obligatoire pour les gammes d'entretien (filtre-a-huile, filtre-a-air, plaquette-de-frein, distribution, etc.).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["educational_advice"],
+      "properties": {
+        "educational_advice": {
+          "description": "Conseil pédagogique 1-2 lignes pour le client. Marketing court, pas paragraphe. Ex: 'Vérifier l'épaisseur minimum 3 mm avant un long trajet.'",
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 280
+        },
+        "related_pages": {
+          "description": "Slugs de pages wiki gamme liées (cross-référence éditoriale, distinct de related_parts). Joint runtime via kg_nodes.",
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+          "uniqueItems": true,
+          "default": []
+        }
+      }
     }
   }
 }

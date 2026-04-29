@@ -20,7 +20,7 @@
   "additionalProperties": false,
   "properties": {
     "schema_version": {
-      "description": "Semver du schema. Bump majeur = breaking change. v0.legacy réservé aux fiches recyclées de automecanik-rag/knowledge/ (4650 fiches, 95.7% sans source_refs).",
+      "description": "Semver du schema. Bump majeur = breaking change. v0.legacy réservé aux fiches recyclées de automecanik-rag/knowledge/ (4650 fiches, 95.7% sans source_refs). v2.0.0 introduit diagnostic_relations[] top-level (ADR-033) et entity_data.maintenance{} (ADR-032). v1.0.0 cohabite pendant la migration Phase 4 ADR-033.",
       "type": "string",
       "pattern": "^(0\\.legacy|[0-9]+\\.[0-9]+\\.[0-9]+)$"
     },
@@ -216,6 +216,88 @@
     "entity_data": {
       "description": "Données typées par entity_type. Validation déléguée à _meta/schema/entity-data/<entity_type>.schema.json.",
       "type": "object"
+    },
+    "diagnostic_relations": {
+      "description": "Canon ADR-033 §D1 — relations contributives entre une pièce (gamme R3/R4) et les symptômes système (__diag_symptom). Top-level, pas sous entity_data. Validation conditionnelle : requis pour entity_type=gamme avec family safety-critical (allOf §3 ci-dessous).",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["symptom_slug", "system_slug", "relation_to_part", "part_role", "evidence", "sources"],
+        "additionalProperties": false,
+        "properties": {
+          "symptom_slug": {
+            "description": "FK __diag_symptom.slug. Validation FK stricte déléguée au validateur TS Phase 2 ADR-033 via exports/diag-canon-slugs.json.",
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*[a-z0-9]$",
+            "maxLength": 80
+          },
+          "system_slug": {
+            "description": "FK __diag_system.slug. Validation FK stricte déléguée Phase 2.",
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*[a-z0-9]$",
+            "maxLength": 60
+          },
+          "relation_to_part": {
+            "description": "Typage de la relation. possible_cause: la pièce peut être cause directe. symptom_amplifier: aggrave un symptôme dont la cause est ailleurs. secondary_effect: manifestation conséquence d'un autre défaut.",
+            "type": "string",
+            "enum": ["possible_cause", "symptom_amplifier", "secondary_effect"]
+          },
+          "part_role": {
+            "description": "Une phrase courte (10-280 chars) expliquant comment la pièce intervient sur le symptôme. Pas paragraphe.",
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 280
+          },
+          "evidence": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["confidence", "source_policy", "reviewed", "diagnostic_safe"],
+            "properties": {
+              "confidence": {
+                "type": "string",
+                "enum": ["low", "medium", "high"]
+              },
+              "source_policy": {
+                "description": "Règle d'acceptation explicite. 1_high: une seule source haute fiabilité suffit. 2_medium_concordant: deux sources medium concordantes (mêmes claims, références distinctes). manual_review: revue humaine ciblée obligatoire.",
+                "type": "string",
+                "enum": ["1_high", "2_medium_concordant", "manual_review"]
+              },
+              "reviewed": {
+                "description": "Validation humaine effectuée ? Défaut false (ADR-033 §D4 conservateur). Flip → true uniquement après revue manuelle.",
+                "type": "boolean",
+                "default": false
+              },
+              "diagnostic_safe": {
+                "description": "Cette relation est-elle autorisée à influencer le moteur diagnostic LIVE (__diag_*) ? Sépare preuve SEO (suffit pour wiki) vs preuve diagnostic (exige rigueur). Défaut false. Flip → true exclusivement après revue humaine + commit signé reviewer ≠ auteur (ADR-033 critère §9).",
+                "type": "boolean",
+                "default": false
+              },
+              "confidence_score_computed": {
+                "description": "Score 0-1 calculé par _scripts/compute-symptom-confidence.py (formule pondérée par source_type). Optionnel, idempotent.",
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          },
+          "sources": {
+            "description": "Slugs stables (pas URLs). Chaque slug DOIT exister dans _meta/source-catalog.yaml — validation par _scripts/quality-gates.py (gate source_slug_unknown).",
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^[a-z][a-z0-9_-]*[a-z0-9](?:_p\\d+)?$"
+            },
+            "uniqueItems": true
+          },
+          "fingerprint": {
+            "description": "SHA-256 [:16] de canonical(symptom_slug|system_slug|relation_to_part|sorted(sources)). Anti-duplication DB. Optionnel.",
+            "type": "string",
+            "pattern": "^[0-9a-f]{16}$"
+          }
+        }
+      },
+      "default": []
     }
   },
   "allOf": [

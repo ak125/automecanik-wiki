@@ -1,0 +1,6 @@
+# Test dependencies for wiki _scripts/
+# Usage: pip install -r _scripts/tests/requirements-dev.txt
+
+pytest>=7.0
+pyyaml>=5.4
+jsonschema>=4.18      # Draft202012Validator

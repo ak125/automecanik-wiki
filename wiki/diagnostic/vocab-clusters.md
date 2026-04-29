@@ -22,7 +22,7 @@ provenance:
 review_status: approved
 reviewed_by: skill:adr-032-rg-1@claude
 reviewed_at: '2026-04-29T17:00:00Z'
-review_notes: 'Snapshot 1:1 des CLUSTERS + PERCEPTION_ICONS hardcodés.'
+review_notes: Snapshot 1:1 des CLUSTERS + PERCEPTION_ICONS hardcodés.
 no_disputed_claims: true
 exportable:
   rag: false
@@ -34,32 +34,32 @@ entity_data:
     - id: embrayage
       label: Embrayage
       icon: Disc3
-      description: 'Patinage, bruits, vibrations pédale'
+      description: Patinage, bruits, vibrations pédale
       color: from-amber-500 to-orange-600
     - id: freinage
       label: Freinage
       icon: Shield
-      description: 'Sifflements, vibrations, efficacité réduite'
+      description: Sifflements, vibrations, efficacité réduite
       color: from-red-500 to-rose-600
     - id: moteur
       label: Moteur
       icon: Gauge
-      description: 'Claquements, fumées, perte de puissance'
+      description: Claquements, fumées, perte de puissance
       color: from-slate-600 to-slate-800
     - id: suspension
       label: Suspension
       icon: Car
-      description: 'Cognements, tenue de route dégradée'
+      description: Cognements, tenue de route dégradée
       color: from-blue-500 to-indigo-600
     - id: electricite
       label: Électricité
       icon: Zap
-      description: 'Voyants allumés, démarrage difficile'
+      description: Voyants allumés, démarrage difficile
       color: from-yellow-500 to-amber-600
     - id: refroidissement
       label: Refroidissement
       icon: ThermometerSun
-      description: 'Surchauffe, fuites liquide, ventilateur'
+      description: Surchauffe, fuites liquide, ventilateur
       color: from-cyan-500 to-teal-600
   perception_icons:
     auditory: Volume2

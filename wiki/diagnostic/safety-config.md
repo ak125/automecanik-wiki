@@ -34,22 +34,22 @@ exportable:
 target_classes: []
 entity_data:
   safety_gate:
-    none: { icon: CheckCircle, color: text-green-600, bg: bg-green-50, label: '' }
-    warning: { icon: AlertTriangle, color: text-yellow-600, bg: bg-yellow-50, label: '⚠️ À surveiller' }
-    stop_soon: { icon: AlertOctagon, color: text-cta, bg: bg-cta-50, label: '⚠️ Contrôle sous 24h' }
-    stop_immediate: { icon: XCircle, color: text-red-600, bg: bg-red-50, label: '⛔ NE PAS ROULER' }
+    none: {icon: CheckCircle, color: text-green-600, bg: bg-green-50, label: ''}
+    warning: {icon: AlertTriangle, color: text-yellow-600, bg: bg-yellow-50, label: ⚠️ À surveiller}
+    stop_soon: {icon: AlertOctagon, color: text-cta, bg: bg-cta-50, label: ⚠️ Contrôle sous 24h}
+    stop_immediate: {icon: XCircle, color: text-red-600, bg: bg-red-50, label: ⛔ NE PAS ROULER}
   risk_levels:
-    critique: { label: Critique, color: 'bg-red-100 text-red-800 border-red-300' }
-    securite: { label: Sécurité, color: 'bg-cta-50 text-cta-hover border-cta-light' }
-    confort: { label: Confort, color: 'bg-blue-100 text-blue-800 border-blue-300' }
+    critique: {label: Critique, color: bg-red-100 text-red-800 border-red-300}
+    securite: {label: Sécurité, color: bg-cta-50 text-cta-hover border-cta-light}
+    confort: {label: Confort, color: bg-blue-100 text-blue-800 border-blue-300}
   urgency:
-    immediate: { label: Immédiat, color: text-red-600 }
-    soon: { label: Sous 48h, color: text-cta }
-    scheduled: { label: Planifier, color: text-blue-600 }
+    immediate: {label: Immédiat, color: text-red-600}
+    soon: {label: Sous 48h, color: text-cta}
+    scheduled: {label: Planifier, color: text-blue-600}
   skill:
-    diy: { label: Bricoleur, icon: Wrench }
-    amateur: { label: Amateur, icon: Wrench }
-    professional: { label: Professionnel, icon: ScanLine }
+    diy: {label: Bricoleur, icon: Wrench}
+    amateur: {label: Amateur, icon: Wrench}
+    professional: {label: Professionnel, icon: ScanLine}
   ctx_phase:
     demarrage: 🔵 Démarrage
     ralenti: 🔵 Ralenti

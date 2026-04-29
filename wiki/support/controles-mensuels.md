@@ -35,22 +35,22 @@ entity_data:
   items:
     - element: Niveau d'huile moteur
       icon: Droplets
-      detail: 'Verifier a froid, moteur a l''horizontale. Completer si sous le repere MIN.'
+      detail: Verifier a froid, moteur a l'horizontale. Completer si sous le repere MIN.
     - element: Liquide de refroidissement
       icon: Thermometer
-      detail: 'Niveau entre MIN et MAX sur le vase d''expansion. Ne jamais ouvrir a chaud.'
+      detail: Niveau entre MIN et MAX sur le vase d'expansion. Ne jamais ouvrir a chaud.
     - element: Pression des pneus
       icon: Gauge
-      detail: 'Verifier a froid. Valeurs sur l''etiquette montant de porte conducteur. +0.2 bar si charge lourde.'
+      detail: Verifier a froid. Valeurs sur l'etiquette montant de porte conducteur. +0.2 bar si charge lourde.
     - element: Eclairage
       icon: Sun
-      detail: 'Feux de croisement, de route, clignotants, feux de recul, feux stop. Remplacer par paire.'
+      detail: Feux de croisement, de route, clignotants, feux de recul, feux stop. Remplacer par paire.
     - element: Lave-glace
       icon: Droplets
-      detail: 'Completer avec du liquide lave-glace (pas d''eau seule en hiver).'
+      detail: Completer avec du liquide lave-glace (pas d'eau seule en hiver).
     - element: Essuie-glaces
       icon: Wrench
-      detail: 'Verifier les traces. Remplacer si trainees ou bruit au passage.'
+      detail: Verifier les traces. Remplacer si trainees ou bruit au passage.
 ---
 
 # Contrôles mensuels véhicule

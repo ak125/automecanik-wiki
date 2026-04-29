@@ -10,20 +10,18 @@ created_at: '2026-04-29'
 updated_at: '2026-04-29'
 truth_level: L3
 source_refs:
-- kind: recycled
-  origin_repo: automecanik-rag
-  origin_path: knowledge/vehicles/renault-clio-iii.md
-  captured_at: '2026-04-29'
+  - kind: recycled
+    origin_repo: automecanik-rag
+    origin_path: knowledge/vehicles/renault-clio-iii.md
+    captured_at: '2026-04-29'
 provenance:
   ingested_by: skill:recycle-from-rag@v0.1
-  promoted_from: null
+  promoted_from:
 lineage_id: 019dd8ee-dafc-7bb1-84e3-ce7aab419117
 review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: Phase F batch ADR-031. Recyclé depuis automecanik-rag par recycle-from-rag.py.
-  Source body sha256=93856f5337be65d71d36dba43acfe19630cfa1c52d89044d79268049af13bed5.
-  À reviewer humainement avant promotion vers wiki/vehicles/.
+reviewed_by:
+reviewed_at:
+review_notes: Phase F batch ADR-031. Recyclé depuis automecanik-rag par recycle-from-rag.py. Source body sha256=93856f5337be65d71d36dba43acfe19630cfa1c52d89044d79268049af13bed5. À reviewer humainement avant promotion vers wiki/vehicles/.
 no_disputed_claims: true
 exportable:
   rag: false
@@ -53,57 +51,59 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 
 ## Caracteristiques techniques
 
-| Caracteristique | Valeur |
-|-----------------|--------|
-| Longueur | 4,02 m |
-| Largeur | 2,02 m |
-| Hauteur | 1,49 m |
-| Empattement | 2,57 m |
-| Poids a vide | 1 090 kg |
-| Volume coffre | 288 l / 1 038 l |
-| Reservoir | 55 l |
-| Places | 5 |
-| Cylindree | 1 461 cm3 |
-| Couple | 200 Nm à 1 900 trs/min |
-| Boite de vitesse | Mécanique à 5 rapports |
-| Transmission | Traction |
-| Vitesse max | 176 km/h |
-| 0 a 100 km/h | 12,70 sec |
-| Consommation mixte | 3,70 l / 100 km |
-| Emissions CO2 | 98 g/km |
-| Pneumatiques | 185/60/15 |
-| Diametre de braquage | 11 m |
-| Norme Euro | EU4 |
+| Caracteristique      | Valeur                 |
+| -------------------- | ---------------------- |
+| Longueur             | 4,02 m                 |
+| Largeur              | 2,02 m                 |
+| Hauteur              | 1,49 m                 |
+| Empattement          | 2,57 m                 |
+| Poids a vide         | 1 090 kg               |
+| Volume coffre        | 288 l / 1 038 l        |
+| Reservoir            | 55 l                   |
+| Places               | 5                      |
+| Cylindree            | 1 461 cm3              |
+| Couple               | 200 Nm à 1 900 trs/min |
+| Boite de vitesse     | Mécanique à 5 rapports |
+| Transmission         | Traction               |
+| Vitesse max          | 176 km/h               |
+| 0 a 100 km/h         | 12,70 sec              |
+| Consommation mixte   | 3,70 l / 100 km        |
+| Emissions CO2        | 98 g/km                |
+| Pneumatiques         | 185/60/15              |
+| Diametre de braquage | 11 m                   |
+| Norme Euro           | EU4                    |
 
 *Source : https://www.caradisiac.com/fiches-techniques/modele--renault-clio-3/2009/*
 
 ## Motorisations principales
 
 ### Diesel
-| Moteur | Puissance | Code moteur |
-|--------|-----------|-------------|
-| 1.5 dCi | 106 ch | - |
-| 1.5 dCi | 64 ch | - |
-| 1.5 dCi | 68 ch | - |
-| 1.5 dCi | 75 ch | - |
-| 1.5 dCi | 86 ch | - |
-| 1.5 dCi | 88 ch | - |
+
+| Moteur  | Puissance | Code moteur |
+| ------- | --------- | ----------- |
+| 1.5 dCi | 106 ch    | -           |
+| 1.5 dCi | 64 ch     | -           |
+| 1.5 dCi | 68 ch     | -           |
+| 1.5 dCi | 75 ch     | -           |
+| 1.5 dCi | 86 ch     | -           |
+| 1.5 dCi | 88 ch     | -           |
 
 ### Essence
-| Moteur | Puissance | Code moteur |
-|--------|-----------|-------------|
-| 1.2 16V (Phase 1) | 101 ch | - |
-| 1.2 16V (Phase 2) | 103 ch | - |
-| 1.6 16V | 112 ch | - |
-| 1.6 16V GT | 128 ch | - |
-| 2.0 16V | 139 ch | - |
-| 2.0 16V Sport (Phase 1) | 197 ch | - |
-| 2.0 16V Sport (Phase 2) | 200 ch | - |
-| 1.2 16V | 58 ch | - |
-| 1.2 16V | 65 ch | - |
-| 1.2 16V | 75 ch | - |
-| 1.6 16V | 88 ch | - |
-| 1.4 16V | 98 ch | - |
+
+| Moteur                  | Puissance | Code moteur |
+| ----------------------- | --------- | ----------- |
+| 1.2 16V (Phase 1)       | 101 ch    | -           |
+| 1.2 16V (Phase 2)       | 103 ch    | -           |
+| 1.6 16V                 | 112 ch    | -           |
+| 1.6 16V GT              | 128 ch    | -           |
+| 2.0 16V                 | 139 ch    | -           |
+| 2.0 16V Sport (Phase 1) | 197 ch    | -           |
+| 2.0 16V Sport (Phase 2) | 200 ch    | -           |
+| 1.2 16V                 | 58 ch     | -           |
+| 1.2 16V                 | 65 ch     | -           |
+| 1.2 16V                 | 75 ch     | -           |
+| 1.6 16V                 | 88 ch     | -           |
+| 1.4 16V                 | 98 ch     | -           |
 
 ## Pieces d'usure courantes
 
@@ -126,6 +126,7 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 ## Problemes connus
 
 ### Rétroviseur  extérieur
+
 - Miroir casse fissure ou decolle
 - Coque de retroviseur cassee choc accrochage
 - Reglage electrique inoperant ou lent
@@ -133,6 +134,7 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 - Retroviseur rabattable bloque ou qui vibre
 
 ### Mâchoires de frein
+
 - Frein a main qui ne tient plus ou mal
 - Bruit de frottement metallique a l arriere
 - Tambour raye ou strie a l interieur
@@ -140,6 +142,7 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 - Freinage arriere desequilibre tire d un cote
 
 ### Alternateur
+
 - Voyant batterie allume moteur tournant
 - Batterie qui se decharge malgre les trajets
 - Phares qui faiblissent ou clignotent
@@ -147,6 +150,7 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 - Odeur de courroie brulee ou d electrique
 
 ### Courroie d'accessoire
+
 - Sifflement au demarrage ou a l acceleration
 - Courroie fissuree ou effilochee visible
 - Voyant batterie allume alternateur non entraine
@@ -154,6 +158,7 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 - Odeur de caoutchouc brule
 
 ### Cardan
+
 - Claquement braquant accelerant marche arriere
 - Vibrations ressenties vitesse constante
 - Graisse noire visible jante passage
@@ -161,6 +166,7 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 - Bruit roulement change selon angle
 
 ### Filtre à air
+
 - Perte de puissance a l acceleration
 - Surconsommation de carburant anormale
 - Fumee noire a l echappement
@@ -168,11 +174,13 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 - Odeur de carburant non brule
 
 ### Silencieux
+
 - Bruit excessif
 - Vibrations
 - Corrosion
 
 ### Démarreur
+
 - Claquement contact demarrage solenoide
 - Demarreur tourne mais moteur lance
 - Aucune reaction au contact moteur electrique hs
@@ -180,6 +188,7 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 - Odeur de brule electrique au demarrage
 
 ### Filtre à carburant
+
 - Perte de puissance progressive
 - A-coups a l acceleration
 - Demarrage difficile ou laborieux
@@ -187,6 +196,7 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 - Odeur de carburant autour du vehicule
 
 ### Butée d'embrayage
+
 - Bruit roulement quand appuie pedale
 - Sifflement grondement disparait relachant pedale
 - Pedale d embrayage qui vibre sous le pied
@@ -196,17 +206,20 @@ content_hash: sha256:afce051c4202c1adf1f5fb3f01bc9ab26d260d24a667b8671ff99a27e5e
 ## Intervalles d'entretien
 
 ### Diesel
+
 - **Vidange** : 20 000 km ou 1 an
+
 ### Essence
+
 - **Vidange** : 15 000 km ou 1 an
 - **Controle general** : tous les 20 000 km ou 1 an
 
 ## Conseils d'entretien
 
 1. **Huile moteur** : respecter la preconisation constructeur
-2. **Liquide de frein** : DOT 4, changement tous les 2 ans
-3. **Distribution** : verifier l'intervalle de remplacement selon la motorisation
-4. **Filtration** : remplacer les filtres selon le plan d'entretien
+1. **Liquide de frein** : DOT 4, changement tous les 2 ans
+1. **Distribution** : verifier l'intervalle de remplacement selon la motorisation
+1. **Filtration** : remplacer les filtres selon le plan d'entretien
 
 ## Points de review
 

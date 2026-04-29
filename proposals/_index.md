@@ -24,15 +24,15 @@
 
 7 propositions générées par `_scripts/recycle-from-rag.py --apply` à partir de `automecanik-rag/knowledge/vehicles/` (8 fichiers, 1 skip data quality `renault.md` brand-only misplaced) :
 
-| #   | entity_type | slug                                          | make    | model         | status         |
-| --- | ----------- | --------------------------------------------- | ------- | ------------- | -------------- |
-| 1   | vehicle     | [citroen-c3](citroen-c3.md)                   | citroen | c3            | pending_review |
-| 2   | vehicle     | [ford-focus-3](ford-focus-3.md)               | ford    | focus-3       | pending_review |
-| 3   | vehicle     | [peugeot-206](peugeot-206.md)                 | peugeot | 206           | pending_review |
-| 4   | vehicle     | [renault-clio-3](renault-clio-3.md)           | renault | clio-3        | pending_review |
-| 5   | vehicle     | [renault-clio-iii](renault-clio-iii.md)       | renault | clio-iii      | pending_review |
-| 6   | vehicle     | [renault-megane-3](renault-megane-3.md)       | renault | megane-3      | pending_review |
-| 7   | vehicle     | [volkswagen-golf-6](volkswagen-golf-6.md)     | volkswagen | golf-6     | pending_review |
+| #   | entity_type | slug                                      | make       | model    | status         |
+| --- | ----------- | ----------------------------------------- | ---------- | -------- | -------------- |
+| 1   | vehicle     | [citroen-c3](citroen-c3.md)               | citroen    | c3       | pending_review |
+| 2   | vehicle     | [ford-focus-3](ford-focus-3.md)           | ford       | focus-3  | pending_review |
+| 3   | vehicle     | [peugeot-206](peugeot-206.md)             | peugeot    | 206      | pending_review |
+| 4   | vehicle     | [renault-clio-3](renault-clio-3.md)       | renault    | clio-3   | pending_review |
+| 5   | vehicle     | [renault-clio-iii](renault-clio-iii.md)   | renault    | clio-iii | pending_review |
+| 6   | vehicle     | [renault-megane-3](renault-megane-3.md)   | renault    | megane-3 | pending_review |
+| 7   | vehicle     | [volkswagen-golf-6](volkswagen-golf-6.md) | volkswagen | golf-6   | pending_review |
 
 ### Doublon connu à arbitrer en review
 

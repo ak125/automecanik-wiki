@@ -3,26 +3,29 @@
 > Politique de sources autorisées, provenance obligatoire et règles d'écriture wiki.
 > Référence canon : [ADR-031](../../governance-vault/ledger/decisions/adr/ADR-031-four-layer-content-architecture.md) §D14-D23.
 
----
+______________________________________________________________________
 
 ## §1 — Sources autorisées (par ordre de priorité)
 
 1. **Sources internes validées** (`automecanik-raw/sources/`)
+
    - CSV Google Search Console / Google Ads
    - Catalogues fournisseurs
    - Documents internes vérifiés
    - `source_kind: raw`, `source_level: primary`, `trust_level: verified`
 
-2. **Sources recyclées** (`automecanik-raw/recycled/`)
+1. **Sources recyclées** (`automecanik-raw/recycled/`)
+
    - Anciens fichiers `automecanik-rag/knowledge/`
    - Anciennes notes Markdown
    - `source_kind: recycled`, `source_level: secondary`, `trust_level: to_verify`
 
-3. **Web clips** (`automecanik-wiki/inbox/web-clips/` ou `automecanik-raw/sources/web-clips/`)
+1. **Web clips** (`automecanik-wiki/inbox/web-clips/` ou `automecanik-raw/sources/web-clips/`)
+
    - Captures Obsidian Web Clipper
    - Statut `inbox` jusqu'à qualification humaine
 
----
+______________________________________________________________________
 
 ## §2 — Sources rejetées par défaut
 
@@ -32,7 +35,7 @@
 - Données scrapées sans attribution claire
 - Tout fichier dans `automecanik-raw/quarantine/`
 
----
+______________________________________________________________________
 
 ## §3 — Provenance obligatoire (frontmatter)
 
@@ -58,7 +61,7 @@ provenance:
 
 Schema canon : `_meta/schema/frontmatter.schema.json` §`source_refs`, §`provenance`.
 
----
+______________________________________________________________________
 
 ## §4 — Anti-pattern : source LLM seule
 
@@ -68,7 +71,7 @@ Toute fiche doit pointer vers une source vérifiable raw / recycled / external_u
 
 Le skill `wiki-proposal-writer` est aligné sur le pattern *skills-first* : 0-LLM pour la structure (template fill, frontmatter, source_refs), Anthropic seul pour le texte rédactionnel à partir des sources.
 
----
+______________________________________________________________________
 
 ## §5 — Zone temporaire `wiki/inbox/` (non canonique)
 
@@ -77,11 +80,13 @@ Le skill `wiki-proposal-writer` est aligné sur le pattern *skills-first* : 0-LL
 > **Rien dans `inbox/` n'est exportable vers `exports/`.** Le contenu doit être promu vers `proposals/` puis `wiki/<entity_type>/` avant tout export.
 
 Sous-dossiers prévus :
+
 - `inbox/web-clips/` — captures Obsidian Web Clipper
 - `inbox/voice-notes/` — transcriptions voice-to-text
 - `inbox/manual/` — notes humaines en cours
 
 Frontmatter type `inbox` :
+
 ```yaml
 status: inbox
 trust_level: unverified
@@ -90,7 +95,7 @@ exportable: { rag: false, seo: false, support: false }
 
 Aucune capture `inbox/` n'entre directement dans `wiki/`.
 
----
+______________________________________________________________________
 
 ## §6 — Statut par défaut `exportable: false`
 
@@ -106,67 +111,69 @@ Aucune capture `inbox/` n'entre directement dans `wiki/`.
 > **Le wiki peut être propre sans être consommé.** Le passage à `true` est une décision de Partie 3, gated par `_scripts/wiki-readiness-check.py` = READY (cf. plan rev 6 §9, critères C1-C6).
 
 Aucun export Partie 1+2 :
+
 - ❌ `exports/rag/` reste vide
 - ❌ `exports/seo/` reste vide
 - ❌ `exports/support/` reste vide
 
----
+______________________________________________________________________
 
 ## §7 — Niveaux de confiance source (`source_level`)
 
-| Niveau | Définition | Exemple |
-|---|---|---|
-| `primary` | Source originale, non transformée | CSV GSC brut, catalogue fournisseur PDF |
+| Niveau      | Définition                                 | Exemple                                                          |
+| ----------- | ------------------------------------------ | ---------------------------------------------------------------- |
+| `primary`   | Source originale, non transformée          | CSV GSC brut, catalogue fournisseur PDF                          |
 | `secondary` | Source dérivée d'une autre source vérifiée | Ancien fichier `automecanik-rag/knowledge/`, blog advice recyclé |
-| `tertiary` | Source dérivée non vérifiable directement | Forum, Wikipedia EN sans validation |
+| `tertiary`  | Source dérivée non vérifiable directement  | Forum, Wikipedia EN sans validation                              |
 
 `tertiary` → généralement `automecanik-raw/quarantine/` jusqu'à validation humaine.
 
----
+______________________________________________________________________
 
 ## §8 — Niveaux de vérification (`trust_level`)
 
-| Niveau | Définition |
-|---|---|
-| `verified` | Validé humainement, source reconnue |
-| `to_verify` | Reçu, en attente de validation |
-| `disputed` | Validation a échoué, contradictions connues |
-| `rejected` | Décision humaine de rejet (motif dans manifest) |
+| Niveau      | Définition                                      |
+| ----------- | ----------------------------------------------- |
+| `verified`  | Validé humainement, source reconnue             |
+| `to_verify` | Reçu, en attente de validation                  |
+| `disputed`  | Validation a échoué, contradictions connues     |
+| `rejected`  | Décision humaine de rejet (motif dans manifest) |
 
 Default à l'ajout : `to_verify`.
 
----
+______________________________________________________________________
 
 ## §9 — Confidence par source (`source_refs[].confidence` + `diagnostic_relations[].evidence.confidence`)
 
 Pour le calcul de `confidence_score` (cf. `quality-gates.md` §4) :
 
-| Confidence | Numeric | Cas typique |
-|---|---|---|
-| `high` | 1.0 | OEM, fournisseur certifié, source officielle |
-| `medium` | 0.6 | Recyclé vérifié, blog métier, web clip qualifié |
-| `low` | 0.3 | Tertiary, à corroborer, en attente validation |
+| Confidence | Numeric | Cas typique                                     |
+| ---------- | ------- | ----------------------------------------------- |
+| `high`     | 1.0     | OEM, fournisseur certifié, source officielle    |
+| `medium`   | 0.6     | Recyclé vérifié, blog métier, web clip qualifié |
+| `low`      | 0.3     | Tertiary, à corroborer, en attente validation   |
 
 ### §9.1 — `source_type` → max confidence autorisée (canon ADR-033)
 
 Le champ `evidence.confidence` ne peut atteindre `high` que si le `source_type` (catalogue `_meta/source-catalog.yaml`) le permet. Une brochure pédagogique (Bosch FAD, Valeo formation) ≠ source `high`, peu importe la marque.
 
-| `source_type` | Max `confidence` | Exemples |
-|---|---|---|
-| `oem_manual` | `high` | Manuel utilisateur constructeur, doc atelier officielle |
-| `oem_workshop` | `high` | Manuel d'atelier OEM, fiches techniques constructeur |
-| `tecdoc_official` | `high` | Fiches TecDoc officielles |
-| `normative_standard` | `high` | NF, ISO, ECE-R |
-| `parts_feed_certified` | `high` | Catalogue fournisseur certifié |
-| `brochure` | `medium` (max) | Bosch FAD, Valeo formation, ATE pédagogique |
-| `formation` | `medium` (max) | Manuel de formation, support pédagogique |
-| `marketing` | `medium` (max) | Brochure marketing fabricant |
-| `blog_pro` | `medium` (max) | Blog atelier reconnu, retours pro vérifiés |
-| `forum` | `low` (max) | Forum technique, groupe d'utilisateurs |
-| `wiki_externe` | `low` (max) | Wikipedia, wikis tiers |
-| `blog_consumer` | `low` (max) | Blog grand public, retours d'utilisateur |
+| `source_type`          | Max `confidence` | Exemples                                                |
+| ---------------------- | ---------------- | ------------------------------------------------------- |
+| `oem_manual`           | `high`           | Manuel utilisateur constructeur, doc atelier officielle |
+| `oem_workshop`         | `high`           | Manuel d'atelier OEM, fiches techniques constructeur    |
+| `tecdoc_official`      | `high`           | Fiches TecDoc officielles                               |
+| `normative_standard`   | `high`           | NF, ISO, ECE-R                                          |
+| `parts_feed_certified` | `high`           | Catalogue fournisseur certifié                          |
+| `brochure`             | `medium` (max)   | Bosch FAD, Valeo formation, ATE pédagogique             |
+| `formation`            | `medium` (max)   | Manuel de formation, support pédagogique                |
+| `marketing`            | `medium` (max)   | Brochure marketing fabricant                            |
+| `blog_pro`             | `medium` (max)   | Blog atelier reconnu, retours pro vérifiés              |
+| `forum`                | `low` (max)      | Forum technique, groupe d'utilisateurs                  |
+| `wiki_externe`         | `low` (max)      | Wikipedia, wikis tiers                                  |
+| `blog_consumer`        | `low` (max)      | Blog grand public, retours d'utilisateur                |
 
 **Application** :
+
 - `evidence.confidence: high` + `source_type: brochure` → `blocked_reasons: [confidence_overclaimed]`
 - Pour atteindre `confidence: high` sur un claim cité par une brochure, **corroborer avec ≥ 1 source `oem_manual` ou `tecdoc_official`** (i.e. `source_policy: 2_medium_concordant` minimum, idéalement `1_high` via OEM).
 
@@ -178,7 +185,7 @@ Règle d'enforcement : `_scripts/quality-gates.py` lit `source-catalog.yaml` et 
 
 Ajout d'une nouvelle source : PR éditoriale avec entrée minimale (`slug`, `title`, `type`, `archived_at`, `license`).
 
----
+______________________________________________________________________
 
 ## Référence canon
 

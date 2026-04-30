@@ -35,6 +35,7 @@ target_classes:
 entity_data:
   make: lada
   model: granta
+confidence_score: 0.54
 ---
 
 # Lada Granta

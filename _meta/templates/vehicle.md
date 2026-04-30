@@ -104,8 +104,8 @@ Exemple OK : "Sur cette motorisation, le filtre à huile [[filtre-a-huile]] est 
 Exemple INTERDIT : "Utiliser la référence Bosch BP-1234." (catalog_leak gate)
 -->
 
-- [[<gamme-slug-1>]] — note courte
-- [[<gamme-slug-2>]] — note courte
+- \[\[<gamme-slug-1>\]\] — note courte
+- \[\[<gamme-slug-2>\]\] — note courte
 
 ## FAQ
 
@@ -117,7 +117,7 @@ Réponse courte.
 
 Réponse courte.
 
----
+______________________________________________________________________
 
 <!--
 Notes rédacteur :

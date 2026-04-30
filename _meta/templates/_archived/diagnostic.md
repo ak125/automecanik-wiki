@@ -3,8 +3,8 @@ template_version: 1.0.0-archived
 template_type: diagnostic
 applies_to: never (archived)
 archived_at: '2026-04-29'
-archived_reason: 'Conflit avec ADR-033 §D3 — fichiers-par-symptôme `wiki/diagnostic/<symptom>-*.md` interdits.'
-canon: ['ADR-033']
+archived_reason: Conflit avec ADR-033 §D3 — fichiers-par-symptôme `wiki/diagnostic/<symptom>-*.md` interdits.
+canon: [ADR-033]
 ---
 
 <!--
@@ -138,7 +138,7 @@ Renvoi systématique vers professionnel pour intervention sur système safety.
 -->
 
 1. Vérification 1 — description
-2. Vérification 2 — description
+1. Vérification 2 — description
 
 ## Renvoi vers gammes / véhicules
 
@@ -146,8 +146,8 @@ Renvoi systématique vers professionnel pour intervention sur système safety.
 Lien interne vers fiches gamme et/ou vehicle pertinentes pour comprendre la pièce.
 -->
 
-- [[<gamme-slug>]] — fiche gamme concernée
-- [[<vehicle-slug>]] — fiche véhicule si symptôme spécifique
+- \[\[<gamme-slug>\]\] — fiche gamme concernée
+- \[\[<vehicle-slug>\]\] — fiche véhicule si symptôme spécifique
 
 ## safety_advisory  *(obligatoire si `risk_level` ∈ {high, critical})*
 
@@ -161,7 +161,7 @@ Cette section est REQUISE par les gates si risk_level=high|critical (cf. quality
 
 > ⚠️ **Sécurité** : ...
 
----
+______________________________________________________________________
 
 <!--
 Notes rédacteur :

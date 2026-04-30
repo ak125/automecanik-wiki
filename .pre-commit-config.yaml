@@ -38,7 +38,11 @@ repos:
         # the footnote feature. Quality is enforced by the Python gates (validate-
         # frontmatter, quality-gates, confidence-score) which understand the Obsidian
         # superset of CommonMark.
-        exclude: ^(_templates/|_meta/agent-exit-contract\.md$|log\.md$|wiki/|proposals/)
+        # _scripts/tests/fixtures/ holds positive and negative test inputs whose exact
+        # bytes are part of the test contract — mdformat-frontmatter would normalize the
+        # YAML (drop optional quotes, replace `null` with empty) and risk drifting
+        # fixtures away from the cases pytest is meant to assert against.
+        exclude: ^(_templates/|_meta/agent-exit-contract\.md$|log\.md$|wiki/|proposals/|_scripts/tests/fixtures/)
         additional_dependencies:
           - mdformat-gfm==0.3.6
           - mdformat-frontmatter==2.0.8
@@ -67,10 +71,16 @@ repos:
         pass_filenames: false
 
       # Plan rev 6 §G9-A — Python MVP scripts (quality gates §2 + confidence_score §4)
+      # validate-frontmatter.py imports `jsonschema` (Draft202012Validator) so the hook
+      # must run in a venv with that dependency. `language: system` cannot install deps,
+      # so we declare the hook as `language: python` and pin jsonschema explicitly.
       - id: wiki-frontmatter-schema-py
         name: Validate frontmatter (JSON Schema 2020-12, Python)
         entry: python3 _scripts/validate-frontmatter.py
-        language: system
+        language: python
+        additional_dependencies:
+          - jsonschema>=4.18
+          - PyYAML>=6.0
         files: ^(wiki|proposals)/.*\.md$
         exclude: ^(wiki|proposals)/_
 

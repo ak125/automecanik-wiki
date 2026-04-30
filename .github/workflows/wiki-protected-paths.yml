@@ -5,6 +5,11 @@ name: wiki-protected-paths
 #   - "promotion-from-proposals: <slug>"   (gates §7 quality-gates passed)
 #   - "rollback: <slug>"                    (rétrogradation §10 quality-gates)
 #   - "template-migration: <type>@<old>→<new>"  (semver bump §3.7)
+#   - "metadata-backfill: <field> (<reason>)"   (deterministic frontmatter-only
+#     update by a quality-gate tool, e.g. compute-confidence-score.py §G9-A
+#     populating the confidence_score field on existing canonical fiches.
+#     Body content MUST NOT change — this marker only legitimizes mechanical
+#     metadata writes by audit-trailed tooling.)
 #
 # Reference: réplique du pattern D22 (automecanik-rag/knowledge/), adapté wiki/.
 
@@ -49,7 +54,7 @@ jobs:
             touched=$(git diff-tree --no-commit-id --name-only -r "$commit" -- 'wiki/' | grep -E '^wiki/(gammes|vehicles|constructeurs|support|diagnostic)/.*\.md$' || true)
             if [ -z "$touched" ]; then continue; fi
             msg=$(git log -1 --pretty=%B "$commit")
-            if echo "$msg" | grep -Eq '(promotion-from-proposals:|rollback:|template-migration:)' ; then
+            if echo "$msg" | grep -Eq '(promotion-from-proposals:|rollback:|template-migration:|metadata-backfill:)' ; then
               echo "OK   commit $commit has permitted marker"
             else
               echo "FAIL commit $commit modifies wiki/<entity_type>/ without marker"

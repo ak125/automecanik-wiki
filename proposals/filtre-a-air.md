@@ -72,6 +72,7 @@ entity_data:
     related_pages:
     - filtre-habitacle
     - filtre-a-huile
+confidence_score: 0.48
 ---
 
 # Filtre à air

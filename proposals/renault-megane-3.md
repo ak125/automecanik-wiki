@@ -32,6 +32,7 @@ entity_data:
   make: renault
   model: megane-3
 content_hash: sha256:99910db4b341b52e477f939cba9e3940b3bca7a6d8437046ce0561298a6bb382
+confidence_score: 0.24
 ---
 
 # Fiche vehicule - Renault Megane 3

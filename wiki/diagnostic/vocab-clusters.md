@@ -68,6 +68,7 @@ entity_data:
     performance: Gauge
     electronic: Zap
     olfactory: ThermometerSun
+confidence_score: 0.24
 ---
 
 # Diagnostic vocab clusters

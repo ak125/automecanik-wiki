@@ -32,6 +32,7 @@ entity_data:
   make: renault
   model: clio-3
 content_hash: sha256:555e766a1ff25028619b6dcccfa7540b5c400eceb92b1d4b371f4113c83030d7
+confidence_score: 0.32
 ---
 
 # Fiche véhicule - Renault Clio 3

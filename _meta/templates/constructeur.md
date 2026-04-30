@@ -90,8 +90,8 @@ Liste des modèles emblématiques avec lien vers fiche véhicule si elle existe.
 Pas d'exhaustivité — focus sur ce qui compte pour AutoMecanik.
 -->
 
-- [[<vehicle-slug-1>]] — note courte
-- [[<vehicle-slug-2>]] — note courte
+- \[\[<vehicle-slug-1>\]\] — note courte
+- \[\[<vehicle-slug-2>\]\] — note courte
 
 ## Spécificités techniques
 
@@ -110,7 +110,7 @@ Réponse courte.
 
 Réponse courte.
 
----
+______________________________________________________________________
 
 <!--
 Notes rédacteur :

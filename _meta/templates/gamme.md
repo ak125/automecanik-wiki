@@ -2,7 +2,7 @@
 template_version: 2.0.0
 template_type: gamme
 applies_to: status in [draft, auto_reviewed, reviewed]
-canon: ['ADR-031', 'ADR-032', 'ADR-033']
+canon: [ADR-031, ADR-032, ADR-033]
 ---
 
 <!--
@@ -116,8 +116,8 @@ avec footnote `[^N]` reliée aux `sources[]` du frontmatter. Le `relation_to_par
 ré-explicité en italique (possible cause / amplifier / secondary effect).
 -->
 
-- 🔊 **Bruit de grincement au freinage** *(possible cause)* — lorsque la garniture est usée, contaminée ou mal montée [^1][^2]
-- 🛑 **Vibrations dans la pédale** *(symptom amplifier)* — peut s'ajouter à un voile de disque [^1]
+- 🔊 **Bruit de grincement au freinage** *(possible cause)* — lorsque la garniture est usée, contaminée ou mal montée \[^1\]\[^2\]
+- 🛑 **Vibrations dans la pédale** *(symptom amplifier)* — peut s'ajouter à un voile de disque \[^1\]
 
 ## Conseil pédagogique d'entretien
 
@@ -128,7 +128,7 @@ Section alimentée par `entity_data.maintenance.educational_advice` (ADR-032 §D
 
 > Vérifier l'épaisseur minimum 3 mm avant un long trajet.
 
-Voir aussi : [[disque-de-frein]], [[etrier-de-frein]].
+Voir aussi : \[\[disque-de-frein\]\], \[\[etrier-de-frein\]\].
 
 ## Choix selon véhicule
 
@@ -142,17 +142,17 @@ Exemple INTERDIT : "La référence Bosch BP-1234 est compatible avec la Renault 
 
 ### Question fréquente 1 ?
 
-Réponse courte sourcée [^3].
+Réponse courte sourcée \[^3\].
 
 ### Question fréquente 2 ?
 
 Réponse courte.
 
----
+______________________________________________________________________
 
-[^1]: `bosch_fad_2020` — Bosch FAD 2020 Brochure Réparation Freinage, p.27/p.31. Source `type: brochure`, `confidence: medium` (cf. `_meta/source-catalog.yaml`).
-[^2]: `oem_renault_clio_iii_workshop` — Manuel d'atelier Renault Clio III, section freinage. Source `type: oem_workshop`, `confidence: medium`.
-[^3]: <slug source canon catalogue>
+\[^1\]: `bosch_fad_2020` — Bosch FAD 2020 Brochure Réparation Freinage, p.27/p.31. Source `type: brochure`, `confidence: medium` (cf. `_meta/source-catalog.yaml`).
+\[^2\]: `oem_renault_clio_iii_workshop` — Manuel d'atelier Renault Clio III, section freinage. Source `type: oem_workshop`, `confidence: medium`.
+\[^3\]: <slug source canon catalogue>
 
 <!--
 Notes rédacteur (à supprimer avant promotion) :

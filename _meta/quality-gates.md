@@ -6,7 +6,7 @@
 > Schema canonique : `_meta/schema/frontmatter.schema.json` (v1.0.0).
 > Plan canon : [ADR-031](../../governance-vault/ledger/decisions/adr/ADR-031-four-layer-content-architecture.md) §D14-D23, plan rev 6 (verifier-dans-existant).
 
----
+______________________________________________________________________
 
 ## §1 — Modèle de validation : automatique par défaut, humain ciblé
 
@@ -15,45 +15,45 @@
 La validation humaine systématique n'est pas scalable. Le système applique :
 
 1. **Validation automatique** par défaut (gates §2 + score §4 + risk_level §3)
-2. **Échantillonnage** sur fiches auto-validées (§5)
-3. **Validation humaine obligatoire** uniquement pour critical (§3) ou bloqué par gates (§2)
+1. **Échantillonnage** sur fiches auto-validées (§5)
+1. **Validation humaine obligatoire** uniquement pour critical (§3) ou bloqué par gates (§2)
 
----
+______________________________________________________________________
 
 ## §2 — Gates automatiques (lecture seule, aucune écriture DB)
 
 Sur chaque fiche `proposals/<slug>.md`, le pipeline `_scripts/quality-gates.py` vérifie :
 
-| # | Contrôle | Méthode | Verdict |
-|---|---|---|---|
-| 1 | Frontmatter valide | Schema v1.0 (`_meta/schema/frontmatter.schema.json`, JSON Schema 2020-12) | PASS / FAIL |
-| 2 | Sources présentes | `source_refs ≥ 1` (sauf `truth_level: L4`) | PASS / FAIL |
-| 3 | Sources résolvables | Fichier `automecanik-raw/<path>` existe ou URL accessible | PASS / WARN |
-| 4 | Sections obligatoires | Cf. template `_meta/templates/<entity_type>.md` | PASS / FAIL |
-| 5 | Slug unique | Comparaison `_meta/entity-registry.json` | PASS / FAIL |
-| 6 | Pas de pollution scrape | Skill `pollution-scanner` mode lint read-only (Textar, Brembo, "Skip to main content"…) | PASS / WARN |
-| 7 | Pas de mélange catalogue | Heuristique : prix, stock, SKU, compatibilité exacte produit/véhicule | PASS / FAIL |
-| 8 | Liens internes valides | Résolution dans `wiki/` | PASS / WARN |
-| 9 | Anti-duplication | Comparaison fingerprint vs fiches existantes | PASS / WARN |
-| 10 | Cohérence avec raw | `source_refs` pointent vers `automecanik-raw/sources/` ou `recycled/` | PASS / WARN |
-| 11 | Pas de promesse commerciale | Heuristique : « meilleur », « garanti », « le moins cher »… | PASS / FAIL |
-| 12 | Pas d'affirmation safety non sourcée | Mots-clés safety + source `confidence: high` requis | PASS / FAIL humain |
-| 13 | `confidence_score` ≥ seuil | Formule §4 calculée par `_scripts/compute-confidence-score.py` | PASS / WARN |
+| #   | Contrôle                             | Méthode                                                                                 | Verdict            |
+| --- | ------------------------------------ | --------------------------------------------------------------------------------------- | ------------------ |
+| 1   | Frontmatter valide                   | Schema v1.0 (`_meta/schema/frontmatter.schema.json`, JSON Schema 2020-12)               | PASS / FAIL        |
+| 2   | Sources présentes                    | `source_refs ≥ 1` (sauf `truth_level: L4`)                                              | PASS / FAIL        |
+| 3   | Sources résolvables                  | Fichier `automecanik-raw/<path>` existe ou URL accessible                               | PASS / WARN        |
+| 4   | Sections obligatoires                | Cf. template `_meta/templates/<entity_type>.md`                                         | PASS / FAIL        |
+| 5   | Slug unique                          | Comparaison `_meta/entity-registry.json`                                                | PASS / FAIL        |
+| 6   | Pas de pollution scrape              | Skill `pollution-scanner` mode lint read-only (Textar, Brembo, "Skip to main content"…) | PASS / WARN        |
+| 7   | Pas de mélange catalogue             | Heuristique : prix, stock, SKU, compatibilité exacte produit/véhicule                   | PASS / FAIL        |
+| 8   | Liens internes valides               | Résolution dans `wiki/`                                                                 | PASS / WARN        |
+| 9   | Anti-duplication                     | Comparaison fingerprint vs fiches existantes                                            | PASS / WARN        |
+| 10  | Cohérence avec raw                   | `source_refs` pointent vers `automecanik-raw/sources/` ou `recycled/`                   | PASS / WARN        |
+| 11  | Pas de promesse commerciale          | Heuristique : « meilleur », « garanti », « le moins cher »…                             | PASS / FAIL        |
+| 12  | Pas d'affirmation safety non sourcée | Mots-clés safety + source `confidence: high` requis                                     | PASS / FAIL humain |
+| 13  | `confidence_score` ≥ seuil           | Formule §4 calculée par `_scripts/compute-confidence-score.py`                          | PASS / WARN        |
 
 Les rapports vivent dans `_meta/qa-reports/<date>/`. **Artefacts d'audit ; ne remplacent pas les fiches ni les manifests raw.**
 
----
+______________________________________________________________________
 
 ## §3 — Classification du risque (`risk_level`)
 
-| Niveau | Exemples | Action par défaut |
-|---|---|---|
-| **low** | glossaire, synonymes, descriptions générales, KW non critiques | auto-promotion possible |
-| **medium** | gammes, constructeurs, vehicles généraux, FAQ non contractuelle | auto-promotion possible si score §4 ≥ 0.85 + sampling périodique |
-| **high** | diagnostic freinage/direction/batterie, conseil pouvant influencer une réparation, support sensible | promotion possible **uniquement** si sources solides ET mentions de prudence présentes ; sinon `human_review_required`. Export `false`. |
-| **critical** | paiement, retour, garantie, livraison contractuelle, compatibilité exacte, prix, stock, sécurité légale | humain obligatoire **ou blocage** |
+| Niveau       | Exemples                                                                                                | Action par défaut                                                                                                                       |
+| ------------ | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| **low**      | glossaire, synonymes, descriptions générales, KW non critiques                                          | auto-promotion possible                                                                                                                 |
+| **medium**   | gammes, constructeurs, vehicles généraux, FAQ non contractuelle                                         | auto-promotion possible si score §4 ≥ 0.85 + sampling périodique                                                                        |
+| **high**     | diagnostic freinage/direction/batterie, conseil pouvant influencer une réparation, support sensible     | promotion possible **uniquement** si sources solides ET mentions de prudence présentes ; sinon `human_review_required`. Export `false`. |
+| **critical** | paiement, retour, garantie, livraison contractuelle, compatibilité exacte, prix, stock, sécurité légale | humain obligatoire **ou blocage**                                                                                                       |
 
----
+______________________________________________________________________
 
 ## §4 — Formule `confidence_score` (déterministe)
 
@@ -71,7 +71,7 @@ confidence_score =
 - Idempotent : recalcul sur même contenu = même score.
 - Seuils par `risk_level` : low ≥ 0.70, medium ≥ 0.85, high ≥ 0.95.
 
----
+______________________________________________________________________
 
 ## §5 — `blocked_reasons` (vocabulaire fermé)
 
@@ -116,11 +116,11 @@ Tout autre valeur fait échouer le gate `schema_invalid`.
 
 Pour **chaque** entrée `diagnostic_relations[]` :
 
-| `source_policy` | Règle |
-|---|---|
-| `1_high` | ≥ 1 source `confidence: high` ET son `source_type` autorise `high` (cf. `source-policy.md §9.1`) |
+| `source_policy`       | Règle                                                                                                            |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `1_high`              | ≥ 1 source `confidence: high` ET son `source_type` autorise `high` (cf. `source-policy.md §9.1`)                 |
 | `2_medium_concordant` | ≥ 2 sources `confidence: medium`, citant des **références distinctes** (pas simplement deux pages d'un même PDF) |
-| `manual_review` | Fiche bloquée → `status: human_review_required` jusqu'à validation humaine |
+| `manual_review`       | Fiche bloquée → `status: human_review_required` jusqu'à validation humaine                                       |
 
 Sinon → `blocked_reasons: [source_policy_violated]`.
 
@@ -132,35 +132,35 @@ Le rédacteur doit soit retirer la mention textuelle, soit ajouter une entrée s
 
 ### Anti-patterns ADR-033 §D3
 
-| Anti-pattern | Gate |
-|---|---|
-| Fichier sous `wiki/systemes/` | `forbidden_systemes_dir` |
+| Anti-pattern                                                                                                                                                             | Gate                         |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------- |
+| Fichier sous `wiki/systemes/`                                                                                                                                            | `forbidden_systemes_dir`     |
 | Fichier `wiki/diagnostic/<symptom>-*.md` matchant regex `(bruit\|grincement\|vibration\|voyant\|fumee\|surchauffe\|fuite\|usure\|symptome\|claquement\|sifflement)-*.md` | `forbidden_per_symptom_file` |
-| `diagnostic.symptoms:` dans frontmatter (legacy) | `legacy_symptoms_block` |
+| `diagnostic.symptoms:` dans frontmatter (legacy)                                                                                                                         | `legacy_symptoms_block`      |
 
 > **Note** : Le dossier `wiki/diagnostic/` lui-même reste **autorisé** pour fiches macro-pédagogiques (vocab UI, FAQ, signes diagnostic) per ADR-032 §D1.
 
 ### `evidence.diagnostic_safe` (séparation preuve SEO vs preuve diagnostic-live)
 
-| `diagnostic_safe` | Conséquence |
-|---|---|
+| `diagnostic_safe`            | Conséquence                                                                                                                              |
+| ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
 | `false` (défaut ADR-033 §D4) | La relation peut enrichir la fiche wiki (SEO/contenu), mais **n'est pas autorisée à influencer le moteur diagnostic LIVE** (`__diag_*`). |
-| `true` | Autorisé à alimenter le moteur diagnostic. **Flip humain ciblé uniquement** (commit signé reviewer ≠ auteur, cf. ADR-033 critère §9). |
+| `true`                       | Autorisé à alimenter le moteur diagnostic. **Flip humain ciblé uniquement** (commit signé reviewer ≠ auteur, cf. ADR-033 critère §9).    |
 
 Le défaut conservateur est non-négociable : pas de flip automatique en bulk possible.
 
----
+______________________________________________________________________
 
 ## §6 — Échantillonnage QA continu
 
 | `risk_level` | Taux d'échantillonnage humain |
-|---|---|
-| low | 1-2 % |
-| medium | 5 % |
-| high | 20 % |
-| critical | 100 % ou blocage |
+| ------------ | ----------------------------- |
+| low          | 1-2 %                         |
+| medium       | 5 %                           |
+| high         | 20 %                          |
+| critical     | 100 % ou blocage              |
 
----
+______________________________________________________________________
 
 ## §7 — Promotion automatique `proposals/` → `wiki/<entity_type>/`
 
@@ -179,6 +179,7 @@ Une fiche peut être promue **automatiquement** si **toutes** ces conditions son
 - aucune promesse commerciale détectée
 
 **Sinon** : la fiche reste dans `proposals/` avec :
+
 - `status: human_review_required` + `blocked_reasons` rempli, **OU**
 - `status: quarantined` (selon gravité, §8)
 
@@ -186,6 +187,7 @@ Une fiche peut être promue **automatiquement** si **toutes** ces conditions son
 > *Automatique veut dire : **contrôlé par des gates, traçable, réversible, avec blocage des cas risqués**.*
 
 Pipeline complet :
+
 ```
 raw → normalized → proposal → automated quality gates
                                 ├── PASS  + low/medium + score ≥ 0.85 → auto_reviewed wiki
@@ -194,7 +196,7 @@ raw → normalized → proposal → automated quality gates
                                 └── pollution / contradiction critique → quarantined dans proposals/
 ```
 
----
+______________________________________________________________________
 
 ## §8 — Frontmatter post-promotion
 
@@ -224,16 +226,16 @@ exportable: { rag: false, seo: false, support: false }
 
 > **Mapping legacy → plan rev 6** : le champ `review_status` du schema v1.0 (`draft|proposed|in_review|approved|deprecated`) reste valide pour identifier l'état canonique. Les fiches mergées récemment portent ces deux vocabulaires en parallèle pendant la phase de transition. Cf. `ingestion-contract.md` §"Mapping vocabulaires".
 
----
+______________________________________________________________________
 
 ## §9 — Quarantine `status: quarantined` (frontmatter, pas de move Git)
 
 > **Distinction stricte** :
 >
-> | Mécanisme | Niveau | Contenu | Localisation physique |
-> |---|---|---|---|
-> | `automecanik-raw/quarantine/` | RAW | source brute douteuse | dossier dédié |
-> | `status: quarantined` (frontmatter) | WIKI | proposal douteuse | reste dans `proposals/<slug>.md` |
+> | Mécanisme                           | Niveau | Contenu               | Localisation physique            |
+> | ----------------------------------- | ------ | --------------------- | -------------------------------- |
+> | `automecanik-raw/quarantine/`       | RAW    | source brute douteuse | dossier dédié                    |
+> | `status: quarantined` (frontmatter) | WIKI   | proposal douteuse     | reste dans `proposals/<slug>.md` |
 
 Une proposal qui échoue gravement reste dans `proposals/<slug>.md` avec `status: quarantined`. Pas de déplacement physique.
 
@@ -247,7 +249,7 @@ quarantined_at: 2026-04-29T14:23:00Z
 
 Avantages : historique Git linéaire, recovery `quarantined → human_review_required` après correction, compat sampling §6.
 
----
+______________________________________________________________________
 
 ## §10 — Rollback (rétrogradation in-place + audit log JSONL)
 
@@ -262,16 +264,16 @@ Si une fiche promue dans `wiki/<entity_type>/` est ensuite identifiée probléma
    rollback_reason: <free_text_short>
    rollback_at: 2026-04-29T14:23:00Z
    ```
-2. **Move Git** : `wiki/<entity_type>/<slug>.md` → `proposals/<slug>.md` (commit *rollback*)
-3. **Audit log append-only** dans `_meta/audit-log.jsonl` :
+1. **Move Git** : `wiki/<entity_type>/<slug>.md` → `proposals/<slug>.md` (commit *rollback*)
+1. **Audit log append-only** dans `_meta/audit-log.jsonl` :
    ```json
    {"ts":"2026-04-29T14:23:00Z","action":"rollback","slug":"plaquette-de-frein","entity_type":"gamme","from_status":"auto_reviewed","to_status":"human_review_required","commit":"<sha>","reason":"source_disproven","actor":"<handle>"}
    ```
-4. **CI re-run** : `wiki-quality-gates.yml` ré-évalue depuis `proposals/`.
+1. **CI re-run** : `wiki-quality-gates.yml` ré-évalue depuis `proposals/`.
 
 Idempotent et traçable sans réécrire l'histoire Git.
 
----
+______________________________________________________________________
 
 ## §11 — Export `wiki/` → `exports/{rag,seo,support}/` (Partie 3 — différé)
 
@@ -280,30 +282,33 @@ Idempotent et traçable sans réécrire l'histoire Git.
 Conditions futures (Partie 3) :
 
 ### Export RAG
+
 - `exportable.rag: true`, `truth_level >= L1`, `no_disputed_claims: true`
 - Pas de notes internes, pas de promesse commerciale, pas de compatibilité véhicule inventée
 
 ### Export SEO
+
 - `exportable.seo: true`, `entity_type` ∈ {gamme, vehicle, constructeur}
 - Slug canonique présent dans `_meta/entity-registry.json`
 - Intentions SEO documentées (extracted ou inferred)
 
 ### Export Support (chatbot)
+
 - `exportable.support: true`
 - Contenu sûr pour client final, pas de donnée interne
 
----
+______________________________________________________________________
 
 ## §12 — Enforcement (défense en profondeur)
 
-| Niveau | Outil | Trigger | Effet |
-|---|---|---|---|
-| **Local pre-commit** | [`pre-commit`](https://pre-commit.com) via `.pre-commit-config.yaml` | `git commit` | Refuse commit si gates FAIL |
-| **CI bloquant** | `.github/workflows/wiki-quality-gates.yml` | PR / push branche | Re-execute gates, bloque merge si FAIL |
-| **CI scheduled** | `.github/workflows/wiki-quality-audit.yml` (P3) | Cron lundi 02:00 UTC | Audit complet, rapport `_meta/qa-reports/<date>/` |
-| **Path protection** | `.github/workflows/wiki-protected-paths.yml` | Tout commit | Refuse écriture directe `wiki/<entity_type>/` sauf `promotion-from-proposals:`, `rollback:`, `template-migration:` dans message |
+| Niveau               | Outil                                                                | Trigger              | Effet                                                                                                                           |
+| -------------------- | -------------------------------------------------------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| **Local pre-commit** | [`pre-commit`](https://pre-commit.com) via `.pre-commit-config.yaml` | `git commit`         | Refuse commit si gates FAIL                                                                                                     |
+| **CI bloquant**      | `.github/workflows/wiki-quality-gates.yml`                           | PR / push branche    | Re-execute gates, bloque merge si FAIL                                                                                          |
+| **CI scheduled**     | `.github/workflows/wiki-quality-audit.yml` (P3)                      | Cron lundi 02:00 UTC | Audit complet, rapport `_meta/qa-reports/<date>/`                                                                               |
+| **Path protection**  | `.github/workflows/wiki-protected-paths.yml`                         | Tout commit          | Refuse écriture directe `wiki/<entity_type>/` sauf `promotion-from-proposals:`, `rollback:`, `template-migration:` dans message |
 
----
+______________________________________________________________________
 
 ## Référence canon
 

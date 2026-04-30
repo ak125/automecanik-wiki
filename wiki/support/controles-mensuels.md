@@ -51,6 +51,7 @@ entity_data:
     - element: Essuie-glaces
       icon: Wrench
       detail: Verifier les traces. Remplacer si trainees ou bruit au passage.
+confidence_score: 0.24
 ---
 
 # Contrôles mensuels véhicule

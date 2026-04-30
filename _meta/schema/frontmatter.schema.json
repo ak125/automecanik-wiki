@@ -191,6 +191,12 @@
       "minimum": 0,
       "maximum": 1
     },
+    "confidence_score": {
+      "description": "Float 0-1 calculé par _scripts/compute-confidence-score.py (formule quality-gates.md §4). Alias canonique de quality_score (cf. ingestion-contract.md §'Score confiance'). Optionnel.",
+      "type": ["number", "null"],
+      "minimum": 0,
+      "maximum": 1
+    },
     "exportable": {
       "description": "Gates d'export par audience. Tous false par défaut. Décision humaine requise pour passer à true.",
       "type": "object",

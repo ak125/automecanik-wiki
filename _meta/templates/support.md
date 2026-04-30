@@ -100,10 +100,10 @@ Exemple : "Livraison express disponible uniquement pour la France métropolitain
 Renvoi vers fiches connexes : autres FAQ support, gammes/vehicles concernés.
 -->
 
-- [[<support-slug-related>]] — note
-- [[<gamme-or-vehicle-slug>]] — note
+- \[\[<support-slug-related>\]\] — note
+- \[\[<gamme-or-vehicle-slug>\]\] — note
 
----
+______________________________________________________________________
 
 <!--
 Notes rédacteur :

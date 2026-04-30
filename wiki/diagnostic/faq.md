@@ -64,6 +64,7 @@ entity_data:
       link:
         href: /diagnostic-auto?cluster=moteur
         label: Diagnostics moteur urgents
+confidence_score: 0.24
 ---
 
 # Diagnostic FAQ

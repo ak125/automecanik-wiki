@@ -27,3 +27,9 @@
 - **Branche** : `feat/phase-f3-vehicles-batch`
 - **Décision** : feat(phase-f3): vehicles batch — 7 proposals + 1 skip + lada-granta cleanup
 - **Sortie** : PR #6 | commits ab66984
+
+## 2026-04-30 — feat/mvp-g2-g10-bootstrap (auto)
+
+- **Branche** : `feat/mvp-g2-g10-bootstrap`
+- **Décision** : fix(ci): exclude wiki/ + proposals/ from mdformat to preserve Obsidian syntax (+2 other commits)
+- **Sortie** : PR #8 | commits 399c0eb 768abd9 baa5793

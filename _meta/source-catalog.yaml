@@ -21,6 +21,15 @@ updated_at: '2026-04-29'
 # - brochure / formation / marketing / blog_pro → medium
 # - forum / wiki_externe / blog_consumer → low
 
+# Conventions :
+# - status: 'active' (défaut implicite) → la source est archivée et le fichier
+#   `archived_at` existe dans automecanik-raw. La fiche peut s'appuyer dessus.
+# - status: 'to_capture' → la source est référencée par sa taxonomie (slug, type,
+#   publisher) mais le document n'est pas encore archivé physiquement. Le path
+#   `archived_at` indique l'emplacement futur prévu. Tant que la source reste
+#   `to_capture`, les fiches qui la citent gardent automatiquement
+#   `diagnostic_safe: false` (corroboration externe non vérifiable).
+
 sources:
   - slug: bosch_fad_2020
     title: 'Bosch FAD 2020 — Brochure Réparation Freinage'
@@ -28,12 +37,16 @@ sources:
     publisher: 'Bosch Automotive Aftermarket'
     year: 2020
     archived_at: 'automecanik-raw/recycled/rag-knowledge/bosch-freinage-brochure-reparation-fad-2020-fr.md'
+    status: to_capture
     pages_referenced: [27, 31]
     license: third_party_extract
     notes: |
       Brochure pédagogique. Probabilités et causes citées à corroborer avec OEM
       ou TecDoc avant atteindre confidence: high. Source utile pour amorcer un
       sourcing initial mais insuffisante seule pour diagnostic_safe: true.
+      STATUS to_capture (2026-04-30) : le fichier `archived_at` n'existe pas
+      encore dans automecanik-raw — capture à matérialiser depuis l'extrait
+      d'origine avant promotion canonique des fiches qui citent cette source.
 
   - slug: oem_renault_clio_iii_workshop
     title: "Manuel d'atelier Renault Clio III — section freinage"
@@ -41,11 +54,13 @@ sources:
     publisher: Renault
     year: null
     archived_at: 'automecanik-raw/sources/web-clips/oem-renault-clio-iii-brake-noise.md'
+    status: to_capture
     license: captured_for_internal_review
     notes: |
       Manuel atelier OEM. Source haute fiabilité une fois capturée et archivée.
       À utiliser comme corroboration second source pour atteindre source_policy:
       2_medium_concordant ou 1_high.
+      STATUS to_capture (2026-04-30) : web-clip à matérialiser.
 
   - slug: tecdoc_15_02_01_brake_noise
     title: 'TecDoc fiche 15.02.01 — Diagnostic bruits freinage'
@@ -53,10 +68,12 @@ sources:
     publisher: TecDoc
     year: null
     archived_at: 'automecanik-raw/sources/catalogues/tecdoc/15-02-01-brake-noise.md'
+    status: to_capture
     license: third_party_index
     notes: |
       Référence TecDoc officielle pour diagnostic des bruits de freinage.
       Source de référence sectorielle.
+      STATUS to_capture (2026-04-30) : extrait à archiver.
 
   - slug: oem_filter_maintenance_general
     title: 'Constructeurs OEM — recommandations entretien filtres'
@@ -64,7 +81,9 @@ sources:
     publisher: 'Constructeurs (générique)'
     year: null
     archived_at: 'automecanik-raw/sources/catalogues/oem-filter-intervals.md'
+    status: to_capture
     license: captured_for_internal_review
     notes: |
       Compilation des recommandations OEM concernant les intervalles d'entretien
       des filtres (filtre à air, filtre à huile, filtre habitacle).
+      STATUS to_capture (2026-04-30) : compilation à matérialiser.

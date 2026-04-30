@@ -10,7 +10,7 @@ aliases:
 - filtre admission
 lang: fr
 created_at: '2026-04-29'
-updated_at: '2026-04-29'
+updated_at: '2026-04-30'
 truth_level: L2
 source_refs:
 - kind: manual
@@ -28,9 +28,14 @@ review_notes: 'Pilote G6 ADR-033 — gamme non-safety (family: filtration, risk_
 
   edge pour vérifier que le gate safety_unsourced ne se déclenche pas faussement.
 
-  diagnostic_relations[] minimal (1 entrée, source_policy 2_medium_concordant).
-
   schema_version: 2.0.0 + bloc maintenance ADR-032 §D1 (filtre-a-air ∈ kg_nodes.MaintenanceInterval).
+
+  2026-04-30 (P0(b) sibling) : retiré `diagnostic_relations[]` (1 entrée orpheline,
+  symptom_slug `perte_puissance_filtration` + system_slug `filtration` absents de
+  `__diag_symptom` et `__diag_system` DB). Mêmes raisons que P0(b) plaquette-de-frein.md
+  ligne 30 — slug DB inexistant ⇒ retirer + tracer ici, ne pas inventer. Candidat pour
+  PR `__diag_symptom` extension : ajouter le système `filtration` + symptom
+  `perte_puissance_filtration` puis ré-ajouter cette entrée avec FK valide.
 
   '
 no_disputed_claims: true
@@ -40,21 +45,6 @@ exportable:
   support: false
 target_classes:
 - KB_Knowledge
-diagnostic_relations:
-- symptom_slug: perte_puissance_filtration
-  system_slug: filtration
-  relation_to_part: possible_cause
-  part_role: filtre à air colmaté limitant le débit d'admission, induit perte de puissance
-    progressive
-  evidence:
-    confidence: medium
-    source_policy: 2_medium_concordant
-    reviewed: false
-    diagnostic_safe: false
-    confidence_score_computed: 1.0
-  sources:
-  - oem_filter_maintenance_general
-  - bosch_fad_2020
 entity_data:
   pg_id: 510
   family: filtration
@@ -89,9 +79,7 @@ L'air ambiant aspiré par le moteur traverse le filtre dans le boîtier d'admiss
 
 ## Symptômes système auxquels cette pièce peut contribuer
 
-> Cette pièce peut contribuer à un symptôme de filtration. Pour les symptômes système moteur étendus, voir le modèle diagnostic complet en DB.
-
-- 🐌 **Perte de puissance progressive** *(possible cause)* — colmatage limitant le débit d'admission [^1][^2]
+> Le système `filtration` n'existe pas encore dans `__diag_system` côté DB diagnostic. Le bloc `diagnostic_relations[]` du frontmatter a été retiré (cf. `review_notes` ligne 32). Candidat pour PR `__diag_symptom` extension : ajouter le système `filtration` + symptom `perte_puissance_filtration` avant de ré-ajouter l'entrée ici.
 
 ## Conseil pédagogique d'entretien
 

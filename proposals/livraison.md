@@ -39,6 +39,7 @@ entity_data:
   audience: client
   faq_questions: []
   policy_refs: []
+confidence_score: 0.24
 ---
 
 # Conditions de livraison

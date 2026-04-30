@@ -32,6 +32,7 @@ entity_data:
   make: citroen
   model: c3
 content_hash: sha256:1482152fe2b802621856e88ee59908d979fe3c1a6b7fa2649d4f2bf050cc0b2e
+confidence_score: 0.24
 ---
 
 # Fiche vehicule - Citroen C3

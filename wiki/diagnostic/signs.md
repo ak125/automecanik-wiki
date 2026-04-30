@@ -71,6 +71,7 @@ entity_data:
       cluster: electricite
       cluster_label: Électricité
       detail: ABS orange = capteur de roue défaillant dans 60% des cas. Le freinage reste actif mais sans assistance. Contrôle sous 7 jours.
+confidence_score: 0.24
 ---
 
 # Diagnostic — 10 signes avant-coureurs

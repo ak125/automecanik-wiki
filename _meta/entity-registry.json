@@ -1,10 +1,116 @@
 {
   "_comment": "Registry canonique des entités métier. Évite doublons / aliases conflictuels. Mis à jour à chaque promotion vers wiki/.",
   "_schema_version": "1.0",
-  "_updated_at": "2026-04-28",
-  "gammes": {},
-  "vehicles": {},
-  "constructeurs": {},
-  "support": {},
+  "_updated_at": "2026-04-29",
+  "gammes": {
+    "plaquette-de-frein": {
+      "id": "gamme:plaquette-de-frein",
+      "title": "Plaquette de frein",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [
+        "plaquettes de frein",
+        "brake pad",
+        "brake pads",
+        "garniture de frein"
+      ],
+      "origin": "proposals/plaquette-de-frein.md",
+      "lineage_id": null
+    }
+  },
+  "vehicles": {
+    "volkswagen-golf-6": {
+      "id": "vehicle:volkswagen-golf-6",
+      "title": "Fiche vehicule - Volkswagen Golf 6",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [],
+      "origin": "proposals/volkswagen-golf-6.md",
+      "lineage_id": "019dd8ee-db01-78ba-82e9-2cf711cc2a59"
+    },
+    "renault-clio-iii": {
+      "id": "vehicle:renault-clio-iii",
+      "title": "Fiche vehicule - RENAULT CLIO III",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [],
+      "origin": "proposals/renault-clio-iii.md",
+      "lineage_id": "019dd8ee-dafc-7bb1-84e3-ce7aab419117"
+    },
+    "renault-clio-3": {
+      "id": "vehicle:renault-clio-3",
+      "title": "Fiche véhicule - Renault Clio 3",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [],
+      "origin": "proposals/renault-clio-3.md",
+      "lineage_id": "019dd8ee-daf5-731c-b5d4-c6cb9601a446"
+    },
+    "citroen-c3": {
+      "id": "vehicle:citroen-c3",
+      "title": "Fiche vehicule - Citroen C3",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [],
+      "origin": "proposals/citroen-c3.md",
+      "lineage_id": "019dd8ee-daef-7070-9fe6-d4c46ebaa2c9"
+    },
+    "ford-focus-3": {
+      "id": "vehicle:ford-focus-3",
+      "title": "Fiche vehicule - Ford Focus 3",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [],
+      "origin": "proposals/ford-focus-3.md",
+      "lineage_id": "019dd8ee-daf1-7121-8b9a-8e158fec994b"
+    },
+    "renault-megane-3": {
+      "id": "vehicle:renault-megane-3",
+      "title": "Fiche vehicule - Renault Megane 3",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [],
+      "origin": "proposals/renault-megane-3.md",
+      "lineage_id": "019dd8ee-daff-7056-ae32-9e931fce9fff"
+    },
+    "peugeot-206": {
+      "id": "vehicle:peugeot-206",
+      "title": "Fiche véhicule - Peugeot 206",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [],
+      "origin": "proposals/peugeot-206.md",
+      "lineage_id": "019dd8ee-daf3-74cc-9687-439ae70303de"
+    }
+  },
+  "constructeurs": {
+    "dacia": {
+      "id": "constructeur:dacia",
+      "title": "Dacia",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [
+        "DACIA",
+        "Dacia Auto"
+      ],
+      "origin": "proposals/dacia.md",
+      "lineage_id": null
+    }
+  },
+  "support": {
+    "livraison": {
+      "id": "support:livraison",
+      "title": "Conditions de livraison",
+      "status": "draft",
+      "review_status": "proposed",
+      "aliases": [
+        "délai de livraison",
+        "frais de port",
+        "shipping"
+      ],
+      "origin": "proposals/livraison.md",
+      "lineage_id": null
+    }
+  },
   "diagnostic": {}
 }

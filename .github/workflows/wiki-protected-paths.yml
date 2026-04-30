@@ -1,0 +1,66 @@
+name: wiki-protected-paths
+
+# Plan rev 6 §3.8 — refuse direct writes to wiki/<entity_type>/ unless commit message
+# contains one of:
+#   - "promotion-from-proposals: <slug>"   (gates §7 quality-gates passed)
+#   - "rollback: <slug>"                    (rétrogradation §10 quality-gates)
+#   - "template-migration: <type>@<old>→<new>"  (semver bump §3.7)
+#   - "metadata-backfill: <field> (<reason>)"   (deterministic frontmatter-only
+#     update by a quality-gate tool, e.g. compute-confidence-score.py §G9-A
+#     populating the confidence_score field on existing canonical fiches.
+#     Body content MUST NOT change — this marker only legitimizes mechanical
+#     metadata writes by audit-trailed tooling.)
+#
+# Reference: réplique du pattern D22 (automecanik-rag/knowledge/), adapté wiki/.
+
+on:
+  pull_request:
+    paths:
+      - 'wiki/**/*.md'
+
+permissions:
+  contents: read
+
+jobs:
+  check-protected-paths:
+    name: check wiki/<entity_type>/ writes are mediated
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Identify changed wiki/ files
+        id: changed
+        run: |
+          base="${{ github.event.pull_request.base.sha }}"
+          head="${{ github.event.pull_request.head.sha }}"
+          changed=$(git diff --name-only "$base" "$head" -- 'wiki/' | grep -E '^wiki/(gammes|vehicles|constructeurs|support|diagnostic)/.*\.md$' || true)
+          echo "files<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$changed" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
+          echo "$changed"
+
+      - name: Verify each commit touching wiki/ has a permitted marker
+        if: steps.changed.outputs.files != ''
+        run: |
+          set -euo pipefail
+          base="${{ github.event.pull_request.base.sha }}"
+          head="${{ github.event.pull_request.head.sha }}"
+
+          # For each commit in the PR that touches wiki/<entity_type>/, the message must contain a marker
+          fail=0
+          for commit in $(git rev-list "$base..$head"); do
+            touched=$(git diff-tree --no-commit-id --name-only -r "$commit" -- 'wiki/' | grep -E '^wiki/(gammes|vehicles|constructeurs|support|diagnostic)/.*\.md$' || true)
+            if [ -z "$touched" ]; then continue; fi
+            msg=$(git log -1 --pretty=%B "$commit")
+            if echo "$msg" | grep -Eq '(promotion-from-proposals:|rollback:|template-migration:|metadata-backfill:)' ; then
+              echo "OK   commit $commit has permitted marker"
+            else
+              echo "FAIL commit $commit modifies wiki/<entity_type>/ without marker"
+              echo "     touched: $touched"
+              echo "     message: $(echo "$msg" | head -1)"
+              fail=1
+            fi
+          done
+          exit $fail

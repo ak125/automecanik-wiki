@@ -66,6 +66,7 @@ entity_data:
     permanent: '🔴 Permanent (probable: mécanique/usure)'
     progressif: '🟠 Progressif (probable: usure/fuite)'
     sporadique: '⚪ Sporadique (probable: électronique/température)'
+confidence_score: 0.24
 ---
 
 # Diagnostic Safety / Risk / Urgency config

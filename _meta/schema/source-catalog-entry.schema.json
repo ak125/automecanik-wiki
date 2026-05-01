@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/source-catalog-entry.schema.json",
+  "title": "automecanik-wiki source-catalog entry contract",
+  "description": "Shape d'une entrée _meta/source-catalog.yaml. Plan humble-cuddling-scott P2 — migration cross-repo content-addressing : `raw_ref { manifest_id, expected_sha256 }` remplace progressivement `archived_at: <filesystem-path>` (deprecate-before-rename, deadline J+30).",
+  "type": "object",
+  "required": ["slug", "title", "type", "license"],
+  "additionalProperties": true,
+  "properties": {
+    "slug": {
+      "description": "Slug stable kebab-case ASCII (snake_case toléré pour rétrocompat). Doit être référencé dans `diagnostic_relations[].sources[]`.",
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*[a-z0-9]$"
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "type": {
+      "description": "Détermine `max_confidence` autorisé (cf. _meta/source-policy.md §9).",
+      "enum": [
+        "oem_manual",
+        "oem_workshop",
+        "tecdoc_official",
+        "normative_standard",
+        "parts_feed_certified",
+        "brochure",
+        "formation",
+        "marketing",
+        "blog_pro",
+        "forum",
+        "wiki_externe",
+        "blog_consumer"
+      ]
+    },
+    "publisher": { "type": "string" },
+    "year": { "type": ["integer", "null"] },
+    "pages_referenced": {
+      "type": "array",
+      "items": { "type": "integer", "minimum": 1 }
+    },
+    "license": {
+      "type": "string",
+      "description": "Licence du contenu (third_party_extract, captured_for_internal_review, third_party_index, public_domain, etc.)."
+    },
+    "status": {
+      "description": "active = source archivée, raw_ref.manifest_id présent dans raw inventory ; to_capture = source identifiée mais fichier pas encore archivé.",
+      "enum": ["active", "to_capture"],
+      "default": "active"
+    },
+    "raw_ref": {
+      "description": "Plan P2 — référence content-addressable vers automecanik-raw. Cible canonique. Si présent ET status: active, validé contre raw inventory (gate `source_unresolved` / `source_sha_drift`).",
+      "type": "object",
+      "required": ["repo", "manifest_id"],
+      "additionalProperties": false,
+      "properties": {
+        "repo": {
+          "enum": ["automecanik-raw"],
+          "description": "Sibling repo content-addressable. Pour l'instant un seul autorisé."
+        },
+        "manifest_id": {
+          "type": "string",
+          "pattern": "^(rec-[a-zA-Z0-9_-]+|rec-h-[0-9a-f]{16}|src-[a-zA-Z0-9_-]+|path-[0-9a-f]{16}|[a-zA-Z0-9_-]+)$",
+          "description": "Doit matcher une entrée de manifests/source-inventory.csv côté automecanik-raw. Schéma raw : rec-<doc_id> | rec-h-<sha16> | src-<slug>. La forme libre (dernière alternative) accepte les slugs aspirationnels en mode to_capture (le manifest_id sera attribué au moment de la capture)."
+        },
+        "expected_sha256": {
+          "description": "Hash content du fichier raw. Comparé à raw checksums.json[<file>] au gate cross-repo. Optionnel/null tant que status: to_capture.",
+          "type": ["string", "null"],
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    },
+    "archived_at": {
+      "description": "DEPRECATED — chemin filesystem dans automecanik-raw. Migration vers `raw_ref` (Plan P2). Conservé pendant transition J+30 ; après deadline le gate émet `legacy_archived_at_deprecated` puis FAIL.",
+      "type": "string"
+    },
+    "notes": { "type": "string" }
+  },
+  "allOf": [
+    {
+      "description": "Si raw_ref ET archived_at présents tous les deux, ils doivent référer à la même source (validation runtime, pas schema)."
+    }
+  ]
+}

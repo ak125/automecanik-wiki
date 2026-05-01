@@ -50,6 +50,14 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 ENTITY_REGISTRY = REPO_ROOT / "_meta" / "entity-registry.json"
 SOURCE_CATALOG = REPO_ROOT / "_meta" / "source-catalog.yaml"
 
+# Plan humble-cuddling-scott P2 — sibling automecanik-raw repo pour cross-repo
+# content-addressing. Local : assumé en sibling de wiki repo. CI : clone explicite.
+# Override via env AUTOMECANIK_RAW_PATH si layout différent.
+import os
+RAW_REPO_PATH = Path(os.environ.get("AUTOMECANIK_RAW_PATH", REPO_ROOT.parent / "automecanik-raw")).resolve()
+RAW_INVENTORY = RAW_REPO_PATH / "manifests" / "source-inventory.csv"
+RAW_CHECKSUMS = RAW_REPO_PATH / "manifests" / "checksums.json"
+
 # Pollution markers — common scrape artefacts
 POLLUTION_PATTERNS = [
     r"\bSkip to main content\b",
@@ -188,6 +196,93 @@ def load_source_catalog() -> dict[str, dict]:
         if isinstance(s, dict) and "slug" in s:
             result[s["slug"]] = s
     return result
+
+
+# --- Plan P2 — cross-repo content-addressing (raw_ref) ---
+
+
+def load_raw_inventory() -> tuple[set[str], dict[str, str], str]:
+    """Returns (manifest_ids set, manifest_id→sha256 dict, msg).
+
+    Lit automecanik-raw/manifests/source-inventory.csv. msg explique l'état
+    pour le rapport de gate (présent ou absent + raison)."""
+    if not RAW_INVENTORY.exists():
+        return set(), {}, f"raw inventory absent at {RAW_INVENTORY}"
+    import csv
+    manifest_ids: set[str] = set()
+    sha_by_id: dict[str, str] = {}
+    try:
+        with RAW_INVENTORY.open(encoding="utf-8") as f:
+            reader = csv.DictReader(f)
+            for row in reader:
+                mid = row.get("manifest_id", "").strip()
+                sha = row.get("sha256", "").strip()
+                if mid:
+                    manifest_ids.add(mid)
+                    if sha:
+                        sha_by_id[mid] = sha
+        return manifest_ids, sha_by_id, f"loaded {len(manifest_ids)} manifest_ids from {RAW_INVENTORY}"
+    except (OSError, csv.Error) as e:
+        return set(), {}, f"failed to read {RAW_INVENTORY}: {e}"
+
+
+def gate_source_catalog_raw_refs(source_catalog: dict[str, dict]) -> tuple[list[str], list[str]]:
+    """Plan P2 — valide raw_ref cross-repo + arbitrage transition raw_ref vs archived_at.
+
+    Returns (failures, warnings). Tableau d'arbitrage 4 cas :
+
+      | raw_ref | archived_at | status     | comportement |
+      | ✓       | -           | active     | check raw inventory (FAIL si unresolved) |
+      | ✓       | -           | to_capture | OK (pas de check, pas encore capturé) |
+      | -       | ✓           | active     | WARN legacy_archived_at_deprecated (jusqu'à J+30) |
+      | -       | ✓           | to_capture | OK (mode legacy, transition) |
+      | ✓       | ✓           | -          | priority raw_ref ; archived_at ignoré silencieusement |
+      | -       | -           | -          | FAIL source_unreferenceable |
+    """
+    failures: list[str] = []
+    warnings: list[str] = []
+    manifest_ids, sha_by_id, raw_msg = load_raw_inventory()
+    raw_available = bool(manifest_ids)
+
+    for slug, entry in source_catalog.items():
+        raw_ref = entry.get("raw_ref")
+        archived_at = entry.get("archived_at")
+        status = entry.get("status", "active")
+
+        if not raw_ref and not archived_at:
+            failures.append(f"source_unreferenceable:{slug}: ni raw_ref ni archived_at")
+            continue
+
+        if raw_ref:
+            if not isinstance(raw_ref, dict):
+                failures.append(f"raw_ref_malformed:{slug}: raw_ref must be a dict")
+                continue
+            mid = raw_ref.get("manifest_id")
+            expected_sha = raw_ref.get("expected_sha256")
+            if not mid:
+                failures.append(f"raw_ref_missing_manifest_id:{slug}")
+                continue
+
+            # Cross-repo check (only if raw inventory is reachable AND status: active)
+            if status == "active" and raw_available:
+                if mid not in manifest_ids:
+                    failures.append(f"source_unresolved:{slug}: manifest_id={mid} absent du raw inventory")
+                elif expected_sha and mid in sha_by_id and sha_by_id[mid] != expected_sha:
+                    failures.append(f"source_sha_drift:{slug}: expected={expected_sha} actual={sha_by_id[mid]}")
+            elif status == "active" and not raw_available:
+                # Best-effort : sans raw inventory dispo, on note mais on ne bloque pas.
+                warnings.append(f"raw_inventory_unreachable:{slug}: cannot validate cross-repo ({raw_msg})")
+            # status: to_capture → OK (pas de check, c'est l'état attendu)
+
+        # archived_at sans raw_ref → legacy mode, deprecate-before-rename
+        if archived_at and not raw_ref:
+            if status == "active":
+                warnings.append(
+                    f"legacy_archived_at_deprecated:{slug}: pas de raw_ref ; migrer avant deadline (Plan P2)"
+                )
+            # to_capture seul — OK, mode transition silencieux
+
+    return failures, warnings
 
 
 # --- Gates legacy §2 ---
@@ -479,6 +574,15 @@ def main() -> int:
     source_catalog = load_source_catalog()
     fail_count = 0
     warn_count = 0
+
+    # Plan P2 — pre-flight check du source-catalog raw_ref (1 seule fois, pas par fiche)
+    catalog_failures, catalog_warnings = gate_source_catalog_raw_refs(source_catalog)
+    for f in catalog_failures:
+        print(f"FAIL source-catalog: {f}")
+        fail_count += 1
+    for w in catalog_warnings:
+        print(f"WARN source-catalog: {w}")
+        warn_count += 1
 
     for f in files:
         failures, warnings = run_gates(f, registry, source_catalog)

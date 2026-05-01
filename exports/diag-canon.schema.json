@@ -1,0 +1,38 @@
+{
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "systems": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      }
+    },
+    "symptoms": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_]*$"
+      }
+    }
+  },
+  "required": [
+    "version",
+    "generated_at",
+    "systems",
+    "symptoms"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2019-09/schema#"
+}

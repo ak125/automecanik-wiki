@@ -33,3 +33,9 @@
 - **Branche** : `feat/mvp-g2-g10-bootstrap`
 - **Décision** : fix(ci): exclude wiki/ + proposals/ from mdformat to preserve Obsidian syntax (+2 other commits)
 - **Sortie** : PR #8 | commits 399c0eb 768abd9 baa5793
+
+## 2026-05-01 — feat/p5-confidence-drift-gate (auto)
+
+- **Branche** : `feat/p5-confidence-drift-gate`
+- **Décision** : feat(p5): wire wiki-symptom-confidence pre-commit + mark field readOnly in schema
+- **Sortie** : PR #12 | commits 61dfa38

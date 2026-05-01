@@ -55,7 +55,7 @@ Seul l'humain peut passer :
 - `exportable.support: true`
 
 > **Note** : les enums `review_status` autorisés sont `draft | proposed | in_review | approved | deprecated`
-> (cf. [_meta/schema/frontmatter.schema.json](_meta/schema/frontmatter.schema.json#L169)). Les anciens
+> (cf. [\_meta/schema/frontmatter.schema.json](_meta/schema/frontmatter.schema.json#L169)). Les anciens
 > termes `needs_human_review`, `human_reviewed`, `status: validated` sont désormais interdits — bloqués
 > par hook pre-commit `forbid-non-schema-statuses-in-docs` + validateur `_scripts/validate-frontmatter.py`.
 

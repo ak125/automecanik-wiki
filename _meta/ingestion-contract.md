@@ -20,7 +20,7 @@ automecanik-wiki/proposals/<slug>.md
        ▼
 automecanik-wiki/wiki/<entity_type>/<slug>.md
        │
-       │  decision humaine d'export (review_status: human_reviewed)
+       │  decision humaine d'export (review_status: approved)
        │  (quality-gates.md PASS, exportable.<x>: true)
        ▼
 automecanik-wiki/exports/{rag,seo,support}/<slug>.<audience>.md
@@ -91,7 +91,7 @@ Le schema canonique `_meta/schema/frontmatter.schema.json` v1.0.0 reste la **ré
 | --------------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | État canonique                    | `review_status: draft\|proposed\|in_review\|approved\|deprecated` | —                                                                                      | reste la source d'autorité pour les exports             |
 | État opérationnel détaillé        | —                                                                 | `status: draft\|auto_reviewed\|human_review_required\|reviewed\|rejected\|quarantined` | piloté par les gates `_scripts/quality-gates.py`        |
-| Sous-état review                  | —                                                                 | `review_status_detail: auto_passed\|sampled\|needs_human_review\|human_reviewed`       | optionnel ; n'écrase pas `review_status` legacy         |
+| Sous-état review                  | —                                                                 | `review_status_detail` ABANDONNÉ — un seul vocabulaire `review_status` (cf. schema)    | la sous-granularité passe par `validation_mode` + `risk_level` |
 | Mode validation                   | —                                                                 | `validation_mode: automatic\|sampled\|human_required`                                  | trace la voie suivie                                    |
 | Niveau de risque                  | —                                                                 | `risk_level: low\|medium\|high\|critical`                                              | drive l'auto-promotion §7 quality-gates                 |
 | Score confiance                   | `quality_score`                                                   | `confidence_score`                                                                     | alias — la formule §4 quality-gates s'applique aux deux |

@@ -16,7 +16,7 @@
 - Ne jamais importer un CSV complet dans wiki
 - Ne jamais exporter vers chatbot / RAG / SEO sans `_meta/quality-gates.md` PASS
 - Ne jamais inventer une compatibilité véhicule
-- Ne jamais marquer `validated` ou `human_reviewed` sans validation humaine
+- Ne jamais promouvoir une fiche en `review_status: approved` sans validation humaine (cf. `_meta/schema/frontmatter.schema.json`)
 
 ## Workflow uniforme (tous les R)
 

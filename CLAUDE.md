@@ -17,7 +17,7 @@ Le LLM peut **proposer, relier, résumer, extraire, enrichir**. Il ne **valide**
 
 - Ne **jamais** écrire directement dans `wiki/<area>/` sans instruction humaine explicite
 - Écrire d'abord dans `proposals/` (FLAT — routage par frontmatter `entity_type`)
-- Ne **jamais** marquer une fiche `validated`, `human_reviewed`, ou `exportable.<x>: true` sans validation humaine
+- Ne **jamais** promouvoir une fiche en `review_status: approved` ou `exportable.<x>: true` sans validation humaine
 - Ne **jamais** supprimer une source raw
 - Ne **jamais** inventer de compatibilité véhicule
 - Ne **jamais** transformer une hypothèse en fait
@@ -37,7 +37,7 @@ Le même flux s'applique à **gammes, vehicles, constructeurs, support, diagnost
 1. Ajouter `lineage_id` (UUIDv7) + `content_hash` (SHA-256 du body)
 1. Mettre à jour `index.md`
 1. Ajouter une entrée dans `log.md`
-1. Laisser `review_status: needs_human_review`
+1. Laisser `review_status: in_review` (statut canonique défini dans `_meta/schema/frontmatter.schema.json`)
 
 ## Note ADR-022 (R8 vehicles) — sujet downstream backend
 
@@ -49,11 +49,15 @@ Si plus tard activé, ses sorties merged seront traitées comme **un input parmi
 
 Seul l'humain peut passer :
 
-- `review_status: human_reviewed`
-- `status: validated`
+- `review_status: approved` (transition finale dans l'enum `frontmatter.schema.json`)
 - `exportable.rag: true`
 - `exportable.seo: true`
 - `exportable.support: true`
+
+> **Note** : les enums `review_status` autorisés sont `draft | proposed | in_review | approved | deprecated`
+> (cf. [_meta/schema/frontmatter.schema.json](_meta/schema/frontmatter.schema.json#L169)). Les anciens
+> termes `needs_human_review`, `human_reviewed`, `status: validated` sont désormais interdits — bloqués
+> par hook pre-commit `forbid-non-schema-statuses-in-docs` + validateur `_scripts/validate-frontmatter.py`.
 
 ## Coverage manifest obligatoire
 

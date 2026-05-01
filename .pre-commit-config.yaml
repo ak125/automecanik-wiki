@@ -97,3 +97,15 @@ repos:
         language: system
         files: ^(wiki|proposals)/.*\.md$
         exclude: ^(wiki|proposals)/_
+
+      # Plan humble-cuddling-scott P-pré §3 — anti-régression documentaire ciblée.
+      # Bloque la réintroduction des statuts legacy (needs_human_review, human_reviewed,
+      # status: validated) dans la documentation — CLAUDE.md, hot.md, _meta/, _templates/.
+      # Les fiches (wiki/, proposals/) sont couvertes par wiki-frontmatter-schema-py
+      # (verrou primaire schema-driven).
+      - id: forbid-non-schema-statuses-in-docs
+        name: Block legacy status assignments in documentation
+        entry: _scripts/forbid-non-schema-statuses.sh
+        language: system
+        files: \.(md|yaml|yml)$
+        exclude: ^(wiki/|proposals/|_scripts/tests/fixtures/|node_modules/)

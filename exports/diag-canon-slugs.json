@@ -1,0 +1,436 @@
+[
+  {
+    "active": true,
+    "label": "Ampoules grillent fréquemment",
+    "symptom_slug": "ampoule_grille_frequemment",
+    "system_slug": "eclairage",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Batterie se décharge en une nuit",
+    "symptom_slug": "battery_drains_overnight",
+    "system_slug": "demarrage_charge",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Voyant batterie allumé moteur tournant",
+    "symptom_slug": "battery_warning_light",
+    "system_slug": "demarrage_charge",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Bruit sourd / grondement au freinage",
+    "symptom_slug": "brake_noise_grinding",
+    "system_slug": "freinage",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Grincement aigu au freinage",
+    "symptom_slug": "brake_noise_metallic",
+    "system_slug": "freinage",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Véhicule tire d'un côté au freinage",
+    "symptom_slug": "brake_pulling_side",
+    "system_slug": "freinage",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Pédale de frein molle",
+    "symptom_slug": "brake_soft_pedal",
+    "system_slug": "freinage",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Vibration dans la pédale de frein",
+    "symptom_slug": "brake_vibration_pedal",
+    "system_slug": "freinage",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Bruit de claquement moteur",
+    "symptom_slug": "bruit_claquement_moteur",
+    "system_slug": "distribution",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Bruit compresseur climatisation",
+    "symptom_slug": "bruit_compresseur_clim",
+    "system_slug": "climatisation",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Bruit au débrayage",
+    "symptom_slug": "bruit_debrayage",
+    "system_slug": "embrayage",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Bruits en braquant",
+    "symptom_slug": "bruit_direction",
+    "system_slug": "direction",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Bruit d'échappement fort",
+    "symptom_slug": "bruit_echappement_fort",
+    "system_slug": "echappement",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Bruits de suspension",
+    "symptom_slug": "bruits_suspension",
+    "system_slug": "suspension",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Chauffage défaillant",
+    "symptom_slug": "chauffage_defaillant",
+    "system_slug": "climatisation",
+    "urgency": "basse"
+  },
+  {
+    "active": true,
+    "label": "Claquement en virage",
+    "symptom_slug": "claquement_virage_transmission",
+    "system_slug": "transmission",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Claquements sourds",
+    "symptom_slug": "claquements_sourds",
+    "system_slug": "suspension",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Climatisation sans effet",
+    "symptom_slug": "clim_pas_de_froid",
+    "system_slug": "climatisation",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Fuite de liquide de refroidissement",
+    "symptom_slug": "coolant_leak_visible",
+    "system_slug": "refroidissement",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Craquement au passage de vitesse",
+    "symptom_slug": "craquement_passage_vitesse",
+    "system_slug": "transmission",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Démarrage difficile",
+    "symptom_slug": "demarrage_difficile_injection",
+    "system_slug": "injection",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Difficulté passage vitesses",
+    "symptom_slug": "difficulte_passage_vitesses",
+    "system_slug": "embrayage",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Direction lourde",
+    "symptom_slug": "direction_lourde",
+    "system_slug": "direction",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Moteur long à chauffer",
+    "symptom_slug": "engine_slow_warmup",
+    "system_slug": "refroidissement",
+    "urgency": "basse"
+  },
+  {
+    "active": true,
+    "label": "Feu ne fonctionne pas",
+    "symptom_slug": "feu_hs",
+    "system_slug": "eclairage",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Fuite d'huile de boîte",
+    "symptom_slug": "fuite_huile_boite",
+    "system_slug": "transmission",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Fuite de liquide DA",
+    "symptom_slug": "fuite_liquide_da",
+    "system_slug": "direction",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Fumée anormale échappement",
+    "symptom_slug": "fumee_anormale",
+    "system_slug": "echappement",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Fumée noire diesel",
+    "symptom_slug": "fumee_noire_injection",
+    "system_slug": "injection",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Chauffage habitacle faible",
+    "symptom_slug": "heater_weak",
+    "system_slug": "refroidissement",
+    "urgency": "basse"
+  },
+  {
+    "active": true,
+    "label": "Jeu dans le volant",
+    "symptom_slug": "jeu_volant",
+    "system_slug": "direction",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Moteur qui broute",
+    "symptom_slug": "moteur_broute",
+    "system_slug": "injection",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Odeur de moisi ventilation",
+    "symptom_slug": "odeur_clim",
+    "system_slug": "climatisation",
+    "urgency": "basse"
+  },
+  {
+    "active": true,
+    "label": "Odeur de gaz dans l'habitacle",
+    "symptom_slug": "odeur_gaz_habitacle",
+    "system_slug": "echappement",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Odeur désagréable habitacle",
+    "symptom_slug": "odeur_habitacle",
+    "system_slug": "filtration",
+    "urgency": "basse"
+  },
+  {
+    "active": true,
+    "label": "Patinage embrayage",
+    "symptom_slug": "patinage_embrayage",
+    "system_slug": "embrayage",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Pédale d'embrayage dure",
+    "symptom_slug": "pedale_embrayage_dure",
+    "system_slug": "embrayage",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Pédale molle ou spongieuse",
+    "symptom_slug": "pedale_molle_spongieuse",
+    "system_slug": "embrayage",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Perte de puissance",
+    "symptom_slug": "perte_puissance_distribution",
+    "system_slug": "distribution",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Perte de puissance + voyant",
+    "symptom_slug": "perte_puissance_echappement",
+    "system_slug": "echappement",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Perte de puissance moteur",
+    "symptom_slug": "perte_puissance_filtration",
+    "system_slug": "filtration",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Perte de puissance brutale",
+    "symptom_slug": "perte_puissance_injection",
+    "system_slug": "injection",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Phares faibles",
+    "symptom_slug": "phare_faible",
+    "system_slug": "eclairage",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Ralenti instable",
+    "symptom_slug": "ralenti_instable",
+    "system_slug": "injection",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Rebonds excessifs",
+    "symptom_slug": "rebonds_excessifs",
+    "system_slug": "suspension",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Réglage phares incorrect",
+    "symptom_slug": "reglage_phare_incorrect",
+    "system_slug": "eclairage",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Sifflement au démarrage",
+    "symptom_slug": "sifflement_demarrage",
+    "system_slug": "distribution",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Claquement sans rotation du moteur",
+    "symptom_slug": "start_click_no_crank",
+    "system_slug": "demarrage_charge",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Difficulté de démarrage à froid uniquement",
+    "symptom_slug": "start_cold_only",
+    "system_slug": "demarrage_charge",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Le démarreur tourne mais le moteur ne part pas",
+    "symptom_slug": "start_cranks_no_fire",
+    "system_slug": "demarrage_charge",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Rien ne se passe au démarrage",
+    "symptom_slug": "start_nothing_happens",
+    "system_slug": "demarrage_charge",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Démarrage lent / laborieux",
+    "symptom_slug": "start_slow_crank",
+    "system_slug": "demarrage_charge",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Surconsommation carburant",
+    "symptom_slug": "surconsommation_carburant",
+    "system_slug": "filtration",
+    "urgency": "basse"
+  },
+  {
+    "active": true,
+    "label": "Témoin moteur allumé",
+    "symptom_slug": "temoin_moteur_distribution",
+    "system_slug": "distribution",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Température instable",
+    "symptom_slug": "temp_gauge_unstable",
+    "system_slug": "refroidissement",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Température monte rapidement",
+    "symptom_slug": "temp_rises_fast",
+    "system_slug": "refroidissement",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Voyant température allumé",
+    "symptom_slug": "temp_warning_light",
+    "system_slug": "refroidissement",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Tenue de route dégradée",
+    "symptom_slug": "tenue_route_degradee",
+    "system_slug": "suspension",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Usure pneus anormale",
+    "symptom_slug": "usure_pneus_anormale",
+    "system_slug": "suspension",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Véhicule affaissé",
+    "symptom_slug": "vehicule_affaisse",
+    "system_slug": "suspension",
+    "urgency": "haute"
+  },
+  {
+    "active": true,
+    "label": "Vibration à l'accélération",
+    "symptom_slug": "vibration_acceleration",
+    "system_slug": "transmission",
+    "urgency": "moyenne"
+  },
+  {
+    "active": true,
+    "label": "Voyant huile allumé",
+    "symptom_slug": "voyant_huile",
+    "system_slug": "filtration",
+    "urgency": "critique"
+  }
+]

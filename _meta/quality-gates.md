@@ -214,7 +214,7 @@ exportable: { rag: false, seo: false, support: false }   # toujours false — Pa
 ```yaml
 # Voie humaine (critical, blocked, sampling §6)
 status: reviewed
-review_status: human_reviewed
+review_status: approved
 validation_mode: human_required
 confidence_score: 0.94
 risk_level: high
@@ -241,7 +241,7 @@ Une proposal qui échoue gravement reste dans `proposals/<slug>.md` avec `status
 
 ```yaml
 status: quarantined
-review_status: needs_human_review
+review_status: in_review
 validation_mode: human_required
 blocked_reasons: [pollution_detected, source_conflict]
 quarantined_at: 2026-04-29T14:23:00Z
@@ -258,7 +258,7 @@ Si une fiche promue dans `wiki/<entity_type>/` est ensuite identifiée probléma
 1. **Rétrogradation in-place** (pas de `git revert` — préserve la généalogie) :
    ```yaml
    status: human_review_required
-   review_status: needs_human_review
+   review_status: in_review
    blocked_reasons: [post_hoc_source_disproven]
    rollback_from_commit: <sha>
    rollback_reason: <free_text_short>

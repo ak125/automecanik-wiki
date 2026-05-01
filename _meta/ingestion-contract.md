@@ -20,7 +20,7 @@ automecanik-wiki/proposals/<slug>.md
        ▼
 automecanik-wiki/wiki/<entity_type>/<slug>.md
        │
-       │  decision humaine d'export (review_status: human_reviewed)
+       │  decision humaine d'export (review_status: approved)
        │  (quality-gates.md PASS, exportable.<x>: true)
        ▼
 automecanik-wiki/exports/{rag,seo,support}/<slug>.<audience>.md
@@ -87,19 +87,19 @@ Le mécanisme `__rag_proposals` (DB Supabase) est une génération R8 future cô
 
 Le schema canonique `_meta/schema/frontmatter.schema.json` v1.0.0 reste la **référence d'autorité**. Le plan rev 6 introduit des champs additionnels orientés validation automatique. Pendant la phase de transition, les deux vocabulaires coexistent.
 
-| Concept plan rev 6                | Champ legacy                                                      | Champ ajouté                                                                           | Notes                                                   |
-| --------------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------- |
-| État canonique                    | `review_status: draft\|proposed\|in_review\|approved\|deprecated` | —                                                                                      | reste la source d'autorité pour les exports             |
-| État opérationnel détaillé        | —                                                                 | `status: draft\|auto_reviewed\|human_review_required\|reviewed\|rejected\|quarantined` | piloté par les gates `_scripts/quality-gates.py`        |
-| Sous-état review                  | —                                                                 | `review_status_detail: auto_passed\|sampled\|needs_human_review\|human_reviewed`       | optionnel ; n'écrase pas `review_status` legacy         |
-| Mode validation                   | —                                                                 | `validation_mode: automatic\|sampled\|human_required`                                  | trace la voie suivie                                    |
-| Niveau de risque                  | —                                                                 | `risk_level: low\|medium\|high\|critical`                                              | drive l'auto-promotion §7 quality-gates                 |
-| Score confiance                   | `quality_score`                                                   | `confidence_score`                                                                     | alias — la formule §4 quality-gates s'applique aux deux |
-| Raisons de blocage                | —                                                                 | `blocked_reasons: []`                                                                  | enum fermé §5 quality-gates                             |
-| Marqueurs à vérifier sans bloquer | —                                                                 | `to_verify: []`                                                                        | granularité section/claim                               |
-| Version du template               | —                                                                 | `template_version: 1.0.0`                                                              | semver §3.7 plan rev 6                                  |
-| Provenance source                 | `source_refs[].kind` (`raw\|external_url\|manual\|recycled`)      | —                                                                                      | détaillé schema canon                                   |
-| Confiance source                  | —                                                                 | `source_refs[].confidence: high\|medium\|low`                                          | facultatif ; alimente la formule §4 quality-gates       |
+| Concept plan rev 6                | Champ legacy                                                      | Champ ajouté                                                                           | Notes                                                          |
+| --------------------------------- | ----------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| État canonique                    | `review_status: draft\|proposed\|in_review\|approved\|deprecated` | —                                                                                      | reste la source d'autorité pour les exports                    |
+| État opérationnel détaillé        | —                                                                 | `status: draft\|auto_reviewed\|human_review_required\|reviewed\|rejected\|quarantined` | piloté par les gates `_scripts/quality-gates.py`               |
+| Sous-état review                  | —                                                                 | `review_status_detail` ABANDONNÉ — un seul vocabulaire `review_status` (cf. schema)    | la sous-granularité passe par `validation_mode` + `risk_level` |
+| Mode validation                   | —                                                                 | `validation_mode: automatic\|sampled\|human_required`                                  | trace la voie suivie                                           |
+| Niveau de risque                  | —                                                                 | `risk_level: low\|medium\|high\|critical`                                              | drive l'auto-promotion §7 quality-gates                        |
+| Score confiance                   | `quality_score`                                                   | `confidence_score`                                                                     | alias — la formule §4 quality-gates s'applique aux deux        |
+| Raisons de blocage                | —                                                                 | `blocked_reasons: []`                                                                  | enum fermé §5 quality-gates                                    |
+| Marqueurs à vérifier sans bloquer | —                                                                 | `to_verify: []`                                                                        | granularité section/claim                                      |
+| Version du template               | —                                                                 | `template_version: 1.0.0`                                                              | semver §3.7 plan rev 6                                         |
+| Provenance source                 | `source_refs[].kind` (`raw\|external_url\|manual\|recycled`)      | —                                                                                      | détaillé schema canon                                          |
+| Confiance source                  | —                                                                 | `source_refs[].confidence: high\|medium\|low`                                          | facultatif ; alimente la formule §4 quality-gates              |
 
 **Règle d'or** : un champ ajouté ne contredit jamais un champ legacy. En cas de conflit perçu, le schema canon `_meta/schema/frontmatter.schema.json` gagne. La convergence sera documentée dans un ADR ultérieur (transition Partie 3, §C5 plan rev 6).
 

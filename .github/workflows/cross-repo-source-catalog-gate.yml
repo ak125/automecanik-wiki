@@ -1,0 +1,80 @@
+name: cross-repo-source-catalog-gate
+
+# Plan verifier-en-profondeure rev 10 §P0b — workflow CI cross-repo qui exécute
+# `gate_source_catalog_raw_refs` (Plan humble-cuddling-scott P2 §1, déjà mergé
+# dans `_scripts/quality-gates.py` via PR #13) AVEC un checkout de
+# `automecanik-raw` côté CI.
+#
+# Sans ce workflow, la CI wiki existante (`wiki-quality-gates.yml`) lance bien
+# le gate mais sans accès à raw, donc le gate émet `raw_inventory_unreachable`
+# en warning et n'enforce rien. Ce workflow ferme le contrat.
+#
+# Discipline anti-bricolage :
+#   1. Pas de duplication de logique — délègue à `quality-gates.py --all` canon
+#   2. Le PAT secret est optionnel : si non setup, le job warn et exit 0 sans
+#      casser les autres workflows (defense in depth, pas single point of failure)
+#   3. Trigger ciblé : seulement les changements qui peuvent affecter le contrat
+#      cross-repo (source-catalog.yaml + le script lui-même + le schema)
+
+on:
+  pull_request:
+    paths:
+      - '_meta/source-catalog.yaml'
+      - '_meta/schema/source-catalog-entry.schema.json'
+      - '_scripts/quality-gates.py'
+      - '.github/workflows/cross-repo-source-catalog-gate.yml'
+  schedule:
+    # Cron daily 02:30 UTC (offset vs vault-weekly-lint à 02:00 pour éviter
+    # contention runners). Detecte les drifts post-merge qui auraient échappé
+    # aux triggers PR (ex: mise à jour de raw inventory hors PR wiki).
+    - cron: '30 2 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  cross-repo-gate:
+    name: source-catalog raw_ref FK check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout automecanik-wiki
+        uses: actions/checkout@v4
+
+      - name: Detect RAW_READONLY_PAT availability
+        id: pat_check
+        env:
+          RAW_READONLY_PAT: ${{ secrets.RAW_READONLY_PAT }}
+        run: |
+          if [ -z "${RAW_READONLY_PAT:-}" ]; then
+            echo "available=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::RAW_READONLY_PAT secret not set — skipping cross-repo gate. To enable: create a fine-grained PAT scoped to ak125/automecanik-raw (Contents: Read-only, expire ≤ 90 days), then store as repo secret RAW_READONLY_PAT under https://github.com/ak125/automecanik-wiki/settings/secrets/actions"
+          else
+            echo "available=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout automecanik-raw (sibling)
+        if: steps.pat_check.outputs.available == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ak125/automecanik-raw
+          path: raw
+          token: ${{ secrets.RAW_READONLY_PAT }}
+          # LFS not required: gate ne lit que manifests/source-inventory.csv (text),
+          # pas les fichiers eux-mêmes. Économise ~300MB de download.
+
+      - name: Setup Python
+        if: steps.pat_check.outputs.available == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python deps
+        if: steps.pat_check.outputs.available == 'true'
+        run: pip install --quiet -r _scripts/tests/requirements-dev.txt
+
+      - name: Run quality-gates.py with raw cross-repo path
+        if: steps.pat_check.outputs.available == 'true'
+        env:
+          AUTOMECANIK_RAW_PATH: ${{ github.workspace }}/raw
+        run: python3 _scripts/quality-gates.py --all

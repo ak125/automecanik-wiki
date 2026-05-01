@@ -109,3 +109,15 @@ repos:
         language: system
         files: \.(md|yaml|yml)$
         exclude: ^(wiki/|proposals/|_scripts/tests/fixtures/|node_modules/)
+
+      # Plan humble-cuddling-scott P5 — confidence_score_computed = readonly derived (Principe 5).
+      # Vérifie chaque diagnostic_relations[].evidence.confidence_score_computed contre la
+      # formule pondérée ADR-033 §C8 (oem_manual/workshop +2, brochure/tecdoc +1, ≥2 sources +1,
+      # ≥2 distinct source_types +1, normalisé /5). Hand-edit interdit — script idempotent
+      # avec mode --fix séparé (jamais auto-mute en pre-commit).
+      - id: wiki-symptom-confidence
+        name: Verify confidence_score_computed per diagnostic_relations[] entry (ADR-033 §C8)
+        entry: python3 _scripts/compute-symptom-confidence.py --check
+        language: system
+        files: ^(wiki|proposals)/.*\.md$
+        exclude: ^(wiki|proposals)/_

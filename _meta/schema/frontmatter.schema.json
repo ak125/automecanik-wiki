@@ -279,10 +279,11 @@
                 "default": false
               },
               "confidence_score_computed": {
-                "description": "Score 0-1 calculé par _scripts/compute-symptom-confidence.py (formule pondérée par source_type). Optionnel, idempotent.",
+                "description": "DERIVED — managed by _scripts/compute-symptom-confidence.py (formule pondérée ADR-033 §C8 par source_type). Hand-edit interdit ; vérifié par hook pre-commit wiki-symptom-confidence (--check) et gate AEC. Idempotent : recalcul sur même contenu = même score.",
                 "type": "number",
                 "minimum": 0,
-                "maximum": 1
+                "maximum": 1,
+                "readOnly": true
               }
             }
           },

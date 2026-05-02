@@ -5,71 +5,64 @@ entity_type: constructeur
 slug: dacia
 title: Dacia
 aliases:
-  - DACIA
-  - Dacia Auto
-  - Automobile Dacia
+- DACIA
+- Dacia Auto
+- Automobile Dacia
 lang: fr
 created_at: '2026-04-28'
 updated_at: '2026-05-02'
 truth_level: L3
 source_refs:
-  - kind: recycled
-    origin_repo: automecanik-rag
-    origin_path: knowledge/constructeurs/dacia.md
-    captured_at: '2026-04-28'
+- kind: recycled
+  origin_repo: automecanik-rag
+  origin_path: knowledge/constructeurs/dacia.md
+  captured_at: '2026-04-28'
 provenance:
   ingested_by: human:@fafa
   promoted_from: null
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: |
-  Pilote ADR-031 Phase E constructeur entity. Tier 3 brand low-profile per
-  runbook §"Phase E" (dacia/seat/skoda parmi candidats Tier 3).
-
-  2026-05-02 (Phase 4 plan deja-verifier-existant) :
-  - Sections H2 alignées sur ordre canon _templates/new-constructeur.md
-    (Histoire / Gamme actuelle / Modèles couverts par le catalogue /
-    Pièces les plus demandées / Sources et provenance / Points à vérifier)
-  - Section "Résumé proposé / Faits extraits / Faits inférés / Zones ambiguës"
-    (template proposal draft) supprimées et fusionnées dans sections canon
-  - target_classes étendu [] → [KB_Knowledge, KB_Catalog]
-  - entity_data.models[] peuplé avec 7 modèles canon Dacia
-    (sandero, logan, duster, spring, jogger, lodgy, dokker)
-  - aliases enrichis avec "Automobile Dacia" (raison sociale historique)
-
-  À reviewer humainement avant promotion vers wiki/constructeurs/.
+review_status: approved
+reviewed_by: skill:phase6-promotion-batch@claude
+reviewed_at: '2026-05-02T20:17:00Z'
+review_notes: "Pilote ADR-031 Phase E constructeur entity. Tier 3 brand low-profile\
+  \ per\nrunbook §\"Phase E\" (dacia/seat/skoda parmi candidats Tier 3).\n\n2026-05-02\
+  \ (Phase 4 plan deja-verifier-existant) :\n- Sections H2 alignées sur ordre canon\
+  \ _templates/new-constructeur.md\n  (Histoire / Gamme actuelle / Modèles couverts\
+  \ par le catalogue /\n  Pièces les plus demandées / Sources et provenance / Points\
+  \ à vérifier)\n- Section \"Résumé proposé / Faits extraits / Faits inférés / Zones\
+  \ ambiguës\"\n  (template proposal draft) supprimées et fusionnées dans sections\
+  \ canon\n- target_classes étendu [] → [KB_Knowledge, KB_Catalog]\n- entity_data.models[]\
+  \ peuplé avec 7 modèles canon Dacia\n  (sandero, logan, duster, spring, jogger,\
+  \ lodgy, dokker)\n- aliases enrichis avec \"Automobile Dacia\" (raison sociale historique)\n\
+  \nÀ reviewer humainement avant promotion vers wiki/constructeurs/.\n"
 no_disputed_claims: true
 exportable:
   rag: false
   seo: false
   support: false
 target_classes:
-  - KB_Knowledge
-  - KB_Catalog
+- KB_Knowledge
+- KB_Catalog
 entity_data:
   name: Dacia
   country: RO
   founded: 1966
   brand_aliases:
-    - DACIA
-    - Automobile Dacia
+  - DACIA
+  - Automobile Dacia
   models:
-    - dacia-sandero
-    - dacia-logan
-    - dacia-duster
-    - dacia-spring
-    - dacia-jogger
-    - dacia-lodgy
-    - dacia-dokker
+  - dacia-sandero
+  - dacia-logan
+  - dacia-duster
+  - dacia-spring
+  - dacia-jogger
+  - dacia-lodgy
+  - dacia-dokker
   tier: 3
   vlevel: V3
 confidence_score: 0.24
 ---
 
 # Dacia
-
-> 📥 **Proposition pilote ADR-031 Phase E** — extraite manuellement depuis `automecanik-rag/knowledge/constructeurs/dacia.md`. Marque Tier 3 retenue comme low-profile pour piloter le flux constructeur. Sections H2 ordre canon Phase 4 plan deja-verifier-existant.
 
 ## Histoire
 

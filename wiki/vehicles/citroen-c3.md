@@ -5,104 +5,96 @@ entity_type: vehicle
 slug: citroen-c3
 title: Citroën C3
 aliases:
-  - C3
-  - Citroen C3
-  - C3 II
-  - C3 III
+- C3
+- Citroen C3
+- C3 II
+- C3 III
 lang: fr
 created_at: '2026-04-29'
 updated_at: '2026-05-02'
 truth_level: L3
 source_refs:
-  - kind: recycled
-    origin_repo: automecanik-rag
-    origin_path: knowledge/vehicles/citroen-c3.md
-    captured_at: '2026-04-29'
+- kind: recycled
+  origin_repo: automecanik-rag
+  origin_path: knowledge/vehicles/citroen-c3.md
+  captured_at: '2026-04-29'
 provenance:
   ingested_by: skill:recycle-from-rag@v0.1
   promoted_from: null
 lineage_id: 019dd8ee-daef-7070-9fe6-d4c46ebaa2c9
 parents: []
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: |
-  Phase F batch ADR-031. Recyclé depuis automecanik-rag par
-  recycle-from-rag.py. Source body sha256=
-  e0b8db63cb5b0185e9ad9ab7015ae44c554e8baf27f4a5ea1535d97a49797f72.
-
-  Phase 4 plan deja-verifier-existant 2026-05-02 :
-  - Sections H2 alignées sur ordre canon _templates/new-vehicle.md
-  - Titre "Fiche vehicule - Citroen C3" → "Citroën C3" (FR canon avec accent)
-  - aliases [] → [C3, Citroen C3, C3 II, C3 III]
-  - target_classes [] → [KB_Knowledge, KB_Catalog]
-  - entity_data complété : generation (covers I/II/III), years [2002, 2024],
-    motorizations[] structuré YAML, vlevel V3, low_profile_canary false
-  - Wikilinks gammes ajoutés (plaquette-de-frein, filtre-a-air, etc.)
-  - "C3 Aircross" REMOVED (modèle SÉPARÉ — fiche [[citroen-c3-aircross]] future,
-    pas une variante C3)
-  - "C3 Pluriel" gardée comme variante phase 1 légitime
-  - FAQ 5 questions ajoutée (vidange, distribution, problèmes EP6/EB2/HDi,
-    pièces partagées PSA)
-
-  À reviewer humainement avant promotion vers wiki/vehicles/.
+review_status: approved
+reviewed_by: skill:phase6-promotion-batch@claude
+reviewed_at: '2026-05-02T20:17:01Z'
+review_notes: "Phase F batch ADR-031. Recyclé depuis automecanik-rag par\nrecycle-from-rag.py.\
+  \ Source body sha256=\ne0b8db63cb5b0185e9ad9ab7015ae44c554e8baf27f4a5ea1535d97a49797f72.\n\
+  \nPhase 4 plan deja-verifier-existant 2026-05-02 :\n- Sections H2 alignées sur ordre\
+  \ canon _templates/new-vehicle.md\n- Titre \"Fiche vehicule - Citroen C3\" → \"\
+  Citroën C3\" (FR canon avec accent)\n- aliases [] → [C3, Citroen C3, C3 II, C3 III]\n\
+  - target_classes [] → [KB_Knowledge, KB_Catalog]\n- entity_data complété : generation\
+  \ (covers I/II/III), years [2002, 2024],\n  motorizations[] structuré YAML, vlevel\
+  \ V3, low_profile_canary false\n- Wikilinks gammes ajoutés (plaquette-de-frein,\
+  \ filtre-a-air, etc.)\n- \"C3 Aircross\" REMOVED (modèle SÉPARÉ — fiche [[citroen-c3-aircross]]\
+  \ future,\n  pas une variante C3)\n- \"C3 Pluriel\" gardée comme variante phase\
+  \ 1 légitime\n- FAQ 5 questions ajoutée (vidange, distribution, problèmes EP6/EB2/HDi,\n\
+  \  pièces partagées PSA)\n\nÀ reviewer humainement avant promotion vers wiki/vehicles/.\n"
 no_disputed_claims: true
 exportable:
   rag: false
   seo: false
   support: false
 target_classes:
-  - KB_Knowledge
-  - KB_Catalog
+- KB_Knowledge
+- KB_Catalog
 entity_data:
   make: citroen
   model: c3
   generation: i+ii+iii
   years:
-    - 2002
-    - 2024
+  - 2002
+  - 2024
   type_id: null
   motorizations:
-    - code: HFZ
-      fuel: essence
-      power_hp: 60
-      displacement_cc: 1124
-      note: 1.1i TU1JP — C3 I
-    - code: KFV
-      fuel: essence
-      power_hp: 75
-      displacement_cc: 1360
-      note: 1.4i TU3JP — C3 I/II
-    - code: EP6
-      fuel: essence
-      power_hp: 120
-      displacement_cc: 1598
-      note: 1.6 VTi — C3 II (groupe PSA-BMW Prince)
-    - code: EB2
-      fuel: essence
-      power_hp: 82
-      displacement_cc: 1199
-      note: 1.2 PureTech atmosphérique — C3 II/III
-    - code: EB2DT
-      fuel: essence
-      power_hp: 110
-      displacement_cc: 1199
-      note: 1.2 PureTech turbo — C3 III
-    - code: 8HZ
-      fuel: diesel
-      power_hp: 68
-      displacement_cc: 1398
-      note: 1.4 HDi DV4TD — C3 I/II
-    - code: 9HX
-      fuel: diesel
-      power_hp: 90
-      displacement_cc: 1560
-      note: 1.6 HDi DV6 — C3 I/II
-    - code: DV5
-      fuel: diesel
-      power_hp: 100
-      displacement_cc: 1499
-      note: 1.5 BlueHDi — C3 III
+  - code: HFZ
+    fuel: essence
+    power_hp: 60
+    displacement_cc: 1124
+    note: 1.1i TU1JP — C3 I
+  - code: KFV
+    fuel: essence
+    power_hp: 75
+    displacement_cc: 1360
+    note: 1.4i TU3JP — C3 I/II
+  - code: EP6
+    fuel: essence
+    power_hp: 120
+    displacement_cc: 1598
+    note: 1.6 VTi — C3 II (groupe PSA-BMW Prince)
+  - code: EB2
+    fuel: essence
+    power_hp: 82
+    displacement_cc: 1199
+    note: 1.2 PureTech atmosphérique — C3 II/III
+  - code: EB2DT
+    fuel: essence
+    power_hp: 110
+    displacement_cc: 1199
+    note: 1.2 PureTech turbo — C3 III
+  - code: 8HZ
+    fuel: diesel
+    power_hp: 68
+    displacement_cc: 1398
+    note: 1.4 HDi DV4TD — C3 I/II
+  - code: 9HX
+    fuel: diesel
+    power_hp: 90
+    displacement_cc: 1560
+    note: 1.6 HDi DV6 — C3 I/II
+  - code: DV5
+    fuel: diesel
+    power_hp: 100
+    displacement_cc: 1499
+    note: 1.5 BlueHDi — C3 III
   vlevel: V3
   low_profile_canary: false
 content_hash: sha256:1482152fe2b802621856e88ee59908d979fe3c1a6b7fa2649d4f2bf050cc0b2e
@@ -110,8 +102,6 @@ confidence_score: 0.24
 ---
 
 # Citroën C3
-
-> 📥 **Proposition Phase F** — extraite par `recycle-from-rag.py`. Sections H2 ordre canon Phase 4 plan deja-verifier-existant.
 
 ## Présentation
 

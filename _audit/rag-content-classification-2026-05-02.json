@@ -1,0 +1,3024 @@
+{
+  "scanned_at": "2026-05-02T21:36:11.067751+00:00",
+  "source_repo": "automecanik-rag",
+  "source_root": "/opt/automecanik/rag/knowledge",
+  "categories_scanned": [
+    "gammes",
+    "vehicles",
+    "constructeurs",
+    "faq",
+    "policies",
+    "guides",
+    "reference",
+    "diagnostic"
+  ],
+  "total_fiches": 329,
+  "counts_by_category": {
+    "gammes": 241,
+    "vehicles": 8,
+    "constructeurs": 36,
+    "faq": 7,
+    "policies": 3,
+    "guides": 16,
+    "reference": 1,
+    "diagnostic": 17
+  },
+  "counts_by_class": {
+    "auto_generated": 216,
+    "human_curated": 61,
+    "ambiguous": 52
+  },
+  "by_origin_summary": {
+    "script:rag-enrich-from-web-corpus": 141,
+    "script:rag-fill-remaining-gaps": 1,
+    "script:materialize-db-to-md": 37,
+    "skill:phase5-vague6": 49,
+    "skill:phase5-gates-skf-trw": 4,
+    "skill:phase5-vague4": 1,
+    "script:rag-enrich-metier-templates": 1,
+    "skill:phase5-vague6-final": 5,
+    "skill:phase5-hella-ngk": 1,
+    "skill:phase5-vague5": 1,
+    "<missing>": 52,
+    "r7-brand-rag-generator": 36
+  },
+  "collisions_cross_category": {
+    "disque-de-frein": [
+      "diagnostic",
+      "gammes"
+    ],
+    "filtre-a-huile": [
+      "diagnostic",
+      "gammes"
+    ],
+    "renault": [
+      "constructeurs",
+      "vehicles"
+    ]
+  },
+  "parse_failures_count": 0,
+  "parse_failures": [],
+  "fiches": [
+    {
+      "path": "knowledge/gammes/accessoires-de-machoire.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "accessoires-de-machoire",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/accessoires-de-plaquette.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "accessoires-de-plaquette",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/accumulateur-de-pression-de-carburant.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "accumulateur-de-pression-de-carburant",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/accumulateur-de-pression.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "accumulateur-de-pression",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/agregat-de-freinage.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "agregat-de-freinage",
+      "last_enriched_by": "script:rag-fill-remaining-gaps",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/alternateur.md",
+      "category_dir": "gammes",
+      "category_field": "electrique",
+      "slug": "alternateur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/amortisseur-de-direction.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "amortisseur-de-direction",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/amortisseur.md",
+      "category_dir": "gammes",
+      "category_field": "suspension",
+      "slug": "amortisseur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ampoule-eclairage-interieur.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "ampoule-eclairage-interieur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ampoule-feu-arriere.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "ampoule-feu-arriere",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ampoule-feu-avant.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "ampoule-feu-avant",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ampoule-feu-clignotant.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "ampoule-feu-clignotant",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ampoule-feu-de-position.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "ampoule-feu-de-position",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ampoule-feu-de-recul.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "ampoule-feu-de-recul",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ampoule-feu-eclaireur-de-plaque.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "ampoule-feu-eclaireur-de-plaque",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ampoule-feu-stop.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "ampoule-feu-stop",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/arbre-a-came.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "arbre-a-came",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/attelage.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "attelage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/avertisseur-sonore.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "avertisseur-sonore",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bague-d-etancheite-boite-automatique.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "bague-d-etancheite-boite-automatique",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bague-d-etancheite-cardan.md",
+      "category_dir": "gammes",
+      "category_field": "transmission",
+      "slug": "bague-d-etancheite-cardan",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bagues-d-etancheite-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "bagues-d-etancheite-moteur",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/balais-d-essuie-glace.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "balais-d-essuie-glace",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ballast-a-lampe-xenon.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "ballast-a-lampe-xenon",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/barre-de-direction.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "barre-de-direction",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/barre-stabilisatrice.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "barre-stabilisatrice",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/batterie.md",
+      "category_dir": "gammes",
+      "category_field": "electrique",
+      "slug": "batterie",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/biellette-de-barre-stabilisatrice.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "biellette-de-barre-stabilisatrice",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bobine-d-allumage.md",
+      "category_dir": "gammes",
+      "category_field": "allumage",
+      "slug": "bobine-d-allumage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/boitier-de-prechauffage.md",
+      "category_dir": "gammes",
+      "category_field": "allumage",
+      "slug": "boitier-de-prechauffage",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bouchon-d-huile-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "bouchon-d-huile-moteur",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/bouchon-de-radiateur.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "bouchon-de-radiateur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bouchon-de-vidange.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "bouchon-de-vidange",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bouchon-reservoir-de-carburant.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "bouchon-reservoir-de-carburant",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bouchon-vase-d-expansion.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "bouchon-vase-d-expansion",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bougie-d-allumage.md",
+      "category_dir": "gammes",
+      "category_field": "allumage",
+      "slug": "bougie-d-allumage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bougie-de-prechauffage.md",
+      "category_dir": "gammes",
+      "category_field": "allumage",
+      "slug": "bougie-de-prechauffage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/boulon-de-roue.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "boulon-de-roue",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bouteille-deshydratante.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "bouteille-deshydratante",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bras-d-essuie-glace.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "bras-d-essuie-glace",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bras-de-suspension.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "bras-de-suspension",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/bride-de-liquide-de-refroidissement.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "bride-de-liquide-de-refroidissement",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/butee-d-embrayage.md",
+      "category_dir": "gammes",
+      "category_field": "embrayage",
+      "slug": "butee-d-embrayage",
+      "last_enriched_by": "skill:phase5-gates-skf-trw",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/butee-elastique-d-amortisseur.md",
+      "category_dir": "gammes",
+      "category_field": "suspension",
+      "slug": "butee-elastique-d-amortisseur",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/cable-d-accelerateur.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "cable-d-accelerateur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/cable-d-embrayage.md",
+      "category_dir": "gammes",
+      "category_field": "embrayage",
+      "slug": "cable-d-embrayage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/cable-de-capot-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "cable-de-capot-moteur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/cable-de-compteur-de-vitesse.md",
+      "category_dir": "gammes",
+      "category_field": "tableau-de-bord",
+      "slug": "cable-de-compteur-de-vitesse",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/cable-de-frein-a-main.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "cable-de-frein-a-main",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-abs.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-abs",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-controle-de-pression-des-pneus.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "capteur-controle-de-pression-des-pneus",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-d-allumage.md",
+      "category_dir": "gammes",
+      "category_field": "allumage",
+      "slug": "capteur-d-allumage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-d-arbre-a-cames.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "capteur-d-arbre-a-cames",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-de-cognement.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-de-cognement",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-de-pedale-d-accelerateur.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-de-pedale-d-accelerateur",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-de-pluie.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "capteur-de-pluie",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-de-pression-common-rail.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-de-pression-common-rail",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-de-pression-turbo.md",
+      "category_dir": "gammes",
+      "category_field": "turbo",
+      "slug": "capteur-de-pression-turbo",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-impulsion.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-impulsion",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-niveau-d-huile-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-niveau-d-huile-moteur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-niveau-de-liquide-de-refroidissement.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "capteur-niveau-de-liquide-de-refroidissement",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-parctronic.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "capteur-parctronic",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/capteur-position-papillon.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "capteur-position-papillon",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-pression-d-huile.md",
+      "category_dir": "gammes",
+      "category_field": "gestion-moteur",
+      "slug": "capteur-pression-d-huile",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-pression-de-carburant.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-pression-de-carburant",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-pression-de-gaz-d-echappement.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-pression-de-gaz-d-echappement",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-pression-du-tuyau-d-admission.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-pression-du-tuyau-d-admission",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-pression-et-temperature-d-huile.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-pression-et-temperature-d-huile",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-temperature-d-air-admission.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "capteur-temperature-d-air-admission",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-temperature-d-huile.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "capteur-temperature-d-huile",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/capteur-temperature-de-carburant.md",
+      "category_dir": "gammes",
+      "category_field": "gestion-moteur",
+      "slug": "capteur-temperature-de-carburant",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-temperature-de-climatisation.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "capteur-temperature-de-climatisation",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-temperature-interieure.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "capteur-temperature-interieure",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/capteur-vilebrequin.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "capteur-vilebrequin",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/cardan.md",
+      "category_dir": "gammes",
+      "category_field": "transmission",
+      "slug": "cardan",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/carter-d-huile.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "carter-d-huile",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/catalyseur.md",
+      "category_dir": "gammes",
+      "category_field": "echappement",
+      "slug": "catalyseur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/chaine-de-distribution.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "chaine-de-distribution",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/collecteur-d-echappement.md",
+      "category_dir": "gammes",
+      "category_field": "echappement",
+      "slug": "collecteur-d-echappement",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/colonne-de-direction.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "colonne-de-direction",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/commande-correcteur-de-portee.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "commande-correcteur-de-portee",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/commande-d-eclairage.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "commande-d-eclairage",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/commande-d-essuie-glace.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "commande-d-essuie-glace",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/commande-de-ventilation.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "commande-de-ventilation",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/compresseur-de-climatisation.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "compresseur-de-climatisation",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/condenseur-de-climatisation.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "condenseur-de-climatisation",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/conduite-a-haute-pression-d-injection.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "conduite-a-haute-pression-d-injection",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/conduite-de-climatisation.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "conduite-de-climatisation",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/contacteur-de-feu-de-recul.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "contacteur-de-feu-de-recul",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/contacteur-demarreur.md",
+      "category_dir": "gammes",
+      "category_field": "electrique",
+      "slug": "contacteur-demarreur",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/corps-papillon.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "corps-papillon",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/correcteur-de-portee.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "correcteur-de-portee",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/courroie-d-accessoire.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "courroie-d-accessoire",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/courroie-de-distribution.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "courroie-de-distribution",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/cremailliere-de-direction.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "cremailliere-de-direction",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/culbuteur.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "culbuteur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/cylindre-de-roue.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "cylindre-de-roue",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/debitmetre-d-air.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "debitmetre-d-air",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/demarreur.md",
+      "category_dir": "gammes",
+      "category_field": "electrique",
+      "slug": "demarreur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/detecteur-de-l-angle-de-braquage.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "detecteur-de-l-angle-de-braquage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/detendeur-de-climatisation.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "detendeur-de-climatisation",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/disque-de-frein.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "disque-de-frein",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/distributeur-d-allumage.md",
+      "category_dir": "gammes",
+      "category_field": "allumage",
+      "slug": "distributeur-d-allumage",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/durite-de-refroidissement.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "durite-de-refroidissement",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/electrovanne.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "electrovanne",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/emetteur-d-embrayage.md",
+      "category_dir": "gammes",
+      "category_field": "embrayage",
+      "slug": "emetteur-d-embrayage",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/etrier-de-frein.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "etrier-de-frein",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/evaporateur-de-climatisation.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "evaporateur-de-climatisation",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/faisceau-d-allumage.md",
+      "category_dir": "gammes",
+      "category_field": "allumage",
+      "slug": "faisceau-d-allumage",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/faisceau-d-attelage.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "faisceau-d-attelage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/fap.md",
+      "category_dir": "gammes",
+      "category_field": "echappement",
+      "slug": "fap",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/feu-arriere.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "feu-arriere",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/feu-avant.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "feu-avant",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/feu-clignotant.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "feu-clignotant",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/filtre-a-air.md",
+      "category_dir": "gammes",
+      "category_field": "filtration",
+      "slug": "filtre-a-air",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/filtre-a-carburant.md",
+      "category_dir": "gammes",
+      "category_field": "filtration",
+      "slug": "filtre-a-carburant",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/filtre-a-huile.md",
+      "category_dir": "gammes",
+      "category_field": "filtration",
+      "slug": "filtre-a-huile",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/filtre-d-habitacle.md",
+      "category_dir": "gammes",
+      "category_field": "filtration",
+      "slug": "filtre-d-habitacle",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/filtre-de-boite-auto.md",
+      "category_dir": "gammes",
+      "category_field": "filtration",
+      "slug": "filtre-de-boite-auto",
+      "last_enriched_by": "skill:phase5-vague4",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/flexible-de-frein.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "flexible-de-frein",
+      "last_enriched_by": "script:rag-enrich-metier-templates",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/fourchette-d-embrayage.md",
+      "category_dir": "gammes",
+      "category_field": "embrayage",
+      "slug": "fourchette-d-embrayage",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/gaine-de-turbo.md",
+      "category_dir": "gammes",
+      "category_field": "turbo",
+      "slug": "gaine-de-turbo",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/galet-enrouleur-de-courroie-d-accessoire.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "galet-enrouleur-de-courroie-d-accessoire",
+      "last_enriched_by": "skill:phase5-vague6-final",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/galet-enrouleur-de-courroie-de-distribution.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "galet-enrouleur-de-courroie-de-distribution",
+      "last_enriched_by": "skill:phase5-gates-skf-trw",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/galet-tendeur-de-courroie-d-accessoire.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "galet-tendeur-de-courroie-d-accessoire",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/galet-tendeur-de-courroie-de-distribution.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "galet-tendeur-de-courroie-de-distribution",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/gicleur-detendeur.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "gicleur-detendeur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/guide-d-embrayage.md",
+      "category_dir": "gammes",
+      "category_field": "embrayage",
+      "slug": "guide-d-embrayage",
+      "last_enriched_by": "skill:phase5-vague6-final",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/guide-de-soupape.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "guide-de-soupape",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/injecteur.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "injecteur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/intercooler.md",
+      "category_dir": "gammes",
+      "category_field": "turbo",
+      "slug": "intercooler",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/interrupteur-des-feux-de-freins.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "interrupteur-des-feux-de-freins",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/interrupteur-position-de-marche.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "interrupteur-position-de-marche",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/interrupteur-verrouilage-des-portes.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "interrupteur-verrouilage-des-portes",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/jauge-de-niveau-d-huile.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "jauge-de-niveau-d-huile",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/joint-arbre-longitudinal.md",
+      "category_dir": "gammes",
+      "category_field": "transmission",
+      "slug": "joint-arbre-longitudinal",
+      "last_enriched_by": "skill:phase5-vague6-final",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/joint-carter-de-distribution.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "joint-carter-de-distribution",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/joint-chemise-de-cylindre.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "joint-chemise-de-cylindre",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/joint-d-echappement.md",
+      "category_dir": "gammes",
+      "category_field": "echappement",
+      "slug": "joint-d-echappement",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/joint-d-injecteur.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "joint-d-injecteur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/joint-de-boite-vitesse.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "joint-de-boite-vitesse",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/joint-de-cache-culbuteurs.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "joint-de-cache-culbuteurs",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/joint-de-carter-d-huile.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "joint-de-carter-d-huile",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/joint-de-collecteur.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "joint-de-collecteur",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/joint-de-culasse.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "joint-de-culasse",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/joint-de-pompe-d-injection.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "joint-de-pompe-d-injection",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/joint-tige-de-soupape.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "joint-tige-de-soupape",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/kit-d-embrayage.md",
+      "category_dir": "gammes",
+      "category_field": "embrayage",
+      "slug": "kit-d-embrayage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/kit-de-butee-de-suspension.md",
+      "category_dir": "gammes",
+      "category_field": "suspension",
+      "slug": "kit-de-butee-de-suspension",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/kit-de-chaine-de-distribution.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "kit-de-chaine-de-distribution",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/kit-de-distribution.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "kit-de-distribution",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/kit-de-freins-arriere.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "kit-de-freins-arriere",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/kit-de-poussoir-culbuteur.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "kit-de-poussoir-culbuteur",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/leve-vitre.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "leve-vitre",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/machoires-de-frein.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "machoires-de-frein",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/maitre-cylindre-de-frein.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "maitre-cylindre-de-frein",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/mecatronique-boite-automatique.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "mecatronique-boite-automatique",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/module-d-allumage.md",
+      "category_dir": "gammes",
+      "category_field": "allumage",
+      "slug": "module-d-allumage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/moteur-d-essuie-glace.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "moteur-d-essuie-glace",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/moteur-electrique-de-ventilateur.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "moteur-electrique-de-ventilateur",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/moyeu-de-roue.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "moyeu-de-roue",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/neiman.md",
+      "category_dir": "gammes",
+      "category_field": "electrique",
+      "slug": "neiman",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/palier-d-arbre-de-transmission.md",
+      "category_dir": "gammes",
+      "category_field": "transmission",
+      "slug": "palier-d-arbre-de-transmission",
+      "last_enriched_by": "skill:phase5-gates-skf-trw",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/palpeur-de-regime-gestion-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "palpeur-de-regime-gestion-moteur",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/parctronic.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "parctronic",
+      "last_enriched_by": "skill:phase5-vague6-final",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/phares-antibrouillard.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "phares-antibrouillard",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/plaquette-de-frein.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "plaquette-de-frein",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pochette-joints-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "pochette-joints-moteur",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/poignee-de-porte.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "poignee-de-porte",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/pompe-a-air.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "pompe-a-air",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pompe-a-carburant.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "pompe-a-carburant",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pompe-a-eau.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "pompe-a-eau",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pompe-a-haute-pression.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "pompe-a-haute-pression",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pompe-a-huile.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "pompe-a-huile",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pompe-a-injection.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "pompe-a-injection",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/pompe-a-vide-de-freinage.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "pompe-a-vide-de-freinage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pompe-d-amorcage.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "pompe-d-amorcage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pompe-de-direction-assistee.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "pompe-de-direction-assistee",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pompe-hydraulique-systeme-de-freinage.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "pompe-hydraulique-systeme-de-freinage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pompe-nettoyage-des-phares.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "pompe-nettoyage-des-phares",
+      "last_enriched_by": "skill:phase5-hella-ngk",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/pompe-nettoyage-des-vitres.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "pompe-nettoyage-des-vitres",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/poulie-d-alternateur.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "poulie-d-alternateur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/poulie-d-arbre-a-came.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "poulie-d-arbre-a-came",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/poulie-vilebrequin.md",
+      "category_dir": "gammes",
+      "category_field": "distribution",
+      "slug": "poulie-vilebrequin",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/poussoir-de-soupape.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "poussoir-de-soupape",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/pressostat-d-huile.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "pressostat-d-huile",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/pressostat-de-climatisation.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "pressostat-de-climatisation",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/pulseur-d-air-d-habitacle.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "pulseur-d-air-d-habitacle",
+      "last_enriched_by": "skill:phase5-vague6-final",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/radiateur-d-huile.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "radiateur-d-huile",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/radiateur-de-chauffage.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "radiateur-de-chauffage",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/radiateur-de-refroidissement.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "radiateur-de-refroidissement",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/recepteur-d-embrayage.md",
+      "category_dir": "gammes",
+      "category_field": "embrayage",
+      "slug": "recepteur-d-embrayage",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/refroidisseur-de-carburant.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "refroidisseur-de-carburant",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/regulateur-de-pression-carburant.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "regulateur-de-pression-carburant",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/relais-de-clignotant.md",
+      "category_dir": "gammes",
+      "category_field": "eclairage",
+      "slug": "relais-de-clignotant",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/repartiteur-de-frein.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "repartiteur-de-frein",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ressort-de-suspension.md",
+      "category_dir": "gammes",
+      "category_field": "suspension",
+      "slug": "ressort-de-suspension",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/retroviseur-exterieur.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "retroviseur-exterieur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/rotule-de-direction.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "rotule-de-direction",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/rotule-de-suspension.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "rotule-de-suspension",
+      "last_enriched_by": "skill:phase5-gates-skf-trw",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/roulement-de-roue.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "roulement-de-roue",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/serrure-de-porte.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "serrure-de-porte",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/servo-frein.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "servo-frein",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/silencieux.md",
+      "category_dir": "gammes",
+      "category_field": "echappement",
+      "slug": "silencieux",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/sonde-de-refroidissement.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "sonde-de-refroidissement",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/sonde-lambda.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "sonde-lambda",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/soufflet-de-cardan.md",
+      "category_dir": "gammes",
+      "category_field": "transmission",
+      "slug": "soufflet-de-cardan",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/soufflet-de-direction.md",
+      "category_dir": "gammes",
+      "category_field": "direction",
+      "slug": "soufflet-de-direction",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/soupape-d-admission.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "soupape-d-admission",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/soupape-d-air-secondaire.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "soupape-d-air-secondaire",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/soupape-d-aspiration-d-air-secondaire.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "soupape-d-aspiration-d-air-secondaire",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/soupape-d-echappement.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "soupape-d-echappement",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/soupape-de-rampe-commune-d-injection.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "soupape-de-rampe-commune-d-injection",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/soupape-reaspiration-des-gaz-d-echappement.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "soupape-reaspiration-des-gaz-d-echappement",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/sphere-de-suspension.md",
+      "category_dir": "gammes",
+      "category_field": "suspension",
+      "slug": "sphere-de-suspension",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/support-de-boite-vitesse.md",
+      "category_dir": "gammes",
+      "category_field": "support_moteur",
+      "slug": "support-de-boite-vitesse",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/support-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "support_moteur",
+      "slug": "support-moteur",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/suspension-boite-vitesse-automatique.md",
+      "category_dir": "gammes",
+      "category_field": "transmission",
+      "slug": "suspension-boite-vitesse-automatique",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/tambour-de-frein.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "tambour-de-frein",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/temoin-d-usure.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "temoin-d-usure",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/thermostat.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "thermostat",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/trepied-arbre-de-commande.md",
+      "category_dir": "gammes",
+      "category_field": "transmission",
+      "slug": "trepied-arbre-de-commande",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/tringle-de-vitesses.md",
+      "category_dir": "gammes",
+      "category_field": "embrayage",
+      "slug": "tringle-de-vitesses",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/tringlerie-d-essuie-glace.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "tringlerie-d-essuie-glace",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/tube-d-echappement.md",
+      "category_dir": "gammes",
+      "category_field": "echappement",
+      "slug": "tube-d-echappement",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/tube-de-distributeur-carburant.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "tube-de-distributeur-carburant",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/turbo.md",
+      "category_dir": "gammes",
+      "category_field": "turbo",
+      "slug": "turbo",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/tuyau-carburant-de-fuite.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "tuyau-carburant-de-fuite",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/tuyau-ventilation-de-carter-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "gestion-moteur",
+      "slug": "tuyau-ventilation-de-carter-moteur",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/valve-de-reglage-du-ralenti.md",
+      "category_dir": "gammes",
+      "category_field": "capteurs",
+      "slug": "valve-de-reglage-du-ralenti",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/valve-de-turbo.md",
+      "category_dir": "gammes",
+      "category_field": "turbo",
+      "slug": "valve-de-turbo",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/valve-magnetique.md",
+      "category_dir": "gammes",
+      "category_field": "climatisation",
+      "slug": "valve-magnetique",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/vanne-egr.md",
+      "category_dir": "gammes",
+      "category_field": "alimentation",
+      "slug": "vanne-egr",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/vase-d-expansion.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "vase-d-expansion",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/ventilateur-de-refroidissement.md",
+      "category_dir": "gammes",
+      "category_field": "refroidissement",
+      "slug": "ventilateur-de-refroidissement",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/verin-capot-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "verin-capot-moteur",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/verin-de-coffre.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "verin-de-coffre",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/verin-vitre-arriere.md",
+      "category_dir": "gammes",
+      "category_field": "accessoires",
+      "slug": "verin-vitre-arriere",
+      "last_enriched_by": "script:materialize-db-to-md",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/vis-de-culasse.md",
+      "category_dir": "gammes",
+      "category_field": "moteur",
+      "slug": "vis-de-culasse",
+      "last_enriched_by": "skill:phase5-vague6",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/gammes/vis-de-disque.md",
+      "category_dir": "gammes",
+      "category_field": "freinage",
+      "slug": "vis-de-disque",
+      "last_enriched_by": "script:rag-enrich-from-web-corpus",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/gammes/volant-moteur.md",
+      "category_dir": "gammes",
+      "category_field": "embrayage",
+      "slug": "volant-moteur",
+      "last_enriched_by": "skill:phase5-vague5",
+      "origin_class": "human_curated",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/vehicles/citroen-c3.md",
+      "category_dir": "vehicles",
+      "category_field": "citroen",
+      "slug": "citroen-c3",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/vehicles/ford-focus-3.md",
+      "category_dir": "vehicles",
+      "category_field": "ford",
+      "slug": "ford-focus-3",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/vehicles/peugeot-206.md",
+      "category_dir": "vehicles",
+      "category_field": "peugeot",
+      "slug": "peugeot-206",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/vehicles/renault-clio-3.md",
+      "category_dir": "vehicles",
+      "category_field": "catalog/vehicle",
+      "slug": "renault-clio-3",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/vehicles/renault-clio-iii.md",
+      "category_dir": "vehicles",
+      "category_field": "renault",
+      "slug": "renault-clio-iii",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/vehicles/renault-megane-3.md",
+      "category_dir": "vehicles",
+      "category_field": "renault",
+      "slug": "renault-megane-3",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/vehicles/renault.md",
+      "category_dir": "vehicles",
+      "category_field": "vehicles",
+      "slug": "renault",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/vehicles/volkswagen-golf-6.md",
+      "category_dir": "vehicles",
+      "category_field": "volkswagen",
+      "slug": "volkswagen-golf-6",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/constructeurs/alfa-romeo.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "alfa-romeo",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/audi.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "audi",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/bmw.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "bmw",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/chevrolet.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "chevrolet",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/chrysler.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "chrysler",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/citroen.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "citroen",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/dacia.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "dacia",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/daewoo.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "daewoo",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/ds.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "ds",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/fiat.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "fiat",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/ford.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "ford",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/honda.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "honda",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/hyundai.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "hyundai",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/iveco.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "iveco",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/jeep.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "jeep",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/kia.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "kia",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/lada.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "lada",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/lancia.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "lancia",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/land-rover.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "land-rover",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/mazda.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "mazda",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/mercedes-benz.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "mercedes-benz",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/mini.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "mini",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/mitsubishi.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "mitsubishi",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/nissan.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "nissan",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/opel.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "opel",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/peugeot.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "peugeot",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/porsche.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "porsche",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/renault.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "renault",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/saab.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "saab",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/seat.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "seat",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/skoda.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "skoda",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/smart.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "smart",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/suzuki.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "suzuki",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/toyota.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "toyota",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/volkswagen.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "volkswagen",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/constructeurs/volvo.md",
+      "category_dir": "constructeurs",
+      "category_field": "constructeur",
+      "slug": "volvo",
+      "last_enriched_by": "r7-brand-rag-generator",
+      "origin_class": "auto_generated",
+      "regenerable": true
+    },
+    {
+      "path": "knowledge/faq/compatibilite-pieces.md",
+      "category_dir": "faq",
+      "category_field": "compatibilite",
+      "slug": "compatibilite-pieces",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/faq/compte-client.md",
+      "category_dir": "faq",
+      "category_field": "compte",
+      "slug": "compte-client",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/faq/delais-expedition.md",
+      "category_dir": "faq",
+      "category_field": "livraison",
+      "slug": "delais-expedition",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/faq/facturation.md",
+      "category_dir": "faq",
+      "category_field": "facturation",
+      "slug": "facturation",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/faq/paiement.md",
+      "category_dir": "faq",
+      "category_field": "paiement",
+      "slug": "paiement",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/faq/retours.md",
+      "category_dir": "faq",
+      "category_field": "retours",
+      "slug": "retours",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/faq/suivi-commande.md",
+      "category_dir": "faq",
+      "category_field": "commande",
+      "slug": "suivi-commande",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/policies/garantie.md",
+      "category_dir": "policies",
+      "category_field": "garantie",
+      "slug": "garantie",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/policies/livraison.md",
+      "category_dir": "policies",
+      "category_field": "livraison",
+      "slug": "livraison",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/policies/remboursement.md",
+      "category_dir": "policies",
+      "category_field": "remboursement",
+      "slug": "remboursement",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/choisir-amortisseurs.md",
+      "category_dir": "guides",
+      "category_field": "suspension",
+      "slug": "choisir-amortisseurs",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/choisir-bougies-allumage.md",
+      "category_dir": "guides",
+      "category_field": "allumage",
+      "slug": "choisir-bougies-allumage",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/choisir-courroie-distribution.md",
+      "category_dir": "guides",
+      "category_field": "distribution",
+      "slug": "choisir-courroie-distribution",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/choisir-disques-frein.md",
+      "category_dir": "guides",
+      "category_field": "freinage",
+      "slug": "choisir-disques-frein",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/choisir-filtre-air.md",
+      "category_dir": "guides",
+      "category_field": "filtration",
+      "slug": "choisir-filtre-air",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/choisir-filtre-huile.md",
+      "category_dir": "guides",
+      "category_field": "filtration",
+      "slug": "choisir-filtre-huile",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/choisir-kit-embrayage.md",
+      "category_dir": "guides",
+      "category_field": "embrayage",
+      "slug": "choisir-kit-embrayage",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/choisir-plaquettes.md",
+      "category_dir": "guides",
+      "category_field": "freinage",
+      "slug": "choisir-plaquettes",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/choisir-pompe-eau.md",
+      "category_dir": "guides",
+      "category_field": "refroidissement",
+      "slug": "choisir-pompe-eau",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/cnit-code-national-identification-type.md",
+      "category_dir": "guides",
+      "category_field": "identification-vehicule",
+      "slug": "cnit-code-national-identification-type",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/entretien-batterie.md",
+      "category_dir": "guides",
+      "category_field": "electrique",
+      "slug": "entretien-batterie",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/freinage__purge.md",
+      "category_dir": "guides",
+      "category_field": "howto",
+      "slug": "freinage__purge",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/freinage__quand-changer.md",
+      "category_dir": "guides",
+      "category_field": "maintenance",
+      "slug": "freinage__quand-changer",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/identifier-panne-auto.md",
+      "category_dir": "guides",
+      "category_field": "diagnostic-general",
+      "slug": "identifier-panne-auto",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/references-oem.md",
+      "category_dir": "guides",
+      "category_field": "paiement",
+      "slug": "references-oem",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/guides/selecteur-vehicule-pieces-auto.md",
+      "category_dir": "guides",
+      "category_field": "identification-vehicule",
+      "slug": "selecteur-vehicule-pieces-auto",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/reference/freinage__ece-r90.md",
+      "category_dir": "reference",
+      "category_field": "glossary",
+      "slug": "freinage__ece-r90",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/alternateur-diagnostic-mahle.md",
+      "category_dir": "diagnostic",
+      "category_field": "refroidissement",
+      "slug": "alternateur-diagnostic-mahle",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/amortisseurs.md",
+      "category_dir": "diagnostic",
+      "category_field": "suspension",
+      "slug": "amortisseurs",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/bosch-freinage-brochure-reparation-fad-2020-fr.md",
+      "category_dir": "diagnostic",
+      "category_field": "freinage",
+      "slug": "bosch-freinage-brochure-reparation-fad-2020-fr",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/bruits-freinage.md",
+      "category_dir": "diagnostic",
+      "category_field": "freinage",
+      "slug": "bruits-freinage",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/climatisation.md",
+      "category_dir": "diagnostic",
+      "category_field": "climatisation",
+      "slug": "climatisation",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/demarrage-batterie.md",
+      "category_dir": "diagnostic",
+      "category_field": "electricite",
+      "slug": "demarrage-batterie",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/direction-cremaillere.md",
+      "category_dir": "diagnostic",
+      "category_field": "direction",
+      "slug": "direction-cremaillere",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/disque-de-frein.md",
+      "category_dir": "diagnostic",
+      "category_field": "freinage",
+      "slug": "disque-de-frein",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/distribution-courroie.md",
+      "category_dir": "diagnostic",
+      "category_field": "distribution",
+      "slug": "distribution-courroie",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/echappement-catalyseur.md",
+      "category_dir": "diagnostic",
+      "category_field": "echappement",
+      "slug": "echappement-catalyseur",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/eclairage-voyants.md",
+      "category_dir": "diagnostic",
+      "category_field": "eclairage",
+      "slug": "eclairage-voyants",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/embrayage.md",
+      "category_dir": "diagnostic",
+      "category_field": "embrayage",
+      "slug": "embrayage",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/filtre-a-huile.md",
+      "category_dir": "diagnostic",
+      "category_field": "filtration",
+      "slug": "filtre-a-huile",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/injecteurs-pompe.md",
+      "category_dir": "diagnostic",
+      "category_field": "injection",
+      "slug": "injecteurs-pompe",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/refroidissement.md",
+      "category_dir": "diagnostic",
+      "category_field": "refroidissement",
+      "slug": "refroidissement",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/temoins-tableau-bord.md",
+      "category_dir": "diagnostic",
+      "category_field": "electronique",
+      "slug": "temoins-tableau-bord",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    },
+    {
+      "path": "knowledge/diagnostic/transmission-boite.md",
+      "category_dir": "diagnostic",
+      "category_field": "transmission",
+      "slug": "transmission-boite",
+      "last_enriched_by": null,
+      "origin_class": "ambiguous",
+      "regenerable": false
+    }
+  ]
+}

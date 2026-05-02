@@ -20,9 +20,9 @@ source_refs:
 provenance:
   ingested_by: human:@fafa
   promoted_from: null
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
+review_status: approved
+reviewed_by: skill:phase6-promotion-batch@claude
+reviewed_at: '2026-05-02T20:16:41Z'
 review_notes: "Pilote G6 ADR-033 — gamme non-safety (family: filtration, risk_level:\
   \ low).\nSert de cas edge pour vérifier que le gate safety_unsourced ne se déclenche\n\
   pas faussement sur une gamme non-safety.\n\nschema_version: 2.0.0 + bloc maintenance\
@@ -90,8 +90,6 @@ confidence_score: 0.42
 ---
 
 # Filtre à air
-
-> 📥 **Pilote G6 ADR-033 — cas edge non-safety** (`family: filtration`, `risk_level: low`). Valide que les gates safety ne se déclenchent pas faussement sur une gamme non-safety. Sections H2 ordre canon Phase 4 plan deja-verifier-existant.
 
 ## Définition
 

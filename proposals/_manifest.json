@@ -2,6 +2,7 @@
   "$comment": "Machine-readable manifest of pending proposals. Schema per ADR-031 §D19.",
   "_schema_version": "1.0.0",
   "_updated_at": "2026-05-02",
+  "_scope_note": "Plan deja-verifier-existant : 9 fiches en proposals/ après nettoyage Phase 1 (lada-granta zombie + clio-iii doublon) + retrait livraison/support 2026-05-02 (entity_type support déjà figé dans système commercial AutoMecanik, hors scope wiki éditorial).",
   "proposals": [
     {
       "proposal_id": "prop-20260429-filtre-a-air",
@@ -38,18 +39,6 @@
       "created_at": "2026-04-28",
       "lineage_id": null,
       "notes": "Pilote ADR-031 Phase E. Tier 3 brand low-profile (runbook §Phase E). RO 1966, groupe Renault."
-    },
-    {
-      "proposal_id": "prop-20260428-livraison",
-      "entity_type": "support",
-      "target_slug": "livraison",
-      "source_refs": [
-        "automecanik-rag/knowledge/policies/livraison.md"
-      ],
-      "status": "pending_review",
-      "created_at": "2026-04-28",
-      "lineage_id": null,
-      "notes": "Pilote ADR-031 Phase E. Politique simple, pas de variabilité technique. category=livraison, audience=client."
     },
     {
       "proposal_id": "prop-20260428-citroen-c3",
@@ -135,6 +124,11 @@
       "proposal_id": "prop-20260428-renault-clio-iii",
       "removed_at": "2026-05-02",
       "reason": "Doublon arbitré vers renault-clio-3 (slug arabe canon dict romain/arabe PR #122 + vault #37). Blocs uniques caradisiac absorbés dans renault-clio-3.md : caractéristiques techniques détaillées (table dimensions/conso/CO2/Euro phase 2009), variantes motorisation supplémentaires, top 14 pièces les plus demandées, symptômes par pièce (10 pièces × 5 symptômes). aliases enrichis dans frontmatter clio-3. source_refs[] de clio-3 mise à jour avec les 2 origin_paths. Phase 1 plan deja-verifier-existant 2026-05-02."
+    },
+    {
+      "proposal_id": "prop-20260428-livraison",
+      "removed_at": "2026-05-02",
+      "reason": "Support entity_type retiré du scope wiki éditorial : conditions de livraison déjà figées dans système commercial AutoMecanik (CGV juridiques + conditions transporteurs API + page légale site). Pas à dupliquer dans wiki éditorial. Décision utilisateur 2026-05-02 plan deja-verifier-existant : 'raw → wiki → R*, pourquoi se compliquer'. entity_type support hors scope plan d'enrichissement wiki (relève système commercial figé). Si réintroduction future souhaitée, recycler depuis automecanik-rag/knowledge/policies/livraison.md."
     }
   ],
   "skipped_data_quality": [

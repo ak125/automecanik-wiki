@@ -10,16 +10,15 @@
 - **status** : `pending_review` (initial), `in_review` (humain en train de regarder), `approved` (sera promue par le skill `proposal-promoter`), `rejected` (avec note `_audit/disputes/`).
 - **Slugs uniques par entity_type** — vérifié par `_scripts/check-slug-uniqueness.mjs`.
 
-## Pilote ADR-031 Phase E + G6 (2026-04-28 / 2026-04-29)
+## Pilote ADR-031 Phase E + G6 (2026-04-28 / 2026-04-29, dédupliqué 2026-05-02)
 
-4 propositions pilote (incluant `filtre-a-air` ajoutée 2026-05-02 Phase 1 cohérence) :
+3 propositions pilote (incluant `filtre-a-air` ajoutée 2026-05-02 Phase 1 cohérence ; `livraison/support` retirée 2026-05-02 — déjà figée système commercial AutoMecanik, voir `_manifest.json` champ `removed[]`) :
 
 | #   | entity_type  | slug                                        | source                                   | status         |
 | --- | ------------ | ------------------------------------------- | ---------------------------------------- | -------------- |
 | 1   | gamme        | [plaquette-de-frein](plaquette-de-frein.md) | automecanik-rag/knowledge/gammes/        | pending_review |
 | 2   | gamme        | [filtre-a-air](filtre-a-air.md)             | automecanik-rag/knowledge/gammes/        | pending_review |
 | 3   | constructeur | [dacia](dacia.md)                           | automecanik-rag/knowledge/constructeurs/ | pending_review |
-| 4   | support      | [livraison](livraison.md)                   | automecanik-rag/knowledge/policies/      | pending_review |
 
 ## Phase F.3 — vehicles batch (2026-04-28, dédupliqué 2026-05-02)
 

@@ -105,24 +105,9 @@ adr_reference: 'ADR-040 §1 (politique courte citation FR/UE) + ADR-040 §2 (cov
 
 ---
 
-## Fiche support (1)
+## Fiche support — RETIRÉE 2026-05-02
 
-### `livraison`
-
-**Sources internes Phase 3 (CGV AutoMecanik)** :
-
-| Source | preset_target | license | claim_coverage | priority |
-|---|---|---|---|---|
-| `automecanik_legal_cgv_2026` (interne) | `legal` (sources/legal/) | `proprietary-citation-only` (interne — redistribuable selon CGV) | livraison-conditions-france, livraison-conditions-domtom, livraison-conditions-belgique-luxembourg | 1 |
-| https://www.colissimo.fr/conditions-generales-vente | `generic-article` | `proprietary-citation-only` | livraison-transporteur-colissimo-delais | 2 |
-| https://www.chronopost.fr/conditions-generales | `generic-article` | `proprietary-citation-only` | livraison-transporteur-chronopost-delais | 2 |
-| https://www.mondialrelay.fr/conditions-generales | `generic-article` | `proprietary-citation-only` | livraison-transporteur-mondialrelay | 2 |
-
-**Action humaine Phase 3** :
-- [ ] Stocker CGV AutoMecanik 2026 dans `automecanik-raw/sources/legal/automecanik_legal_cgv_2026.md` (source interne, pas via Web Clipper)
-- [ ] Capturer 3 pages CGV transporteurs via extension preset `generic-article`
-
-**Bloqueur Phase 6** : `legal_reviewed_by` doit être renseigné (revue juridique externe AutoMecanik) avant promotion vers `wiki/support/livraison.md`. Sinon fiche reste `proposals/` (règle safe-by-default ADR-040 §5).
+> `livraison` (entity_type: support) retirée du scope wiki éditorial : déjà figée dans système commercial AutoMecanik (CGV juridiques + conditions transporteurs API + page légale site). Pas à dupliquer dans wiki éditorial. Décision utilisateur 2026-05-02 plan deja-verifier-existant. Voir `_manifest.json` champ `removed[]` pour traçabilité.
 
 ---
 
@@ -225,8 +210,6 @@ adr_reference: 'ADR-040 §1 (politique courte citation FR/UE) + ADR-040 §2 (cov
   8. https://fr.wikipedia.org/wiki/Renault_Clio_III
   9. https://fr.wikipedia.org/wiki/Renault_Mégane_III
   10. https://fr.wikipedia.org/wiki/Volkswagen_Golf_VI
-
-- **CGV AutoMecanik 2026** — fichier interne dans `automecanik-raw/sources/legal/automecanik_legal_cgv_2026.md` (humain édite directement le fichier — source interne, pas via Web Clipper)
 
 - **caradisiac fiche technique Renault Clio 3 2009** — déjà référencée dans clio-3.md, à capturer formellement avec citation courte ≤200 mots
 

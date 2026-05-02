@@ -298,77 +298,14 @@ sources:
       cadre droit d'auteur FR/UE Art. L122-5 CPI). PAS d'archive intégrale.
       Référence déjà citée dans renault-clio-3.md (fusion Phase 1).
 
-  # ─── Sources internes AutoMecanik ────────────────────────────────────────
-
-  - slug: automecanik_legal_cgv_2026
-    title: 'AutoMecanik — Conditions Générales de Vente 2026'
-    type: legal_internal                          # → max confidence: high (interne)
-    publisher: AutoMecanik
-    year: 2026
-    raw_ref:
-      repo: automecanik-raw
-      manifest_id: automecanik_legal_cgv_2026
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/legal/automecanik_legal_cgv_2026.md'
-    status: to_capture
-    license: proprietary_citation_only
-    notes: |
-      Source interne AutoMecanik. À stocker dans automecanik-raw/sources/legal/
-      par humain (édition manuelle directe — pas via Web Clipper).
-      Référence pour fiche support livraison.md.
-
-  # ─── Conditions transporteurs (proprietary-citation-only) ───────────────
-
-  - slug: colissimo_conditions_2026
-    title: 'Colissimo — Conditions Générales de Vente'
-    type: blog_pro
-    publisher: 'La Poste / Colissimo'
-    year: 2026
-    raw_ref:
-      repo: automecanik-raw
-      manifest_id: colissimo_conditions_2026
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/colissimo_conditions_2026.md'
-    status: to_capture
-    license: proprietary_citation_only
-    notes: |
-      URL canonique : https://www.colissimo.fr/conditions-generales-vente
-      Capture intégrale via preset generic-article (license override
-      proprietary-citation-only). Action humaine Phase 3.
-
-  - slug: chronopost_conditions_2026
-    title: 'Chronopost — Conditions Générales'
-    type: blog_pro
-    publisher: 'Chronopost / La Poste'
-    year: 2026
-    raw_ref:
-      repo: automecanik-raw
-      manifest_id: chronopost_conditions_2026
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/chronopost_conditions_2026.md'
-    status: to_capture
-    license: proprietary_citation_only
-    notes: |
-      URL canonique : https://www.chronopost.fr/conditions-generales
-      Capture intégrale via preset generic-article. Action humaine Phase 3.
-
-  - slug: mondial_relay_conditions_2026
-    title: 'Mondial Relay — Conditions Générales'
-    type: blog_pro
-    publisher: 'Mondial Relay'
-    year: 2026
-    raw_ref:
-      repo: automecanik-raw
-      manifest_id: mondial_relay_conditions_2026
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/mondial_relay_conditions_2026.md'
-    status: to_capture
-    license: proprietary_citation_only
-    notes: |
-      URL canonique : https://www.mondialrelay.fr/conditions-generales
-      Capture intégrale via preset generic-article. Action humaine Phase 3.
-      Note rebranding 2024 : InPost remplace Mondial Relay sur certaines zones,
-      vérifier URL et politiques actuelles.
+  # ─── Sources livraison/support RETIRÉES 2026-05-02 ──────────────────────
+  # automecanik_legal_cgv_2026, colissimo_conditions_2026,
+  # chronopost_conditions_2026, mondial_relay_conditions_2026 retirées du
+  # catalog suite au retrait du scope wiki éditorial pour entity_type support
+  # (déjà figé dans système commercial AutoMecanik : CGV juridiques +
+  # conditions transporteurs API + page légale site). Décision utilisateur
+  # 2026-05-02 plan deja-verifier-existant. Si réintroduction future, ces
+  # 4 sources sont à recréer.
 
   # ─── Brochures marketing constructeurs (publiques) ───────────────────────
 

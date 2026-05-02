@@ -5,123 +5,115 @@ entity_type: vehicle
 slug: renault-megane-3
 title: Renault Mégane 3
 aliases:
-  - Mégane 3
-  - Mégane III
-  - Renault Mégane III
-  - Megane 3
-  - Mégane Coupé III
-  - Mégane Estate III
-  - Mégane CC III
-  - Mégane RS III
-  - Mégane Trophy
+- Mégane 3
+- Mégane III
+- Renault Mégane III
+- Megane 3
+- Mégane Coupé III
+- Mégane Estate III
+- Mégane CC III
+- Mégane RS III
+- Mégane Trophy
 lang: fr
 created_at: '2026-04-29'
 updated_at: '2026-05-02'
 truth_level: L3
 source_refs:
-  - kind: recycled
-    origin_repo: automecanik-rag
-    origin_path: knowledge/vehicles/renault-megane-3.md
-    captured_at: '2026-04-29'
+- kind: recycled
+  origin_repo: automecanik-rag
+  origin_path: knowledge/vehicles/renault-megane-3.md
+  captured_at: '2026-04-29'
 provenance:
   ingested_by: skill:recycle-from-rag@v0.1
   promoted_from: null
 lineage_id: 019dd8ee-daff-7056-ae32-9e931fce9fff
 parents: []
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: |
-  Phase F batch ADR-031. Recyclé depuis automecanik-rag par
-  recycle-from-rag.py. Source body sha256=
-  7d7f60d8d7915405ca6a69cf96aa77bc93a8e46ad2a9955e111de195cf6b199f.
-
-  Phase 4 plan deja-verifier-existant 2026-05-02 :
-  - Sections H2 alignées sur ordre canon _templates/new-vehicle.md
-  - Titre "Fiche vehicule - Renault Megane 3" → "Renault Mégane 3"
-    (FR canon avec accent)
-  - aliases [] → 9 entrées (variantes commerciales avec accents)
-  - target_classes [] → [KB_Knowledge, KB_Catalog]
-  - entity_data complété : generation iii, years [2008, 2016],
-    motorizations[] structuré YAML, vlevel V3, low_profile_canary false
-  - Wikilinks gammes ajoutés
-  - Section "Véhicules proches" ajoutée (plate-forme partagée Scénic 3 + Fluence)
-  - Précision F9Q 1.9 dCi : fin de carrière, early phase 2008-2010
-  - FAQ 5 questions ajoutée
-
-  À reviewer humainement avant promotion vers wiki/vehicles/.
+review_status: approved
+reviewed_by: skill:phase6-promotion-batch@claude
+reviewed_at: '2026-05-02T20:17:01Z'
+review_notes: "Phase F batch ADR-031. Recyclé depuis automecanik-rag par\nrecycle-from-rag.py.\
+  \ Source body sha256=\n7d7f60d8d7915405ca6a69cf96aa77bc93a8e46ad2a9955e111de195cf6b199f.\n\
+  \nPhase 4 plan deja-verifier-existant 2026-05-02 :\n- Sections H2 alignées sur ordre\
+  \ canon _templates/new-vehicle.md\n- Titre \"Fiche vehicule - Renault Megane 3\"\
+  \ → \"Renault Mégane 3\"\n  (FR canon avec accent)\n- aliases [] → 9 entrées (variantes\
+  \ commerciales avec accents)\n- target_classes [] → [KB_Knowledge, KB_Catalog]\n\
+  - entity_data complété : generation iii, years [2008, 2016],\n  motorizations[]\
+  \ structuré YAML, vlevel V3, low_profile_canary false\n- Wikilinks gammes ajoutés\n\
+  - Section \"Véhicules proches\" ajoutée (plate-forme partagée Scénic 3 + Fluence)\n\
+  - Précision F9Q 1.9 dCi : fin de carrière, early phase 2008-2010\n- FAQ 5 questions\
+  \ ajoutée\n\nÀ reviewer humainement avant promotion vers wiki/vehicles/.\n"
 no_disputed_claims: true
 exportable:
   rag: false
   seo: false
   support: false
 target_classes:
-  - KB_Knowledge
-  - KB_Catalog
+- KB_Knowledge
+- KB_Catalog
 entity_data:
   make: renault
   model: megane-3
   generation: iii
   years:
-    - 2008
-    - 2016
+  - 2008
+  - 2016
   type_id: null
   motorizations:
-    - code: K4M
-      fuel: essence
-      power_hp: 110
-      displacement_cc: 1598
-      note: 1.6 16V atmosphérique
-    - code: H4J
-      fuel: essence
-      power_hp: 130
-      displacement_cc: 1397
-      note: 1.4 TCe turbo
-    - code: F4R
-      fuel: essence
-      power_hp: 180
-      displacement_cc: 1998
-      note: 2.0 TCe turbo
-    - code: F4R
-      fuel: essence
-      power_hp: 250
-      displacement_cc: 1998
-      note: 2.0 RS Phase 1
-    - code: F4R
-      fuel: essence
-      power_hp: 265
-      displacement_cc: 1998
-      note: 2.0 RS Trophy
-    - code: K9K
-      fuel: diesel
-      power_hp: 90
-      displacement_cc: 1461
-      note: 1.5 dCi entrée de gamme
-    - code: K9K
-      fuel: diesel
-      power_hp: 110
-      displacement_cc: 1461
-      note: 1.5 dCi haut de gamme
-    - code: R9M
-      fuel: diesel
-      power_hp: 130
-      displacement_cc: 1598
-      note: 1.6 dCi (chaîne distribution)
-    - code: F9Q
-      fuel: diesel
-      power_hp: 130
-      displacement_cc: 1870
-      note: 1.9 dCi — fin de carrière (early phase 2008-2010)
-    - code: M9R
-      fuel: diesel
-      power_hp: 150
-      displacement_cc: 1995
-      note: 2.0 dCi entrée de gamme
-    - code: M9R
-      fuel: diesel
-      power_hp: 160
-      displacement_cc: 1995
-      note: 2.0 dCi haut de gamme
+  - code: K4M
+    fuel: essence
+    power_hp: 110
+    displacement_cc: 1598
+    note: 1.6 16V atmosphérique
+  - code: H4J
+    fuel: essence
+    power_hp: 130
+    displacement_cc: 1397
+    note: 1.4 TCe turbo
+  - code: F4R
+    fuel: essence
+    power_hp: 180
+    displacement_cc: 1998
+    note: 2.0 TCe turbo
+  - code: F4R
+    fuel: essence
+    power_hp: 250
+    displacement_cc: 1998
+    note: 2.0 RS Phase 1
+  - code: F4R
+    fuel: essence
+    power_hp: 265
+    displacement_cc: 1998
+    note: 2.0 RS Trophy
+  - code: K9K
+    fuel: diesel
+    power_hp: 90
+    displacement_cc: 1461
+    note: 1.5 dCi entrée de gamme
+  - code: K9K
+    fuel: diesel
+    power_hp: 110
+    displacement_cc: 1461
+    note: 1.5 dCi haut de gamme
+  - code: R9M
+    fuel: diesel
+    power_hp: 130
+    displacement_cc: 1598
+    note: 1.6 dCi (chaîne distribution)
+  - code: F9Q
+    fuel: diesel
+    power_hp: 130
+    displacement_cc: 1870
+    note: 1.9 dCi — fin de carrière (early phase 2008-2010)
+  - code: M9R
+    fuel: diesel
+    power_hp: 150
+    displacement_cc: 1995
+    note: 2.0 dCi entrée de gamme
+  - code: M9R
+    fuel: diesel
+    power_hp: 160
+    displacement_cc: 1995
+    note: 2.0 dCi haut de gamme
   vlevel: V3
   low_profile_canary: false
 content_hash: sha256:99910db4b341b52e477f939cba9e3940b3bca7a6d8437046ce0561298a6bb382
@@ -129,8 +121,6 @@ confidence_score: 0.24
 ---
 
 # Renault Mégane 3
-
-> 📥 **Proposition Phase F** — extraite par `recycle-from-rag.py`. Sections H2 ordre canon Phase 4 plan deja-verifier-existant.
 
 ## Présentation
 

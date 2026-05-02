@@ -120,7 +120,7 @@ entity_data:
   vlevel: V3
   low_profile_canary: false
 content_hash: sha256:21574f9ce771e8f73f4323e6a3e5cb05736290cf55a66a559b5c21ad4be02440
-confidence_score: 0.24
+confidence_score: 0.27
 ---
 
 # Ford Focus 3

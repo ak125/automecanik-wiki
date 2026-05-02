@@ -117,7 +117,7 @@ entity_data:
   vlevel: V3
   low_profile_canary: false
 content_hash: sha256:99910db4b341b52e477f939cba9e3940b3bca7a6d8437046ce0561298a6bb382
-confidence_score: 0.24
+confidence_score: 0.27
 ---
 
 # Renault Mégane 3

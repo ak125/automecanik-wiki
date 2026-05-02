@@ -114,7 +114,7 @@ entity_data:
   vlevel: V2
   low_profile_canary: false
 content_hash: sha256:555e766a1ff25028619b6dcccfa7540b5c400eceb92b1d4b371f4113c83030d7
-confidence_score: 0.24
+confidence_score: 0.28
 ---
 
 # Renault Clio 3

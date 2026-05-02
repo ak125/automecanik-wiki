@@ -5,125 +5,116 @@ entity_type: vehicle
 slug: volkswagen-golf-6
 title: Volkswagen Golf 6
 aliases:
-  - Golf 6
-  - Golf VI
-  - VW Golf 6
-  - Golf Mk6
-  - Volkswagen Golf VI
-  - Golf GTI Mk6
-  - Golf GTD Mk6
-  - Golf R Mk6
-  - Golf 5K
+- Golf 6
+- Golf VI
+- VW Golf 6
+- Golf Mk6
+- Volkswagen Golf VI
+- Golf GTI Mk6
+- Golf GTD Mk6
+- Golf R Mk6
+- Golf 5K
 lang: fr
 created_at: '2026-04-29'
 updated_at: '2026-05-02'
 truth_level: L3
 source_refs:
-  - kind: recycled
-    origin_repo: automecanik-rag
-    origin_path: knowledge/vehicles/volkswagen-golf-6.md
-    captured_at: '2026-04-29'
+- kind: recycled
+  origin_repo: automecanik-rag
+  origin_path: knowledge/vehicles/volkswagen-golf-6.md
+  captured_at: '2026-04-29'
 provenance:
   ingested_by: skill:recycle-from-rag@v0.1
   promoted_from: null
 lineage_id: 019dd8ee-db01-78ba-82e9-2cf711cc2a59
 parents: []
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: |
-  Phase F batch ADR-031. Recyclé depuis automecanik-rag par
-  recycle-from-rag.py. Source body sha256=
-  3860e2a472439f0ed61f04d7a2cb5d5758bf4c491f83e9f857c840b6905b9313.
-
-  Phase 4 plan deja-verifier-existant 2026-05-02 :
-  - Sections H2 alignées sur ordre canon _templates/new-vehicle.md
-  - Titre "Fiche vehicule - Volkswagen Golf 6" → "Volkswagen Golf 6"
-    (FR canon)
-  - aliases [] → 9 entrées (variantes commerciales)
-  - target_classes [] → [KB_Knowledge, KB_Catalog]
-  - entity_data complété : generation vi, years [2008, 2012],
-    motorizations[] structuré YAML (ajout 1.2 TSI 105ch phase 2),
-    vlevel V2 (Golf = best-seller historique compact EU), low_profile_canary false
-  - Wikilinks gammes ajoutés
-  - Section "Véhicules proches" ajoutée (plate-forme PQ35 — Audi A3 8P,
-    Seat Leon Mk2, Skoda Octavia Mk2)
-  - Ajout 1.2 TSI 105 ch (phase 2 Golf VI, manquait en source)
-  - FAQ 5 questions ajoutée
-
-  À reviewer humainement avant promotion vers wiki/vehicles/.
+review_status: approved
+reviewed_by: skill:phase6-promotion-batch@claude
+reviewed_at: '2026-05-02T20:17:01Z'
+review_notes: "Phase F batch ADR-031. Recyclé depuis automecanik-rag par\nrecycle-from-rag.py.\
+  \ Source body sha256=\n3860e2a472439f0ed61f04d7a2cb5d5758bf4c491f83e9f857c840b6905b9313.\n\
+  \nPhase 4 plan deja-verifier-existant 2026-05-02 :\n- Sections H2 alignées sur ordre\
+  \ canon _templates/new-vehicle.md\n- Titre \"Fiche vehicule - Volkswagen Golf 6\"\
+  \ → \"Volkswagen Golf 6\"\n  (FR canon)\n- aliases [] → 9 entrées (variantes commerciales)\n\
+  - target_classes [] → [KB_Knowledge, KB_Catalog]\n- entity_data complété : generation\
+  \ vi, years [2008, 2012],\n  motorizations[] structuré YAML (ajout 1.2 TSI 105ch\
+  \ phase 2),\n  vlevel V2 (Golf = best-seller historique compact EU), low_profile_canary\
+  \ false\n- Wikilinks gammes ajoutés\n- Section \"Véhicules proches\" ajoutée (plate-forme\
+  \ PQ35 — Audi A3 8P,\n  Seat Leon Mk2, Skoda Octavia Mk2)\n- Ajout 1.2 TSI 105 ch\
+  \ (phase 2 Golf VI, manquait en source)\n- FAQ 5 questions ajoutée\n\nÀ reviewer\
+  \ humainement avant promotion vers wiki/vehicles/.\n"
 no_disputed_claims: true
 exportable:
   rag: false
   seo: false
   support: false
 target_classes:
-  - KB_Knowledge
-  - KB_Catalog
+- KB_Knowledge
+- KB_Catalog
 entity_data:
   make: volkswagen
   model: golf-6
   generation: vi
   years:
-    - 2008
-    - 2012
+  - 2008
+  - 2012
   type_id: null
   motorizations:
-    - code: CBZB
-      fuel: essence
-      power_hp: 105
-      displacement_cc: 1197
-      note: 1.2 TSI 4-cyl turbo (phase 2 Golf VI)
-    - code: CAXA
-      fuel: essence
-      power_hp: 122
-      displacement_cc: 1390
-      note: 1.4 TSI 4-cyl turbo
-    - code: CAVD
-      fuel: essence
-      power_hp: 160
-      displacement_cc: 1390
-      note: 1.4 TSI 4-cyl turbo+compresseur (Twincharger)
-    - code: CDAA
-      fuel: essence
-      power_hp: 160
-      displacement_cc: 1798
-      note: 1.8 TSI 4-cyl turbo
-    - code: CCZB
-      fuel: essence
-      power_hp: 210
-      displacement_cc: 1984
-      note: 2.0 TSI GTI Mk6
-    - code: CDLF
-      fuel: essence
-      power_hp: 270
-      displacement_cc: 1984
-      note: 2.0 TSI Golf R Mk6 (4WD 4Motion)
-    - code: CAYC
-      fuel: diesel
-      power_hp: 90
-      displacement_cc: 1598
-      note: 1.6 TDI common-rail
-    - code: CAYC
-      fuel: diesel
-      power_hp: 105
-      displacement_cc: 1598
-      note: 1.6 TDI common-rail
-    - code: CBDB
-      fuel: diesel
-      power_hp: 110
-      displacement_cc: 1968
-      note: 2.0 TDI common-rail
-    - code: CBAB
-      fuel: diesel
-      power_hp: 140
-      displacement_cc: 1968
-      note: 2.0 TDI common-rail
-    - code: CFGB
-      fuel: diesel
-      power_hp: 170
-      displacement_cc: 1968
-      note: 2.0 TDI GTD Mk6
+  - code: CBZB
+    fuel: essence
+    power_hp: 105
+    displacement_cc: 1197
+    note: 1.2 TSI 4-cyl turbo (phase 2 Golf VI)
+  - code: CAXA
+    fuel: essence
+    power_hp: 122
+    displacement_cc: 1390
+    note: 1.4 TSI 4-cyl turbo
+  - code: CAVD
+    fuel: essence
+    power_hp: 160
+    displacement_cc: 1390
+    note: 1.4 TSI 4-cyl turbo+compresseur (Twincharger)
+  - code: CDAA
+    fuel: essence
+    power_hp: 160
+    displacement_cc: 1798
+    note: 1.8 TSI 4-cyl turbo
+  - code: CCZB
+    fuel: essence
+    power_hp: 210
+    displacement_cc: 1984
+    note: 2.0 TSI GTI Mk6
+  - code: CDLF
+    fuel: essence
+    power_hp: 270
+    displacement_cc: 1984
+    note: 2.0 TSI Golf R Mk6 (4WD 4Motion)
+  - code: CAYC
+    fuel: diesel
+    power_hp: 90
+    displacement_cc: 1598
+    note: 1.6 TDI common-rail
+  - code: CAYC
+    fuel: diesel
+    power_hp: 105
+    displacement_cc: 1598
+    note: 1.6 TDI common-rail
+  - code: CBDB
+    fuel: diesel
+    power_hp: 110
+    displacement_cc: 1968
+    note: 2.0 TDI common-rail
+  - code: CBAB
+    fuel: diesel
+    power_hp: 140
+    displacement_cc: 1968
+    note: 2.0 TDI common-rail
+  - code: CFGB
+    fuel: diesel
+    power_hp: 170
+    displacement_cc: 1968
+    note: 2.0 TDI GTD Mk6
   vlevel: V2
   low_profile_canary: false
 content_hash: sha256:6c01bea9d2b1eb3452a0c3e58fd061a406fe717a9e469b5e3b6d9b6740c51e01
@@ -131,8 +122,6 @@ confidence_score: 0.24
 ---
 
 # Volkswagen Golf 6
-
-> 📥 **Proposition Phase F** — extraite par `recycle-from-rag.py`. Sections H2 ordre canon Phase 4 plan deja-verifier-existant.
 
 ## Présentation
 

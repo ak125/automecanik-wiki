@@ -1,8 +1,20 @@
 {
   "$comment": "Machine-readable manifest of pending proposals. Schema per ADR-031 §D19.",
   "_schema_version": "1.0.0",
-  "_updated_at": "2026-04-28",
+  "_updated_at": "2026-05-02",
   "proposals": [
+    {
+      "proposal_id": "prop-20260429-filtre-a-air",
+      "entity_type": "gamme",
+      "target_slug": "filtre-a-air",
+      "source_refs": [
+        "automecanik-rag/knowledge/gammes/filtre-a-air.md"
+      ],
+      "status": "pending_review",
+      "created_at": "2026-04-29",
+      "lineage_id": null,
+      "notes": "Pilote G6 ADR-033 cas edge non-safety (family: filtration, risk_level: low). Schema 2.0.0 + bloc maintenance ADR-032. diagnostic_relations[] retiré (slugs filtration absents DB) — ré-ajout post-PR DB Phase 2 plan deja-verifier-existant. Ajouté manifest 2026-05-02 (Phase 1 cohérence : était orphelin)."
+    },
     {
       "proposal_id": "prop-20260428-plaquette-de-frein",
       "entity_type": "gamme",
@@ -80,24 +92,13 @@
       "entity_type": "vehicle",
       "target_slug": "renault-clio-3",
       "source_refs": [
-        "automecanik-rag/knowledge/vehicles/renault-clio-3.md"
-      ],
-      "status": "pending_review",
-      "created_at": "2026-04-28",
-      "lineage_id": null,
-      "notes": "Phase F.3 batch. Auto-generated. Doublon possible avec renault-clio-iii — décider en review."
-    },
-    {
-      "proposal_id": "prop-20260428-renault-clio-iii",
-      "entity_type": "vehicle",
-      "target_slug": "renault-clio-iii",
-      "source_refs": [
+        "automecanik-rag/knowledge/vehicles/renault-clio-3.md",
         "automecanik-rag/knowledge/vehicles/renault-clio-iii.md"
       ],
       "status": "pending_review",
       "created_at": "2026-04-28",
       "lineage_id": null,
-      "notes": "Phase F.3 batch. Auto-generated. Doublon possible avec renault-clio-3 — décider en review."
+      "notes": "Phase F.3 batch. Auto-generated. Fusion 2026-05-02 (Phase 1 plan deja-verifier-existant) : doublon renault-clio-iii arbitré ici (slug arabe canon dict romain/arabe PR #122). Blocs uniques caradisiac absorbés (caractéristiques techniques, top pièces, symptômes par pièce). aliases enrichis avec [Renault Clio III, Clio III, clio-iii]."
     },
     {
       "proposal_id": "prop-20260428-renault-megane-3",
@@ -127,8 +128,13 @@
   "removed": [
     {
       "proposal_id": "prop-20260428-lada-granta",
-      "removed_at": "2026-04-28",
-      "reason": "Phase F.3: source automecanik-rag/knowledge/vehicles/lada-granta.md absent sur main (était sur branche feat/vehicle-web-enrichment-stage1 non-mergée). Pilot artefact removed for source consistency. Si la fiche enrichie est mergée upstream un jour, regenerate via recycle-from-rag.py."
+      "removed_at": "2026-05-02",
+      "reason": "Phase F.3: source automecanik-rag/knowledge/vehicles/lada-granta.md absent sur main (était sur branche feat/vehicle-web-enrichment-stage1 non-mergée). Pilot artefact removed for source consistency. Si la fiche enrichie est mergée upstream un jour, regenerate via recycle-from-rag.py. Fichier .md zombie supprimé du filesystem 2026-05-02 (Phase 1 plan deja-verifier-existant : cohérence manifest)."
+    },
+    {
+      "proposal_id": "prop-20260428-renault-clio-iii",
+      "removed_at": "2026-05-02",
+      "reason": "Doublon arbitré vers renault-clio-3 (slug arabe canon dict romain/arabe PR #122 + vault #37). Blocs uniques caradisiac absorbés dans renault-clio-3.md : caractéristiques techniques détaillées (table dimensions/conso/CO2/Euro phase 2009), variantes motorisation supplémentaires, top 14 pièces les plus demandées, symptômes par pièce (10 pièces × 5 symptômes). aliases enrichis dans frontmatter clio-3. source_refs[] de clio-3 mise à jour avec les 2 origin_paths. Phase 1 plan deja-verifier-existant 2026-05-02."
     }
   ],
   "skipped_data_quality": [

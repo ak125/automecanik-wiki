@@ -4,7 +4,12 @@ id: vehicle:renault-clio-3
 entity_type: vehicle
 slug: renault-clio-3
 title: Fiche véhicule - Renault Clio 3
-aliases: []
+aliases:
+  - Renault Clio III
+  - Clio III
+  - Renault Clio 3
+  - clio-iii
+  - clio iii
 lang: fr
 created_at: '2026-04-29'
 updated_at: '2026-04-29'
@@ -21,7 +26,21 @@ lineage_id: 019dd8ee-daf5-731c-b5d4-c6cb9601a446
 review_status: proposed
 reviewed_by:
 reviewed_at:
-review_notes: Phase F batch ADR-031. Recyclé depuis automecanik-rag par recycle-from-rag.py. Source body sha256=e1d1c690e54224b47d8f597a195f0ace65314b59a053d2cdd975352db42af462. À reviewer humainement avant promotion vers wiki/vehicles/.
+review_notes: |
+  Phase F batch ADR-031. Recyclé depuis automecanik-rag par recycle-from-rag.py.
+  Source body original sha256=e1d1c690e54224b47d8f597a195f0ace65314b59a053d2cdd975352db42af462.
+
+  Fusion 2026-05-02 (Phase 1 plan deja-verifier-existant) : doublon `renault-clio-iii.md`
+  arbitré vers ce slug arabe (canon dict romain/arabe — PR #122 + vault #37).
+  Blocs uniques caradisiac absorbés depuis clio-iii :
+    - Section "Caractéristiques techniques détaillées" (table dimensions/conso/CO2/Euro phase 2009)
+    - Variantes motorisation supplémentaires (essence Phase 1/2, dCi 64/68/86/88/106 ch)
+    - "Top pièces les plus demandées" (top 14 avec nb références catalogue)
+    - "Symptômes par pièce" (10 pièces × 5 symptômes diagnostiques)
+  Source caradisiac (à capturer Phase 3 sources-brief) :
+  https://www.caradisiac.com/fiches-techniques/modele--renault-clio-3/2009/
+
+  À reviewer humainement avant promotion vers wiki/vehicles/.
 no_disputed_claims: true
 exportable:
   rag: false
@@ -52,25 +71,53 @@ confidence_score: 0.32
 - **Segment** : B (citadine)
 - **Carrosseries** : 3 portes, 5 portes, Estate (break)
 
+## Caractéristiques techniques détaillées (millésime 2009 — référence 1.5 dCi 86 ch)
+
+| Caractéristique | Valeur |
+|---|---|
+| Longueur | 4,02 m |
+| Largeur | 2,02 m |
+| Hauteur | 1,49 m |
+| Empattement | 2,57 m |
+| Poids à vide (référence 1.5 dCi) | 1 090 kg |
+| Volume coffre | 288 L (1 038 L sièges rabattus) |
+| Réservoir | 55 L |
+| Places | 5 |
+| Cylindrée (référence 1.5 dCi) | 1 461 cm³ |
+| Couple (1.5 dCi 86 ch) | 200 Nm à 1 900 tr/min |
+| Boîte de vitesse | Mécanique 5 rapports |
+| Transmission | Traction |
+| Vitesse max (1.5 dCi 86 ch) | 176 km/h |
+| 0 à 100 km/h (1.5 dCi 86 ch) | 12,70 s |
+| Consommation mixte (1.5 dCi 86 ch) | 3,70 L/100 km |
+| Émissions CO2 (1.5 dCi 86 ch) | 98 g/km |
+| Pneumatiques (référence) | 185/60 R15 |
+| Diamètre de braquage | 11 m |
+| Norme Euro | EU4 |
+
+> Source : caradisiac.com — fiches techniques Renault Clio 3 millésime 2009. Spécifications variant selon motorisation (cf. tableau "Poids à vide" ci-dessous pour autres versions).
+
 ## Motorisations principales
 
 ### Essence
 
-| Moteur  | Puissance  | Code moteur |
-| ------- | ---------- | ----------- |
-| 1.2 16V | 75 ch      | D4F         |
-| 1.2 TCE | 100 ch     | D4F         |
-| 1.4 16V | 98 ch      | K4J         |
-| 1.6 16V | 110 ch     | K4M         |
-| 2.0 RS  | 197/200 ch | F4R         |
+| Moteur | Puissance | Code moteur | Notes |
+|---|---|---|---|
+| 1.2 16V (atmosphérique) | 58 / 65 / 75 / 88 / 101 / 103 ch | D4F | Variantes Phase 1 (101 ch) / Phase 2 (103 ch). Bridées low-emission selon marché. |
+| 1.2 TCe (turbo) | 100 ch | D4F | Turbo — ne pas confondre avec 1.2 16V atmosphérique (cf. conseil propriétaire #5) |
+| 1.4 16V | 98 ch | K4J | — |
+| 1.6 16V | 110 / 112 ch | K4M | Variante GT 128 ch (même code K4M optimisé) |
+| 2.0 16V | 139 ch | F4R | — |
+| 2.0 RS / Sport | 197 / 200 ch | F4R | Phase 1 (197 ch) / Phase 2 (200 ch) |
 
 ### Diesel
 
-| Moteur  | Puissance  | Code moteur |
-| ------- | ---------- | ----------- |
-| 1.5 dCi | 65/68 ch   | K9K         |
-| 1.5 dCi | 85/86 ch   | K9K         |
-| 1.5 dCi | 105/106 ch | K9K         |
+| Moteur | Puissance | Code moteur | Notes |
+|---|---|---|---|
+| 1.5 dCi | 64 / 65 / 68 ch | K9K | Variantes K9K bridées low-emission |
+| 1.5 dCi | 75 ch | K9K | — |
+| 1.5 dCi | 85 / 86 / 88 ch | K9K | Référence catalogue (cf. caractéristiques techniques détaillées 86 ch) |
+| 1.5 dCi | 105 / 106 ch | K9K | — |
 
 ## Pièces d'usure courantes
 
@@ -93,6 +140,110 @@ confidence_score: 0.32
 - **Type** : Courroie
 - **Intervalle** : 90 000 km ou 5 ans (selon motorisation)
 - **Kit complet** : Courroie + galets + pompe à eau recommandé
+
+## Top pièces les plus demandées (catalogue)
+
+Indicateur de fréquence des demandes catalogue (nombre de références distinctes en stock — tous fournisseurs confondus pour cette génération) :
+
+| Pièce | Nombre de références |
+|---|---|
+| Rétroviseur extérieur | 189 |
+| Mâchoires de frein | 96 |
+| Alternateur | 95 |
+| Courroie d'accessoire | 71 |
+| Cardan | 66 |
+| Filtre à air | 63 |
+| Silencieux | 61 |
+| Démarreur | 56 |
+| Filtre à carburant | 56 |
+| Butée d'embrayage | 55 |
+| Filtre à huile | 44 |
+| Batterie | 40 |
+| Bouchon vase d'expansion | 37 |
+| Liquide de frein | 32 |
+| Joint de collecteur | 12 |
+
+## Symptômes par pièce
+
+Symptômes diagnostiques typiques pour les pièces les plus demandées sur Clio 3.
+
+### Rétroviseur extérieur
+
+- Miroir cassé, fissuré ou décollé
+- Coque de rétroviseur cassée (choc, accrochage)
+- Réglage électrique inopérant ou lent
+- Dégivrage du miroir qui ne fonctionne plus
+- Rétroviseur rabattable bloqué ou qui vibre
+
+### Mâchoires de frein
+
+- Frein à main qui ne tient plus ou tient mal
+- Bruit de frottement métallique à l'arrière
+- Tambour rayé ou strié à l'intérieur
+- Épaisseur de garniture inférieure à 2 mm
+- Freinage arrière déséquilibré (tire d'un côté)
+
+### Alternateur
+
+- Voyant batterie allumé moteur tournant
+- Batterie qui se décharge malgré les trajets
+- Phares qui faiblissent ou clignotent
+- Sifflement de la courroie d'accessoire
+- Odeur de courroie brûlée ou d'électrique
+
+### Courroie d'accessoire
+
+- Sifflement au démarrage ou à l'accélération
+- Courroie fissurée ou effilochée visible
+- Voyant batterie allumé (alternateur non entraîné)
+- Perte de direction assistée si sur même courroie
+- Odeur de caoutchouc brûlé
+
+### Cardan
+
+- Claquement en braquant / accélérant en marche arrière
+- Vibrations ressenties à vitesse constante
+- Graisse noire visible sur la jante (passage de roue)
+- Soufflet de cardan déchiré ou fendu
+- Bruit de roulement variable selon l'angle
+
+### Filtre à air
+
+- Perte de puissance à l'accélération
+- Surconsommation de carburant anormale
+- Fumée noire à l'échappement
+- Sifflement anormal à l'admission
+- Odeur de carburant non brûlé
+
+### Silencieux
+
+- Bruit excessif à l'échappement
+- Vibrations sous le véhicule
+- Corrosion / perforation visible
+
+### Démarreur
+
+- Claquement au contact (solénoïde)
+- Démarreur qui tourne mais moteur non lancé
+- Aucune réaction au contact (moteur électrique HS)
+- Grincement ou bruit anormal au démarrage
+- Odeur de brûlé électrique au démarrage
+
+### Filtre à carburant
+
+- Perte de puissance progressive
+- À-coups à l'accélération
+- Démarrage difficile ou laborieux
+- Cliquetis ou ratés moteur
+- Odeur de carburant autour du véhicule
+
+### Butée d'embrayage
+
+- Bruit de roulement à l'appui sur la pédale
+- Sifflement / grondement qui disparaît en relâchant la pédale
+- Pédale d'embrayage qui vibre sous le pied
+- Embrayage qui accroche par à-coups
+- Difficulté à passer les vitesses (butée grippée)
 
 ## Problèmes connus
 

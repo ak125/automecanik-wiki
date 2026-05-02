@@ -110,7 +110,7 @@ entity_data:
     related_pages:
     - disque-de-frein
     - etrier-de-frein
-confidence_score: 0.48
+confidence_score: 0.42
 ---
 
 # Plaquette de frein

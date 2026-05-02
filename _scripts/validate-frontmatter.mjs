@@ -52,7 +52,10 @@ function walkMd(root) {
     const dir = stack.pop();
     for (const ent of readdirSync(dir, { withFileTypes: true })) {
       const p = join(dir, ent.name);
-      if (ent.isDirectory()) stack.push(p);
+      // Skip directories prefixed with `_` (meta containers: _quality/, _coverage/, _audit/) — D19 convention.
+      if (ent.isDirectory()) {
+        if (!ent.name.startsWith("_")) stack.push(p);
+      }
       // Skip files prefixed with `_` (meta: _index.md, _manifest.json, etc.) — D19 convention.
       else if (ent.isFile() && ent.name.endsWith(".md") && !ent.name.startsWith("_")) out.push(p);
     }
@@ -111,8 +114,15 @@ function main() {
   const files = argv.length
     ? argv
         .map((a) => (a.startsWith("/") ? a : join(REPO_ROOT, a)))
-        // Skip `_*.md` (meta files, no frontmatter by D19) even when passed explicitly via pre-commit.
-        .filter((f) => f.endsWith(".md") && !basename(f).startsWith("_") && safeStat(f))
+        // Skip meta files/dirs (D19 convention): names prefixed with `_` at any path component.
+        .filter(
+          (f) =>
+            f.endsWith(".md") &&
+            !relative(REPO_ROOT, f)
+              .split(/[\\/]/)
+              .some((part) => part.startsWith("_")) &&
+            safeStat(f),
+        )
     : SCAN_ROOTS.flatMap(walkMd);
 
   if (files.length === 0) {

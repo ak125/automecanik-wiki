@@ -23,39 +23,26 @@ provenance:
 review_status: proposed
 reviewed_by: null
 reviewed_at: null
-review_notes: |
-  Pilote G6 ADR-033 — gamme non-safety (family: filtration, risk_level: low).
-  Sert de cas edge pour vérifier que le gate safety_unsourced ne se déclenche
-  pas faussement sur une gamme non-safety.
-
-  schema_version: 2.0.0 + bloc maintenance ADR-032 §D1 (filtre-a-air ∈
-  kg_nodes.MaintenanceInterval).
-
-  2026-04-30 (P0(b) sibling) : retiré diagnostic_relations[] entry car
-  symptom_slug perte_puissance_filtration et system_slug filtration crus
-  absents DB.
-
-  2026-05-02 (Phase 4 plan deja-verifier-existant) — CORRECTION audit DB :
-  - Audit MCP supabase confirme filtration system EXISTE (id=11, créé
-    migration 20260321_diagnostic_engine_10_systems.sql)
-  - perte_puissance_filtration EXISTE en __diag_symptom (id=55,
-    signal_mode: customer_reported, urgency: moyenne)
-  - L'analyse 2026-04-30 était erronée (pas vérifié DB live). Slug réutilisable.
-  - diagnostic_relations[] RÉ-AJOUTÉ avec perte_puissance_filtration
-  - Sections H2 alignées sur ordre canon _templates/new-gamme.md
-    (Définition / Fonction / Symptômes d'usure / Critères de choix /
-    Compatibilité véhicule / Intentions SEO observées /
-    Questions fréquentes / Sources et provenance / Points à vérifier)
-  - aliases EN retirés (règle FR exclusif feedback_french_only_for_content.md) :
-    "air filter" supprimé
-  - target_classes étendu KB_Knowledge → KB_Knowledge + KB_Catalog
-  - Section "Conseil pédagogique d'entretien" intégrée dans
-    "Critères de choix" (canon ne prévoit pas section dédiée)
-  - FAQ étendue de 2 → 5 questions
-
-  À reviewer humainement avant promotion vers wiki/gammes/.
-
-  evidence.diagnostic_safe reste false (défaut conservateur ADR-033 §D4).
+review_notes: "Pilote G6 ADR-033 — gamme non-safety (family: filtration, risk_level:\
+  \ low).\nSert de cas edge pour vérifier que le gate safety_unsourced ne se déclenche\n\
+  pas faussement sur une gamme non-safety.\n\nschema_version: 2.0.0 + bloc maintenance\
+  \ ADR-032 §D1 (filtre-a-air ∈\nkg_nodes.MaintenanceInterval).\n\n2026-04-30 (P0(b)\
+  \ sibling) : retiré diagnostic_relations[] entry car\nsymptom_slug perte_puissance_filtration\
+  \ et system_slug filtration crus\nabsents DB.\n\n2026-05-02 (Phase 4 plan deja-verifier-existant)\
+  \ — CORRECTION audit DB :\n- Audit MCP supabase confirme filtration system EXISTE\
+  \ (id=11, créé\n  migration 20260321_diagnostic_engine_10_systems.sql)\n- perte_puissance_filtration\
+  \ EXISTE en __diag_symptom (id=55,\n  signal_mode: customer_reported, urgency: moyenne)\n\
+  - L'analyse 2026-04-30 était erronée (pas vérifié DB live). Slug réutilisable.\n\
+  - diagnostic_relations[] RÉ-AJOUTÉ avec perte_puissance_filtration\n- Sections H2\
+  \ alignées sur ordre canon _templates/new-gamme.md\n  (Définition / Fonction / Symptômes\
+  \ d'usure / Critères de choix /\n  Compatibilité véhicule / Intentions SEO observées\
+  \ /\n  Questions fréquentes / Sources et provenance / Points à vérifier)\n- aliases\
+  \ EN retirés (règle FR exclusif feedback_french_only_for_content.md) :\n  \"air\
+  \ filter\" supprimé\n- target_classes étendu KB_Knowledge → KB_Knowledge + KB_Catalog\n\
+  - Section \"Conseil pédagogique d'entretien\" intégrée dans\n  \"Critères de choix\"\
+  \ (canon ne prévoit pas section dédiée)\n- FAQ étendue de 2 → 5 questions\n\nÀ reviewer\
+  \ humainement avant promotion vers wiki/gammes/.\n\nevidence.diagnostic_safe reste\
+  \ false (défaut conservateur ADR-033 §D4).\n"
 no_disputed_claims: true
 exportable:
   rag: false
@@ -68,15 +55,15 @@ diagnostic_relations:
 - symptom_slug: perte_puissance_filtration
   system_slug: filtration
   relation_to_part: possible_cause
-  part_role: 'perte de puissance moteur progressive — filtre à air colmaté
-    réduisant le débit d''admission, dégradant la combustion. Symptôme typique
-    après dépassement intervalle entretien ou usage en milieu poussiéreux.'
+  part_role: perte de puissance moteur progressive — filtre à air colmaté réduisant
+    le débit d'admission, dégradant la combustion. Symptôme typique après dépassement
+    intervalle entretien ou usage en milieu poussiéreux.
   evidence:
     confidence: medium
     source_policy: 2_medium_concordant
     reviewed: false
     diagnostic_safe: false
-    confidence_score_computed: 0.6
+    confidence_score_computed: 1.0
   sources:
   - oem_filter_maintenance_general
   - bosch_fad_2020
@@ -99,7 +86,7 @@ entity_data:
     related_pages:
     - filtre-habitacle
     - filtre-a-huile
-confidence_score: 0.48
+confidence_score: 0.42
 ---
 
 # Filtre à air
@@ -112,7 +99,7 @@ Le filtre à air est l'élément poreux situé sur le circuit d'admission moteur
 
 ## Fonction
 
-L'air ambiant aspiré par le moteur traverse le filtre dans le boîtier d'admission, qui retient les particules selon une porosité calibrée. Un filtre colmaté augmente la perte de charge, réduit le débit d'admission, et dégrade la combustion. Conséquences : perte de puissance, surconsommation, fumée à l'échappement dans les cas avancés.
+L'air ambiant aspiré par le moteur traverse le filtre dans le boîtier d'admission, qui retient les particules selon une porosité calibrée. Un filtre colmaté augmente la perte de charge, réduit le débit d'admission, et dégrade la combustion. Conséquences : perte de puissance, surconsommation, et résidus d'imbrûlés visibles à l'échappement dans les cas avancés.
 
 ## Symptômes d'usure
 
@@ -160,7 +147,7 @@ Non pour les filtres papier standard (perte de porosité après nettoyage). Oui 
 
 ### Quels sont les symptômes d'un filtre à air encrassé ?
 
-Perte de puissance progressive à l'accélération, surconsommation de carburant, fumée noire à l'échappement (diesel surtout), parfois sifflement à l'admission. Voir [Symptômes d'usure](#symptômes-dusure) pour le détail.
+Perte de puissance progressive à l'accélération, surconsommation de carburant, résidus d'imbrûlés noirs à l'échappement (diesel surtout), parfois souffle perceptible à l'admission. Voir [Symptômes d'usure](#symptômes-dusure) pour le détail.
 
 ### Est-il dangereux de rouler avec un filtre à air encrassé ?
 

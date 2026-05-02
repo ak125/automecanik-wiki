@@ -547,15 +547,25 @@ def run_gates(path: Path, registry: dict, source_catalog: dict[str, dict]) -> tu
     return failures, warnings
 
 
+def _is_meta_path(p: Path) -> bool:
+    """D19 convention: skip files whose name OR any parent component starts with `_`
+    (meta containers like proposals/_quality/, proposals/_coverage/)."""
+    try:
+        rel = p.resolve().relative_to(REPO_ROOT.resolve())
+    except ValueError:
+        return False
+    return any(part.startswith("_") for part in rel.parts)
+
+
 def gather_files(args) -> list[Path]:
     if args.all:
         roots = [REPO_ROOT / "proposals", REPO_ROOT / "wiki"]
         files: list[Path] = []
         for root in roots:
             if root.exists():
-                files.extend(p for p in root.rglob("*.md") if not p.name.startswith("_"))
+                files.extend(p for p in root.rglob("*.md") if not _is_meta_path(p))
         return files
-    return [Path(p).resolve() for p in args.files]
+    return [p for p in (Path(f).resolve() for f in args.files) if not _is_meta_path(p)]
 
 
 def main() -> int:

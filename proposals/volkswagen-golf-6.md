@@ -127,7 +127,7 @@ entity_data:
   vlevel: V2
   low_profile_canary: false
 content_hash: sha256:6c01bea9d2b1eb3452a0c3e58fd061a406fe717a9e469b5e3b6d9b6740c51e01
-confidence_score: 0.32
+confidence_score: 0.24
 ---
 
 # Volkswagen Golf 6

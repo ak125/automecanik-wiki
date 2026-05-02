@@ -122,7 +122,7 @@ entity_data:
   vlevel: V2
   low_profile_canary: false
 content_hash: sha256:555e766a1ff25028619b6dcccfa7540b5c400eceb92b1d4b371f4113c83030d7
-confidence_score: 0.32
+confidence_score: 0.24
 ---
 
 # Renault Clio 3
@@ -192,7 +192,7 @@ La **Renault Clio 3** (génération III, codes carrosserie BR/CR) est une citadi
 
 ## Pièces compatibles (top gammes)
 
-Indicateur de fréquence des demandes catalogue (nombre de références distinctes en stock — tous fournisseurs confondus pour cette génération) :
+Indicateur de fréquence des demandes catalogue (nombre de références distinctes répertoriées — tous fournisseurs confondus pour cette génération) :
 
 | Pièce | Nombre de références | Fiche gamme |
 |---|---|---|

@@ -120,7 +120,7 @@ entity_data:
   vlevel: V2
   low_profile_canary: false
 content_hash: sha256:1095e93c018ed389fed2b42485af5a583a4563d64dda52ccc62fa42919e77320
-confidence_score: 0.32
+confidence_score: 0.24
 ---
 
 # Peugeot 206

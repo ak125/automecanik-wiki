@@ -1,0 +1,61 @@
+fiche: citroen-c3
+schema_version: 1.0.0
+generated_at: '2026-05-02'
+coverage_entries:
+  - claim_id: c3-3-generations-i-ii-iii
+    section: "## Présentation"
+    text_anchor: "Trois générations successives ont été commercialisées"
+    source_slug: wikipedia_fr_citroen_c3
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: c3-i-fc-2002-2009-pluriel
+    section: "## Présentation"
+    text_anchor: "C3 Pluriel (découvrable, 2003-2010, toit amovible modulable)"
+    source_slug: wikipedia_fr_citroen_c3
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: c3-puretech-eb2dt-courroie-etirement
+    section: "## Particularités d'entretien"
+    text_anchor: "Courroie de distribution : étirement prématuré, contrôle fréquent recommandé"
+    source_slug: oem_renault_clio_iii_workshop
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: c3-ep6-chaine-distribution-bruit-demarrage
+    section: "## Particularités d'entretien"
+    text_anchor: "Chaîne distribution : étirement (bruit démarrage à froid)"
+    source_slug: bosch_fad_2020
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: c3-bsi-dysfonctionnements
+    section: "## Particularités d'entretien"
+    text_anchor: "BSI (Boîtier de Servitude Intelligent) : dysfonctionnements"
+    source_slug: wikipedia_fr_citroen_c3
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+notes: |
+  Coverage map citroen-c3 — Phase 5.
+  5 claims couverts par 3 sources distinctes (2 medium + 1 low).
+  Sources OEM PSA Citroën C3 workshop pas encore dans source-catalog (preset
+  manuel-constructeur-pdf à livrer skill PR2 — Phase 7). Workaround : 2 claims
+  techniques (PureTech + EP6) corroborés par sources brake medium déjà cataloguées.
+
+  Confidence_score impact prévu :
+  - mean(source_confidence) = (0.6×2 + 0.3×3) / 5 = 0.42
+  - 0.40 × 0.42 + 0.30 + 0.20 + 0.10 = 0.77 (medium tier).
+  - High atteignable Phase 7 si oem_psa_citroen_c3_workshop capturé.
+  - reason_code: source_max_medium documenté.

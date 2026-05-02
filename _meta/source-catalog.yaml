@@ -14,7 +14,7 @@
 # Référence canon : `_meta/source-policy.md`, ADR-033
 
 schema_version: 1.0.0
-updated_at: '2026-04-29'
+updated_at: '2026-05-02'
 
 # Mapping source_type → max confidence autorisée (cf. source-policy.md §9)
 # - oem_manual / oem_workshop / tecdoc_official / normative_standard / parts_feed_certified → high
@@ -107,3 +107,302 @@ sources:
       des filtres (filtre à air, filtre à huile, filtre habitacle).
       STATUS to_capture (2026-04-30) : compilation à matérialiser. Plan P2 —
       `archived_at` legacy conservé pendant transition J+30.
+
+  # ════════════════════════════════════════════════════════════════════
+  # Sources publiques Phase 3 plan deja-verifier-existant (2026-05-02)
+  # Ajoutées via _quality/sources-brief.md — capture humaine via extension
+  # Obsidian Web Clipper avec presets skill web-clip-template (PR2 livré).
+  # ════════════════════════════════════════════════════════════════════
+
+  # ─── Wikipedia FR (CC-BY-SA-3.0, capture intégrale via wikipedia-vehicle ou
+  # wikipedia-brand preset) ──────────────────────────────────────────────────
+
+  - slug: wikipedia_fr_frein_a_disque
+    title: 'Wikipedia FR — Frein à disque'
+    type: wiki_externe                            # → max confidence: low
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_frein_a_disque
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/generic-article/wikipedia-fr-frein-a-disque.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Frein_à_disque
+      Capture intégrale autorisée (CC-BY-SA-3.0). Action humaine Phase 3 via
+      extension Obsidian Web Clipper preset wikipedia-vehicle ou generic-article.
+
+  - slug: wikipedia_fr_plaquette_de_frein
+    title: 'Wikipedia FR — Plaquette de frein'
+    type: wiki_externe
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_plaquette_de_frein
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/generic-article/wikipedia-fr-plaquette-de-frein.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Plaquette_de_frein
+      Capture intégrale autorisée. Action humaine Phase 3.
+
+  - slug: wikipedia_fr_filtre_a_air
+    title: "Wikipedia FR — Filtre à air"
+    type: wiki_externe
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_filtre_a_air
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/generic-article/wikipedia-fr-filtre-a-air.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Filtre_à_air
+      Capture intégrale autorisée. Action humaine Phase 3.
+
+  - slug: wikipedia_fr_dacia
+    title: 'Wikipedia FR — Dacia (constructeur)'
+    type: wiki_externe
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_dacia
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/wikipedia-brand/wikipedia-fr-dacia.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Dacia
+      Capture via preset wikipedia-brand (PR2 livré). Action humaine Phase 3.
+
+  - slug: wikipedia_fr_citroen_c3
+    title: "Wikipedia FR — Citroën C3"
+    type: wiki_externe
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_citroen_c3
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/wikipedia-vehicle/wikipedia-fr-citroen-c3.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Citroën_C3
+      Capture via preset wikipedia-vehicle (PR2 livré). Action humaine Phase 3.
+
+  - slug: wikipedia_fr_ford_focus
+    title: 'Wikipedia FR — Ford Focus'
+    type: wiki_externe
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_ford_focus
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/wikipedia-vehicle/wikipedia-fr-ford-focus.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Ford_Focus
+      Capture via preset wikipedia-vehicle. Action humaine Phase 3.
+
+  - slug: wikipedia_fr_peugeot_206
+    title: 'Wikipedia FR — Peugeot 206'
+    type: wiki_externe
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_peugeot_206
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/wikipedia-vehicle/wikipedia-fr-peugeot-206.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Peugeot_206
+      Capture via preset wikipedia-vehicle. Action humaine Phase 3.
+
+  - slug: wikipedia_fr_renault_clio_iii
+    title: 'Wikipedia FR — Renault Clio III'
+    type: wiki_externe
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_renault_clio_iii
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/wikipedia-vehicle/wikipedia-fr-renault-clio-iii.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Renault_Clio_III
+      Capture via preset wikipedia-vehicle. Action humaine Phase 3.
+
+  - slug: wikipedia_fr_renault_megane_iii
+    title: 'Wikipedia FR — Renault Mégane III'
+    type: wiki_externe
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_renault_megane_iii
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/wikipedia-vehicle/wikipedia-fr-renault-megane-iii.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Renault_Mégane_III
+      Capture via preset wikipedia-vehicle. Action humaine Phase 3.
+
+  - slug: wikipedia_fr_volkswagen_golf_vi
+    title: 'Wikipedia FR — Volkswagen Golf VI'
+    type: wiki_externe
+    publisher: Wikipedia
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: wikipedia_fr_volkswagen_golf_vi
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/wikipedia-vehicle/wikipedia-fr-volkswagen-golf-vi.md'
+    status: to_capture
+    license: CC-BY-SA-3.0
+    notes: |
+      URL canonique : https://fr.wikipedia.org/wiki/Volkswagen_Golf_VI
+      Capture via preset wikipedia-vehicle. Action humaine Phase 3.
+
+  # ─── Caradisiac (proprietary-citation-only, ≤200 mots) ──────────────────
+
+  - slug: caradisiac_fiche_renault_clio_3_2009
+    title: 'caradisiac.com — Fiche technique Renault Clio 3 millésime 2009'
+    type: blog_pro                                # → max confidence: medium
+    publisher: caradisiac.com
+    year: 2009
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: caradisiac_fiche_renault_clio_3_2009
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/citations/caradisiac_fiche_renault_clio_3_2009.yaml'
+    status: to_capture
+    license: proprietary_citation_only
+    notes: |
+      URL canonique : https://www.caradisiac.com/fiches-techniques/modele--renault-clio-3/2009/
+      Capture en citations YAML uniquement (≤200 mots, courte citation analytique
+      cadre droit d'auteur FR/UE Art. L122-5 CPI). PAS d'archive intégrale.
+      Référence déjà citée dans renault-clio-3.md (fusion Phase 1).
+
+  # ─── Sources internes AutoMecanik ────────────────────────────────────────
+
+  - slug: automecanik_legal_cgv_2026
+    title: 'AutoMecanik — Conditions Générales de Vente 2026'
+    type: legal_internal                          # → max confidence: high (interne)
+    publisher: AutoMecanik
+    year: 2026
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: automecanik_legal_cgv_2026
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/legal/automecanik_legal_cgv_2026.md'
+    status: to_capture
+    license: proprietary_citation_only
+    notes: |
+      Source interne AutoMecanik. À stocker dans automecanik-raw/sources/legal/
+      par humain (édition manuelle directe — pas via Web Clipper).
+      Référence pour fiche support livraison.md.
+
+  # ─── Conditions transporteurs (proprietary-citation-only) ───────────────
+
+  - slug: colissimo_conditions_2026
+    title: 'Colissimo — Conditions Générales de Vente'
+    type: blog_pro
+    publisher: 'La Poste / Colissimo'
+    year: 2026
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: colissimo_conditions_2026
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/generic-article/colissimo_conditions_2026.md'
+    status: to_capture
+    license: proprietary_citation_only
+    notes: |
+      URL canonique : https://www.colissimo.fr/conditions-generales-vente
+      Capture intégrale via preset generic-article (license override
+      proprietary-citation-only). Action humaine Phase 3.
+
+  - slug: chronopost_conditions_2026
+    title: 'Chronopost — Conditions Générales'
+    type: blog_pro
+    publisher: 'Chronopost / La Poste'
+    year: 2026
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: chronopost_conditions_2026
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/generic-article/chronopost_conditions_2026.md'
+    status: to_capture
+    license: proprietary_citation_only
+    notes: |
+      URL canonique : https://www.chronopost.fr/conditions-generales
+      Capture intégrale via preset generic-article. Action humaine Phase 3.
+
+  - slug: mondial_relay_conditions_2026
+    title: 'Mondial Relay — Conditions Générales'
+    type: blog_pro
+    publisher: 'Mondial Relay'
+    year: 2026
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: mondial_relay_conditions_2026
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/generic-article/mondial_relay_conditions_2026.md'
+    status: to_capture
+    license: proprietary_citation_only
+    notes: |
+      URL canonique : https://www.mondialrelay.fr/conditions-generales
+      Capture intégrale via preset generic-article. Action humaine Phase 3.
+      Note rebranding 2024 : InPost remplace Mondial Relay sur certaines zones,
+      vérifier URL et politiques actuelles.
+
+  # ─── Brochures marketing constructeurs (publiques) ───────────────────────
+
+  - slug: dacia_corporate_factsheet_2024
+    title: 'Dacia — Fiche corporate marketing 2024'
+    type: brochure
+    publisher: Dacia
+    year: 2024
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: dacia_corporate_factsheet_2024
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/generic-article/dacia_corporate_factsheet_2024.md'
+    status: to_capture
+    license: proprietary_manufacturer
+    notes: |
+      URL canonique : https://www.dacia.fr (page d'accueil corporate)
+      Capture intégrale autorisée si robots.txt permet — vérifier avant.
+      Référence pour fiche constructeur dacia.md.
+
+  - slug: renault_rappel_constructeur
+    title: 'Renault — Site rappels constructeur officiels'
+    type: oem_manual                              # → max confidence: high
+    publisher: Renault
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: renault_rappel_constructeur
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/generic-article/renault_rappel_constructeur.md'
+    status: to_capture
+    license: proprietary_manufacturer
+    notes: |
+      URL canonique : https://rappel.renault.fr
+      Site officiel rappels constructeur Renault. Référence pour rappels
+      injecteurs Delphi K9K, platine fusibles, capteur pédale accélérateur
+      sur renault-clio-3.md.

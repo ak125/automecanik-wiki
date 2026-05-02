@@ -1,0 +1,61 @@
+fiche: ford-focus-3
+schema_version: 1.0.0
+generated_at: '2026-05-02'
+coverage_entries:
+  - claim_id: focus-3-c346-2011-2018
+    section: "## Présentation"
+    text_anchor: "génération III, code C346, produite de 2011 à 2018"
+    source_slug: wikipedia_fr_ford_focus
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: focus-3-rs-mk3-350ch-4wd-drift
+    section: "## Spécificités par version"
+    text_anchor: "RS Mk3 (2016-2018, 350 ch), Transmission 4WD AWD, mode Drift"
+    source_slug: wikipedia_fr_ford_focus
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: focus-3-1-0-ecoboost-durite-rappel
+    section: "## Particularités d'entretien"
+    text_anchor: "Durite liquide refroidissement : fuite, rappel constructeur"
+    source_slug: bosch_fad_2020
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: focus-3-powershift-dct-usure
+    section: "## Particularités d'entretien"
+    text_anchor: "Boîte Powershift (DCT 6 rapports) : Embrayages : usure prématurée"
+    source_slug: oem_filter_maintenance_general
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: focus-3-vidange-powershift-50000km
+    section: "## Particularités d'entretien"
+    text_anchor: "Vidange Powershift DCT 50 000 km obligatoire"
+    source_slug: oem_filter_maintenance_general
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+notes: |
+  Coverage map ford-focus-3 — Phase 5.
+  5 claims couverts par 3 sources distinctes (2 medium + 1 low).
+  Sources OEM Ford workshop pas encore dans source-catalog (Phase 7).
+  Workaround : claims Powershift corroborés par oem_filter_maintenance_general
+  (compilation OEM générique, valide pour intervalles vidange).
+
+  Confidence_score impact prévu :
+  - mean(source_confidence) = (0.6×3 + 0.3×2) / 5 = 0.48
+  - 0.40 × 0.48 + 0.30 + 0.20 + 0.10 = 0.79 (medium tier).
+  - High atteignable Phase 7 si oem_ford_focus_iii_workshop capturé.
+  - reason_code: source_max_medium documenté.

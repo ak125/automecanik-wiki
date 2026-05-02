@@ -1,0 +1,72 @@
+fiche: plaquette-de-frein
+schema_version: 1.0.0
+generated_at: '2026-05-02'
+coverage_entries:
+  - claim_id: plaquette-grincement-aigu-causes
+    section: "## Symptômes d'usure"
+    text_anchor: "usure à la limite, contamination de la garniture (huile, gravillons), ou mauvaise mise en place"
+    source_slug: oem_renault_clio_iii_workshop
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: plaquette-grincement-aigu-corroboration
+    section: "## Symptômes d'usure"
+    text_anchor: "usure à la limite, contamination de la garniture"
+    source_slug: bosch_fad_2020
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: plaquette-vibration-pedale-cause
+    section: "## Symptômes d'usure"
+    text_anchor: "voile de disque préexistant, plaquette à friction inégale"
+    source_slug: tecdoc_15_02_01_brake_noise
+    evidence_type: tecdoc_diagnostic_card
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: plaquette-definition-fonctionnement
+    section: "## Définition"
+    text_anchor: "garniture de friction pressée par l'étrier hydraulique contre le disque de frein"
+    source_slug: wikipedia_fr_plaquette_de_frein
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: plaquette-fonction-friction-thermique
+    section: "## Fonction"
+    text_anchor: "friction transforme l'énergie cinétique en chaleur"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: plaquette-homologation-ece-r90
+    section: "## Critères de choix"
+    text_anchor: "homologuées ECE R90"
+    source_slug: bosch_fad_2020
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+notes: |
+  Coverage map plaquette-de-frein — Phase 5 plan deja-verifier-existant.
+  6 claims couverts par 4 sources distinctes (3 medium + 1 low).
+  Source mix : oem_renault_clio_iii_workshop, bosch_fad_2020,
+  tecdoc_15_02_01_brake_noise (tous to_capture Phase 7), wikipedia_fr
+  (capturable Phase 3 humain).
+
+  Confidence_score impact prévu (formule §4 quality-gates) :
+  - mean(source_confidence) = (medium×3 + low×1) / 4 = (0.6×3 + 0.3×1) / 4 = 0.525
+  - 0.40 × 0.525 + 0.30 (sections) + 0.20 (links) + 0.10 (≥2 source_types
+    distincts : oem_workshop + brochure + tecdoc + wiki) = 0.21 + 0.30 +
+    0.20 + 0.10 = 0.81 (medium tier).
+  - High (≥0.95) atteignable post-Phase 7 si OEM workshop + TecDoc
+    capturés et upgradés source_policy 1_high.

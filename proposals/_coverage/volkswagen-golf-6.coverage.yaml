@@ -1,0 +1,72 @@
+fiche: volkswagen-golf-6
+schema_version: 1.0.0
+generated_at: '2026-05-02'
+coverage_entries:
+  - claim_id: golf-6-vi-5k-2008-2012
+    section: "## Présentation"
+    text_anchor: "génération VI, code interne 5K, produite de 2008 à 2012"
+    source_slug: wikipedia_fr_volkswagen_golf_vi
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: golf-6-plate-forme-pq35-vag
+    section: "## Présentation"
+    text_anchor: "Plate-forme PQ35 partagée avec plusieurs véhicules du groupe VAG"
+    source_slug: wikipedia_fr_volkswagen_golf_vi
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: golf-6-1-4-tsi-chaine-etirement-premature
+    section: "## Particularités d'entretien"
+    text_anchor: "Chaîne distribution : étirement prématuré (symptôme : bruit type claquement au démarrage à froid)"
+    source_slug: oem_renault_clio_iii_workshop
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: golf-6-2-0-tdi-fap-regenerations
+    section: "## Particularités d'entretien"
+    text_anchor: "FAP (Filtre à Particules) : régénérations fréquentes en ville"
+    source_slug: bosch_fad_2020
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: golf-6-dsg-vidange-60000km-mecatronique
+    section: "## Particularités d'entretien"
+    text_anchor: "Boîte DSG : Vidange huile tous les 60 000 km strictement obligatoire"
+    source_slug: oem_filter_maintenance_general
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: golf-6-r-mk6-270ch-4motion-haldex
+    section: "## Spécificités par version"
+    text_anchor: "Golf R Mk6 (270 ch), Transmission 4WD 4Motion (Haldex génération 4)"
+    source_slug: wikipedia_fr_volkswagen_golf_vi
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+notes: |
+  Coverage map volkswagen-golf-6 — Phase 5.
+  6 claims couverts par 4 sources distinctes (3 medium + 1 low).
+  Sources OEM VAG Golf VI workshop pas encore dans source-catalog (Phase 7).
+  Workaround : claims chaîne TSI / FAP TDI / DSG corroborés par sources
+  brake/filtration medium déjà cataloguées (problèmes communs époque
+  downsizing turbo VAG/PSA/Renault).
+
+  Confidence_score impact prévu :
+  - mean(source_confidence) = (0.6×3 + 0.3×3) / 6 = 0.45
+  - 0.40 × 0.45 + 0.30 + 0.20 + 0.10 = 0.78 (medium tier).
+  - High atteignable Phase 7 si oem_vag_golf_vi_workshop capturé
+    (problèmes 1.4 TSI chaîne distribution = canon VAG documenté).
+  - reason_code: source_max_medium documenté.

@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/coverage-map.schema.json",
+  "title": "Coverage Map Schema v1.0 — ADR-040 §2",
+  "description": "Schéma canon pour les coverage maps de proposals/_coverage/<slug>.coverage.yaml. Chaque entrée mappe un claim de la fiche à sa source justificative. Utilisé par check-coverage-map.py (Phase 0.D livrable hors scope ADR-040 immédiat) pour valider claim ↔ source ↔ source-catalog (FK strict). Conforme ADR-040 §2 'Coverage Map as canonical artifact'. Source de vérité : governance-vault/ledger/decisions/adr/ADR-040-wiki-proposal-evidence-and-conditional-promotion.md (vault PR pending).",
+  "type": "object",
+  "required": ["fiche", "schema_version", "coverage_entries"],
+  "additionalProperties": false,
+  "properties": {
+    "fiche": {
+      "description": "Slug de la fiche proposal couverte. DOIT correspondre au slug d'une fiche dans proposals/<slug>.md.",
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,78}[a-z0-9]$"
+    },
+    "schema_version": {
+      "description": "Semver du schema coverage-map. v1.0.0 = ADR-040 initial.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "generated_at": {
+      "description": "Date de génération de la coverage map (ISO date).",
+      "type": "string",
+      "format": "date"
+    },
+    "coverage_entries": {
+      "description": "Liste des claims de la fiche avec leur source justificative. Chaque source_slug DOIT exister dans _meta/source-catalog.yaml (FK strict — anti-bricolage anti-gonflement confidence_score). Une fiche avec coverage_entries vide est suspect : indique soit une fiche sans claim sourcé, soit une coverage map non maintenue.",
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "required": ["claim_id", "section", "source_slug", "evidence_type", "confidence", "source_policy", "source_status"],
+        "additionalProperties": false,
+        "properties": {
+          "claim_id": {
+            "description": "Slug stable du claim couvert. Format kebab-case court. Ex : 'plaquette-grincement-aigu-causes', 'clio-3-rappel-injecteurs-delphi'.",
+            "type": "string",
+            "pattern": "^[a-z0-9][a-z0-9-]{0,118}[a-z0-9]$"
+          },
+          "section": {
+            "description": "Anchor de section H2 dans la fiche markdown. Ex : '## Symptômes d'usure', '## Particularités d'entretien'. Doit correspondre à un H2 réel de la fiche (vérifié par check-coverage-map.py).",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 200
+          },
+          "text_anchor": {
+            "description": "Extrait court de la phrase sourcée (≤140 chars). Permet d'identifier précisément le claim dans le body. Optionnel mais recommandé.",
+            "type": "string",
+            "maxLength": 140
+          },
+          "source_slug": {
+            "description": "Référence vers _meta/source-catalog.yaml. FK strict : doit exister. check-coverage-map.py FAIL si absent.",
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*[a-z0-9]$"
+          },
+          "evidence_type": {
+            "description": "Type d'évidence apportée par la source pour ce claim. Libre mais conventions recommandées : 'oem_workshop_excerpt', 'tecdoc_diagnostic_card', 'wikipedia_factual', 'caradisiac_spec_table', 'legal_internal_cgv', 'manufacturer_recall_official', 'brochure_marketing'.",
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 100
+          },
+          "confidence": {
+            "description": "Niveau de confiance pour ce claim selon cette source. Aligné sur ADR-033 §D1 evidence.confidence enum.",
+            "type": "string",
+            "enum": ["low", "medium", "high"]
+          },
+          "source_policy": {
+            "description": "Politique de corroboration appliquée. Aligné sur ADR-033 §D1 evidence.source_policy enum. '1_high' = ≥1 source OEM/tecdoc seule autorisée. '2_medium_concordant' = ≥2 sources medium distinctes corroborées. 'manual_review' = override humain documenté.",
+            "type": "string",
+            "enum": ["1_high", "2_medium_concordant", "manual_review"]
+          },
+          "source_status": {
+            "description": "Statut de capture de la source au moment de la coverage entry. 'pending_capture' = source listée dans source-catalog mais archive_at non matérialisée (action humaine Phase 3 ou Phase 7). 'captured' = source matérialisée + content_hash présent dans source-catalog. 'verified' = source captured + revue humaine effectuée.",
+            "type": "string",
+            "enum": ["pending_capture", "captured", "verified"]
+          }
+        }
+      }
+    },
+    "notes": {
+      "description": "Notes humaines libres sur la coverage map (statut, décisions, exclusions documentées).",
+      "type": "string"
+    }
+  }
+}

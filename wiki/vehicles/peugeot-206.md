@@ -5,118 +5,110 @@ entity_type: vehicle
 slug: peugeot-206
 title: Peugeot 206
 aliases:
-  - Peugeot 206 phase 1
-  - Peugeot 206 phase 2
-  - Peugeot 206+
-  - Peugeot 206 plus
-  - Peugeot 206 GTI
-  - Peugeot 206 RC
-  - Peugeot 206 CC
-  - Peugeot 206 SW
+- Peugeot 206 phase 1
+- Peugeot 206 phase 2
+- Peugeot 206+
+- Peugeot 206 plus
+- Peugeot 206 GTI
+- Peugeot 206 RC
+- Peugeot 206 CC
+- Peugeot 206 SW
 lang: fr
 created_at: '2026-04-29'
 updated_at: '2026-05-02'
 truth_level: L3
 source_refs:
-  - kind: recycled
-    origin_repo: automecanik-rag
-    origin_path: knowledge/vehicles/peugeot-206.md
-    captured_at: '2026-04-29'
+- kind: recycled
+  origin_repo: automecanik-rag
+  origin_path: knowledge/vehicles/peugeot-206.md
+  captured_at: '2026-04-29'
 provenance:
   ingested_by: skill:recycle-from-rag@v0.1
   promoted_from: null
 lineage_id: 019dd8ee-daf3-74cc-9687-439ae70303de
 parents: []
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: |
-  Phase F batch ADR-031. Recyclé depuis automecanik-rag par
-  recycle-from-rag.py. Source body sha256=
-  8d75d4860580b5f0867f07b1dd76053cb5ac969e8ed25f341a0c8afed7ac1d2a.
-
-  Phase 4 plan deja-verifier-existant 2026-05-02 :
-  - Sections H2 alignées sur ordre canon _templates/new-vehicle.md
-  - Titre "Fiche véhicule - Peugeot 206" → "Peugeot 206" (FR canon)
-  - aliases [] → 9 entrées (variantes commerciales)
-  - target_classes [] → [KB_Knowledge, KB_Catalog]
-  - entity_data complété : generation unique-T1-T3, years [1998, 2013],
-    motorizations[] structuré YAML, vlevel V2 (best-seller historique
-    Peugeot >9M unités), low_profile_canary false
-  - Wikilinks gammes ajoutés
-  - Phases développées : Phase 1 (1998-2003), Phase 2 (2003-2009),
-    206+ (2009-2013) — manquaient en source
-  - 206 SW (break) développée — mentionnée mais pas détaillée en source
-  - FAQ 5 questions ajoutée
-
-  À reviewer humainement avant promotion vers wiki/vehicles/.
+review_status: approved
+reviewed_by: skill:phase6-promotion-batch@claude
+reviewed_at: '2026-05-02T20:17:01Z'
+review_notes: "Phase F batch ADR-031. Recyclé depuis automecanik-rag par\nrecycle-from-rag.py.\
+  \ Source body sha256=\n8d75d4860580b5f0867f07b1dd76053cb5ac969e8ed25f341a0c8afed7ac1d2a.\n\
+  \nPhase 4 plan deja-verifier-existant 2026-05-02 :\n- Sections H2 alignées sur ordre\
+  \ canon _templates/new-vehicle.md\n- Titre \"Fiche véhicule - Peugeot 206\" → \"\
+  Peugeot 206\" (FR canon)\n- aliases [] → 9 entrées (variantes commerciales)\n- target_classes\
+  \ [] → [KB_Knowledge, KB_Catalog]\n- entity_data complété : generation unique-T1-T3,\
+  \ years [1998, 2013],\n  motorizations[] structuré YAML, vlevel V2 (best-seller\
+  \ historique\n  Peugeot >9M unités), low_profile_canary false\n- Wikilinks gammes\
+  \ ajoutés\n- Phases développées : Phase 1 (1998-2003), Phase 2 (2003-2009),\n  206+\
+  \ (2009-2013) — manquaient en source\n- 206 SW (break) développée — mentionnée mais\
+  \ pas détaillée en source\n- FAQ 5 questions ajoutée\n\nÀ reviewer humainement avant\
+  \ promotion vers wiki/vehicles/.\n"
 no_disputed_claims: true
 exportable:
   rag: false
   seo: false
   support: false
 target_classes:
-  - KB_Knowledge
-  - KB_Catalog
+- KB_Knowledge
+- KB_Catalog
 entity_data:
   make: peugeot
   model: '206'
   generation: unique-t1-t3
   years:
-    - 1998
-    - 2013
+  - 1998
+  - 2013
   type_id: null
   motorizations:
-    - code: HFX
-      fuel: essence
-      power_hp: 60
-      displacement_cc: 1124
-      note: 1.1i TU1JP
-    - code: KFW
-      fuel: essence
-      power_hp: 75
-      displacement_cc: 1360
-      note: 1.4i TU3JP
-    - code: NFU
-      fuel: essence
-      power_hp: 88
-      displacement_cc: 1587
-      note: 1.6i TU5JP4 — variante 110 ch sur GTI
-    - code: NFU
-      fuel: essence
-      power_hp: 110
-      displacement_cc: 1587
-      note: 1.6i TU5JP4 — sur 206 GTI
-    - code: RFK
-      fuel: essence
-      power_hp: 137
-      displacement_cc: 1997
-      note: 2.0 GTI EW10J4
-    - code: RFK
-      fuel: essence
-      power_hp: 177
-      displacement_cc: 1997
-      note: 2.0 RC EW10J4S — sportive haut de gamme
-    - code: 8HX
-      fuel: diesel
-      power_hp: 68
-      displacement_cc: 1398
-      note: 1.4 HDi DV4TD
-    - code: 9HY
-      fuel: diesel
-      power_hp: 90
-      displacement_cc: 1560
-      note: 1.6 HDi DV6
-    - code: 9HZ
-      fuel: diesel
-      power_hp: 110
-      displacement_cc: 1560
-      note: 1.6 HDi DV6 haut de gamme
-    - code: RHY
-      fuel: diesel
-      power_hp: 90
-      displacement_cc: 1997
-      note: 2.0 HDi DW10TD
+  - code: HFX
+    fuel: essence
+    power_hp: 60
+    displacement_cc: 1124
+    note: 1.1i TU1JP
+  - code: KFW
+    fuel: essence
+    power_hp: 75
+    displacement_cc: 1360
+    note: 1.4i TU3JP
+  - code: NFU
+    fuel: essence
+    power_hp: 88
+    displacement_cc: 1587
+    note: 1.6i TU5JP4 — variante 110 ch sur GTI
+  - code: NFU
+    fuel: essence
+    power_hp: 110
+    displacement_cc: 1587
+    note: 1.6i TU5JP4 — sur 206 GTI
+  - code: RFK
+    fuel: essence
+    power_hp: 137
+    displacement_cc: 1997
+    note: 2.0 GTI EW10J4
+  - code: RFK
+    fuel: essence
+    power_hp: 177
+    displacement_cc: 1997
+    note: 2.0 RC EW10J4S — sportive haut de gamme
+  - code: 8HX
+    fuel: diesel
+    power_hp: 68
+    displacement_cc: 1398
+    note: 1.4 HDi DV4TD
+  - code: 9HY
+    fuel: diesel
+    power_hp: 90
+    displacement_cc: 1560
+    note: 1.6 HDi DV6
+  - code: 9HZ
+    fuel: diesel
+    power_hp: 110
+    displacement_cc: 1560
+    note: 1.6 HDi DV6 haut de gamme
+  - code: RHY
+    fuel: diesel
+    power_hp: 90
+    displacement_cc: 1997
+    note: 2.0 HDi DW10TD
   vlevel: V2
   low_profile_canary: false
 content_hash: sha256:1095e93c018ed389fed2b42485af5a583a4563d64dda52ccc62fa42919e77320
@@ -124,8 +116,6 @@ confidence_score: 0.24
 ---
 
 # Peugeot 206
-
-> 📥 **Proposition Phase F** — extraite par `recycle-from-rag.py`. Sections H2 ordre canon Phase 4 plan deja-verifier-existant.
 
 ## Présentation
 

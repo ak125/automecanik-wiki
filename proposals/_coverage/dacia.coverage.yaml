@@ -1,0 +1,61 @@
+fiche: dacia
+schema_version: 1.0.0
+generated_at: '2026-05-02'
+coverage_entries:
+  - claim_id: dacia-fondation-1966-pitesti
+    section: "## Histoire"
+    text_anchor: "fondé en 1966 à Pitești (Roumanie)"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: dacia-rachat-renault-1999
+    section: "## Histoire"
+    text_anchor: "Renault Group rachète Dacia"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: dacia-logan-2004-lancement
+    section: "## Histoire"
+    text_anchor: "Dacia Logan, lancée en 2004"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: dacia-gamme-actuelle-2024
+    section: "## Gamme actuelle"
+    text_anchor: "Sandero, Logan, Duster, Spring, Jogger, Bigster"
+    source_slug: dacia_corporate_factsheet_2024
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: dacia-sandero-leader-vente-particuliers
+    section: "## Gamme actuelle"
+    text_anchor: "Sandero (citadine 5 portes) — modèle le plus vendu en Europe particuliers depuis 2017"
+    source_slug: dacia_corporate_factsheet_2024
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+notes: |
+  Coverage map dacia — Phase 5.
+  5 claims couverts par 2 sources distinctes (1 medium + 1 low).
+  Source mix : wikipedia_fr_dacia (×3, faits historiques),
+  dacia_corporate_factsheet_2024 (×2, gamme actuelle marketing).
+
+  Confidence_score impact prévu :
+  - mean(source_confidence) = (0.6×2 + 0.3×3) / 5 = 0.42
+  - 0.40 × 0.42 + 0.30 + 0.20 + 0 (pas ≥2 source_types distincts car wiki+brochure
+    seulement) = 0.17 + 0.30 + 0.20 + 0 = 0.67 (low-medium tier).
+  - reason_code: source_max_medium documenté (impossible d'atteindre 0.95
+    sans source OEM workshop Dacia — Phase 7).

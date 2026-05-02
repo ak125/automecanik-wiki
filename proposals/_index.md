@@ -10,19 +10,19 @@
 - **status** : `pending_review` (initial), `in_review` (humain en train de regarder), `approved` (sera promue par le skill `proposal-promoter`), `rejected` (avec note `_audit/disputes/`).
 - **Slugs uniques par entity_type** — vérifié par `_scripts/check-slug-uniqueness.mjs`.
 
-## Pilote ADR-031 Phase E (2026-04-28)
+## Pilote ADR-031 Phase E + G6 (2026-04-28 / 2026-04-29, dédupliqué 2026-05-02)
 
-3 propositions de pilote conservées (la 4ᵉ — `lada-granta` — a été retirée en Phase F.3 : source absente sur `automecanik-rag` main, voir `_manifest.json` champ `removed[]`) :
+3 propositions pilote (incluant `filtre-a-air` ajoutée 2026-05-02 Phase 1 cohérence ; `livraison/support` retirée 2026-05-02 — déjà figée système commercial AutoMecanik, voir `_manifest.json` champ `removed[]`) :
 
 | #   | entity_type  | slug                                        | source                                   | status         |
 | --- | ------------ | ------------------------------------------- | ---------------------------------------- | -------------- |
 | 1   | gamme        | [plaquette-de-frein](plaquette-de-frein.md) | automecanik-rag/knowledge/gammes/        | pending_review |
-| 2   | constructeur | [dacia](dacia.md)                           | automecanik-rag/knowledge/constructeurs/ | pending_review |
-| 3   | support      | [livraison](livraison.md)                   | automecanik-rag/knowledge/policies/      | pending_review |
+| 2   | gamme        | [filtre-a-air](filtre-a-air.md)             | automecanik-rag/knowledge/gammes/        | pending_review |
+| 3   | constructeur | [dacia](dacia.md)                           | automecanik-rag/knowledge/constructeurs/ | pending_review |
 
-## Phase F.3 — vehicles batch (2026-04-28)
+## Phase F.3 — vehicles batch (2026-04-28, dédupliqué 2026-05-02)
 
-7 propositions générées par `_scripts/recycle-from-rag.py --apply` à partir de `automecanik-rag/knowledge/vehicles/` (8 fichiers, 1 skip data quality `renault.md` brand-only misplaced) :
+6 propositions véhicule (initialement 7 — `renault-clio-iii` fusionnée dans `renault-clio-3` 2026-05-02 par dict romain/arabe canon, voir `_manifest.json` champ `removed[]`) :
 
 | #   | entity_type | slug                                      | make       | model    | status         |
 | --- | ----------- | ----------------------------------------- | ---------- | -------- | -------------- |
@@ -30,13 +30,12 @@
 | 2   | vehicle     | [ford-focus-3](ford-focus-3.md)           | ford       | focus-3  | pending_review |
 | 3   | vehicle     | [peugeot-206](peugeot-206.md)             | peugeot    | 206      | pending_review |
 | 4   | vehicle     | [renault-clio-3](renault-clio-3.md)       | renault    | clio-3   | pending_review |
-| 5   | vehicle     | [renault-clio-iii](renault-clio-iii.md)   | renault    | clio-iii | pending_review |
-| 6   | vehicle     | [renault-megane-3](renault-megane-3.md)   | renault    | megane-3 | pending_review |
-| 7   | vehicle     | [volkswagen-golf-6](volkswagen-golf-6.md) | volkswagen | golf-6   | pending_review |
+| 5   | vehicle     | [renault-megane-3](renault-megane-3.md)   | renault    | megane-3 | pending_review |
+| 6   | vehicle     | [volkswagen-golf-6](volkswagen-golf-6.md) | volkswagen | golf-6   | pending_review |
 
-### Doublon connu à arbitrer en review
+### Doublon résolu 2026-05-02
 
-`renault-clio-3` vs `renault-clio-iii` : même véhicule, deux slugs concurrents (chiffres arabes vs romains). Décision attendue en review humaine — fusion l'un dans l'autre, choix d'un slug canonique.
+`renault-clio-iii` (chiffres romains) fusionné dans `renault-clio-3` (slug arabe canon — dict romain/arabe RPC PR #122 + vault #37). Blocs uniques caradisiac absorbés (caractéristiques techniques détaillées, top pièces les plus demandées, symptômes par pièce). aliases enrichis avec `[Renault Clio III, Clio III, Renault Clio 3, clio-iii, clio iii]` — toute requête côté DB `clio-iii` se résout vers cette fiche via le mapping romain/arabe.
 
 ### Skip data quality
 

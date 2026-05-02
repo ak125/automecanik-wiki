@@ -1,0 +1,61 @@
+fiche: renault-megane-3
+schema_version: 1.0.0
+generated_at: '2026-05-02'
+coverage_entries:
+  - claim_id: megane-3-iii-2008-2016
+    section: "## Présentation"
+    text_anchor: "génération III, produite de 2008 à 2016"
+    source_slug: wikipedia_fr_renault_megane_iii
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: megane-3-rs-trophy-265ch-record-nurburgring
+    section: "## Spécificités par version"
+    text_anchor: "Trophy 2014 (8 min 8 s — record voitures à traction avant pendant 2 ans)"
+    source_slug: wikipedia_fr_renault_megane_iii
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: megane-3-1-5-dci-injecteurs-defaillance
+    section: "## Particularités d'entretien"
+    text_anchor: "Injecteurs : défaillance fréquente (claquement, fumée)"
+    source_slug: oem_renault_clio_iii_workshop
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: megane-3-2-0-dci-pompe-hp-copeaux
+    section: "## Particularités d'entretien"
+    text_anchor: "Pompe haute pression (HP) : copeaux métalliques possibles"
+    source_slug: bosch_fad_2020
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: megane-3-edc-vidange-60000km
+    section: "## Particularités d'entretien"
+    text_anchor: "Boîte EDC (double-embrayage) Vidange huile 60 000 km"
+    source_slug: oem_filter_maintenance_general
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+notes: |
+  Coverage map renault-megane-3 — Phase 5.
+  5 claims couverts par 4 sources distinctes (3 medium + 1 low).
+  Sources OEM Renault Mégane III workshop pas encore dans source-catalog
+  (Phase 7). Workaround : claims moteurs corroborés par Clio III workshop
+  (moteurs K9K partagés Renault platform C/B).
+
+  Confidence_score impact prévu :
+  - mean(source_confidence) = (0.6×3 + 0.3×2) / 5 = 0.48
+  - 0.40 × 0.48 + 0.30 + 0.20 + 0.10 = 0.79 (medium tier).
+  - High atteignable Phase 7 si oem_renault_megane_iii_workshop capturé.
+  - reason_code: source_max_medium documenté.

@@ -1,0 +1,83 @@
+fiche: renault-clio-3
+schema_version: 1.0.0
+generated_at: '2026-05-02'
+coverage_entries:
+  - claim_id: clio-3-iii-br-cr-2005-2014
+    section: "## Présentation"
+    text_anchor: "génération III, codes carrosserie BR/CR, 2005 à 2014"
+    source_slug: wikipedia_fr_renault_clio_iii
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: clio-3-caracteristiques-techniques-2009
+    section: "## Présentation"
+    text_anchor: "Longueur 4,02 m, Vitesse max 176 km/h, Consommation 3,7 L/100 km"
+    source_slug: caradisiac_fiche_renault_clio_3_2009
+    evidence_type: caradisiac_spec_table
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: clio-3-rappel-injecteurs-delphi-k9k
+    section: "## Particularités d'entretien"
+    text_anchor: "Injecteurs Delphi : fuite de carburant (rappel constructeur 2005-2010)"
+    source_slug: renault_rappel_constructeur
+    evidence_type: manufacturer_recall_official
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: clio-3-rappel-platine-fusibles
+    section: "## Particularités d'entretien"
+    text_anchor: "Platine fusibles : court-circuit, rappel 2006-2009"
+    source_slug: renault_rappel_constructeur
+    evidence_type: manufacturer_recall_official
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: clio-3-1-5-dci-vanne-egr-encrassement
+    section: "## Particularités d'entretien"
+    text_anchor: "Vanne EGR : encrassement fréquent (perte de puissance, fumées noires, voyant moteur)"
+    source_slug: oem_renault_clio_iii_workshop
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: clio-3-turbo-borgwarner-kp35-150000km
+    section: "## Particularités d'entretien"
+    text_anchor: "Turbo BorgWarner KP35 : usure prématurée si vidanges non respectées"
+    source_slug: oem_renault_clio_iii_workshop
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: clio-3-vehicules-proches-modus-twingo-sandero
+    section: "## Présentation"
+    text_anchor: "Renault Modus, Twingo II, Dacia Sandero I, Nissan Micra K12, Renault Kangoo II"
+    source_slug: wikipedia_fr_renault_clio_iii
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+notes: |
+  Coverage map renault-clio-3 — Phase 5.
+  7 claims couverts par 4 sources distinctes (2 high rappels + 2 medium + 1 low).
+  Source mix : renault_rappel_constructeur (×2 high, rappels officiels),
+  oem_renault_clio_iii_workshop (×2 medium, problèmes connus moteur),
+  caradisiac_fiche_renault_clio_3_2009 (×1 medium, spec table déjà fusionnée
+  Phase 1), wikipedia_fr_renault_clio_iii (×2 low, généralités).
+
+  Confidence_score impact prévu :
+  - mean(source_confidence) = (1.0×2 + 0.6×3 + 0.3×2) / 7 = 0.63
+  - 0.40 × 0.63 + 0.30 + 0.20 + 0.10 (≥3 source_types : oem_workshop +
+    blog_pro + wiki + oem_manual rappels) = 0.25 + 0.30 + 0.20 + 0.10 = 0.85
+    (medium-high tier).
+  - High (≥0.95) atteignable Phase 7 si oem_renault_clio_iii_workshop
+    capturé en mode 1_high (source_policy upgrade).
+  - Meilleure fiche du batch grâce aux rappels officiels Renault déjà sourcés.

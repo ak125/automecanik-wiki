@@ -1,0 +1,62 @@
+fiche: filtre-a-air
+schema_version: 1.0.0
+generated_at: '2026-05-02'
+coverage_entries:
+  - claim_id: filtre-air-perte-puissance
+    section: "## Symptômes d'usure"
+    text_anchor: "filtre colmaté réduisant le débit d'admission, dégradant la combustion"
+    source_slug: oem_filter_maintenance_general
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: filtre-air-perte-puissance-corroboration
+    section: "## Symptômes d'usure"
+    text_anchor: "perte de puissance moteur progressive"
+    source_slug: bosch_fad_2020
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: filtre-air-definition
+    section: "## Définition"
+    text_anchor: "élément poreux situé sur le circuit d'admission moteur"
+    source_slug: wikipedia_fr_filtre_a_air
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: filtre-air-intervalle-30000km
+    section: "## Critères de choix"
+    text_anchor: "remplacement typique tous les 30 000 km"
+    source_slug: oem_filter_maintenance_general
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: filtre-air-types-cellulose-coton
+    section: "## Critères de choix"
+    text_anchor: "filtres à porosité progressive (cellulose imprégnée + grille support)"
+    source_slug: bosch_fad_2020
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+notes: |
+  Coverage map filtre-a-air — Phase 5.
+  5 claims couverts par 3 sources distinctes (2 medium + 1 low).
+  Source mix : oem_filter_maintenance_general (×2), bosch_fad_2020 (×2),
+  wikipedia_fr_filtre_a_air (×1).
+
+  Note : diagnostic_relations[].symptom_slug = perte_puissance_filtration
+  (id=55 DB existant) — pas de PR DB nécessaire pour cette fiche
+  (vs plaquette-de-frein qui dépend de PR monorepo #269 pour 2 nouveaux slugs).
+
+  Confidence_score impact prévu :
+  - mean(source_confidence) = (0.6×4 + 0.3×1) / 5 = 0.54
+  - 0.40 × 0.54 + 0.30 + 0.20 + 0.10 = 0.83 (medium tier).

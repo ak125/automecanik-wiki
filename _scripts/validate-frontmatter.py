@@ -80,7 +80,11 @@ def gather_files(args) -> list[Path]:
         files: list[Path] = []
         for root in roots:
             if root.exists():
-                files.extend(p for p in root.rglob("*.md") if not p.name.startswith("_"))
+                files.extend(
+                    p
+                    for p in root.rglob("*.md")
+                    if not any(part.startswith("_") for part in p.relative_to(root).parts)
+                )
         return files
     return [Path(p).resolve() for p in args.files]
 

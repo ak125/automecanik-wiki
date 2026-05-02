@@ -1,0 +1,61 @@
+fiche: peugeot-206
+schema_version: 1.0.0
+generated_at: '2026-05-02'
+coverage_entries:
+  - claim_id: 206-1998-2013-9m-unites
+    section: "## Présentation"
+    text_anchor: "produite de 1998 à 2013, plus de 9 millions d'unités"
+    source_slug: wikipedia_fr_peugeot_206
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: 206-3-phases-1-2-plus
+    section: "## Présentation"
+    text_anchor: "Phase 1 (1998-2003), Phase 2 (2003-2009), 206+ (2009-2013)"
+    source_slug: wikipedia_fr_peugeot_206
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: 206-rc-177ch-rfk-ew10j4s
+    section: "## Spécificités par version"
+    text_anchor: "Peugeot 206 RC (2003-2007), 2.0 16V 177 ch (RFK EW10J4S)"
+    source_slug: wikipedia_fr_peugeot_206
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: 206-1-4-hdi-vanne-egr-colmatage
+    section: "## Particularités d'entretien"
+    text_anchor: "Vanne EGR : colmatage fréquent (perte de puissance, fumée noire)"
+    source_slug: bosch_fad_2020
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: 206-bsi-dysfonctionnements
+    section: "## Particularités d'entretien"
+    text_anchor: "BSI (Boîtier de Servitude Intelligent) : dysfonctionnements"
+    source_slug: oem_renault_clio_iii_workshop
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+notes: |
+  Coverage map peugeot-206 — Phase 5.
+  5 claims couverts par 3 sources distinctes (2 medium + 1 low).
+  Sources OEM PSA Peugeot 206 workshop pas encore dans source-catalog
+  (Phase 7). Workaround : claim BSI cross-référencé via Clio III workshop
+  car BSI électronique partagé Renault-Nissan-PSA même époque.
+
+  Confidence_score impact prévu :
+  - mean(source_confidence) = (0.6×2 + 0.3×3) / 5 = 0.42
+  - 0.40 × 0.42 + 0.30 + 0.20 + 0.10 = 0.77 (medium tier).
+  - High atteignable Phase 7 si oem_psa_peugeot_206_workshop capturé.
+  - reason_code: source_max_medium documenté.

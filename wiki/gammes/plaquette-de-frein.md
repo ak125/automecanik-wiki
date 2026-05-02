@@ -20,39 +20,28 @@ source_refs:
 provenance:
   ingested_by: human:@fafa
   promoted_from: null
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: |
-  Pilote ADR-033 Phase 1 — enrichi 2026-04-29 avec diagnostic_relations[]
-  + entity_data.maintenance. Bumped schema_version 1.0.0 → 2.0.0
-  (ADR-033 + ADR-032).
-
-  2026-04-30 : symptom_slug alignés sur slugs DB existants
-  (brake_noise_metallic, brake_vibration_pedal — drift batch 20260308 EN
-  legacy, utilisable mais NOUVEAUX slugs DB seront FR canon — voir
-  feedback_french_only_for_content.md). 2 entrées retirées faute de slug
-  DB (distance_freinage_allongee, voyant_freinage_allume).
-
-  2026-05-02 (Phase 4 plan deja-verifier-existant) :
-  - Sections H2 alignées sur ordre canon _templates/new-gamme.md
-    (Définition / Fonction / Symptômes d'usure / Critères de choix /
-    Compatibilité véhicule / Intentions SEO observées /
-    Questions fréquentes / Sources et provenance / Points à vérifier)
-  - aliases EN retirés (règle FR exclusif feedback_french_only_for_content.md) :
-    "brake pad", "brake pads" supprimés
-  - target_classes étendu KB_Knowledge → KB_Knowledge + KB_Catalog (gamme catalog)
-  - diagnostic_relations[] : 2 nouvelles entrées seront ajoutées
-    POST-merge PR monorepo #269 (distance_freinage_allongee +
-    voyant_freinage_allume créés en DB par cette PR)
-  - Section "Conseil pédagogique d'entretien" intégrée dans
-    "Critères de choix" (canon ne prévoit pas section dédiée)
-  - FAQ étendue de 3 → 5 questions
-
-  À reviewer humainement avant promotion vers wiki/gammes/.
-
-  Tous les diagnostic_relations[].evidence ont reviewed=false +
-  diagnostic_safe=false (défaut conservateur ADR-033 §D4).
+review_status: approved
+reviewed_by: skill:phase6-promotion-batch@claude
+reviewed_at: '2026-05-02T20:19:06Z'
+review_notes: "Pilote ADR-033 Phase 1 — enrichi 2026-04-29 avec diagnostic_relations[]\n\
+  + entity_data.maintenance. Bumped schema_version 1.0.0 → 2.0.0\n(ADR-033 + ADR-032).\n\
+  \n2026-04-30 : symptom_slug alignés sur slugs DB existants\n(brake_noise_metallic,\
+  \ brake_vibration_pedal — drift batch 20260308 EN\nlegacy, utilisable mais NOUVEAUX\
+  \ slugs DB seront FR canon — voir\nfeedback_french_only_for_content.md). 2 entrées\
+  \ retirées faute de slug\nDB (distance_freinage_allongee, voyant_freinage_allume).\n\
+  \n2026-05-02 (Phase 4 plan deja-verifier-existant) :\n- Sections H2 alignées sur\
+  \ ordre canon _templates/new-gamme.md\n  (Définition / Fonction / Symptômes d'usure\
+  \ / Critères de choix /\n  Compatibilité véhicule / Intentions SEO observées /\n\
+  \  Questions fréquentes / Sources et provenance / Points à vérifier)\n- aliases\
+  \ EN retirés (règle FR exclusif feedback_french_only_for_content.md) :\n  \"brake\
+  \ pad\", \"brake pads\" supprimés\n- target_classes étendu KB_Knowledge → KB_Knowledge\
+  \ + KB_Catalog (gamme catalog)\n- diagnostic_relations[] : 2 nouvelles entrées seront\
+  \ ajoutées\n  POST-merge PR monorepo #269 (distance_freinage_allongee +\n  voyant_freinage_allume\
+  \ créés en DB par cette PR)\n- Section \"Conseil pédagogique d'entretien\" intégrée\
+  \ dans\n  \"Critères de choix\" (canon ne prévoit pas section dédiée)\n- FAQ étendue\
+  \ de 3 → 5 questions\n\nÀ reviewer humainement avant promotion vers wiki/gammes/.\n\
+  \nTous les diagnostic_relations[].evidence ont reviewed=false +\ndiagnostic_safe=false\
+  \ (défaut conservateur ADR-033 §D4).\n"
 no_disputed_claims: true
 exportable:
   rag: false
@@ -65,8 +54,8 @@ diagnostic_relations:
 - symptom_slug: brake_noise_metallic
   system_slug: freinage
   relation_to_part: possible_cause
-  part_role: 'grincement aigu / bruit métallique au freinage — plaquette usée à
-    la limite ou contaminée (huile, gravillons), ou mal montée'
+  part_role: grincement aigu / bruit métallique au freinage — plaquette usée à la
+    limite ou contaminée (huile, gravillons), ou mal montée
   evidence:
     confidence: medium
     source_policy: 2_medium_concordant
@@ -79,8 +68,8 @@ diagnostic_relations:
 - symptom_slug: brake_vibration_pedal
   system_slug: freinage
   relation_to_part: symptom_amplifier
-  part_role: 'vibration dans la pédale de frein — plaquette dont la friction
-    inégale aggrave un voile de disque préexistant'
+  part_role: vibration dans la pédale de frein — plaquette dont la friction inégale
+    aggrave un voile de disque préexistant
   evidence:
     confidence: medium
     source_policy: 2_medium_concordant
@@ -90,6 +79,34 @@ diagnostic_relations:
   sources:
   - bosch_fad_2020
   - tecdoc_15_02_01_brake_noise
+- symptom_slug: distance_freinage_allongee
+  system_slug: freinage
+  relation_to_part: possible_cause
+  part_role: distance d'arrêt anormalement longue — plaquettes usées ou contaminées
+    dont la friction réduite allonge la distance de freinage
+  evidence:
+    confidence: medium
+    source_policy: 2_medium_concordant
+    reviewed: false
+    diagnostic_safe: false
+    confidence_score_computed: 1.0
+  sources:
+  - bosch_fad_2020
+  - oem_renault_clio_iii_workshop
+- symptom_slug: voyant_freinage_allume
+  system_slug: freinage
+  relation_to_part: possible_cause
+  part_role: témoin freinage allumé — plaquette en fin de vie déclenchant le capteur
+    d'usure intégré (témoin filaire ou câblage électronique)
+  evidence:
+    confidence: medium
+    source_policy: 2_medium_concordant
+    reviewed: false
+    diagnostic_safe: false
+    confidence_score_computed: 1.0
+  sources:
+  - bosch_fad_2020
+  - oem_renault_clio_iii_workshop
 entity_data:
   pg_id: 402
   family: freinage
@@ -114,8 +131,6 @@ confidence_score: 0.42
 ---
 
 # Plaquette de frein
-
-> 📥 **Pilote ADR-033 Phase 1** — fiche enrichie `diagnostic_relations[]` + `entity_data.maintenance` (ADR-032). Sections H2 ordre canon Phase 4 plan deja-verifier-existant.
 
 ## Définition
 

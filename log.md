@@ -39,3 +39,9 @@
 - **Branche** : `feat/p5-confidence-drift-gate`
 - **Décision** : feat(p5): wire wiki-symptom-confidence pre-commit + mark field readOnly in schema
 - **Sortie** : PR #12 | commits 61dfa38
+
+## 2026-05-03 — fix/claude-md-adr-status-refresh (auto)
+
+- **Branche** : `fix/claude-md-adr-status-refresh`
+- **Décision** : docs(claude): refresh ADR refs (031 accepted, 022 conditional, 033 added)
+- **Sortie** : PR aucune | commits 4ae9237

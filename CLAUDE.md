@@ -41,9 +41,17 @@ Le même flux s'applique à **gammes, vehicles, constructeurs, support, diagnost
 
 ## Note ADR-022 (R8 vehicles) — sujet downstream backend
 
-Le mécanisme `__rag_proposals` (DB Supabase, ADR-022 governance-vault) est une **génération R8 future** côté backend, **distinct** du flux raw → wiki présent. Il est actuellement DORMANT (`RAG_PROPOSAL_MODE=off`).
+Le mécanisme `__rag_proposals` (DB Supabase, ADR-022 governance-vault) est une **génération R8** côté backend, **distinct** du flux raw → wiki présent. Son activation est gouvernée par la variable d'environnement `RAG_PROPOSAL_MODE` côté NestJS (lue à `onModuleInit`).
 
-Si plus tard activé, ses sorties merged seront traitées comme **un input parmi d'autres** vers `automecanik-raw/recycled/`, puis suivront le flux uniforme jusqu'à `wiki/vehicles/`. Pas de cas spécial fichier.
+Quand activé, ses sorties merged sont traitées comme **un input parmi d'autres** vers `automecanik-raw/recycled/`, puis suivent le flux uniforme jusqu'à `wiki/vehicles/`. Pas de cas spécial fichier — le sas markdown wiki reste l'unique source de promotion vers `wiki/<entity_type>/`.
+
+## Note ADR-033 (gamme diagnostic_relations) — contrat wiki gamme
+
+Pour `entity_type: gamme` (cf. ADR-033 `accepted` 2026-04-29) :
+
+- Les fiches wiki ne doivent **pas** recréer localement les symptômes — la DB `__diag_symptom` est SoT.
+- Les relations diagnostic pointent vers le bloc `diagnostic_relations[]` du frontmatter v2.0.0 (cf. `_meta/schema/frontmatter.schema.json`).
+- **Anti-pattern interdit** : `entity_data.symptoms[]` ou `diagnostic.symptoms[]` (ADR-033 §D2). Bloqué par `_scripts/quality-gates.py` `legacy_symptoms_block`.
 
 ## Validation humaine
 
@@ -98,5 +106,9 @@ Avant de créer un nouveau script de lint / quality / extraction, vérifier les 
 
 ## Référence canon
 
-ADR-031 — Raw / Wiki / RAG / SEO Separation
-`ak125/governance-vault/ledger/decisions/adr/ADR-031-raw-wiki-rag-seo-separation.md` (à créer Phase C)
+- **ADR-031** — Raw / Wiki / RAG / SEO Separation (`accepted` 2026-04-28, vault PR #107)
+  `ak125/governance-vault/ledger/decisions/adr/ADR-031-raw-wiki-rag-seo-separation.md`
+- **ADR-032** — Diagnostic & Maintenance unification (`accepted` 2026-04-29)
+  `ak125/governance-vault/ledger/decisions/adr/ADR-032-diagnostic-maintenance-unification.md`
+- **ADR-033** — Wiki gamme `diagnostic_relations[]` contract (`accepted` 2026-04-29, vault PR #108)
+  `ak125/governance-vault/ledger/decisions/adr/ADR-033-wiki-gamme-diagnostic-relations-contract.md`

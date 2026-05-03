@@ -1,35 +1,30 @@
 {
-  "$id": "https://github.com/ak125/automecanik-wiki/exports/diag-canon.schema.json",
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "additionalProperties": false,
-  "description": "Forme structurelle de exports/diag-canon.json. Les valeurs sont validées par croisement direct dans le script consommateur — pas de oneOf énorme.",
+  "type": "object",
   "properties": {
-    "generated_at": {
-      "format": "date-time",
-      "type": "string"
+    "version": {
+      "type": "string",
+      "const": "1.0.0"
     },
-    "symptoms": {
-      "additionalProperties": false,
-      "patternProperties": {
-        "^[a-z][a-z0-9_]*$": {
-          "description": "system_slug — DOIT être présent dans la liste 'systems'.",
-          "pattern": "^[a-z][a-z0-9_]*$",
-          "type": "string"
-        }
-      },
-      "type": "object"
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
     },
     "systems": {
-      "items": {
-        "pattern": "^[a-z][a-z0-9_]*$",
-        "type": "string"
-      },
       "type": "array",
-      "uniqueItems": true
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      }
     },
-    "version": {
-      "pattern": "^\\d+\\.\\d+\\.\\d+$",
-      "type": "string"
+    "symptoms": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*$"
+      },
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_]*$"
+      }
     }
   },
   "required": [
@@ -38,6 +33,6 @@
     "systems",
     "symptoms"
   ],
-  "title": "automecanik diagnostic canon (flat map)",
-  "type": "object"
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2019-09/schema#"
 }

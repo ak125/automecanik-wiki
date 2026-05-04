@@ -1,5 +1,15 @@
-# Exports générés — contenu gitignored, contrats schema commités
-exports/rag/**
+# Exports générés — Pattern B canon (plan v3 §Étape 6, knowledge vault
+# rag-to-wiki-sot-pipeline-20260503.md). Le contenu de exports/rag/ est
+# COMMIT pour permettre au cron VPS DEV (scripts/cron/sync-rag-from-wiki.sh
+# côté monorepo) de le mirrorer vers automecanik-rag/knowledge/ sans
+# re-générer à chaque sync (zéro dépendance Wikidata/Wikipedia/DB côté sync,
+# idempotent sha256).
+#
+# Les générateurs (scripts/wiki-generators/) côté monorepo écrivent dans
+# exports/rag/, le user push sur main, le cron sync mirror.
+#
+# exports/seo/ et exports/support/ restent gitignored (hors scope plan v3 —
+# chantier futur si pertinent).
 exports/seo/**
 exports/support/**
 !exports/**/.gitkeep

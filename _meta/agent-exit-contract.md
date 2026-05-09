@@ -4,7 +4,7 @@
 > **Version** : 1.0.0 | **Status** : CANON
 > **Taxonomie** : règle transverse — s'applique avant les règles spécifiques de domaine (T*, G*, Q*, AP*).
 
-Ce fichier est l'**unique source canonique** du contrat de sortie. Toutes les copies dans les repos applicatifs (`automecanik-wiki/_meta/agent-exit-contract.md`, `automecanik-raw/agent-exit-contract.md`, `nestjs-remix-monorepo/.claude/rules/agent-exit-contract.md`, `nestjs-remix-monorepo/workspaces/seo-batch/.claude/rules/agent-exit-contract.md`) sont des **dérivées vérifiées par hash SHA-256** (cf §"Distribution canonique" plus bas).
+Ce fichier est l'**unique source canonique** du contrat de sortie. Toutes les copies dans les repos applicatifs (`automecanik-wiki/_meta/agent-exit-contract.md`, `automecanik-raw/agent-exit-contract.md`, `nestjs-remix-monorepo/.claude/canon-mirrors/agent-exit-contract.md`, `nestjs-remix-monorepo/workspaces/seo-batch/.claude/canon-mirrors/agent-exit-contract.md`, `nestjs-remix-monorepo/workspaces/marketing/.claude/canon-mirrors/agent-exit-contract.md`) sont des **dérivées vérifiées par hash SHA-256** (cf §"Distribution canonique" plus bas).
 
 ---
 
@@ -59,11 +59,13 @@ Ce fichier est la **source unique**. Les copies dans les repos applicatifs sont 
 
 1. **Source de vérité** : ce fichier (`governance-vault/ledger/rules/rules-agent-exit-contract.md`)
 2. **Hash SHA-256 publié** : `99-meta/canon-hashes.json` clé `aec` (à créer Phase B.1.b)
-3. **Copies dérivées dans les repos applicatifs** :
+3. **Copies dérivées dans les repos applicatifs** (sous `.claude/canon-mirrors/`
+   pour ne pas être chargées comme rules Claude Code) :
    - `automecanik-wiki/_meta/agent-exit-contract.md`
    - `automecanik-raw/agent-exit-contract.md`
-   - `nestjs-remix-monorepo/.claude/rules/agent-exit-contract.md`
-   - `nestjs-remix-monorepo/workspaces/seo-batch/.claude/rules/agent-exit-contract.md`
+   - `nestjs-remix-monorepo/.claude/canon-mirrors/agent-exit-contract.md`
+   - `nestjs-remix-monorepo/workspaces/seo-batch/.claude/canon-mirrors/agent-exit-contract.md`
+   - `nestjs-remix-monorepo/workspaces/marketing/.claude/canon-mirrors/agent-exit-contract.md`
 4. **Vérification CI** : chaque repo applicatif inclut un workflow `agent-exit-contract-hash.yml` qui compare le hash de sa copie locale vs `99-meta/canon-hashes.json` (via `gh api`)
 5. **Mise à jour** : modification de ce fichier → workflow `canon-publish.yml` (à créer Phase B.1.c) ouvre une PR auto dans chaque repo applicatif pour resync. Auto-merge avec label `canon-sync` autorisé.
 
@@ -74,6 +76,7 @@ Bump majeur (X.0) = nouvelle règle ou statut interdit ajouté. Bump mineur (X.Y
 | Version | Date | Changements |
 |---|---|---|
 | 1.0.0 | 2026-04-28 | Canonisation depuis copies orphelines monorepo + seo-batch (drift constaté empiriquement). Ajout §"Distribution canonique". |
+| 1.0.1 | 2026-05-04 | Patch path : copies monorepo relocalisées de `.claude/rules/` vers `.claude/canon-mirrors/` pour ne pas alourdir le contexte projet Claude Code (~2.5K tokens/tour). Aucune règle modifiée, hash recalculé. |
 
 ## Référence
 

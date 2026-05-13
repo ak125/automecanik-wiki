@@ -5,7 +5,7 @@
 
 ## Objectif
 
-Lever 2 ambiguïtés bloquantes identifiées lors du gap analysis ADR-031 / ADR-058 :
+Lever 2 ambiguïtés bloquantes identifiées lors du gap analysis ADR-031 / ADR-059 :
 
 1. Quelle version de frontmatter est canon **maintenant** (v1.0.0 vs v2.0.0) ?
 2. Convention path `wiki/<entity_type_singular>/` (ADR-031) vs disk historique pluriel.
@@ -82,4 +82,4 @@ Détectés par `grep -rnE 'wiki/(gammes|vehicles|constructeurs)'` au moment du r
 - [ADR-039 Wiki Frontmatter Zod Canon](https://github.com/ak125/governance-vault/blob/main/ledger/decisions/adr/ADR-039-wiki-frontmatter-zod-canon.md) (LIVE)
 - [ADR-033 Wiki Gamme Diagnostic Relations](https://github.com/ak125/governance-vault/blob/main/ledger/decisions/adr/ADR-033-wiki-gamme-diagnostic-relations.md) (accepted, v2.0.0 transition future)
 - [ADR-031 gap analysis SEO runtime](https://github.com/ak125/governance-vault/blob/main/ledger/knowledge/adr-031-gap-analysis-seo-runtime.md) (knowledge note, 2026-05-13)
-- ADR-058 SEO Runtime Projection Architecture (proposed via vault PR-1, **supplements** ADR-031)
+- ADR-059 SEO Runtime Projection Architecture (proposed via vault PR-1, **supplements** ADR-031)

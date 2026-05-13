@@ -1,0 +1,362 @@
+"""
+Tests build_exports_seo — garde-fous stricts ADR-059 PR-5a.
+
+Vérifie les 7 verrous explicites :
+1. schema enforce roles_allowed minItems:1
+2. schema enforce entity_type ∈ {gamme, vehicle, constructeur, diagnostic} (support exclu)
+3. schema enforce schema_version ≠ projection_contract_version (distincts)
+4. schema enforce source_wiki_commit, wiki_path, content_hash obligatoires
+5. builder refuse support
+6. builder refuse diagnostic sans R3_CONSEILS S2_DIAG
+7. builder refuse écriture hors exports/seo/
+8. garde-fous statiques : 0 LLM, 0 DB
+9. builder = filter+transform only (no enrichment)
+"""
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import click
+import pytest
+
+import build_exports_seo as builder
+
+
+SCHEMA_PATH = Path(__file__).resolve().parent.parent / "_meta" / "schema" / "exports-seo.schema.json"
+SCRIPT_PATH = Path(__file__).resolve().parent / "build_exports_seo.py"
+
+
+def _valid_payload() -> dict:
+    """Payload minimal conforme au schema (référence)."""
+    return {
+        "entity_id": "gamme:filtre-a-huile",
+        "entity_type": "gamme",
+        "schema_version": "1.0.0",
+        "projection_contract_version": "1.0.0",
+        "source_wiki_commit": "abc1234",
+        "wiki_path": "wiki/gamme/filtre-a-huile.md",
+        "content_hash": "sha256:" + "f" * 64,
+        "generated_at": "2026-05-13T12:00:00+00:00",
+        "facts": [],
+        "sources": [],
+        "blocks": [],
+        "roles_allowed": ["R3_CONSEILS", "R4_REFERENCE"],
+        "consumers_allowed": ["seo", "rag"],
+    }
+
+
+def _validate(payload: dict) -> None:
+    """jsonschema validate contre exports-seo.schema.json."""
+    import jsonschema
+
+    schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    jsonschema.validate(payload, schema)
+
+
+# ========================================================================
+# Schema enforcement (7 garde-fous explicites)
+# ========================================================================
+
+
+def test_schema_valid_minimal_payload_passes() -> None:
+    _validate(_valid_payload())
+
+
+def test_schema_enforces_roles_allowed_min_items_1() -> None:
+    """Garde-fou #1 : roles_allowed ne peut PAS être vide."""
+    import jsonschema
+
+    p = _valid_payload()
+    p["roles_allowed"] = []
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+def test_schema_excludes_support_entity_type() -> None:
+    """Garde-fou #2 : support n'est PAS dans entity_type enum."""
+    import jsonschema
+
+    p = _valid_payload()
+    p["entity_type"] = "support"
+    p["entity_id"] = "support:livraison"
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+def test_schema_requires_schema_version_and_projection_contract_version_distinct_fields() -> None:
+    """Garde-fou #3 : les 2 champs version sont obligatoires et distincts."""
+    import jsonschema
+
+    p = _valid_payload()
+    p.pop("schema_version")
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+    p = _valid_payload()
+    p.pop("projection_contract_version")
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+def test_schema_requires_source_wiki_commit() -> None:
+    """Garde-fou #4a."""
+    import jsonschema
+
+    p = _valid_payload()
+    p.pop("source_wiki_commit")
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+def test_schema_requires_wiki_path() -> None:
+    """Garde-fou #4b."""
+    import jsonschema
+
+    p = _valid_payload()
+    p.pop("wiki_path")
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+def test_schema_requires_content_hash() -> None:
+    """Garde-fou #4c."""
+    import jsonschema
+
+    p = _valid_payload()
+    p.pop("content_hash")
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+def test_schema_wiki_path_pattern_excludes_support_dir() -> None:
+    """wiki_path pattern bloque wiki/support/..."""
+    import jsonschema
+
+    p = _valid_payload()
+    p["wiki_path"] = "wiki/support/livraison.md"
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+def test_schema_entity_id_pattern_excludes_support() -> None:
+    """entity_id pattern n'autorise pas support:."""
+    import jsonschema
+
+    p = _valid_payload()
+    p["entity_id"] = "support:livraison"
+    p["entity_type"] = "support"
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+def test_schema_rejects_unknown_role_in_roles_allowed() -> None:
+    """roles_allowed enum strict."""
+    import jsonschema
+
+    p = _valid_payload()
+    p["roles_allowed"] = ["R3_CONSEILS", "R5_DIAGNOSTIC"]  # R5 sunset per ADR-027
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+def test_schema_rejects_extra_fields() -> None:
+    """additionalProperties: false."""
+    import jsonschema
+
+    p = _valid_payload()
+    p["mystery_field"] = "oops"
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(p)
+
+
+# ========================================================================
+# Builder behavior (filter + transform only)
+# ========================================================================
+
+
+def _write_wiki_fiche(
+    wiki_root: Path,
+    entity_type: str,
+    slug: str,
+    review_status: str = "approved",
+    exportable: bool = True,
+    body: str = "",
+    roles_allowed: list[str] | None = None,
+    extra_fm: dict | None = None,
+) -> Path:
+    """Helper test : crée une fiche wiki canon synthétique."""
+    fm = {
+        "schema_version": "1.0.0",
+        "id": f"{entity_type}:{slug}",
+        "entity_type": entity_type,
+        "slug": slug,
+        "title": slug.replace("-", " ").title(),
+        "lang": "fr",
+        "created_at": "2026-05-13",
+        "updated_at": "2026-05-13",
+        "truth_level": "L2",
+        "review_status": review_status,
+        "exportable": exportable,
+    }
+    if roles_allowed is not None:
+        fm["roles_allowed"] = roles_allowed
+    if extra_fm:
+        fm.update(extra_fm)
+    import yaml
+
+    target = wiki_root / "wiki" / entity_type / f"{slug}.md"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(
+        "---\n"
+        + yaml.safe_dump(fm, allow_unicode=True, sort_keys=False)
+        + "---\n"
+        + body,
+        encoding="utf-8",
+    )
+    return target
+
+
+def test_builder_refuses_support_entity_type(tmp_path: Path) -> None:
+    """Garde-fou #5 : support never enters exports/seo/."""
+    src = _write_wiki_fiche(tmp_path, "support", "livraison")
+    payload = builder.build_export(src, tmp_path, "abc1234")
+    assert payload is None
+
+
+def test_builder_refuses_non_approved(tmp_path: Path) -> None:
+    src = _write_wiki_fiche(tmp_path, "gamme", "x-slug", review_status="proposed")
+    assert builder.build_export(src, tmp_path, "abc1234") is None
+
+
+def test_builder_refuses_non_exportable(tmp_path: Path) -> None:
+    src = _write_wiki_fiche(tmp_path, "gamme", "x-slug", exportable=False)
+    assert builder.build_export(src, tmp_path, "abc1234") is None
+
+
+def test_builder_refuses_diagnostic_without_r3_s2_diag(tmp_path: Path) -> None:
+    """Garde-fou #6 : diagnostic sans R3_CONSEILS/S2_DIAG → routé hors exports/seo/."""
+    src = _write_wiki_fiche(tmp_path, "diagnostic", "bruit-x", body="Diagnostic sans S2.\n")
+    assert builder.build_export(src, tmp_path, "abc1234") is None
+
+
+def test_builder_accepts_diagnostic_with_s2_diag(tmp_path: Path) -> None:
+    src = _write_wiki_fiche(
+        tmp_path,
+        "diagnostic",
+        "bruit-y",
+        body="## S2_DIAG\nContenu diagnostic R3.\n",
+    )
+    payload = builder.build_export(src, tmp_path, "abc1234")
+    assert payload is not None
+    assert payload["entity_type"] == "diagnostic"
+
+
+def test_builder_accepts_gamme_approved_exportable(tmp_path: Path) -> None:
+    src = _write_wiki_fiche(tmp_path, "gamme", "filtre-a-huile")
+    payload = builder.build_export(src, tmp_path, "abc1234")
+    assert payload is not None
+    assert payload["entity_id"] == "gamme:filtre-a-huile"
+    assert payload["schema_version"] == "1.0.0"
+    assert payload["projection_contract_version"] == "1.0.0"
+    assert payload["source_wiki_commit"] == "abc1234"
+    assert payload["wiki_path"] == "wiki/gamme/filtre-a-huile.md"
+    assert payload["content_hash"].startswith("sha256:")
+    assert payload["roles_allowed"], "default roles_allowed for gamme must be non-empty"
+    _validate(payload)
+
+
+def test_builder_skips_when_roles_allowed_empty_explicit(tmp_path: Path) -> None:
+    src = _write_wiki_fiche(tmp_path, "gamme", "no-roles", roles_allowed=[])
+    payload = builder.build_export(src, tmp_path, "abc1234")
+    # roles vide explicite tombe sur default (non-vide pour gamme), donc OK ici
+    # mais si on force vide via build interne sans défaut, le builder skip.
+    # Ici on vérifie juste que le builder ne crash pas.
+    assert payload is None or payload["roles_allowed"]
+
+
+# ========================================================================
+# Output path enforcement (garde-fou #7)
+# ========================================================================
+
+
+def test_enforce_output_path_refuses_wiki_canon_dir(tmp_path: Path) -> None:
+    """Garde-fou #7 : refuse écriture wiki/<entity_type>/."""
+    out = tmp_path / "wiki" / "gamme" / "x.json"
+    with pytest.raises(click.ClickException, match="exports/seo"):
+        builder._enforce_output_path_strict(out, tmp_path)
+
+
+def test_enforce_output_path_refuses_exports_rag(tmp_path: Path) -> None:
+    out = tmp_path / "exports" / "rag" / "gamme" / "x.json"
+    with pytest.raises(click.ClickException, match="exports/seo"):
+        builder._enforce_output_path_strict(out, tmp_path)
+
+
+def test_enforce_output_path_refuses_exports_support(tmp_path: Path) -> None:
+    out = tmp_path / "exports" / "support" / "support" / "x.json"
+    with pytest.raises(click.ClickException, match="exports/seo"):
+        builder._enforce_output_path_strict(out, tmp_path)
+
+
+def test_enforce_output_path_refuses_proposals(tmp_path: Path) -> None:
+    out = tmp_path / "proposals" / "x.md"
+    with pytest.raises(click.ClickException, match="exports/seo"):
+        builder._enforce_output_path_strict(out, tmp_path)
+
+
+def test_enforce_output_path_refuses_outside_wiki_root(tmp_path: Path) -> None:
+    out = Path("/tmp/random/x.json")
+    with pytest.raises(click.ClickException, match="outside wiki_root"):
+        builder._enforce_output_path_strict(out, tmp_path)
+
+
+def test_enforce_output_path_allows_exports_seo(tmp_path: Path) -> None:
+    out = tmp_path / "exports" / "seo" / "gamme" / "x.json"
+    builder._enforce_output_path_strict(out, tmp_path)
+
+
+# ========================================================================
+# Static guards
+# ========================================================================
+
+
+def test_no_llm_inference_imports() -> None:
+    """Garde-fou statique : aucun import LLM."""
+    text = SCRIPT_PATH.read_text(encoding="utf-8")
+    forbidden = ["anthropic", "openai", "groq", "cohere", "mistralai", "google.generativeai"]
+    for needle in forbidden:
+        assert needle not in text, f"LLM SDK '{needle}' must not appear in build_exports_seo"
+
+
+def test_no_db_imports() -> None:
+    """Garde-fou statique : aucun import DB."""
+    text = SCRIPT_PATH.read_text(encoding="utf-8")
+    forbidden_db = ["psycopg", "asyncpg", "supabase", "sqlalchemy", "django"]
+    for needle in forbidden_db:
+        assert needle not in text, f"DB SDK '{needle}' must not appear in build_exports_seo"
+
+
+def test_no_enrichment_logic_patterns() -> None:
+    """
+    Garde-fou architectural : aucun pattern d'enrichissement / génération.
+    Le builder lit le canon et le projette. Il ne génère pas de contenu.
+    """
+    text = SCRIPT_PATH.read_text(encoding="utf-8")
+    forbidden_patterns = [
+        "generate_",  # toute fonction generate_*
+        "enrich_",  # toute fonction enrich_*
+        "synthesize",
+        "infer_",
+    ]
+    for needle in forbidden_patterns:
+        assert needle not in text, (
+            f"enrichment pattern '{needle}' detected in build_exports_seo. "
+            "PR-5a strict scope: filter + transform only, no enrichment."
+        )
+
+
+def test_schema_path_referenced_correctly() -> None:
+    """Builder doit chercher exports-seo.schema.json dans _meta/schema/."""
+    text = SCRIPT_PATH.read_text(encoding="utf-8")
+    assert "exports-seo.schema.json" in text

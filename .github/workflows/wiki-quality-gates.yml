@@ -51,3 +51,30 @@ jobs:
 
       - name: pytest fixtures (gates ADR-033 + ADR-032)
         run: cd _scripts/tests && python3 -m pytest -v
+
+  promotion-gates:
+    name: Promotion gates wrappers (ADR-059 PR-4 — Pydantic-typed)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python deps (Pydantic + Click + pytest)
+        run: pip install --quiet "pydantic>=2.5,<3" "click>=8.1,<9" "pyyaml>=6.0,<7" "pytest>=7.4,<9"
+      - name: Pytest 5 wrappers (architectural + smoke)
+        run: cd _scripts && python3 -m pytest gates/test_gates.py -v
+      - name: Sanity run on existing proposals (no-op if proposals/ empty)
+        run: |
+          set -e
+          shopt -s nullglob
+          proposals=(proposals/*.md)
+          if [[ ${#proposals[@]} -eq 0 ]]; then
+            echo "no proposals to scan — skipping run_all"
+            exit 0
+          fi
+          for p in "${proposals[@]}"; do
+            echo "=== $p ==="
+            python3 -m _scripts.gates.run_all --target "$p" --format text || true
+          done
+        shell: bash

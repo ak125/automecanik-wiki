@@ -78,3 +78,35 @@ jobs:
             python3 -m _scripts.gates.run_all --target "$p" --format text || true
           done
         shell: bash
+
+  validate-exports-seo:
+    name: Validate exports/seo/ (ADR-059 PR-5a — ajv + builder pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python deps
+        run: pip install --quiet "click>=8.1,<9" "pyyaml>=6.0,<7" "jsonschema>=4.20,<5" "pytest>=7.4,<9"
+      - name: Install ajv-cli
+        run: npm install -g ajv-cli@5
+      - name: Pytest builder + schema (28 tests)
+        run: cd _scripts && python3 -m pytest test_build_exports_seo.py -v
+      - name: ajv-validate existing exports/seo/*.json (no-op if empty)
+        run: |
+          set -e
+          shopt -s nullglob
+          files=(exports/seo/*/*.json)
+          if [[ ${#files[@]} -eq 0 ]]; then
+            echo "no exports/seo/*.json yet — skipping ajv validation"
+            exit 0
+          fi
+          for f in "${files[@]}"; do
+            echo "=== ajv $f ==="
+            ajv validate -s _meta/schema/exports-seo.schema.json -d "$f"
+          done
+        shell: bash

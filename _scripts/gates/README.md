@@ -10,13 +10,13 @@ Référence : [ADR-059 SEO Runtime Projection](https://github.com/ak125/governan
 
 Step 0 audit `ast.parse` sur `_scripts/quality-gates.py` (618 lignes, 0 classes, 22 fonctions dont **13 gates atomiques**) :
 
-| Wrapper              | Gates legacy composés                                              |
-|----------------------|--------------------------------------------------------------------|
-| `source_gate`        | `gate_source_catalog_raw_refs` + `gate_sources_missing`            |
-| `claim_gate`         | `gate_schema_invalid` + `gate_slug_collision` + `gate_path_anti_patterns` |
-| `contradiction_gate` | `gate_diagnostic_relations` + `gate_legacy_symptoms_block`         |
+| Wrapper              | Gates legacy composés                                                                                                    |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `source_gate`        | `gate_source_catalog_raw_refs` + `gate_sources_missing`                                                                  |
+| `claim_gate`         | `gate_schema_invalid` + `gate_slug_collision` + `gate_path_anti_patterns`                                                |
+| `contradiction_gate` | `gate_diagnostic_relations` + `gate_legacy_symptoms_block`                                                               |
 | `risk_gate`          | `gate_pollution` + `gate_catalog_leak` + `gate_commercial_promise` + `gate_safety_unsourced` + `gate_maintenance_advice` |
-| `confidence_gate`    | `gate_symptom_unstructured`                                        |
+| `confidence_gate`    | `gate_symptom_unstructured`                                                                                              |
 
 ## Contrat de retour (Pydantic v2 strict)
 
@@ -26,7 +26,7 @@ class GateResult(BaseModel):
     target_file: str
     status: Literal["pass", "fail", "warn"]
     violations: list[GateViolation]
-    
+
     @property
     def exit_code(self) -> int:
         return {"pass": 0, "fail": 1, "warn": 2}[self.status]

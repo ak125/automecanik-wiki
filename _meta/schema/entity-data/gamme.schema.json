@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/gamme.schema.json",
-  "title": "entity_data v2.0.0 — gamme (R3/R4)",
-  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'. v2.0.0 ajoute le bloc maintenance (canon ADR-032 §D1). diagnostic_relations[] est top-level frontmatter (canon ADR-033 §D1), géré dans frontmatter.schema.json.",
+  "title": "entity_data v2.1.0 — gamme (R3/R4)",
+  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'. v2.0.0 ajoute le bloc maintenance (canon ADR-032 §D1). v2.1.0 (additive, 2026-05-27 Task 8a) ajoute le bloc optionnel `dimensions` pour les compatibility_factors + motorisation_profiles produits par scripts/wiki-generators/promote-raw-gammes-to-wiki.py (canon B5 compatibility_proven_by_runtime_url_and_db). diagnostic_relations[] reste top-level frontmatter (canon ADR-033 §D1).",
   "type": "object",
   "required": ["pg_id", "family"],
   "additionalProperties": false,
@@ -76,6 +76,79 @@
           "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
           "uniqueItems": true,
           "default": []
+        }
+      }
+    },
+    "dimensions": {
+      "description": "Canon v2.1.0 (2026-05-27 Task 8a, additive) — dimensions métier produites par scripts/wiki-generators/promote-raw-gammes-to-wiki.py. Source : compatibility_proven_by_runtime_url_and_db (B2 URL pattern + B4 DB cross-check). Optionnel. Ne modifie pas les champs existants.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "compatibility_factors": {
+          "description": "Faits compatibilité véhicule × motorisation prouvés par URL runtime + DB catalog canon.",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "source_kind": {
+              "description": "Type de source ayant prouvé les compatibility_factors.",
+              "type": "string",
+              "enum": [
+                "compatibility_proven_by_runtime_url",
+                "compatibility_proven_by_runtime_url_and_db"
+              ]
+            },
+            "marques": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+            "motorisations": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+            "fuels": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+            "norme_euro": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+            "motorisation": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+            "brand_motorisation_pairs": { "type": "array", "items": { "type": "object" } },
+            "model_count_distinct": { "type": "integer", "minimum": 0 },
+            "type_ids": { "type": "array", "items": { "type": "integer" }, "uniqueItems": true },
+            "power_ps_range": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "min": { "type": "integer", "minimum": 0 },
+                "max": { "type": "integer", "minimum": 0 },
+                "count": { "type": "integer", "minimum": 0 }
+              }
+            },
+            "year_range": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "min": { "type": "integer", "minimum": 1900 },
+                "max": { "type": "integer", "minimum": 1900 }
+              }
+            },
+            "proven_url_count": { "type": "integer", "minimum": 0 },
+            "db_aligned_count": { "type": "integer", "minimum": 0 },
+            "stale_count": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "motorisation_profiles": {
+          "description": "Tuples véhicule × motorisation prouvés par URL runtime status 200 + DB cross-check PASS_DB_ALIGNED. Chaque entrée enrichie par auto_type/auto_modele/auto_marque DB labels.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "brand": { "type": "string" },
+              "brand_name": { "type": ["string", "null"] },
+              "model": { "type": "string" },
+              "model_name": { "type": ["string", "null"] },
+              "type_id": { "type": "integer", "minimum": 1 },
+              "type_name": { "type": ["string", "null"] },
+              "fuel": { "type": ["string", "null"] },
+              "power_ps": { "type": ["string", "integer", "null"] },
+              "year_from": { "type": ["integer", "null"] },
+              "year_to": { "type": ["integer", "null"] },
+              "source_url": { "type": "string", "format": "uri" },
+              "db_status": { "type": "string", "enum": ["PASS_DB_ALIGNED"] }
+            },
+            "required": ["brand", "model", "type_id", "source_url", "db_status"]
+          }
         }
       }
     }

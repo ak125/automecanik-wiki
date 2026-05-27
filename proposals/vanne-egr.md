@@ -10,12 +10,10 @@ created_at: '2026-05-27'
 updated_at: '2026-05-27'
 truth_level: L2
 source_refs:
-- kind: rag_recycled_candidate
+- kind: recycled
   origin_repo: automecanik-raw
   origin_path: recycled/rag-knowledge/gammes/vanne-egr.md
-  captured_at: null
-  trust: candidate
-  requires_review: true
+  captured_at: '2026-05-27'
 provenance:
   ingested_by: script:promote-raw-gammes-to-wiki@v0.1
   promoted_from: null
@@ -445,6 +443,7 @@ entity_data:
       brand_name: PEUGEOT
       source_url: https://www.automecanik.com/pieces/vanne-egr-1145/peugeot-128/307-sw-128038/1-6-hdi-23722.html
       db_status: PASS_DB_ALIGNED
+confidence_score: 0.24
 ---
 
 ## Rôle technique

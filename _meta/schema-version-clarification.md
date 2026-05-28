@@ -8,17 +8,17 @@
 Lever 2 ambiguïtés bloquantes identifiées lors du gap analysis ADR-031 / ADR-059 :
 
 1. Quelle version de frontmatter est canon **maintenant** (v1.0.0 vs v2.0.0) ?
-2. Convention path `wiki/<entity_type_singular>/` (ADR-031) vs disk historique pluriel.
+1. Convention path `wiki/<entity_type_singular>/` (ADR-031) vs disk historique pluriel.
 
----
+______________________________________________________________________
 
 ## Frontmatter schema canon courant : v1.0.0
 
-| Élément | Source | Statut |
-|---|---|---|
-| **`_meta/schema/frontmatter.schema.json`** | Titré `"automecanik-wiki frontmatter v1.0.0"` (ligne 4) | **CANON courant** |
-| **ADR-039** | Zod TS mirror du JSON Schema v1.0.0 (`@repo/wiki-frontmatter`) | LIVE |
-| **v2.0.0** | Piste ADR-033 transition future (frontmatter étendu pour diag relations) | **PAS canon courant**, transition à venir |
+| Élément                                    | Source                                                                   | Statut                                    |
+| ------------------------------------------ | ------------------------------------------------------------------------ | ----------------------------------------- |
+| **`_meta/schema/frontmatter.schema.json`** | Titré `"automecanik-wiki frontmatter v1.0.0"` (ligne 4)                  | **CANON courant**                         |
+| **ADR-039**                                | Zod TS mirror du JSON Schema v1.0.0 (`@repo/wiki-frontmatter`)           | LIVE                                      |
+| **v2.0.0**                                 | Piste ADR-033 transition future (frontmatter étendu pour diag relations) | **PAS canon courant**, transition à venir |
 
 ### Règle effective pour proposals nouvelles (2026-05-13)
 
@@ -31,7 +31,7 @@ Toute proposal (et toute fiche wiki canonique) doit valider `frontmatter.schema.
 
 Les fiches actuelles utilisant `schema_version: "2.0.0"` cohabitent transitoirement, mais ne sont **pas** canon. Migration coordonnée par ADR-033 (à venir).
 
----
+______________________________________________________________________
 
 ## Convention path : SINGULIER (ADR-031 §148)
 
@@ -41,13 +41,13 @@ ADR-031 §148 (canon proposé) impose :
 
 ### État disk 2026-05-13 (avant rename) — 5 dossiers
 
-| Dossier disk | Conformité ADR-031 §148 |
-|---|---|
-| `wiki/gammes/` | NON (pluriel) — VIDE |
-| `wiki/vehicles/` | NON (pluriel) — VIDE |
-| `wiki/constructeurs/` | NON (pluriel) — VIDE |
-| `wiki/diagnostic/` | OK (déjà singulier) |
-| `wiki/support/` | OK (déjà singulier) |
+| Dossier disk          | Conformité ADR-031 §148 |
+| --------------------- | ----------------------- |
+| `wiki/gammes/`        | NON (pluriel) — VIDE    |
+| `wiki/vehicles/`      | NON (pluriel) — VIDE    |
+| `wiki/constructeurs/` | NON (pluriel) — VIDE    |
+| `wiki/diagnostic/`    | OK (déjà singulier)     |
+| `wiki/support/`       | OK (déjà singulier)     |
 
 ### Rename effectué dans cette PR
 
@@ -59,6 +59,7 @@ git mv wiki/constructeurs wiki/constructeur
 ```
 
 Safe car :
+
 - Les 3 dossiers ciblés sont **vides** (audit empirique 2026-05-13)
 - Toutes les fiches existantes (proposals + wiki/) utilisent déjà `entity_type:` au singulier dans leur frontmatter (audit `grep -rE '^entity_type:'`)
 - Le script monorepo `app/scripts/wiki/wiki-readiness-check.py` est défensif (`returns "N/A — does not exist"` si dir absent) — pas de régression silencieuse
@@ -67,14 +68,14 @@ Safe car :
 
 Détectés par `grep -rnE 'wiki/(gammes|vehicles|constructeurs)'` au moment du rename :
 
-| Repo | Fichier | Lignes | Type |
-|---|---|---|---|
+| Repo                    | Fichier                                | Lignes                         | Type                                            |
+| ----------------------- | -------------------------------------- | ------------------------------ | ----------------------------------------------- |
 | `nestjs-remix-monorepo` | `scripts/wiki/wiki-readiness-check.py` | 28, 29, 33, 158, 161, 165, 184 | docstrings + chemins de vérification (défensif) |
-| `automecanik-wiki` | `_meta/schema/exports/rag.schema.json` | 39 | description textuelle (fixé dans cette PR) |
+| `automecanik-wiki`      | `_meta/schema/exports/rag.schema.json` | 39                             | description textuelle (fixé dans cette PR)      |
 
 **Followup monorepo PR** : `chore/wiki-readiness-check-singular-path-sync` (non-bloquant, le script est défensif sur dir-not-exists).
 
----
+______________________________________________________________________
 
 ## Références
 

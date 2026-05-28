@@ -6,27 +6,26 @@ category: constructeur
 lang: fr
 wikidata_qid: Q29610
 top_models:
-- modele_id: 45002
-  name: 300 C I
-  years: 2010-2012
-- modele_id: 45031
-  name: Pt Cruiser
-  years: 2005-2010
+  - modele_id: 45002
+    name: 300 C I
+    years: 2010-2012
+  - modele_id: 45031
+    name: Pt Cruiser
+    years: 2005-2010
 top_engines:
-- code: 211ch diesel
-  fuel: diesel
-  power_ps: 211
-- code: 150ch diesel
-  fuel: diesel
-  power_ps: 150
-- code: 218ch diesel
-  fuel: diesel
-  power_ps: 218
-- code: 121ch diesel
-  fuel: diesel
-  power_ps: 121
-history: Chrysler est une société américaine de construction automobile créée en 1925 par Walter Chrysler. Elle appartient
-  au constructeur automobile américain Stellantis North America, filiale de la multinationale franco-italienne Stellantis.
+  - code: 211ch diesel
+    fuel: diesel
+    power_ps: 211
+  - code: 150ch diesel
+    fuel: diesel
+    power_ps: 150
+  - code: 218ch diesel
+    fuel: diesel
+    power_ps: 218
+  - code: 121ch diesel
+    fuel: diesel
+    power_ps: 121
+history: Chrysler est une société américaine de construction automobile créée en 1925 par Walter Chrysler. Elle appartient au constructeur automobile américain Stellantis North America, filiale de la multinationale franco-italienne Stellantis.
 source_of_truth:
   country: unknown
   founded_year: unknown

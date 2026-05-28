@@ -17,17 +17,17 @@ automecanik-wiki/wiki/<entity_type_singular>/<slug>.md (review_status: approved,
 
 ## 7 garde-fous verrouillés (vérifiés par 28 tests Pytest)
 
-| # | Verrou | Mécanisme |
-|---|---|---|
-| 1 | `roles_allowed` minItems:1 | Schema JSON `minItems: 1` + builder skip si vide |
-| 2 | support exclu de exports/seo/ | Schema enum sans `support` + builder filter explicite |
-| 3 | diagnostic vers SEO seulement si block R3_CONSEILS/S2_DIAG | Builder `_has_r3_s2_diag_block()` + filter |
-| 4 | `schema_version` ≠ `projection_contract_version` (distincts) | Schema `required` les 2 + tests négatifs |
-| 5 | `source_wiki_commit`, `wiki_path`, `content_hash` obligatoires | Schema `required` + tests négatifs |
-| 6 | 0 LLM (anthropic/openai/groq/cohere/mistralai/google.generativeai) | Test statique `test_no_llm_inference_imports` |
-| 7 | 0 DB (psycopg/asyncpg/supabase/sqlalchemy/django) | Test statique `test_no_db_imports` |
-| **+** | 0 enrichissement (generate_/enrich_/synthesize/infer_) | Test statique `test_no_enrichment_logic_patterns` |
-| **+** | 0 écriture hors `exports/seo/` | `_enforce_output_path_strict()` + 5 tests négatifs |
+| #     | Verrou                                                             | Mécanisme                                             |
+| ----- | ------------------------------------------------------------------ | ----------------------------------------------------- |
+| 1     | `roles_allowed` minItems:1                                         | Schema JSON `minItems: 1` + builder skip si vide      |
+| 2     | support exclu de exports/seo/                                      | Schema enum sans `support` + builder filter explicite |
+| 3     | diagnostic vers SEO seulement si block R3_CONSEILS/S2_DIAG         | Builder `_has_r3_s2_diag_block()` + filter            |
+| 4     | `schema_version` ≠ `projection_contract_version` (distincts)       | Schema `required` les 2 + tests négatifs              |
+| 5     | `source_wiki_commit`, `wiki_path`, `content_hash` obligatoires     | Schema `required` + tests négatifs                    |
+| 6     | 0 LLM (anthropic/openai/groq/cohere/mistralai/google.generativeai) | Test statique `test_no_llm_inference_imports`         |
+| 7     | 0 DB (psycopg/asyncpg/supabase/sqlalchemy/django)                  | Test statique `test_no_db_imports`                    |
+| **+** | 0 enrichissement (generate\_/enrich\_/synthesize/infer\_)          | Test statique `test_no_enrichment_logic_patterns`     |
+| **+** | 0 écriture hors `exports/seo/`                                     | `_enforce_output_path_strict()` + 5 tests négatifs    |
 
 ## Schema JSON contractuel
 
@@ -63,6 +63,7 @@ pytest test_build_exports_seo.py -v
 ```
 
 Couverture :
+
 - **11 tests schema** : valid payload, roles_allowed minItems:1, support exclusion, schema_version/projection_contract_version requis, source_wiki_commit/wiki_path/content_hash requis, wiki_path pattern, entity_id pattern, role enum, additionalProperties false
 - **7 tests builder** : refuse support, refuse non-approved, refuse non-exportable, refuse diagnostic sans S2_DIAG, accepte diagnostic avec S2_DIAG, accepte gamme valide, skip roles_allowed vide
 - **6 tests output path** : refuse wiki canon dir, refuse exports/rag, refuse exports/support, refuse proposals, refuse outside wiki_root, allow exports/seo
@@ -73,7 +74,7 @@ Couverture :
 Job `validate-exports-seo` dans `.github/workflows/wiki-quality-gates.yml` :
 
 1. Pytest builder + schema (28 tests)
-2. ajv-validate de tous les `exports/seo/*/*.json` existants contre le schema canon
+1. ajv-validate de tous les `exports/seo/*/*.json` existants contre le schema canon
 
 ## Hors scope PR-5a
 

@@ -13,36 +13,35 @@ headquarters:
   country: Suède
 logo_uri: http://commons.wikimedia.org/wiki/Special:FilePath/Volvo-Iron-Mark-Black.svg
 top_models:
-- modele_id: 172113
-  name: Xc60 I
-  years: 2013-2015
-- modele_id: 172040
-  name: C30
-  years: 2010-2012
-- modele_id: 172107
-  name: V50
-  years: 2005-2011
+  - modele_id: 172113
+    name: Xc60 I
+    years: 2013-2015
+  - modele_id: 172040
+    name: C30
+    years: 2010-2012
+  - modele_id: 172107
+    name: V50
+    years: 2005-2011
 top_engines:
-- code: 136ch diesel
-  fuel: diesel
-  power_ps: 136
-- code: 181ch diesel
-  fuel: diesel
-  power_ps: 181
-- code: 190ch diesel
-  fuel: diesel
-  power_ps: 190
-- code: 115ch diesel
-  fuel: diesel
-  power_ps: 115
-- code: 163ch diesel
-  fuel: diesel
-  power_ps: 163
-- code: 175ch diesel
-  fuel: diesel
-  power_ps: 175
-history: Volvo Cars est un constructeur suédois d'automobiles. Fondé en 1927, le siège social de la marque se trouve à Göteborg,
-  en Suède.
+  - code: 136ch diesel
+    fuel: diesel
+    power_ps: 136
+  - code: 181ch diesel
+    fuel: diesel
+    power_ps: 181
+  - code: 190ch diesel
+    fuel: diesel
+    power_ps: 190
+  - code: 115ch diesel
+    fuel: diesel
+    power_ps: 115
+  - code: 163ch diesel
+    fuel: diesel
+    power_ps: 163
+  - code: 175ch diesel
+    fuel: diesel
+    power_ps: 175
+history: Volvo Cars est un constructeur suédois d'automobiles. Fondé en 1927, le siège social de la marque se trouve à Göteborg, en Suède.
 source_of_truth:
   country: wikidata
   founded_year: wikidata

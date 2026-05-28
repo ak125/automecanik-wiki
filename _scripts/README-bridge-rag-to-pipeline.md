@@ -33,13 +33,13 @@ rag/knowledge/<cat>/<slug>.md
 
 ## Mapping category → entity_type canon (ADR-031 §148)
 
-| rag category | entity_type canon |
-|---|---|
-| `gammes`         | `gamme` |
-| `vehicles`       | `vehicle` |
-| `constructeurs`  | `constructeur` |
-| `support`/`policies`/`faq`/`faqs` | `support` |
-| `diagnostic`     | `diagnostic` |
+| rag category                      | entity_type canon |
+| --------------------------------- | ----------------- |
+| `gammes`                          | `gamme`           |
+| `vehicles`                        | `vehicle`         |
+| `constructeurs`                   | `constructeur`    |
+| `support`/`policies`/`faq`/`faqs` | `support`         |
+| `diagnostic`                      | `diagnostic`      |
 
 ## Usage
 
@@ -76,6 +76,7 @@ pytest test_bridge_rag_to_pipeline.py -v
 ```
 
 Couverture :
+
 - mapping category → entity_type singular
 - parsing frontmatter rag
 - conversion synthetic HTML (préserve contenu littéral, pas de lib markdown)

@@ -12,33 +12,32 @@ headquarters:
   country: Japon
 logo_uri: http://commons.wikimedia.org/wiki/Special:FilePath/Suzuki%20logo%202025.svg
 top_models:
-- modele_id: 158048
-  name: Swift Iii
-  years: 2005-
-- modele_id: 158049
-  name: Swift Iv
-  years: 2010-
-- modele_id: 158004
-  name: Alto Viii (Gf)
-  years: 2009-
-- modele_id: 158018
-  name: Grand Vitara Ii
-  years: 2005-2015
+  - modele_id: 158048
+    name: Swift Iii
+    years: 2005-
+  - modele_id: 158049
+    name: Swift Iv
+    years: 2010-
+  - modele_id: 158004
+    name: Alto Viii (Gf)
+    years: 2009-
+  - modele_id: 158018
+    name: Grand Vitara Ii
+    years: 2005-2015
 top_engines:
-- code: 75ch diesel
-  fuel: diesel
-  power_ps: 75
-- code: 68ch essence
-  fuel: essence
-  power_ps: 68
-- code: 129ch diesel
-  fuel: diesel
-  power_ps: 129
-- code: 69ch diesel
-  fuel: diesel
-  power_ps: 69
-history: Suzuki Motor Corporation (スズキ株式会社, Suzuki kabushiki gaisha) est un constructeur japonais de motos, d'automobiles
-  et de moteurs de bateaux ; il est avant tout un important fabricant de motos.
+  - code: 75ch diesel
+    fuel: diesel
+    power_ps: 75
+  - code: 68ch essence
+    fuel: essence
+    power_ps: 68
+  - code: 129ch diesel
+    fuel: diesel
+    power_ps: 129
+  - code: 69ch diesel
+    fuel: diesel
+    power_ps: 69
+history: Suzuki Motor Corporation (スズキ株式会社, Suzuki kabushiki gaisha) est un constructeur japonais de motos, d'automobiles et de moteurs de bateaux ; il est avant tout un important fabricant de motos.
 source_of_truth:
   country: wikidata
   founded_year: wikidata

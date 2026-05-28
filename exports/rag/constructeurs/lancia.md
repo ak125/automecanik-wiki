@@ -13,31 +13,31 @@ headquarters:
   country: Italie
 logo_uri: http://commons.wikimedia.org/wiki/Special:FilePath/Lancia%20Logo%202023.svg
 top_models:
-- modele_id: 92048
-  name: Ypsilon I
-  years: 2006-2011
-- modele_id: 92051
-  name: Musa
-  years: 2006-2012
-- modele_id: 92049
-  name: Ypsilon Ii
-  years: 2011-
+  - modele_id: 92048
+    name: Ypsilon I
+    years: 2006-2011
+  - modele_id: 92051
+    name: Musa
+    years: 2006-2012
+  - modele_id: 92049
+    name: Ypsilon Ii
+    years: 2011-
 top_engines:
-- code: 90ch diesel
-  fuel: diesel
-  power_ps: 90
-- code: 75ch diesel
-  fuel: diesel
-  power_ps: 75
-- code: 78ch essence
-  fuel: essence
-  power_ps: 78
-- code: 80ch essence
-  fuel: essence
-  power_ps: 80
-- code: 95ch diesel
-  fuel: diesel
-  power_ps: 95
+  - code: 90ch diesel
+    fuel: diesel
+    power_ps: 90
+  - code: 75ch diesel
+    fuel: diesel
+    power_ps: 75
+  - code: 78ch essence
+    fuel: essence
+    power_ps: 78
+  - code: 80ch essence
+    fuel: essence
+    power_ps: 80
+  - code: 95ch diesel
+    fuel: diesel
+    power_ps: 95
 history: Lancia est un constructeur automobile italien fondé à Turin le 27 novembre 1906 par Vincenzo Lancia.
 source_of_truth:
   country: wikidata

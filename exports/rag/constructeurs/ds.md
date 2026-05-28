@@ -14,9 +14,7 @@ headquarters:
 logo_uri: http://commons.wikimedia.org/wiki/Special:FilePath/DS%20Automobiles%202009%20logo.svg
 top_models: []
 top_engines: []
-history: DS Automobiles est un constructeur automobile haut-de-gamme français, filiale du groupe franco-italo-américain Stellantis
-  depuis sa création en 2021. À l'origine, la ligne DS était la gamme premium de Citroën entre 2009 et 2014, avant de prendre
-  son indépendance pour devenir une marque à part entière.
+history: DS Automobiles est un constructeur automobile haut-de-gamme français, filiale du groupe franco-italo-américain Stellantis depuis sa création en 2021. À l'origine, la ligne DS était la gamme premium de Citroën entre 2009 et 2014, avant de prendre son indépendance pour devenir une marque à part entière.
 source_of_truth:
   country: wikidata
   founded_year: wikidata

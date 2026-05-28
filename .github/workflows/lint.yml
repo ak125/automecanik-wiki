@@ -19,6 +19,13 @@ jobs:
         python: ["3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history required so pre-commit/action can diff base..HEAD and
+          # run hooks only on changed files. With the default shallow clone
+          # (fetch-depth: 1), pre-commit/action falls back to --all-files mode
+          # and surfaces pre-existing drift on main (e.g. mdformat normalization
+          # debt) as PR-level failures unrelated to the PR scope.
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}

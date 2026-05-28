@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/gamme.schema.json",
-  "title": "entity_data v2.1.0 — gamme (R3/R4)",
-  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'. v2.0.0 ajoute le bloc maintenance (canon ADR-032 §D1). v2.1.0 (additive, 2026-05-27 Task 8a) ajoute le bloc optionnel `dimensions` pour les compatibility_factors + motorisation_profiles produits par scripts/wiki-generators/promote-raw-gammes-to-wiki.py (canon B5 compatibility_proven_by_runtime_url_and_db). diagnostic_relations[] reste top-level frontmatter (canon ADR-033 §D1).",
+  "title": "entity_data v2.2.0 — gamme (R3/R4)",
+  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'. v2.0.0 ajoute le bloc maintenance (canon ADR-032 §D1). v2.1.0 (additive, 2026-05-27 Task 8a) ajoute le bloc optionnel `dimensions` pour les compatibility_factors + motorisation_profiles produits par scripts/wiki-generators/promote-raw-gammes-to-wiki.py (canon B5 compatibility_proven_by_runtime_url_and_db). v2.2.0 (additive, 2026-05-28) ajoute le bloc optionnel `decision_brief` — facettes décisionnelles sourcées (function_oneliner + selection_criteria_top + compatibility_summary) projetées déterministiquement depuis dimensions. Aucun texte généré stocké. Capte les signaux Google AI Mode Decide/Summarize sans toucher R2/R8 runtime. diagnostic_relations[] reste top-level frontmatter (canon ADR-033 §D1).",
   "type": "object",
   "required": ["pg_id", "family"],
   "additionalProperties": false,
@@ -149,6 +149,43 @@
             },
             "required": ["brand", "model", "type_id", "source_url", "db_status"]
           }
+        }
+      }
+    },
+    "decision_brief": {
+      "description": "Canon v2.2.0 (additive, 2026-05-28) — facettes décisionnelles sourcées projetées déterministiquement depuis `dimensions` par scripts/wiki-generators/promote-raw-gammes-to-wiki.py (fonction derive_decision_brief). AUCUN texte généré n'est stocké : le consommateur (R2, R8 ou export) compose la phrase au moment du rendu à partir de ces facettes. Anti-templated par construction. Capte les signaux Google AI Mode Decide/Summarize sans toucher R2/R8 runtime pendant l'OBSERVE window.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["function_oneliner", "selection_criteria_top", "compatibility_summary", "source_kind", "cross_check_status"],
+      "properties": {
+        "function_oneliner": {
+          "description": "1 ligne factuelle : à quoi sert la pièce. Dérivée de dimensions.function.confirmed_value (préféré) ou candidate_value (fallback). Statut tracé via cross_check_status.",
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 140
+        },
+        "selection_criteria_top": {
+          "description": "1 à 3 critères de choix prioritaires. Sous-ensemble strict de dimensions.selection_criteria (confirmed préféré, candidate en fallback). Aucune reformulation.",
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 3,
+          "items": { "type": "string", "minLength": 5, "maxLength": 80 }
+        },
+        "compatibility_summary": {
+          "description": "1 phrase déterministe lisible en FR naturel, composée par fragments conditionnels depuis dimensions.compatibility_factors (fuels, model_count_distinct, marques). Aucun séparateur technique (pas de pipe, pas de slash). Future-renderable côté R2/R8 telle quelle. Fallback générique si données structurées absentes.",
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 160
+        },
+        "source_kind": {
+          "description": "deterministic_transform = toutes les facettes dérivent de dimensions au statut WEB_CONFIRMS_RAG ou WEB_ONLY (sources OEM web confirmées). rag_candidate = au moins une facette dépend d'un dimension au statut RAG_ONLY ou WEB_DIFFERS_FROM_RAG → requires_review humaine.",
+          "type": "string",
+          "enum": ["deterministic_transform", "rag_candidate"]
+        },
+        "cross_check_status": {
+          "description": "Min des cross_check_status des dimensions input (function, selection_criteria, compatibility_factors). Aligné sur la convention _cross_check() de promote-raw-gammes-to-wiki.py. Priorité descendante : WEB_CONFIRMS_RAG > WEB_ONLY > RAG_ONLY > WEB_DIFFERS_FROM_RAG > NEITHER.",
+          "type": "string",
+          "enum": ["WEB_CONFIRMS_RAG", "WEB_ONLY", "RAG_ONLY", "WEB_DIFFERS_FROM_RAG", "NEITHER"]
         }
       }
     }

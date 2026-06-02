@@ -20,9 +20,9 @@ source_refs:
 provenance:
   ingested_by: human:@fafa
   promoted_from: null
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
+review_status: approved
+reviewed_by: automecanik.seo@gmail.com
+reviewed_at: '2026-06-02T16:48:48Z'
 review_notes: |
   Pilote ADR-033 Phase 1 — enrichi 2026-04-29 avec diagnostic_relations[]
   + entity_data.maintenance. Bumped schema_version 1.0.0 → 2.0.0
@@ -56,7 +56,7 @@ review_notes: |
 no_disputed_claims: true
 exportable:
   rag: false
-  seo: false
+  seo: true
   support: false
 target_classes:
 - KB_Knowledge

@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/vehicle.schema.json",
-  "title": "entity_data v1.0.0 — vehicle (R8)",
+  "title": "entity_data v1.1.0 — vehicle (R8)",
   "description": "Données spécifiques aux véhicules (modèle/motorisation/type_id). Chargé quand entity_type == 'vehicle'.",
   "type": "object",
   "required": ["make", "model"],
@@ -44,7 +44,8 @@
           "code": { "type": "string", "description": "Code constructeur (ex: '1.5 dCi 90', 'TDI 110')." },
           "fuel": { "type": "string", "enum": ["essence", "diesel", "hybride", "electrique", "gpl", "ethanol"] },
           "power_hp": { "type": "integer", "minimum": 1 },
-          "displacement_cc": { "type": "integer", "minimum": 0 }
+          "displacement_cc": { "type": "integer", "minimum": 0 },
+          "note": { "type": "string", "description": "Ajout v1.1.0 (optionnel). Note libre : variante, phase, bridage low-emission." }
         }
       },
       "default": []
@@ -58,6 +59,41 @@
       "description": "True = véhicule choisi pour pilote ADR-022 stage 2 (PAS Clio/208/Golf).",
       "type": "boolean",
       "default": false
+    },
+    "known_issues_by_engine": {
+      "description": "Ajout v1.1.0 (optionnel). Problèmes connus regroupés par code moteur (clé = code moteur, ex 'K9K', ou 'all_engines').",
+      "type": "object",
+      "additionalProperties": { "type": "array", "items": { "type": "string" } }
+    },
+    "maintenance_by_engine": {
+      "description": "Ajout v1.1.0 (optionnel). Particularités d'entretien par moteur/carburant (clé libre : 'diesel_K9K', 'essence', ...).",
+      "type": "object",
+      "additionalProperties": { "type": "object" }
+    },
+    "oem_references": {
+      "description": "Ajout v1.1.0 (optionnel). Références OEM courantes (indicatif, à confirmer catalogue).",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["part", "ref"],
+        "additionalProperties": false,
+        "properties": {
+          "part": { "type": "string" },
+          "ref": { "type": "string" },
+          "position": { "type": "string" },
+          "moteur": { "type": "string" }
+        }
+      }
+    },
+    "compatible_part_families": {
+      "description": "Ajout v1.1.0 (optionnel). Familles de pièces pertinentes (cross-ref connaissance, PAS la compat runtime R2). Slugs gamme kebab-case.",
+      "type": "array",
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" }
+    },
+    "validation_notes": {
+      "description": "Ajout v1.1.0 (optionnel). Notes de validation humaine / contradictions sources non arbitrées.",
+      "type": "array",
+      "items": { "type": "string" }
     }
   }
 }

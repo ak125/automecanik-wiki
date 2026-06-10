@@ -145,3 +145,38 @@ def test_apply_rejects_entity_outside_canon(tmp_path):
     fm = {**FM_OK, "entity_type": "support"}  # support exclu de wiki/<entity>/ SEO
     with pytest.raises(Exception):
         mod._promotion_target_path(tmp_path, fm)
+
+
+# --- Garde anti-écrasement (durcissement ADR-083) -----------------------------
+def _write_canon(tmp_path, slug, status):
+    d = tmp_path / "wiki" / "gamme"
+    d.mkdir(parents=True, exist_ok=True)
+    (d / f"{slug}.md").write_text(
+        f"---\nentity_type: gamme\nslug: {slug}\nreview_status: {status}\n---\nbody\n",
+        encoding="utf-8",
+    )
+
+
+def test_canon_already_approved_true_when_approved_exists(tmp_path):
+    mod = _load_promote()
+    _write_canon(tmp_path, "colonne-de-direction", "approved")
+    assert mod._canon_already_approved(tmp_path, FM_OK) is True
+
+
+def test_canon_already_approved_false_when_absent(tmp_path):
+    mod = _load_promote()
+    assert mod._canon_already_approved(tmp_path, FM_OK) is False
+
+
+def test_canon_already_approved_false_when_in_review(tmp_path):
+    mod = _load_promote()
+    _write_canon(tmp_path, "colonne-de-direction", "in_review")
+    assert mod._canon_already_approved(tmp_path, FM_OK) is False
+
+
+def test_apply_refuses_overwrite_of_approved_canon(tmp_path):
+    mod = _load_promote()
+    _write_canon(tmp_path, "colonne-de-direction", "approved")
+    with pytest.raises(Exception):
+        mod.apply_promotion(tmp_path / "proposals" / "x.md", FM_OK, "body", tmp_path,
+                            {"gate_status": {}, "confidence_score": 0.9})

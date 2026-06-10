@@ -172,6 +172,26 @@
       "description": "Email humain ou 'skill:<name>' si auto-approuvé L4. Null si pas encore reviewé.",
       "type": ["string", "null"]
     },
+    "auto_promoted": {
+      "description": "True si promu automatiquement par promote.py (ADR-083 TIER A). Absent/false = promotion humaine.",
+      "type": "boolean"
+    },
+    "promotion_tier": {
+      "description": "Tier de promotion ADR-083. A=auto (5 gates PASS + confidence>=seuil + truth_level L1/L2 + >=2 source kinds distincts), B=humain.",
+      "type": "string",
+      "enum": ["A", "B"]
+    },
+    "promotion_evidence": {
+      "description": "Trace d'audit de la promotion auto (ADR-083, no-silent-fallback).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "gate_status": { "type": "object" },
+        "confidence_score": { "type": "number" },
+        "promoter": { "type": "string" },
+        "promoted_at": { "type": "string", "format": "date-time" }
+      }
+    },
     "reviewed_at": {
       "type": ["string", "null"],
       "format": "date-time"

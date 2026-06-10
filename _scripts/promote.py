@@ -175,12 +175,37 @@ def _promotion_target_path(wiki_root: Path, fm: dict) -> Path:
     return out
 
 
+def _canon_already_approved(wiki_root: Path, fm: dict) -> bool:
+    """
+    True si wiki/<entity_type>/<slug>.md existe DÉJÀ en review_status: approved.
+
+    Garde anti-écrasement (ADR-083 durcissement) : promote.py ne clobbe JAMAIS
+    une fiche canon déjà validée (humain ou run antérieur). Fail-closed : fichier
+    présent mais illisible → True (on ne touche pas).
+    """
+    entity_type = fm.get("entity_type")
+    slug = fm.get("slug")
+    if entity_type not in WIKI_ENTITY_DIRS or not slug:
+        return False
+    target = wiki_root / "wiki" / entity_type / f"{slug}.md"
+    if not target.is_file():
+        return False
+    try:
+        existing_fm, _ = _parse_markdown(target)
+    except Exception:
+        return True  # fail-closed : illisible → ne pas écraser
+    return existing_fm.get("review_status") == "approved"
+
+
 def apply_promotion(target: Path, fm: dict, body: str, wiki_root: Path,
                     decision: dict) -> Path:
     """Recopie la proposal en canon wiki approved (TIER A uniquement). 0 enrichissement."""
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     sha = _wiki_commit_sha(wiki_root)
     out_path = _promotion_target_path(wiki_root, fm)
+    # defense-in-depth : ne JAMAIS écraser une fiche canon déjà approved (idempotence / TOCTOU)
+    if _canon_already_approved(wiki_root, fm):
+        raise click.ClickException(f"refus écrasement canon déjà approved: {out_path}")
 
     new_fm = dict(fm)  # copie — aucune modification du contenu éditorial
     new_fm["review_status"] = "approved"
@@ -253,6 +278,10 @@ def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: b
             if fm.get("review_status") not in PROMOTABLE_INPUT_STATUSES:
                 report.append({"file": str(f), "tier": "skip",
                                "reason": f"review_status={fm.get('review_status')} non promouvable"})
+                continue
+            if _canon_already_approved(wiki_root, fm):
+                report.append({"file": str(f), "tier": "skip",
+                               "reason": "canon déjà approved — pas d'écrasement (idempotent)"})
                 continue
             decision = evaluate_tier(fm, body, f, wiki_root, threshold, gates, compute_score)
         except Exception as exc:  # fail-closed → TIER B

@@ -17,6 +17,12 @@ source_refs:
   path: recycled/rag-knowledge/gammes/filtre-a-carburant.md
 - kind: raw
   path: recycled/rag-knowledge/_raw/evidence/filtre-a-carburant.yml
+- kind: external_url
+  url: https://www.vroomly.com/blog/filtre-a-gasoil-encrasse-symptomes/
+  captured_at: '2026-06-12'
+- kind: external_url
+  url: https://www.idgarages.com/fr-fr/prestations/revision-vidange/definition-filtre-a-gasoil
+  captured_at: '2026-06-12'
 provenance:
   ingested_by: agent:claude-code@degrippage-wave1
   promoted_from: null
@@ -36,7 +42,24 @@ exportable:
 target_classes:
 - KB_Knowledge
 - KB_Catalog
-confidence_score: 0.54
+diagnostic_relations:
+- symptom_slug: perte_puissance_filtration
+  system_slug: filtration
+  relation_to_part: possible_cause
+  part_role: perte de puissance progressive (montée, forte charge), à-coups à
+    l'accélération, démarrage laborieux et fumée anormale à l'échappement —
+    filtre à carburant colmaté restreignant le débit vers la pompe et les
+    injecteurs. Symptômes concordants Vroomly + iDGarages (web research
+    2026-06-12) + corpus RAW S1-S4.
+  evidence:
+    confidence: medium
+    source_policy: 2_medium_concordant
+    reviewed: false
+    diagnostic_safe: false
+  sources:
+  - web_vroomly_filtre_gasoil_20260612
+  - web_idgarages_filtre_gasoil_20260612
+confidence_score: 0.64
 ---
 
 # Filtre à carburant
@@ -55,13 +78,16 @@ Placé sur la ligne d'alimentation entre le réservoir et le système d'injectio
 - À-coups à l'accélération
 - Démarrage difficile ou laborieux
 - Cliquetis ou ratés moteur
+- Fumée anormale à l'échappement (sources web concordantes 2026-06-12)
 - Odeur de carburant autour du véhicule
 
-> Distinction utile (source RAW) : filtre = perte **progressive** ; injecteur défaillant = un cylindre mort (vibrations, fumée). La valise de diagnostic tranche.
+> Distinction utile (source RAW) : filtre = perte **progressive** ; injecteur défaillant = un cylindre mort. La valise de diagnostic tranche.
 
 ## Choix selon véhicule
 
-Critères de sélection : marque, modèle et année du véhicule (le sélecteur véhicule du site fait cette vérification). Intervalle : suivre la préconisation constructeur — repères usuels du corpus : diesels HDI/TDI 20 000–30 000 km, essences jusqu'à 60 000 km. Ne pas attendre la panne complète pour intervenir.
+Critères de sélection : marque, modèle et année du véhicule (le sélecteur véhicule du site fait cette vérification). Intervalle : suivre la préconisation constructeur — les fourchettes observées divergent selon les sources (15 000–20 000 km en moyenne chez certains comparateurs ; diesels HDI/TDI 20 000–30 000 km et essences jusqu'à 60 000 km dans le corpus), la préconisation constructeur prime. Ne pas attendre la panne complète pour intervenir.
+
+Spécificité diesel (web research 2026-06-12) : le gazole concentre davantage d'eau, favorisant une corrosion précoce — purge régulière recommandée ; un diesel premium plus pur prolonge la durée de vie du filtre.
 
 Pièces de la même famille d'entretien filtration : [[filtre-a-air]], [[filtre-a-huile]], [[filtre-d-habitacle]] (et filtre de boîte automatique le cas échéant). Chaque filtre a un rôle spécifique — vérifier le type exact avant commande.
 
@@ -81,7 +107,7 @@ Oui, après remplacement il faut amorcer le circuit. Pompez jusqu'à sentir une 
 
 ### Filtre carburant ou injecteurs : comment distinguer ?
 
-Filtre = perte progressive. Injecteur = un cylindre mort (vibrations, fumée). La valise de diagnostic tranche.
+Filtre = perte progressive. Injecteur = un cylindre mort. La valise de diagnostic tranche.
 
 ### Diagnostic express : ma voiture a des à-coups
 
@@ -91,10 +117,12 @@ Filtre = perte progressive. Injecteur = un cylindre mort (vibrations, fumée). L
 
 Contenu composé exclusivement depuis le RAW recyclé (voir `source_refs`) :
 
-- `recycled/rag-knowledge/gammes/filtre-a-carburant.md` — fiche v5 SSOT (rôle, symptômes S1–S5, critères, FAQ rendering, intervalles), pg_id 9, truth_level L2, dernière passe 2026-04-03.
-- `recycled/rag-knowledge/_raw/evidence/filtre-a-carburant.yml` — évidence multi-sources web avec lineage par bloc.
+- `recycled/rag-knowledge/gammes/filtre-a-carburant.md` — fiche v5 SSOT (rôle, symptômes S1–S5, critères, FAQ rendering, intervalles), pg_id 9, truth_level L2, dernière passe 2026-04-03. *(bootstrap)*
+- `recycled/rag-knowledge/_raw/evidence/filtre-a-carburant.yml` — évidence multi-sources web avec lineage par bloc. *(bootstrap)*
+- `sources/web-research/filtre-a-carburant/` — web research 2026-06-12 (Vroomly + iDGarages fetch OK, AD.fr 403 non exploité), faits reformulés + confidence, cf. RAW PR #22. Refs `external_url` correspondantes dans le frontmatter.
 
 ## Points à vérifier
 
 - [ ] Revue humaine du wording FAQ avant export SEO (exportable.seo reste false)
-- [ ] Compléter les intervalles avec sources OEM par constructeur (Phase capture)
+- [ ] Arbitrer la divergence d'intervalles entre sources (consignée dans extraction-report.json) avec sources OEM par constructeur (Phase capture)
+- [x] **2026-06-12** : diversité de sources atteinte (raw + external_url) via boucle scraping wave 1

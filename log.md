@@ -57,3 +57,9 @@
 - **Branche** : `feat/proposals-enrich-tierA-wave1`
 - **Décision** : feat(proposals): boucle scraping wave 1 — 3/3 TIER A (filtre-a-carburant + filtre-d-habitacle rejoignent filtre-a-air) (+2 other commits)
 - **Sortie** : PR #39 | commits 74ac0b3 f7db4d3 da9c16d
+
+## 2026-06-12 — feat/proposals-enrich-tierA-wave1 (auto)
+
+- **Branche** : `feat/proposals-enrich-tierA-wave1`
+- **Décision** : chore(proposals): retire les annotations de process inline du corps éditorial (+4 other commits)
+- **Sortie** : PR #39 | commits e91d8c9 9cd7c38 74ac0b3 f7db4d3 da9c16d

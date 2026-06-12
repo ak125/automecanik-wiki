@@ -14,7 +14,7 @@
 # Référence canon : `_meta/source-policy.md`, ADR-033
 
 schema_version: 1.0.0
-updated_at: '2026-05-02'
+updated_at: '2026-06-12'
 
 # Mapping source_type → max confidence autorisée (cf. source-policy.md §9)
 # - oem_manual / oem_workshop / tecdoc_official / normative_standard / parts_feed_certified → high
@@ -343,3 +343,57 @@ sources:
       Site officiel rappels constructeur Renault. Référence pour rappels
       injecteurs Delphi K9K, platine fusibles, capteur pédale accélérateur
       sur renault-clio-3.md.
+
+  - slug: web_vroomly_filtre_gasoil_20260612
+    title: "Vroomly — Symptômes d'un filtre à gasoil encrassé : causes, nettoyage et remplacement"
+    type: blog_pro                              # → max confidence: medium
+    publisher: Vroomly
+    year: 2026
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: web_vroomly_filtre_gasoil_20260612
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/filtre-a-carburant/faq-symptoms.md'
+    status: to_capture
+    license: third_party_extract
+    notes: |
+      URL canonique : https://www.vroomly.com/blog/filtre-a-gasoil-encrasse-symptomes/
+      Faits reformulés (anti-pollution) capturés 2026-06-12, fetch direct OK —
+      cf. automecanik-raw PR #22 (web-research filtration wave 1, boucle ADR-083).
+      STATUS to_capture jusqu'au merge de la PR #22 ; passe à active ensuite.
+
+  - slug: web_idgarages_filtre_gasoil_20260612
+    title: "iDGarages — Filtre à gasoil : rôle, entretien, remplacement"
+    type: blog_pro                              # → max confidence: medium
+    publisher: iDGarages
+    year: 2026
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: web_idgarages_filtre_gasoil_20260612
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/filtre-a-carburant/faq-symptoms.md'
+    status: to_capture
+    license: third_party_extract
+    notes: |
+      URL canonique : https://www.idgarages.com/fr-fr/prestations/revision-vidange/definition-filtre-a-gasoil
+      Faits reformulés capturés 2026-06-12, fetch direct OK — concordant avec
+      web_vroomly_filtre_gasoil_20260612 (symptômes, particularités diesel).
+      Cf. automecanik-raw PR #22. STATUS to_capture jusqu'au merge.
+
+  - slug: web_carglass_filtre_habitacle_20260612
+    title: "Carglass — Quand changer le filtre d'habitacle ?"
+    type: blog_pro                              # → max confidence: medium
+    publisher: Carglass
+    year: 2026
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: web_carglass_filtre_habitacle_20260612
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/filtre-d-habitacle/selection-criteria.md'
+    status: to_capture
+    license: third_party_extract
+    notes: |
+      URL canonique : https://www.carglass.fr/faq/answers/5929/quand-changer-le-filtre-d-habitacle
+      Faits reformulés capturés 2026-06-12, fetch direct OK (intervalles,
+      symptômes saturation, facteurs). Cf. automecanik-raw PR #22.
+      STATUS to_capture jusqu'au merge de la PR #22 ; passe à active ensuite.

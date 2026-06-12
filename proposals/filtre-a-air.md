@@ -10,13 +10,17 @@ aliases:
 - filtre admission moteur
 lang: fr
 created_at: '2026-04-29'
-updated_at: '2026-05-02'
+updated_at: '2026-06-12'
 truth_level: L2
 source_refs:
 - kind: manual
   note: Données entretien filtres depuis recommandations OEM constructeurs (Renault,
     Peugeot, Bosch). Capture web-clip Phase 7 via preset manuel-constructeur-pdf.
   author: human:@fafa
+- kind: raw
+  path: recycled/rag-knowledge/_raw/evidence/filtre-a-air.yml
+- kind: raw
+  path: recycled/rag-knowledge/gammes/filtre-a-air.md
 provenance:
   ingested_by: human:@fafa
   promoted_from: null
@@ -86,7 +90,7 @@ entity_data:
     related_pages:
     - filtre-habitacle
     - filtre-a-huile
-confidence_score: 0.42
+confidence_score: 0.64
 ---
 
 # Filtre à air
@@ -107,9 +111,9 @@ L'air ambiant aspiré par le moteur traverse le filtre dans le boîtier d'admiss
 
 - 🔻 **Perte de puissance moteur progressive** *(possible cause, slug DB `perte_puissance_filtration`)* — filtre colmaté réduisant le débit d'admission, dégradant la combustion. Symptôme typique après dépassement de l'intervalle entretien ou usage en milieu poussiéreux [^1][^2]
 
-> **Note** : d'autres symptômes liés à la filtration (`surconsommation_carburant` id=56, `odeur_habitacle` id=57) sont présents en DB mais concernent surtout filtre carburant et filtre habitacle (pas filtre à air directement). Voir [[filtre-habitacle]] et [[filtre-a-carburant]] pour ces symptômes.
+> **Note** : d'autres symptômes liés à la filtration (`surconsommation_carburant` id=56, `odeur_habitacle` id=57) sont présents en DB mais concernent surtout filtre carburant et filtre habitacle (pas filtre à air directement). Voir [[filtre-d-habitacle]] et [[filtre-a-carburant]] pour ces symptômes.
 
-## Critères de choix
+## Choix selon véhicule
 
 Privilégier un filtre conforme aux dimensions du boîtier d'admission constructeur. Pour usage tout-terrain ou environnement poussiéreux, des filtres à porosité progressive (cellulose imprégnée + grille support) offrent une autonomie supérieure mais doivent être remplacés selon les indications constructeur.
 
@@ -123,7 +127,7 @@ Pour vérifier la compatibilité filtre à air ↔ véhicule, utiliser le sélec
 
 Pièces complémentaires fréquemment associées au programme entretien filtration :
 
-- [[filtre-habitacle]] — filtre poussières/pollen circuit ventilation cabine
+- [[filtre-d-habitacle]] — filtre poussières/pollen circuit ventilation cabine
 - [[filtre-a-huile]] — filtre lubrification moteur, remplacé à chaque vidange
 - [[filtre-a-carburant]] — filtre injection essence/diesel, intervalle 60 000 km diesel
 
@@ -135,7 +139,7 @@ Pièces complémentaires fréquemment associées au programme entretien filtrati
 
 `kw_top` : à compléter Phase 5 via DB `__seo_keywords` queries scopées sur la famille `filtration` + intents listés.
 
-## Questions fréquentes
+## FAQ
 
 ### À quelle fréquence remplacer le filtre à air ?
 
@@ -156,7 +160,7 @@ Pas immédiatement dangereux pour la sécurité (contrairement aux plaquettes de
 ### Quelle différence entre filtre à air moteur et filtre habitacle ?
 
 - **Filtre à air moteur** (cette fiche) : retient les particules dans l'air aspiré par le moteur pour la combustion.
-- **Filtre d'habitacle** ([[filtre-habitacle]]) : retient les particules dans l'air ventilé dans la cabine pour les passagers.
+- **Filtre d'habitacle** ([[filtre-d-habitacle]]) : retient les particules dans l'air ventilé dans la cabine pour les passagers.
 
 Deux pièces distinctes, deux intervalles d'entretien différents (15 000 km habitacle vs 30 000 km moteur).
 

@@ -45,3 +45,9 @@
 - **Branche** : `fix/claude-md-adr-status-refresh`
 - **Décision** : docs(claude): refresh ADR refs (031 accepted, 022 conditional, 033 added)
 - **Sortie** : PR aucune | commits 4ae9237
+
+## 2026-06-12 — feat/proposals-enrich-tierA-wave1 (auto)
+
+- **Branche** : `feat/proposals-enrich-tierA-wave1`
+- **Décision** : feat(proposals): enrichissement sourcé filtre-a-air → TIER A + 2 proposals sœurs (ADR-083 wave 1)
+- **Sortie** : PR #39 | commits da9c16d

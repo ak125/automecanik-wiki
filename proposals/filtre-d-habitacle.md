@@ -77,9 +77,9 @@ L'air extérieur aspiré par la ventilation traverse le filtre avant diffusion d
 
 ## Choix selon véhicule
 
-Critères de sélection : marque, modèle et année du véhicule (vérification via le sélecteur véhicule du site). Classique ou charbon actif : le charbon actif retient jusqu'à 90 % des allergènes et reste recommandé en zone urbaine/polluée ; des variantes combinées (pollen + charbon) et polyphénol (jusqu'à 92 % des particules allergisantes) existent (web research 2026-06-12). Remplacement : tous les 15 000 à 20 000 km ou une fois par an — plus souvent en ville, idéalement au printemps (pollens) ; zone rurale et filtre de meilleure qualité allongent l'intervalle.
+Critères de sélection : marque, modèle et année du véhicule (vérification via le sélecteur véhicule du site). Classique ou charbon actif : le charbon actif retient jusqu'à 90 % des allergènes et reste recommandé en zone urbaine/polluée ; des variantes combinées (pollen + charbon) et polyphénol (jusqu'à 92 % des particules allergisantes) existent. Remplacement : tous les 15 000 à 20 000 km ou une fois par an — plus souvent en ville, idéalement au printemps (pollens) ; zone rurale et filtre de meilleure qualité allongent l'intervalle.
 
-Erreurs à éviter (source RAW) : ne pas monter le filtre à l'envers (sens du flux indiqué), ne pas rouler sans filtre, vérifier qu'il est bien calé dans son logement.
+Erreurs à éviter : ne pas monter le filtre à l'envers (sens du flux indiqué), ne pas rouler sans filtre, vérifier qu'il est bien calé dans son logement.
 
 Pièces de la même famille d'entretien filtration : [[filtre-a-air]], [[filtre-a-huile]], [[filtre-a-carburant]].
 

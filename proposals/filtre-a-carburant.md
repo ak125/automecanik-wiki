@@ -78,16 +78,16 @@ Placé sur la ligne d'alimentation entre le réservoir et le système d'injectio
 - À-coups à l'accélération
 - Démarrage difficile ou laborieux
 - Cliquetis ou ratés moteur
-- Fumée anormale à l'échappement (sources web concordantes 2026-06-12)
+- Fumée anormale à l'échappement
 - Odeur de carburant autour du véhicule
 
-> Distinction utile (source RAW) : filtre = perte **progressive** ; injecteur défaillant = un cylindre mort. La valise de diagnostic tranche.
+> Distinction utile : filtre = perte **progressive** ; injecteur défaillant = un cylindre mort. La valise de diagnostic tranche.
 
 ## Choix selon véhicule
 
 Critères de sélection : marque, modèle et année du véhicule (le sélecteur véhicule du site fait cette vérification). Intervalle : suivre la préconisation constructeur — les fourchettes observées divergent selon les sources (15 000–20 000 km en moyenne chez certains comparateurs ; diesels HDI/TDI 20 000–30 000 km et essences jusqu'à 60 000 km dans le corpus), la préconisation constructeur prime. Ne pas attendre la panne complète pour intervenir.
 
-Spécificité diesel (web research 2026-06-12) : le gazole concentre davantage d'eau, favorisant une corrosion précoce — purge régulière recommandée ; un diesel premium plus pur prolonge la durée de vie du filtre.
+Spécificité diesel : le gazole concentre davantage d'eau, favorisant une corrosion précoce — purge régulière recommandée ; un diesel premium plus pur prolonge la durée de vie du filtre.
 
 Pièces de la même famille d'entretien filtration : [[filtre-a-air]], [[filtre-a-huile]], [[filtre-d-habitacle]] (et filtre de boîte automatique le cas échéant). Chaque filtre a un rôle spécifique — vérifier le type exact avant commande.
 

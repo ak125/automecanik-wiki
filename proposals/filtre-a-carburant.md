@@ -46,11 +46,10 @@ diagnostic_relations:
 - symptom_slug: perte_puissance_filtration
   system_slug: filtration
   relation_to_part: possible_cause
-  part_role: perte de puissance progressive (montée, forte charge), à-coups à
+  part_role: perte de puissance progressive (montée, charge), à-coups à
     l'accélération, démarrage laborieux et fumée anormale à l'échappement —
     filtre à carburant colmaté restreignant le débit vers la pompe et les
-    injecteurs. Symptômes concordants Vroomly + iDGarages (web research
-    2026-06-12) + corpus RAW S1-S4.
+    injecteurs.
   evidence:
     confidence: medium
     source_policy: 2_medium_concordant

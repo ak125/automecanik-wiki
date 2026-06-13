@@ -1,5 +1,5 @@
 ---
-schema_version: 1.0.0
+schema_version: 1.1.0
 id: vehicle:renault-clio-3
 entity_type: vehicle
 slug: renault-clio-3
@@ -12,7 +12,7 @@ aliases:
   - clio iii
 lang: fr
 created_at: '2026-04-29'
-updated_at: '2026-05-02'
+updated_at: '2026-06-02'
 truth_level: L3
 source_refs:
   - kind: recycled
@@ -121,6 +121,42 @@ entity_data:
       note: 1.5 dCi haut de gamme
   vlevel: V2
   low_profile_canary: false
+  known_issues_by_engine:
+    K9K:
+      - "vanne EGR — encrassement urbain fréquent"
+      - "injecteurs Delphi — fuite carburant (rappel constructeur 2005-2010)"
+      - "turbo BorgWarner KP35 — usure prématurée si vidanges négligées"
+    D4F:
+      - "joint de collecteur d'échappement — fuite, bruit métallique à froid"
+    all_engines:
+      - "platine fusibles — défaut de contacts (rappel 2006-2009)"
+      - "capteur pédale accélérateur — défaillance (rappel 2007-2009)"
+      - "rotules de direction / silent-blocs de bras — usure ~100 000 km"
+  maintenance_by_engine:
+    diesel_K9K:
+      vidange: "15 000 km / 1 an — 5W-30 RN0720 (C4 si FAP)"
+      distribution: "90 000 km / 5 ans (kit + pompe à eau)"
+      filtre_gazole: "60 000 km"
+    essence:
+      vidange: "20 000 km / 2 ans — 5W-40 RN0700"
+      distribution: "120 000 km / 6 ans"
+  oem_references:
+    - { part: plaquette-de-frein, position: avant, ref: "410602192R" }
+    - { part: disque-de-frein, position: avant, ref: "402069518R" }
+    - { part: filtre-a-huile, moteur: "1.5 dCi", ref: "8200768927" }
+    - { part: filtre-a-air, moteur: "1.5 dCi", ref: "8200431051" }
+    - { part: courroie-de-distribution, ref: "130C17529R" }
+  compatible_part_families:
+    - plaquette-de-frein
+    - disque-de-frein
+    - machoires-de-frein
+    - filtre-a-air
+    - filtre-a-huile
+    - filtre-a-carburant
+    - filtre-habitacle
+  validation_notes:
+    - "Contradiction source raw sur les intervalles de vidange : lignes raw 90-91 inversent essence/diesel. Valeur retenue depuis le corps curé + FAQ : diesel 15 000 km, essence 20 000 km. Non arbitré silencieusement."
+    - "schema_version 1.1.0 (famille véhicule, distincte des gammes 2.x). 5 blocs structurés remontés du corps existant — zéro invention, zéro scrape. Confiance 0.24 RAG_ONLY — à valider humainement avant promotion wiki/vehicles/."
 content_hash: sha256:555e766a1ff25028619b6dcccfa7540b5c400eceb92b1d4b371f4113c83030d7
 confidence_score: 0.24
 ---

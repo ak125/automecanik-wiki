@@ -180,3 +180,33 @@ def test_apply_refuses_overwrite_of_approved_canon(tmp_path):
     with pytest.raises(Exception):
         mod.apply_promotion(tmp_path / "proposals" / "x.md", FM_OK, "body", tmp_path,
                             {"gate_status": {}, "confidence_score": 0.9})
+
+
+# --- Move-semantics (la promotion DÉPLACE, ne copie pas) -----------------------
+def test_apply_deletes_source_proposal_after_promotion(tmp_path):
+    """La proposal source est supprimée après écriture du canon (slug-uniqueness)."""
+    mod = _load_promote()
+    prop = tmp_path / "proposals" / "colonne-de-direction.md"
+    prop.parent.mkdir(parents=True)
+    prop.write_text(
+        "---\nentity_type: gamme\nslug: colonne-de-direction\nreview_status: proposed\n---\nbody\n",
+        encoding="utf-8",
+    )
+    out = mod.apply_promotion(prop, FM_OK, "body", tmp_path,
+                              {"gate_status": {}, "confidence_score": 0.9})
+    assert out.is_file()                         # canon écrit
+    assert "review_status: approved" in out.read_text(encoding="utf-8")
+    assert not prop.exists()                     # source déplacée (supprimée)
+
+
+def test_apply_never_deletes_source_outside_proposals(tmp_path):
+    """Garde sécurité : un target hors proposals/ n'est JAMAIS supprimé."""
+    mod = _load_promote()
+    stray = tmp_path / "staging" / "colonne-de-direction.md"
+    stray.parent.mkdir(parents=True)
+    stray.write_text("---\nentity_type: gamme\nslug: colonne-de-direction\n---\nx\n",
+                     encoding="utf-8")
+    out = mod.apply_promotion(stray, FM_OK, "body", tmp_path,
+                              {"gate_status": {}, "confidence_score": 0.9})
+    assert out.is_file()
+    assert stray.exists()                        # hors proposals/ → conservé

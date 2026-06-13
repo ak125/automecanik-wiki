@@ -6,7 +6,8 @@ Décide la promotion d'une proposal validée vers le canon wiki
 (`review_status: approved` + `exportable.seo: true`) via une PORTE DÉTERMINISTE
 à deux tiers. Compose les 5 gates EXISTANTS (`_scripts/gates/`) + la formule
 `compute-confidence-score.py`. **N'enrichit / ne génère JAMAIS** — il filtre,
-décide, et recopie le canon proposé (mêmes invariants que `build_exports_seo.py`).
+décide, et DÉPLACE le canon proposé — écrit wiki/ puis supprime la proposal source,
+move-semantics imposée par `check-slug-uniqueness` (mêmes invariants que `build_exports_seo.py`).
 
 Pipeline :
     proposals/<slug>.md (review_status in {proposed, in_review})
@@ -199,7 +200,14 @@ def _canon_already_approved(wiki_root: Path, fm: dict) -> bool:
 
 def apply_promotion(target: Path, fm: dict, body: str, wiki_root: Path,
                     decision: dict) -> Path:
-    """Recopie la proposal en canon wiki approved (TIER A uniquement). 0 enrichissement."""
+    """Déplace la proposal vers le canon wiki approved (TIER A uniquement). 0 enrichissement.
+
+    Move-semantics (invariant `check-slug-uniqueness`) : une gamme promue ne peut
+    coexister comme proposal ET canon. On écrit le canon PUIS on supprime la proposal
+    source. Traçabilité conservée : `promotion_evidence` + `provenance.promoted_from`
+    + l'historique git. Fail-safe : la proposal n'est supprimée qu'APRÈS écriture d'un
+    canon non-vide, et seulement si elle vit bien sous `proposals/`.
+    """
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     sha = _wiki_commit_sha(wiki_root)
     out_path = _promotion_target_path(wiki_root, fm)
@@ -234,6 +242,21 @@ def apply_promotion(target: Path, fm: dict, body: str, wiki_root: Path,
         f"{FRONTMATTER_SEPARATOR}\n{body}"
     )
     out_path.write_text(rendered, encoding="utf-8")
+
+    # Move-semantics : supprimer la proposal source APRÈS écriture du canon. Gardes :
+    # (1) target est un vrai fichier, (2) sous proposals/ uniquement (jamais wiki/),
+    # (3) distinct du canon, (4) canon bien écrit et non-vide. Une OSError éventuelle
+    # remonte au handler de main() (pas de swallow silencieux — no-silent-fallback).
+    proposals_root = (wiki_root / "proposals").resolve()
+    if (
+        target.is_file()
+        and target.resolve() != out_path.resolve()
+        and proposals_root in target.resolve().parents
+        and out_path.is_file()
+        and out_path.stat().st_size > 0
+    ):
+        target.unlink()
+
     return out_path
 
 

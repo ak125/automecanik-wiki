@@ -23,10 +23,11 @@ source_refs:
   path: recycled/rag-knowledge/gammes/filtre-a-air.md
 provenance:
   ingested_by: human:@fafa
-  promoted_from: null
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
+  promoted_from: proposals/filtre-a-air.md
+  promoted_at: '2026-06-13T08:16:22+00:00'
+review_status: approved
+reviewed_by: skill:promoter@a1f0e15
+reviewed_at: '2026-06-13T08:16:22+00:00'
 review_notes: "Pilote G6 ADR-033 — gamme non-safety (family: filtration, risk_level:\
   \ low).\nSert de cas edge pour vérifier que le gate safety_unsourced ne se déclenche\n\
   pas faussement sur une gamme non-safety.\n\nschema_version: 2.0.0 + bloc maintenance\
@@ -50,7 +51,7 @@ review_notes: "Pilote G6 ADR-033 — gamme non-safety (family: filtration, risk_
 no_disputed_claims: true
 exportable:
   rag: false
-  seo: false
+  seo: true
   support: false
 target_classes:
 - KB_Knowledge
@@ -90,7 +91,19 @@ entity_data:
     related_pages:
     - filtre-habitacle
     - filtre-a-huile
-confidence_score: 0.64
+confidence_score: 0.81
+auto_promoted: true
+promotion_tier: A
+promotion_evidence:
+  gate_status:
+    source: pass
+    claim: pass
+    contradiction: pass
+    risk: pass
+    confidence: pass
+  confidence_score: 0.81
+  promoter: skill:promoter@a1f0e15
+  promoted_at: '2026-06-13T08:16:22+00:00'
 ---
 
 # Filtre à air

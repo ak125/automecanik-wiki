@@ -22,20 +22,23 @@ source_refs:
   captured_at: '2026-06-12'
 provenance:
   ingested_by: agent:claude-code@degrippage-wave1
-  promoted_from: null
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: "Wave 1 ADR-083 (2026-06-12) — proposal composée STRICTEMENT depuis\
-  \ le RAW recyclé (recycled/rag-knowledge/gammes/filtre-d-habitacle.md, v5_ssot\
-  \ 2026-04-03). Zéro contenu inventé. Slug canonique DB = filtre-d-habitacle\
-  \ (l'ancienne forme « filtre-habitacle » des wikilinks est corrigée vers ce\
-  \ slug). Créée pour (1) entrer dans le funnel WIKI et (2) résoudre le wikilink\
-  \ de la fiche filtre-a-air (fratrie filtration).\n"
+  promoted_from: proposals/filtre-d-habitacle.md
+  promoted_at: '2026-06-13T08:16:22+00:00'
+review_status: approved
+reviewed_by: skill:promoter@a1f0e15
+reviewed_at: '2026-06-13T08:16:22+00:00'
+review_notes: 'Wave 1 ADR-083 (2026-06-12) — proposal composée STRICTEMENT depuis
+  le RAW recyclé (recycled/rag-knowledge/gammes/filtre-d-habitacle.md, v5_ssot 2026-04-03).
+  Zéro contenu inventé. Slug canonique DB = filtre-d-habitacle (l''ancienne forme
+  « filtre-habitacle » des wikilinks est corrigée vers ce slug). Créée pour (1) entrer
+  dans le funnel WIKI et (2) résoudre le wikilink de la fiche filtre-a-air (fratrie
+  filtration).
+
+  '
 no_disputed_claims: true
 exportable:
   rag: false
-  seo: false
+  seo: true
   support: false
 target_classes:
 - KB_Knowledge
@@ -44,9 +47,9 @@ diagnostic_relations:
 - symptom_slug: odeur_habitacle
   system_slug: filtration
   relation_to_part: possible_cause
-  part_role: mauvaises odeurs à la mise en route de la ventilation — filtre
-    d'habitacle saturé chargé d'humidité, de pollens et de polluants.
-    Concordant Carglass (web research 2026-06-12) + corpus RAW S2.
+  part_role: mauvaises odeurs à la mise en route de la ventilation — filtre d'habitacle
+    saturé chargé d'humidité, de pollens et de polluants. Concordant Carglass (web
+    research 2026-06-12) + corpus RAW S2.
   evidence:
     confidence: medium
     source_policy: manual_review
@@ -54,7 +57,19 @@ diagnostic_relations:
     diagnostic_safe: false
   sources:
   - web_carglass_filtre_habitacle_20260612
-confidence_score: 0.64
+confidence_score: 0.79
+auto_promoted: true
+promotion_tier: A
+promotion_evidence:
+  gate_status:
+    source: pass
+    claim: pass
+    contradiction: pass
+    risk: pass
+    confidence: pass
+  confidence_score: 0.79
+  promoter: skill:promoter@a1f0e15
+  promoted_at: '2026-06-13T08:16:22+00:00'
 ---
 
 # Filtre d'habitacle

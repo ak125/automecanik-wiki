@@ -25,19 +25,22 @@ source_refs:
   captured_at: '2026-06-12'
 provenance:
   ingested_by: agent:claude-code@degrippage-wave1
-  promoted_from: null
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: "Wave 1 ADR-083 (2026-06-12) — proposal composée STRICTEMENT depuis\
-  \ le RAW recyclé (recycled/rag-knowledge/gammes/filtre-a-carburant.md, v5_ssot\
-  \ 2026-04-03, pg_id 9) + évidence multi-sources (_raw/evidence). Zéro contenu\
-  \ inventé. Créée pour (1) entrer dans le funnel WIKI et (2) résoudre le wikilink\
-  \ [[filtre-a-carburant]] de la fiche filtre-a-air (fratrie filtration).\n"
+  promoted_from: proposals/filtre-a-carburant.md
+  promoted_at: '2026-06-13T08:16:22+00:00'
+review_status: approved
+reviewed_by: skill:promoter@a1f0e15
+reviewed_at: '2026-06-13T08:16:22+00:00'
+review_notes: 'Wave 1 ADR-083 (2026-06-12) — proposal composée STRICTEMENT depuis
+  le RAW recyclé (recycled/rag-knowledge/gammes/filtre-a-carburant.md, v5_ssot 2026-04-03,
+  pg_id 9) + évidence multi-sources (_raw/evidence). Zéro contenu inventé. Créée pour
+  (1) entrer dans le funnel WIKI et (2) résoudre le wikilink [[filtre-a-carburant]]
+  de la fiche filtre-a-air (fratrie filtration).
+
+  '
 no_disputed_claims: true
 exportable:
   rag: false
-  seo: false
+  seo: true
   support: false
 target_classes:
 - KB_Knowledge
@@ -46,10 +49,9 @@ diagnostic_relations:
 - symptom_slug: perte_puissance_filtration
   system_slug: filtration
   relation_to_part: possible_cause
-  part_role: perte de puissance progressive (montée, charge), à-coups à
-    l'accélération, démarrage laborieux et fumée anormale à l'échappement —
-    filtre à carburant colmaté restreignant le débit vers la pompe et les
-    injecteurs.
+  part_role: perte de puissance progressive (montée, charge), à-coups à l'accélération,
+    démarrage laborieux et fumée anormale à l'échappement — filtre à carburant colmaté
+    restreignant le débit vers la pompe et les injecteurs.
   evidence:
     confidence: medium
     source_policy: 2_medium_concordant
@@ -58,7 +60,19 @@ diagnostic_relations:
   sources:
   - web_vroomly_filtre_gasoil_20260612
   - web_idgarages_filtre_gasoil_20260612
-confidence_score: 0.64
+confidence_score: 0.77
+auto_promoted: true
+promotion_tier: A
+promotion_evidence:
+  gate_status:
+    source: pass
+    claim: pass
+    contradiction: pass
+    risk: pass
+    confidence: pass
+  confidence_score: 0.77
+  promoter: skill:promoter@a1f0e15
+  promoted_at: '2026-06-13T08:16:22+00:00'
 ---
 
 # Filtre à carburant

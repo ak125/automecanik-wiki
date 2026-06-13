@@ -57,3 +57,9 @@
 - **Branche** : `feat/proposals-enrich-tierA-wave1`
 - **Décision** : feat(proposals): boucle scraping wave 1 — 3/3 TIER A (filtre-a-carburant + filtre-d-habitacle rejoignent filtre-a-air) (+2 other commits)
 - **Sortie** : PR #39 | commits 74ac0b3 f7db4d3 da9c16d
+
+## 2026-06-13 — fix/promote-move-semantics (auto)
+
+- **Branche** : `fix/promote-move-semantics`
+- **Décision** : fix(wiki): promote.py move-semantics — supprime la proposal après écriture du canon
+- **Sortie** : PR #41 | commits 2ca8d62

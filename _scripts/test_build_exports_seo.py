@@ -257,7 +257,7 @@ def test_builder_accepts_gamme_approved_exportable(tmp_path: Path) -> None:
     payload = builder.build_export(src, tmp_path, "abc1234")
     assert payload is not None
     assert payload["entity_id"] == "gamme:filtre-a-huile"
-    assert payload["schema_version"] == "1.0.0"
+    assert payload["schema_version"] == "1.1.0"  # bump ADR-086 (blocks v1.1.0)
     assert payload["projection_contract_version"] == "1.0.0"
     assert payload["source_wiki_commit"] == "abc1234"
     assert payload["wiki_path"] == "wiki/gamme/filtre-a-huile.md"
@@ -360,3 +360,74 @@ def test_schema_path_referenced_correctly() -> None:
     """Builder doit chercher exports-seo.schema.json dans _meta/schema/."""
     text = SCRIPT_PATH.read_text(encoding="utf-8")
     assert "exports-seo.schema.json" in text
+
+
+# ========================================================================
+# v1.1.0 (ADR-086) — mapping entity_data structuré → facts/blocks role-aware
+# Fixture calquée sur une VRAIE proposal existante (proposals/filtre-a-huile.md).
+# ========================================================================
+
+def _gamme_fm_with_dimensions() -> dict:
+    return {
+        "entity_type": "gamme",
+        "slug": "filtre-a-huile",
+        "source_refs": [
+            {"kind": "recycled", "origin_path": "recycled/rag-knowledge/gammes/filtre-a-huile.md", "id": "raw-filtre-a-huile"},
+        ],
+        "entity_data": {
+            "pg_id": 7,
+            "family": "filtration",
+            "related_parts": ["huile-moteur", "joint-de-vidange-carter", "filtre-a-air"],
+            "intents": ["diagnostic", "achat", "compatibilite"],
+            "maintenance": {"educational_advice": "À remplacer à chaque vidange : essence 10 000-15 000 km, diesel 15 000-20 000 km."},
+            "dimensions": {
+                "compatibility_factors": {
+                    "marques": ["citroen", "ford", "renault", "volkswagen"],
+                    "fuels": ["Diesel", "Essence"],
+                    "model_count_distinct": 9,
+                    "db_aligned_count": 9,
+                    "power_ps_range": {"min": 60, "max": 170},
+                    "year_range": {"min": 1995, "max": 2015},
+                },
+            },
+        },
+    }
+
+
+def test_gamme_dimensions_map_to_facts_and_blocks() -> None:
+    facts, sources, blocks = builder._extract_facts_sources_blocks(_gamme_fm_with_dimensions(), "", "gamme")
+    assert len(facts) > 0, "facts must be non-empty when dimensions present"
+    assert len(blocks) > 0, "blocks must be non-empty when dimensions present"
+    for b in blocks:
+        assert b.get("role"), "block missing role"
+        assert "section" in b, "block missing section"
+        assert b.get("source_ids"), "block missing source_ids"
+        assert b.get("truth_level") in ("db_owned", "sourced", "inferred", "editorial")
+    compat = [b for b in blocks if b["section"] == "compatibility"]
+    assert compat and "9 modèle" in compat[0]["content_md"]  # golden : projection déterministe
+    maint = [b for b in blocks if b["section"] == "maintenance"]
+    assert maint and "vidange" in maint[0]["content_md"].lower()
+
+
+def test_gamme_mapped_export_validates_schema() -> None:
+    facts, sources, blocks = builder._extract_facts_sources_blocks(_gamme_fm_with_dimensions(), "", "gamme")
+    payload = _valid_payload()
+    payload["facts"], payload["sources"], payload["blocks"] = facts, sources, blocks
+    payload["schema_version"] = builder.SCHEMA_VERSION
+    _validate(payload)  # ne doit pas lever
+
+
+def test_negative_no_structured_data_yields_no_filler_blocks() -> None:
+    """entity_data sans dimensions/decision_brief/maintenance/related_parts → 0 bloc, AUCUN filler."""
+    fm = {"entity_type": "gamme", "slug": "x", "source_refs": [],
+          "entity_data": {"pg_id": 7, "family": "filtration"}}
+    _, _, blocks = builder._extract_facts_sources_blocks(fm, "", "gamme")
+    assert blocks == [], "no structured field → must NOT generate filler blocks"
+
+
+def test_block_source_ids_are_prefixed() -> None:
+    import re
+    _, _, blocks = builder._extract_facts_sources_blocks(_gamme_fm_with_dimensions(), "", "gamme")
+    for b in blocks:
+        for sid in b["source_ids"]:
+            assert re.match(r"^(db|web|raw|oem|specialist):", sid), f"source_id not prefixed: {sid}"

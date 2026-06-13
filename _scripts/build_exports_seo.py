@@ -49,9 +49,9 @@ import click
 import yaml
 
 
-SCHEMA_VERSION = "1.0.0"
+SCHEMA_VERSION = "1.1.0"
 PROJECTION_CONTRACT_VERSION = "1.0.0"
-BUILDER_VERSION = "1.0.0"
+BUILDER_VERSION = "1.1.0"
 
 # entity_types autorisés dans exports/seo/. 'support' explicitement EXCLU.
 SEO_ENTITY_TYPES_BASE: set[str] = {"gamme", "vehicle", "constructeur"}
@@ -147,64 +147,176 @@ def _is_seo_eligible(fm: dict, body: str, source_path: Path) -> tuple[bool, str]
     return True, "eligible"
 
 
+def _gamme_source_id(source_refs: list) -> str:
+    """1er source_ref → id PRÉFIXÉ (raw:/web:) pour les blocs éditoriaux (ADR-086)."""
+    for ref in source_refs or []:
+        if not isinstance(ref, dict):
+            continue
+        kind = (ref.get("kind") or ref.get("type") or "").lower()
+        if kind in ("recycled", "raw"):
+            return f"raw:{ref.get('origin_path') or ref.get('id') or 'recycled'}"
+        if kind in ("web", "external_url", "specialist", "oem"):
+            return f"web:{ref.get('id') or ref.get('url') or 'web'}"
+    return "raw:recycled"
+
+
+def _map_gamme_to_facts_blocks(
+    ed: dict, source_refs: list
+) -> tuple[list[dict], list[dict]]:
+    """gamme `entity_data.{dimensions,decision_brief,maintenance,related_parts}` → facts + blocks
+    role-aware. DÉTERMINISTE, LOSSLESS (champ partiel → consigné, jamais inventé), ZÉRO filler
+    (aucun bloc si aucun champ structuré présent). ADR-086."""
+    facts: list[dict] = []
+    blocks: list[dict] = []
+
+    # Identité (db_owned)
+    if ed.get("pg_id") is not None:
+        facts.append({"key": "pg_id", "value": ed["pg_id"], "source_id": "db:pieces_gamme"})
+    if ed.get("family"):
+        facts.append({"key": "family", "value": str(ed["family"]), "source_id": "db:pieces_gamme"})
+
+    dims = ed.get("dimensions") or {}
+    cf = dims.get("compatibility_factors") or {}
+    if isinstance(cf, dict) and cf:
+        pr = cf.get("power_ps_range") or {}
+        yr = cf.get("year_range") or {}
+        if cf.get("model_count_distinct") is not None:
+            facts.append({"key": "model_count", "value": cf["model_count_distinct"], "source_id": "db:auto_type"})
+        if cf.get("fuels"):
+            facts.append({"key": "fuels", "value": ", ".join(map(str, cf["fuels"])), "source_id": "db:auto_type"})
+        if pr.get("min") is not None and pr.get("max") is not None:
+            facts.append({"key": "power_ps_range", "value": f"{pr['min']}-{pr['max']}", "source_id": "db:auto_type"})
+        if yr.get("min") is not None and yr.get("max") is not None:
+            facts.append({"key": "year_range", "value": f"{yr['min']}-{yr['max']}", "source_id": "db:auto_type"})
+        # Bloc compatibilité (projection déterministe, jamais de la prose)
+        parts: list[str] = []
+        if cf.get("model_count_distinct"):
+            parts.append(f"{cf['model_count_distinct']} modèle(s)")
+        if cf.get("marques"):
+            parts.append("marques : " + ", ".join(str(m).capitalize() for m in cf["marques"]))
+        if cf.get("fuels"):
+            parts.append("carburants : " + ", ".join(map(str, cf["fuels"])))
+        if pr.get("min") is not None:
+            parts.append(f"puissance {pr['min']}–{pr['max']} ch")
+        if yr.get("min") is not None:
+            parts.append(f"années {yr['min']}–{yr['max']}")
+        if parts:
+            blocks.append({
+                "role": "R4_REFERENCE", "section": "compatibility",
+                "content_md": "Compatibilité véhicule : " + " · ".join(parts) + ".",
+                "source_ids": ["db:auto_type"],
+                "truth_level": "db_owned" if cf.get("db_aligned_count") else "inferred",
+                "usefulness_target": "compatibilite",
+            })
+
+    # Maintenance (éditorial sourcé)
+    maint = ed.get("maintenance") or {}
+    advice = maint.get("educational_advice") if isinstance(maint, dict) else None
+    if advice:
+        blocks.append({
+            "role": "R3_CONSEILS", "section": "maintenance",
+            "content_md": str(advice), "source_ids": [_gamme_source_id(source_refs)],
+            "truth_level": "editorial", "usefulness_target": "achat",
+        })
+
+    # Maillage interne (db_owned)
+    rp = ed.get("related_parts") or []
+    if isinstance(rp, list) and rp:
+        blocks.append({
+            "role": "R4_REFERENCE", "section": "related",
+            "content_md": "Pièces de la même famille d'entretien : " + ", ".join(map(str, rp)) + ".",
+            "source_ids": ["db:pieces_gamme"], "truth_level": "db_owned",
+            "usefulness_target": "maillage",
+        })
+
+    # decision_brief (si déjà projeté)
+    db_ = ed.get("decision_brief") or {}
+    if isinstance(db_, dict):
+        crit = db_.get("selection_criteria_top") or []
+        if crit:
+            blocks.append({
+                "role": "R6_GUIDE_ACHAT", "section": "selection",
+                "content_md": "Critères de choix : " + " ; ".join(map(str, crit)) + ".",
+                "source_ids": ["db:pieces_gamme"], "truth_level": "inferred",
+                "usefulness_target": "achat",
+            })
+        if db_.get("function_oneliner"):
+            blocks.append({
+                "role": "R4_REFERENCE", "section": "definition",
+                "content_md": str(db_["function_oneliner"]),
+                "source_ids": ["db:pieces_gamme"], "truth_level": "inferred",
+                "usefulness_target": "page_indexable",
+            })
+
+    return facts, blocks
+
+
 def _extract_facts_sources_blocks(
     fm: dict, body: str, entity_type: str
 ) -> tuple[list[dict], list[dict], list[dict]]:
     """
-    **Filter + transform only** : lit ce qui existe déjà dans le canon wiki.
-    Aucun enrichissement, aucune génération.
+    **Filter + transform only** : projette le canon WIKI STRUCTURÉ (jamais la prose, ADR-059) en
+    facts + blocks role-aware. v1.1.0 (ADR-086) : mappe `entity_data.{dimensions,decision_brief,
+    maintenance,related_parts}` par TYPE D'ENTITÉ. LOSSLESS, ZÉRO filler (no silent fallback).
+    Aucun enrichissement, aucune génération, aucune lecture de prose body.
     """
     facts: list[dict] = []
     sources: list[dict] = []
     blocks: list[dict] = []
 
-    # Facts : copie depuis frontmatter `entity_data.facts` si présent
     entity_data = fm.get("entity_data") or {}
-    if isinstance(entity_data, dict):
-        raw_facts = entity_data.get("facts")
-        if isinstance(raw_facts, list):
-            for f in raw_facts:
-                if isinstance(f, dict) and "key" in f and "value" in f:
-                    facts.append(
-                        {
-                            "key": str(f["key"]),
-                            "value": f["value"],
-                            "source_id": f.get("source_id"),
-                        }
-                    )
+    source_refs = fm.get("source_refs") or []
 
     # Sources : projection depuis `source_refs` frontmatter
-    source_refs = fm.get("source_refs") or []
     if isinstance(source_refs, list):
         for idx, ref in enumerate(source_refs):
             if not isinstance(ref, dict):
                 continue
             kind = ref.get("kind") or ref.get("type") or "manual"
-            sources.append(
-                {
-                    "id": ref.get("id") or ref.get("source_id") or f"src-{idx}",
-                    "type": _normalize_source_type(kind),
-                    "url": ref.get("url"),
-                }
-            )
+            sources.append({
+                "id": ref.get("id") or ref.get("source_id") or f"src-{idx}",
+                "type": _normalize_source_type(kind),
+                "url": ref.get("url"),
+            })
 
-    # Blocks : projection depuis `entity_data.blocks` si structuré
-    raw_blocks = entity_data.get("blocks") if isinstance(entity_data, dict) else None
-    if isinstance(raw_blocks, list):
-        for b in raw_blocks:
-            if not isinstance(b, dict):
-                continue
-            role = b.get("role")
-            content_md = b.get("content_md") or b.get("content")
-            if not role or not content_md:
-                continue
-            blocks.append(
-                {
-                    "role": str(role),
-                    "section": b.get("section"),
+    if isinstance(entity_data, dict):
+        # Path historique : facts/blocks déjà structurés dans le canon (rétro-compat)
+        raw_facts = entity_data.get("facts")
+        if isinstance(raw_facts, list):
+            for f in raw_facts:
+                if isinstance(f, dict) and "key" in f and "value" in f:
+                    facts.append({"key": str(f["key"]), "value": f["value"], "source_id": f.get("source_id")})
+        raw_blocks = entity_data.get("blocks")
+        if isinstance(raw_blocks, list):
+            for b in raw_blocks:
+                if not isinstance(b, dict):
+                    continue
+                role = b.get("role")
+                content_md = b.get("content_md") or b.get("content")
+                if not role or not content_md:
+                    continue
+                blocks.append({
+                    "role": str(role), "section": b.get("section"),
                     "content_md": str(content_md),
-                }
-            )
+                    "source_ids": list(b.get("source_ids") or []),
+                    "truth_level": b.get("truth_level") or "editorial",
+                    "usefulness_target": b.get("usefulness_target"),
+                })
+
+        # Path v1.1.0 : mapping par type d'entité (le contenu structuré devient projetable)
+        if entity_type == "gamme":
+            ef, eb = _map_gamme_to_facts_blocks(entity_data, source_refs)
+            facts.extend(ef)
+            blocks.extend(eb)
+        # (vehicle: known_issues_by_engine/maintenance_by_engine · diagnostic: symptoms[] —
+        #  mêmes patterns, ajoutés en suite ; PR 0A = gamme.)
+
+    if not blocks:
+        click.echo(
+            f"WARN {fm.get('entity_type')}:{fm.get('slug')} — aucun bloc structuré projetable "
+            "(0 dimensions/decision_brief/maintenance/related_parts) ; export sans bloc, AUCUN filler généré.",
+            err=True,
+        )
 
     return facts, sources, blocks
 

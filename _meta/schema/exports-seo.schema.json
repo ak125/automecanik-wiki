@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/exports-seo.schema.json",
-  "title": "automecanik-wiki exports/seo/ contract v1.0.0",
-  "description": "Schema strict pour wiki/exports/seo/<entity_type>/<slug>.json. Vue dérivée éphémère du wiki canon. Référence : ADR-059 SEO Runtime Projection §Décision (accepted 2026-05-13).",
+  "title": "automecanik-wiki exports/seo/ contract v1.1.0",
+  "description": "Schema strict pour wiki/exports/seo/<entity_type>/<slug>.json. Vue dérivée éphémère du wiki canon. Référence : ADR-059 SEO Runtime Projection §Décision (accepted 2026-05-13). v1.1.0 (ADR-086, 2026-06-13) : blocks portent source_ids[] préfixés + truth_level + usefulness_target — le canon WIKI structuré (entity_data.dimensions/decision_brief/maintenance/related_parts) est projeté en facts/blocks role-aware.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -98,14 +98,25 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["role", "content_md"],
+        "required": ["role", "content_md", "source_ids", "truth_level"],
         "properties": {
           "role": {
             "type": "string",
             "enum": ["R0_HOME", "R1_ROUTER", "R2_PRODUCT", "R3_CONSEILS", "R4_REFERENCE", "R6_GUIDE_ACHAT", "R7_BRAND", "R8_VEHICLE"]
           },
           "section": { "type": ["string", "null"] },
-          "content_md": { "type": "string", "minLength": 1 }
+          "content_md": { "type": "string", "minLength": 1 },
+          "source_ids": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1, "pattern": "^(db|web|raw|oem|specialist):" },
+            "description": "PRÉFIXÉS db:<table> | web:<evidence_id> | raw:<path> — sépare DB-owned de sourced (ADR-086). Vide autorisé si truth_level=db_owned ET role identitaire."
+          },
+          "truth_level": {
+            "type": "string",
+            "enum": ["db_owned", "sourced", "inferred", "editorial"],
+            "description": "ADR-086 : db_owned (DB) | sourced (web/oem) | inferred (dérivé) | editorial (reformulé)."
+          },
+          "usefulness_target": { "type": ["string", "null"] }
         }
       }
     },

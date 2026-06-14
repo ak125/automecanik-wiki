@@ -62,6 +62,43 @@ entity_data:
     educational_advice: 'À remplacer systématiquement à chaque vidange : essence 10 000-15 000 km, diesel 15 000-20 000 km, longlife jusqu''à 30 000 km. Ne jamais réutiliser un ancien filtre.'
   kw_top: []
   references: []
+  editorial:
+    function:
+      content_md: Le filtre à huile retient les impuretés métalliques d'usure et les résidus de combustion en suspension dans l'huile moteur, protégeant paliers, arbre à cames et turbocompresseur de l'usure
+        abrasive.
+      source_ids:
+      - raw:recycled/rag-knowledge/gammes/filtre-a-huile.md
+      truth_level: editorial
+      usefulness_target: compréhension produit
+    selection_criteria:
+      content_md: 'Critères de choix : référence constructeur OEM, type de montage (vissable spin-on ou cartouche), diamètre de filetage et joint torique, présence d''un clapet anti-retour et d''un clapet
+        by-pass, compatibilité avec les huiles longlife (normes constructeur).'
+      source_ids:
+      - raw:recycled/rag-knowledge/gammes/filtre-a-huile.md
+      truth_level: editorial
+      usefulness_target: décision d'achat
+    maintenance_interval:
+      content_md: 'À remplacer à chaque vidange : essence 10 000-15 000 km, diesel 15 000-20 000 km, longlife jusqu''à 30 000 km ou 1 an. Ne jamais réutiliser un ancien filtre.'
+      source_ids:
+      - raw:recycled/rag-knowledge/gammes/filtre-a-huile.md
+      - db:auto_type
+      truth_level: editorial
+      usefulness_target: entretien
+  media:
+  - slot: hero
+    purpose: illustration gamme
+    alt_text: Filtre à huile automobile
+    source: db:pieces_gamme.pg_pic
+    asset: filtre-a-huile.webp
+    license: owned
+    status: AVAILABLE
+  - slot: function_diagram
+    purpose: schéma circuit et clapets
+    alt_text: Schéma de fonctionnement d'un filtre à huile
+    source: null
+    asset: null
+    license: null
+    status: DEFERRED
   dimensions:
     compatibility_factors:
       marques:

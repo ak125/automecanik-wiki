@@ -568,3 +568,97 @@ def test_entity_data_editorial_media_validates_against_gamme_schema() -> None:
     schema = json.loads(GAMME_ED_SCHEMA_PATH.read_text(encoding="utf-8"))
     ed = _gamme_fm_with_editorial()["entity_data"]
     jsonschema.validate(ed, schema)  # editorial + media conformes au canon entity-data v2.3.0
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# v1.1.0 vehicle (ADR-086 §1 surface R8) — known_issues/maintenance par motorisation → blocks
+# ──────────────────────────────────────────────────────────────────────────────
+VEHICLE_SCHEMA_PATH = (
+    Path(__file__).resolve().parent.parent / "_meta" / "schema" / "entity-data" / "vehicle.schema.json"
+)
+
+
+def _vehicle_fm_with_engine_maps() -> dict:
+    return {
+        "entity_type": "vehicle",
+        "slug": "renault-scenic-ii",
+        "source_refs": [],
+        "entity_data": {
+            "make": "renault",
+            "model": "scenic-ii",
+            "type_id": 18003,
+            "motorizations": [{"code": "1.5 dCi", "fuel": "diesel", "power_hp": 101, "displacement_cc": 1461}],
+            "known_issues_by_engine": {
+                "engine_family:k9k": {
+                    "axis_key_type": "engine_family",
+                    "content_md": ("Moteur 1.5 dCi (famille K9K, Renault-Nissan) : points de vigilance — "
+                                   "EGR (encrassement fréquent), turbo (usure des paliers), injecteurs "
+                                   "(fuite de retour). Vidange et filtre à huile rigoureux limitent l'usure."),
+                    "source_ids": ["db:kg_engine_families", "db:auto_type"],
+                    "truth_level": "sourced",
+                },
+            },
+            "maintenance_by_engine": {
+                "fuel:diesel": {
+                    "axis_key_type": "fuel",
+                    "content_md": ("Diesel : intervalle de vidange 15 000-20 000 km ou 1 an ; remplacer le "
+                                   "filtre à huile à chaque vidange."),
+                    "source_ids": ["db:auto_type"],
+                    "truth_level": "sourced",
+                },
+            },
+        },
+    }
+
+
+def test_vehicle_engine_maps_to_r8_blocks() -> None:
+    _, _, blocks = builder._extract_facts_sources_blocks(_vehicle_fm_with_engine_maps(), "", "vehicle")
+    assert len(blocks) == 2, "1 known_issues + 1 maintenance attendus"
+    for b in blocks:
+        assert b["role"] == "R8_VEHICLE"
+        assert b["section"] in ("known_issues", "maintenance")
+        assert b["source_ids"] and b["truth_level"] == "sourced"
+    sections = {b["section"] for b in blocks}
+    assert sections == {"known_issues", "maintenance"}
+
+
+def test_vehicle_r8_blocks_within_roles_allowed() -> None:
+    fm = _vehicle_fm_with_engine_maps()
+    _, _, blocks = builder._extract_facts_sources_blocks(fm, "", "vehicle")
+    ra = set(builder._compute_roles_allowed(fm, "vehicle", blocks))
+    assert {b["role"] for b in blocks} <= ra, "R8_VEHICLE doit ∈ roles_allowed véhicule"
+
+
+def test_vehicle_r8_export_validates_schema() -> None:
+    facts, sources, blocks = builder._extract_facts_sources_blocks(_vehicle_fm_with_engine_maps(), "", "vehicle")
+    payload = _valid_payload()
+    payload["entity_id"] = "vehicle:renault-scenic-ii"
+    payload["entity_type"] = "vehicle"
+    payload["wiki_path"] = "wiki/vehicle/renault-scenic-ii.md"
+    payload["roles_allowed"] = ["R8_VEHICLE"]
+    payload["facts"], payload["sources"], payload["blocks"] = facts, sources, blocks
+    payload["schema_version"] = builder.SCHEMA_VERSION
+    _validate(payload)
+
+
+def test_vehicle_no_engine_maps_yields_no_filler() -> None:
+    fm = {"entity_type": "vehicle", "slug": "x", "source_refs": [],
+          "entity_data": {"make": "renault", "model": "x"}}
+    _, _, blocks = builder._extract_facts_sources_blocks(fm, "", "vehicle")
+    assert blocks == [], "pas de map moteur → 0 bloc, AUCUN filler"
+
+
+def test_vehicle_invalid_engine_entry_not_emitted() -> None:
+    fm = {"entity_type": "vehicle", "slug": "x", "source_refs": [], "entity_data": {
+        "make": "renault", "model": "x", "known_issues_by_engine": {
+            "fuel:diesel": {"axis_key_type": "fuel", "content_md": "x" * 50, "source_ids": [], "truth_level": "sourced"},
+        }}}
+    _, _, blocks = builder._extract_facts_sources_blocks(fm, "", "vehicle")
+    assert blocks == [], "entrée sans source_ids → non émise"
+
+
+def test_entity_data_vehicle_engine_maps_validate_against_schema() -> None:
+    import jsonschema
+    schema = json.loads(VEHICLE_SCHEMA_PATH.read_text(encoding="utf-8"))
+    ed = _vehicle_fm_with_engine_maps()["entity_data"]
+    jsonschema.validate(ed, schema)  # conforme vehicle.schema v1.1.0

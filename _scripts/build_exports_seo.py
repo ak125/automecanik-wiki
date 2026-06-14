@@ -172,7 +172,7 @@ _GAMME_EDITORIAL_ROLES: dict[str, str] = {
     "quality_tiers": "R6_GUIDE_ACHAT",
     "standards_norms": "R4_REFERENCE",
     "replacement_guidance": "R3_CONSEILS",
-    "faq": "R0_HOME",
+    "faq": "R3_CONSEILS",  # FAQ gamme = cluster gamme (R3), PAS R0_HOME (home) — cohérent roles_allowed
 }
 
 

@@ -508,7 +508,27 @@ def test_gamme_editorial_section_to_role_golden() -> None:
     assert by_section["function"] == "R3_CONSEILS"
     assert by_section["selection_criteria"] == "R6_GUIDE_ACHAT"
     assert by_section["standards_norms"] == "R4_REFERENCE"
-    assert by_section["faq"] == "R0_HOME"
+    assert by_section["faq"] == "R3_CONSEILS"  # FAQ gamme ∈ cluster gamme, pas R0_HOME
+
+
+def test_editorial_block_roles_within_roles_allowed() -> None:
+    """COHÉRENCE (revue #44) : tout role de bloc éditorial ⊆ roles_allowed gamme (pas de drop silencieux)."""
+    fm = _gamme_fm_with_editorial()
+    _, _, blocks = builder._extract_facts_sources_blocks(fm, "", "gamme")
+    roles_allowed = set(builder._compute_roles_allowed(fm, "gamme", blocks))
+    block_roles = {b["role"] for b in blocks}
+    assert block_roles <= roles_allowed, f"roles hors roles_allowed: {block_roles - roles_allowed}"
+
+
+def test_editorial_block_source_ids_prefixed() -> None:
+    """Finding 2 : la garde préfixe doit aussi couvrir le path éditorial (source_ids verbatim)."""
+    import re
+    _, _, blocks = builder._extract_facts_sources_blocks(_gamme_fm_with_editorial(), "", "gamme")
+    ed = [b for b in blocks if b["section"] in builder._GAMME_EDITORIAL_ROLES]
+    assert ed, "fixture doit produire des blocs éditoriaux"
+    for b in ed:
+        for sid in b["source_ids"]:
+            assert re.match(r"^(db|web|raw|oem|specialist):", sid), f"source_id non préfixé: {sid}"
 
 
 def test_gamme_editorial_export_validates_schema() -> None:

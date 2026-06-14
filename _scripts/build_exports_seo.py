@@ -160,6 +160,49 @@ def _gamme_source_id(source_refs: list) -> str:
     return "raw:recycled"
 
 
+# ADR-086 §2bis — taxonomie section éditoriale gamme → rôle SEO (déterministe, contrôlé).
+# Les sections DÉTERMINISTES (vehicle_selector/compatibility/related_parts) ne sont PAS ici :
+# elles sont composées depuis dimensions/related_parts/DB par _map_gamme_to_facts_blocks.
+_GAMME_EDITORIAL_ROLES: dict[str, str] = {
+    "function": "R3_CONSEILS",
+    "failure_symptoms": "R3_CONSEILS",
+    "maintenance_interval": "R3_CONSEILS",
+    "variants": "R4_REFERENCE",
+    "selection_criteria": "R6_GUIDE_ACHAT",
+    "quality_tiers": "R6_GUIDE_ACHAT",
+    "standards_norms": "R4_REFERENCE",
+    "replacement_guidance": "R3_CONSEILS",
+    "faq": "R0_HOME",
+}
+
+
+def _map_gamme_editorial_to_blocks(ed: dict) -> list[dict]:
+    """gamme `entity_data.editorial.<section>` → blocks[] role-aware (ADR-086 §2bis).
+    Prose curée+sourcée niveau GAMME (1/gamme, pas de duplicate). Ordre déterministe (taxonomie).
+    ZÉRO filler : section absente/invalide (sans content_md ou sans source_ids) → ignorée."""
+    editorial = ed.get("editorial")
+    if not isinstance(editorial, dict):
+        return []
+    blocks: list[dict] = []
+    for section, role in _GAMME_EDITORIAL_ROLES.items():  # itère la taxonomie = ordre stable
+        entry = editorial.get(section)
+        if not isinstance(entry, dict):
+            continue
+        content = entry.get("content_md")
+        sources = entry.get("source_ids")
+        if not content or not isinstance(sources, list) or not sources:
+            continue  # bloc invalide → non émis, jamais inventé
+        blocks.append({
+            "role": role,
+            "section": section,
+            "content_md": str(content),
+            "source_ids": list(sources),
+            "truth_level": entry.get("truth_level") or "editorial",
+            "usefulness_target": entry.get("usefulness_target") or section,
+        })
+    return blocks
+
+
 def _map_gamme_to_facts_blocks(
     ed: dict, source_refs: list
 ) -> tuple[list[dict], list[dict]]:
@@ -308,6 +351,8 @@ def _extract_facts_sources_blocks(
             ef, eb = _map_gamme_to_facts_blocks(entity_data, source_refs)
             facts.extend(ef)
             blocks.extend(eb)
+            # Path v2.3.0 (ADR-086 §2bis) : sections éditoriales gamme → blocks role-aware
+            blocks.extend(_map_gamme_editorial_to_blocks(entity_data))
         # (vehicle: known_issues_by_engine/maintenance_by_engine · diagnostic: symptoms[] —
         #  mêmes patterns, ajoutés en suite ; PR 0A = gamme.)
 

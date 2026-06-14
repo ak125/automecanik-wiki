@@ -1,11 +1,45 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/gamme.schema.json",
-  "title": "entity_data v2.2.0 — gamme (R3/R4)",
-  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'. v2.0.0 ajoute le bloc maintenance (canon ADR-032 §D1). v2.1.0 (additive, 2026-05-27 Task 8a) ajoute le bloc optionnel `dimensions` pour les compatibility_factors + motorisation_profiles produits par scripts/wiki-generators/promote-raw-gammes-to-wiki.py (canon B5 compatibility_proven_by_runtime_url_and_db). v2.2.0 (additive, 2026-05-28) ajoute le bloc optionnel `decision_brief` — facettes décisionnelles sourcées (function_oneliner + selection_criteria_top + compatibility_summary) projetées déterministiquement depuis dimensions. Aucun texte généré stocké. Capte les signaux Google AI Mode Decide/Summarize sans toucher R2/R8 runtime. diagnostic_relations[] reste top-level frontmatter (canon ADR-033 §D1).",
+  "title": "entity_data v2.3.0 — gamme (R1/R3/R4/R6)",
+  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'. v2.0.0 ajoute le bloc maintenance (canon ADR-032 §D1). v2.1.0 (additive, 2026-05-27 Task 8a) ajoute le bloc optionnel `dimensions` pour les compatibility_factors + motorisation_profiles produits par scripts/wiki-generators/promote-raw-gammes-to-wiki.py (canon B5 compatibility_proven_by_runtime_url_and_db). v2.2.0 (additive, 2026-05-28) ajoute le bloc optionnel `decision_brief` — facettes décisionnelles sourcées (function_oneliner + selection_criteria_top + compatibility_summary) projetées déterministiquement depuis dimensions. Aucun texte généré stocké. Capte les signaux Google AI Mode Decide/Summarize sans toucher R2/R8 runtime. v2.3.0 (additive, ADR-086 §2bis) ajoute `editorial` (sections éditoriales gamme curées+sourcées, cluster R1/R3/R4/R6, prose humaine-validée projetée en blocks[] role-aware — distinct du decision_brief déterministe ; niveau GAMME, 1/gamme, zéro risque duplicate) + `media` (couture image-ready, chantier image gouverné SÉPARÉ). diagnostic_relations[] reste top-level frontmatter (canon ADR-033 §D1).",
   "type": "object",
   "required": ["pg_id", "family"],
   "additionalProperties": false,
+  "$defs": {
+    "editorialBlock": {
+      "description": "Section éditoriale gamme curée + sourcée (prose humaine-validée, non-verbatim). Stockée comme content_md. ADR-086 §2bis « bloc valide ».",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content_md", "source_ids", "truth_level"],
+      "properties": {
+        "content_md": { "type": "string", "minLength": 60 },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^(db|web|raw|oem|specialist):" }
+        },
+        "truth_level": { "enum": ["db_owned", "sourced", "inferred", "editorial"] },
+        "usefulness_target": { "type": ["string", "null"] }
+      }
+    },
+    "mediaSlot": {
+      "description": "Slot média déclaré (image-ready). status DEFERRED = déclaré non rempli, jamais bloquant pour la projection. Acquisition/optimisation = chantier image gouverné SÉPARÉ.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot", "status"],
+      "properties": {
+        "slot": { "type": "string", "pattern": "^[a-z][a-z0-9_]*$" },
+        "purpose": { "type": ["string", "null"] },
+        "alt_text": { "type": ["string", "null"] },
+        "source": { "type": ["string", "null"] },
+        "asset": { "type": ["string", "null"] },
+        "license": { "type": ["string", "null"] },
+        "status": { "enum": ["AVAILABLE", "DEFERRED"] }
+      }
+    }
+  },
   "properties": {
     "pg_id": {
       "description": "FK vers DB pg_alias / __seo_pg_aliases. Source de vérité monorepo Supabase.",
@@ -188,6 +222,28 @@
           "enum": ["WEB_CONFIRMS_RAG", "WEB_ONLY", "RAG_ONLY", "WEB_DIFFERS_FROM_RAG", "NEITHER"]
         }
       }
+    },
+    "editorial": {
+      "description": "Canon v2.3.0 (additive, ADR-086 §2bis) — sections ÉDITORIALES gamme curées + sourcées (cluster R1/R3/R4/R6), prose humaine-validée stockée comme content_md, projetée en blocks[] role-aware par build_exports_seo (section→role via taxonomie ADR-086). Niveau GAMME (1/gamme) → zéro risque duplicate (R2 per-véhicule compose, ne stocke pas). Distinct du decision_brief déterministe. Les sections DÉTERMINISTES (vehicle_selector, compatibility, related_parts) NE sont PAS ici (composées depuis dimensions/DB). Chaque section absente → aucun bloc émis (zéro filler).",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "function": { "$ref": "#/$defs/editorialBlock" },
+        "failure_symptoms": { "$ref": "#/$defs/editorialBlock" },
+        "maintenance_interval": { "$ref": "#/$defs/editorialBlock" },
+        "variants": { "$ref": "#/$defs/editorialBlock" },
+        "selection_criteria": { "$ref": "#/$defs/editorialBlock" },
+        "quality_tiers": { "$ref": "#/$defs/editorialBlock" },
+        "standards_norms": { "$ref": "#/$defs/editorialBlock" },
+        "replacement_guidance": { "$ref": "#/$defs/editorialBlock" },
+        "faq": { "$ref": "#/$defs/editorialBlock" }
+      }
+    },
+    "media": {
+      "description": "Canon v2.3.0 (additive, ADR-086 §2bis) — couture média (image-ready). Déclare les slots ; l'acquisition/optimisation (pipeline asset, LCP/CWV, licences) = chantier image gouverné SÉPARÉ. Jamais bloquant pour la projection.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/mediaSlot" },
+      "default": []
     }
   }
 }

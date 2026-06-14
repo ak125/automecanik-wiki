@@ -431,3 +431,120 @@ def test_block_source_ids_are_prefixed() -> None:
     for b in blocks:
         for sid in b["source_ids"]:
             assert re.match(r"^(db|web|raw|oem|specialist):", sid), f"source_id not prefixed: {sid}"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# v2.3.0 (ADR-086 §2bis) — sections éditoriales gamme → blocks role-aware
+# ──────────────────────────────────────────────────────────────────────────────
+GAMME_ED_SCHEMA_PATH = (
+    Path(__file__).resolve().parent.parent / "_meta" / "schema" / "entity-data" / "gamme.schema.json"
+)
+
+
+def _ed(content: str, *sources: str, truth: str = "editorial") -> dict:
+    return {"content_md": content, "source_ids": list(sources), "truth_level": truth}
+
+
+def _gamme_fm_with_editorial() -> dict:
+    return {
+        "entity_type": "gamme",
+        "slug": "filtre-a-huile",
+        "source_refs": [],
+        "entity_data": {
+            "pg_id": 7,
+            "family": "filtration",
+            "editorial": {
+                "function": _ed(
+                    "Le filtre à huile épure l'huile moteur en retenant les particules métalliques "
+                    "d'usure et les suies de combustion, préservant la lubrification du moteur.", "raw:recycled/filtre-a-huile"),
+                "failure_symptoms": _ed(
+                    "Signes d'un filtre colmaté : témoin de pression d'huile, bruit moteur à froid, "
+                    "huile noircie prématurément ; le by-pass laisse alors passer une huile non filtrée.", "raw:recycled/filtre-a-huile"),
+                "maintenance_interval": _ed(
+                    "À remplacer à chaque vidange : essence 10 000-15 000 km, diesel 15 000-20 000 km, "
+                    "longlife jusqu'à 30 000 km ou 1 an.", "raw:recycled/filtre-a-huile", "db:auto_type"),
+                "variants": _ed(
+                    "Deux technologies : filtre vissable spin-on (cartouche métallique complète) et "
+                    "filtre cartouche (élément seul dans un boîtier réutilisable).", "raw:recycled/filtre-a-huile"),
+                "selection_criteria": _ed(
+                    "Critères : référence OEM, type de montage, clapet anti-retour et clapet by-pass, "
+                    "compatibilité huiles longlife (normes constructeur).", "raw:recycled/filtre-a-huile"),
+                "quality_tiers": _ed(
+                    "Trois niveaux : origine constructeur (OE), équipementier première monte "
+                    "(Mann, Mahle, Bosch, Purflux) et entrée de gamme.", "web:equipementier-generic"),
+                "standards_norms": _ed(
+                    "L'efficacité de filtration suit les spécifications constructeur et les normes "
+                    "d'essai équipementier ; compatibilité huile selon homologation constructeur.", "web:oem-generic"),
+                "replacement_guidance": _ed(
+                    "Remplacement huile chaude moteur arrêté : vidanger, déposer l'ancien filtre, "
+                    "lubrifier le joint neuf, refaire le niveau, contrôler l'absence de fuite.", "raw:recycled/filtre-a-huile"),
+                "faq": _ed(
+                    "Faut-il changer le filtre à chaque vidange ? Oui, systématiquement. Spin-on ou "
+                    "cartouche ? Celui imposé par le support moteur, pas un choix libre.", "raw:recycled/filtre-a-huile"),
+            },
+            "media": [
+                {"slot": "hero", "purpose": "illustration gamme", "alt_text": "Filtre à huile",
+                 "source": "db:pieces_gamme.pg_pic", "asset": "filtre-a-huile.webp",
+                 "license": "owned", "status": "AVAILABLE"},
+                {"slot": "function_diagram", "purpose": "schéma circuit", "alt_text": "Schéma filtre à huile",
+                 "source": None, "asset": None, "license": None, "status": "DEFERRED"},
+            ],
+        },
+    }
+
+
+def test_gamme_editorial_maps_to_role_aware_blocks() -> None:
+    _, _, blocks = builder._extract_facts_sources_blocks(_gamme_fm_with_editorial(), "", "gamme")
+    ed_blocks = [b for b in blocks if b["section"] in builder._GAMME_EDITORIAL_ROLES]
+    assert len(ed_blocks) == 9, "les 9 sections éditoriales doivent produire 9 blocs"
+    for b in ed_blocks:
+        assert b["role"] == builder._GAMME_EDITORIAL_ROLES[b["section"]], "rôle ≠ taxonomie"
+        assert b["content_md"] and b["source_ids"] and b["truth_level"]
+
+
+def test_gamme_editorial_section_to_role_golden() -> None:
+    _, _, blocks = builder._extract_facts_sources_blocks(_gamme_fm_with_editorial(), "", "gamme")
+    by_section = {b["section"]: b["role"] for b in blocks}
+    assert by_section["function"] == "R3_CONSEILS"
+    assert by_section["selection_criteria"] == "R6_GUIDE_ACHAT"
+    assert by_section["standards_norms"] == "R4_REFERENCE"
+    assert by_section["faq"] == "R0_HOME"
+
+
+def test_gamme_editorial_export_validates_schema() -> None:
+    facts, sources, blocks = builder._extract_facts_sources_blocks(_gamme_fm_with_editorial(), "", "gamme")
+    payload = _valid_payload()
+    payload["facts"], payload["sources"], payload["blocks"] = facts, sources, blocks
+    payload["schema_version"] = builder.SCHEMA_VERSION
+    _validate(payload)  # blocks éditoriaux conformes au contrat exports-seo
+
+
+def test_gamme_editorial_partial_no_filler() -> None:
+    """editorial partiel (3 sections) → exactement 3 blocs éditoriaux, AUCUN filler sur les absentes."""
+    fm = {"entity_type": "gamme", "slug": "x", "source_refs": [], "entity_data": {
+        "pg_id": 7, "family": "filtration", "editorial": {
+            "function": _ed("Le filtre à huile retient les impuretés en suspension dans l'huile moteur efficacement.", "raw:r"),
+            "faq": _ed("Faut-il changer le filtre à chaque vidange ? Oui systématiquement pour protéger le moteur.", "raw:r"),
+            "variants": _ed("Deux technologies de filtre à huile coexistent : le spin-on vissable et la cartouche.", "raw:r"),
+        }}}
+    _, _, blocks = builder._extract_facts_sources_blocks(fm, "", "gamme")
+    ed_blocks = [b for b in blocks if b["section"] in builder._GAMME_EDITORIAL_ROLES]
+    assert len(ed_blocks) == 3, "seules les sections présentes produisent un bloc"
+    assert {b["section"] for b in ed_blocks} == {"function", "faq", "variants"}
+
+
+def test_gamme_editorial_invalid_entry_not_emitted() -> None:
+    """section sans source_ids → bloc NON émis (zéro filler), jamais inventé."""
+    fm = {"entity_type": "gamme", "slug": "x", "source_refs": [], "entity_data": {
+        "pg_id": 7, "family": "filtration", "editorial": {
+            "function": {"content_md": "x" * 80, "source_ids": [], "truth_level": "editorial"},  # invalide (0 source)
+        }}}
+    _, _, blocks = builder._extract_facts_sources_blocks(fm, "", "gamme")
+    assert [b for b in blocks if b["section"] == "function"] == []
+
+
+def test_entity_data_editorial_media_validates_against_gamme_schema() -> None:
+    import jsonschema
+    schema = json.loads(GAMME_ED_SCHEMA_PATH.read_text(encoding="utf-8"))
+    ed = _gamme_fm_with_editorial()["entity_data"]
+    jsonschema.validate(ed, schema)  # editorial + media conformes au canon entity-data v2.3.0

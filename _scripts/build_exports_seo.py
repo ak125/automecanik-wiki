@@ -203,6 +203,36 @@ def _map_gamme_editorial_to_blocks(ed: dict) -> list[dict]:
     return blocks
 
 
+def _map_vehicle_to_blocks(ed: dict) -> list[dict]:
+    """véhicule `entity_data.{known_issues_by_engine,maintenance_by_engine}` → blocks R8_VEHICLE
+    role-aware (ADR-086 §1 surface R8). Connaissance PAR MOTORISATION = la couche qui différencie
+    chaque R2 (R2 = R1 ⊕ R8). Ordre déterministe (clé moteur triée). ZÉRO filler : map absente ou
+    entrée invalide (sans content_md / sans source_ids) → ignorée, jamais inventée."""
+    blocks: list[dict] = []
+    for field, section in (("known_issues_by_engine", "known_issues"),
+                           ("maintenance_by_engine", "maintenance")):
+        m = ed.get(field)
+        if not isinstance(m, dict):
+            continue
+        for engine_key in sorted(m):  # ordre stable = déterministe / replay-safe
+            entry = m[engine_key]
+            if not isinstance(entry, dict):
+                continue
+            content = entry.get("content_md")
+            sources = entry.get("source_ids")
+            if not content or not isinstance(sources, list) or not sources:
+                continue  # bloc invalide → non émis
+            blocks.append({
+                "role": "R8_VEHICLE",
+                "section": section,
+                "content_md": str(content),
+                "source_ids": list(sources),
+                "truth_level": entry.get("truth_level") or "sourced",
+                "usefulness_target": engine_key,  # trace la motorisation (clé normalisée)
+            })
+    return blocks
+
+
 def _map_gamme_to_facts_blocks(
     ed: dict, source_refs: list
 ) -> tuple[list[dict], list[dict]]:
@@ -353,8 +383,10 @@ def _extract_facts_sources_blocks(
             blocks.extend(eb)
             # Path v2.3.0 (ADR-086 §2bis) : sections éditoriales gamme → blocks role-aware
             blocks.extend(_map_gamme_editorial_to_blocks(entity_data))
-        # (vehicle: known_issues_by_engine/maintenance_by_engine · diagnostic: symptoms[] —
-        #  mêmes patterns, ajoutés en suite ; PR 0A = gamme.)
+        elif entity_type == "vehicle":
+            # Surface R8 (ADR-086 §1) : known_issues/maintenance PAR MOTORISATION → blocks R8_VEHICLE
+            blocks.extend(_map_vehicle_to_blocks(entity_data))
+        # (diagnostic: symptoms[]/probable_causes[] — même pattern, ajouté en suite.)
 
     if not blocks:
         click.echo(

@@ -114,7 +114,7 @@ entity_data:
       validation_notes:
       - Axe carburant DB-fiable ; valeurs km à confirmer.
   low_profile_canary: false
-confidence_score: 0.3
+confidence_score: 0.24
 ---
 
 # Renault Scénic II

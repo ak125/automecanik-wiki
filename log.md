@@ -63,3 +63,9 @@
 - **Branche** : `fix/promote-move-semantics`
 - **Décision** : fix(wiki): promote.py move-semantics — supprime la proposal après écriture du canon
 - **Sortie** : PR #41 | commits 2ca8d62
+
+## 2026-06-17 — feat/gate-anti-inflation-phase0 (auto)
+
+- **Branche** : `feat/gate-anti-inflation-phase0`
+- **Décision** : feat(_scripts): anti-inflation advisory report (Phase 0, report-only)
+- **Sortie** : PR #49 | commits e627438

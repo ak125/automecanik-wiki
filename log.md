@@ -69,3 +69,9 @@
 - **Branche** : `feat/gate-anti-inflation-phase0`
 - **Décision** : feat(_scripts): anti-inflation advisory report (Phase 0, report-only)
 - **Sortie** : PR #49 | commits e627438
+
+## 2026-06-17 — feat/gate-anti-inflation-phase0 (auto)
+
+- **Branche** : `feat/gate-anti-inflation-phase0`
+- **Décision** : feat(_scripts): Phase 1 — conformance schéma autoritaire (report-only) (+2 other commits)
+- **Sortie** : PR #49 | commits 4319aac 52679aa e627438

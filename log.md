@@ -75,3 +75,9 @@
 - **Branche** : `feat/gate-anti-inflation-phase0`
 - **Décision** : feat(_scripts): Phase 1 — conformance schéma autoritaire (report-only) (+2 other commits)
 - **Sortie** : PR #49 | commits 4319aac 52679aa e627438
+
+## 2026-06-17 — feat/gate-anti-inflation-phase0 (auto)
+
+- **Branche** : `feat/gate-anti-inflation-phase0`
+- **Décision** : fix(_scripts): anti-inflation report — robustesse report-only (no-crash fiche malformée) (+4 other commits)
+- **Sortie** : PR #49 | commits 68b5247 c4a4eed 4319aac 52679aa e627438

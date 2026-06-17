@@ -104,7 +104,7 @@ class FicheReport:
 
 def _max_conf(legacy, source_catalog: dict, slug: str) -> str | None:
     """Force §9.1 d'un slug catalogué, ou None si non catalogué."""
-    base = re.sub(r"_p\d+$", "", slug)  # tolère suffixe page _pNN (cf. gate_diagnostic_relations)
+    base = re.sub(r"_p\d+$", "", str(slug))  # str() défensif + suffixe page _pNN (cf. gate_diagnostic_relations)
     entry = source_catalog.get(base)
     if not entry:
         return None
@@ -240,10 +240,15 @@ def analyze_file(path: Path, legacy, source_catalog: dict, compute_score,
             rep.confidence_score = round(float(compute_score(fm, body, wiki_root)), 2)
         except Exception:  # noqa: BLE001
             rep.confidence_score = None
-    rep.findings += check_confidence_missing(fm)
-    rep.findings += check_sources(legacy, source_catalog, fm)
-    rep.findings += check_engine_generic(fm)
-    rep.findings += check_schema_conformance(fm, schema_dir)
+    # Defense-in-depth : un check qui plante (fiche malformée) ne doit JAMAIS casser le rapport
+    # ni faire sortir le process non-zéro (contrat report-only).
+    try:
+        rep.findings += check_confidence_missing(fm)
+        rep.findings += check_sources(legacy, source_catalog, fm)
+        rep.findings += check_engine_generic(fm)
+        rep.findings += check_schema_conformance(fm, schema_dir)
+    except Exception as exc:  # noqa: BLE001 — report-only, jamais crash
+        rep.findings.append(Finding("CHECK_ERROR", "advisory", "checks", f"un check a échoué (fiche malformée?): {exc}"))
     return rep
 
 

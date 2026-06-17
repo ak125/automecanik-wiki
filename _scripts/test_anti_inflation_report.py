@@ -99,6 +99,13 @@ def test_main_report_only_exit_zero_then_strict_one(tmp_path):
     assert air.main(["--strict", str(f)]) == 1  # opt-in strict (usage futur)
 
 
+def test_malformed_fiche_never_crashes(tmp_path):
+    """Contrat report-only : une fiche malformée (slug non-string) ne crashe jamais, exit 0."""
+    f = tmp_path / "bad.md"
+    f.write_text("---\nentity_type: vehicle\nsource_refs:\n  - slug: 12345\n---\nbody\n", encoding="utf-8")
+    assert air.main([str(f)]) == 0
+
+
 def test_isolation_no_promote_import():
     """Le module advisory ne doit pas importer promote.py (anti-câblage)."""
     src = (SCRIPTS_DIR / "anti-inflation-report.py").read_text(encoding="utf-8")

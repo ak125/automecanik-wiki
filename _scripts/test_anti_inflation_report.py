@@ -1,9 +1,10 @@
-"""Tests du rapport anti-inflation Phase 0 (report-only).
+"""Tests du rapport anti-inflation + conformance (Phases 0+1, report-only).
 
 Garde-fous vérifiés :
   - report-only : exit 0 par défaut, exit 1 seulement avec --strict (opt-in).
-  - les 3 checks détectent les bons cas et restent silencieux sur les cas propres.
-  - aucune écriture / aucun import de promote.py ou run_gates (isolement).
+  - les checks détectent les bons cas et restent silencieux sur les cas propres.
+  - conformité schéma = validation AUTORITAIRE (jsonschema), pas regex.
+  - isolement : aucun import de promote.py.
 """
 from __future__ import annotations
 
@@ -12,6 +13,7 @@ import sys
 from pathlib import Path
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
+SCHEMA_DIR = SCRIPTS_DIR.parent / "_meta" / "schema"
 sys.path.insert(0, str(SCRIPTS_DIR))
 
 
@@ -41,13 +43,7 @@ def test_confidence_missing_silent_when_declared():
     assert air.check_confidence_missing(fm) == []
 
 
-# --- ENGINE_GENERIC -----------------------------------------------------------
-def test_engine_generic_blocks_noncanonical_key():
-    fm = {"entity_type": "vehicle", "entity_data": {"known_issues_by_engine": {"BKC": [{}]}}}
-    findings = air.check_engine_generic(fm)
-    assert any(f.code == "ENGINE_GENERIC" and f.severity == "blocking_simulated" for f in findings)
-
-
+# --- ENGINE_GENERIC (advisory, axe générique uniquement) ----------------------
 def test_engine_generic_advisory_on_fuel_axis():
     fm = {"entity_type": "vehicle", "entity_data": {"maintenance_by_engine": {"fuel:diesel": {"x": 1}}}}
     findings = air.check_engine_generic(fm)
@@ -62,6 +58,22 @@ def test_engine_generic_silent_on_engine_family_key():
 def test_engine_check_skips_non_vehicle():
     fm = {"entity_type": "gamme", "entity_data": {"known_issues_by_engine": {"BKC": []}}}
     assert air.check_engine_generic(fm) == []
+
+
+# --- SCHEMA_NONCONFORMANT (validation autoritaire jsonschema) -----------------
+def test_schema_nonconformant_fires_on_bad_engine_block():
+    # clé brute 'BKC' + valeur tableau de strings = viole vehicle.schema.json engineBlock
+    fm = {
+        "entity_type": "vehicle",
+        "entity_data": {"make": "vw", "model": "golf-5", "known_issues_by_engine": {"BKC": ["claim"]}},
+    }
+    findings = air.check_schema_conformance(fm, SCHEMA_DIR)
+    assert any(f.code == "SCHEMA_NONCONFORMANT" and f.severity == "blocking_simulated" for f in findings)
+
+
+def test_schema_conformant_silent_on_minimal_vehicle():
+    fm = {"entity_type": "vehicle", "entity_data": {"make": "vw", "model": "golf-5"}}
+    assert air.check_schema_conformance(fm, SCHEMA_DIR) == []
 
 
 # --- SOURCE_WEAK_ALONE / SOURCE_UNCATALOGED (réutilise §9.1) -------------------

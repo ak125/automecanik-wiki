@@ -1,36 +1,43 @@
 #!/usr/bin/env python3
-"""anti-inflation-report — Phase 0 (amendement ADR-083 EN ATTENTE), REPORT-ONLY / ADVISORY.
+"""anti-inflation-report — Phases 0+1 (amendement ADR-083/086 EN ATTENTE), REPORT-ONLY / ADVISORY.
 
-Détecte les leviers de « gonflage de score » sur les fiches WIKI **sans rien bloquer** :
-émet des findings `BLOCKED_*` **SIMULÉS** (severity advisory) pour le rapport dry-run, afin
-d'empêcher les agents d'apprendre à optimiser le silence (incitation perverse du défaut `medium`).
+Détecte les leviers de « gonflage de score » + la non-conformité de schéma sur les fiches WIKI
+**sans rien bloquer** : émet des findings `BLOCKED_*` **SIMULÉS** (advisory) pour le rapport dry-run,
+afin d'empêcher les agents d'apprendre à optimiser le silence (incitation perverse du défaut `medium`)
+et de mesurer l'impact AVANT tout durcissement de gate câblé.
 
 ⚠️ CONTRAT (zéro blast-radius — cf. plan « gate 2-niveaux », Garde-fous) :
-  - N'est **PAS** importé par `quality-gates.run_gates`, `gates/run_all`, ni `promote.py`.
-  - N'échoue **NI** la CI **NI** la promotion (exit 0 par défaut ; `--strict` opt-in pour usage futur).
-  - Ne modifie **aucun** fichier (lecture seule).
-  - Conversion en gate bloquant + câblage `promote.py` + suppression du défaut `medium` = **Phase 3, APRÈS ADR vault**.
+  - **PAS** importé par `quality-gates.run_gates`, `gates/run_all`, ni `promote.py`.
+  - **N'échoue NI la CI NI la promotion** (exit 0 par défaut ; `--strict` opt-in pour usage futur).
+  - **Aucune** mutation (lecture seule).
+  - Conversion en gate bloquant + câblage `promote.py` + suppression du défaut `medium` + flip réel de
+    `gate_schema_invalid` = **Phase 3, APRÈS ADR vault + migration du corpus**.
 
 Réutilise l'existant (no-bricolage) :
   - `_meta/source-policy.md §9.1` via `SOURCE_TYPE_TO_MAX_CONFIDENCE` / `CONFIDENCE_RANK` (quality-gates.py)
     + `load_source_catalog()`.
   - `gates/_common.parse_markdown_file`.
   - `compute-confidence-score.compute_score` (relie les findings au score actuel = preuve du gonflage).
+  - `_meta/schema/entity-data/<entity_type>.schema.json` via `jsonschema` Draft 2020-12 (schéma AUTORITATIF —
+    remplace toute heuristique regex de structure).
 
 Checks (tous SIMULÉS / advisory) :
-  CONFIDENCE_MISSING    — `source_refs[]` (ou evidence) sans `confidence` déclarée → défaut `medium`=0.6 ⇒ 0.24
-                          « gratuits » sur les 0.40 de la dimension Sources. C'EST l'incitation perverse.
+  CONFIDENCE_MISSING    — `source_refs[]` sans `confidence` déclarée → défaut `medium`=0.6 ⇒ ~0.24 « gratuits »
+                          sur les 0.40 de la dimension Sources. C'EST l'incitation perverse.
   SOURCE_WEAK_ALONE     — claim adossé UNIQUEMENT à des sources de type faible (forum / wiki_externe /
                           blog_consumer, §9.1) sans corroboration medium/high.
-  SOURCE_UNCATALOGED    — sources citées hors `_meta/source-catalog.yaml` (URL brute / kind:raw sans slug) →
+  SOURCE_UNCATALOGED    — sources hors `_meta/source-catalog.yaml` (URL brute / kind:raw sans slug) →
                           force de source non gouvernable par §9.1 (advisory).
-  ENGINE_GENERIC        — bloc `*_by_engine` keyé de façon NON code-résolvable : clé `fuel:`/`fuel_displacement:`
-                          générique, OU clé hors pattern canonique `^(fuel|fuel_displacement|engine_family):`
-                          (ex. `all_engines`, `BKC`) — viole vehicle.schema.json engineBlock.
+  ENGINE_GENERIC        — bloc `*_by_engine` keyé sur un axe générique `fuel:` / `fuel_displacement:` alors qu'un
+                          claim peut être spécifique à un code moteur (advisory : affiner en engine_family:).
+  SCHEMA_NONCONFORMANT  — `entity_data` ne valide pas son schéma canonique entity-data/<type>.schema.json
+                          (ex. `known_issues_by_engine` keyé `BKC`/`all_engines` ou en tableaux de strings au lieu
+                          d'engineBlocks sourcés). Délégation documentée mais NON enforced aujourd'hui (gap réel).
 
 Usage :
   anti-inflation-report.py <fiche.md>...
-  anti-inflation-report.py --all [--proposals-dir <dir>] [--wiki-root <dir>] [--format text|json] [--strict]
+  anti-inflation-report.py --all [--proposals-dir <dir>] [--wiki-root <dir>] [--schema-dir <dir>]
+                           [--format text|json] [--strict]
 """
 from __future__ import annotations
 
@@ -48,10 +55,15 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 
 from gates._common import load_legacy_gates_module, parse_markdown_file  # noqa: E402
 
-# Clé d'axe canonique d'un engineBlock (cf. vehicle.schema.json v1.1.0 patternProperties).
-CANON_ENGINE_KEY = re.compile(r"^(fuel|fuel_displacement|engine_family):[a-z0-9][a-z0-9._:-]*$")
+try:
+    from jsonschema import Draft202012Validator
+except ImportError:  # pragma: no cover — dégrade : SCHEMA_NONCONFORMANT skip si jsonschema absent
+    Draft202012Validator = None
+
+# Axe générique d'un engineBlock (cf. vehicle.schema.json v1.1.0 — valide mais peu granulaire).
 GENERIC_AXIS_PREFIXES = ("fuel:", "fuel_displacement:")
 ENGINE_BLOCK_FIELDS = ("known_issues_by_engine", "maintenance_by_engine")
+WEAK_STRENGTH = "low"
 
 
 def _load_compute_score():
@@ -117,7 +129,6 @@ def check_confidence_missing(fm: dict) -> list[Finding]:
 def check_sources(legacy, source_catalog: dict, fm: dict) -> list[Finding]:
     out: list[Finding] = []
     refs = fm.get("source_refs") or []
-    # Slugs catalogués cités (source_refs[].slug + diagnostic_relations[].sources[])
     cited_slugs: list[str] = []
     uncataloged = 0
     for ref in refs:
@@ -132,7 +143,7 @@ def check_sources(legacy, source_catalog: dict, fm: dict) -> list[Finding]:
 
     strengths = [(_max_conf(legacy, source_catalog, s), s) for s in cited_slugs]
     cataloged = [(st, s) for st, s in strengths if st is not None]
-    if cataloged and all(st == "low" for st, _ in cataloged):
+    if cataloged and all(st == WEAK_STRENGTH for st, _ in cataloged):
         out.append(Finding(
             code="SOURCE_WEAK_ALONE",
             severity="blocking_simulated",
@@ -140,7 +151,6 @@ def check_sources(legacy, source_catalog: dict, fm: dict) -> list[Finding]:
             message=("toutes les sources cataloguées citées sont de type faible (§9.1 → low : "
                      "forum/wiki_externe/blog_consumer) sans corroboration medium/high."),
         ))
-    # slugs cités mais inconnus du catalogue
     unknown = [s for st, s in strengths if st is None]
     if uncataloged or unknown:
         bits = []
@@ -159,37 +169,65 @@ def check_sources(legacy, source_catalog: dict, fm: dict) -> list[Finding]:
 
 
 def check_engine_generic(fm: dict) -> list[Finding]:
+    """Advisory : axe générique fuel:/fuel_displacement: (valide schéma mais peu granulaire).
+    La conformité STRUCTURELLE (clé non canonique, valeur non engineBlock) est couverte
+    AUTORITAIREMENT par check_schema_conformance — pas de regex ici."""
     out: list[Finding] = []
-    ed = fm.get("entity_data") or {}
     if fm.get("entity_type") != "vehicle":
         return out
+    ed = fm.get("entity_data") or {}
     for fieldname in ENGINE_BLOCK_FIELDS:
         block = ed.get(fieldname)
         if not isinstance(block, dict):
             continue
         for key in block:
-            if CANON_ENGINE_KEY.match(str(key)):
-                if str(key).startswith(GENERIC_AXIS_PREFIXES):
-                    out.append(Finding(
-                        code="ENGINE_GENERIC",
-                        severity="advisory",
-                        locus=f"{fieldname}['{key}']",
-                        message=("axe générique (fuel/fuel_displacement) : si le contenu fait des claims "
-                                 "spécifiques à un code moteur, affiner en engine_family:<code>."),
-                    ))
-            else:
+            if str(key).startswith(GENERIC_AXIS_PREFIXES):
                 out.append(Finding(
                     code="ENGINE_GENERIC",
-                    severity="blocking_simulated",
+                    severity="advisory",
                     locus=f"{fieldname}['{key}']",
-                    message=(f"clé '{key}' hors pattern canonique "
-                             "^(fuel|fuel_displacement|engine_family): — viole vehicle.schema.json engineBlock, "
-                             "non code-résolvable pour la projection R8."),
+                    message=("axe générique (fuel/fuel_displacement) : si le contenu fait des claims "
+                             "spécifiques à un code moteur, affiner en engine_family:<code>."),
                 ))
     return out
 
 
-def analyze_file(path: Path, legacy, source_catalog: dict, compute_score, wiki_root: Path) -> FicheReport:
+def check_schema_conformance(fm: dict, schema_dir: Path, limit: int = 8) -> list[Finding]:
+    """Valide entity_data contre le schéma AUTORITATIF entity-data/<entity_type>.schema.json
+    (Draft 2020-12). La délégation est documentée dans frontmatter.schema.json mais NON enforced
+    aujourd'hui (gap). Report-only."""
+    out: list[Finding] = []
+    if Draft202012Validator is None:
+        return out
+    et = fm.get("entity_type")
+    ed = fm.get("entity_data")
+    if not et or not isinstance(ed, dict):
+        return out
+    schema_path = schema_dir / "entity-data" / f"{et}.schema.json"
+    if not schema_path.exists():
+        return out
+    try:
+        schema = json.loads(schema_path.read_text(encoding="utf-8"))
+        errors = sorted(Draft202012Validator(schema).iter_errors(ed), key=lambda e: list(e.path))
+    except Exception as exc:  # noqa: BLE001 — report-only, jamais crash
+        return [Finding("SCHEMA_NONCONFORMANT", "advisory", "entity_data",
+                        f"validation impossible ({et}.schema.json) : {exc}")]
+    for err in errors[:limit]:
+        loc = "entity_data" + "".join(f"[{p!r}]" for p in err.path)
+        out.append(Finding(
+            code="SCHEMA_NONCONFORMANT",
+            severity="blocking_simulated",
+            locus=loc,
+            message=err.message[:240],
+        ))
+    if len(errors) > limit:
+        out.append(Finding("SCHEMA_NONCONFORMANT", "advisory", "entity_data",
+                           f"... +{len(errors) - limit} autres erreurs schéma (tronqué)."))
+    return out
+
+
+def analyze_file(path: Path, legacy, source_catalog: dict, compute_score,
+                 wiki_root: Path, schema_dir: Path) -> FicheReport:
     rep = FicheReport(path=str(path))
     try:
         fm, _fm_yaml, body = parse_markdown_file(path)
@@ -205,11 +243,12 @@ def analyze_file(path: Path, legacy, source_catalog: dict, compute_score, wiki_r
     rep.findings += check_confidence_missing(fm)
     rep.findings += check_sources(legacy, source_catalog, fm)
     rep.findings += check_engine_generic(fm)
+    rep.findings += check_schema_conformance(fm, schema_dir)
     return rep
 
 
 def render_text(reports: list[FicheReport]) -> str:
-    lines = ["ANTI-INFLATION REPORT (Phase 0 — REPORT-ONLY / advisory, 0 mutation, 0 échec CI)\n"]
+    lines = ["ANTI-INFLATION + CONFORMANCE REPORT (Phases 0+1 — REPORT-ONLY, 0 mutation, 0 échec CI)\n"]
     tot_block = tot_adv = 0
     for r in reports:
         d = r.to_dict()
@@ -228,16 +267,17 @@ def render_text(reports: list[FicheReport]) -> str:
             h = " [heuristic]" if f.heuristic else ""
             lines.append(f"    {tag} {f.code}{h} @ {f.locus}\n        {f.message}")
     lines.append(f"\nTOTAL: {tot_block} BLOCKED(simulé) · {tot_adv} advisory sur {len(reports)} fiche(s).")
-    lines.append("Rappel: report-only. Aucun blocage réel tant que l'ADR-083 amendé n'est pas voté (Phase 3).")
+    lines.append("Rappel: report-only. Aucun blocage réel tant que l'ADR-083/086 amendé n'est pas voté (Phase 3).")
     return "\n".join(lines)
 
 
 def main(argv: list[str] | None = None) -> int:
-    ap = argparse.ArgumentParser(description="Anti-inflation advisory report (Phase 0, report-only).")
+    ap = argparse.ArgumentParser(description="Anti-inflation + conformance advisory report (report-only).")
     ap.add_argument("files", nargs="*", type=Path)
     ap.add_argument("--all", action="store_true", help="scanner tout --proposals-dir")
     ap.add_argument("--proposals-dir", type=Path, default=REPO_ROOT / "proposals")
     ap.add_argument("--wiki-root", type=Path, default=REPO_ROOT)
+    ap.add_argument("--schema-dir", type=Path, default=REPO_ROOT / "_meta" / "schema")
     ap.add_argument("--format", choices=["text", "json"], default="text")
     ap.add_argument("--strict", action="store_true",
                     help="exit 1 si findings (OPT-IN, usage futur ; défaut report-only exit 0)")
@@ -253,7 +293,10 @@ def main(argv: list[str] | None = None) -> int:
     if not targets:
         ap.error("aucune fiche : passer des fichiers ou --all")
 
-    reports = [analyze_file(p, legacy, source_catalog, compute_score, args.wiki_root) for p in targets]
+    reports = [
+        analyze_file(p, legacy, source_catalog, compute_score, args.wiki_root, args.schema_dir)
+        for p in targets
+    ]
 
     if args.format == "json":
         print(json.dumps([r.to_dict() for r in reports], ensure_ascii=False, indent=2))

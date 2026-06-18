@@ -1,24 +1,20 @@
 #!/usr/bin/env python3
-"""citation-readiness-report — AI Citation Readiness (report-only, Phase 1a).
+"""citation-readiness-report — AI Citation Readiness, FORME citable (report-only).
 
-Mesure READ-ONLY : une fiche WIKI porte-t-elle des CLAIMS atomiques, sourcés,
-spécifiques, projetables (donc citables par une IA) ? Ne MUTE rien. Ne décide
-JAMAIS l'indexabilité (il la LIT — le gate noindex/pg_relfollow/vendable est
-ajouté par la couche cockpit Phase 1b). Frère report-only de
-compute-confidence-score.py / anti-inflation-report.py.
+Mesure READ-ONLY : une fiche WIKI porte-t-elle des claims **mis en forme pour être
+cités par une IA** (atomiques, typés, actionnables, projetables) ? Ne MUTE rien.
+Ne décide JAMAIS l'indexabilité (la lit). Ne re-score PAS la SUBSTANCE.
 
-Câblage (réutilise l'existant — ZÉRO nouvelle source de vérité) :
-  - claim atomique   = coverage_entries[]  (proposals/_coverage/<slug>.coverage.yaml, ADR-040)
-  - projection R2     = build_exports_seo._extract_facts_sources_blocks(fm, body, type)  (ADR-086)
-  - confidence fiche  = compute-confidence-score.compute_score(fm, body, wiki_root)
-  - conformité moteur = jsonschema Draft202012Validator vs entity-data/vehicle.schema.json
+CÂBLAGE (no bricolage — zéro scorer parallèle) :
+  - SUBSTANCE / sources / granularité / richesse  → DÉLÉGUÉE à `shadow_score` (PR #50, ADR-088).
+    Consommée si présente (son `tier`) ; sinon « substance pending #50 » (dégradation propre,
+    PAS de re-dérivation). READY exige le tier substance — donc impossible sans #50 (honnête).
+  - PROJECTABILITÉ  → champ ADR-088 `engineBlock.projectability` si présent, sinon « bloc émis ».
+  - claim atomique  = `coverage_entries[]` (ADR-040) OU bloc projeté (R8 par motorisation, ADR-086).
+  - parsing = `gates/_common.parse_markdown_file`. Projection = `build_exports_seo` (mapping pur).
 
-Statuts (AiCitationStatus) :
-  READY | PARTIAL | BLOCKED | NOT_ELIGIBLE
-  - NOT_ELIGIBLE : claim hors périmètre (claim_type indérivable, pas de text_anchor).
-  - BLOCKED      : finding bloquant (confidence non déclarée, source faible seule, non projeté).
-  - PARTIAL      : claims présents mais faibles, ou score>=READY mais confidence_score fiche < gate.
-  - READY        : score>=floor + 0 bloquant + confidence_score fiche >= gate.
+CE QUI EST PROPRE À CETTE COUCHE (absent de shadow_score) : `atomicity`, `actionability`,
+taxonomie `claim_type`, et le verdict citation `READY/PARTIAL/BLOCKED/NOT_ELIGIBLE`.
 
 Exit : 0 (report-only). --strict → 1 si >=1 finding bloquant. --format text|json.
 """
@@ -32,71 +28,42 @@ from pathlib import Path
 from types import ModuleType
 from typing import Any
 
-import yaml
-
 SCRIPTS_DIR = Path(__file__).resolve().parent
 REPO_ROOT = SCRIPTS_DIR.parent
 sys.path.insert(0, str(SCRIPTS_DIR))
 
-from gates._common import parse_markdown_file  # noqa: E402  (réutilise l'existant stable)
+from gates._common import parse_markdown_file  # noqa: E402
 
-ANALYZER_VERSION = "1.0.0"
+ANALYZER_VERSION = "2.0.0"  # 2.0 = délègue la substance à shadow_score (no parallel scorer)
 
-# --- Constantes nommées + documentées (calibration initiale, owner-tunable) -------------------
-# Poids du score de citabilité par claim. Somme == 1.0 (assert au chargement).
-CITATION_READINESS_WEIGHTS: dict[str, float] = {
-    "atomicity": 0.20,      # text_anchor présent, <= MAX_CLAIM_ANCHOR_CHARS, mono-phrase
-    "context": 0.20,        # entity_scope résolu ; axe moteur générique = facteur réduit
-    "proof": 0.30,          # CONFIDENCE_NUMERIC clampé à 0 si confidence non déclarée
-    "actionability": 0.15,  # claim_type actionnable (sinon neutre, pas pénalisé à 0)
-    "projectability": 0.15, # le claim atteint >=1 bloc projeté (R2 reachable) sinon 0
-}
-assert abs(sum(CITATION_READINESS_WEIGHTS.values()) - 1.0) < 1e-9, "weights must sum to 1.0"
-
-CITATION_READY_FLOOR = 0.80
-CITATION_PARTIAL_FLOOR = 0.55
-CITATION_CONFIDENCE_GATE = 0.70   # = plancher 'low' de compute-confidence-score
-ENGINE_GENERIC_CONTEXT_FACTOR = 0.5
+# --- FORME citable : facettes PROPRES à cette couche (constantes nommées, owner-tunable) ------
+CITABILITY_WEIGHTS = {"atomicity": 0.40, "actionability": 0.30, "projectability": 0.30}
+assert abs(sum(CITABILITY_WEIGHTS.values()) - 1.0) < 1e-9, "weights must sum to 1.0"
+SHAPE_FLOOR = 0.60               # forme citable minimale
+MAX_CLAIM_ANCHOR_CHARS = 140     # = cap text_anchor dans coverage-map.schema.json
 ACTIONABILITY_NEUTRAL = 0.5
-MAX_CLAIM_ANCHOR_CHARS = 140      # = cap text_anchor dans coverage-map.schema.json
-CONFIDENCE_NUMERIC = {"high": 1.0, "medium": 0.6, "low": 0.3}
 ACTIONABLE_CLAIM_TYPES = {"maintenance", "diagnostic", "buying_advice"}
+# tiers substance shadow_score ouvrant READY (sinon plafond PARTIAL)
+SUBSTANCE_TIERS_READY = {"S", "A", "B"}
 
-# Bloc projeté = unité citable runtime (ADR-086). truth_level → composante 'proof'.
-TRUTHLEVEL_PROOF = {"db_owned": 1.0, "sourced": 0.9, "inferred": 0.6, "editorial": 0.4}
-# claim_type d'un bloc, par (role, section). Unmapped -> None + CLAIM_TYPE_UNMAPPED.
-_BLOCK_TO_CLAIM_TYPE: dict[tuple[str, str], str] = {
-    ("R8_VEHICLE", "known_issues"): "symptom",
-    ("R8_VEHICLE", "maintenance"): "maintenance",
-    ("R3_CONSEILS", "maintenance"): "maintenance",
-    ("R3_CONSEILS", "failure_symptoms"): "symptom",
-    ("R3_CONSEILS", "function"): "compatibility",
-    ("R4_REFERENCE", "compatibility"): "compatibility",
-    ("R4_REFERENCE", "related"): "compatibility",
-    ("R6_GUIDE_ACHAT", "selection"): "buying_advice",
-}
-
-# Dérivation claim_type depuis la section H2 (le coverage_entry porte la section markdown).
-# Mapping nommé, précédence par ordre d'itération. Unmapped -> None + CLAIM_TYPE_UNMAPPED.
+# claim_type d'un coverage_entry, par mot-clé de section H2. Unmapped -> None + CLAIM_TYPE_UNMAPPED.
 _SECTION_KEYWORD_TO_CLAIM_TYPE: list[tuple[str, str]] = [
-    ("diagnostic", "diagnostic"),
-    ("symptôme", "symptom"),
-    ("symptome", "symptom"),
-    ("entretien", "maintenance"),
-    ("maintenance", "maintenance"),
-    ("critère", "buying_advice"),
-    ("critere", "buying_advice"),
-    ("choix", "buying_advice"),
-    ("compatib", "compatibility"),
-    ("motoris", "compatibility"),
-    ("version", "compatibility"),
-    ("présentation", "compatibility"),
-    ("presentation", "compatibility"),
+    ("diagnostic", "diagnostic"), ("symptôme", "symptom"), ("symptome", "symptom"),
+    ("entretien", "maintenance"), ("maintenance", "maintenance"),
+    ("critère", "buying_advice"), ("critere", "buying_advice"), ("choix", "buying_advice"),
+    ("compatib", "compatibility"), ("motoris", "compatibility"), ("version", "compatibility"),
+    ("présentation", "compatibility"), ("presentation", "compatibility"),
 ]
+# claim_type d'un bloc projeté, par (role, section).
+_BLOCK_TO_CLAIM_TYPE: dict[tuple[str, str], str] = {
+    ("R8_VEHICLE", "known_issues"): "symptom", ("R8_VEHICLE", "maintenance"): "maintenance",
+    ("R3_CONSEILS", "maintenance"): "maintenance", ("R3_CONSEILS", "failure_symptoms"): "symptom",
+    ("R3_CONSEILS", "function"): "compatibility", ("R4_REFERENCE", "compatibility"): "compatibility",
+    ("R4_REFERENCE", "related"): "compatibility", ("R6_GUIDE_ACHAT", "selection"): "buying_advice",
+}
 
 
 def _load_module(name: str, filename: str) -> ModuleType:
-    """Charge un module _scripts/ (filename à tiret -> non importable directement)."""
     spec = importlib.util.spec_from_file_location(name, SCRIPTS_DIR / filename)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"cannot load {filename}")
@@ -107,32 +74,55 @@ def _load_module(name: str, filename: str) -> ModuleType:
 
 
 _BUILDER = _load_module("_build_exports_seo", "build_exports_seo.py")
-_CONF = _load_module("_compute_confidence_score", "compute-confidence-score.py")
+
+
+def _load_shadow_score():
+    """SUBSTANCE déléguée à shadow_score (PR #50). Absent sur main → None (dégradation propre)."""
+    path = SCRIPTS_DIR / "shadow_score.py"
+    if not path.exists():
+        return None
+    try:
+        return _load_module("_shadow_score", "shadow_score.py")
+    except Exception:  # noqa: BLE001  (deps reality_manifest absentes, etc.)
+        return None
+
+
+_SHADOW = _load_shadow_score()
+
+
+def _substance_tier(fm: dict, body: str, wiki_root: Path) -> str | None:
+    """tier substance via shadow_score si dispo, sinon None (« pending #50 »). Jamais re-dérivé ici."""
+    if _SHADOW is None:
+        return None
+    try:
+        res = _SHADOW.score(fm, body, {"path": "", "manifest": None, "coverage_map": None,
+                                       "compute_old": None, "wiki_root": wiki_root})
+        return getattr(res, "tier", None)
+    except Exception:  # noqa: BLE001
+        return None
 
 
 def _vehicle_schema_validator():
-    """Draft202012Validator contre entity-data/vehicle.schema.json (ou None si jsonschema absent)."""
     try:
         from jsonschema import Draft202012Validator
     except ImportError:
         return None
-    schema_path = REPO_ROOT / "_meta" / "schema" / "entity-data" / "vehicle.schema.json"
-    if not schema_path.exists():
+    sp = REPO_ROOT / "_meta" / "schema" / "entity-data" / "vehicle.schema.json"
+    if not sp.exists():
         return None
-    return Draft202012Validator(json.loads(schema_path.read_text(encoding="utf-8")))
+    return Draft202012Validator(json.loads(sp.read_text(encoding="utf-8")))
 
 
 def _load_coverage_entries(slug: str, wiki_root: Path) -> list[dict]:
-    """coverage_entries[] depuis <wiki_root>/proposals/_coverage/<slug>.coverage.yaml (vide si absent)."""
     cov = wiki_root / "proposals" / "_coverage" / f"{slug}.coverage.yaml"
     if not cov.exists():
         return []
+    import yaml
     data = yaml.safe_load(cov.read_text(encoding="utf-8")) or {}
-    entries = data.get("coverage_entries") or []
-    return [e for e in entries if isinstance(e, dict)]
+    return [e for e in (data.get("coverage_entries") or []) if isinstance(e, dict)]
 
 
-def _derive_claim_type(entry: dict) -> str | None:
+def _derive_coverage_claim_type(entry: dict) -> str | None:
     section = (entry.get("section") or "").lower()
     for needle, ctype in _SECTION_KEYWORD_TO_CLAIM_TYPE:
         if needle in section:
@@ -140,202 +130,143 @@ def _derive_claim_type(entry: dict) -> str | None:
     return None
 
 
-def _score_claim(entry: dict, claim_type: str | None, is_vehicle_aware: bool,
-                 engine_generic: bool, has_blocks: bool) -> tuple[float, list[str]]:
-    findings: list[str] = []
-
-    anchor = entry.get("text_anchor") or ""
-    atomicity = 1.0 if (anchor and len(anchor) <= MAX_CLAIM_ANCHOR_CHARS
-                        and anchor.count(".") <= 1) else (0.5 if anchor else 0.0)
-
-    context = 1.0 if is_vehicle_aware else 0.5
-    if is_vehicle_aware and engine_generic:
-        context *= ENGINE_GENERIC_CONTEXT_FACTOR
-
-    conf = entry.get("confidence")
-    if conf not in CONFIDENCE_NUMERIC:
-        proof = 0.0
-        findings.append("CITATION_CONFIDENCE_UNDECLARED")
-    else:
-        proof = CONFIDENCE_NUMERIC[conf]
-        # source faible seule (low) sans corroboration medium/high -> clamp
-        if conf == "low" and entry.get("source_policy") != "2_medium_concordant":
-            proof = 0.0
-            findings.append("SOURCE_WEAK_ALONE")
-
-    actionability = 1.0 if (claim_type in ACTIONABLE_CLAIM_TYPES) else ACTIONABILITY_NEUTRAL
-
-    projectability = 1.0 if has_blocks else 0.0
-    if not has_blocks:
-        findings.append("CITATION_NOT_PROJECTED")
-
-    score = (CITATION_READINESS_WEIGHTS["atomicity"] * atomicity
-             + CITATION_READINESS_WEIGHTS["context"] * context
-             + CITATION_READINESS_WEIGHTS["proof"] * proof
-             + CITATION_READINESS_WEIGHTS["actionability"] * actionability
-             + CITATION_READINESS_WEIGHTS["projectability"] * projectability)
-    return round(score, 3), findings
+def _citability(atomicity: float, claim_type: str | None, projectability: float) -> tuple[float, bool]:
+    actionability = 1.0 if claim_type in ACTIONABLE_CLAIM_TYPES else ACTIONABILITY_NEUTRAL
+    score = round(CITABILITY_WEIGHTS["atomicity"] * atomicity
+                  + CITABILITY_WEIGHTS["actionability"] * actionability
+                  + CITABILITY_WEIGHTS["projectability"] * projectability, 3)
+    return score, score >= SHAPE_FLOOR
 
 
-def _claim_verdict(claim_type: str | None, anchor: str, score: float,
-                   findings: list[str], fiche_confidence: float) -> str:
-    if claim_type is None or not anchor:
+def _verdict(claim_type: str | None, projectable: bool, shape_ok: bool, substance_tier: str | None,
+             findings: list[str]) -> str:
+    if claim_type is None or not projectable:
         return "NOT_ELIGIBLE"
-    if findings:
+    if findings or not shape_ok:
         return "BLOCKED"
-    if score >= CITATION_READY_FLOOR and fiche_confidence >= CITATION_CONFIDENCE_GATE:
+    # forme OK → la substance (shadow_score) décide READY vs PARTIAL ; absente = plafond PARTIAL.
+    if substance_tier in SUBSTANCE_TIERS_READY:
         return "READY"
-    if score >= CITATION_PARTIAL_FLOOR:
-        return "PARTIAL"
-    return "BLOCKED"
+    return "PARTIAL"
 
 
-def _block_to_claim(block: dict, fiche_confidence: float) -> dict:
-    """Un bloc projeté (ADR-086) = un claim citable runtime. Scoré comme tel."""
-    role = block.get("role") or ""
-    section = block.get("section") or ""
+def _coverage_claim(entry: dict, substance_tier: str | None, has_blocks: bool) -> dict:
+    ctype = _derive_coverage_claim_type(entry)
+    anchor = entry.get("text_anchor") or ""
+    findings = [] if ctype else ["CLAIM_TYPE_UNMAPPED"]
+    atomicity = 1.0 if (anchor and len(anchor) <= MAX_CLAIM_ANCHOR_CHARS and anchor.count(".") <= 1) \
+        else (0.5 if anchor else 0.0)
+    projectable = has_blocks
+    if not projectable:
+        findings.append("CITATION_NOT_PROJECTED")
+    score, shape_ok = _citability(atomicity, ctype, 1.0 if projectable else 0.0)
+    return {"claim_id": entry.get("claim_id"), "origin": "coverage", "claim_type": ctype,
+            "is_vehicle_aware": False, "is_actionable": ctype in ACTIONABLE_CLAIM_TYPES,
+            "source_slug": entry.get("source_slug"), "shape_score": score,
+            "substance_tier": substance_tier,
+            "verdict": _verdict(ctype, projectable, shape_ok, substance_tier, findings),
+            "findings": findings}
+
+
+def _block_claim(block: dict, substance_tier: str | None) -> dict:
+    role, section = block.get("role") or "", block.get("section") or ""
     content = block.get("content_md") or ""
-    truth = block.get("truth_level") or "editorial"
     ctype = _BLOCK_TO_CLAIM_TYPE.get((role, section))
-    is_va = role == "R8_VEHICLE"
-
-    findings: list[str] = []
-    if ctype is None:
-        findings.append("CLAIM_TYPE_UNMAPPED")
-
-    # atomicity : un bloc est plus riche qu'une phrase atomique → crédit partiel
-    atomicity = 1.0 if len(content) <= MAX_CLAIM_ANCHOR_CHARS else 0.6
-    context = 1.0 if is_va else 0.5
-    proof = TRUTHLEVEL_PROOF.get(truth, 0.4)
-    if not block.get("source_ids"):
-        proof = 0.0
-        findings.append("CITATION_SOURCE_MISSING")
-    actionability = 1.0 if ctype in ACTIONABLE_CLAIM_TYPES else ACTIONABILITY_NEUTRAL
-    projectability = 1.0  # un bloc EST projeté par construction
-
-    score = round(
-        CITATION_READINESS_WEIGHTS["atomicity"] * atomicity
-        + CITATION_READINESS_WEIGHTS["context"] * context
-        + CITATION_READINESS_WEIGHTS["proof"] * proof
-        + CITATION_READINESS_WEIGHTS["actionability"] * actionability
-        + CITATION_READINESS_WEIGHTS["projectability"] * projectability, 3)
-
-    if ctype is None:
-        verdict = "NOT_ELIGIBLE"
-    elif findings:
-        verdict = "BLOCKED"
-    elif score >= CITATION_READY_FLOOR and fiche_confidence >= CITATION_CONFIDENCE_GATE:
-        verdict = "READY"
-    elif score >= CITATION_PARTIAL_FLOOR:
-        verdict = "PARTIAL"
+    findings = [] if ctype else ["CLAIM_TYPE_UNMAPPED"]
+    # projectabilité : champ ADR-088 si présent, sinon « bloc émis » (= projeté par construction)
+    proj_field = block.get("_projectability")
+    if proj_field == "not_projectable":
+        projectable, proj_val = False, 0.0
+        findings.append("CITATION_NOT_PROJECTED")
+    elif proj_field == "needs_review":
+        projectable, proj_val = True, 0.5
     else:
-        verdict = "BLOCKED"
+        projectable, proj_val = True, 1.0
+    if not block.get("source_ids"):
+        findings.append("CITATION_SOURCE_MISSING")
+    atomicity = 1.0 if len(content) <= MAX_CLAIM_ANCHOR_CHARS else 0.6
+    score, shape_ok = _citability(atomicity, ctype, proj_val)
+    return {"claim_id": f"block:{role}:{block.get('usefulness_target') or section}", "origin": "block",
+            "claim_type": ctype, "is_vehicle_aware": role == "R8_VEHICLE",
+            "is_actionable": ctype in ACTIONABLE_CLAIM_TYPES,
+            "source_slug": ",".join(block.get("source_ids") or []), "shape_score": score,
+            "substance_tier": substance_tier,
+            "verdict": _verdict(ctype, projectable, shape_ok, substance_tier, findings),
+            "findings": findings}
 
-    return {
-        "claim_id": f"block:{role}:{block.get('usefulness_target') or section}",
-        "claim_type": ctype,
-        "is_vehicle_aware": is_va,
-        "is_actionable": ctype in ACTIONABLE_CLAIM_TYPES,
-        "confidence": truth,            # côté bloc, la preuve est portée par truth_level
-        "source_slug": ",".join(block.get("source_ids") or []),
-        "score": score,
-        "verdict": verdict,
-        "findings": findings,
-        "origin": "block",
-    }
+
+def _engineblock_projectability(fm: dict) -> dict[str, str]:
+    """Map usefulness_target(=clé moteur) → champ ADR-088 projectability (si présent dans entity_data)."""
+    out: dict[str, str] = {}
+    ed = fm.get("entity_data") or {}
+    for field in ("known_issues_by_engine", "maintenance_by_engine"):
+        blk = ed.get(field)
+        if isinstance(blk, dict):
+            for key, entry in blk.items():
+                if isinstance(entry, dict) and entry.get("projectability"):
+                    out[key] = entry["projectability"]
+    return out
 
 
 def analyze_fiche(source_path: Path, wiki_root: Path) -> dict[str, Any]:
-    """Verdict déterministe pour une fiche (proposal ou canon). Aucune mutation."""
-    fm, _fm_yaml, body = parse_markdown_file(source_path)
+    fm, _y, body = parse_markdown_file(source_path)
     entity_type = fm.get("entity_type", "")
     slug = fm.get("slug") or source_path.stem
 
-    # Projection R2 via le mapping canon (réutilisé, pas re-dérivé).
     try:
-        facts, _sources, blocks = _BUILDER._extract_facts_sources_blocks(fm, body, entity_type)
-    except Exception as exc:  # report-only : ne jamais crasher sur une fiche
+        facts, _src, blocks = _BUILDER._extract_facts_sources_blocks(fm, body, entity_type)
+    except Exception as exc:  # noqa: BLE001
         return {"entity_id": f"{entity_type}:{slug}", "status": "BLOCKED",
                 "reason": f"extract_error: {exc}", "claims": [], "summary": {}}
     has_blocks = len(blocks) > 0
+    proj_map = _engineblock_projectability(fm)
+    for b in blocks:  # propage le champ projectability ADR-088 vers le bloc projeté
+        b["_projectability"] = proj_map.get(b.get("usefulness_target"))
 
-    # Conformité moteur (véhicule) — flag les clés non-canoniques (ex: 'BKC', 'all_engines').
     schema_findings: list[str] = []
     if entity_type == "vehicle":
-        validator = _vehicle_schema_validator()
+        v = _vehicle_schema_validator()
         ed = fm.get("entity_data") or {}
-        if validator is not None:
-            errs = sorted(validator.iter_errors(ed), key=lambda e: list(e.path))
-            for e in errs:
+        if v is not None:
+            for e in sorted(v.iter_errors(ed), key=lambda e: list(e.path)):
                 loc = "/".join(str(p) for p in e.path) or "entity_data"
                 schema_findings.append(f"SCHEMA_NONCONFORMANT @ {loc}: {e.message[:90]}")
-        elif (ed.get("known_issues_by_engine") or ed.get("maintenance_by_engine")):
+        elif ed.get("known_issues_by_engine") or ed.get("maintenance_by_engine"):
             schema_findings.append("SCHEMA_CHECK_SKIPPED (jsonschema indisponible)")
 
-    fiche_confidence = _CONF.compute_score(fm, body, wiki_root)
+    substance_tier = _substance_tier(fm, body, wiki_root)
     coverage = _load_coverage_entries(slug, wiki_root)
 
-    claims_out: list[dict] = []
-    for entry in coverage:
-        ctype = _derive_claim_type(entry)
-        anchor = entry.get("text_anchor") or ""
-        # is_vehicle_aware : la fiche est un véhicule (claim ancré véhicule).
-        is_va = entity_type == "vehicle"
-        engine_generic = False  # axe moteur générique détecté en aval (clé fuel: vs engine_family:)
-        score, findings = _score_claim(entry, ctype, is_va, engine_generic, has_blocks)
-        if ctype is None:
-            findings = ["CLAIM_TYPE_UNMAPPED"] + findings
-        verdict = _claim_verdict(ctype, anchor, score, findings, fiche_confidence)
-        claims_out.append({
-            "claim_id": entry.get("claim_id"),
-            "claim_type": ctype,
-            "is_vehicle_aware": is_va,
-            "is_actionable": ctype in ACTIONABLE_CLAIM_TYPES,
-            "confidence": entry.get("confidence"),
-            "source_slug": entry.get("source_slug"),
-            "score": score,
-            "verdict": verdict,
-            "findings": findings,
-            "origin": "coverage",
-        })
+    claims = [_coverage_claim(e, substance_tier, has_blocks) for e in coverage]
+    claims += [_block_claim(b, substance_tier) for b in blocks]
 
-    # Blocs projetés (ADR-086) = claims citables runtime (surface R8 par motorisation, etc.)
-    for b in blocks:
-        claims_out.append(_block_to_claim(b, fiche_confidence))
-
-    # Verdict fiche (agrégat)
-    if not claims_out:
-        fiche_status = "BLOCKED"
-        fiche_reason = "claims non déclarés (0 coverage_entries, 0 bloc projeté) — à formaliser"
+    if not claims:
+        status, reason = "BLOCKED", "claims non déclarés (0 coverage_entries, 0 bloc projeté)"
     else:
-        ready = [c for c in claims_out if c["verdict"] == "READY"]
-        partial = [c for c in claims_out if c["verdict"] == "PARTIAL"]
+        ready = [c for c in claims if c["verdict"] == "READY"]
+        partial = [c for c in claims if c["verdict"] == "PARTIAL"]
         has_va = any(c["is_vehicle_aware"] for c in ready)
         has_buy = any(c["claim_type"] in ("buying_advice", "compatibility") for c in ready)
         if len(ready) >= 3 and has_va and has_buy:
-            fiche_status = "READY"
+            status = "READY"
         elif ready or partial:
-            fiche_status = "PARTIAL"
+            status = "PARTIAL"
         else:
-            fiche_status = "BLOCKED"
-        fiche_reason = (f"{len(ready)} READY / {len(partial)} PARTIAL / "
-                        f"{len(claims_out)} claims")
+            status = "BLOCKED"
+        pend = "" if substance_tier is not None else " · substance pending shadow_score (#50)"
+        reason = f"{len(ready)} READY / {len(partial)} PARTIAL / {len(claims)} claims{pend}"
 
-    summary = {
-        "citableClaimsCount": sum(1 for c in claims_out if c["verdict"] in ("READY", "PARTIAL")),
-        "readyClaimsCount": sum(1 for c in claims_out if c["verdict"] == "READY"),
-        "vehicleAwareClaimsCount": sum(1 for c in claims_out if c["is_vehicle_aware"]),
-        "ficheConfidenceScore": fiche_confidence,
-        "projectableBlocks": len(blocks),
-        "facts": len(facts),
-    }
     return {
-        "entity_id": f"{entity_type}:{slug}",
-        "status": fiche_status,
-        "reason": fiche_reason,
-        "schema_findings": schema_findings,
-        "claims": sorted(claims_out, key=lambda c: c.get("claim_id") or ""),
-        "summary": summary,
+        "entity_id": f"{entity_type}:{slug}", "status": status, "reason": reason,
+        "substance_tier": substance_tier, "schema_findings": schema_findings,
+        "claims": sorted(claims, key=lambda c: c.get("claim_id") or ""),
+        "summary": {
+            "citableShapeClaims": sum(1 for c in claims if c["verdict"] in ("READY", "PARTIAL")),
+            "readyClaims": sum(1 for c in claims if c["verdict"] == "READY"),
+            "vehicleAwareClaims": sum(1 for c in claims if c["is_vehicle_aware"]),
+            "projectableBlocks": len(blocks), "facts": len(facts),
+            "substanceTier": substance_tier,
+        },
         "analyzer_version": ANALYZER_VERSION,
     }
 
@@ -343,39 +274,35 @@ def analyze_fiche(source_path: Path, wiki_root: Path) -> dict[str, Any]:
 def _resolve_targets(args) -> list[Path]:
     if args.files:
         return [Path(f).resolve() for f in args.files]
-    # défaut : toutes les fiches proposals/*.md (hors _coverage/)
-    proposals = REPO_ROOT / "proposals"
-    return sorted(p for p in proposals.glob("*.md"))
+    return sorted((Path(args.wiki_root).resolve() / "proposals").glob("*.md"))
 
 
-def _print_text(report: dict) -> None:
-    s = report["status"]
-    icon = {"READY": "✅", "PARTIAL": "🟡", "BLOCKED": "⛔", "NOT_ELIGIBLE": "⚪"}.get(s, "?")
-    print(f"{icon} {report['entity_id']:42s} {s:12s} {report['reason']}")
-    for f in report.get("schema_findings", []):
+def _print_text(r: dict) -> None:
+    icon = {"READY": "✅", "PARTIAL": "🟡", "BLOCKED": "⛔", "NOT_ELIGIBLE": "⚪"}.get(r["status"], "?")
+    print(f"{icon} {r['entity_id']:42s} {r['status']:12s} {r['reason']}")
+    for f in r.get("schema_findings", []):
         print(f"     ⚠ {f}")
-    for c in report["claims"]:
+    for c in r["claims"]:
         cv = {"READY": "✅", "PARTIAL": "🟡", "BLOCKED": "⛔", "NOT_ELIGIBLE": "⚪"}.get(c["verdict"], "?")
         fnd = (" | " + ",".join(c["findings"])) if c["findings"] else ""
-        print(f"     {cv} {c['claim_id']:48s} {c['claim_type'] or '-':12s} "
-              f"score={c['score']:.2f}{fnd}")
+        print(f"     {cv} {c['claim_id']:48s} {c['claim_type'] or '-':12s} shape={c['shape_score']:.2f}{fnd}")
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("files", nargs="*", help="fiches .md (défaut: proposals/*.md)")
+    ap.add_argument("files", nargs="*")
     ap.add_argument("--wiki-root", default=str(REPO_ROOT))
     ap.add_argument("--format", choices=["text", "json"], default="text")
-    ap.add_argument("--strict", action="store_true", help="exit 1 si >=1 finding bloquant")
+    ap.add_argument("--strict", action="store_true")
     args = ap.parse_args()
 
     wiki_root = Path(args.wiki_root).resolve()
     reports = []
-    for target in _resolve_targets(args):
+    for t in _resolve_targets(args):
         try:
-            reports.append(analyze_fiche(target, wiki_root))
-        except Exception as exc:  # report-only : robustesse fiche malformée
-            reports.append({"entity_id": target.stem, "status": "BLOCKED",
+            reports.append(analyze_fiche(t, wiki_root))
+        except Exception as exc:  # noqa: BLE001
+            reports.append({"entity_id": t.stem, "status": "BLOCKED",
                             "reason": f"analyze_error: {exc}", "claims": [], "summary": {}})
 
     if args.format == "json":
@@ -384,13 +311,13 @@ def main() -> int:
     else:
         for r in reports:
             _print_text(r)
-        ready = sum(r["summary"].get("readyClaimsCount", 0) for r in reports)
-        citable = sum(r["summary"].get("citableClaimsCount", 0) for r in reports)
-        print(f"\ntotal: fiches={len(reports)} citable_claims={citable} ready_claims={ready}")
+        shadow = "ON" if _SHADOW is not None else "absent (substance pending #50)"
+        ready = sum(r["summary"].get("readyClaims", 0) for r in reports)
+        cit = sum(r["summary"].get("citableShapeClaims", 0) for r in reports)
+        print(f"\ntotal: fiches={len(reports)} citable_shape={cit} ready={ready} | shadow_score={shadow}")
 
-    has_blocking = any(
-        c["findings"] for r in reports for c in r.get("claims", [])
-    ) or any(r.get("schema_findings") for r in reports)
+    has_blocking = any(c["findings"] for r in reports for c in r.get("claims", [])) \
+        or any(r.get("schema_findings") for r in reports)
     return 1 if (args.strict and has_blocking) else 0
 
 

@@ -1,8 +1,8 @@
-"""Tests citation-readiness-report — report-only, déterministe, no-crash.
+"""Tests citation-readiness-report v2.0 — FORME citable, substance déléguée à shadow_score.
 
-Fixtures hermétiques (tmp_path). Vérifie : blocs v1.1.0 → claims citables,
-clés moteur non-canoniques → BLOCKED sans crash, plafond PARTIAL par le
-confidence_score fiche, déterminisme, contrat exit (0 report-only / 1 --strict).
+Vérifie : blocs v1.1.0/v1.2.0 → claims de forme citable, substance DÉLÉGUÉE (pas de
+READY sans shadow_score → no parallel scorer), clés moteur non-canoniques → BLOCKED
+sans crash, déterminisme, contrat exit (0 report-only / 1 --strict).
 """
 from __future__ import annotations
 
@@ -80,21 +80,23 @@ Texte.
 """
 
 
-def test_v11_blocks_become_citable_claims(tmp_path):
+def test_v11_blocks_become_citable_shape_claims(tmp_path):
     r = crr.analyze_fiche(_write(tmp_path, "test-v11.md", VEHICLE_V11), WIKI_ROOT)
     assert r["status"] in ("PARTIAL", "READY")
     assert r["summary"]["projectableBlocks"] >= 2
     assert len(r["claims"]) >= 2
     assert all(c["is_vehicle_aware"] for c in r["claims"])
     assert any(c["claim_type"] == "maintenance" for c in r["claims"])
-    assert not r["schema_findings"]  # v1.1.0 conforme
+    assert not r["schema_findings"]  # v1.1.0/v1.2.0 conforme
 
 
-def test_low_fiche_confidence_caps_at_partial(tmp_path):
-    # 1 seul source_ref raw → confidence_score < 0.70 → plafond PARTIAL (pas de gonflage)
+def test_substance_deferred_no_parallel_scorer(tmp_path):
+    # shadow_score absent sur main → substance None → JAMAIS READY (plafond PARTIAL).
+    # Garantit l'absence de scorer de substance parallèle dans cette couche.
     r = crr.analyze_fiche(_write(tmp_path, "test-v11.md", VEHICLE_V11), WIKI_ROOT)
+    assert r["substance_tier"] is None
     assert r["status"] == "PARTIAL"
-    assert r["summary"]["readyClaimsCount"] == 0
+    assert r["summary"]["readyClaims"] == 0
 
 
 def test_noncanonical_keys_zero_blocks_blocked(tmp_path):

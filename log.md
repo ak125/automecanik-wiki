@@ -64,6 +64,24 @@
 - **Décision** : fix(wiki): promote.py move-semantics — supprime la proposal après écriture du canon
 - **Sortie** : PR #41 | commits 2ca8d62
 
+## 2026-06-18 — feat/citation-readiness-phase1a (auto)
+
+- **Branche** : `feat/citation-readiness-phase1a`
+- **Décision** : feat(_scripts): citation-readiness-report — AI citation readiness (report-only, Phase 1a)
+- **Sortie** : PR aucune | commits 0e00f33
+
+## 2026-06-18 — feat/citation-readiness-phase1a (auto)
+
+- **Branche** : `feat/citation-readiness-phase1a`
+- **Décision** : refactor(_scripts): citation-readiness v2.0 — couche FORME citable, substance déléguée à shadow_score (no parallel (+2 other commits)
+- **Sortie** : PR #51 | commits bcd7358 9545820 0e00f33
+
+## 2026-06-18 — feat/citation-readiness-phase1a (auto)
+
+- **Branche** : `feat/citation-readiness-phase1a`
+- **Décision** : test(_scripts): citation-readiness — tests hermétiques au câblage shadow_score (+4 other commits)
+- **Sortie** : PR #51 | commits a8b85c2 da22df2 bcd7358 9545820 0e00f33
+
 ## 2026-06-18 — feat/adr088-engineblock-schema (auto)
 
 - **Branche** : `feat/adr088-engineblock-schema`

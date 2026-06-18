@@ -63,3 +63,9 @@
 - **Branche** : `fix/promote-move-semantics`
 - **Décision** : fix(wiki): promote.py move-semantics — supprime la proposal après écriture du canon
 - **Sortie** : PR #41 | commits 2ca8d62
+
+## 2026-06-18 — feat/adr088-engineblock-schema (auto)
+
+- **Branche** : `feat/adr088-engineblock-schema`
+- **Décision** : feat(schema): ADR-088 — engineBlock factuel + related_gammes/commerce_intent (additif)
+- **Sortie** : PR #50 | commits f9a65ed

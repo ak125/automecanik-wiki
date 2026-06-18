@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/vehicle.schema.json",
-  "title": "entity_data v1.1.0 — vehicle (R8)",
-  "description": "Données spécifiques aux véhicules (modèle/motorisation/type_id). Chargé quand entity_type == 'vehicle'. v1.1.0 (additive, ADR-086 §1 surface R8) ajoute known_issues_by_engine + maintenance_by_engine : connaissance PAR MOTORISATION (clés normalisées fuel:/fuel_displacement:/engine_family:), projetée en blocks R8_VEHICLE role-aware par build_exports_seo. C'est la couche qui DIFFÉRENCIE chaque page R2 (R2 = R1 ⊕ R8).",
+  "title": "entity_data v1.2.0 — vehicle (R8)",
+  "description": "Données spécifiques aux véhicules (modèle/motorisation/type_id). Chargé quand entity_type == 'vehicle'. v1.1.0 (additive, ADR-086 §1 surface R8) ajoute known_issues_by_engine + maintenance_by_engine : connaissance PAR MOTORISATION (clés normalisées fuel:/fuel_displacement:/engine_family:), projetée en blocks R8_VEHICLE role-aware par build_exports_seo. C'est la couche qui DIFFÉRENCIE chaque page R2 (R2 = R1 ⊕ R8). v1.2.0 (additive, ADR-088) enrichit engineBlock en FAIT VÉRIFIABLE (claim/applies_to/excluded_from/evidence/projectability) + related_gammes/commerce_intent — tout OPTIONNEL (rétro-compat) ; l'enforcement vit au scorer/gate, pas dans required[].",
   "type": "object",
   "required": ["make", "model"],
   "additionalProperties": false,
@@ -25,7 +25,50 @@
           "items": { "type": "string", "pattern": "^(db|web|raw|oem|specialist):" }
         },
         "truth_level": { "enum": ["db_owned", "sourced", "inferred", "editorial"] },
-        "validation_notes": { "type": "array", "items": { "type": "string" }, "default": [] }
+        "validation_notes": { "type": "array", "items": { "type": "string" }, "default": [] },
+        "claim": {
+          "type": "string",
+          "minLength": 10,
+          "description": "ADR-088 (additif, optionnel) — assertion factuelle vérifiable portée par le bloc."
+        },
+        "applies_to": {
+          "description": "ADR-088 — périmètre du claim par code moteur réel + années. engine_codes validés contre le manifest commité (reality-check 0-DB).",
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "engine_codes": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+            "years": { "type": "array", "items": { "type": "integer", "minimum": 1900, "maximum": 2100 } }
+          }
+        },
+        "excluded_from": {
+          "description": "ADR-088 — codes moteur explicitement EXCLUS + raison (anti-généralisation abusive).",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["reason"],
+          "properties": {
+            "engine_codes": { "type": "array", "uniqueItems": true, "items": { "type": "string" } },
+            "reason": { "type": "string", "minLength": 5 }
+          }
+        },
+        "evidence": {
+          "description": "ADR-088 — preuves par claim : strength + confidence (§9.1) + status (coverage-map).",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["source_ref", "strength"],
+            "properties": {
+              "source_ref": { "type": "string", "description": "Slug source-catalog ou source_id préfixé." },
+              "strength": { "enum": ["primary", "secondary", "weak_signal"] },
+              "confidence": { "enum": ["high", "medium", "low"] },
+              "status": { "enum": ["pending_capture", "captured", "verified"] }
+            }
+          }
+        },
+        "projectability": {
+          "description": "ADR-088 — bloc projetable R8/R2 ? (clé résolvable + gammes valides).",
+          "enum": ["projectable", "needs_review", "not_projectable"]
+        }
       }
     }
   },
@@ -81,6 +124,20 @@
       "description": "True = véhicule choisi pour pilote ADR-022 stage 2 (PAS Clio/208/Golf).",
       "type": "boolean",
       "default": false
+    },
+    "related_gammes": {
+      "description": "ADR-088 (additif, optionnel) — gammes catalogue liées (slugs pieces_gamme.pg_alias), validées contre le manifest commité (reality-check 0-DB). Alimente la dimension D (mapping commerce) du score.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+      "default": []
+    },
+    "commerce_intent": {
+      "description": "ADR-088 — intentions commerciales servies par la fiche.",
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "enum": ["diagnostic_avant_achat", "remplacement_piece", "entretien_preventif"] },
+      "default": []
     },
     "known_issues_by_engine": {
       "description": "Canon v1.1.0 (additive, ADR-086 §1 surface R8) — pannes/points de vigilance PAR MOTORISATION. Clés normalisées (fuel:<fuel> | fuel_displacement:<fuel>:<liters> | engine_family:<code>). Source interne possible (db:kg_engine_families) AVANT scraping (Internal-DB-first). Projeté en blocks R8_VEHICLE/known_issues. Clé absente → aucun bloc (zéro filler).",

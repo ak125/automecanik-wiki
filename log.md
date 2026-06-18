@@ -81,3 +81,15 @@
 - **Branche** : `feat/citation-readiness-phase1a`
 - **Décision** : test(_scripts): citation-readiness — tests hermétiques au câblage shadow_score (+4 other commits)
 - **Sortie** : PR #51 | commits a8b85c2 da22df2 bcd7358 9545820 0e00f33
+
+## 2026-06-18 — feat/adr088-engineblock-schema (auto)
+
+- **Branche** : `feat/adr088-engineblock-schema`
+- **Décision** : feat(schema): ADR-088 — engineBlock factuel + related_gammes/commerce_intent (additif)
+- **Sortie** : PR #50 | commits f9a65ed
+
+## 2026-06-18 — feat/adr088-engineblock-schema (auto)
+
+- **Branche** : `feat/adr088-engineblock-schema`
+- **Décision** : feat(_scripts): ADR-088 Phase 3.2 — reality-manifest framework (generateur ops + reader 0-DB) (+2 other commits)
+- **Sortie** : PR #50 | commits b11a156 684caba f9a65ed

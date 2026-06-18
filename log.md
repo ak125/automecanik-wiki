@@ -63,3 +63,9 @@
 - **Branche** : `fix/promote-move-semantics`
 - **Décision** : fix(wiki): promote.py move-semantics — supprime la proposal après écriture du canon
 - **Sortie** : PR #41 | commits 2ca8d62
+
+## 2026-06-18 — feat/citation-readiness-phase1a (auto)
+
+- **Branche** : `feat/citation-readiness-phase1a`
+- **Décision** : feat(_scripts): citation-readiness-report — AI citation readiness (report-only, Phase 1a)
+- **Sortie** : PR aucune | commits 0e00f33

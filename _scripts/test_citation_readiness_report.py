@@ -90,13 +90,26 @@ def test_v11_blocks_become_citable_shape_claims(tmp_path):
     assert not r["schema_findings"]  # v1.1.0/v1.2.0 conforme
 
 
-def test_substance_deferred_no_parallel_scorer(tmp_path):
-    # shadow_score absent sur main → substance None → JAMAIS READY (plafond PARTIAL).
-    # Garantit l'absence de scorer de substance parallèle dans cette couche.
+def test_substance_deferred_when_shadow_absent(tmp_path, monkeypatch):
+    # shadow_score absent → substance None → JAMAIS READY (plafond PARTIAL). Hermétique
+    # (monkeypatch) : robuste que shadow_score.py soit présent ou non dans le repo.
+    monkeypatch.setattr(crr, "_SHADOW", None)
     r = crr.analyze_fiche(_write(tmp_path, "test-v11.md", VEHICLE_V11), WIKI_ROOT)
     assert r["substance_tier"] is None
     assert r["status"] == "PARTIAL"
     assert r["summary"]["readyClaims"] == 0
+
+
+def test_composes_substance_tier_reaches_ready(tmp_path, monkeypatch):
+    # Prouve le câblage : substance déléguée à shadow_score (tier A) + forme citable → claim READY.
+    class _FakeShadow:
+        @staticmethod
+        def score(fm, body, ctx):
+            return type("R", (), {"tier": "A"})()
+    monkeypatch.setattr(crr, "_SHADOW", _FakeShadow)
+    r = crr.analyze_fiche(_write(tmp_path, "test-v11.md", VEHICLE_V11), WIKI_ROOT)
+    assert r["substance_tier"] == "A"
+    assert any(c["verdict"] == "READY" for c in r["claims"])  # compose tier A + forme OK → READY
 
 
 def test_noncanonical_keys_zero_blocks_blocked(tmp_path):

@@ -66,6 +66,37 @@ def test_floor_caps_tier_to_B_when_commerce_floor_fails():
     assert any("FLOOR_NOT_MET" in b for b in r.blocked)
 
 
+def test_dim_A_reads_canonical_coverage_entries_key():
+    # ADR-040 : la coverage-map réelle utilise 'coverage_entries' (pas 'coverage'/'claims').
+    cov = {"coverage_entries": [{"confidence": "high"}, {"confidence": "medium"}]}
+    pts, note = ss._dim_A({}, cov)
+    assert note is None
+    assert pts == ss.WEIGHTS["A"] * ((1.0 + 0.6) / 2)  # 30 * 0.8 = 24.0
+
+
+def test_dim_A_backward_compat_legacy_coverage_key():
+    # compat ascendante : l'ancienne clé 'coverage' reste lue.
+    pts, _ = ss._dim_A({}, {"coverage": [{"confidence": "high"}]})
+    assert pts == ss.WEIGHTS["A"] * 1.0
+
+
+def test_load_coverage_map_safe_degradation(tmp_path):
+    # slug inconnu / None → None (jamais de crash) = dégradation sûre.
+    assert ss._load_coverage_map("inexistant", tmp_path) is None
+    assert ss._load_coverage_map(None, tmp_path) is None
+
+
+def test_load_coverage_map_reads_real_file(tmp_path):
+    cov_dir = tmp_path / "_coverage"
+    cov_dir.mkdir()
+    (cov_dir / "x.coverage.yaml").write_text(
+        "coverage_entries:\n  - confidence: high\n  - confidence: low\n", encoding="utf-8")
+    cmap = ss._load_coverage_map("x", tmp_path)
+    assert cmap is not None and len(cmap["coverage_entries"]) == 2
+    pts, note = ss._dim_A({}, cmap)  # bout-en-bout : loader → _dim_A
+    assert note is None and pts == ss.WEIGHTS["A"] * ((1.0 + 0.3) / 2)
+
+
 def test_old_score_computed_in_shadow():
     # compute_old branché → old_score renseigné (ou None si indéterminable, jamais crash)
     called = {}

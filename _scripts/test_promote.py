@@ -210,3 +210,104 @@ def test_apply_never_deletes_source_outside_proposals(tmp_path):
                               {"gate_status": {}, "confidence_score": 0.9})
     assert out.is_file()
     assert stray.exists()                        # hors proposals/ → conservé
+
+
+# --- Shadow scoring (ADR-088 §F : observabilité AVANT cutover, 0-risque) -------
+def test_shadow_decision_unchanged_tier_A(tmp_path):
+    """(i) Le shadow N'ALTÈRE PAS la décision : conditions legacy OK → toujours TIER A."""
+    mod = _load_promote()
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.90)
+    assert d["tier"] == "A", d["blocking_reasons"]
+    # shadow attaché, mais le tier de porte reste piloté par les critères legacy
+    assert "shadow_score" in d
+
+
+def test_shadow_decision_unchanged_tier_B(tmp_path):
+    """(i bis) Même quand le shadow tournerait, un gate fail garde la décision en TIER B."""
+    mod = _load_promote()
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(False, "risk"), compute_score=lambda *a: 0.90)
+    assert d["tier"] == "B"
+    assert any("gate:risk" in r for r in d["blocking_reasons"])
+    # blocking_reasons ne contient JAMAIS de raison issue du shadow
+    assert not any("shadow" in r.lower() for r in d["blocking_reasons"])
+
+
+def test_shadow_tier_recorded_in_decision(tmp_path):
+    """(ii) Le tier shadow 6-dim est calculé et exposé dans la décision."""
+    mod = _load_promote()
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.90)
+    shadow = d["shadow_score"]
+    assert isinstance(shadow, dict)
+    # soit un score nominal (shadow_tier présent), soit une erreur tracée (shadow_error)
+    assert ("shadow_tier" in shadow) or ("shadow_error" in shadow)
+    if "shadow_tier" in shadow:
+        assert shadow["shadow_tier"] in {"S", "A", "B", "C", "D"}
+        assert "manifest_status" in shadow
+        assert shadow["scorer"].startswith("shadow_score.score")
+
+
+def test_shadow_recorded_in_promotion_evidence(tmp_path):
+    """(ii bis) Le shadow_score est persisté dans promotion_evidence à l'écriture."""
+    mod = _load_promote()
+    (tmp_path / "wiki" / "gamme").mkdir(parents=True)
+    decision = {"gate_status": {}, "confidence_score": 0.9,
+                "shadow_score": {"shadow_tier": "B", "shadow_total": 55}}
+    out = mod.apply_promotion(tmp_path / "proposals" / "x.md", FM_OK, "body", tmp_path, decision)
+    written = out.read_text(encoding="utf-8")
+    assert "shadow_score" in written
+    assert "shadow_tier" in written
+
+
+def test_shadow_evidence_omitted_when_none(tmp_path):
+    """Rétro-compat : decision sans shadow (ou shadow=None) → promotion_evidence inchangée."""
+    mod = _load_promote()
+    (tmp_path / "wiki" / "gamme").mkdir(parents=True)
+    out = mod.apply_promotion(tmp_path / "proposals" / "x.md", FM_OK, "body", tmp_path,
+                              {"gate_status": {}, "confidence_score": 0.9})  # pas de clé shadow
+    written = out.read_text(encoding="utf-8")
+    assert "shadow_score" not in written  # rien d'ajouté, comportement legacy
+
+
+def test_compute_shadow_is_fail_closed(tmp_path, monkeypatch):
+    """(iii) _compute_shadow ne lève jamais : import/score KO → dict {shadow_error}."""
+    mod = _load_promote()
+    import builtins
+    real_import = builtins.__import__
+
+    def fake_import(name, *a, **k):
+        if name in {"shadow_score", "reality_manifest"}:
+            raise ImportError("module indisponible (simulé)")
+        return real_import(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", fake_import)
+    out = mod._compute_shadow(FM_OK, "body", tmp_path / "p.md", tmp_path)
+    assert isinstance(out, dict)
+    assert "shadow_error" in out  # erreur tracée, pas d'exception remontée
+
+
+def test_evaluate_tier_survives_shadow_error(tmp_path, monkeypatch):
+    """(iii bis) Même si shadow échoue (import KO), evaluate_tier rend une décision legacy valide."""
+    mod = _load_promote()
+    import builtins
+    real_import = builtins.__import__
+
+    def fake_import(name, *a, **k):
+        if name in {"shadow_score", "reality_manifest"}:
+            raise ImportError("module indisponible (simulé)")
+        return real_import(name, *a, **k)
+
+    monkeypatch.setattr(builtins, "__import__", fake_import)
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.90)
+    assert d["tier"] == "A", d["blocking_reasons"]           # décision intacte
+    assert d["shadow_score"] == {"shadow_error": "module indisponible (simulé)"}
+
+
+def test_no_db_imports_still_holds_after_shadow_wiring():
+    """Garde statique : le wiring shadow n'introduit ni LLM ni DB dans promote.py."""
+    src = (Path(__file__).resolve().parent / "promote.py").read_text(encoding="utf-8")
+    assert not re.search(r"\b(psycopg|asyncpg|supabase|sqlalchemy|django)\b", src)
+    assert not re.search(r"\b(anthropic|openai|groq|cohere|mistralai)\b", src)

@@ -98,13 +98,29 @@ def _dim_B(fm, manifest, ready):
     return WEIGHTS["B"] * frac, note
 
 
+def _editorial_blocks(fm):
+    """Blocs éditoriaux gamme (ADR-086 §2bis) : sections curées + sourcées (`source_ids`)."""
+    ed = fm.get("entity_data") or {}
+    blk = ed.get("editorial")
+    if isinstance(blk, dict):
+        return [v for v in blk.values() if isinstance(v, dict)]
+    return []
+
+
 def _dim_C(fm):
-    """Richesse : items rattachés à un evidence-block sourcé (anti-padding, précision)."""
-    blocks = _engine_blocks(fm)
-    if not blocks:
+    """Richesse (v0, à tuner en shadow) — un bloc ne compte QUE rattaché à une source (anti-padding) :
+    - engine-blocks `evidence`-sourcés (véhicule / gamme moteur : filtration, distribution, injection…) ; OU
+    - blocs éditoriaux `source_ids`-sourcés (gamme CHÂSSIS — frein/suspension/direction : le code moteur n'y est
+      PAS le différenciateur, la richesse vit dans `entity_data.editorial`, cf. seo-content-loop §axe par famille).
+    On prend le MAX des deux signaux pour ne pénaliser aucune famille de gamme."""
+    eng = _engine_blocks(fm)
+    edi = _editorial_blocks(fm)
+    if not eng and not edi:
         return 0.0, "C:aucun_bloc"
-    with_ev = [b for b in blocks if b.get("evidence")]
-    return WEIGHTS["C"] * (len(with_ev) / len(blocks)), None
+    c_eng = (len([b for b in eng if b.get("evidence")]) / len(eng)) if eng else 0.0
+    sourced_edi = [b for b in edi if b.get("source_ids")]
+    c_edi = min(1.0, len(sourced_edi) / 6.0) if edi else 0.0  # cible v0 : ~6 sections sourcées = richesse pleine
+    return WEIGHTS["C"] * max(c_eng, c_edi), None
 
 
 def _dim_D(fm, manifest, ready):

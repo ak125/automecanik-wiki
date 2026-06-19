@@ -110,6 +110,73 @@ entity_data:
     related_pages:
     - disque-de-frein
     - etrier-de-frein
+  related_gammes:
+  - disque-de-frein
+  - etrier-de-frein
+  - kit-de-freins-arriere
+  - liquide-de-frein
+  commerce_intent:
+  - remplacement_piece
+  - entretien_preventif
+  - diagnostic_avant_achat
+  editorial:
+    function:
+      content_md: >-
+        La plaquette est la garniture de friction que l'étrier presse contre le disque pour convertir
+        l'énergie cinétique en chaleur et ralentir la roue de façon progressive et répétable ; sa géométrie
+        dépend de l'architecture d'étrier (flottant à pistons d'un seul côté, ou fixe à pistons opposés).
+      source_ids: [oem:bremboparts-etriers, web:mister-auto-etriers]
+      truth_level: sourced
+    failure_symptoms:
+      content_md: >-
+        Une plaquette usée se signale par un grincement aigu (témoin acoustique, ou support métallique au contact
+        du disque), un allongement de la distance de freinage, parfois des vibrations à la pédale (souvent liées au
+        disque) et un témoin au tableau de bord ; le remplacement s'impose autour de 3 mm de garniture restante.
+      source_ids: [web:autodoc-usure, web:mister-auto-symptomes]
+      truth_level: sourced
+    selection_criteria:
+      content_md: >-
+        Le choix croise une correspondance véhicule/essieu stricte (référence d'origine, dimensions, type d'étrier,
+        type de témoin d'usure) et un compromis matériau selon l'usage (organique NAO, semi-métallique, fritté,
+        céramique). Le remplacement se fait par paire sur l'essieu, avec contrôle du disque et rodage d'environ 200 km.
+      source_ids: [oem:zf-installation, web:mister-auto-choisir, web:tour-dhorizon]
+      truth_level: sourced
+    quality_tiers:
+      content_md: >-
+        Le marché se structure en première monte / qualité d'origine (OES), aftermarket premium équivalent OE, puis
+        gammes économiques. Au catalogue, les équipementiers d'origine de référence du freinage sont Bosch, Brembo et
+        ATE (Continental) en tête, puis Textar, TRW, Delphi, Ferodo et Valeo ; le prix tient à la composition, aux
+        tolérances dimensionnelles et aux procédés (revêtement anticorrosion, traitement thermique, cales antibruit).
+      source_ids: [db:pieces-marque-oes, oem:bremboparts-10-points, web:jurid-oe]
+      truth_level: sourced
+    standards_norms:
+      content_md: >-
+        En Europe, toute plaquette de rechange doit être homologuée ECE R90 : ses performances doivent rester
+        équivalentes à la pièce d'origine dans une tolérance de l'ordre de plus ou moins 15 %. R90 est un plancher de
+        sécurité, pas un gage d'excellence — il n'évalue ni le bruit, ni l'usure du disque, ni la tenue dans le temps.
+      source_ids: [oem:bremboparts-r90, web:carmino-r90]
+      truth_level: sourced
+    replacement_guidance:
+      content_md: >-
+        Au montage : remplacer par paire sur l'essieu, ne jamais graisser la surface de friction (graisse uniquement
+        sur les points de contact mécaniques), repousser le piston avec précaution en surveillant le bocal, nettoyer
+        et lubrifier les coulisseaux de l'étrier flottant, ne pas suspendre l'étrier par le flexible, puis réamorcer la pédale.
+      source_ids: [web:oscaro-erreurs, oem:zf-installation, web:oovango-erreurs]
+      truth_level: sourced
+    maintenance_interval:
+      content_md: >-
+        La durée de vie varie fortement selon l'usage — ordre de grandeur 25 000 à 80 000 km — la conduite urbaine
+        usant plus vite que les longs trajets. Plutôt qu'un kilométrage fixe, contrôler visuellement l'épaisseur et
+        suivre le carnet d'entretien ; remplacer disques et plaquettes ensemble quand le disque est hors limites.
+      source_ids: [web:vroomly-duree-vie, web:bymycar-disques]
+      truth_level: sourced
+    faq:
+      content_md: >-
+        Quand changer ? sous environ 3 mm de garniture (minimum contrôle technique de l'ordre de 2 mm) ou au
+        déclenchement d'un témoin. Un léger sifflement de plaquettes neuves est normal pendant le rodage ; un
+        crissement persistant au-delà signale un montage incorrect ou une pièce inadaptée. On peut traiter un seul essieu, jamais une seule roue.
+      source_ids: [web:autodoc-quand-changer, web:oscaro-rodage, web:vroomly-bruit]
+      truth_level: sourced
 confidence_score: 0.42
 ---
 

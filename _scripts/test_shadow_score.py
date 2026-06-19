@@ -97,6 +97,28 @@ def test_load_coverage_map_reads_real_file(tmp_path):
     assert note is None and pts == ss.WEIGHTS["A"] * ((1.0 + 0.3) / 2)
 
 
+def test_dim_C_counts_sourced_editorial_blocks_for_gammes():
+    # gamme châssis : richesse via blocs éditoriaux SOURCÉS (pas d'engine-block) — 6 sourcés = plein.
+    ed = {"editorial": {f"s{i}": {"content_md": "x" * 60, "source_ids": ["web:x"], "truth_level": "sourced"}
+                        for i in range(6)}}
+    pts, note = ss._dim_C({"entity_data": ed})
+    assert note is None and pts == ss.WEIGHTS["C"] * 1.0
+
+
+def test_dim_C_editorial_requires_source_ids():
+    # anti-padding : un bloc éditorial SANS source_ids ne compte pas.
+    ed = {"editorial": {"a": {"content_md": "x" * 60, "truth_level": "sourced"}}}
+    pts, _ = ss._dim_C({"entity_data": ed})
+    assert pts == 0.0
+
+
+def test_dim_C_engine_block_path_unchanged_for_vehicles():
+    # rétro-compat : le chemin engine-block (véhicule / gamme moteur) reste inchangé.
+    fm = {"entity_data": {"known_issues_by_engine": {"e": {"evidence": [{"x": 1}]}}}}
+    pts, _ = ss._dim_C(fm)
+    assert pts == ss.WEIGHTS["C"] * 1.0
+
+
 def test_old_score_computed_in_shadow():
     # compute_old branché → old_score renseigné (ou None si indéterminable, jamais crash)
     called = {}

@@ -42,6 +42,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -55,6 +56,13 @@ import yaml
 # Activation = abaisser à 0.80 (valeur canon ADR-083), owner-décidé.
 AUTO_PROMOTE_THRESHOLD = 1.01
 AUTO_PROMOTE_TRUTH_LEVELS = {"L1", "L2"}
+# Cutover ADR-088 (gaté par flag, défaut OFF) : quel moteur de substance gate l'auto-promotion.
+#   legacy      = confidence_score scalaire 0-1 >= seuil (comportement historique, défaut)
+#   adr088_6dim = tier 6-dim shadow_score (planchers entity-aware) ∈ {A,S}
+# Le FLIP (mettre PROMOTE_GATE_ENGINE=adr088_6dim) reste owner-gated : ADR-088 accepté au vault
+# + 3 critères §F mesurés (new⊆old · known-bad→B/C · ≥1 fiche TIER A). Fail-closed dans les 2 modes.
+PROMOTE_GATE_ENGINE_ENV = "PROMOTE_GATE_ENGINE"
+ADR088_PROMOTE_TIERS = {"A", "S"}
 MIN_DISTINCT_SOURCE_KINDS = 2
 PROMOTER_ID = "skill:promoter"
 PROMOTABLE_INPUT_STATUSES = {"proposed", "in_review"}
@@ -182,8 +190,20 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     except Exception as exc:  # fail-closed
         reasons.append(f"confidence_score indéterminable: {exc}")
         score = 0.0
-    if score < threshold:
-        reasons.append(f"confidence_score={score:.2f} < seuil={threshold:.2f}")
+
+    # Le tier 6-dim est calculé dans les 2 modes : observabilité (toujours) + décisionnel (si flag on).
+    shadow = _compute_shadow(fm, body, target, wiki_root)
+    gate_engine = os.environ.get(PROMOTE_GATE_ENGINE_ENV, "legacy").strip().lower()
+    if gate_engine == "adr088_6dim":
+        # SUBSTANCE GATE = tier 6-dim (planchers entity-aware). Fail-closed : tier absent/erreur → blocage.
+        st = (shadow or {}).get("shadow_tier")
+        if st not in ADR088_PROMOTE_TIERS:
+            why = st or (shadow or {}).get("shadow_error", "indéterminable")
+            reasons.append(f"shadow_tier={why} (cutover ADR-088 : auto-promo exige A/S)")
+    else:
+        # SUBSTANCE GATE legacy (défaut) = confidence_score scalaire >= seuil.
+        if score < threshold:
+            reasons.append(f"confidence_score={score:.2f} < seuil={threshold:.2f}")
 
     kinds = {
         s.get("kind")
@@ -194,14 +214,13 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         reasons.append(f"source_refs kinds distincts={len(kinds)} (<{MIN_DISTINCT_SOURCE_KINDS})")
 
     tier = "A" if not reasons else "B"
-    # SHADOW (ADR-088) : tier 6-dim attaché POUR OBSERVATION uniquement. Ne participe
-    # PAS à la décision `tier` ci-dessus (toujours gates + confidence + truth + diversité).
     return {
         "tier": tier,
         "confidence_score": round(score, 4),
+        "gate_engine": gate_engine,
         "gate_status": {n: r.status for n, r in gate_results},
         "blocking_reasons": reasons,
-        "shadow_score": _compute_shadow(fm, body, target, wiki_root),
+        "shadow_score": shadow,
     }
 
 

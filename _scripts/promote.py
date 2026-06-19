@@ -120,6 +120,45 @@ def _wiki_commit_sha(wiki_root: Path) -> str:
         return "0000000"
 
 
+# --- Shadow scoring 6-dim (ADR-088 §F : observabilité AVANT cutover) ----------
+# SHADOW pur : calcule le tier 6-dim À CÔTÉ de la décision legacy, l'attache à
+# l'evidence pour mesurer les 3 critères de cutover sur le VRAI chemin de promotion,
+# SANS jamais modifier la décision de porte. Fail-closed total : toute erreur →
+# None (jamais de blocage, jamais d'exception remontée à evaluate_tier).
+def _compute_shadow(fm: dict, body: str, target: Path, wiki_root: Path) -> dict | None:
+    """Tier shadow 6-dim (report-only). Retourne un dict observabilité ou None si indéterminable.
+
+    Réutilise `shadow_score.score` (ADR-088 Phase 3.3) + `reality_manifest` (lecture 0-DB).
+    coverage-map : réutilise `shadow_score._load_coverage_map` (PR #53) si présent, sinon dégrade
+    proprement à `coverage_map=None` (dim A → `A:no_coverage_map(dégradé)`, jamais de crash).
+    """
+    try:
+        sys.path.insert(0, str(SCRIPTS_DIR))
+        import reality_manifest as _rm
+        import shadow_score as _ss
+
+        manifest = _rm.load_manifest(SCRIPTS_DIR.parent / "_meta" / "reality-manifest.json")
+        cmap = None
+        loader = getattr(_ss, "_load_coverage_map", None)  # fourni par PR #53
+        if callable(loader):
+            cmap = loader(fm.get("slug") or target.stem, wiki_root / "proposals")
+        ctx = {"path": str(target), "manifest": manifest, "coverage_map": cmap,
+               "wiki_root": wiki_root}
+        r = _ss.score(fm, body, ctx)
+        return {
+            "shadow_tier": r.tier,
+            "shadow_total": r.total,
+            "shadow_dims": r.dims,
+            "shadow_applicable": r.applicable,
+            "shadow_floors_failed": r.floors_failed,
+            "shadow_blocked": r.blocked,
+            "manifest_status": _rm.status(manifest),
+            "scorer": "shadow_score.score@6dim-v0",
+        }
+    except Exception as exc:  # noqa: BLE001 — fail-closed : observabilité best-effort, jamais bloquante
+        return {"shadow_error": str(exc)}
+
+
 # --- La porte tiered (cœur ADR-083) -------------------------------------------
 def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
                   threshold: float, gates, compute_score) -> dict:
@@ -155,11 +194,14 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         reasons.append(f"source_refs kinds distincts={len(kinds)} (<{MIN_DISTINCT_SOURCE_KINDS})")
 
     tier = "A" if not reasons else "B"
+    # SHADOW (ADR-088) : tier 6-dim attaché POUR OBSERVATION uniquement. Ne participe
+    # PAS à la décision `tier` ci-dessus (toujours gates + confidence + truth + diversité).
     return {
         "tier": tier,
         "confidence_score": round(score, 4),
         "gate_status": {n: r.status for n, r in gate_results},
         "blocking_reasons": reasons,
+        "shadow_score": _compute_shadow(fm, body, target, wiki_root),
     }
 
 
@@ -227,6 +269,11 @@ def apply_promotion(target: Path, fm: dict, body: str, wiki_root: Path,
         "promoter": f"{PROMOTER_ID}@{sha}",
         "promoted_at": now,
     }
+    # SHADOW (ADR-088 §F) : trace le tier 6-dim si calculé, pour rendre les 3 critères
+    # de cutover mesurables sur le chemin réel. .get → rétro-compat (decision sans shadow).
+    shadow = decision.get("shadow_score")
+    if shadow is not None:
+        new_fm["promotion_evidence"]["shadow_score"] = shadow
     exportable = dict(new_fm.get("exportable") or {})
     exportable["seo"] = True
     new_fm["exportable"] = exportable

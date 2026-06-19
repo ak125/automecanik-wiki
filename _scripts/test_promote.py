@@ -311,3 +311,57 @@ def test_no_db_imports_still_holds_after_shadow_wiring():
     src = (Path(__file__).resolve().parent / "promote.py").read_text(encoding="utf-8")
     assert not re.search(r"\b(psycopg|asyncpg|supabase|sqlalchemy|django)\b", src)
     assert not re.search(r"\b(anthropic|openai|groq|cohere|mistralai)\b", src)
+
+
+# --- Cutover ADR-088 flag-gaté (PROMOTE_GATE_ENGINE) — défaut OFF, fail-closed ----------------
+def test_gate_engine_default_is_legacy_unchanged(tmp_path, monkeypatch):
+    """Sans flag : substance = confidence_score (comportement historique intact)."""
+    monkeypatch.delenv("PROMOTE_GATE_ENGINE", raising=False)
+    mod = _load_promote()
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.90)
+    assert d["tier"] == "A" and d["gate_engine"] == "legacy"
+
+
+def test_gate_engine_legacy_blocks_on_low_confidence_ignores_shadow(tmp_path, monkeypatch):
+    """Legacy : confidence<seuil bloque même si le shadow serait A (le 6-dim n'est PAS décisionnel)."""
+    monkeypatch.delenv("PROMOTE_GATE_ENGINE", raising=False)
+    mod = _load_promote()
+    monkeypatch.setattr(mod, "_compute_shadow", lambda *a: {"shadow_tier": "A"})
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.10)
+    assert d["tier"] == "B"
+    assert any("confidence_score" in r for r in d["blocking_reasons"])
+
+
+def test_gate_engine_adr088_promotes_on_shadow_A_despite_low_confidence(tmp_path, monkeypatch):
+    """Flag ON : substance = tier 6-dim. Shadow A + autres conditions OK → TIER A même si confidence faible."""
+    monkeypatch.setenv("PROMOTE_GATE_ENGINE", "adr088_6dim")
+    mod = _load_promote()
+    monkeypatch.setattr(mod, "_compute_shadow", lambda *a: {"shadow_tier": "A"})
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.10)
+    assert d["tier"] == "A", d["blocking_reasons"]
+    assert d["gate_engine"] == "adr088_6dim"
+
+
+def test_gate_engine_adr088_blocks_on_shadow_B_despite_high_confidence(tmp_path, monkeypatch):
+    """Flag ON : shadow B bloque même si confidence haute (le 6-dim gouverne la substance)."""
+    monkeypatch.setenv("PROMOTE_GATE_ENGINE", "adr088_6dim")
+    mod = _load_promote()
+    monkeypatch.setattr(mod, "_compute_shadow", lambda *a: {"shadow_tier": "B"})
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.99)
+    assert d["tier"] == "B"
+    assert any("shadow_tier=B" in r for r in d["blocking_reasons"])
+
+
+def test_gate_engine_adr088_fail_closed_on_shadow_error(tmp_path, monkeypatch):
+    """Flag ON + shadow indéterminable/erreur → fail-closed : TIER B (jamais d'auto-promo sur erreur)."""
+    monkeypatch.setenv("PROMOTE_GATE_ENGINE", "adr088_6dim")
+    mod = _load_promote()
+    monkeypatch.setattr(mod, "_compute_shadow", lambda *a: {"shadow_error": "boom"})
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.99)
+    assert d["tier"] == "B"
+    assert any("boom" in r or "indéterminable" in r for r in d["blocking_reasons"])

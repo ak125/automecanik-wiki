@@ -62,7 +62,9 @@ def _dim_A(fm, coverage_map):
     """Sources, claim par claim depuis la coverage-map. Absente → 0 + flag (dégradation, pas crash)."""
     if not coverage_map:
         return 0.0, "A:no_coverage_map(dégradé)"
-    cov = coverage_map.get("coverage") or coverage_map.get("claims") or []
+    # ADR-040 : la coverage-map canonique porte la clé 'coverage_entries' ; 'coverage'/'claims' = compat ascendante.
+    cov = (coverage_map.get("coverage_entries") or coverage_map.get("coverage")
+           or coverage_map.get("claims") or [])
     nums = [CONFIDENCE_NUMERIC.get((c or {}).get("confidence"), 0.0) for c in cov if isinstance(c, dict)]
     if not nums:
         return 0.0, "A:coverage_map_vide"
@@ -207,6 +209,26 @@ def _load_compute_old():
     return mod.compute_score
 
 
+def _load_coverage_map(slug, proposals_dir):
+    """Charge proposals/_coverage/<slug>.coverage.yaml (ADR-040, clé `coverage_entries`).
+
+    Absent / slug inconnu / YAML illisible → None : dégradation SÛRE — dim A retombe sur
+    `A:no_coverage_map(dégradé)`, jamais de crash ni de faux rejet. Import yaml différé pour
+    garder score() sans dépendance.
+    """
+    if not slug:
+        return None
+    path = Path(proposals_dir) / "_coverage" / f"{slug}.coverage.yaml"
+    if not path.exists():
+        return None
+    try:
+        import yaml  # noqa: PLC0415 — lazy : score() reste sans dépendance yaml
+        with path.open(encoding="utf-8") as fh:
+            return yaml.safe_load(fh)
+    except Exception:  # noqa: BLE001 — dégradation sûre (un YAML cassé ne doit jamais bloquer le rapport)
+        return None
+
+
 def main(argv: list[str] | None = None) -> int:
     from gates._common import parse_markdown_file
 
@@ -234,7 +256,8 @@ def main(argv: list[str] | None = None) -> int:
         except Exception as exc:  # noqa: BLE001
             print(f"• {p.name}  ERROR: {exc}")
             continue
-        ctx = {"path": str(p), "manifest": manifest, "coverage_map": None,
+        cmap = _load_coverage_map(fm.get("slug") or p.stem, args.proposals_dir)
+        ctx = {"path": str(p), "manifest": manifest, "coverage_map": cmap,
                "compute_old": compute_old, "wiki_root": args.wiki_root}
         results.append(score(fm, body, ctx))
 

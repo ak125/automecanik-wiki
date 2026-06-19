@@ -17,6 +17,9 @@ source_refs:
   origin_repo: automecanik-rag
   origin_path: knowledge/gammes/plaquette-de-frein.md
   captured_at: '2026-04-28'
+- kind: raw
+  path: sources/web-research/plaquette-de-frein/
+  captured_at: '2026-06-15'
 provenance:
   ingested_by: human:@fafa
   promoted_from: null
@@ -177,7 +180,7 @@ entity_data:
         crissement persistant au-delà signale un montage incorrect ou une pièce inadaptée. On peut traiter un seul essieu, jamais une seule roue.
       source_ids: [web:autodoc-quand-changer, web:oscaro-rodage, web:vroomly-bruit]
       truth_level: sourced
-confidence_score: 0.42
+confidence_score: 0.52
 ---
 
 # Plaquette de frein

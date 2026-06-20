@@ -29,6 +29,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so origin/main + merge-base resolve (score-vs-predecessor step)
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -51,6 +53,32 @@ jobs:
 
       - name: pytest fixtures (gates ADR-033 + ADR-032)
         run: cd _scripts/tests && python3 -m pytest -v
+
+      # Score-and-compare-before-overwrite — REPORT-ONLY (Phase A).
+      # Compare chaque fiche modifiée dans la PR à sa version sur origin/main.
+      # Ne bloque jamais le build (continue-on-error) tant que la formule n'est
+      # pas recalibrée — l'activation bloquante (--fail-on-regression) = ADR.
+      - name: score-vs-predecessor (report-only)
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -u
+          # Full history is present (fetch-depth: 0). Resolve the base explicitly
+          # instead of masking a failed fetch — report-only must be honest.
+          if ! git rev-parse --verify --quiet origin/main >/dev/null; then
+            echo "origin/main unavailable in this checkout — skipping comparison (report-only)"
+            exit 0
+          fi
+          base=origin/main
+          mapfile -t changed < <(git diff --name-only "${base}...HEAD" 2>/dev/null \
+            | grep -E '^(proposals|wiki)/.*\.md$' \
+            | grep -vE '^(proposals|wiki)/_' || true)
+          if [[ ${#changed[@]} -eq 0 ]]; then
+            echo "no fiche change vs ${base} — nothing to compare"
+            exit 0
+          fi
+          echo "Comparing changed fiches vs ${base}:"
+          python3 _scripts/compare-proposal-versions.py --base "${base}" "${changed[@]}"
 
   promotion-gates:
     name: Promotion gates wrappers (ADR-059 PR-4 — Pydantic-typed)

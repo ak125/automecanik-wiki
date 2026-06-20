@@ -179,17 +179,55 @@ Pièce **châssis** : la sélection repose sur la compatibilité dimensionnelle 
 11. **Tolérances de montage** — voile latéral **< 0,05 mm** (jusqu'à 0,10 mm sur anciens), **DTV ≤ ~12-15 µm** ([ZF/TRW](https://aftermarket.zf.com/us/aftermarket-portal/for-workshops/useful-tips/brakes/brake-judder/)).
 12. **Couple de serrage & propreté du moyeu** — couple prescrit dans l'ordre correct, moyeu propre sans rouille ni lubrifiant, contrôle du voile après pose ([Zimmermann](https://www.zimmermann-bremsentechnik.eu/info/faq.html?language=en)). _Le couple en Nm est spécifique au véhicule — se référer à la fiche véhicule._
 
+## Compatibilité technique avancée (ABS, ventilation, VIN)
+
+Au-delà des cotes, trois spécificités des disques modernes conditionnent la compatibilité — toujours sur l'axe châssis, jamais le code moteur :
+
+- **Couronne ABS intégrée — du même type que l'origine, impérativement.** Sur beaucoup de modèles français (ex. **Peugeot 308 arrière**), le disque arrière intègre le roulement de roue **et** la couronne ABS en un seul ensemble ([Hella](https://www.hella.com/techworld/sg/ti/brake-discs-with-wheel-bearing-and-impulse-ring/), [Textar](https://textar.com/en/brake-disc-range/)). Deux technologies **non interchangeables** : couronne **dentée** (capteur passif inductif) ou **bague magnétique multipôles** (capteur actif Hall, lit jusqu'à très basse vitesse). Un disque à la bonne géométrie OE mais au **mauvais type de couronne** provoque une **panne ABS** post-montage ([Apec](https://apecautomotive.co.uk/techmate-guides/abs-sensors/)). La bague magnétique attire la limaille : couronne propre, segments intacts, orientation selon la notice, remplacement **par paire** ([TRW/ZF](https://www.trwaftermarket.com/en/magnetic/)).
+- **Ventilation directionnelle → référence gauche ≠ droite.** Les disques ventilés à **ailettes courbes orientées** existent en deux références G/D (le sens des ailettes pompe l'air selon la rotation) ; la ventilation **à plots (Brembo PVT)** est non directionnelle → une seule référence pour les deux côtés ([Brembo](https://www.bremboparts.com/europe/fr/support/comment-choisir-le-bon-produit/disques-de-frein-avec-ventilation-%C3%A0-ailettes-et-%C3%A0-plots-les-diff%C3%A9rences-204921)).
+- **Le VIN n'encode pas le diamètre du disque.** Il renseigne moteur/année/finition, qui _corrèlent_ avec la taille de frein, mais un même modèle reçoit **plusieurs diamètres** selon le pack de freinage ou des révisions en cours d'année. Méthode fiable : VIN → **référence OE constructeur** puis cross-référence TecDoc, ou **mesurer le disque existant** — jamais déduire la taille du seul VIN ([stat.vin](https://stat.vin/blog/how-to-check-rotor-size-by-vin-number)).
+- **Monobloc vs composite.** Un disque **composite deux pièces** (piste fonte + bol aluminium, OE sur certaines premium, −15 à −20 % de masse) ne se substitue pas librement à un monobloc fonte sans validation de fitment ([Textar](https://textar.com/en/brake-disc-range/)).
+
 ## Marques & équipementiers
 
 - **Premium / OE** : Brembo (gamme Prime, matière HC), ATE, Textar, Ferodo, TRW (groupe ZF), Bosch (dont **iDisc** revêtu, ~90 % de poussières en moins et anticorrosion — utile sur VE), Zimmermann (Coat Z).
 - **Fonte / fonderie** : MAT Foundry (corrosion fonte).
 - Privilégier une référence **homologuée ECE R90** quelle que soit la marque.
 
+## Prix & niveaux de qualité
+
+> Ordres de grandeur marché FR — **indicatifs** (par disque, sources secondaires : TTC/HT et « par disque vs paire » pas toujours explicites), pas des prix de vente.
+
+- **Tiers de qualité.** Peloton OE/première monte resserré : ATE, Textar, Brembo, TRW, Bosch, Zimmermann (notes utilisateurs AutoDoc 2025 de 8,60 à 8,99 — [AutoDoc](https://club.auto-doc.fr/review/parts/disques-de-frein)). Bosch revendique ~1 400 références couvrant 99 % du parc, fonte HC depuis 1983 ([Bosch](https://www.actu-automobile.com/2017/03/16/disques-et-plaquettes-de-frein-bosch-pour-un-freinage-maitrise/)).
+- **Fourchettes indicatives (par disque, FR).** Plein nu ~10-20 € · rainuré ~20-30 € · percé ~25-30 € · ventilé ~25-45 € · paire avant ~40-150 € selon Ø ([Vroomly](https://www.vroomly.com/blog/quel-est-le-prix-dun-changement-de-disque-de-frein/)) ; Brembo ~80 € en moyenne, amplitude ~26-322 € ([AutoDoc](https://club.auto-doc.fr/magazin/disques-de-frein-les-meilleures-marques)). Repère coût total : un freinage avant complet (disques + plaquettes + pose) ~440 € en moyenne FR 2025 ([idGarages](https://www.idgarages.com/fr-fr/a-propos/barometre-entretien-auto-2025)).
+- **Le vrai différenciateur = le revêtement anticorrosion, pas la marque seule.** Delphi annonce **720 h en brouillard salin contre ~24 h** pour un disque nu (revendication équipementier Delphi, Geomet sur tout le disque — [Delphi](https://www.delphiautoparts.com/fr-fr/centre-de-documentation/article/disques-de-frein-peints.-ils-ne-sont-pas-tous-pareils-!)). Côté OE : Zimmermann **Coat Z** (pose immédiate sans retrait — [Zimmermann](https://www.otto-zimmermann.de/en/products/coat-z-coated-brake-discs/)), Hella zinc lamellaire sans chrome ([Hella](https://www.hella.com/techworld/us/ti/coated-brake-disc/)), Brembo Prime UV homologué ECE R90 ([Brembo Prime](https://www.bremboparts.com/europe/fr/produits/prime/disques-frein)). Un disque **nu** n'offre aucune protection (oxydation accélérée l'hiver, sel).
+- **Durée de vie (ordre de grandeur).** ~60 000-120 000 km, l'avant (60-70 % de l'effort) s'usant plus vite que l'arrière ; usage intensif dès ~40 000 km — mais le critère reste le **MIN TH** gravé, pas le kilométrage ([ATE](https://ate-freinage.fr/blog/duree-vie-disque-frein/)).
+- **Sport (percé/rainuré) = coût caché.** Percé (Brembo Xtra, mordant initial, look) et rainuré (Brembo Max, dissipation, racing) sont homologués route mais **plus agressifs sur l'usure des plaquettes** qu'un disque nu ([Brembo](https://www.bremboparts.com/europe/fr/support/comment-choisir-le-bon-produit/disque-brembo-max-ou-disque-brembo-xtra-quelle-est-la-meilleure-solution-pour-ma-voiture-93372)).
+
 ## Entretien & corrosion
 
 - **Rodage d'un disque neuf** : nettoyer la portée du moyeu, vérifier le faux-rond (≤ 0,10 mm voiture, mesuré à 5 mm du bord), puis rouler **~200 km** en freinages doux, **sans freinage brusque > 3 s**, pour transférer un film de friction homogène ([Brembo](https://www.bremboparts.com/europe/en/support/car-fitting/instructions-for-replacement-of-brake-disc-278446)).
 - **Surfacer/rectifier** : déconseillé en pratique — la DTV vient le plus souvent d'un **moyeu mal nettoyé** et réapparaît si la cause n'est pas traitée ([Textar](https://textar.com/en/dont-be-victim-of-dtv-problems-solutions-prevention/)) ; un disque sous MIN TH ne peut pas être rectifié.
 - **Corrosion** : la rouille de surface part en roulant et ne justifie pas un remplacement ; une corrosion sévère provoque usure inégale, vibrations/bruit et peut allonger les distances d'arrêt ([MAT Foundry](https://www.matfoundrygroup.com/blog/why-brake-disc-rust-happens-and-how-to-prevent-it)).
+
+## Erreurs fréquentes (achat & montage)
+
+> Axe châssis : la vérité est la **référence pièce + sa dynamique** (Ø, épaisseur, ventilé/plein, MIN TH, voile, couronne ABS), jamais le code moteur.
+
+**À l'achat**
+- **Se tromper de géométrie** : un disque **ventilé** et un **plein** ne sont pas interchangeables sans changer l'étrier/le support ([PowerStop](https://www.powerstop.com/resources/solid-vented-rotors-which-type/)).
+- **Oublier l'homologation ECE R90** (obligatoire depuis nov. 2016) ou **la couronne ABS intégrée** (cf. compatibilité avancée — [Hella Pagid](https://www.hella-pagid.com/hellapagid/assets/media/Brake_Disc_ABS_PAGID_EN.pdf)).
+
+**Au montage**
+- **Ne pas nettoyer le moyeu** : un point de rouille crée un micro-décalage amplifié vers l'extérieur → **voile** ; décaper jusqu'au métal brillant ([ATE](https://ate-freinage.fr/blog/disque-voile/)).
+- **Garder des plaquettes usées sur un disque neuf** : transfert inégal → bruit, vibration, **DTV** dès le premier jour ([Brembo](https://www.bremboparts.com/europe/fr/support/montage-auto/instructions-de-remplacement-du-disque-de-frein-278446)).
+- **Mal gérer le revêtement** : disque protégé à l'**huile** → dégraisser au nettoyant frein ; disque à **revêtement intégré** (Textar PRO, Coat-Z, ATE) → **ne PAS dégraisser** (il disparaît aux premiers freinages) ([Textar](https://textar.com/usa/brake-disc-range/)).
+- **Graisser le contact moyeu/disque** : interdit (fausse le placage, favorise le voile thermique) — aucune graisse sur la piste de friction ([TRW/ZF](https://www.trwaftermarket.com/en/passenger-cars-and-lcv/disc-brake-systems/brake-discs/)).
+- **Serrer de travers ou au pistolet** : pré-serrage **en étoile** puis serrage final **au couple constructeur à la clé dynamométrique** — un couple inégal déforme le disque ([ATE](https://ate-freinage.fr/blog/montage-disque-frein/)).
+- **Laisser pendre l'étrier par le flexible** : toujours le **soutenir au châssis** ([Brembo](https://www.bremboparts.com/europe/fr/support/montage-auto/instructions-de-remplacement-du-disque-de-frein-278446)).
+
+**Après montage**
+- **Sauter le rodage** : ~200-300 km en freinages doux et courts (< 3 s, **sans déclencher l'ABS**) pour établir la couche de transfert ([Brembo](https://www.bremboparts.com/europe/fr/support/entretien/indications-et-rodage-90374)).
 
 ## FAQ
 
@@ -207,4 +245,4 @@ En Europe, les disques de rechange relèvent d'**ECE R90 (R90-02)** : obligatoir
 
 ## Provenance & qualité
 
-Fiche **reconstruite le 2026-06-20** depuis le scrape web-research (`automecanik-raw/sources/web-research/disque-de-frein/`, 83 faits / 64 sources primaires/OE). **Remplace** l'ancienne fiche dérivée de `recycled/rag-knowledge` (RAG-recyclée, non sourcée). Chaque affirmation porte sa source OE/équipementier. Les valeurs spécifiques véhicule (couple Nm, cotes exactes) ne sont **pas** généralisées (anti number-swapping). `review_status: proposed` — revue humaine requise avant promotion vers `wiki/gamme/`. Champs restants à intégrer en revue : `compatibility-technical`, `common-mistakes`, `price-quality-brands` (déjà scrapés, dans le repo raw).
+Fiche **reconstruite le 2026-06-20** depuis le scrape web-research (`automecanik-raw/sources/web-research/disque-de-frein/`, 83 faits / 64 sources primaires/OE). **Remplace** l'ancienne fiche dérivée de `recycled/rag-knowledge` (RAG-recyclée, non sourcée). Chaque affirmation porte sa source OE/équipementier. Les valeurs spécifiques véhicule (couple Nm, cotes exactes) ne sont **pas** généralisées (anti number-swapping). `review_status: proposed` — revue humaine requise avant promotion vers `wiki/gamme/`. Les 5 champs scrapés sont désormais intégrés (faq-symptoms, selection-criteria, compatibility-technical, common-mistakes, price-quality-brands), chacun sourcé OE/équipementier. Les valeurs de prix et durée de vie sont données en **ordres de grandeur** (sources secondaires) ; le chiffre 720 h vs 24 h brouillard salin est une **revendication équipementier** (Delphi), pas un test indépendant.

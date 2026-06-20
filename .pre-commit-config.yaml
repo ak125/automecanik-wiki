@@ -98,6 +98,23 @@ repos:
         files: ^(wiki|proposals)/.*\.md$
         exclude: ^(wiki|proposals)/_
 
+      # Score-and-compare-before-overwrite gate — REPORT-ONLY (Phase A).
+      # Pour chaque fiche modifiée, compare son confidence_score à celui de la
+      # version git précédente (HEAD) → verdict NEW/IMPROVED/NEUTRAL/REGRESSED.
+      # But : ne jamais écraser/dégrader une fiche en silence. Ne BLOQUE PAS
+      # (pas de --fail-on-regression) tant que la formule n'est pas recalibrée
+      # (déflation OE connue) — l'activation bloquante = ADR séparé. Réutilise
+      # compute-confidence-score.py + quality-gates.py (aucun nouveau scoring).
+      # verbose: true → le rapport reste visible même quand le hook "passe".
+      - id: wiki-score-regression
+        name: Compare fiche score vs git predecessor (report-only)
+        entry: python3 _scripts/compare-proposal-versions.py --base HEAD
+        language: system
+        verbose: true
+        files: ^(wiki|proposals)/.*\.md$
+        exclude: ^(wiki|proposals)/_
+        pass_filenames: true
+
       # Plan humble-cuddling-scott P-pré §3 — anti-régression documentaire ciblée.
       # Bloque la réintroduction des statuts legacy (needs_human_review, human_reviewed,
       # status: validated) dans la documentation — CLAUDE.md, hot.md, _meta/, _templates/.

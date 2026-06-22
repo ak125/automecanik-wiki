@@ -343,3 +343,76 @@ sources:
       Site officiel rappels constructeur Renault. Référence pour rappels
       injecteurs Delphi K9K, platine fusibles, capteur pédale accélérateur
       sur renault-clio-3.md.
+
+  # ─── Sources web recherche ciblée colonne-de-direction (RUN_TARGETED_RAW_TO_WIKI, 2026-06-04) ───
+  # status: to_capture → diagnostic_safe reste false (corroboration non re-vérifiable physiquement).
+
+  - slug: web_vroomly_colonne
+    title: 'Vroomly — Colonne de direction : fonctionnement, entretien et prix'
+    type: blog_pro                                # → max confidence: medium
+    publisher: Vroomly
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: web_vroomly_colonne
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/colonne-de-direction/source-index.json'
+    status: to_capture
+    license: external_url
+    notes: 'URL : https://www.vroomly.com/blog/colonne-de-direction-fonctionnement-entretien-et-prix/'
+
+  - slug: web_piecesetpneus_colonne
+    title: 'Pièces et Pneus — Colonne de direction : détecter jeux et bruits anormaux'
+    type: blog_pro                                # → max confidence: medium
+    publisher: 'Pièces et Pneus'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: web_piecesetpneus_colonne
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/colonne-de-direction/source-index.json'
+    status: to_capture
+    license: external_url
+    notes: 'URL : https://blog.piecesetpneus.com/colonnes-de-direction-diagnostic-des-jeux-et-bruits-anormaux/'
+
+  - slug: web_idgarages_colonne
+    title: 'idGarages — Colonne de direction : rôle, anomalies, changement'
+    type: blog_pro                                # → max confidence: medium
+    publisher: idGarages
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: web_idgarages_colonne
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/colonne-de-direction/source-index.json'
+    status: to_capture
+    license: external_url
+    notes: 'URL : https://www.idgarages.com/fr-fr/prestations/biellette-de-direction/colonne-de-direction'
+
+  - slug: web_delphi_calibrage_sas
+    title: 'Delphi — Calibrage des capteurs d''angle de direction'
+    type: oem_workshop                            # → max confidence: high
+    publisher: 'Delphi Technologies'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: web_delphi_calibrage_sas
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/colonne-de-direction/source-index.json'
+    status: to_capture
+    license: external_url
+    notes: 'URL : https://www.delphiautoparts.com/fr-fr/ — calibrage capteurs d''angle de direction'
+
+  - slug: web_powersteeringrack_colonne_vs_cremaillere
+    title: 'PowerSteeringRack — Colonne de direction vs crémaillère'
+    type: blog_pro                                # → max confidence: medium
+    publisher: PowerSteeringRack
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: web_powersteeringrack_colonne_vs_cremaillere
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/colonne-de-direction/source-index.json'
+    status: to_capture
+    license: external_url
+    notes: 'URL : https://fr.powersteeringrack.net/news/how-do-i-know-if-its-my-steering-column-or-the-power-steering-rack-thats-at-fault'

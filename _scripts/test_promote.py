@@ -64,7 +64,7 @@ def _gates(all_pass=True, fail="risk"):
 
 FM_OK = {
     "entity_type": "gamme",
-    "slug": "colonne-de-direction",
+    "slug": "filtre-a-huile",
     "truth_level": "L1",
     "review_status": "in_review",
     "source_refs": [{"kind": "raw"}, {"kind": "web"}],
@@ -78,6 +78,29 @@ def test_tier_A_when_all_conditions_met(tmp_path):
     d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
                           threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.90)
     assert d["tier"] == "A", d["blocking_reasons"]
+
+
+def test_tier_B_safety_family_by_slug_never_auto(tmp_path):
+    """Invariant sécurité (slug) : famille sécurité-critique détectée par le slug —
+    entity_data.family ABSENT, ex: plaquette/colonne-de-direction — → JAMAIS auto-promue,
+    même toutes conditions réunies. Revue humaine obligatoire."""
+    mod = _load_promote()
+    fm = {**FM_OK, "slug": "colonne-de-direction"}  # direction, sans entity_data.family
+    d = mod.evaluate_tier(fm, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.99)
+    assert d["tier"] == "B"
+    assert any("safety:" in r for r in d["blocking_reasons"])
+
+
+def test_tier_B_safety_family_by_declared_family_never_auto(tmp_path):
+    """Invariant sécurité (family) : entity_data.family ∈ familles sécurité → TIER B,
+    même si le slug n'a aucun token sécurité."""
+    mod = _load_promote()
+    fm = {**FM_OK, "entity_data": {"family": "freinage"}}  # slug non-safety + family safety
+    d = mod.evaluate_tier(fm, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.99)
+    assert d["tier"] == "B"
+    assert any("safety:" in r for r in d["blocking_reasons"])
 
 
 def test_tier_B_when_gate_fails(tmp_path):
@@ -133,7 +156,7 @@ def test_apply_writes_only_under_wiki_entity_dir(tmp_path):
     (tmp_path / "wiki" / "gamme").mkdir(parents=True)
     out = mod.apply_promotion(tmp_path / "proposals" / "x.md", FM_OK, "body", tmp_path,
                               {"gate_status": {}, "confidence_score": 0.9})
-    assert out == (tmp_path / "wiki" / "gamme" / "colonne-de-direction.md").resolve()
+    assert out == (tmp_path / "wiki" / "gamme" / "filtre-a-huile.md").resolve()
     written = out.read_text(encoding="utf-8")
     assert "review_status: approved" in written
     assert "auto_promoted: true" in written
@@ -159,7 +182,7 @@ def _write_canon(tmp_path, slug, status):
 
 def test_canon_already_approved_true_when_approved_exists(tmp_path):
     mod = _load_promote()
-    _write_canon(tmp_path, "colonne-de-direction", "approved")
+    _write_canon(tmp_path, "filtre-a-huile", "approved")
     assert mod._canon_already_approved(tmp_path, FM_OK) is True
 
 
@@ -170,13 +193,13 @@ def test_canon_already_approved_false_when_absent(tmp_path):
 
 def test_canon_already_approved_false_when_in_review(tmp_path):
     mod = _load_promote()
-    _write_canon(tmp_path, "colonne-de-direction", "in_review")
+    _write_canon(tmp_path, "filtre-a-huile", "in_review")
     assert mod._canon_already_approved(tmp_path, FM_OK) is False
 
 
 def test_apply_refuses_overwrite_of_approved_canon(tmp_path):
     mod = _load_promote()
-    _write_canon(tmp_path, "colonne-de-direction", "approved")
+    _write_canon(tmp_path, "filtre-a-huile", "approved")
     with pytest.raises(Exception):
         mod.apply_promotion(tmp_path / "proposals" / "x.md", FM_OK, "body", tmp_path,
                             {"gate_status": {}, "confidence_score": 0.9})
@@ -186,10 +209,10 @@ def test_apply_refuses_overwrite_of_approved_canon(tmp_path):
 def test_apply_deletes_source_proposal_after_promotion(tmp_path):
     """La proposal source est supprimée après écriture du canon (slug-uniqueness)."""
     mod = _load_promote()
-    prop = tmp_path / "proposals" / "colonne-de-direction.md"
+    prop = tmp_path / "proposals" / "filtre-a-huile.md"
     prop.parent.mkdir(parents=True)
     prop.write_text(
-        "---\nentity_type: gamme\nslug: colonne-de-direction\nreview_status: proposed\n---\nbody\n",
+        "---\nentity_type: gamme\nslug: filtre-a-huile\nreview_status: proposed\n---\nbody\n",
         encoding="utf-8",
     )
     out = mod.apply_promotion(prop, FM_OK, "body", tmp_path,
@@ -202,9 +225,9 @@ def test_apply_deletes_source_proposal_after_promotion(tmp_path):
 def test_apply_never_deletes_source_outside_proposals(tmp_path):
     """Garde sécurité : un target hors proposals/ n'est JAMAIS supprimé."""
     mod = _load_promote()
-    stray = tmp_path / "staging" / "colonne-de-direction.md"
+    stray = tmp_path / "staging" / "filtre-a-huile.md"
     stray.parent.mkdir(parents=True)
-    stray.write_text("---\nentity_type: gamme\nslug: colonne-de-direction\n---\nx\n",
+    stray.write_text("---\nentity_type: gamme\nslug: filtre-a-huile\n---\nx\n",
                      encoding="utf-8")
     out = mod.apply_promotion(stray, FM_OK, "body", tmp_path,
                               {"gate_status": {}, "confidence_score": 0.9})

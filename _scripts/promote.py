@@ -121,6 +121,40 @@ def _is_safety_proposal(fm: dict) -> bool:
     except Exception:
         return True  # fail-closed : doute → sécurité → revue humaine
 
+
+# --- Invariant ANTI-NUMBER-SWAPPING : valeurs numériques critiques → revue humaine -
+# Axiome n°0 : le contenu ne FABRIQUE jamais une valeur. La provenance PAR-VALEUR
+# n'existe pas dans le modèle (`source_refs` = niveau document) → la corroboration
+# automatique par-nombre est IMPOSSIBLE. On route donc vers la revue humaine les
+# valeurs HIGH-HARM (couple, pression) où un number-swapping est dangereux ; les
+# cotes mm/µm et températures sont FLAGGÉES (observabilité) sans bloquer (mesuré :
+# block ≈ 2 fiches véhicule à couple/pression ; les fiches sécurité sont déjà bloquées).
+# Enforcement par-valeur complet = futur (provenance par-claim au schéma, ADR-gated).
+_NUM_PREFIX = r"(?<![\w.,])\d[\d.,   ]*\s?"
+CRITICAL_NUMERIC_BLOCK = re.compile(
+    _NUM_PREFIX + r"(Nm|N·m|N\.m|daNm|m\.kg|mkg|bar|kPa|MPa|psi)\b", re.IGNORECASE
+)
+CRITICAL_NUMERIC_OBSERVE = re.compile(
+    _NUM_PREFIX + r"(mm|µm|μm|microns?|°\s?C)\b", re.IGNORECASE
+)
+
+
+def _numeric_review_flags(body: str) -> dict:
+    """Inventaire des valeurs numériques critiques d'un corps de proposal.
+
+    `block`   = couple/pression (HIGH-HARM) : number-swapping dangereux, non
+                auto-vérifiable → revue humaine obligatoire avant auto-promotion.
+    `observe` = cotes / températures : flaggées pour le relecteur, NE bloquent PAS.
+    Fail-closed : toute erreur → `block` non vide (route vers revue humaine).
+    """
+    try:
+        block = sorted({m.group(0).strip() for m in CRITICAL_NUMERIC_BLOCK.finditer(body or "")})
+        observe = sorted({m.group(0).strip() for m in CRITICAL_NUMERIC_OBSERVE.finditer(body or "")})
+        return {"block": block, "observe": observe}
+    except Exception as exc:  # fail-closed : doute → revue humaine
+        return {"block": [f"<erreur classif numérique: {exc}>"], "observe": []}
+
+
 SCRIPTS_DIR = Path(__file__).resolve().parent
 FRONTMATTER_SEPARATOR = "---"
 
@@ -237,6 +271,15 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
             "safety: famille sécurité-critique → revue humaine obligatoire (jamais auto-promu)"
         )
 
+    # INVARIANT ANTI-NUMBER-SWAPPING : valeurs HIGH-HARM (couple/pression) non
+    # auto-vérifiables → revue humaine. Cotes/températures = observabilité (ne bloquent pas).
+    numeric_flags = _numeric_review_flags(body)
+    if numeric_flags["block"]:
+        reasons.append(
+            "numeric: valeurs critiques couple/pression non auto-vérifiables → "
+            f"revue humaine (anti number-swapping): {numeric_flags['block'][:5]}"
+        )
+
     gate_results = [(name, fn(target)) for name, fn in gates]
     failing = [(n, r.status) for n, r in gate_results if r.status != "pass"]
     if failing:
@@ -282,6 +325,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         "gate_status": {n: r.status for n, r in gate_results},
         "blocking_reasons": reasons,
         "shadow_score": shadow,
+        "numeric_flags": numeric_flags,
     }
 
 

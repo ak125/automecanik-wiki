@@ -103,6 +103,39 @@ def test_tier_B_safety_family_by_declared_family_never_auto(tmp_path):
     assert any("safety:" in r for r in d["blocking_reasons"])
 
 
+def test_tier_B_numeric_high_harm_torque_routes_to_human(tmp_path):
+    """Anti number-swapping : une valeur couple/pression (HIGH-HARM) non auto-vérifiable
+    → TIER B (revue humaine), même fiche non-sécurité, toutes autres conditions OK."""
+    mod = _load_promote()
+    body = "Couple de serrage recommandé : 250 Nm. Pression d'injection 2000 bar."
+    d = mod.evaluate_tier(FM_OK, body, tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.99)
+    assert d["tier"] == "B"
+    assert any("numeric:" in r for r in d["blocking_reasons"])
+    assert "250 Nm" in " ".join(d["numeric_flags"]["block"])
+
+
+def test_tier_A_numeric_descriptive_mm_does_not_block(tmp_path):
+    """Les cotes descriptives (mm/µm/°C) sont OBSERVÉES (flag) mais NE bloquent PAS :
+    fiche non-sécurité avec seulement des cotes mm reste promouvable."""
+    mod = _load_promote()
+    body = "Cote de diamètre 280 mm, épaisseur mini 22 mm."
+    d = mod.evaluate_tier(FM_OK, body, tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.90)
+    assert d["tier"] == "A", d["blocking_reasons"]
+    assert d["numeric_flags"]["block"] == []                       # rien à bloquer
+    assert any("mm" in o for o in d["numeric_flags"]["observe"])   # mais observé
+
+
+def test_numeric_flags_always_attached_for_observability(tmp_path):
+    """numeric_flags est toujours présent dans la décision (observabilité), même vide."""
+    mod = _load_promote()
+    d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
+                          threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.90)
+    assert "numeric_flags" in d
+    assert d["numeric_flags"] == {"block": [], "observe": []}
+
+
 def test_tier_B_when_gate_fails(tmp_path):
     mod = _load_promote()
     d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,

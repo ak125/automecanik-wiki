@@ -475,10 +475,14 @@ def gate_safety_unsourced(fm: dict, body: str) -> list[str]:
     """For safety-critical families, each diagnostic_relations[] must satisfy source_policy."""
     if fm.get("entity_type") != "gamme":
         return []
-    family = (fm.get("entity_data") or {}).get("family", "")
-    SAFETY_FAMILIES = {"freinage", "direction", "distribution", "electricite-safety"}
-    if family not in SAFETY_FAMILIES:
+    # Classification sécurité = SINGLE SOURCE partagé avec promote.py (ADR fix #5).
+    # Import paresseux (module _scripts chargé par chemin) ; couvre les 6 familles
+    # (+ airbag, suspension) et la détection par slug (entity_data.family souvent absent).
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from safety_families import is_safety_proposal
+    if not is_safety_proposal(fm):
         return []
+    family = (fm.get("entity_data") or {}).get("family", "") or "<slug-detected>"
     relations = fm.get("diagnostic_relations") or []
     if not relations:
         # No relations declared — OK if no implicit symptom; otherwise covered by symptom_unstructured

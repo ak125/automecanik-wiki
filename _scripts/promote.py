@@ -70,54 +70,22 @@ PROMOTABLE_INPUT_STATUSES = {"proposed", "in_review"}
 WIKI_ENTITY_DIRS = {"gamme", "vehicle", "constructeur", "diagnostic"}
 
 # --- Invariant SÉCURITÉ : familles sécurité-critiques → JAMAIS auto-promues ----
-# Une fiche de famille sécurité reste 100% revue humaine (≠ auteur), même substance
-# forte / bien sourcée — alignement de l'invariant `is_safety ⇒ eligible=False` de
-# auto_review_wiki_proposal.py (monorepo). Patterns slug/alias/titre IDENTIQUES à
-# `detect_safety_category` (monorepo — unification ADR fix #5) + distribution &
-# electricite-safety (déjà dans quality-gates.SAFETY_FAMILIES). Classif robuste car
-# `entity_data.family` est souvent ABSENT des proposals (ex: plaquette-de-frein, qui
-# échappait au gate). Fail-closed.
-# TODO(unif fix #5) : `quality-gates.gate_safety_unsourced` devrait importer ce set.
-SAFETY_FAMILY_LABELS = {
-    "freinage", "direction", "distribution", "electricite-safety", "airbag", "suspension",
-}
-SAFETY_SLUG_PATTERNS = {
-    "freinage": re.compile(
-        r"(?i)(\bfrein|plaquette|disque-de-frein|etrier|ma[iî]tre-cylindre|"
-        r"\babs\b|liquide-de-frein|flexible-de-frein|capteur-d-usure)"
-    ),
-    "direction": re.compile(
-        r"(?i)(\bdirection|cremaillere|rotule|biellette|colonne-de-direction|\btransmission\b)"
-    ),
-    "airbag": re.compile(r"(?i)\bairbag"),
-    "suspension": re.compile(
-        r"(?i)(amortisseur|ressort-de-suspension|\bressort\b|triangle-de-suspension|"
-        r"\bbras-(?:oscillant|de-suspension)|silentbloc-de-triangle)"
-    ),
-    "distribution": re.compile(
-        r"(?i)(distribution|courroie-de-distribution|cha[iî]ne-de-distribution|"
-        r"galet-tendeur|tendeur-de-distribution|pompe-a-eau)"
-    ),
-}
+# Classification déléguée au SINGLE SOURCE `safety_families.is_safety_proposal`
+# (ADR fix #5) — partagé avec `quality-gates.gate_safety_unsourced`. Import paresseux
+# (même pattern que `_load_gates` / `_compute_shadow` : modules chargés par chemin).
+# Fail-closed : une fiche sécurité reste 100% revue humaine, même substance forte.
+_safety_families_mod = None
 
 
 def _is_safety_proposal(fm: dict) -> bool:
-    """True si la fiche relève d'une famille sécurité-critique → jamais auto-promue.
-
-    Fail-closed : toute incertitude / erreur de classification → True (revue humaine).
-    Deux signaux : `entity_data.family` explicite (souvent absent) + tokens sur
-    slug / aliases / title (miroir monorepo `detect_safety_category`).
-    """
+    """Délègue au classifieur sécurité unifié (single source, ADR fix #5). Fail-closed."""
+    global _safety_families_mod
     try:
-        family = ((fm.get("entity_data") or {}).get("family") or "").strip().lower()
-        if family in SAFETY_FAMILY_LABELS:
-            return True
-        hay = " ".join([
-            str(fm.get("slug") or ""),
-            str(fm.get("title") or ""),
-            " ".join(str(a) for a in (fm.get("aliases") or [])),
-        ]).lower()
-        return any(p.search(hay) for p in SAFETY_SLUG_PATTERNS.values())
+        if _safety_families_mod is None:
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            import safety_families as _sf
+            _safety_families_mod = _sf
+        return _safety_families_mod.is_safety_proposal(fm)
     except Exception:
         return True  # fail-closed : doute → sécurité → revue humaine
 

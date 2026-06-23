@@ -12,12 +12,14 @@ on:
       - 'wiki/**/*.md'
       - '_scripts/*.py'
       - '_meta/schema/**'
+      - '.github/workflows/wiki-quality-gates.yml'   # self-trigger: sinon une PR workflow-only ne lance pas le step FK
   pull_request:
     paths:
       - 'proposals/**/*.md'
       - 'wiki/**/*.md'
       - '_scripts/*.py'
       - '_meta/schema/**'
+      - '.github/workflows/wiki-quality-gates.yml'   # self-trigger: sinon une PR workflow-only ne lance pas le step FK
   workflow_dispatch:
 
 permissions:
@@ -42,6 +44,24 @@ jobs:
 
       - name: quality-gates §2 + §5.bis (ADR-033 + ADR-032 gates)
         run: python3 _scripts/quality-gates.py --all
+
+      # FK-strict subset (ADR-033 §P3) — réutilise le validateur monorepo verbatim (zéro duplication).
+      # Le repo wiki est le checkout hôte (= PR head) ; le monorepo est le sibling épinglé qui fournit
+      # uniquement le script. Le canon (exports/diag-canon.json) + _meta/source-catalog.yaml voyagent
+      # avec le checkout hôte, donc aucun PAT/checkout supplémentaire. Miroir inversé de
+      # nestjs-remix-monorepo/.github/workflows/wiki-validate.yml.
+      - name: Checkout monorepo (FK validator source)
+        uses: actions/checkout@v4
+        with:
+          repository: ak125/nestjs-remix-monorepo
+          path: monorepo
+          ref: main
+
+      - name: FK validator — symptom/system canon + composite (--all)
+        env:
+          AUTOMECANIK_WIKI_PATH: ${{ github.workspace }}
+        run: python3 monorepo/scripts/wiki/validate-gamme-diagnostic-relations.py --all
+        # PAS de continue-on-error → exit 1 (FK violation) ou 2 (canon absent) bloque la PR.
 
       - name: compute-confidence-score --check (formula §4)
         run: python3 _scripts/compute-confidence-score.py --check --all

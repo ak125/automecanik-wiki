@@ -62,3 +62,30 @@ def test_stage_consumer_detects_forward_writer(tmp_path):
         "# reads exports/seo and writes\nq = 'INSERT INTO __seo_entity_facts ...'\n", encoding="utf-8")
     r = lp.stage_consumer("plaquette-de-frein", tmp_path)
     assert r["ok"] and r["forward_writer"] == "project_exports.py"
+
+
+# ── ADR-094 — page_quality_ready (additif) + garde anti-régression des 3 verdicts ──
+
+def test_page_quality_ready_holds_until_external_components_land():
+    """Composants externes UNKNOWN ⇒ HOLD (fail-closed), même avec un tier substance A."""
+    verdict, comp = lp.compute_page_quality_ready("A", [])
+    assert verdict == "HOLD"
+    assert comp["content_substance_pass"] is True   # ⟵ ADR-092 tier A
+    assert comp["no_hard_blocker"] is True
+    assert comp["seo_surface_pass"] == "UNKNOWN"     # pas encore livré
+
+
+def test_page_quality_ready_substance_and_blockers_feed_components():
+    """content_substance_pass ⟵ tier ; no_hard_blocker ⟵ blockers ; toujours HOLD aujourd'hui."""
+    verdict, comp = lp.compute_page_quality_ready("C", [{"stage": "score", "state": "FAIL"}])
+    assert comp["content_substance_pass"] is False
+    assert comp["no_hard_blocker"] is False
+    assert verdict == "HOLD"                          # externes UNKNOWN dominent (fail-closed)
+
+
+def test_three_orchestrator_verdicts_unchanged_vs_7ecd1c2():
+    """Garde W1 : les 3 verdicts orchestrateur restent définis EXACTEMENT (anti-régression)."""
+    src = (SCRIPTS_DIR / "raw_to_wiki_content_loop_pilot.py").read_text(encoding="utf-8")
+    assert "projection_operational = static_chain_pass and projection_runtime_pass" in src
+    assert "business_loop_closed = projection_operational and outcome_status == PASS" in src
+    assert "loop_closed = business_loop_closed" in src

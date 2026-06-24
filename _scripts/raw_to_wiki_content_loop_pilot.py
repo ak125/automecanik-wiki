@@ -282,6 +282,28 @@ def runtime_proofs(evidence: dict | None) -> dict:
     return out
 
 
+def compute_page_quality_ready(tier: str | None, blockers: list) -> tuple[object, dict]:
+    """ADR-094 — verdict de PAGE composite (ADDITIF). N'altère PAS les 3 verdicts orchestrateur.
+
+    Réutilise/référence des mesures EXISTANTES (tier substance ADR-092, blockers déjà calculés) ;
+    ne crée AUCUN scoreur parallèle. Les composants externes (surface monorepo, SSR, diversité
+    ADR-066/067, lineage ADR-059) ne sont pas encore livrés ⇒ UNKNOWN ⇒ `page_quality_ready=HOLD`
+    (fail-closed : un composant manquant n'est jamais transformé en faux `False`/`True`).
+    Étiquettes forgées ici pour la composition ; chacune consommera la mesure d'un domaine existant.
+    """
+    components = {
+        "content_substance_pass": tier in TIER_A_OK,  # ⟵ ADR-092 (tier S/A)
+        "seo_surface_pass": UNKNOWN,        # scoreur surface monorepo — pas encore livré
+        "ssr_runtime_pass": UNKNOWN,        # rendu SSR — pas mesuré ici
+        "cluster_diversity_pass": UNKNOWN,  # ADR-066/067 intra+cross — pas branché
+        "lineage_pass": UNKNOWN,            # soft jusqu'à extension schéma ADR-059
+        "no_hard_blocker": not blockers,    # dérivé des blockers déjà calculés
+    }
+    if any(v == UNKNOWN for v in components.values()):
+        return "HOLD", components               # fail-closed : composant manquant ≠ faux verdict
+    return all(components.values()), components
+
+
 def run(entity_id: str, wiki_root: Path, raw_root: Path, monorepo_root: Path,
         baseline_ref: str, threshold: float, evidence: dict | None = None) -> dict:
     etype, _, slug = entity_id.partition(":")
@@ -339,6 +361,9 @@ def run(entity_id: str, wiki_root: Path, raw_root: Path, monorepo_root: Path,
     # back-compat : loop_closed = business_loop_closed (anti-overclaim conservé)
     loop_closed = business_loop_closed
 
+    # ADR-094 — verdict de PAGE composite (ADDITIF ; n'altère pas les 3 verdicts ci-dessus)
+    page_quality_ready, page_quality_components = compute_page_quality_ready(after.get("tier"), blockers)
+
     return {
         "entity": entity_id,
         "raw_sources": raw,
@@ -359,6 +384,8 @@ def run(entity_id: str, wiki_root: Path, raw_root: Path, monorepo_root: Path,
             "business_loop_closed": business_loop_closed,
         },
         "loop_closed": loop_closed,
+        "page_quality_ready": page_quality_ready,            # ADR-094 — additif (HOLD tant que composants externes non livrés)
+        "page_quality_components": page_quality_components,
         "remaining_blockers": blockers,
         "pending": pending,
         "unknown": unknown,

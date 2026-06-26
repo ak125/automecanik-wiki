@@ -18,9 +18,8 @@ created_at: '2026-04-29'
 updated_at: '2026-05-02'
 truth_level: L3
 source_refs:
-  - kind: recycled
-    origin_repo: automecanik-rag
-    origin_path: knowledge/vehicles/peugeot-206.md
+  - kind: raw
+    path: recycled/rag-knowledge/vehicles/peugeot-206.md
     captured_at: '2026-04-29'
 provenance:
   ingested_by: skill:recycle-from-rag@v0.1

@@ -10,9 +10,8 @@ created_at: '2026-05-27'
 updated_at: '2026-05-27'
 truth_level: L2
 source_refs:
-- kind: recycled
-  origin_repo: automecanik-raw
-  origin_path: recycled/rag-knowledge/gammes/support-moteur.md
+- kind: raw
+  path: recycled/rag-knowledge/gammes/support-moteur.md
   captured_at: '2026-05-27'
 provenance:
   ingested_by: script:promote-raw-gammes-to-wiki@v0.1

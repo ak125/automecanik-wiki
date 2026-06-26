@@ -1,9 +1,9 @@
-# Enums centralisés v1.0.0
+# Enums centralisés v1.0.1
 # Source unique pour les valeurs énumérées utilisées dans le frontmatter et les schemas.
 # Toute extension passe par bump version + entrée dans CHANGELOG.md.
 
-schema_version: "1.0.0"
-updated_at: "2026-04-28"
+schema_version: "1.0.1"
+updated_at: "2026-06-26"
 
 # Niveaux de vérité (PAS de L0 — utiliser review_status: draft)
 # Aligné avec /opt/automecanik/rag/rag_config.yml weights
@@ -132,4 +132,4 @@ source_kinds:
   raw: "Fichier dans automecanik-raw/ (sources/, recycled/, normalized/)"
   external_url: "URL externe avec capture archivée dans automecanik-raw/sources/web-clips/"
   manual: "Donnée saisie humainement avec justification (rare)"
-  recycled: "Fichier recyclé d'un autre repo (origin_repo + origin_path)"
+  recycled: "[DEPRECATED] Provenance legacy d'un export externe (ex. automecanik-rag/knowledge) déjà ingéré dans automecanik-raw/recycled/ — repo externe retiré, ne plus émettre ; citer le corpus recyclé via kind: raw sur son path recycled/. NB: PAS le RAG live du chatbot (ADR-046, consommateur only)."

@@ -38,9 +38,8 @@ updated_at: 2026-04-XX
 # Traceability (schema v1.0+)
 truth_level: L2                            # L1=faits sourcés, L2=règles métier (défaut gamme)
 source_refs:
-  - kind: recycled
-    origin_repo: automecanik-rag
-    origin_path: knowledge/gammes/<slug>.md
+  - kind: raw
+    path: recycled/rag-knowledge/gammes/<slug>.md   # corpus recyclé déjà dans raw (PAS le repo externe automecanik-rag ; ADR-031/046)
     captured_at: 2026-04-XX
 provenance:
   ingested_by: 'skill:wiki-proposal-writer@v0.1'
@@ -156,7 +155,7 @@ ______________________________________________________________________
 
 <!--
 Notes rédacteur (à supprimer avant promotion) :
-- Sources : raw/recycled/external_url uniquement, slugs stables `_meta/source-catalog.yaml`
+- Sources : raw/external_url/manual uniquement (corpus recyclé = `kind: raw` sur son path `recycled/`), slugs stables `_meta/source-catalog.yaml`
 - Anti-pattern : pas de seed LLM-only (cf. source-policy.md §4)
 - Pas de prix, stock, SKU, compatibilité exacte (gate catalog_leak §2 quality-gates)
 - Pas de promesse commerciale (gate commercial_promise §2)

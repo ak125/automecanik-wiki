@@ -14,11 +14,13 @@ ______________________________________________________________________
    - Documents internes vérifiés
    - `source_kind: raw`, `source_level: primary`, `trust_level: verified`
 
-1. **Sources recyclées** (`automecanik-raw/recycled/`)
+1. **Corpus recyclé déjà ingéré** (`automecanik-raw/recycled/`)
 
-   - Anciens fichiers `automecanik-rag/knowledge/`
+   - Corpus statique de l'ancien export `automecanik-rag/knowledge/` (~4650 fiches), **déjà ingéré** dans `automecanik-raw/recycled/rag-knowledge/` — cité comme **source raw normale** via `kind: raw` sur son path `recycled/…`.
    - Anciennes notes Markdown
-   - `source_kind: recycled`, `source_level: secondary`, `trust_level: to_verify`
+   - `source_kind: raw` (path `recycled/…`), `source_level: secondary`, `trust_level: to_verify`.
+   - ⚠️ `kind: recycled` (+ `origin_repo`) = **legacy déprécié** : le repo externe est retiré ; le réintroduire comme source = anti-pattern RAG-as-source interdit (ADR-031/046). **Ce n'est PAS le RAG live du chatbot** (ADR-046, Weaviate, *consommateur* only) — c'est un corpus d'amorçage statique.
+   - **Règle no-RAG (P5.0)** : un artefact recyclé / `rag_candidate` ne peut **jamais** être la **seule** source d'un claim **nouveau**, est **interdit** en `title`/`h1`/`meta`, et n'est promu qu'après **re-sourçage ≥1 source N1–N3 + revue humaine**.
 
 1. **Web clips** (`automecanik-wiki/inbox/web-clips/` ou `automecanik-raw/sources/web-clips/`)
 
@@ -120,11 +122,11 @@ ______________________________________________________________________
 
 ## §7 — Niveaux de confiance source (`source_level`)
 
-| Niveau      | Définition                                 | Exemple                                                          |
-| ----------- | ------------------------------------------ | ---------------------------------------------------------------- |
-| `primary`   | Source originale, non transformée          | CSV GSC brut, catalogue fournisseur PDF                          |
-| `secondary` | Source dérivée d'une autre source vérifiée | Ancien fichier `automecanik-rag/knowledge/`, blog advice recyclé |
-| `tertiary`  | Source dérivée non vérifiable directement  | Forum, Wikipedia EN sans validation                              |
+| Niveau      | Définition                                 | Exemple                                                                  |
+| ----------- | ------------------------------------------ | ------------------------------------------------------------------------ |
+| `primary`   | Source originale, non transformée          | CSV GSC brut, catalogue fournisseur PDF                                  |
+| `secondary` | Source dérivée d'une autre source vérifiée | Corpus recyclé ingéré (`automecanik-raw/recycled/`), blog advice recyclé |
+| `tertiary`  | Source dérivée non vérifiable directement  | Forum, Wikipedia EN sans validation                                      |
 
 `tertiary` → généralement `automecanik-raw/quarantine/` jusqu'à validation humaine.
 

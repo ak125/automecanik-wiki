@@ -40,7 +40,7 @@ sources:
       repo: automecanik-raw
       manifest_id: bosch_fad_2020               # aspirationnel : sera honoré quand le fichier sera capturé
       expected_sha256: null                     # status to_capture → pas encore de hash
-    archived_at: 'automecanik-raw/recycled/rag-knowledge/bosch-freinage-brochure-reparation-fad-2020-fr.md'
+    archived_at: 'automecanik-raw/recycled/rag-knowledge/diagnostic/bosch-freinage-brochure-reparation-fad-2020-fr.md'
     status: to_capture
     pages_referenced: [27, 31]
     license: third_party_extract

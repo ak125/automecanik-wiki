@@ -116,21 +116,36 @@ FORBIDDEN_PER_SYMPTOM_RE = re.compile(
     re.IGNORECASE,
 )
 
-# Source types et leur max confidence (cf. _meta/source-policy.md §9.1)
-SOURCE_TYPE_TO_MAX_CONFIDENCE = {
-    "oem_manual": "high",
-    "oem_workshop": "high",
-    "tecdoc_official": "high",
-    "normative_standard": "high",
-    "parts_feed_certified": "high",
-    "brochure": "medium",
-    "formation": "medium",
-    "marketing": "medium",
-    "blog_pro": "medium",
-    "forum": "low",
-    "wiki_externe": "low",
-    "blog_consumer": "low",
-}
+# Source types → max confidence autorisée. SoT machine UNIQUE = _meta/source-catalog.yaml
+# › source_type_max_confidence (doc prose miroir : source-policy.md §9.1). Cutover S1d :
+# lecture directe du catalogue, plus de dict hardcodé. Fail-CLOSED : SoT absente/corrompue
+# → exit 2 bruyant, jamais une politique vide silencieuse (no-silent-fallback : une map
+# vide ferait passer/bloquer les overclaims selon le site, donc on refuse de tourner).
+def _load_source_type_max_confidence() -> dict[str, str]:
+    valid = {"low", "medium", "high"}
+    if not SOURCE_CATALOG.exists():
+        sys.stderr.write(f"FATAL: source-catalog.yaml introuvable: {SOURCE_CATALOG}\n")
+        sys.exit(2)
+    try:
+        data = yaml.safe_load(SOURCE_CATALOG.read_text(encoding="utf-8")) or {}
+    except yaml.YAMLError as e:
+        sys.stderr.write(f"FATAL: source-catalog.yaml illisible: {e}\n")
+        sys.exit(2)
+    m = data.get("source_type_max_confidence")
+    if not isinstance(m, dict) or not m:
+        sys.stderr.write(
+            "FATAL: source-catalog.yaml › source_type_max_confidence manquant/vide "
+            "(SoT machine, cf. source-policy.md §9.1)\n"
+        )
+        sys.exit(2)
+    bad = {k: v for k, v in m.items() if v not in valid}
+    if bad:
+        sys.stderr.write(f"FATAL: source_type_max_confidence: confidences invalides {bad} (attendu ⊆ {valid})\n")
+        sys.exit(2)
+    return m
+
+
+SOURCE_TYPE_TO_MAX_CONFIDENCE = _load_source_type_max_confidence()
 CONFIDENCE_RANK = {"low": 1, "medium": 2, "high": 3}
 
 # Slugs maintenance hardcoded (en attendant Phase 3 export)

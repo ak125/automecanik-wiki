@@ -157,6 +157,8 @@ Pour le calcul de `confidence_score` (cf. `quality-gates.md` §4) :
 
 ### §9.1 — `source_type` → max confidence autorisée (canon ADR-033)
 
+> **Vue générée (S1d)** — la table ci-dessous est le **miroir prose** de la SoT machine `_meta/source-catalog.yaml › source_type_max_confidence`, lue directement à l'exécution par `_scripts/quality-gates.py` (cutover S1d : plus de dict hardcodé, lecture unique). **Éditer le YAML**, jamais cette table seule ; `_scripts/tests/test_source_type_confidence_parity.py` garde le loader contre la dérive.
+
 Le champ `evidence.confidence` ne peut atteindre `high` que si le `source_type` (catalogue `_meta/source-catalog.yaml`) le permet. Une brochure pédagogique (Bosch FAD, Valeo formation) ≠ source `high`, peu importe la marque.
 
 | `source_type`          | Max `confidence` | Exemples                                                |

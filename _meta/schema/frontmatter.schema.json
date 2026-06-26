@@ -117,15 +117,6 @@
               "author": { "type": "string", "description": "Auteur humain." }
             },
             "required": ["kind", "note", "author"]
-          },
-          {
-            "properties": {
-              "kind": { "const": "recycled" },
-              "origin_repo": { "type": "string", "description": "Ex: 'automecanik-rag'." },
-              "origin_path": { "type": "string", "description": "Ex: 'knowledge/gammes/plaquette-de-frein.md'." },
-              "captured_at": { "type": "string", "format": "date" }
-            },
-            "required": ["kind", "origin_repo", "origin_path"]
           }
         ]
       },

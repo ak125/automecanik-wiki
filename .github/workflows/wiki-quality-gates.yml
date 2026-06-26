@@ -11,13 +11,17 @@ on:
       - 'proposals/**/*.md'
       - 'wiki/**/*.md'
       - '_scripts/*.py'
+      - '_scripts/tests/**'
       - '_meta/schema/**'
+      - '_meta/source-catalog.yaml'
   pull_request:
     paths:
       - 'proposals/**/*.md'
       - 'wiki/**/*.md'
       - '_scripts/*.py'
+      - '_scripts/tests/**'
       - '_meta/schema/**'
+      - '_meta/source-catalog.yaml'
   workflow_dispatch:
 
 permissions:

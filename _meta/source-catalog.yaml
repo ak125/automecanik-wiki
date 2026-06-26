@@ -16,10 +16,22 @@
 schema_version: 1.0.0
 updated_at: '2026-06-12'
 
-# Mapping source_type → max confidence autorisée (cf. source-policy.md §9)
-# - oem_manual / oem_workshop / tecdoc_official / normative_standard / parts_feed_certified → high
-# - brochure / formation / marketing / blog_pro → medium
-# - forum / wiki_externe / blog_consumer → low
+# Mapping source_type → max confidence autorisée — SoT MACHINE (mirroir prose : source-policy.md §9.1).
+# Gardé en parité avec _scripts/quality-gates.py SOURCE_TYPE_TO_MAX_CONFIDENCE par
+# _scripts/tests/test_source_type_confidence_parity.py (échoue au drift). Cutover gate→catalog = S1d (différé).
+source_type_max_confidence:
+  oem_manual: high
+  oem_workshop: high
+  tecdoc_official: high
+  normative_standard: high
+  parts_feed_certified: high
+  brochure: medium
+  formation: medium
+  marketing: medium
+  blog_pro: medium
+  forum: low
+  wiki_externe: low
+  blog_consumer: low
 
 # Conventions :
 # - status: 'active' (défaut implicite) → la source est archivée et le fichier

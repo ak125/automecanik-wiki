@@ -12,9 +12,10 @@ updated_at: <% tp.date.now("YYYY-MM-DD") %>
 # Truth level initial selon source
 truth_level: L3
 source_refs:
-  - kind: recycled
-    origin_repo: automecanik-rag
-    origin_path: "knowledge/<% tp.file.title.toLowerCase().replace(/\s+/g, '-') %>.md"
+  # Corpus recyclé déjà ingéré dans automecanik-raw/recycled/ → citer en `kind: raw`
+  # (le repo externe automecanik-rag n'est PAS une source ; ADR-031/046). Remplacer <cat>.
+  - kind: raw
+    path: "recycled/rag-knowledge/<cat>/<% tp.file.title.toLowerCase().replace(/\s+/g, '-') %>.md"
     captured_at: <% tp.date.now("YYYY-MM-DD") %>
 
 provenance:

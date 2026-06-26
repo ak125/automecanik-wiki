@@ -13,9 +13,8 @@ created_at: '2026-04-28'
 updated_at: '2026-05-02'
 truth_level: L3
 source_refs:
-  - kind: recycled
-    origin_repo: automecanik-rag
-    origin_path: knowledge/constructeurs/dacia.md
+  - kind: raw
+    path: recycled/rag-knowledge/constructeurs/dacia.md
     captured_at: '2026-04-28'
 provenance:
   ingested_by: human:@fafa

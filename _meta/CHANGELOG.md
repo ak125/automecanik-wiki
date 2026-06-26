@@ -3,6 +3,10 @@
 > Versionnage du schema canonique frontmatter + exports + entity-data.
 > Bump majeur (X.0) = breaking change. Bump mineur (X.Y) = ajout rétrocompatible. Bump patch (X.Y.Z) = clarification.
 
+## \[1.1.0\] — 2026-06-26
+
+Retrait du `source_kind: recycled` (déprécié en 1.0.1, wiki #66). Le corpus recyclé `automecanik-raw/recycled/rag-knowledge/` est désormais cité comme source `raw` normale (`kind: raw`). **0 fiche concernée** (toutes repointées en #66 ; 0 `kind: recycled` résiduel). Aligné ADR-031/046 (le repo externe `automecanik-rag` n'est pas une source ; le RAG live = consommateur chatbot only). Surfaces : `frontmatter.schema.json` (branche `oneOf` retirée), `enums.yaml source_kinds`, `ingestion-contract.md`. Le `type` d'export `recycled` (`exports-seo.schema.json`) et le mapping défensif `build_exports_seo.py` restent (enum séparé, latent — `exports/seo/` vide).
+
 ## \[1.0.0\] — 2026-04-28 (Phase B.2)
 
 Premier schema canonique livré. État de référence pour migration des 4650 fiches existantes (95.7% sans `source_refs`) en mode `schema_version: "0.legacy"` puis bump vers `1.0.0` après validation.

@@ -19,7 +19,7 @@ ______________________________________________________________________
    - Corpus statique de l'ancien export `automecanik-rag/knowledge/` (~4650 fiches), **déjà ingéré** dans `automecanik-raw/recycled/rag-knowledge/` — cité comme **source raw normale** via `kind: raw` sur son path `recycled/…`.
    - Anciennes notes Markdown
    - `source_kind: raw` (path `recycled/…`), `source_level: secondary`, `trust_level: to_verify`.
-   - ⚠️ `kind: recycled` (+ `origin_repo`) = **legacy déprécié** : le repo externe est retiré ; le réintroduire comme source = anti-pattern RAG-as-source interdit (ADR-031/046). **Ce n'est PAS le RAG live du chatbot** (ADR-046, Weaviate, *consommateur* only) — c'est un corpus d'amorçage statique.
+   - ⚠️ `kind: recycled` (+ `origin_repo`) = **legacy retiré du schema** (v1.1.0, wiki #66 ; déprécié en 1.0.1) : le `source_kind` n'existe plus, le repo externe est retiré ; le réintroduire comme source = anti-pattern RAG-as-source interdit (ADR-031/046). **Ce n'est PAS le RAG live du chatbot** (ADR-046, Weaviate, *consommateur* only) — c'est un corpus d'amorçage statique.
    - **Règle no-RAG (P5.0)** : un artefact recyclé / `rag_candidate` ne peut **jamais** être la **seule** source d'un claim **nouveau**, est **interdit** en `title`/`h1`/`meta`, et n'est promu qu'après **re-sourçage ≥1 source N1–N3 + revue humaine**.
 
 1. **Web clips** (`automecanik-wiki/inbox/web-clips/` ou `automecanik-raw/sources/web-clips/`)
@@ -69,7 +69,7 @@ ______________________________________________________________________
 
 **Interdiction stricte** de seed du contenu uniquement depuis LLM (cf. memory `feedback_rag_vault_always_first.md`, incident breezy-eagle 2026-04-18, 350 entrées rollback).
 
-Toute fiche doit pointer vers une source vérifiable raw / recycled / external_url, **jamais LLM-only**.
+Toute fiche doit pointer vers une source vérifiable raw / external_url (le corpus recyclé est cité en `kind: raw` sur son path `recycled/…`, cf. §1), **jamais LLM-only**.
 
 Le skill `wiki-proposal-writer` est aligné sur le pattern *skills-first* : 0-LLM pour la structure (template fill, frontmatter, source_refs), Anthropic seul pour le texte rédactionnel à partir des sources.
 

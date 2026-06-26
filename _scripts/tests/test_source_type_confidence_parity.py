@@ -1,10 +1,11 @@
-"""Parity guard (S1a) — the source_type → max_confidence policy has ONE machine SoT.
+"""Loader guard (S1a→S1d) — the source_type → max_confidence policy has ONE machine SoT.
 
 `_meta/source-catalog.yaml › source_type_max_confidence` is the machine source of truth
-for the source_type → max_confidence policy (documented in prose at source-policy.md §9.1).
-It MUST stay in parity with the map enforced at runtime by _scripts/quality-gates.py
-(`SOURCE_TYPE_TO_MAX_CONFIDENCE`). This test fails on drift so the two never diverge
-silently. Cutover (quality-gates.py reads the catalog directly, dict removed) = S1d, deferred.
+for the source_type → max_confidence policy (mirrored in prose at source-policy.md §9.1).
+Cutover S1d DONE: _scripts/quality-gates.py now reads this map directly (single-read,
+hardcoded dict removed). `SOURCE_TYPE_TO_MAX_CONFIDENCE` is the loaded value, so equality
+with the catalog is by construction — this test now guards the loader (a broken/filtering
+loader, or a missing/invalid catalog map, fails here instead of silently mis-enforcing).
 """
 
 from __future__ import annotations

@@ -16,9 +16,10 @@
 schema_version: 1.0.0
 updated_at: '2026-06-12'
 
-# Mapping source_type → max confidence autorisée — SoT MACHINE (mirroir prose : source-policy.md §9.1).
-# Gardé en parité avec _scripts/quality-gates.py SOURCE_TYPE_TO_MAX_CONFIDENCE par
-# _scripts/tests/test_source_type_confidence_parity.py (échoue au drift). Cutover gate→catalog = S1d (différé).
+# Mapping source_type → max confidence autorisée — SoT MACHINE UNIQUE (miroir prose : source-policy.md §9.1).
+# Cutover S1d FAIT : _scripts/quality-gates.py lit cette map directement (lecture unique, plus de dict
+# hardcodé). _scripts/tests/test_source_type_confidence_parity.py garde que le loader du gate renvoie
+# exactement cette map (régression loader). Éditer ICI = seule source de vérité.
 source_type_max_confidence:
   oem_manual: high
   oem_workshop: high

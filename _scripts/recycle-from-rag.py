@@ -1,5 +1,25 @@
 #!/usr/bin/env python3
 """
+⚠️  DEPRECATED (2026-06-26) — rag-recycle pathway retired. DO NOT RE-RUN.
+
+The one-shot external-rag → raw/wiki recycling is DONE: the former
+automecanik-rag/knowledge export (~4650 fiches) is already statically ingested
+into automecanik-raw/recycled/rag-knowledge/ and cited by wiki proposals/fiches
+via `kind: raw`. Re-running this recycler serves no purpose.
+
+The live automecanik-rag tree (/opt/automecanik/rag) is the chatbot RAG CONSUMER
+(ADR-046, chatbot-only), NOT a content source. Re-reaching it as a source = the
+RAG-as-source anti-pattern forbidden by ADR-031/046.
+
+Kept (banner-deprecated, not deleted) only because the Repository Control Plane
+still cites this path (.spec/00-canon/repository-registry/pipelines.registry.json,
+ai-registry/agent-operating-map.yaml) — dropping that owner-gated reference + this
+file is an owner-diff follow-up. Sibling tooling (bridge_rag_to_pipeline.py,
+audit-rag-content-origin.py, README-bridge-rag-to-pipeline.md, its test) was
+deleted in the same change (non-runnable / one-shot complete).
+
+--- original docstring ---
+
 recycle-from-rag.py — 0-LLM transformer that reads automecanik-rag/knowledge/<cat>/<file>.md
 and emits automecanik-wiki/proposals/<slug>.md with valid frontmatter v1.0.
 

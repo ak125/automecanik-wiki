@@ -134,8 +134,20 @@ def _is_seo_eligible(fm: dict, body: str, source_path: Path) -> tuple[bool, str]
     if review_status != "approved":
         return False, f"review_status={review_status!r} (only 'approved' fiches export)"
 
-    if not exportable:
-        return False, f"exportable={exportable!r} (must be true)"
+    # `exportable` est canoniquement un mapping par audience {rag, seo, support}
+    # (frontmatter.schema.json — "Gates d'export par audience. Tous false par
+    # défaut. Décision humaine requise pour passer à true."). Le gate SEO lit
+    # STRICTEMENT exportable.seo : une fiche {seo:false, rag:true} ne doit JAMAIS
+    # entrer dans exports/seo/. Tolérance legacy : fiches v1.0.0/v0.legacy où
+    # `exportable` est encore un booléen.
+    if isinstance(exportable, dict):
+        seo_gate = bool(exportable.get("seo"))
+    elif isinstance(exportable, bool):
+        seo_gate = exportable
+    else:
+        seo_gate = False
+    if not seo_gate:
+        return False, f"exportable.seo not true (exportable={exportable!r})"
 
     if entity_type == DIAGNOSTIC_CONDITIONAL_TYPE and not _has_r3_s2_diag_block(body):
         return (

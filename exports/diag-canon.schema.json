@@ -1,4 +1,5 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "type": "object",
   "properties": {
     "version": {
@@ -7,9 +8,11 @@
     },
     "generated_at": {
       "type": "string",
-      "format": "date-time"
+      "format": "date-time",
+      "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d(?::[0-5]\\d(?:\\.\\d+)?)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
     },
     "systems": {
+      "readOnly": true,
       "type": "array",
       "items": {
         "type": "string",
@@ -17,12 +20,14 @@
       }
     },
     "symptoms": {
+      "readOnly": true,
       "type": "object",
-      "additionalProperties": {
+      "propertyNames": {
         "type": "string",
         "pattern": "^[a-z][a-z0-9_]*$"
       },
-      "propertyNames": {
+      "additionalProperties": {
+        "type": "string",
         "pattern": "^[a-z][a-z0-9_]*$"
       }
     }
@@ -33,6 +38,5 @@
     "systems",
     "symptoms"
   ],
-  "additionalProperties": false,
-  "$schema": "https://json-schema.org/draft/2019-09/schema#"
+  "additionalProperties": false
 }

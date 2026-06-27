@@ -448,7 +448,7 @@ confidence_score: 0.24
 
 ## Rôle technique
 
-Notre **catalogue 2025-2026 bougies d’allumage et bougies de préchauffage **est désormais accessible en ligne. Une version digitale qui vous permet de trouver facilement vos références, récupérer votre sélection de produits et bien d'autres fonctionnalités conçues pour vous simpl
+[CANDIDATE — requires_review]
 
 ## Critères de sélection véhicule
 

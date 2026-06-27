@@ -127,7 +127,44 @@ def _wiki_file_commit_meta(wiki_root: Path, source_path: Path) -> tuple[str, str
                 return sha, date
     except Exception:
         pass
+    # Pas de silent-fallback : le repli sentinelle DOIT être observable (no-silent-
+    # fallback). Survient si git indisponible / fiche non encore commitée. En CI la
+    # garde _assert_full_clone() empêche le cas shallow (qui rendrait un SHA faux).
+    click.echo(
+        f"WARN {source_path.name}: commit-meta indisponible "
+        f"(git log vide/échec) — sentinelle {_COMMIT_SHA_PLACEHOLDER[:7]}…/epoch",
+        err=True,
+    )
     return _COMMIT_SHA_PLACEHOLDER, _GENERATED_AT_PLACEHOLDER
+
+
+def _assert_full_clone(wiki_root: Path) -> None:
+    """Échoue FORT si le repo wiki est un shallow clone.
+
+    Sur shallow clone, `git log -1 -- <fiche>` ne remonte pas au vrai commit de la
+    fiche (le greffon masque les ancêtres) et rendrait un SHA/date dérivés du tip
+    du clone — valeurs FAUSSES mais schema-valides = silent-correctness break qui
+    ré-armerait la boucle d'auto-commit. On refuse explicitement (fetch-depth: 0
+    requis côté CI) plutôt que d'émettre des métadonnées fausses silencieusement.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--is-shallow-repository"],
+            cwd=wiki_root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        if out.stdout.strip() == "true":
+            raise click.ClickException(
+                "wiki-root est un SHALLOW clone — source_wiki_commit/generated_at "
+                "per-fiche seraient FAUX. Checkout avec fetch-depth: 0 requis."
+            )
+    except click.ClickException:
+        raise
+    except Exception:
+        # git absent (ex. tests sur tmp_path non-git) : pas de shallow à craindre.
+        pass
 
 
 def _has_r3_s2_diag_block(body: str) -> bool:
@@ -560,8 +597,11 @@ def _write_export(payload: dict, wiki_root: Path) -> Path:
     out_path = wiki_root / "exports" / "seo" / entity_type / f"{slug}.json"
     _enforce_output_path_strict(out_path, wiki_root)
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    # Newline final OBLIGATOIRE : le repo wiki lint via pre-commit end-of-file-fixer
+    # (lint.yml, push main) — un fichier sans \n final ferait échouer la CI à chaque
+    # commit bot. Déterministe (pas d'horloge), conserve la byte-identité.
     out_path.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     return out_path
 
@@ -609,6 +649,9 @@ def main(wiki_root: Path, entity_id: str | None, dry_run: bool) -> None:
             err=True,
         )
         sys.exit(2)
+
+    # Refuse FORT un shallow clone (sinon métadonnées commit per-fiche fausses).
+    _assert_full_clone(wiki_root)
 
     if entity_id:
         m = re.match(r"^([a-z]+):([a-z0-9][a-z0-9-]*[a-z0-9])$", entity_id)

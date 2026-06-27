@@ -289,6 +289,22 @@ def test_no_wallclock_generated_at_in_source() -> None:
         assert needle not in text, f"wall-clock '{needle}' must not appear in build_exports_seo"
 
 
+def test_written_export_ends_with_newline(tmp_path: Path) -> None:
+    """Le fichier écrit DOIT finir par un newline.
+
+    Le repo wiki lint via pre-commit `end-of-file-fixer` (lint.yml, push main) ;
+    sans \\n final, chaque commit bot du générateur ferait rougir la CI wiki.
+    """
+    src = _write_wiki_fiche(tmp_path, "gamme", "x-slug")
+    payload = builder.build_export(src, tmp_path, "abc1234", "2026-06-27T00:00:00+00:00")
+    assert payload is not None
+    out = builder._write_export(payload, tmp_path)
+    raw = out.read_bytes()
+    assert raw.endswith(b"\n"), "export file must end with a trailing newline"
+    # newline déterministe : deux écritures restent byte-identiques.
+    assert out.read_bytes() == builder._write_export(payload, tmp_path).read_bytes()
+
+
 def test_builder_refuses_diagnostic_without_r3_s2_diag(tmp_path: Path) -> None:
     """Garde-fou #6 : diagnostic sans R3_CONSEILS/S2_DIAG → routé hors exports/seo/."""
     src = _write_wiki_fiche(tmp_path, "diagnostic", "bruit-x", body="Diagnostic sans S2.\n")

@@ -58,17 +58,29 @@ RAW_REPO_PATH = Path(os.environ.get("AUTOMECANIK_RAW_PATH", REPO_ROOT.parent / "
 RAW_INVENTORY = RAW_REPO_PATH / "manifests" / "source-inventory.csv"
 RAW_CHECKSUMS = RAW_REPO_PATH / "manifests" / "checksums.json"
 
-# Pollution markers — common scrape artefacts
+# Pollution markers — scrape artefacts (web chrome, e-commerce boilerplate, leaked source structure).
+#
+# NB: brand names (Brembo, Textar, ATE, Bosch, Ferodo, ZF/TRW…) are NOT pollution — in a parts
+# knowledge wiki they are legitimate OE-supplier domain vocabulary: markdown-link citations
+# ([Brembo](url)), footnote definitions ([^n]: … Brembo …), editorial supplier tier-lists
+# ("Premium/OEM : Brembo, ATE, TRW"), factory-spec mentions ("Freinage Brembo 350 mm"). The former
+# \bBrembo\b / \bTextar\b patterns were a scrape proxy that produced ~100 % false positives on
+# sourced fiches and caught ZERO genuine pollution (corpus audit 2026-06-27, 29 proposals). Genuine
+# brand-CTA scrape copy is caught structurally below ("avant d'acheter un produit…") + by review.
 POLLUTION_PATTERNS = [
     r"\bSkip to main content\b",
     r"\bAccept (all )?cookies?\b",
     r"\bSubscribe to our newsletter\b",
-    r"\bTextar\b",
-    r"\bBrembo\b",
     r"<script[\s>]",
     r"<iframe[\s>]",
     r"\b(?:Loading|Chargement)…\b",
     r"\bCookie [Pp]olicy\b",
+    # Leaked source-page structure / e-commerce boilerplate (corpus audit 2026-06-27, each pattern
+    # grounded in real findings, high-precision — verified 0 false positives on curated prose):
+    r"\n\s*-\s+#{1,6}\s",                      # list item starting with a '##' marker = scraped source H2 dumped into a list
+    r"[Aa]vant d.acheter un produit,? *v[eé]rifiez",  # verbatim e-commerce CTA boilerplate leaked from a storefront
+    r"catalogue\s+\d{4}",                      # dated commercial catalogue promo banner ("catalogue 2025-2026 … accessible en ligne")
+    r"\[\s\d+\s\]",                            # stray spaced Wikipedia citation marker "[ 1 ]" (distinct from markdown [^1] / [1])
 ]
 
 CATALOG_LEAK_PATTERNS = [

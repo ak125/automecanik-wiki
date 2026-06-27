@@ -410,3 +410,88 @@ sources:
       Faits reformulés capturés 2026-06-12, fetch direct OK (intervalles,
       symptômes saturation, facteurs). Cf. automecanik-raw PR #22.
       STATUS to_capture jusqu'au merge de la PR #22 ; passe à active ensuite.
+
+  # ════════════════════════════════════════════════════════════════════
+  # Filtre à huile (pg_id 7) — web-research RUN_TARGETED_RAW_TO_WIKI 2026-06-20
+  # Sources PRIMARY équipementier/normatives extraites dans
+  # automecanik-raw/sources/web-research/filtre-a-huile/ (source-index.json,
+  # 59 sources, 29 primary). Ajoutées pour diagnostic_relations[].sources[] de
+  # la reconstruction filtre-a-huile.md (salvage RAG → web-research sourcée).
+  # ════════════════════════════════════════════════════════════════════
+
+  - slug: iso_4548_filtre_huile_serie
+    title: 'ISO 4548 — Méthodes d''essai des filtres à huile à plein débit (séries -2 bypass, -9 anti-retour, -12 efficacité)'
+    type: normative_standard                    # → max confidence: high
+    publisher: ISO
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: iso_4548_filtre_huile_serie
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/filtre-a-huile/source-index.json'
+    status: to_capture
+    license: normative_reference_only
+    notes: |
+      Série normative ISO 4548 référencée comme autorité (existence des méthodes
+      d'essai bypass / anti-retour / efficacité de filtration). URLs ISO.org en
+      403 au fetch automatisé → la NORME est citée comme référence d'autorité,
+      JAMAIS comme source de chiffres internes (cf. risques faq-symptoms.md /
+      compatibility-technical.md). STATUS to_capture : périmètre établi via
+      abstracts/catalogues, texte normatif intégral non lu.
+
+  - slug: mann_filter_oem_filtre_huile
+    title: 'MANN-FILTER / MANN+HUMMEL — documentation technique filtres à huile (média, clapets, datasheet HU 711/51 x)'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'MANN+HUMMEL (MANN-FILTER)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: mann_filter_oem_filtre_huile
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/filtre-a-huile/source-index.json'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Équipementier OE (fournisseur première monte Audi/VW/BMW/Mercedes). Fiches
+      produit officielles + whitepaper papiers filtrants extraits en web-research
+      (compatibility-technical.md, price-quality-brands.md, source-index.json).
+      Datasheet HU 711/51 x = source PRIMARY corroborée multi-source. STATUS
+      to_capture : fiches référencées par URL, archive physique à matérialiser.
+
+  - slug: filtron_oem_clapets_filtre_huile
+    title: 'Filtron (groupe MANN+HUMMEL) — fonctions des clapets dans les filtres à huile (anti-retour, bypass)'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Filtron (MANN+HUMMEL)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: filtron_oem_clapets_filtre_huile
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/filtre-a-huile/source-index.json'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Source équipementier PRIMARY (groupe MANN+HUMMEL) sur le rôle du clapet
+      anti-retour (anti-drain-back) et du clapet by-pass, leur dépendance à
+      l'orientation de montage moteur, et le risque de démarrage à sec. Extraite
+      dans faq-symptoms.md / selection-criteria.md / compatibility-technical.md.
+      STATUS to_capture : page technique référencée par URL, archive à matérialiser.
+
+  - slug: eu_reg_461_2010_block_exemption
+    title: 'Règlement (UE) n°461/2010 — exemption par catégorie automobile (qualité OE / OES / équivalente)'
+    type: normative_standard                    # → max confidence: high
+    publisher: 'Union européenne (CLEPA / legislation.gov.uk)'
+    year: 2010
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: eu_reg_461_2010_block_exemption
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/filtre-a-huile/source-index.json'
+    status: to_capture
+    license: regulatory_public
+    notes: |
+      Source réglementaire PRIMARY définissant les trois niveaux de qualité du
+      marché de la rechange (OE/OEM, OES, qualité équivalente / matching quality)
+      et le droit des équipementiers OE à vendre en rechange. Extraite dans
+      price-quality-brands.md (legislation.gov.uk + CLEPA). STATUS to_capture :
+      texte réglementaire référencé par URL, archive à matérialiser.

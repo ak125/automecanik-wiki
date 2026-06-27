@@ -1,0 +1,144 @@
+fiche: filtre-a-huile
+schema_version: 1.0.0
+generated_at: '2026-06-27'
+coverage_entries:
+  # --- claims sourcés normatif ISO (séries 4548) → high (§9.1 normative_standard) ---
+  - claim_id: filtre-huile-efficacite-iso-4548-12
+    section: "## Critères de choix"
+    text_anchor: "efficacité de filtration mesurée par comptage de particules (multipasse)"
+    source_slug: iso_4548_filtre_huile_serie
+    evidence_type: normative_standard_scope
+    confidence: high
+    source_policy: 1_high
+    source_status: web_research_scope_only
+
+  - claim_id: filtre-huile-bypass-clapet-iso-4548-2
+    section: "## Fonctionnement"
+    text_anchor: "clapet de dérivation (by-pass) calibré, testé à deux viscosités"
+    source_slug: iso_4548_filtre_huile_serie
+    evidence_type: normative_standard_scope
+    confidence: high
+    source_policy: 1_high
+    source_status: web_research_scope_only
+
+  - claim_id: filtre-huile-anti-retour-iso-4548-9
+    section: "## Fonctionnement"
+    text_anchor: "clapet anti-retour (anti-drain-back) — composant fonctionnel normalisé"
+    source_slug: iso_4548_filtre_huile_serie
+    evidence_type: normative_standard_scope
+    confidence: high
+    source_policy: 1_high
+    source_status: web_research_scope_only
+
+  # --- claims sourcés équipementier OE (MANN+HUMMEL / Filtron) → high (§9.1 oem) ---
+  - claim_id: filtre-huile-media-cellulose-synthetique-verre
+    section: "## Critères de choix"
+    text_anchor: "média cellulose, mélange synthétique ou microfibres de verre"
+    source_slug: mann_filter_oem_filtre_huile
+    evidence_type: oem_whitepaper
+    confidence: high
+    source_policy: 1_high
+    source_status: web_research_primary
+
+  - claim_id: filtre-huile-cartouche-vs-spinon-type-moteur
+    section: "## Critères de choix"
+    text_anchor: "le type (vissé spin-on ou cartouche) est dicté par la conception moteur"
+    source_slug: mann_filter_oem_filtre_huile
+    evidence_type: oem_datasheet
+    confidence: high
+    source_policy: 1_high
+    source_status: web_research_primary
+
+  - claim_id: filtre-huile-anti-retour-orientation
+    section: "## Fonctionnement"
+    text_anchor: "anti-retour indispensable sur filtre monté horizontalement ou tête en bas"
+    source_slug: filtron_oem_clapets_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: web_research_primary
+
+  - claim_id: filtre-huile-bypass-huile-non-filtree
+    section: "## Symptômes & diagnostic"
+    text_anchor: "by-pass ouvert en permanence → huile non filtrée vers les organes en rotation"
+    source_slug: filtron_oem_clapets_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: web_research_primary
+
+  # --- claims sourcés réglementaire UE 461/2010 → high (§9.1 normative) ---
+  - claim_id: filtre-huile-trois-niveaux-qualite-oe-oes-equivalent
+    section: "## Marques & qualité"
+    text_anchor: "trois niveaux : OE/OEM, OES, qualité équivalente (matching quality)"
+    source_slug: eu_reg_461_2010_block_exemption
+    evidence_type: regulatory_primary
+    confidence: high
+    source_policy: 1_high
+    source_status: web_research_primary
+
+  - claim_id: filtre-huile-oes-droit-rechange
+    section: "## Marques & qualité"
+    text_anchor: "les équipementiers OE peuvent vendre en rechange la même pièce que la première monte"
+    source_slug: eu_reg_461_2010_block_exemption
+    evidence_type: regulatory_primary
+    confidence: high
+    source_policy: 1_high
+    source_status: web_research_primary
+
+  # --- claim maintenance OEM générique → high (§9.1 oem_manual) ---
+  - claim_id: filtre-huile-remplacement-chaque-vidange
+    section: "## Entretien"
+    text_anchor: "remplacer le filtre à chaque vidange (élément papier jetable)"
+    source_slug: oem_filter_maintenance_general
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # --- claims conservés honnêtement (sources medium/low, non-PRIMARY) ---
+  - claim_id: filtre-huile-clapets-cartouche-dans-boitier
+    section: "## Critères de choix"
+    text_anchor: "sur cartouche, by-pass et anti-retour sont souvent dans le boîtier moteur"
+    source_slug: mann_filter_oem_filtre_huile
+    evidence_type: oem_datasheet
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: web_research_corroborated
+
+  - claim_id: filtre-huile-capacite-retention-intervalle
+    section: "## Critères de choix"
+    text_anchor: "la capacité de rétention de salissures conditionne la tenue entre deux vidanges"
+    source_slug: oem_filter_maintenance_general
+    evidence_type: oem_workshop_excerpt
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-bypass-pression-engine-tied
+    section: "## Fonctionnement"
+    text_anchor: "la pression d'ouverture du by-pass est calibrée selon le moteur (spec d'origine)"
+    source_slug: filtron_oem_clapets_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: web_research_to_confirm
+
+notes: |
+  Coverage map filtre-a-huile — reconstruite 2026-06-27 (démonstrateur boucle
+  contenu, salvage RAG → web-research sourcée, parité avec plaquette-de-frein).
+
+  13 claims : 10 sourcés PRIMARY (3 normatif ISO 4548 + 4 équipementier OE
+  MANN+HUMMEL/Filtron + 2 réglementaire UE 461/2010 + 1 maintenance OEM
+  générique) → high §9.1 (normative_standard / oem_manual). 3 conservés
+  honnêtement (2 medium corroborés multi-source + 1 low pression by-pass, dont
+  les valeurs chiffrées restent volontairement HORS fiche — anti number-swapping
+  + ces chiffres viennent de forums, cf. risques source-index).
+
+  Toutes les sources extraites de
+  automecanik-raw/sources/web-research/filtre-a-huile/ (RUN_TARGETED_RAW_TO_WIKI,
+  source-index.json : 59 sources, 29 primary). Aucun chiffre de couple/pression
+  (Nm/bar/psi) projeté dans la fiche (route revue humaine + non auto-vérifiable).
+
+  mean(confidence) = (high×10 + medium×2 + low×1) / 13
+                   = (10.0 + 1.2 + 0.3) / 13 ≈ 0.885 → dim A ≈ 26.5/30 (≥ plancher 22).

@@ -103,6 +103,29 @@ sources:
       STATUS to_capture (2026-04-30) : extrait à archiver. Plan P2 —
       `archived_at` legacy conservé pendant transition J+30.
 
+  - slug: oem_zf_trw_brake_judder
+    title: 'ZF Aftermarket (TRW) — Brake judder / DTV : tolérances disque & faux-rond (atelier)'
+    type: oem_workshop                          # → max confidence: high
+    publisher: 'ZF Aftermarket (TRW)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: oem_zf_trw_brake_judder
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-clips/oem-zf-trw-brake-judder-dtv.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Guidance atelier OE équipementier (ZF/TRW) sur le broutement (brake judder) :
+      seuils DTV (12-15 µm), voile latéral (< 0,05 mm), faux-rond moyeu (30 µm),
+      méthode au comparateur. Corrobore le symptôme brake_vibration_pedal
+      (variation d'épaisseur / faux-rond disque ou moyeu).
+      Provenance web-research : automecanik-raw/sources/web-research/disque-de-frein/
+      source-index.json (url zf.com .../for-workshops/.../brake-judder, level:
+      primary « OE primaire »). STATUS to_capture (2026-06-27) : capture standalone
+      du document OE à matérialiser ; les relations qui la citent gardent
+      diagnostic_safe: false jusqu'à archivage + revue humaine.
+
   - slug: oem_filter_maintenance_general
     title: 'Constructeurs OEM — recommandations entretien filtres'
     type: oem_manual                            # → max confidence: high

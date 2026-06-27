@@ -8,9 +8,12 @@
 # Les générateurs (scripts/wiki-generators/) côté monorepo écrivent dans
 # exports/rag/, le user push sur main, le cron sync mirror.
 #
-# exports/seo/ et exports/support/ restent gitignored (hors scope plan v3 —
-# chantier futur si pertinent).
-exports/seo/**
+# exports/seo/ est désormais COMMIT (même Pattern B que exports/rag/) : la
+# projection SEO ADR-059 (build_exports_seo, approved-only, 0 LLM/0 DB) est une
+# vue dérivée déterministe, régénérée + commitée par le job CI
+# wiki-exports-seo-generate.yml (générateur côté monorepo, push bot). C'est le
+# forward writer (ADR-090) qui la consomme vers la projection DB.
+# exports/support/ reste gitignored (hors scope — chantier futur si pertinent).
 exports/support/**
 !exports/**/.gitkeep
 !exports/**/manifest.example.json

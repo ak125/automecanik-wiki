@@ -180,12 +180,23 @@ def _write_wiki_fiche(
     entity_type: str,
     slug: str,
     review_status: str = "approved",
-    exportable: bool = True,
+    exportable: bool | dict = True,
     body: str = "",
     roles_allowed: list[str] | None = None,
     extra_fm: dict | None = None,
 ) -> Path:
-    """Helper test : crée une fiche wiki canon synthétique."""
+    """Helper test : crée une fiche wiki canon synthétique.
+
+    `exportable` reflète le contrat canonique : un mapping par audience
+    {rag, seo, support} (frontmatter.schema.json). Pour rester ergonomique, un
+    booléen est interprété comme la valeur du gate SEO (exportable.seo) et étendu
+    au mapping complet — un dict explicite permet de tester les autres audiences
+    (ex. {rag:true, seo:false}).
+    """
+    if isinstance(exportable, dict):
+        exportable_value: dict = exportable
+    else:
+        exportable_value = {"rag": False, "seo": exportable, "support": False}
     fm = {
         "schema_version": "1.0.0",
         "id": f"{entity_type}:{slug}",
@@ -197,7 +208,7 @@ def _write_wiki_fiche(
         "updated_at": "2026-05-13",
         "truth_level": "L2",
         "review_status": review_status,
-        "exportable": exportable,
+        "exportable": exportable_value,
     }
     if roles_allowed is not None:
         fm["roles_allowed"] = roles_allowed
@@ -232,6 +243,66 @@ def test_builder_refuses_non_approved(tmp_path: Path) -> None:
 def test_builder_refuses_non_exportable(tmp_path: Path) -> None:
     src = _write_wiki_fiche(tmp_path, "gamme", "x-slug", exportable=False)
     assert builder.build_export(src, tmp_path, "abc1234") is None
+
+
+def test_builder_refuses_exportable_seo_false_even_if_rag_true(tmp_path: Path) -> None:
+    """Garde-fou audience : le gate SEO lit STRICTEMENT exportable.seo.
+
+    Régression — l'ancien gate `if not exportable` traitait tout mapping non-vide
+    comme truthy et aurait exporté vers exports/seo/ une fiche {seo:false}.
+    """
+    src = _write_wiki_fiche(
+        tmp_path,
+        "gamme",
+        "x-slug",
+        exportable={"rag": True, "seo": False, "support": False},
+    )
+    assert builder.build_export(src, tmp_path, "abc1234") is None
+
+
+def test_builder_generated_at_is_deterministic_from_commit_date(tmp_path: Path) -> None:
+    """generated_at = committer-date passé (déterministe), JAMAIS l'horloge murale.
+
+    Garantit qu'un export est une projection byte-identique de canon@commit —
+    prérequis du drift-gate / auto-commit (ADR-059 §Replay determinism).
+    """
+    src = _write_wiki_fiche(tmp_path, "gamme", "x-slug")
+    commit_date = "2026-06-27T03:16:22+00:00"
+    p1 = builder.build_export(src, tmp_path, "abc1234", commit_date)
+    p2 = builder.build_export(src, tmp_path, "abc1234", commit_date)
+    assert p1 is not None and p2 is not None
+    assert p1["generated_at"] == commit_date
+    # Deux runs sur canon identique → JSON byte-identique.
+    assert json.dumps(p1, ensure_ascii=False, sort_keys=True) == json.dumps(
+        p2, ensure_ascii=False, sort_keys=True
+    )
+
+
+def test_no_wallclock_generated_at_in_source() -> None:
+    """Garde-fou statique : aucune horloge murale dans le builder.
+
+    `datetime.now`/`datetime.utcnow`/`time.time` rendraient l'export
+    non-déterministe et feraient flapper le drift-gate.
+    """
+    text = SCRIPT_PATH.read_text(encoding="utf-8")
+    for needle in ("datetime.now", "datetime.utcnow", "time.time(", "date.today"):
+        assert needle not in text, f"wall-clock '{needle}' must not appear in build_exports_seo"
+
+
+def test_written_export_ends_with_newline(tmp_path: Path) -> None:
+    """Le fichier écrit DOIT finir par un newline.
+
+    Le repo wiki lint via pre-commit `end-of-file-fixer` (lint.yml, push main) ;
+    sans \\n final, chaque commit bot du générateur ferait rougir la CI wiki.
+    """
+    src = _write_wiki_fiche(tmp_path, "gamme", "x-slug")
+    payload = builder.build_export(src, tmp_path, "abc1234", "2026-06-27T00:00:00+00:00")
+    assert payload is not None
+    out = builder._write_export(payload, tmp_path)
+    raw = out.read_bytes()
+    assert raw.endswith(b"\n"), "export file must end with a trailing newline"
+    # newline déterministe : deux écritures restent byte-identiques.
+    assert out.read_bytes() == builder._write_export(payload, tmp_path).read_bytes()
 
 
 def test_builder_refuses_diagnostic_without_r3_s2_diag(tmp_path: Path) -> None:

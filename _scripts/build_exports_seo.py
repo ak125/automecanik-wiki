@@ -41,7 +41,6 @@ import json
 import re
 import subprocess
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -89,19 +88,83 @@ def _parse_markdown(path: Path) -> tuple[dict[str, Any], str]:
     return fm, parts[1]
 
 
-def _wiki_commit_sha(wiki_root: Path) -> str:
-    """Récupère le HEAD commit du wiki repo. Informational-only metadata."""
+# Placeholders déterministes quand git est indisponible / fichier non-suivi.
+_COMMIT_SHA_PLACEHOLDER = "0" * 40
+_GENERATED_AT_PLACEHOLDER = "1970-01-01T00:00:00+00:00"
+# Séparateur d'unité ASCII (jamais présent dans un SHA / une date ISO).
+_GIT_FIELD_SEP = "\x1f"
+
+
+def _wiki_file_commit_meta(wiki_root: Path, source_path: Path) -> tuple[str, str]:
+    """(`source_wiki_commit`, `generated_at`) du DERNIER commit touchant CE fichier.
+
+    Renvoie le SHA + la committer-date ISO-8601 du dernier commit ayant modifié
+    `source_path`, PAS le HEAD du repo. Conséquence : l'export est une **fonction
+    pure du contenu canon** de la fiche — invariant aux commits non liés (commit
+    d'export du bot, nightly diag-canon, etc.). Donc :
+
+    - deux runs sur le même canon → octets identiques (drift-gate sans flapping) ;
+    - l'auto-commit CI ne se ré-déclenche pas en boucle (le commit d'export ne
+      touche pas `wiki/<fiche>.md`, donc ce SHA ne bouge pas).
+
+    `source_wiki_commit` est INFORMATIONAL-ONLY (audit) per ADR-059 — l'autorité
+    de replay est `exports_snapshot_hash` côté projection — donc un SHA per-fichier
+    est conforme au contrat (et plus précis qu'un HEAD bruité). Pas d'horloge murale.
+    """
     try:
+        rel = source_path.resolve().relative_to(wiki_root.resolve())
         out = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
+            ["git", "log", "-1", f"--format=%H{_GIT_FIELD_SEP}%cI", "--", str(rel)],
             cwd=wiki_root,
             check=True,
             capture_output=True,
             text=True,
         )
-        return out.stdout.strip()
+        line = out.stdout.strip()
+        if line:
+            sha, _, date = line.partition(_GIT_FIELD_SEP)
+            if sha and date:
+                return sha, date
     except Exception:
-        return "0" * 40  # placeholder si git indisponible
+        pass
+    # Pas de silent-fallback : le repli sentinelle DOIT être observable (no-silent-
+    # fallback). Survient si git indisponible / fiche non encore commitée. En CI la
+    # garde _assert_full_clone() empêche le cas shallow (qui rendrait un SHA faux).
+    click.echo(
+        f"WARN {source_path.name}: commit-meta indisponible "
+        f"(git log vide/échec) — sentinelle {_COMMIT_SHA_PLACEHOLDER[:7]}…/epoch",
+        err=True,
+    )
+    return _COMMIT_SHA_PLACEHOLDER, _GENERATED_AT_PLACEHOLDER
+
+
+def _assert_full_clone(wiki_root: Path) -> None:
+    """Échoue FORT si le repo wiki est un shallow clone.
+
+    Sur shallow clone, `git log -1 -- <fiche>` ne remonte pas au vrai commit de la
+    fiche (le greffon masque les ancêtres) et rendrait un SHA/date dérivés du tip
+    du clone — valeurs FAUSSES mais schema-valides = silent-correctness break qui
+    ré-armerait la boucle d'auto-commit. On refuse explicitement (fetch-depth: 0
+    requis côté CI) plutôt que d'émettre des métadonnées fausses silencieusement.
+    """
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--is-shallow-repository"],
+            cwd=wiki_root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        if out.stdout.strip() == "true":
+            raise click.ClickException(
+                "wiki-root est un SHALLOW clone — source_wiki_commit/generated_at "
+                "per-fiche seraient FAUX. Checkout avec fetch-depth: 0 requis."
+            )
+    except click.ClickException:
+        raise
+    except Exception:
+        # git absent (ex. tests sur tmp_path non-git) : pas de shallow à craindre.
+        pass
 
 
 def _has_r3_s2_diag_block(body: str) -> bool:
@@ -134,8 +197,20 @@ def _is_seo_eligible(fm: dict, body: str, source_path: Path) -> tuple[bool, str]
     if review_status != "approved":
         return False, f"review_status={review_status!r} (only 'approved' fiches export)"
 
-    if not exportable:
-        return False, f"exportable={exportable!r} (must be true)"
+    # `exportable` est canoniquement un mapping par audience {rag, seo, support}
+    # (frontmatter.schema.json — "Gates d'export par audience. Tous false par
+    # défaut. Décision humaine requise pour passer à true."). Le gate SEO lit
+    # STRICTEMENT exportable.seo : une fiche {seo:false, rag:true} ne doit JAMAIS
+    # entrer dans exports/seo/. Tolérance legacy : fiches v1.0.0/v0.legacy où
+    # `exportable` est encore un booléen.
+    if isinstance(exportable, dict):
+        seo_gate = bool(exportable.get("seo"))
+    elif isinstance(exportable, bool):
+        seo_gate = exportable
+    else:
+        seo_gate = False
+    if not seo_gate:
+        return False, f"exportable.seo not true (exportable={exportable!r})"
 
     if entity_type == DIAGNOSTIC_CONDITIONAL_TYPE and not _has_r3_s2_diag_block(body):
         return (
@@ -434,7 +509,10 @@ def _compute_consumers_allowed(fm: dict, entity_type: str) -> list[str]:
 
 
 def build_export(
-    source_path: Path, wiki_root: Path, commit_sha: str
+    source_path: Path,
+    wiki_root: Path,
+    commit_sha: str,
+    commit_date: str = _GENERATED_AT_PLACEHOLDER,
 ) -> dict[str, Any] | None:
     """
     Construit l'export JSON pour un fichier wiki canon.
@@ -479,7 +557,10 @@ def build_export(
         "source_wiki_commit": commit_sha,
         "wiki_path": wiki_path,
         "content_hash": content_hash,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        # Déterministe : committer-date du dernier commit touchant CETTE fiche
+        # (pas d'horloge murale, pas le HEAD bruité) — voir _wiki_file_commit_meta.
+        # Deux runs sur le même canon = byte-identiques.
+        "generated_at": commit_date,
         "builder_version": BUILDER_VERSION,
         "facts": facts,
         "sources": sources,
@@ -516,8 +597,11 @@ def _write_export(payload: dict, wiki_root: Path) -> Path:
     out_path = wiki_root / "exports" / "seo" / entity_type / f"{slug}.json"
     _enforce_output_path_strict(out_path, wiki_root)
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    # Newline final OBLIGATOIRE : le repo wiki lint via pre-commit end-of-file-fixer
+    # (lint.yml, push main) — un fichier sans \n final ferait échouer la CI à chaque
+    # commit bot. Déterministe (pas d'horloge), conserve la byte-identité.
     out_path.write_text(
-        json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8"
+        json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
     )
     return out_path
 
@@ -566,7 +650,8 @@ def main(wiki_root: Path, entity_id: str | None, dry_run: bool) -> None:
         )
         sys.exit(2)
 
-    commit_sha = _wiki_commit_sha(wiki_root)
+    # Refuse FORT un shallow clone (sinon métadonnées commit per-fiche fausses).
+    _assert_full_clone(wiki_root)
 
     if entity_id:
         m = re.match(r"^([a-z]+):([a-z0-9][a-z0-9-]*[a-z0-9])$", entity_id)
@@ -583,7 +668,8 @@ def main(wiki_root: Path, entity_id: str | None, dry_run: bool) -> None:
     written = 0
     skipped = 0
     for src in candidates:
-        payload = build_export(src, wiki_root, commit_sha)
+        commit_sha, commit_date = _wiki_file_commit_meta(wiki_root, src)
+        payload = build_export(src, wiki_root, commit_sha, commit_date)
         if payload is None:
             skipped += 1
             continue

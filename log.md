@@ -111,3 +111,9 @@
 - **Branche** : `feat/adr088-engineblock-schema`
 - **Décision** : feat(_scripts): ADR-088 Phase 3.2 — reality-manifest framework (generateur ops + reader 0-DB) (+2 other commits)
 - **Sortie** : PR #50 | commits b11a156 684caba f9a65ed
+
+## 2026-06-27 — fix/build-exports-seo-exportable-audience-gate (auto)
+
+- **Branche** : `fix/build-exports-seo-exportable-audience-gate`
+- **Décision** : fix(exports-seo): gate SEO export sur exportable.seo (mapping audience), pas truthy
+- **Sortie** : PR #70 | commits 4b700c3

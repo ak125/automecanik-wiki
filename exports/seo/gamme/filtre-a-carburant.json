@@ -1,0 +1,44 @@
+{
+  "entity_id": "gamme:filtre-a-carburant",
+  "entity_type": "gamme",
+  "schema_version": "1.1.0",
+  "projection_contract_version": "1.0.0",
+  "source_wiki_commit": "6590fc54c835e4bd3191b87e197778d5d73b1199",
+  "wiki_path": "wiki/gamme/filtre-a-carburant.md",
+  "content_hash": "sha256:1277cddaf03705d36bb35b0bdfbaa9c0e4dbc01d520f548137064c7a9b5fb7e5",
+  "generated_at": "2026-06-13T13:51:53+02:00",
+  "builder_version": "1.1.0",
+  "facts": [],
+  "sources": [
+    {
+      "id": "src-0",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-1",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-2",
+      "type": "manual",
+      "url": "https://www.vroomly.com/blog/filtre-a-gasoil-encrasse-symptomes/"
+    },
+    {
+      "id": "src-3",
+      "type": "manual",
+      "url": "https://www.idgarages.com/fr-fr/prestations/revision-vidange/definition-filtre-a-gasoil"
+    }
+  ],
+  "blocks": [],
+  "roles_allowed": [
+    "R3_CONSEILS",
+    "R4_REFERENCE",
+    "R6_GUIDE_ACHAT"
+  ],
+  "consumers_allowed": [
+    "seo",
+    "rag"
+  ]
+}

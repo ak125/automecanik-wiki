@@ -1,0 +1,71 @@
+{
+  "entity_id": "gamme:filtre-a-air",
+  "entity_type": "gamme",
+  "schema_version": "1.1.0",
+  "projection_contract_version": "1.0.0",
+  "source_wiki_commit": "6590fc54c835e4bd3191b87e197778d5d73b1199",
+  "wiki_path": "wiki/gamme/filtre-a-air.md",
+  "content_hash": "sha256:b004ed7ea0945abd5359c2012ac75c7e54be2b9ebd67399f024389cca5e3b876",
+  "generated_at": "2026-06-13T13:51:53+02:00",
+  "builder_version": "1.1.0",
+  "facts": [
+    {
+      "key": "pg_id",
+      "value": 510,
+      "source_id": "db:pieces_gamme"
+    },
+    {
+      "key": "family",
+      "value": "filtration",
+      "source_id": "db:pieces_gamme"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-0",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-1",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-2",
+      "type": "manual",
+      "url": null
+    }
+  ],
+  "blocks": [
+    {
+      "role": "R3_CONSEILS",
+      "section": "maintenance",
+      "content_md": "Remplacement typique tous les 30 000 km, plus fréquent en milieu poussiéreux ou usage tout-terrain.",
+      "source_ids": [
+        "raw:recycled"
+      ],
+      "truth_level": "editorial",
+      "usefulness_target": "achat"
+    },
+    {
+      "role": "R4_REFERENCE",
+      "section": "related",
+      "content_md": "Pièces de la même famille d'entretien : filtre-habitacle, filtre-a-huile, filtre-a-carburant.",
+      "source_ids": [
+        "db:pieces_gamme"
+      ],
+      "truth_level": "db_owned",
+      "usefulness_target": "maillage"
+    }
+  ],
+  "roles_allowed": [
+    "R3_CONSEILS",
+    "R4_REFERENCE",
+    "R6_GUIDE_ACHAT"
+  ],
+  "consumers_allowed": [
+    "seo",
+    "rag"
+  ]
+}

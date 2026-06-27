@@ -1,0 +1,39 @@
+{
+  "entity_id": "gamme:filtre-d-habitacle",
+  "entity_type": "gamme",
+  "schema_version": "1.1.0",
+  "projection_contract_version": "1.0.0",
+  "source_wiki_commit": "6590fc54c835e4bd3191b87e197778d5d73b1199",
+  "wiki_path": "wiki/gamme/filtre-d-habitacle.md",
+  "content_hash": "sha256:39116a2be2861cfc87008d3a5ca80362685c686c426ac2aee674203d8ee471da",
+  "generated_at": "2026-06-13T13:51:53+02:00",
+  "builder_version": "1.1.0",
+  "facts": [],
+  "sources": [
+    {
+      "id": "src-0",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-1",
+      "type": "manual",
+      "url": "https://www.carglass.fr/faq/answers/5929/quand-changer-le-filtre-d-habitacle"
+    },
+    {
+      "id": "src-2",
+      "type": "manual",
+      "url": "https://www.bymycar.fr/webzine/filtre-habitacle-charbon-actif-ou-pollen/"
+    }
+  ],
+  "blocks": [],
+  "roles_allowed": [
+    "R3_CONSEILS",
+    "R4_REFERENCE",
+    "R6_GUIDE_ACHAT"
+  ],
+  "consumers_allowed": [
+    "seo",
+    "rag"
+  ]
+}

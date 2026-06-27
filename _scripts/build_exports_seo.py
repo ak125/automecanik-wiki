@@ -41,7 +41,6 @@ import json
 import re
 import subprocess
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -102,6 +101,31 @@ def _wiki_commit_sha(wiki_root: Path) -> str:
         return out.stdout.strip()
     except Exception:
         return "0" * 40  # placeholder si git indisponible
+
+
+# Placeholder déterministe quand git est indisponible (parallèle du "0"*40 du sha).
+_GENERATED_AT_PLACEHOLDER = "1970-01-01T00:00:00+00:00"
+
+
+def _wiki_commit_date(wiki_root: Path) -> str:
+    """Committer-date ISO-8601 du HEAD wiki.
+
+    Source DÉTERMINISTE de `generated_at` : avance uniquement quand le canon
+    avance (HEAD bouge), JAMAIS une horloge murale. L'export est ainsi une
+    projection reproductible byte-identique de canon@commit — prérequis d'un
+    drift-gate / auto-commit sans flapping (ADR-059 §Replay determinism).
+    """
+    try:
+        out = subprocess.run(
+            ["git", "show", "-s", "--format=%cI", "HEAD"],
+            cwd=wiki_root,
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+        return out.stdout.strip() or _GENERATED_AT_PLACEHOLDER
+    except Exception:
+        return _GENERATED_AT_PLACEHOLDER  # placeholder si git indisponible
 
 
 def _has_r3_s2_diag_block(body: str) -> bool:
@@ -446,7 +470,10 @@ def _compute_consumers_allowed(fm: dict, entity_type: str) -> list[str]:
 
 
 def build_export(
-    source_path: Path, wiki_root: Path, commit_sha: str
+    source_path: Path,
+    wiki_root: Path,
+    commit_sha: str,
+    commit_date: str = _GENERATED_AT_PLACEHOLDER,
 ) -> dict[str, Any] | None:
     """
     Construit l'export JSON pour un fichier wiki canon.
@@ -491,7 +518,9 @@ def build_export(
         "source_wiki_commit": commit_sha,
         "wiki_path": wiki_path,
         "content_hash": content_hash,
-        "generated_at": datetime.now(timezone.utc).isoformat(),
+        # Déterministe : committer-date du HEAD wiki (pas d'horloge murale) — voir
+        # _wiki_commit_date. Deux runs sur le même canon = byte-identiques.
+        "generated_at": commit_date,
         "builder_version": BUILDER_VERSION,
         "facts": facts,
         "sources": sources,
@@ -579,6 +608,7 @@ def main(wiki_root: Path, entity_id: str | None, dry_run: bool) -> None:
         sys.exit(2)
 
     commit_sha = _wiki_commit_sha(wiki_root)
+    commit_date = _wiki_commit_date(wiki_root)
 
     if entity_id:
         m = re.match(r"^([a-z]+):([a-z0-9][a-z0-9-]*[a-z0-9])$", entity_id)
@@ -595,7 +625,7 @@ def main(wiki_root: Path, entity_id: str | None, dry_run: bool) -> None:
     written = 0
     skipped = 0
     for src in candidates:
-        payload = build_export(src, wiki_root, commit_sha)
+        payload = build_export(src, wiki_root, commit_sha, commit_date)
         if payload is None:
             skipped += 1
             continue

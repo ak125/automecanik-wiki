@@ -260,6 +260,35 @@ def test_builder_refuses_exportable_seo_false_even_if_rag_true(tmp_path: Path) -
     assert builder.build_export(src, tmp_path, "abc1234") is None
 
 
+def test_builder_generated_at_is_deterministic_from_commit_date(tmp_path: Path) -> None:
+    """generated_at = committer-date passé (déterministe), JAMAIS l'horloge murale.
+
+    Garantit qu'un export est une projection byte-identique de canon@commit —
+    prérequis du drift-gate / auto-commit (ADR-059 §Replay determinism).
+    """
+    src = _write_wiki_fiche(tmp_path, "gamme", "x-slug")
+    commit_date = "2026-06-27T03:16:22+00:00"
+    p1 = builder.build_export(src, tmp_path, "abc1234", commit_date)
+    p2 = builder.build_export(src, tmp_path, "abc1234", commit_date)
+    assert p1 is not None and p2 is not None
+    assert p1["generated_at"] == commit_date
+    # Deux runs sur canon identique → JSON byte-identique.
+    assert json.dumps(p1, ensure_ascii=False, sort_keys=True) == json.dumps(
+        p2, ensure_ascii=False, sort_keys=True
+    )
+
+
+def test_no_wallclock_generated_at_in_source() -> None:
+    """Garde-fou statique : aucune horloge murale dans le builder.
+
+    `datetime.now`/`datetime.utcnow`/`time.time` rendraient l'export
+    non-déterministe et feraient flapper le drift-gate.
+    """
+    text = SCRIPT_PATH.read_text(encoding="utf-8")
+    for needle in ("datetime.now", "datetime.utcnow", "time.time(", "date.today"):
+        assert needle not in text, f"wall-clock '{needle}' must not appear in build_exports_seo"
+
+
 def test_builder_refuses_diagnostic_without_r3_s2_diag(tmp_path: Path) -> None:
     """Garde-fou #6 : diagnostic sans R3_CONSEILS/S2_DIAG → routé hors exports/seo/."""
     src = _write_wiki_fiche(tmp_path, "diagnostic", "bruit-x", body="Diagnostic sans S2.\n")

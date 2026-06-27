@@ -66,7 +66,7 @@ entity_data:
     selection_criteria_top:
     - '## Il est important de connaître la limite d''usure du disque de frein pour…'
     - '## Plaquettes de frein standard ou Xtra : lesquelles choisir?'
-    - '## Avant d''acheter un produit Brembo, vérifiez qu''il est bien compatible
+    - '## Avant d''acheter un produit, vérifiez qu''il est bien compatible
       avec…'
     compatibility_summary: Vérifier la compatibilité véhicule, motorisation et référence
       OEM.
@@ -84,7 +84,7 @@ Le frein de stationnement , frein de parking , frein de parcage , plus communém
 - **Critères de choix prioritaires** :
   - ## Il est important de connaître la limite d'usure du disque de frein pour…
   - ## Plaquettes de frein standard ou Xtra : lesquelles choisir?
-  - ## Avant d'acheter un produit Brembo, vérifiez qu'il est bien compatible avec…
+  - ## Avant d'acheter un produit, vérifiez qu'il est bien compatible avec…
 - **Compatibilité** : Vérifier la compatibilité véhicule, motorisation et référence OEM.
 - _Status : `NEITHER` ; source : `rag_candidate` (anti-templated, aucun texte généré stocké, projection déterministe depuis dimensions)_
 
@@ -92,7 +92,7 @@ Le frein de stationnement , frein de parking , frein de parcage , plus communém
 
 - ## Il est important de connaître la limite d'usure du disque de frein pour pouvoir prévenir les dommages et les ruptures. Comment mesurer ce paramètre ?
 - ## Plaquettes de frein standard ou Xtra : lesquelles choisir?
-- ## Avant d'acheter un produit Brembo, vérifiez qu'il est bien compatible avec votre véhicule : comment et où trouver des informations utiles pour vérifier cette compatibilité ?
+- ## Avant d'acheter un produit, vérifiez qu'il est bien compatible avec votre véhicule : comment et où trouver des informations utiles pour vérifier cette compatibilité ?
 
 ## Symptômes (source brute — usage filtré par rôle, voir review_notes)
 

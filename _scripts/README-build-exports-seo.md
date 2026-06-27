@@ -19,11 +19,14 @@ automecanik-wiki/wiki/<entity_type_singular>/<slug>.md (review_status: approved,
 > (frontmatter.schema.json) — le builder lit **strictement `exportable.seo`**.
 > Une fiche `{ seo: false, rag: true }` n'entre **jamais** dans `exports/seo/`.
 >
-> **Déterminisme.** L'export est une **projection byte-identique de canon@commit** :
-> `generated_at` = committer-date du HEAD wiki (jamais l'horloge murale),
-> `content_hash` = sha256 des octets source, ordre de découverte/blocs/sources
-> trié. Deux runs sur le même canon produisent des octets identiques — prérequis
-> du drift-gate / auto-commit (ADR-059 §Replay determinism).
+> **Déterminisme (fonction pure du canon).** L'export ne dépend QUE du contenu de
+> la fiche : `source_wiki_commit` + `generated_at` = SHA/committer-date du **dernier
+> commit touchant cette fiche** (`git log -1 -- <fiche>`, pas le HEAD bruité, jamais
+> l'horloge murale) ; `content_hash` = sha256 des octets source ; ordre
+> découverte/blocs/sources trié. Conséquence : deux runs sur le même canon →
+> octets identiques, et l'auto-commit CI **ne boucle pas** (le commit d'export ne
+> touche pas `wiki/`, donc ces champs ne bougent pas). `source_wiki_commit` est
+> informational-only (audit) per ADR-059 — autorité de replay = `exports_snapshot_hash`.
 
 ## 9 garde-fous verrouillés (vérifiés par 49 tests Pytest)
 
@@ -37,7 +40,7 @@ automecanik-wiki/wiki/<entity_type_singular>/<slug>.md (review_status: approved,
 | 6     | 0 LLM (anthropic/openai/groq/cohere/mistralai/google.generativeai) | Test statique `test_no_llm_inference_imports`         |
 | 7     | 0 DB (psycopg/asyncpg/supabase/sqlalchemy/django)                  | Test statique `test_no_db_imports`                    |
 | 8     | gate audience = `exportable.seo` (pas un dict truthy)              | `_is_seo_eligible` + régression `seo:false rag:true`  |
-| 9     | `generated_at` déterministe (committer-date, pas wall-clock)       | `_wiki_commit_date` + test statique no-wall-clock     |
+| 9     | `generated_at` + `source_wiki_commit` déterministes per-fiche      | `_wiki_file_commit_meta` + test statique no-wall-clock |
 | **+** | 0 enrichissement (generate\_/enrich\_/synthesize/infer\_)          | Test statique `test_no_enrichment_logic_patterns`     |
 | **+** | 0 écriture hors `exports/seo/`                                     | `_enforce_output_path_strict()` + 5 tests négatifs    |
 

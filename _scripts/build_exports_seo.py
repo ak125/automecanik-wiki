@@ -88,44 +88,46 @@ def _parse_markdown(path: Path) -> tuple[dict[str, Any], str]:
     return fm, parts[1]
 
 
-def _wiki_commit_sha(wiki_root: Path) -> str:
-    """Récupère le HEAD commit du wiki repo. Informational-only metadata."""
-    try:
-        out = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            cwd=wiki_root,
-            check=True,
-            capture_output=True,
-            text=True,
-        )
-        return out.stdout.strip()
-    except Exception:
-        return "0" * 40  # placeholder si git indisponible
-
-
-# Placeholder déterministe quand git est indisponible (parallèle du "0"*40 du sha).
+# Placeholders déterministes quand git est indisponible / fichier non-suivi.
+_COMMIT_SHA_PLACEHOLDER = "0" * 40
 _GENERATED_AT_PLACEHOLDER = "1970-01-01T00:00:00+00:00"
+# Séparateur d'unité ASCII (jamais présent dans un SHA / une date ISO).
+_GIT_FIELD_SEP = "\x1f"
 
 
-def _wiki_commit_date(wiki_root: Path) -> str:
-    """Committer-date ISO-8601 du HEAD wiki.
+def _wiki_file_commit_meta(wiki_root: Path, source_path: Path) -> tuple[str, str]:
+    """(`source_wiki_commit`, `generated_at`) du DERNIER commit touchant CE fichier.
 
-    Source DÉTERMINISTE de `generated_at` : avance uniquement quand le canon
-    avance (HEAD bouge), JAMAIS une horloge murale. L'export est ainsi une
-    projection reproductible byte-identique de canon@commit — prérequis d'un
-    drift-gate / auto-commit sans flapping (ADR-059 §Replay determinism).
+    Renvoie le SHA + la committer-date ISO-8601 du dernier commit ayant modifié
+    `source_path`, PAS le HEAD du repo. Conséquence : l'export est une **fonction
+    pure du contenu canon** de la fiche — invariant aux commits non liés (commit
+    d'export du bot, nightly diag-canon, etc.). Donc :
+
+    - deux runs sur le même canon → octets identiques (drift-gate sans flapping) ;
+    - l'auto-commit CI ne se ré-déclenche pas en boucle (le commit d'export ne
+      touche pas `wiki/<fiche>.md`, donc ce SHA ne bouge pas).
+
+    `source_wiki_commit` est INFORMATIONAL-ONLY (audit) per ADR-059 — l'autorité
+    de replay est `exports_snapshot_hash` côté projection — donc un SHA per-fichier
+    est conforme au contrat (et plus précis qu'un HEAD bruité). Pas d'horloge murale.
     """
     try:
+        rel = source_path.resolve().relative_to(wiki_root.resolve())
         out = subprocess.run(
-            ["git", "show", "-s", "--format=%cI", "HEAD"],
+            ["git", "log", "-1", f"--format=%H{_GIT_FIELD_SEP}%cI", "--", str(rel)],
             cwd=wiki_root,
             check=True,
             capture_output=True,
             text=True,
         )
-        return out.stdout.strip() or _GENERATED_AT_PLACEHOLDER
+        line = out.stdout.strip()
+        if line:
+            sha, _, date = line.partition(_GIT_FIELD_SEP)
+            if sha and date:
+                return sha, date
     except Exception:
-        return _GENERATED_AT_PLACEHOLDER  # placeholder si git indisponible
+        pass
+    return _COMMIT_SHA_PLACEHOLDER, _GENERATED_AT_PLACEHOLDER
 
 
 def _has_r3_s2_diag_block(body: str) -> bool:
@@ -518,8 +520,9 @@ def build_export(
         "source_wiki_commit": commit_sha,
         "wiki_path": wiki_path,
         "content_hash": content_hash,
-        # Déterministe : committer-date du HEAD wiki (pas d'horloge murale) — voir
-        # _wiki_commit_date. Deux runs sur le même canon = byte-identiques.
+        # Déterministe : committer-date du dernier commit touchant CETTE fiche
+        # (pas d'horloge murale, pas le HEAD bruité) — voir _wiki_file_commit_meta.
+        # Deux runs sur le même canon = byte-identiques.
         "generated_at": commit_date,
         "builder_version": BUILDER_VERSION,
         "facts": facts,
@@ -607,9 +610,6 @@ def main(wiki_root: Path, entity_id: str | None, dry_run: bool) -> None:
         )
         sys.exit(2)
 
-    commit_sha = _wiki_commit_sha(wiki_root)
-    commit_date = _wiki_commit_date(wiki_root)
-
     if entity_id:
         m = re.match(r"^([a-z]+):([a-z0-9][a-z0-9-]*[a-z0-9])$", entity_id)
         if not m:
@@ -625,6 +625,7 @@ def main(wiki_root: Path, entity_id: str | None, dry_run: bool) -> None:
     written = 0
     skipped = 0
     for src in candidates:
+        commit_sha, commit_date = _wiki_file_commit_meta(wiki_root, src)
         payload = build_export(src, wiki_root, commit_sha, commit_date)
         if payload is None:
             skipped += 1

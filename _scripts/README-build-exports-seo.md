@@ -30,19 +30,19 @@ automecanik-wiki/wiki/<entity_type_singular>/<slug>.md (review_status: approved,
 
 ## 9 garde-fous verrouillés (vérifiés par 49 tests Pytest)
 
-| #     | Verrou                                                             | Mécanisme                                             |
-| ----- | ------------------------------------------------------------------ | ----------------------------------------------------- |
-| 1     | `roles_allowed` minItems:1                                         | Schema JSON `minItems: 1` + builder skip si vide      |
-| 2     | support exclu de exports/seo/                                      | Schema enum sans `support` + builder filter explicite |
-| 3     | diagnostic vers SEO seulement si block R3_CONSEILS/S2_DIAG         | Builder `_has_r3_s2_diag_block()` + filter            |
-| 4     | `schema_version` ≠ `projection_contract_version` (distincts)       | Schema `required` les 2 + tests négatifs              |
-| 5     | `source_wiki_commit`, `wiki_path`, `content_hash` obligatoires     | Schema `required` + tests négatifs                    |
-| 6     | 0 LLM (anthropic/openai/groq/cohere/mistralai/google.generativeai) | Test statique `test_no_llm_inference_imports`         |
-| 7     | 0 DB (psycopg/asyncpg/supabase/sqlalchemy/django)                  | Test statique `test_no_db_imports`                    |
-| 8     | gate audience = `exportable.seo` (pas un dict truthy)              | `_is_seo_eligible` + régression `seo:false rag:true`  |
+| #     | Verrou                                                             | Mécanisme                                              |
+| ----- | ------------------------------------------------------------------ | ------------------------------------------------------ |
+| 1     | `roles_allowed` minItems:1                                         | Schema JSON `minItems: 1` + builder skip si vide       |
+| 2     | support exclu de exports/seo/                                      | Schema enum sans `support` + builder filter explicite  |
+| 3     | diagnostic vers SEO seulement si block R3_CONSEILS/S2_DIAG         | Builder `_has_r3_s2_diag_block()` + filter             |
+| 4     | `schema_version` ≠ `projection_contract_version` (distincts)       | Schema `required` les 2 + tests négatifs               |
+| 5     | `source_wiki_commit`, `wiki_path`, `content_hash` obligatoires     | Schema `required` + tests négatifs                     |
+| 6     | 0 LLM (anthropic/openai/groq/cohere/mistralai/google.generativeai) | Test statique `test_no_llm_inference_imports`          |
+| 7     | 0 DB (psycopg/asyncpg/supabase/sqlalchemy/django)                  | Test statique `test_no_db_imports`                     |
+| 8     | gate audience = `exportable.seo` (pas un dict truthy)              | `_is_seo_eligible` + régression `seo:false rag:true`   |
 | 9     | `generated_at` + `source_wiki_commit` déterministes per-fiche      | `_wiki_file_commit_meta` + test statique no-wall-clock |
-| **+** | 0 enrichissement (generate\_/enrich\_/synthesize/infer\_)          | Test statique `test_no_enrichment_logic_patterns`     |
-| **+** | 0 écriture hors `exports/seo/`                                     | `_enforce_output_path_strict()` + 5 tests négatifs    |
+| **+** | 0 enrichissement (generate\_/enrich\_/synthesize/infer\_)          | Test statique `test_no_enrichment_logic_patterns`      |
+| **+** | 0 écriture hors `exports/seo/`                                     | `_enforce_output_path_strict()` + 5 tests négatifs     |
 
 ## Schema JSON contractuel
 

@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/coverage-map.schema.json",
-  "title": "Coverage Map Schema v1.0 — ADR-040 §2",
-  "description": "Schéma canon pour les coverage maps de proposals/_coverage/<slug>.coverage.yaml. Chaque entrée mappe un claim de la fiche à sa source justificative. Utilisé par check-coverage-map.py (Phase 0.D livrable hors scope ADR-040 immédiat) pour valider claim ↔ source ↔ source-catalog (FK strict). Conforme ADR-040 §2 'Coverage Map as canonical artifact'. Source de vérité : governance-vault/ledger/decisions/adr/ADR-040-wiki-proposal-evidence-and-conditional-promotion.md (vault PR pending).",
+  "title": "Content Coverage-Map Schema v1.0 — ADR-089",
+  "description": "Schéma canon pour les coverage maps de proposals/_coverage/<slug>.coverage.yaml. Chaque entrée mappe un claim de la fiche à sa source justificative. Validé par check-coverage-map.py (claim ↔ source ↔ source-catalog, FK strict). Source de vérité de gouvernance : governance-vault ADR-089 (Content Coverage-Map Canon). Backing de la dimension A du score de substance ADR-088. NB : l'ancien renvoi « ADR-040 §2 » était erroné — le vrai ADR-040 du vault (SEO Roles Canon TS) ne porte pas la coverage-map (cf. ADR-089 §Contexte).",
   "type": "object",
   "required": ["fiche", "schema_version", "coverage_entries"],
   "additionalProperties": false,

@@ -4,13 +4,13 @@ generated_at: '2026-06-27'
 coverage_entries:
   # --- claims sourcés normatif ISO (séries 4548) → high (§9.1 normative_standard) ---
   - claim_id: filtre-huile-efficacite-iso-4548-12
-    section: "## Critères de choix"
+    section: "## Critères de choix selon le véhicule"
     text_anchor: "efficacité de filtration mesurée par comptage de particules (multipasse)"
     source_slug: iso_4548_filtre_huile_serie
     evidence_type: normative_standard_scope
     confidence: high
     source_policy: 1_high
-    source_status: web_research_scope_only
+    source_status: pending_capture
 
   - claim_id: filtre-huile-bypass-clapet-iso-4548-2
     section: "## Fonctionnement"
@@ -19,7 +19,7 @@ coverage_entries:
     evidence_type: normative_standard_scope
     confidence: high
     source_policy: 1_high
-    source_status: web_research_scope_only
+    source_status: pending_capture
 
   - claim_id: filtre-huile-anti-retour-iso-4548-9
     section: "## Fonctionnement"
@@ -28,26 +28,26 @@ coverage_entries:
     evidence_type: normative_standard_scope
     confidence: high
     source_policy: 1_high
-    source_status: web_research_scope_only
+    source_status: pending_capture
 
   # --- claims sourcés équipementier OE (MANN+HUMMEL / Filtron) → high (§9.1 oem) ---
   - claim_id: filtre-huile-media-cellulose-synthetique-verre
-    section: "## Critères de choix"
+    section: "## Critères de choix selon le véhicule"
     text_anchor: "média cellulose, mélange synthétique ou microfibres de verre"
     source_slug: mann_filter_oem_filtre_huile
     evidence_type: oem_whitepaper
     confidence: high
     source_policy: 1_high
-    source_status: web_research_primary
+    source_status: pending_capture
 
   - claim_id: filtre-huile-cartouche-vs-spinon-type-moteur
-    section: "## Critères de choix"
+    section: "## Critères de choix selon le véhicule"
     text_anchor: "le type (vissé spin-on ou cartouche) est dicté par la conception moteur"
     source_slug: mann_filter_oem_filtre_huile
     evidence_type: oem_datasheet
     confidence: high
     source_policy: 1_high
-    source_status: web_research_primary
+    source_status: pending_capture
 
   - claim_id: filtre-huile-anti-retour-orientation
     section: "## Fonctionnement"
@@ -56,7 +56,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: web_research_primary
+    source_status: pending_capture
 
   - claim_id: filtre-huile-bypass-huile-non-filtree
     section: "## Symptômes & diagnostic"
@@ -65,7 +65,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: web_research_primary
+    source_status: pending_capture
 
   # --- claims sourcés réglementaire UE 461/2010 → high (§9.1 normative) ---
   - claim_id: filtre-huile-trois-niveaux-qualite-oe-oes-equivalent
@@ -75,7 +75,7 @@ coverage_entries:
     evidence_type: regulatory_primary
     confidence: high
     source_policy: 1_high
-    source_status: web_research_primary
+    source_status: pending_capture
 
   - claim_id: filtre-huile-oes-droit-rechange
     section: "## Marques & qualité"
@@ -84,11 +84,11 @@ coverage_entries:
     evidence_type: regulatory_primary
     confidence: high
     source_policy: 1_high
-    source_status: web_research_primary
+    source_status: pending_capture
 
   # --- claim maintenance OEM générique → high (§9.1 oem_manual) ---
   - claim_id: filtre-huile-remplacement-chaque-vidange
-    section: "## Entretien"
+    section: "## Entretien & bonnes pratiques de montage"
     text_anchor: "remplacer le filtre à chaque vidange (élément papier jetable)"
     source_slug: oem_filter_maintenance_general
     evidence_type: oem_workshop_excerpt
@@ -98,16 +98,16 @@ coverage_entries:
 
   # --- claims conservés honnêtement (sources medium/low, non-PRIMARY) ---
   - claim_id: filtre-huile-clapets-cartouche-dans-boitier
-    section: "## Critères de choix"
+    section: "## Critères de choix selon le véhicule"
     text_anchor: "sur cartouche, by-pass et anti-retour sont souvent dans le boîtier moteur"
     source_slug: mann_filter_oem_filtre_huile
     evidence_type: oem_datasheet
     confidence: medium
     source_policy: 2_medium_concordant
-    source_status: web_research_corroborated
+    source_status: pending_capture
 
   - claim_id: filtre-huile-capacite-retention-intervalle
-    section: "## Critères de choix"
+    section: "## Critères de choix selon le véhicule"
     text_anchor: "la capacité de rétention de salissures conditionne la tenue entre deux vidanges"
     source_slug: oem_filter_maintenance_general
     evidence_type: oem_workshop_excerpt
@@ -122,7 +122,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: low
     source_policy: 2_medium_concordant
-    source_status: web_research_to_confirm
+    source_status: pending_capture
 
 notes: |
   Coverage map filtre-a-huile — reconstruite 2026-06-27 (démonstrateur boucle

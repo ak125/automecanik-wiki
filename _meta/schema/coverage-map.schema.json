@@ -37,7 +37,7 @@
             "pattern": "^[a-z0-9][a-z0-9-]{0,118}[a-z0-9]$"
           },
           "section": {
-            "description": "Anchor de section H2 dans la fiche markdown. Ex : '## Symptômes d'usure', '## Particularités d'entretien'. Doit correspondre à un H2 réel de la fiche (vérifié par check-coverage-map.py).",
+            "description": "Anchor de section H2 ou H3 dans la fiche markdown. Ex : '## Symptômes d'usure', '### Spécificités par version'. Doit correspondre à un H2 ou H3 réel de la fiche (vérifié par check-coverage-map.py). H4+ = niveau-item, hors ancrage : ancrer au H2/H3 parent.",
             "type": "string",
             "minLength": 3,
             "maxLength": 200

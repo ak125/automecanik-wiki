@@ -12,7 +12,7 @@ coverage_entries:
     source_status: pending_capture
 
   - claim_id: focus-3-rs-mk3-350ch-4wd-drift
-    section: "## Spécificités par version"
+    section: "## Particularités d'entretien"
     text_anchor: "RS Mk3 (2016-2018, 350 ch), Transmission 4WD AWD, mode Drift"
     source_slug: wikipedia_fr_ford_focus
     evidence_type: wikipedia_factual

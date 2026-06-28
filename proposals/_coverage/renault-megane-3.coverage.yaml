@@ -12,7 +12,7 @@ coverage_entries:
     source_status: pending_capture
 
   - claim_id: megane-3-rs-trophy-265ch-record-nurburgring
-    section: "## Spécificités par version"
+    section: "## Particularités d'entretien"
     text_anchor: "Trophy 2014 (8 min 8 s — record voitures à traction avant pendant 2 ans)"
     source_slug: wikipedia_fr_renault_megane_iii
     evidence_type: wikipedia_factual

@@ -21,7 +21,7 @@ coverage_entries:
     source_status: pending_capture
 
   - claim_id: 206-rc-177ch-rfk-ew10j4s
-    section: "## Spécificités par version"
+    section: "## Particularités d'entretien"
     text_anchor: "Peugeot 206 RC (2003-2007), 2.0 16V 177 ch (RFK EW10J4S)"
     source_slug: wikipedia_fr_peugeot_206
     evidence_type: wikipedia_factual

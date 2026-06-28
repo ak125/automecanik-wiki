@@ -56,8 +56,10 @@ jobs:
         continue-on-error: true   # tolérance phase d'amorçage
 
       - name: check-coverage-map (ADR-089 — coverage-map FK/schéma/ancrage)
-        run: python3 _scripts/check-coverage-map.py --all
-        continue-on-error: true   # REPORT-ONLY ; enforce (--strict) après nettoyage backlog (5 FAIL/6 WARN), owner-gated
+        # ENFORCE (--strict, exit 1 si FAIL) : backlog nettoyé (0 FAIL au merge de cette PR).
+        # --strict ne bloque QUE sur FAIL ; les WARN (coverage-map absente) restent advisory
+        # (--warn-as-fail = étape ultérieure une fois les 6 WARN backfillées).
+        run: python3 _scripts/check-coverage-map.py --all --strict
 
       - name: pytest fixtures (gates ADR-033 + ADR-032)
         run: cd _scripts/tests && python3 -m pytest -v

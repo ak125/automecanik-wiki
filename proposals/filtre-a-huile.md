@@ -59,7 +59,7 @@ review_notes: "Reconstruite 2026-06-27 depuis le scrape web-research RUN_TARGETE
   \ anti number-swapping → revue humaine. evidence reviewed=false + diagnostic_safe=false\
   \ (défaut conservateur ADR-033 §D4)."
 no_disputed_claims: true
-confidence_score: 0.42
+confidence_score: 0.46
 exportable:
   rag: false
   seo: false

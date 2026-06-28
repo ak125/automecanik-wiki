@@ -21,7 +21,8 @@ Vérifie, par fiche `proposals/<slug>.md` :
   2. Conformité au schéma `_meta/schema/coverage-map.schema.json`.
   3. FK strict : chaque `coverage_entries[].source_slug` existe dans
      `_meta/source-catalog.yaml` (FAIL sinon — anti-gonflement du score, ADR-089 §3).
-  4. Ancrage : chaque `coverage_entries[].section` correspond à un H2 réel de la fiche.
+  4. Ancrage : chaque `coverage_entries[].section` correspond à un H2 OU H3 réel de la fiche
+     (les fiches structurent en sous-sections ; H4+ = niveau-item, hors ancrage).
 
 Usage:
   python3 _scripts/check-coverage-map.py --all
@@ -45,6 +46,7 @@ except ImportError:  # pragma: no cover
     Draft202012Validator = None
 
 H2_RE = re.compile(r"^(##\s+.+?)\s*$", re.MULTILINE)
+H3_RE = re.compile(r"^(###\s+.+?)\s*$", re.MULTILINE)
 FRONTMATTER_RE = re.compile(r"^---\n(.*?)\n---\n?(.*)$", re.DOTALL)
 
 
@@ -82,6 +84,10 @@ def _fiche_h2(body: str) -> set[str]:
     return {h.strip() for h in H2_RE.findall(body)}
 
 
+def _fiche_h3(body: str) -> set[str]:
+    return {h.strip() for h in H3_RE.findall(body)}
+
+
 def check_fiche(md_path: Path, root: Path, catalog: set[str], schema) -> dict:
     """Retourne {slug, status (PASS|WARN|FAIL), fails[], warns[]}."""
     slug = md_path.stem
@@ -89,6 +95,10 @@ def check_fiche(md_path: Path, root: Path, catalog: set[str], schema) -> dict:
     warns: list[str] = []
     fm, body = _split_md(md_path.read_text(encoding="utf-8"))
     h2 = _fiche_h2(body)
+    # Ancrage valide = H2 OU H3 : les fiches structurent en sous-sections (ex. un claim
+    # "version" vit sous `## Particularités d'entretien` → `### Spécificités par version`).
+    # H4+ reste niveau-item (## blocs détaillés), volontairement hors ancrage.
+    valid_sections = h2 | _fiche_h3(body)
     cov_path = root / "proposals" / "_coverage" / f"{slug}.coverage.yaml"
 
     if not cov_path.is_file():
@@ -133,8 +143,8 @@ def check_fiche(md_path: Path, root: Path, catalog: set[str], schema) -> dict:
             fails.append(f"entry[{i}].source_slug='{sslug}' absent de _meta/source-catalog.yaml (FK, ADR-089 §3)")
         # 4. Ancrage section ↔ H2 réel
         sec = e.get("section")
-        if sec and sec not in h2:
-            fails.append(f"entry[{i}].section='{sec}' ne correspond à aucun H2 de la fiche")
+        if sec and sec not in valid_sections:
+            fails.append(f"entry[{i}].section='{sec}' ne correspond à aucun H2/H3 de la fiche")
 
     status = "FAIL" if fails else ("WARN" if warns else "PASS")
     return {"slug": slug, "status": status, "fails": fails, "warns": warns,

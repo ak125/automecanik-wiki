@@ -95,6 +95,31 @@ def test_fail_section_anchor_not_in_fiche(tmp_path):
     assert any("H2" in f for f in r["fails"])
 
 
+def test_pass_h3_section_anchor(tmp_path):
+    # Un claim peut s'ancrer sur une sous-section H3 réelle (ex. version sous entretien).
+    root = _make_wiki(
+        tmp_path, catalog_slugs=["oem_x"],
+        fiche_body="## Particularités d'entretien\ntexte\n### Spécificités par version\ndétail\n",
+        coverage={"fiche": "demo", "schema_version": "1.0.0",
+                  "coverage_entries": [_valid_entry(section="### Spécificités par version")]},
+    )
+    r = _check(root)
+    assert r["status"] == "PASS", r["fails"] + r["warns"]
+
+
+def test_fail_h4_section_anchor_is_item_level(tmp_path):
+    # H4 = niveau-item, volontairement hors ancrage : ancrer au H2/H3 parent.
+    root = _make_wiki(
+        tmp_path, catalog_slugs=["oem_x"],
+        fiche_body="## Motorisations\ntexte\n#### Ford Focus RS Mk3\ndétail\n",
+        coverage={"fiche": "demo", "schema_version": "1.0.0",
+                  "coverage_entries": [_valid_entry(section="#### Ford Focus RS Mk3")]},
+    )
+    r = _check(root)
+    assert r["status"] == "FAIL"
+    assert any("H2/H3" in f for f in r["fails"])
+
+
 def test_strict_exit_code_via_cli(tmp_path, monkeypatch, capsys):
     root = _make_wiki(
         tmp_path, catalog_slugs=["oem_x"],

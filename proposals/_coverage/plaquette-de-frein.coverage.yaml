@@ -56,7 +56,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: web_captured
+    source_status: pending_capture
 
   - claim_id: plaquette-fonction-conversion-energie
     section: "## Fonction"
@@ -65,7 +65,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: web_captured
+    source_status: pending_capture
 
   - claim_id: plaquette-sens-montage-cote-piston
     section: "## Critères de choix"
@@ -74,7 +74,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: web_captured
+    source_status: pending_capture
 
   - claim_id: plaquette-temoin-usure-types
     section: "## Critères de choix"
@@ -83,7 +83,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: web_captured
+    source_status: pending_capture
 
   - claim_id: plaquette-rodage-200km
     section: "## Critères de choix"
@@ -92,7 +92,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: web_captured
+    source_status: pending_capture
 
   - claim_id: plaquette-dix-criteres-oe-vs-equivalent
     section: "## Critères de choix"
@@ -101,7 +101,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: web_captured
+    source_status: pending_capture
 
   - claim_id: plaquette-temoin-usure-delphi
     section: "## Critères de choix"
@@ -110,7 +110,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: web_captured
+    source_status: pending_capture
 
   # --- hiérarchie équipementier : data catalogue interne (SoT) → high db_owned ---
   - claim_id: plaquette-equipementiers-oes-hierarchie
@@ -120,7 +120,7 @@ coverage_entries:
     evidence_type: internal_catalog_db
     confidence: high
     source_policy: 1_high
-    source_status: db_owned
+    source_status: captured
 
 notes: |
   Coverage map plaquette-de-frein — re-sourcée 2026-06-19 (démonstrateur chaîne TIER A).

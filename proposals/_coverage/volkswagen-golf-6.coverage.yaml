@@ -48,7 +48,7 @@ coverage_entries:
     source_status: pending_capture
 
   - claim_id: golf-6-r-mk6-270ch-4motion-haldex
-    section: "## Spécificités par version"
+    section: "## Particularités d'entretien"
     text_anchor: "Golf R Mk6 (270 ch), Transmission 4WD 4Motion (Haldex génération 4)"
     source_slug: wikipedia_fr_volkswagen_golf_vi
     evidence_type: wikipedia_factual

@@ -518,3 +518,114 @@ sources:
       et le droit des équipementiers OE à vendre en rechange. Extraite dans
       price-quality-brands.md (legislation.gov.uk + CLEPA). STATUS to_capture :
       texte réglementaire référencé par URL, archive à matérialiser.
+
+  # ─── Plaquette-de-frein : équipementiers OE (web-research) + catalogue interne ───
+  - slug: bremboparts_technologie_etriers
+    title: 'Brembo — Technologie et fonction des étriers de frein (fixes vs flottants)'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Brembo (bremboparts.com)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: bremboparts_technologie_etriers
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Équipementier OE freinage (première monte). Page support officielle sur la
+      différence étriers fixes / flottants. Extraite dans le proposal plaquette-de-frein
+      (## Définition). STATUS to_capture : page référencée par URL
+      (bremboparts.com/.../technologie-et-fonction-des-etriers-de-frein-324333), archive à matérialiser.
+
+  - slug: bremboparts_remplacement_kit
+    title: 'Brembo — Instructions pour remplacer disques et plaquettes (Kit EV)'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Brembo (bremboparts.com)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: bremboparts_remplacement_kit
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Équipementier OE freinage. Procédure de remplacement (conversion d'énergie,
+      rodage ~200 km). Extraite dans le proposal plaquette-de-frein (## Fonction,
+      ## Critères de choix). STATUS to_capture : page référencée par URL
+      (bremboparts.com/.../instructions-pour-remplacer-les-disques-et-les-plaquettes-kit-ev-280501), archive à matérialiser.
+
+  - slug: bremboparts_oe_vs_equivalent
+    title: 'Brembo — Différencier pièces d''origine et pièces équivalentes en 10 points'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Brembo (bremboparts.com)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: bremboparts_oe_vs_equivalent
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Équipementier OE freinage. Dix critères distinguant une pièce d'origine d'une
+      équivalente. Extraite dans le proposal plaquette-de-frein (## Critères de choix).
+      STATUS to_capture : page référencée par URL
+      (bremboparts.com/.../pieces-de-rechange-comment-differencier-...-en-10-points-219855), archive à matérialiser.
+
+  - slug: zf_installation_plaquettes
+    title: 'ZF Aftermarket (TRW) — Installation correcte des plaquettes de frein'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'ZF Aftermarket (TRW)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: zf_installation_plaquettes
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Équipementier OE freinage. Conseil atelier : sens de montage (côté piston),
+      types de témoins d'usure (acoustique/mécanique). Extraite dans le proposal
+      plaquette-de-frein (## Critères de choix). STATUS to_capture : page référencée
+      par URL (aftermarket.zf.com/.../installation-correcte-des-plaquettes-de-frein/), archive à matérialiser.
+
+  - slug: delphi_temoins_usure
+    title: 'Delphi Technologies — Ce qu''il faut savoir sur les témoins d''usure des plaquettes'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Delphi Technologies'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: delphi_temoins_usure
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Équipementier OE freinage. Fonctionnement des témoins d'usure (capteur filaire
+      → témoin lumineux). Extraite dans le proposal plaquette-de-frein (## Critères de
+      choix). STATUS to_capture : page référencée par URL
+      (delphiautoparts.com/.../ce-quil-faut-savoir-sur-les-temoins-dusure-...), archive à matérialiser.
+
+  - slug: pieces_marque_oes_catalog_db
+    title: 'AutoMecanik — catalogue interne marques équipementiers OES (pieces ⋈ pieces_marque : pm_oes, pm_nb_stars)'
+    type: parts_feed_certified                  # → max confidence: high
+    publisher: 'AutoMecanik (source de données interne)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: pieces_marque_oes_catalog_db
+      expected_sha256: null
+    archived_at: 'internal:db/pieces_marque (pm_oes, pm_nb_stars)'
+    status: active
+    license: internal_proprietary
+    notes: |
+      Source de données INTERNE autoritaire (db_owned, ADR-086) : hiérarchie des marques
+      équipementiers d'origine du freinage (Bosch, Brembo, ATE…) dérivée de la jointure
+      pieces ⋈ pieces_marque (champs pm_oes / pm_nb_stars). Ce n'est PAS un document web :
+      donnée curée du catalogue, toujours disponible (status active → coverage captured).
+      Seule la hiérarchie de marques est projetée — aucune réf/SKU/compatibilité exacte
+      (anti catalog_leak ; le fitment exact reste runtime/DB R2).

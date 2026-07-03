@@ -62,16 +62,15 @@ def _resolve_status(c: dict, catalog: dict, valid_sections: set) -> str:
     """source_status d'un claim via la MÊME logique que gen_coverage_map.generate (page-level, Option A).
 
     Gate IDENTIQUE à generate() : cataloged **ET** `section ∈ valid_sections` **ET** type autoritaire
-    **ET** page prouvée → statut réel (captured/verified) ; sinon pending_capture. Ne PAS relâcher ce
-    prédicat (auto-review 2026-07-03 : une copie laxiste sans le gate section = dérive fail-open)."""
+    **ET** `is_page_proven` (catalog status: active) → token coverage `captured` ; sinon pending_capture.
+    Ne PAS relâcher ce prédicat (auto-review 2026-07-03 : une copie laxiste sans le gate section = dérive fail-open)."""
     cat_slug = catalog["domain_to_slug"].get(c["domain"])
     if not cat_slug or c.get("section") not in valid_sections:
         return "pending_capture"
     entry = catalog["slugs"][cat_slug]
     authoritative = str(entry.get("type", "")) in cov_mod.CATALOG_AUTHORITATIVE
-    page_status = str(entry.get("status", "")).lower()
-    if authoritative and page_status in cov_mod.PAGE_PROVEN_STATUSES:
-        return page_status
+    if authoritative and cov_mod.is_page_proven(entry):
+        return "captured"                         # status catalog `active` → token coverage prouvé (source_status)
     return "pending_capture"
 
 

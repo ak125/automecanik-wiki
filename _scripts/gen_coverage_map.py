@@ -60,11 +60,27 @@ FORUM_HINTS = re.compile(
     r"forum-auto|worldstandards)", re.I)
 
 # Types catalog considérés AUTORITAIRES (→ policy 1_high autorisé quand la source est cataloguée).
+# NOTE (G2 EN PAUSE owner 2026-07-03) : le rôle exact de `tecdoc_official` (preuve externe /
+# corroboration, JAMAIS vérité métier — la vérité canonique = DB Massdoc) fait l'objet d'un audit
+# séparé. Aucune promotion de TecDoc ici : ce set reste inchangé (le membre `tecdoc` bare, absent de
+# l'enum `type`, demeure inerte) tant que l'audit n'a pas clarifié le rôle. Ne PAS « corriger » ici.
 CATALOG_AUTHORITATIVE = {"oem_manual", "normative_standard", "tecdoc", "db_owned", "manufacturer_official"}
 
 
-# page capturée/prouvée → confidence pleine possible ; page pending_capture → medium max.
-PAGE_PROVEN_STATUSES = {"captured", "verified", "archived"}
+def is_page_proven(entry: dict) -> bool:
+    """Prédicat CANONIQUE « source/page prouvée » (G1 Option A owner 2026-07-03, réparation #77).
+
+    Réconcilie les DEUX schémas gouvernés : le catalog `status` (enum active|to_capture, SoT) est
+    mappé vers le `source_status` coverage `captured`. RÈGLE OWNER : une entrée `active` n'est
+    utilisable que si son `raw_ref` (manifest_id) est PRÉSENT — la vérification d'intégrité (FK
+    manifest_id + hash drift) est faite par le gate EXISTANT `gate_source_catalog_raw_refs`
+    (quality-gates.py), JAMAIS re-implémentée ici (pas de mini-système de vérité parallèle). Le
+    source-catalog PROUVE (il faut un document = raw_ref) ; la vérité métier reste la DB Massdoc.
+    Fail-closed : `to_capture`, `active` SANS raw_ref, ou la valeur COVERAGE `captured` (mauvais
+    schéma catalog) → NON prouvé."""
+    raw_ref = entry.get("raw_ref") or {}
+    return (str(entry.get("status", "")).strip().lower() == "active"
+            and bool(raw_ref.get("manifest_id")))
 
 
 def _cap_medium(conf: str) -> str:
@@ -170,12 +186,12 @@ def generate(slug: str, fiche_md: str, raw_root: Path) -> tuple[dict, dict]:
         if cat_slug and c["section"] in valid_sections:
             entry = catalog["slugs"][cat_slug]
             authoritative = str(entry.get("type", "")) in CATALOG_AUTHORITATIVE
-            # page-level : la PREUVE du claim dépend de la capture de la page, pas juste de l'éditeur
-            page_status = str(entry.get("status", "")).lower()
-            page_proven = page_status in PAGE_PROVEN_STATUSES
+            # page-level : la PREUVE du claim dépend de la capture de la page (catalog status: active),
+            # pas juste de l'éditeur. Le status catalog `active` → source_status coverage `captured`.
+            page_proven = is_page_proven(entry)
             # claim_confidence_cap (durcissement owner 2026-07-03)
             if authoritative and page_proven:
-                conf, policy, status = c["conf"], "1_high", ("verified" if page_status == "verified" else "captured")
+                conf, policy, status = c["conf"], "1_high", "captured"
             else:  # publisher validé mais page non prouvée (ou type non-autoritaire) → medium max, report-only
                 conf, policy, status = _cap_medium(c["conf"]), "2_medium_concordant", "pending_capture"
             i = per_section_i.get(c["section"], 0); per_section_i[c["section"]] = i + 1

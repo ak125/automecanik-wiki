@@ -36,8 +36,10 @@ VERDICTS = frozenset({
     "numeric_vehicle_specific_do_not_generalize",
 })
 
-# page source réellement prouvée (cohérent avec gen_coverage_map.PAGE_PROVEN_STATUSES)
-PROVEN_STATUSES = frozenset({"captured", "verified", "archived"})
+# valeurs COVERAGE prouvées (enum `source_status` de coverage-map.schema.json). Le status CATALOG
+# `active` est mappé vers ces valeurs par gen_coverage_map.is_page_proven / _resolve_status (SoT du
+# prédicat) ; "archived" n'appartient à AUCUN des deux schémas (fantôme) → retiré.
+PROVEN_STATUSES = frozenset({"captured", "verified"})
 
 # unités reconnues (longues d'abord pour l'alternation ; µ = U+00B5, μ = U+03BC)
 _UNIT = r"(?:mm²|daNm|N·m|N\.m|Nm|mm|µm|μm|cm|kPa|MPa|bar|psi|°C|%|kg)"

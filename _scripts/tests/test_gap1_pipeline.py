@@ -154,7 +154,8 @@ def test_cataloged_captured_page_can_be_high(tmp_path: Path, monkeypatch) -> Non
     _mk_bucket(tmp_path, "disque-de-frein", "selection_criteria", [BULLET])  # bullet conf = high
     meta = tmp_path / "_meta"; meta.mkdir(parents=True, exist_ok=True)
     (meta / "source-catalog.yaml").write_text(yaml.safe_dump({"sources": [
-        {"slug": "textar_oem_disque", "type": "oem_manual", "status": "captured",
+        {"slug": "textar_oem_disque", "type": "oem_manual", "status": "active",  # active + raw_ref (G1) → coverage captured
+         "raw_ref": {"repo": "automecanik-raw", "manifest_id": "textar_oem_disque"},
          "title": "Textar textar.com disque"}]}), encoding="utf-8")
     monkeypatch.setattr(CM, "SOURCE_CATALOG", meta / "source-catalog.yaml")
     md, _ = A.author("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []))
@@ -261,7 +262,8 @@ def test_numeric_none_is_backward_compatible() -> None:
 def test_resolve_status_requires_valid_section() -> None:
     # HAUTE 5 (auto-review) : _resolve_status applique le MÊME gate `section ∈ valid_sections` que generate().
     catalog = {"domain_to_slug": {"brembo.com": "brembo"},
-               "slugs": {"brembo": {"type": "oem_manual", "status": "captured"}}}
+               "slugs": {"brembo": {"type": "oem_manual", "status": "active",
+                                    "raw_ref": {"manifest_id": "brembo_x"}}}}  # active + raw_ref (G1) → captured
     valid = {"## Critères de sélection"}
     c_ok = {"domain": "brembo.com", "section": "## Critères de sélection"}
     c_bad_section = {"domain": "brembo.com", "section": "## Section fantôme"}

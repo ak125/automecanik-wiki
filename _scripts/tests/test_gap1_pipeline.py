@@ -130,20 +130,39 @@ def test_unknown_source_pending_not_counted(tmp_path: Path, monkeypatch) -> None
     assert all(s["status"] == "pending_source_validation" for s in rep["sources_to_validate"])
 
 
-# ---- 7. Option A : source cataloguée = réutilisée ---------------------------------------------
-def test_cataloged_source_reused(tmp_path: Path, monkeypatch) -> None:
+# ---- 7a. publisher validé + page pending_capture → medium MAX (durcissement page-level) --------
+def test_cataloged_pending_page_capped_medium(tmp_path: Path, monkeypatch) -> None:
     pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
-    _mk_bucket(tmp_path, "disque-de-frein", "selection_criteria", [BULLET])
+    _mk_bucket(tmp_path, "disque-de-frein", "selection_criteria", [BULLET])  # bullet conf = high
     meta = tmp_path / "_meta"; meta.mkdir(parents=True, exist_ok=True)
     (meta / "source-catalog.yaml").write_text(yaml.safe_dump({"sources": [
-        {"slug": "textar_oem_disque", "type": "oem_manual", "title": "Textar textar.com disque"}]}),
-        encoding="utf-8")
+        {"slug": "textar_oem_disque", "type": "oem_manual", "status": "to_capture",
+         "title": "Textar textar.com disque"}]}), encoding="utf-8")
     monkeypatch.setattr(CM, "SOURCE_CATALOG", meta / "source-catalog.yaml")
     md, _ = A.author("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []))
     cov, rep = CM.generate("disque-de-frein", md, tmp_path)
-    assert rep["valid_entries"] >= 1, "source cataloguée (autorité validée) réutilisée → compte dim A"
-    assert cov and cov["coverage_entries"][0]["source_slug"] == "textar_oem_disque"
-    assert cov["coverage_entries"][0]["source_policy"] == "1_high", "oem_manual → 1_high"
+    e = cov["coverage_entries"][0]
+    assert e["source_slug"] == "textar_oem_disque"
+    assert e["confidence"] == "medium", "page pending_capture → high rabattu à medium (publisher ≠ preuve)"
+    assert e["source_policy"] == "2_medium_concordant", "pending page → jamais 1_high"
+    assert e["source_status"] == "pending_capture"
+
+
+# ---- 7b. publisher validé + page captured → high / 1_high possible ----------------------------
+def test_cataloged_captured_page_can_be_high(tmp_path: Path, monkeypatch) -> None:
+    pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
+    _mk_bucket(tmp_path, "disque-de-frein", "selection_criteria", [BULLET])  # bullet conf = high
+    meta = tmp_path / "_meta"; meta.mkdir(parents=True, exist_ok=True)
+    (meta / "source-catalog.yaml").write_text(yaml.safe_dump({"sources": [
+        {"slug": "textar_oem_disque", "type": "oem_manual", "status": "captured",
+         "title": "Textar textar.com disque"}]}), encoding="utf-8")
+    monkeypatch.setattr(CM, "SOURCE_CATALOG", meta / "source-catalog.yaml")
+    md, _ = A.author("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []))
+    cov, rep = CM.generate("disque-de-frein", md, tmp_path)
+    e = cov["coverage_entries"][0]
+    assert e["confidence"] == "high", "page captured + publisher validé + claim ancré → high possible"
+    assert e["source_policy"] == "1_high"
+    assert e["source_status"] == "captured"
 
 
 # ---- 8. dim D : related_gammes ⊆ manifest ------------------------------------------------------

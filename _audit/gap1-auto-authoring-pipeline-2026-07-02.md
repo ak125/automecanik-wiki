@@ -13,36 +13,51 @@ quality-gates] → gap1_auto_review (verdict + garde sécurité 091)
 
 Nouveaux modules (`_scripts/`) ; **rien de réimplémenté** (scorer/validateur/promote/safety = existants) :
 
-| module | rôle | invariants |
-|---|---|---|
-| `author_from_raw.py` | buckets OE `## Faits sourcés` → body H2 + `entity_data.editorial` + `related_gammes`/`commerce_intent` | 0 LLM, 0 invention (structuration de faits sourcés), aspect→section CONTRÔLÉ (fail-closed), `truth_level: sourced`, ne touche PAS `review_status`/`exportable`, `related_gammes` ∩ manifest committé |
-| `gen_coverage_map.py` | coverage-map candidate 2-tiers | **Option A** : source FK à catalog EXISTANT → entrée valide (compte dim A) ; source inconnue → `pending_source_validation` (liste + type proposé, NE compte pas, jamais écrite au catalog). `1_high` seulement si type catalog autoritaire |
-| `gap1_auto_review.py` | driver : authoring→coverage→gates→verdict | report-only, shadow dir temporaire, verdict encode ADR-091 (sécurité → jamais auto) |
+| module                | rôle                                                                                                   | invariants                                                                                                                                                                                           |
+| --------------------- | ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `author_from_raw.py`  | buckets OE `## Faits sourcés` → body H2 + `entity_data.editorial` + `related_gammes`/`commerce_intent` | 0 LLM, 0 invention (structuration de faits sourcés), aspect→section CONTRÔLÉ (fail-closed), `truth_level: sourced`, ne touche PAS `review_status`/`exportable`, `related_gammes` ∩ manifest committé |
+| `gen_coverage_map.py` | coverage-map candidate 2-tiers + cap page-level                                                        | **Option A** : source FK à catalog EXISTANT → entrée valide ; source inconnue → `pending_source_validation`. **Durcissement page-level** ci-dessous                                                  |
+| `gap1_auto_review.py` | driver : authoring→coverage→gates→verdict                                                              | report-only, shadow dir temporaire, verdict encode ADR-091 (sécurité → jamais auto)                                                                                                                  |
+
+## Politique de preuve dim A — publisher-level ≠ page-level (durcissement owner 2026-07-03)
+
+- **publisher-level** valide l'**autorité de l'éditeur** (Brembo, ATE, Textar… = fiable).
+- **page-level** valide la **preuve du claim** (page/doc précis capturé + claim ancré).
+- Un publisher validé n'accorde PAS `high` claim-par-claim. `claim_confidence_cap` :
+
+| état source                                                 | confidence      | source_policy         | compte dim A                         |
+| ----------------------------------------------------------- | --------------- | --------------------- | ------------------------------------ |
+| publisher validé + page `captured`/`verified` + text_anchor | `high` possible | `1_high`              | fort                                 |
+| publisher validé mais page `pending_capture`                | `medium` MAX    | `2_medium_concordant` | report-only (medium)                 |
+| source inconnue                                             | —               | —                     | exclue (`pending_source_validation`) |
 
 ## Résultat pilote — disque-de-frein (famille freinage, sécurité)
 
-| dim | avant (origin/main) | après (auto) | source |
-|---|:-:|:-:|---|
-| A (preuve/coverage) | 0 ❌ | **30** | 27 entrées via **2 autorités OEM déjà validées** (Brembo, Delphi — validées 1× pour plaquette, réutilisées) ; `check-coverage-map --strict` PASS |
-| C (editorial) | 0 ❌ | **16.7** | 5 sections authored depuis buckets OE (schema-valid) |
-| D (commerce) | 0 ❌ | **15** | 7 `related_gammes` freinage (manifest-validées) + `commerce_intent` |
-| E / F | 10 / 1 | 10 / 1 | inchangé |
-| **total / tier** | **14 / D** | **91 / S** | tous planchers OK |
-| **VERDICT** | — | **`human_spot_check_required`** | **TIER S SÉCURITÉ → ADR-091, jamais auto** |
+| dim                 | avant (origin/main) |    après (auto)    | source                                                                                                                                                           |
+| ------------------- | :-----------------: | :----------------: | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| A (preuve/coverage) |        0 ❌         |       **18**       | 27 entrées via 2 autorités OEM validées (Brembo/Delphi) — mais pages `to_capture` → **cappées `medium`** (page non prouvée) ; `check-coverage-map --strict` PASS |
+| C (editorial)       |        0 ❌         |      **16.7**      | 5 sections authored depuis buckets OE (schema-valid)                                                                                                             |
+| D (commerce)        |        0 ❌         |       **15**       | 7 `related_gammes` freinage (manifest-validées) + `commerce_intent`                                                                                              |
+| E / F               |       10 / 1        |       10 / 1       | inchangé                                                                                                                                                         |
+| **total / tier**    |     **14 / D**      |     **76 / B**     | plancher `A<22` KO (attendu : preuve page pending)                                                                                                               |
+| **VERDICT**         |          —          | **`human_review`** | tier B + `A<22` ; sécurité → jamais auto (ADR-091)                                                                                                               |
+
+Le score **n'est PAS gonflable par une autorité trop large** : avant durcissement il montait à 91/S (dim A 30) en
+traitant à tort la réutilisation publisher comme `high` ; après durcissement il tombe honnêtement à **76/B, dim A 18**,
+plancher A non franchi. **Chemin légitime vers dim A fort = capturer/archiver les pages OE précises** (page-level),
+alors la confidence peut passer `high`.
 
 Option A en action : **33 sources restent `pending_source_validation`** (12 proposées `équipementier_oem` :
-textar/ferodo/ate/trw/hella ; 21 `unknown` : amazon/autodoc/forums) → **ne comptent pas** pour dim A.
-Aucun forum promu en OE. Validation d'autorité = **1×/source**, ensuite réutilisée sur toute la famille freinage.
+textar/ferodo/ate/trw/hella ; 21 `unknown` : amazon/autodoc/forums) → **ne comptent pas** pour dim A. Validation
+d'autorité = **1×/source**, écrite proprement dans `source-catalog.yaml` par un humain (jamais déduite par le pipeline),
+puis réutilisée sur toute la famille freinage.
 
-## Honnêteté (ne pas surinterpréter le tier S)
+## Honnêteté
 
-1. **tier S = score structurel** (dims remplies), **PAS « publié »** : la fiche reste `review_status: proposed`,
-   `exportable.seo: false` ; la promotion sécurité reste **humaine** (verdict). Le contenu est une **structuration
-   déterministe** de faits sourcés (`truth_level: sourced`), pas de la prose humaine-polie — décision LLM-polish
-   = **après**, sur données.
-2. **dim A** repose sur la réutilisation d'autorité au niveau **publisher** (Brembo/Delphi), `source_status:
-   pending_capture` pour les pages disque non capturées individuellement. Intention owner (anti-goulot), transparent.
-3. **Pré-existant, orthogonal** : `quality-gates` FAIL (`source_unresolved:pieces_marque_oes_catalog_db`) + WARN
+1. **tier B = score structurel shadow, PAS « publiable »** : fiche reste `review_status: proposed`,
+   `exportable.seo: false` ; contenu = **structuration déterministe** de faits sourcés (`truth_level: sourced`),
+   pas de prose humaine-polie — LLM-polish **NO-GO** (owner 2026-07-03), à tester en couche séparée plus tard.
+1. **Pré-existant, orthogonal** : `quality-gates` FAIL (`source_unresolved:pieces_marque_oes_catalog_db`) + WARN
    pollution (Brembo/Textar) existent DÉJÀ sur `origin/main:disque-de-frein` (body #71, 39 mentions de marques) —
    non introduits par le pipeline ; l'auto-review les remonte (actionnable).
 
@@ -50,14 +65,17 @@ Aucun forum promu en OE. Validation d'autorité = **1×/source**, ensuite réuti
 
 - shadow-only : aucun fichier `proposals/` ou `_meta/source-catalog.yaml` muté ; le pilote écrit dans un dossier
   temporaire hors-repo. **Rollback = `git revert`** (0 effet runtime, 0 promotion).
-- sécurité freinage : `review_status: proposed` maintenu, `human_spot_check` (ADR-091). Option B (zéro-humain
+- sécurité freinage : `review_status: proposed` maintenu, verdict humain (ADR-091). Option B (zéro-humain
   sécurité) = **amendement vault**, jamais contournement code.
-- tests : `_scripts/tests/test_gap1_pipeline.py` (9 tests, auto-collectés par `wiki-quality-gates.yml`) —
-  static no-LLM/no-DB, fail-closed aspect, editorial sourcé, no-promote, déterminisme, Option A (inconnu=pending /
-  catalogué=réutilisé), related_gammes ∩ manifest, sécurité détectée.
+- tests : `_scripts/tests/test_gap1_pipeline.py` (10 tests, auto-collectés par `wiki-quality-gates.yml`) —
+  static no-LLM/no-DB, fail-closed aspect, editorial sourcé, no-promote, déterminisme, Option A (inconnu=pending),
+  cap page-level (pending→medium / captured→high), related_gammes ∩ manifest, sécurité détectée.
 
 ## Suite (owner-gated)
 
-1. Valider 1× les sources OE proposées (textar/ferodo/ate/trw/hella) → dim A monte sans nouvelle curation.
-2. Décision **LLM-polish** (qualité prose editorial) = evidence-based, après ce pilote déterministe.
-3. Étendre aux autres gammes à buckets OE (colonne-de-direction après création proposal). **GAP-2 reste NO-GO.**
+1. Valider 1× les publishers officiels proposés (textar/ferodo/ate/trw-zf/hella) **dans `source-catalog.yaml`**
+   (domaine officiel + page technique réelle + capturable ; pas marketplace/forum/blog/revendeur).
+1. **Capturer/archiver** les pages OE précises (`status: captured`) → confidence `high` → dim A franchit son plancher
+   honnêtement, sans autorité trop large.
+1. LLM-polish = **NO-GO** maintenant ; couche séparée plus tard (diff strict : 0 claim / 0 source_id / 0 fait modifiés).
+1. **GAP-2 reste NO-GO.**

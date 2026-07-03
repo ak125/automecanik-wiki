@@ -246,3 +246,50 @@ def test_non_critical_validated_still_needs_corroboration():
                        ranges=RANGES, corroborating_sources=1) == "numeric_ambiguous"
     assert NE.classify(v, host, source_status="verified", family="freinage",
                        ranges=RANGES, corroborating_sources=2) == "numeric_verified"
+
+
+# ── V2 corroboration : compte RÉEL des sources captées distinctes concordantes ────────────────────
+def test_corroboration_counted_from_distinct_captured_sources():
+    # 2 sources captées DISTINCTES concordantes sur la même valeur → corroboré → verified.
+    two = [
+        {"text": "voile latéral 0,05 mm sur le disque avant", "source_status": "verified", "source_id": "zf"},
+        {"text": "voile latéral 0,05 mm mesuré sur le disque avant", "source_status": "verified", "source_id": "textar"},
+    ]
+    assert dict(NE.classify_all(two, family="freinage", ranges=RANGES))["0,05 mm"] == "numeric_verified"
+
+
+def test_single_captured_source_is_not_corroborated():
+    one = [{"text": "voile latéral 0,05 mm sur le disque avant", "source_status": "verified", "source_id": "zf"}]
+    assert dict(NE.classify_all(one, family="freinage", ranges=RANGES))["0,05 mm"] == "numeric_ambiguous"
+
+
+def test_same_source_twice_does_not_self_corroborate():
+    # 2 claims mais MÊME source → 1 source distincte → non corroboré (anti auto-corroboration).
+    dup = [
+        {"text": "voile latéral 0,05 mm sur le disque avant", "source_status": "verified", "source_id": "zf"},
+        {"text": "voile latéral 0,05 mm mesuré sur le disque avant", "source_status": "verified", "source_id": "zf"},
+    ]
+    assert dict(NE.classify_all(dup, family="freinage", ranges=RANGES))["0,05 mm"] == "numeric_ambiguous"
+
+
+def test_divergent_sources_do_not_corroborate():
+    # divergence type Brembo/Textar/ZF : valeurs différentes → buckets disjoints → chacune isolée → ambiguous.
+    div = [
+        {"text": "faux-rond du disque avant 0,05 mm", "source_status": "verified", "source_id": "zf"},
+        {"text": "faux-rond du disque avant 0,10 mm", "source_status": "verified", "source_id": "brembo"},
+    ]
+    res = dict(NE.classify_all(div, family="freinage", ranges=RANGES))
+    assert res["0,05 mm"] == "numeric_ambiguous" and res["0,10 mm"] == "numeric_ambiguous"
+
+
+def test_pending_source_not_counted_for_corroboration():
+    # une source concordante mais NON captée ne compte pas (fail-closed) : la source captée
+    # reste seule → corroboration 1 → aucune valeur ne peut atteindre numeric_verified.
+    mixed = [
+        {"text": "voile latéral 0,05 mm sur le disque avant", "source_status": "verified", "source_id": "zf"},
+        {"text": "voile latéral 0,05 mm sur le disque avant", "source_status": "pending_capture", "source_id": "forum"},
+    ]
+    verdicts = [v for _, v in NE.classify_all(mixed, family="freinage", ranges=RANGES)]
+    assert "numeric_verified" not in verdicts          # pending ne corrobore pas → corr=1
+    assert "numeric_ambiguous" in verdicts             # la valeur captée reste ambiguë (non corroborée)
+    assert "numeric_source_not_captured" in verdicts   # le claim pending, lui, échoue à la provenance

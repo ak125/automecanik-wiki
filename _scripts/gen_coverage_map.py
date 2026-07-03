@@ -14,10 +14,16 @@ n'auto-attribue JAMAIS le statut « source fiable officielle ». Deux tiers stri
                    pending_source_validation} → validation HUMAINE 1×/source (pas 1×/fiche), puis
                    réutilisable auto sur toutes les fiches de la famille.
 
+DURCISSEMENT OWNER 2026-07-03 — publisher-level ≠ page-level (anti-gonflement d'autorité trop large) :
+  • **publisher-level** valide l'AUTORITÉ de l'éditeur (Brembo/ATE… = fiable).
+  • **page-level** valide la PREUVE du claim (la page/doc précis est capturée + le claim y est ancré).
+  Le fait qu'un publisher soit validé n'autorise PAS `high` claim-par-claim. `claim_confidence_cap` :
+    - publisher validé + page `captured`/`verified` + text_anchor  → `high` possible, `source_policy: 1_high`.
+    - publisher validé mais page `pending_capture`                 → `medium` MAX, `2_medium_concordant` (report-only, jamais `high`).
+    - source inconnue                                              → exclue (`pending_source_validation`).
+
 Le TYPE proposé (oem/équipementier/normative/tecdoc/forum/blog/unknown) est une SUGGESTION d'aide à la
-validation — jamais une auto-promotion. `source_policy: 1_high` n'est émis QUE pour une source déjà
-cataloguée avec un type autoritaire (oem_manual/normative_standard/tecdoc). Une source candidate ne
-produit AUCUNE entrée forte.
+validation — jamais une auto-promotion.
 """
 from __future__ import annotations
 
@@ -55,6 +61,15 @@ FORUM_HINTS = re.compile(
 
 # Types catalog considérés AUTORITAIRES (→ policy 1_high autorisé quand la source est cataloguée).
 CATALOG_AUTHORITATIVE = {"oem_manual", "normative_standard", "tecdoc", "db_owned", "manufacturer_official"}
+
+
+# page capturée/prouvée → confidence pleine possible ; page pending_capture → medium max.
+PAGE_PROVEN_STATUSES = {"captured", "verified", "archived"}
+
+
+def _cap_medium(conf: str) -> str:
+    """claim_confidence_cap : rabat `high`→`medium` (page non prouvée). low/medium inchangés."""
+    return "medium" if conf == "high" else conf
 
 
 def _domain(url: str) -> str:
@@ -155,6 +170,14 @@ def generate(slug: str, fiche_md: str, raw_root: Path) -> tuple[dict, dict]:
         if cat_slug and c["section"] in valid_sections:
             entry = catalog["slugs"][cat_slug]
             authoritative = str(entry.get("type", "")) in CATALOG_AUTHORITATIVE
+            # page-level : la PREUVE du claim dépend de la capture de la page, pas juste de l'éditeur
+            page_status = str(entry.get("status", "")).lower()
+            page_proven = page_status in PAGE_PROVEN_STATUSES
+            # claim_confidence_cap (durcissement owner 2026-07-03)
+            if authoritative and page_proven:
+                conf, policy, status = c["conf"], "1_high", ("verified" if page_status == "verified" else "captured")
+            else:  # publisher validé mais page non prouvée (ou type non-autoritaire) → medium max, report-only
+                conf, policy, status = _cap_medium(c["conf"]), "2_medium_concordant", "pending_capture"
             i = per_section_i.get(c["section"], 0); per_section_i[c["section"]] = i + 1
             entries.append({
                 "claim_id": _claim_id(slug, c["section"], i),
@@ -162,10 +185,9 @@ def generate(slug: str, fiche_md: str, raw_root: Path) -> tuple[dict, dict]:
                 "text_anchor": c["claim"][:80],
                 "source_slug": cat_slug,
                 "evidence_type": str(entry.get("type", "web_reference")),
-                "confidence": c["conf"] if authoritative else "medium",
-                # 1_high UNIQUEMENT si source cataloguée ET type autoritaire (jamais pour candidate)
-                "source_policy": "1_high" if authoritative else "2_medium_concordant",
-                "source_status": "captured" if entry.get("status") == "captured" else "pending_capture",
+                "confidence": conf,
+                "source_policy": policy,
+                "source_status": status,
             })
         else:
             rec = to_validate.setdefault(dom, {
@@ -193,8 +215,10 @@ def generate(slug: str, fiche_md: str, raw_root: Path) -> tuple[dict, dict]:
         "candidate_claims": sum(r["claims"] for r in tv),
         "sources_to_validate": tv,
         "authority_hint_counts": _count_by(tv, "proposed_type"),
-        "note": ("dim A ne comptera QUE les sources validées ; les candidates sont "
-                 "pending_source_validation (Option A owner, anti-inflation)."),
+        "entries_by_confidence": _count_by(entries, "confidence"),
+        "entries_page_pending_capped": sum(1 for e in entries if e["source_status"] == "pending_capture"),
+        "note": ("dim A = moyenne des confidences ; page pending_capture → medium MAX (publisher validé "
+                 "≠ preuve du claim). Sources inconnues = pending_source_validation, exclues (Option A)."),
     }
     return cov, report
 

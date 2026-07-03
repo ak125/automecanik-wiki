@@ -180,3 +180,51 @@ def test_related_gammes_manifest_validated(tmp_path: Path) -> None:
 def test_safety_family_detected() -> None:
     import safety_families as sf
     assert sf.is_safety_proposal({"slug": "disque-de-frein", "title": "Disque de frein"}) is True
+
+
+# ---- 10. Safety Auto-Gate : plus de `human_review` ; verdicts auto (technique vs gouvernance) --
+import gap1_auto_review as AR  # noqa: E402
+
+
+def _score(a, c, floors=None):
+    return {"dims": {"A": a, "C": c, "D": 15, "E": 10, "F": 1}, "tier": "B", "floors_failed": floors or []}
+
+
+def _cov(valid=27, pending_capped=27, candidates=33):
+    return {"valid_entries": valid, "entries_page_pending_capped": pending_capped,
+            "candidate_sources": candidates}
+
+
+def test_no_human_verdict_ever() -> None:
+    # comportemental : sur toute la matrice d'entrées, aucun verdict ne doit contenir "human"
+    seen = set()
+    for safety in (True, False):
+        for a, c in ((0, 0), (18, 16.7), (30, 20)):
+            for cov in (_cov(), _cov(27, 0, 0), _cov(0, 0, 0)):
+                for amended in (False, True):
+                    fl = [] if a >= 22 else ["A"]
+                    seen.add(AR.compute_verdict(safety, _score(a, c, fl), cov, amended)["verdict"])
+    assert seen, "au moins un verdict"
+    assert not any("human" in v for v in seen), f"aucun verdict humain attendu, vu: {seen}"
+
+
+def test_safety_blocked_technical_when_page_pending() -> None:
+    # disque réel : dim A 18, 27 pages pending, 33 sources candidates → blocage TECHNIQUE (pas humain)
+    v = AR.compute_verdict(True, _score(18.0, 16.7, ["A"]), _cov(), adr091_amended=False)
+    assert v["verdict"] == "safety_auto_blocked"
+    assert "dim_A_floor" in v["gate"]["blocking"]
+    assert "page_level_all_captured" in v["gate"]["blocking"]
+
+
+def test_safety_gate_pass_but_adr091_holds() -> None:
+    # planchers OK + pages captured + 0 source pending, mais conditions gate encore à câbler → buildout
+    ok = _cov(valid=27, pending_capped=0, candidates=0)
+    v = AR.compute_verdict(True, _score(30.0, 20.0, []), ok, adr091_amended=False)
+    assert v["verdict"] == "safety_blocked_pending_gate_buildout"  # jamais auto-approuvé tant que gate incomplète
+
+
+def test_non_safety_auto_promote_eligible() -> None:
+    v = AR.compute_verdict(False, _score(30.0, 20.0, []), _cov(0, 0, 0), adr091_amended=False)
+    # tier B (pas S/A) → auto_blocked ; on vérifie surtout l'absence de tout état humain
+    assert v["verdict"] in ("auto_promote_eligible", "auto_blocked")
+    assert "human" not in v["verdict"]

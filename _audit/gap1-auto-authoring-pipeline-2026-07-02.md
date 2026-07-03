@@ -64,8 +64,10 @@ puis réutilisée sur toute la famille freinage.
 - **`safety_auto_approved`** — gate PASS + ADR-091 amendé.
 
 **Safety Auto-Gate = conditions strictes** (câblées ✅ / à câbler ⏳, fail-closed) : ✅ `dim_A_floor` · ✅ `dim_C_floor`
-· ✅ `page_level_all_captured` · ✅ `no_pending_source_validation` · ⏳ `coverage_strict_pass` · ⏳ `no_quality_gate_fail`
-· ⏳ `no_disputed_claims` · ⏳ `diagnostic_safe` · ⏳ `regression_gate_pass` · ✅ `rollback_available`.
+· ✅ `page_level_all_captured` · ✅ `no_pending_source_validation` · ✅ `numeric_exactitude_verified` (lock valeur
+numérique sécurité, 2026-07-03 — `_audit/numeric-value-verification-gate-spec-2026-07-03.md`) · ⏳ `coverage_strict_pass`
+· ⏳ `no_quality_gate_fail` · ⏳ `no_disputed_claims` (contradiction inter-sources = V2) · ⏳ `diagnostic_safe`
+· ⏳ `regression_gate_pass` · ✅ `rollback_available`.
 
 **Le code ne supprime PAS la revue sécurité en douce** : tant que ADR-091 n'est pas amendé au vault (PR G3 signée
 owner), un fiche sécurité qui passerait le gate reste `blocked_by_current_safety_policy` — jamais `safety_auto_approved`.

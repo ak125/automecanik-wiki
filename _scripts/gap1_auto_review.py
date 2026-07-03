@@ -38,6 +38,60 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 import author_from_raw as author_mod  # noqa: E402
 import gen_coverage_map as cov_mod     # noqa: E402
 
+NUMERIC_RANGES_PATH = REPO_ROOT / "_meta" / "numeric-plausibility.yaml"
+
+
+def _load_numeric_ranges() -> dict:
+    """{family: {quantity: {...}}} depuis numeric-plausibility.yaml.
+
+    Absent → {} (fail-closed : toute valeur → numeric_ambiguous, rien ne se vérifie).
+    Malformé → {} + message OBSERVABLE sur stderr (fail-closed, pas de repli silencieux)."""
+    if not NUMERIC_RANGES_PATH.exists():
+        return {}
+    import yaml
+    try:
+        data = yaml.safe_load(NUMERIC_RANGES_PATH.read_text(encoding="utf-8")) or {}
+    except yaml.YAMLError as exc:
+        print(f"[numeric-lock] numeric-plausibility.yaml ILLISIBLE ({exc}) → 0 plage chargée, "
+              f"toute valeur numérique BLOQUÉE (fail-closed).", file=sys.stderr)
+        return {}
+    return data.get("families", {}) if isinstance(data, dict) else {}
+
+
+def _resolve_status(c: dict, catalog: dict, valid_sections: set) -> str:
+    """source_status d'un claim via la MÊME logique que gen_coverage_map.generate (page-level, Option A).
+
+    Gate IDENTIQUE à generate() : cataloged **ET** `section ∈ valid_sections` **ET** type autoritaire
+    **ET** page prouvée → statut réel (captured/verified) ; sinon pending_capture. Ne PAS relâcher ce
+    prédicat (auto-review 2026-07-03 : une copie laxiste sans le gate section = dérive fail-open)."""
+    cat_slug = catalog["domain_to_slug"].get(c["domain"])
+    if not cat_slug or c.get("section") not in valid_sections:
+        return "pending_capture"
+    entry = catalog["slugs"][cat_slug]
+    authoritative = str(entry.get("type", "")) in cov_mod.CATALOG_AUTHORITATIVE
+    page_status = str(entry.get("status", "")).lower()
+    if authoritative and page_status in cov_mod.PAGE_PROVEN_STATUSES:
+        return page_status
+    return "pending_capture"
+
+
+def _numeric_exactitude(slug: str, raw_root: Path, family: str | None, ranges: dict,
+                        valid_sections: set) -> tuple[bool, list[str], int]:
+    """Lock valeur numérique sécurité sur TOUS les claims authored (texte complet, tous buckets),
+    chaque valeur jointe à son source_status résolu (réutilise gen_coverage_map — 0 réimplémentation).
+
+    Retourne (all_verified, violations, claims_scanned). all_verified True ⇔ 0 violation (vacuel si 0
+    valeur). NB V1 documenté : contradiction inter-sources non détectée ici (reste `no_disputed_claims`
+    non-câblé, fail-closed) ; grandeur liée par clause locale (durci auto-review 2026-07-03).
+    """
+    import numeric_exactitude as NE
+    catalog = cov_mod._load_catalog()
+    claims = cov_mod._collect_claims(slug, raw_root)
+    resolved = [{"text": c["claim"], "source_status": _resolve_status(c, catalog, valid_sections)}
+                for c in claims]
+    violations = NE.gate_numeric_value_exactitude(resolved, family=family or "", ranges=ranges)
+    return (not violations), violations, len(resolved)
+
 
 def _is_safety(slug: str, fm: dict) -> bool:
     try:
@@ -59,7 +113,8 @@ NOT_YET_WIRED = ["coverage_strict_pass", "no_quality_gate_fail", "no_disputed_cl
                  "diagnostic_safe", "regression_gate_pass"]
 
 
-def _safety_auto_gate(dims: dict, cov_report: dict) -> dict:
+def _safety_auto_gate(dims: dict, cov_report: dict,
+                      numeric_exactitude_verified: bool | None = None) -> dict:
     """Conditions AUTO-vérifiables ici (les autres = à câbler avant tout auto-approve, fail-closed)."""
     A = float(dims.get("A", 0.0) or 0.0)
     C = float(dims.get("C", 0.0) or 0.0)
@@ -70,11 +125,16 @@ def _safety_auto_gate(dims: dict, cov_report: dict) -> dict:
                                     and cov_report.get("entries_page_pending_capped", 0) == 0),
         "no_pending_source_validation": cov_report.get("candidate_sources", 0) == 0,
     }
+    # lock valeur numérique sécurité (numeric_exactitude.py) — ADR-093 numeric-exactitude hole.
+    # None = non évalué (compat tests unitaires) ; bool = toutes valeurs sécurité `numeric_verified`.
+    if numeric_exactitude_verified is not None:
+        computable["numeric_exactitude_verified"] = bool(numeric_exactitude_verified)
     blocking = [k for k, ok in computable.items() if not ok]
     return {"computable": computable, "blocking": blocking, "not_yet_wired": list(NOT_YET_WIRED)}
 
 
-def compute_verdict(safety: bool, score: dict, cov_report: dict, adr091_amended: bool = False) -> dict:
+def compute_verdict(safety: bool, score: dict, cov_report: dict, adr091_amended: bool = False,
+                    numeric_exactitude_verified: bool | None = None) -> dict:
     """Verdict auto-review PUR (testable). Aucun `human_review` : sécurité = auto-gate, pas goulot humain."""
     dims = (score or {}).get("dims") or {}
     tier = (score or {}).get("tier")
@@ -84,7 +144,7 @@ def compute_verdict(safety: bool, score: dict, cov_report: dict, adr091_amended:
             return {"verdict": "auto_promote_eligible",
                     "reason": f"non-sécurité, tier {tier}, planchers OK → promote.py selon seuil owner"}
         return {"verdict": "auto_blocked", "reason": f"non-sécurité, planchers KO={floors_ko or 'n/a'}"}
-    gate = _safety_auto_gate(dims, cov_report)
+    gate = _safety_auto_gate(dims, cov_report, numeric_exactitude_verified)
     if gate["blocking"]:
         return {"verdict": "safety_auto_blocked", "gate": gate,
                 "reason": "Safety Auto-Gate KO (raisons techniques, PAS besoin humain) : "
@@ -134,11 +194,21 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
     except Exception:
         score = {"raw": out_s[-800:]}
 
-    # 4) VERDICT auto-review — Safety Auto-Gate (0 `human_review` ; goulot humain remplacé par gate auto)
+    # 3-bis) LOCK VALEUR NUMÉRIQUE SÉCURITÉ (numeric_exactitude) — ferme le trou ADR-093 (exactitude
+    #        du chiffre, jamais vérifiée par la barre provenance/structure). Report-only, fail-closed.
     safety = _is_safety(slug, fm)
+    numeric_ranges = _load_numeric_ranges()
+    family = author_mod._family_of(slug, fm)
+    valid_sections = set(cov_mod._fiche_h2h3(author_mod._split_fm(md)[1]))  # même gate que generate()
+    numeric_verified, numeric_violations, numeric_scanned = _numeric_exactitude(
+        slug, raw_root, family, numeric_ranges, valid_sections)
+    # None si non-sécurité (le lock ne gate que la sécurité) ; bool sinon → alimente la Safety Auto-Gate.
+    numeric_gate_input = numeric_verified if safety else None
+
+    # 4) VERDICT auto-review — Safety Auto-Gate (0 `human_review` ; goulot humain remplacé par gate auto)
     tier = (score or {}).get("tier")
     floors_ko = (score or {}).get("floors_failed") or []
-    v = compute_verdict(safety, score, cov_report, adr091_amended)
+    v = compute_verdict(safety, score, cov_report, adr091_amended, numeric_gate_input)
 
     return {
         "slug": slug,
@@ -157,6 +227,11 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
                   "tier": tier, "dims": (score or {}).get("dims"),
                   "floors_ko": floors_ko, "notes": (score or {}).get("notes") or []},
         "sources_to_validate": cov_report["sources_to_validate"],
+        "numeric_exactitude": {"family": family, "all_verified": numeric_verified,
+                               "claims_scanned": numeric_scanned,
+                               "violations_total": len(numeric_violations),
+                               "sample": numeric_violations[:8],
+                               "ranges_loaded": bool(numeric_ranges)},
         "verdict": v["verdict"],
         "verdict_reason": v["reason"],
         "safety_auto_gate": v.get("gate"),

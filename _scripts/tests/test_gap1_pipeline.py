@@ -228,3 +228,44 @@ def test_non_safety_auto_promote_eligible() -> None:
     # tier B (pas S/A) → auto_blocked ; on vérifie surtout l'absence de tout état humain
     assert v["verdict"] in ("auto_promote_eligible", "auto_blocked")
     assert "human" not in v["verdict"]
+
+
+# ---- 11. Lock valeur numérique sécurité (numeric_exactitude) câblé dans la Safety Auto-Gate --------
+def _cov_ok():
+    return _cov(valid=27, pending_capped=0, candidates=0)  # tous les autres computables PASS
+
+
+def test_numeric_false_blocks_safety_verdict() -> None:
+    # tout le reste passerait, mais valeur numérique non vérifiée → BLOQUE (raison technique)
+    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(),
+                           adr091_amended=True, numeric_exactitude_verified=False)
+    assert v["verdict"] == "safety_auto_blocked"
+    assert "numeric_exactitude_verified" in v["gate"]["blocking"]
+
+
+def test_numeric_true_included_but_not_blocking() -> None:
+    # valeur vérifiée → check présent et NON bloquant ; verdict reste buildout (not_yet_wired non vide)
+    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(),
+                           adr091_amended=True, numeric_exactitude_verified=True)
+    assert v["gate"]["computable"]["numeric_exactitude_verified"] is True
+    assert "numeric_exactitude_verified" not in v["gate"]["blocking"]
+    assert v["verdict"] == "safety_blocked_pending_gate_buildout"  # jamais auto-approuvé (gate incomplète)
+
+
+def test_numeric_none_is_backward_compatible() -> None:
+    # défaut None = check non évalué → absent des computables (compat tests/verdicts existants)
+    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(), adr091_amended=True)
+    assert "numeric_exactitude_verified" not in v["gate"]["computable"]
+
+
+def test_resolve_status_requires_valid_section() -> None:
+    # HAUTE 5 (auto-review) : _resolve_status applique le MÊME gate `section ∈ valid_sections` que generate().
+    catalog = {"domain_to_slug": {"brembo.com": "brembo"},
+               "slugs": {"brembo": {"type": "oem_manual", "status": "captured"}}}
+    valid = {"## Critères de sélection"}
+    c_ok = {"domain": "brembo.com", "section": "## Critères de sélection"}
+    c_bad_section = {"domain": "brembo.com", "section": "## Section fantôme"}
+    c_unknown_domain = {"domain": "forum.example", "section": "## Critères de sélection"}
+    assert AR._resolve_status(c_ok, catalog, valid) == "captured"
+    assert AR._resolve_status(c_bad_section, catalog, valid) == "pending_capture"  # section invalide → fail-closed
+    assert AR._resolve_status(c_unknown_domain, catalog, valid) == "pending_capture"

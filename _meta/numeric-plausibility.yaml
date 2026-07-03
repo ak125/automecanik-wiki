@@ -1,0 +1,96 @@
+# numeric-plausibility.yaml — plages plausibles par famille × grandeur (lock valeur numérique sécurité)
+#
+# Consommé par `_scripts/numeric_exactitude.py` (via `gap1_auto_review`) pour vérifier l'EXACTITUDE
+# d'un chiffre sécurité — le trou documenté par ADR-093 que la barre de preuve existante ne couvre pas.
+# Spec : `_audit/numeric-value-verification-gate-spec-2026-07-03.md`.
+#
+# OPTION A (anti-inflation, décision owner 2026-07-02/03) — la MACHINE PROPOSE, un HUMAIN valide 1× :
+#   status: proposed   → plage suggérée par la machine (rationale + candidate_sources). FAIL-CLOSED :
+#                        une plage `proposed` ne confère JAMAIS `numeric_verified` (comme une source
+#                        non validée ne compte pas pour dim A). Une valeur contre une plage proposed
+#                        → `numeric_ambiguous`.
+#   status: validated  → autorité humaine 1× APRÈS capture d'une source OE/normative précise
+#                        (`validated_by`, `source_slug` capturé). Seul état autorisant `numeric_verified`.
+#
+# Ce fichier ne s'auto-valide pas. Tant qu'aucune ligne n'est `validated`, le lock confère 0 verified
+# (état sûr par défaut). Remplir 1× par grandeur = débloque toute la famille freinage.
+#
+# critical: true            → valeur de sécurité → exige corroboration ≥2 sources captées concordantes.
+# always_ref_specific: true → cote liée à UNE référence/UN véhicule (jamais généralisable à la gamme).
+
+schema_version: "1.0.0"
+
+families:
+  freinage:
+    lateral_runout:
+      unit: mm
+      min: 0.0
+      max: 0.15
+      critical: true
+      always_ref_specific: false
+      status: proposed
+      rationale: >-
+        Voile latéral toléré après montage ~0,05 mm (véhicule moderne) jusqu'à 0,10 mm (ancien) ;
+        seuils divergents entre équipementiers (ZF/TRW ≤0,05, Textar ≤0,07, Brembo ≤0,10) — à capturer
+        et réconcilier avant validation.
+      candidate_sources: ["zf-trw-runout-limits", "textar-mounting-tolerances", "brembo-min-th-runout"]
+
+    dtv:
+      unit: µm
+      min: 0.0
+      max: 50.0
+      critical: true
+      always_ref_specific: false
+      status: proposed
+      rationale: >-
+        Variation d'épaisseur (DTV) au-delà de ~12-15 µm → broutement ; Textar cite 15 µm standard /
+        8 µm châssis sensibles. Valeurs approximatives dans le corpus (« ~ ») — à durcir en seuil ferme.
+      candidate_sources: ["textar-dtv-thresholds", "delphi-dtv-measurement"]
+
+    min_thickness:
+      unit: mm
+      min: 5.0
+      max: 60.0
+      critical: true
+      always_ref_specific: true
+      status: proposed
+      rationale: >-
+        Épaisseur minimale (MIN TH) SPÉCIFIQUE à chaque référence disque (ex. Zimmermann 340×30 → 27 mm) —
+        jamais une constante de gamme. La plage [min,max] borne seulement le plausible ; la valeur exacte
+        reste réf-dépendante (always_ref_specific).
+      candidate_sources: ["brembo-min-th-catalog", "zimmermann-disc-specs"]
+
+    disc_diameter:
+      unit: mm
+      min: 200.0
+      max: 420.0
+      critical: false
+      always_ref_specific: true
+      status: proposed
+      rationale: "Diamètre disque lié à la référence/au véhicule — jamais généralisable."
+      candidate_sources: ["tecdoc-disc-dimensions"]
+
+    temperature:
+      unit: °C
+      min: 0.0
+      max: 900.0
+      critical: false
+      always_ref_specific: false
+      status: proposed
+      rationale: >-
+        Tenue thermique fonte HC ~800 °C (ATE GG 25 HC) ; transformation cémentite au-delà de ~650 °C
+        (Delphi). Informative, non-critique sécurité.
+      candidate_sources: ["ate-friction-metallurgy", "delphi-thermal-limits"]
+
+    torque:
+      unit: Nm
+      min: 5.0
+      max: 400.0
+      critical: true
+      always_ref_specific: false
+      status: proposed
+      rationale: >-
+        Couple de serrage (étrier/vis de fixation) — grandeur HIGH-HARM : une valeur fausse auto-approuvée =
+        danger direct. Plage plausible large à resserrer par réf constructeur avant validation. Reste
+        `proposed` → toute valeur couple → numeric_ambiguous (bloquée) tant qu'un humain n'a pas validé.
+      candidate_sources: ["brembo-caliper-torque-specs", "oem-workshop-torque-tables"]

@@ -78,17 +78,25 @@ def _resolve_status(c: dict, catalog: dict, valid_sections: set) -> str:
 def _numeric_exactitude(slug: str, raw_root: Path, family: str | None, ranges: dict,
                         valid_sections: set) -> tuple[bool, list[str], int]:
     """Lock valeur numérique sécurité sur TOUS les claims authored (texte complet, tous buckets),
-    chaque valeur jointe à son source_status résolu (réutilise gen_coverage_map — 0 réimplémentation).
+    chaque valeur jointe à son source_status résolu ET son source_id (réutilise gen_coverage_map —
+    0 réimplémentation).
+
+    `source_id` = slug source catalogué distinct (sinon domaine) → la corroboration est comptée depuis
+    les sources CAPTÉES distinctes concordantes (plus de stub à 1). Aujourd'hui toutes les pages sont
+    `pending_capture` → 0 source prouvée → corroboration 0 → toute plage validée reste ambiguë (état sûr).
 
     Retourne (all_verified, violations, claims_scanned). all_verified True ⇔ 0 violation (vacuel si 0
-    valeur). NB V1 documenté : contradiction inter-sources non détectée ici (reste `no_disputed_claims`
-    non-câblé, fail-closed) ; grandeur liée par clause locale (durci auto-review 2026-07-03).
+    valeur). Résidu V2 documenté : contradiction inter-sources (`no_disputed_claims`) non-câblée,
+    fail-closed ; grandeur liée par clause locale + corroboration réelle (durcis auto-review 2026-07-03).
     """
     import numeric_exactitude as NE
     catalog = cov_mod._load_catalog()
     claims = cov_mod._collect_claims(slug, raw_root)
-    resolved = [{"text": c["claim"], "source_status": _resolve_status(c, catalog, valid_sections)}
-                for c in claims]
+    resolved = [{
+        "text": c["claim"],
+        "source_status": _resolve_status(c, catalog, valid_sections),
+        "source_id": catalog["domain_to_slug"].get(c["domain"]) or c.get("domain") or None,
+    } for c in claims]
     violations = NE.gate_numeric_value_exactitude(resolved, family=family or "", ranges=ranges)
     return (not violations), violations, len(resolved)
 

@@ -16,7 +16,8 @@ Durci après auto-review adversariale 2026-07-03 (2 BLOQUANT + 4 HAUTE) :
 - une cote réf-spécifique énoncée en règle générale (« en général ») reste réf-spécifique ;
 - un chiffre non extrait sur une grandeur dimensionnée (unité manquante/épelée) BLOQUE
   au lieu de s'évader silencieusement ;
-- toute plage `validated` exige corroboration ≥2 (pas seulement les grandeurs `critical`).
+- toute plage `validated` exige corroboration ≥2, comptée depuis les sources CAPTÉES
+  DISTINCTES concordantes (`classify_all`, plus de stub à 1 ; auto-corroboration exclue).
 
 Spec : `_audit/numeric-value-verification-gate-spec-2026-07-03.md`.
 Report-only : ce module classe et remonte ; il n'auto-approuve rien.
@@ -223,16 +224,49 @@ def _unverifiable_tokens(text: str, family: str, ranges: dict, extracted: list[N
     return list(dict.fromkeys(out))                    # dedup, ordre préservé
 
 
+def _local_quantity(text: str, nv: NumVal) -> str:
+    """Grandeur liée LOCALEMENT à la valeur (clause de `nv.start`), pas à toute la phrase."""
+    return detect_quantity(_clause_of(text, nv.start)) if nv.start >= 0 else detect_quantity(text)
+
+
+def _corro_key(quantity: str, nv: NumVal) -> tuple[str, str, float]:
+    """Clé de concordance : même grandeur + même unité normalisée + même valeur (à l'arrondi).
+
+    Deux sources CAPTÉES qui asservissent la même valeur de la même grandeur tombent dans le
+    même bucket (corroboration) ; des valeurs divergentes (Brembo 0,10 / ZF 0,05) tombent dans
+    des buckets disjoints → chacune isolée → jamais corroborée. Concordance stricte (fail-closed) :
+    accord à la tolérance déclarée près = V2 ultérieur (`no_disputed_claims`).
+    """
+    return (quantity, _norm_unit(nv.unit), round(nv.value, 4))
+
+
 def classify_all(claims: list[dict], *, family: str, ranges: dict) -> list[tuple[str, str]]:
-    """[(valeur_brute, verdict)] pour chaque valeur (grandeur liée LOCALEMENT) + chiffres inextractibles."""
-    res: list[tuple[str, str]] = []
+    """[(valeur_brute, verdict)] pour chaque valeur (grandeur liée LOCALEMENT) + chiffres inextractibles.
+
+    Corroboration RÉELLE : comptée depuis les sources CAPTÉES DISTINCTES qui concordent sur la même
+    valeur (pré-passe `buckets`), plus de stub à 1. Un `corroborating_sources` explicite sur un claim
+    reste un override (contrôle direct/tests) ; sinon le compte est dérivé des buckets. Fail-closed :
+    aucune source captée → corroboration 0 → toute plage validée reste `numeric_ambiguous`.
+    """
+    # pré-passe : (grandeur, unité, valeur) → set des source_id PROUVÉS distincts (auto-corroboration exclue)
+    buckets: dict[tuple[str, str, float], set[str]] = {}
+    parsed: list[tuple[dict, str, str, list[NumVal]]] = []
     for c in claims:
         text = c["text"]
         status = c.get("source_status", "pending_capture")
-        corr = int(c.get("corroborating_sources", 1))
+        sid = c.get("source_id")
         vals = extract_values(text)
+        parsed.append((c, text, status, vals))
+        if status in PROVEN_STATUSES and sid:
+            for nv in vals:
+                buckets.setdefault(_corro_key(_local_quantity(text, nv), nv), set()).add(sid)
+
+    res: list[tuple[str, str]] = []
+    for c, text, status, vals in parsed:
+        override = c.get("corroborating_sources")
         for nv in vals:
-            q = detect_quantity(_clause_of(text, nv.start)) if nv.start >= 0 else None
+            q = _local_quantity(text, nv)
+            corr = int(override) if override is not None else len(buckets.get(_corro_key(q, nv), ()))
             res.append((nv.raw, classify(nv, text, source_status=status, family=family,
                                           ranges=ranges, corroborating_sources=corr, quantity=q)))
         # évasion silencieuse : uniquement pertinent quand la source est prouvée (sinon déjà source_not_captured)

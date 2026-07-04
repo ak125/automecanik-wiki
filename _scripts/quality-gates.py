@@ -216,16 +216,26 @@ def load_source_catalog() -> dict[str, dict]:
 # --- Plan P2 — cross-repo content-addressing (raw_ref) ---
 
 
-def load_raw_inventory() -> tuple[set[str], dict[str, str], str]:
-    """Returns (manifest_ids set, manifest_id→sha256 dict, msg).
+def load_raw_inventory() -> tuple[set[str], dict[str, str], set[str], str]:
+    """Returns (manifest_ids set, manifest_id→sha256 dict, duplicate_ids set, msg).
 
     Lit automecanik-raw/manifests/source-inventory.csv. msg explique l'état
-    pour le rapport de gate (présent ou absent + raison)."""
+    pour le rapport de gate (présent ou absent + raison).
+
+    duplicate_ids = manifest_id apparaissant >1 fois dans l'inventaire consommé.
+    Défense wiki INDÉPENDANTE du gate natif RAW (recompute depuis le CSV réellement
+    consommé, aucun tri / premier / dernier gagnant silencieux). Contrat IDENTIQUE au
+    SoT RAW : exception gouvernée `rec-<doc_id>` (recyclé, PARTAGÉ à dessein entre les
+    chunks s001..sNNN d'un document) exclue — miroir de l'invariant H2
+    automecanik-raw/_scripts/regen-manifests.py (`if not mid.startswith("rec-")`).
+    Un fork plus strict côté wiki rougirait à tort une donnée RAW gouvernée-légale."""
     if not RAW_INVENTORY.exists():
-        return set(), {}, f"raw inventory absent at {RAW_INVENTORY}"
+        return set(), {}, set(), f"raw inventory absent at {RAW_INVENTORY}"
     import csv
     manifest_ids: set[str] = set()
     sha_by_id: dict[str, str] = {}
+    seen: set[str] = set()
+    duplicate_ids: set[str] = set()
     try:
         with RAW_INVENTORY.open(encoding="utf-8") as f:
             reader = csv.DictReader(f)
@@ -233,12 +243,15 @@ def load_raw_inventory() -> tuple[set[str], dict[str, str], str]:
                 mid = row.get("manifest_id", "").strip()
                 sha = row.get("sha256", "").strip()
                 if mid:
+                    if mid in seen and not mid.startswith("rec-"):
+                        duplicate_ids.add(mid)  # doublon-preuve → gate FAIL (jamais un last-wins)
+                    seen.add(mid)
                     manifest_ids.add(mid)
                     if sha:
                         sha_by_id[mid] = sha
-        return manifest_ids, sha_by_id, f"loaded {len(manifest_ids)} manifest_ids from {RAW_INVENTORY}"
+        return manifest_ids, sha_by_id, duplicate_ids, f"loaded {len(manifest_ids)} manifest_ids from {RAW_INVENTORY}"
     except (OSError, csv.Error) as e:
-        return set(), {}, f"failed to read {RAW_INVENTORY}: {e}"
+        return set(), {}, set(), f"failed to read {RAW_INVENTORY}: {e}"
 
 
 def gate_source_catalog_raw_refs(source_catalog: dict[str, dict]) -> tuple[list[str], list[str]]:
@@ -247,7 +260,7 @@ def gate_source_catalog_raw_refs(source_catalog: dict[str, dict]) -> tuple[list[
     Returns (failures, warnings). Tableau d'arbitrage 4 cas :
 
       | raw_ref | archived_at | status     | comportement |
-      | ✓       | -           | active     | check raw inventory (FAIL si unresolved) |
+      | ✓       | -           | active     | check raw inventory — FAIL-CLOSED si unresolved / duplicate / raw injoignable (H1-B) |
       | ✓       | -           | to_capture | OK (pas de check, pas encore capturé) |
       | -       | ✓           | active     | WARN legacy_archived_at_deprecated (jusqu'à J+30) |
       | -       | ✓           | to_capture | OK (mode legacy, transition) |
@@ -256,7 +269,7 @@ def gate_source_catalog_raw_refs(source_catalog: dict[str, dict]) -> tuple[list[
     """
     failures: list[str] = []
     warnings: list[str] = []
-    manifest_ids, sha_by_id, raw_msg = load_raw_inventory()
+    manifest_ids, sha_by_id, duplicate_ids, raw_msg = load_raw_inventory()
     raw_available = bool(manifest_ids)
 
     for slug, entry in source_catalog.items():
@@ -280,13 +293,22 @@ def gate_source_catalog_raw_refs(source_catalog: dict[str, dict]) -> tuple[list[
 
             # Cross-repo check (only if raw inventory is reachable AND status: active)
             if status == "active" and raw_available:
-                if mid not in manifest_ids:
+                if mid in duplicate_ids:
+                    failures.append(
+                        f"duplicate_manifest_id:{slug}: manifest_id={mid} apparaît >1 fois dans le raw inventory (preuve ambiguë)"
+                    )
+                elif mid not in manifest_ids:
                     failures.append(f"source_unresolved:{slug}: manifest_id={mid} absent du raw inventory")
                 elif expected_sha and mid in sha_by_id and sha_by_id[mid] != expected_sha:
                     failures.append(f"source_sha_drift:{slug}: expected={expected_sha} actual={sha_by_id[mid]}")
             elif status == "active" and not raw_available:
-                # Best-effort : sans raw inventory dispo, on note mais on ne bloque pas.
-                warnings.append(f"raw_inventory_unreachable:{slug}: cannot validate cross-repo ({raw_msg})")
+                # Preuve DÉCLARÉE (active + raw_ref) mais raw inventory injoignable =
+                # preuve invérifiable cross-repo → FAIL-CLOSED (no silent fallback).
+                # Garde catégorie : cette branche n'est atteinte QUE par une entrée active
+                # (0 active → jamais ici, même RAW absent → PASS).
+                failures.append(
+                    f"raw_inventory_unreachable:{slug}: preuve déclarée invérifiable cross-repo ({raw_msg})"
+                )
             # status: to_capture → OK (pas de check, c'est l'état attendu)
 
         # archived_at sans raw_ref → legacy mode, deprecate-before-rename

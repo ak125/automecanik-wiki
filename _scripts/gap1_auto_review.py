@@ -100,6 +100,22 @@ def _numeric_exactitude(slug: str, raw_root: Path, family: str | None, ranges: d
     return (not violations), violations, len(resolved)
 
 
+def _raw_ref_gate(catalog_slugs: dict) -> tuple[bool, list[str], list[str]]:
+    """Exécute le gate EXISTANT `gate_source_catalog_raw_refs` (Plan P2 : FK `manifest_id` + hash drift du
+    raw_ref cross-repo) sur les entrées du source-catalog — rend VRAI, dans le flux GAP-1, le contrat G1
+    « une entrée `active` n'est utilisable que si son raw_ref est vérifié par les gates existants ».
+
+    0 réimplémentation (verify-before-invent) : réutilise le loader gouverné
+    `gates/_common.load_legacy_gates_module` (importlib du module hyphené `quality-gates.py`). Rend
+    `(ok, failures, warnings)` : `ok=False` ⇔ ≥1 failure (source_unreferenceable / raw_ref_missing_manifest_id
+    / raw_ref_malformed / source_unresolved / source_sha_drift). Les warnings (`raw_inventory_unreachable` =
+    fail-open GOUVERNÉ quand le raw n'est pas checkouté ; `legacy_archived_at_deprecated`) NE bloquent PAS."""
+    from gates._common import load_legacy_gates_module  # import local (deps pydantic/yaml hors surface module)
+    legacy = load_legacy_gates_module()
+    failures, warnings = legacy.gate_source_catalog_raw_refs(catalog_slugs)
+    return (not failures), list(failures), list(warnings)
+
+
 def _is_safety(slug: str, fm: dict) -> bool:
     try:
         import safety_families as sf
@@ -121,7 +137,8 @@ NOT_YET_WIRED = ["coverage_strict_pass", "no_quality_gate_fail", "no_disputed_cl
 
 
 def _safety_auto_gate(dims: dict, cov_report: dict,
-                      numeric_exactitude_verified: bool | None = None) -> dict:
+                      numeric_exactitude_verified: bool | None = None,
+                      source_catalog_raw_refs_ok: bool | None = None) -> dict:
     """Conditions AUTO-vérifiables ici (les autres = à câbler avant tout auto-approve, fail-closed)."""
     A = float(dims.get("A", 0.0) or 0.0)
     C = float(dims.get("C", 0.0) or 0.0)
@@ -136,12 +153,19 @@ def _safety_auto_gate(dims: dict, cov_report: dict,
     # None = non évalué (compat tests unitaires) ; bool = toutes valeurs sécurité `numeric_verified`.
     if numeric_exactitude_verified is not None:
         computable["numeric_exactitude_verified"] = bool(numeric_exactitude_verified)
+    # gate raw_ref cross-repo EXISTANT (gate_source_catalog_raw_refs, Plan P2) exécuté dans le flux (point 4).
+    # Condition DÉDIÉE : un échec FK/hash du raw_ref → bloque. DISTINCTE de `no_quality_gate_fail`
+    # (NOT_YET_WIRED) qui reste non-câblée (la suite quality-gates COMPLÈTE n'est pas exécutée ici).
+    # None = non évalué (compat) ; bool = 0 failure du gate raw_ref.
+    if source_catalog_raw_refs_ok is not None:
+        computable["source_catalog_raw_refs_ok"] = bool(source_catalog_raw_refs_ok)
     blocking = [k for k, ok in computable.items() if not ok]
     return {"computable": computable, "blocking": blocking, "not_yet_wired": list(NOT_YET_WIRED)}
 
 
 def compute_verdict(safety: bool, score: dict, cov_report: dict, adr091_amended: bool = False,
-                    numeric_exactitude_verified: bool | None = None) -> dict:
+                    numeric_exactitude_verified: bool | None = None,
+                    source_catalog_raw_refs_ok: bool | None = None) -> dict:
     """Verdict auto-review PUR (testable). Aucun `human_review` : sécurité = auto-gate, pas goulot humain."""
     dims = (score or {}).get("dims") or {}
     tier = (score or {}).get("tier")
@@ -151,7 +175,7 @@ def compute_verdict(safety: bool, score: dict, cov_report: dict, adr091_amended:
             return {"verdict": "auto_promote_eligible",
                     "reason": f"non-sécurité, tier {tier}, planchers OK → promote.py selon seuil owner"}
         return {"verdict": "auto_blocked", "reason": f"non-sécurité, planchers KO={floors_ko or 'n/a'}"}
-    gate = _safety_auto_gate(dims, cov_report, numeric_exactitude_verified)
+    gate = _safety_auto_gate(dims, cov_report, numeric_exactitude_verified, source_catalog_raw_refs_ok)
     if gate["blocking"]:
         return {"verdict": "safety_auto_blocked", "gate": gate,
                 "reason": "Safety Auto-Gate KO (raisons techniques, PAS besoin humain) : "
@@ -212,10 +236,17 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
     # None si non-sécurité (le lock ne gate que la sécurité) ; bool sinon → alimente la Safety Auto-Gate.
     numeric_gate_input = numeric_verified if safety else None
 
+    # 3-ter) GATE raw_ref cross-repo EXISTANT (gate_source_catalog_raw_refs, Plan P2) exécuté DANS le flux
+    #        GAP-1 → rend vrai le contrat G1 (active+raw_ref réellement vérifié par le gate, pas juste supposé).
+    #        Report-only ; alimente une condition DÉDIÉE de la Safety Auto-Gate (distincte de no_quality_gate_fail,
+    #        qui reste NOT_YET_WIRED : la suite quality-gates COMPLÈTE n'est pas câblée ici → backstop intact).
+    raw_refs_ok, raw_ref_failures, raw_ref_warnings = _raw_ref_gate(cov_mod._load_catalog()["slugs"])
+    raw_refs_gate_input = raw_refs_ok if safety else None
+
     # 4) VERDICT auto-review — Safety Auto-Gate (0 `human_review` ; goulot humain remplacé par gate auto)
     tier = (score or {}).get("tier")
     floors_ko = (score or {}).get("floors_failed") or []
-    v = compute_verdict(safety, score, cov_report, adr091_amended, numeric_gate_input)
+    v = compute_verdict(safety, score, cov_report, adr091_amended, numeric_gate_input, raw_refs_gate_input)
 
     return {
         "slug": slug,
@@ -239,6 +270,9 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
                                "violations_total": len(numeric_violations),
                                "sample": numeric_violations[:8],
                                "ranges_loaded": bool(numeric_ranges)},
+        "source_catalog_raw_refs": {"ok": raw_refs_ok,
+                                    "failures": raw_ref_failures[:8], "failures_total": len(raw_ref_failures),
+                                    "warnings": raw_ref_warnings[:8], "warnings_total": len(raw_ref_warnings)},
         "verdict": v["verdict"],
         "verdict_reason": v["reason"],
         "safety_auto_gate": v.get("gate"),

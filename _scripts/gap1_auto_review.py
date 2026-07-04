@@ -105,13 +105,21 @@ def _raw_ref_gate(catalog_slugs: dict) -> tuple[bool, list[str], list[str]]:
     raw_ref cross-repo) sur les entrées du source-catalog — rend VRAI, dans le flux GAP-1, le contrat G1
     « une entrée `active` n'est utilisable que si son raw_ref est vérifié par les gates existants ».
 
-    0 réimplémentation (verify-before-invent) : réutilise le loader gouverné
-    `gates/_common.load_legacy_gates_module` (importlib du module hyphené `quality-gates.py`). Rend
+    0 logique FK/hash réimplémentée : réutilise la FONCTION du gate existant. Charge le module hyphené
+    `quality-gates.py` DIRECTEMENT via importlib (même technique que `gates/_common.load_legacy_gates_module`
+    mais SANS passer par `gates/_common`, qui importe pydantic au niveau module et n'est PAS disponible dans
+    le job CI pydantic-free « Python quality gates ») → le pipeline GAP-1 reste pydantic-free. Rend
     `(ok, failures, warnings)` : `ok=False` ⇔ ≥1 failure (source_unreferenceable / raw_ref_missing_manifest_id
     / raw_ref_malformed / source_unresolved / source_sha_drift). Les warnings (`raw_inventory_unreachable` =
     fail-open GOUVERNÉ quand le raw n'est pas checkouté ; `legacy_archived_at_deprecated`) NE bloquent PAS."""
-    from gates._common import load_legacy_gates_module  # import local (deps pydantic/yaml hors surface module)
-    legacy = load_legacy_gates_module()
+    import importlib.util
+    legacy_path = SCRIPTS_DIR / "quality-gates.py"
+    spec = importlib.util.spec_from_file_location("_quality_gates_legacy", legacy_path)
+    if spec is None or spec.loader is None:
+        raise RuntimeError(f"unable to load legacy gates module: {legacy_path}")
+    legacy = importlib.util.module_from_spec(spec)
+    sys.modules["_quality_gates_legacy"] = legacy
+    spec.loader.exec_module(legacy)
     failures, warnings = legacy.gate_source_catalog_raw_refs(catalog_slugs)
     return (not failures), list(failures), list(warnings)
 

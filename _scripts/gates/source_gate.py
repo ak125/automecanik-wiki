@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """
-source_gate — Wrapper "source provenance" : combine
-  gate_source_catalog_raw_refs + gate_sources_missing.
+source_gate — Wrapper "source provenance" per-proposal (SAME-REPO) : gate_sources_missing.
+
+Le gate cross-repo `gate_source_catalog_raw_refs` (catalog-wide, exige un checkout
+automecanik-raw) N'EST PAS composé ici : c'est un contrôle catalog-wide qui n'a pas sa
+place dans un wrapper per-proposal, et l'invoquer dans la job promotion-gates (sans RAW)
+enforcerait un gate dans un environnement incapable. Il est enforcé EXCLUSIVEMENT par
+`quality-gates.py --cross-repo` (caller-split, must-fix owner 2026-07-04).
 
 Sortie : GateResult Pydantic typé. CLI exit code = exit_code Pydantic.
 """
@@ -30,25 +35,14 @@ def run_source_gate(target: Path) -> GateResult:
 
     violations: list[GateViolation] = []
 
-    # gate_sources_missing (no external resource needed)
+    # gate_sources_missing (per-proposal, same-repo — no external resource needed)
     violations.extend(
         violations_from_legacy_strings("sources_missing", legacy.gate_sources_missing(fm))
     )
 
-    # gate_source_catalog_raw_refs requires loading source_catalog
-    try:
-        source_catalog = legacy.load_source_catalog()
-        # gate_source_catalog_raw_refs returns tuple(errors, warnings) — both treated as violations
-        errs, warns = legacy.gate_source_catalog_raw_refs(source_catalog)
-        violations.extend(violations_from_legacy_strings("source_catalog_raw_refs", errs))
-        violations.extend(violations_from_legacy_strings("source_catalog_raw_refs_warn", warns))
-    except Exception as exc:
-        violations.append(
-            GateViolation(
-                gate_id="source_catalog_load_failed",
-                message=f"could not load source-catalog.yaml: {exc}",
-            )
-        )
+    # NB : le gate cross-repo `gate_source_catalog_raw_refs` (catalog-wide, exige automecanik-raw)
+    # n'est PAS invoqué ici — il est enforcé exclusivement par `quality-gates.py --cross-repo`
+    # (caller-split : ne jamais lancer un gate RAW-dépendant dans la job promotion-gates sans RAW).
 
     return GateResult(
         gate_name="source",

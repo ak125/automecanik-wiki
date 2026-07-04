@@ -20,6 +20,7 @@ Exécution : cd _scripts/tests && python3 -m pytest test_source_catalog_raw_refs
 from __future__ import annotations
 
 import importlib.util
+import sys
 from pathlib import Path
 
 import pytest
@@ -137,3 +138,66 @@ def test_f5b_no_active_raw_present_with_duplicate_passes(tmp_path, monkeypatch):
     catalog = {"a": _to_capture("m_a"), "b": _to_capture("m_b")}  # 0 active
     failures, warnings = qg.gate_source_catalog_raw_refs(catalog)
     assert failures == [], failures
+
+
+# ---------------------------------------------------------------------------
+# Caller-split (must-fix owner 2026-07-04) — le gate cross-repo n'est enforcé
+# QUE par `--cross-repo` (env RAW fourni par le job). Le gate reste intrinsèquement
+# fail-closed ; ce qu'on conditionne, c'est SON APPEL au bon job.
+# ---------------------------------------------------------------------------
+
+def _run_main(monkeypatch, argv_tail: list[str]) -> int:
+    monkeypatch.setattr(sys, "argv", ["quality-gates.py", *argv_tail])
+    return qg.main()
+
+
+def test_cross_repo_mode_requires_raw_env(tmp_path, monkeypatch):
+    """--cross-repo EXIGE que le job fournisse l'env RAW : inventory absent → FAIL
+    (jamais un pass silencieux sur 0 active). Anti « sécurité conditionnée à l'env »."""
+    monkeypatch.setattr(qg, "RAW_INVENTORY", tmp_path / "nope" / "missing.csv")
+    monkeypatch.setattr(qg, "load_source_catalog", lambda: {"a": _to_capture("m")})  # 0 active
+    assert _run_main(monkeypatch, ["--cross-repo"]) == 1
+
+
+def test_cross_repo_mode_fails_unverifiable_active_proof(tmp_path, monkeypatch):
+    """--cross-repo, RAW présent, preuve active non résolue → FAIL métier (source_unresolved)."""
+    inv = _write_inventory(tmp_path, [("some_other", SHA_X)])
+    monkeypatch.setattr(qg, "RAW_INVENTORY", inv)
+    monkeypatch.setattr(qg, "load_source_catalog", lambda: {"active_src": _active("oe_x", SHA_X)})
+    assert _run_main(monkeypatch, ["--cross-repo"]) == 1
+
+
+def test_cross_repo_mode_passes_zero_active_with_raw(tmp_path, monkeypatch):
+    """--cross-repo, RAW présent (env fourni) + 0 active → PASS."""
+    inv = _write_inventory(tmp_path, [("m", SHA_X)])
+    monkeypatch.setattr(qg, "RAW_INVENTORY", inv)
+    monkeypatch.setattr(qg, "load_source_catalog", lambda: {"a": _to_capture("m")})
+    assert _run_main(monkeypatch, ["--cross-repo"]) == 0
+
+
+def test_all_local_does_not_invoke_cross_repo_gate(monkeypatch):
+    """--all-local n'appelle JAMAIS le gate cross-repo (job sans env RAW)."""
+    calls: list[int] = []
+    real = qg.gate_source_catalog_raw_refs
+
+    def spy(cat):
+        calls.append(1)
+        return real(cat)
+
+    monkeypatch.setattr(qg, "gate_source_catalog_raw_refs", spy)
+    _run_main(monkeypatch, ["--all-local"])
+    assert calls == [], "le gate cross-repo ne doit PAS tourner en --all-local (env RAW incapable)"
+
+
+def test_all_alias_also_skips_cross_repo_gate(monkeypatch):
+    """--all (alias rétro-compat, same-repo) ne lance plus non plus le gate cross-repo."""
+    calls: list[int] = []
+    real = qg.gate_source_catalog_raw_refs
+
+    def spy(cat):
+        calls.append(1)
+        return real(cat)
+
+    monkeypatch.setattr(qg, "gate_source_catalog_raw_refs", spy)
+    _run_main(monkeypatch, ["--all"])
+    assert calls == [], "le gate cross-repo ne doit PAS tourner en --all (same-repo uniquement)"

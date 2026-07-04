@@ -44,8 +44,14 @@ jobs:
       - name: validate-frontmatter (schema v1.0+v2.0)
         run: python3 _scripts/validate-frontmatter.py --all
 
-      - name: quality-gates §2 + §5.bis (ADR-033 + ADR-032 gates)
-        run: python3 _scripts/quality-gates.py --all
+      - name: quality-gates §2 + §5.bis (ADR-033 + ADR-032 gates — SAME-REPO)
+        # --all-local : gates same-repo uniquement. Le gate cross-repo raw_ref (exige
+        # automecanik-raw) n'est PAS lançable en CI (aucun credential cross-repo secretless
+        # entre 2 repos privés) : il est exécuté HORS CI par le flux GOUVERNÉ d'activation
+        # (`--cross-repo`, 2 repos présents+frais) comme précondition de toute transition
+        # to_capture→active. La CI wiki ne vérifie QUE ce qu'elle possède ; l'activation
+        # par édition directe est bloquée par le guard (activation-guard, étape suivante).
+        run: python3 _scripts/quality-gates.py --all-local
 
       - name: compute-confidence-score --check (formula §4)
         run: python3 _scripts/compute-confidence-score.py --check --all
@@ -60,6 +66,14 @@ jobs:
         # --strict ne bloque QUE sur FAIL ; les WARN (coverage-map absente) restent advisory
         # (--warn-as-fail = étape ultérieure une fois les 6 WARN backfillées).
         run: python3 _scripts/check-coverage-map.py --all --strict
+
+      - name: activation-guard (to_capture→active interdit par édition directe — same-repo)
+        # L'état dangereux = une source passe à `active`. La preuve d'une active exige le gate
+        # cross-repo (`quality-gates.py --cross-repo`, 2 repos frais), non lançable en CI wiki
+        # (pas de credential cross-repo secretless). Ce guard fail-closed bloque toute activation
+        # par édition directe ; l'activation légitime passe par le flux gouverné (hors CI) qui
+        # exécute --cross-repo. fetch-depth: 0 (checkout ci-dessus) → origin/main résout.
+        run: python3 _scripts/check-activation-guard.py --base origin/main
 
       - name: pytest fixtures (gates ADR-033 + ADR-032)
         run: cd _scripts/tests && python3 -m pytest -v

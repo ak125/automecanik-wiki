@@ -11,7 +11,7 @@ Mapping inventaire (audit ast.parse Step 0) → 5 wrappers :
 
 | Wrapper             | Gates existants composés                                       |
 |---------------------|----------------------------------------------------------------|
-| source_gate         | gate_source_catalog_raw_refs, gate_sources_missing             |
+| source_gate         | gate_sources_missing  (same-repo ; cross-repo gate_source_catalog_raw_refs → quality-gates.py --cross-repo, hors wrapper) |
 | claim_gate          | gate_schema_invalid, gate_slug_collision, gate_path_anti_patterns |
 | contradiction_gate  | gate_diagnostic_relations, gate_legacy_symptoms_block          |
 | risk_gate           | gate_pollution, gate_catalog_leak, gate_commercial_promise,    |

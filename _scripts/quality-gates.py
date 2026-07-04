@@ -599,7 +599,7 @@ def _is_meta_path(p: Path) -> bool:
 
 
 def gather_files(args) -> list[Path]:
-    if args.all:
+    if args.all or args.all_local:
         roots = [REPO_ROOT / "proposals", REPO_ROOT / "wiki"]
         files: list[Path] = []
         for root in roots:
@@ -609,12 +609,57 @@ def gather_files(args) -> list[Path]:
     return [p for p in (Path(f).resolve() for f in args.files) if not _is_meta_path(p)]
 
 
+def _run_cross_repo_gate(source_catalog: dict[str, dict], *, warn_as_fail: bool) -> int:
+    """`--cross-repo` — SEUL chemin autorisé à enforcer le gate cross-repo raw_ref.
+
+    Le gate reste intrinsèquement fail-closed (preuve active + raw inventory injoignable →
+    FAILURE). Ce mode ajoute, au niveau du CALLER, l'exigence que le job fournisse RÉELLEMENT
+    son environnement RAW : raw inventory absent = env non fourni = FAILURE explicite
+    (`cross_repo_env_missing`), jamais un pass silencieux sur 0 active. On ne conditionne PAS
+    la sécurité à la présence de l'env — on EXIGE l'env pour ce mode dédié."""
+    if not RAW_INVENTORY.exists():
+        print(
+            f"FAIL cross-repo: cross_repo_env_missing: raw inventory absent at {RAW_INVENTORY} — "
+            "ce mode exige un checkout automecanik-raw (AUTOMECANIK_RAW_PATH)"
+        )
+        print("\ncross-repo source-catalog gate — 1 FAIL — 0 WARN (environnement RAW non fourni)")
+        return 1
+    failures, warnings = gate_source_catalog_raw_refs(source_catalog)
+    for f in failures:
+        print(f"FAIL source-catalog: {f}")
+    for w in warnings:
+        print(f"WARN source-catalog: {w}")
+    n_active = sum(1 for e in source_catalog.values() if e.get("status", "active") == "active")
+    print(
+        f"\ncross-repo source-catalog gate — {len(failures)} FAIL — {len(warnings)} WARN "
+        f"({n_active} entrées active vérifiées)"
+    )
+    if failures or (warn_as_fail and warnings):
+        return 1
+    return 0
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("files", nargs="*")
-    ap.add_argument("--all", action="store_true")
+    ap.add_argument(
+        "--all", action="store_true",
+        help="Toutes les fiches, gates SAME-REPO (alias de --all-local ; n'enforce PAS le cross-repo).",
+    )
+    ap.add_argument(
+        "--all-local", action="store_true",
+        help="Toutes les fiches, gates SAME-REPO uniquement — exclut le gate cross-repo raw_ref (exige automecanik-raw).",
+    )
+    ap.add_argument(
+        "--cross-repo", action="store_true",
+        help="UNIQUEMENT le gate cross-repo source-catalog raw_ref ; exige un checkout automecanik-raw. Seul chemin autorisé à l'enforcer.",
+    )
     ap.add_argument("--warn-as-fail", action="store_true", help="Treat WARN as FAIL")
     args = ap.parse_args()
+
+    # Chemin dédié cross-repo : SEUL invocateur du gate externe raw_ref (exige l'env RAW).
+    if args.cross_repo:
+        return _run_cross_repo_gate(load_source_catalog(), warn_as_fail=args.warn_as_fail)
 
     files = gather_files(args)
     if not files:
@@ -626,15 +671,11 @@ def main() -> int:
     fail_count = 0
     warn_count = 0
 
-    # Plan P2 — pre-flight check du source-catalog raw_ref (1 seule fois, pas par fiche)
-    catalog_failures, catalog_warnings = gate_source_catalog_raw_refs(source_catalog)
-    for f in catalog_failures:
-        print(f"FAIL source-catalog: {f}")
-        fail_count += 1
-    for w in catalog_warnings:
-        print(f"WARN source-catalog: {w}")
-        warn_count += 1
-
+    # Le gate cross-repo raw_ref n'est PAS lancé ici : il exige automecanik-raw et est exécuté
+    # EXCLUSIVEMENT via `--cross-repo` par le flux GOUVERNÉ d'activation (2 repos présents+frais),
+    # comme précondition de toute transition to_capture→active — PAS en CI (aucun credential
+    # cross-repo secretless). Ce chemin (générique / pre-commit / --all / --all-local) ne lance
+    # QUE les gates same-repo — jamais un gate RAW-dépendant dans un environnement incapable.
     for f in files:
         failures, warnings = run_gates(f, registry, source_catalog)
         if failures:

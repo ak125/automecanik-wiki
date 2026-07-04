@@ -91,6 +91,17 @@ repos:
         files: ^(wiki|proposals)/.*\.md$
         exclude: ^(wiki|proposals)/_
 
+      # Guard d'activation (must-fix owner 2026-07-04) : interdit toute transition
+      # to_capture→active (ou nouvelle entrée active) par ÉDITION DIRECTE du source-catalog.
+      # La preuve d'une active exige --cross-repo (2 repos frais), non lançable en CI/hook :
+      # l'activation légitime passe par le flux gouverné. Same-repo, aucun accès RAW requis.
+      - id: wiki-activation-guard
+        name: Guard activation source (to_capture→active interdit par édition directe)
+        entry: python3 _scripts/check-activation-guard.py --base HEAD
+        language: system
+        files: ^_meta/source-catalog\.yaml$
+        pass_filenames: false
+
       - id: wiki-confidence-score
         name: Verify confidence_score matches formula §4 (check-only ; --fix manuel séparé)
         entry: python3 _scripts/compute-confidence-score.py --check

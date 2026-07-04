@@ -147,6 +147,22 @@ def test_no_new_atomic_gate_defined_in_wrappers() -> None:
         )
 
 
+def test_source_gate_does_not_enforce_cross_repo_raw_refs() -> None:
+    """Caller-split (must-fix owner 2026-07-04) : le wrapper source_gate (per-proposal,
+    same-repo) NE compose PLUS gate_source_catalog_raw_refs. Ce gate cross-repo exige
+    automecanik-raw et n'est exécuté QUE via `quality-gates.py --cross-repo` par le flux
+    gouverné d'activation (hors CI, 2 repos présents). Invoquer un gate RAW-dépendant dans la
+    job promotion-gates (sans RAW) = enforcement dans un env incapable → interdit. Ce test
+    empêche la réintroduction de ce chemin."""
+    text = (GATES_DIR / "source_gate.py").read_text(encoding="utf-8")
+    # On interdit l'INVOCATION (call `...raw_refs(`), pas la mention en prose (docstring/
+    # commentaire) qui explique l'omission délibérée.
+    assert not re.search(r"gate_source_catalog_raw_refs\s*\(", text), (
+        "source_gate ne doit PAS invoquer le gate cross-repo (job sans RAW) — "
+        "l'enforcement cross-repo vit uniquement dans quality-gates.py --cross-repo"
+    )
+
+
 def test_no_llm_inference_imports_in_wrappers() -> None:
     """Garde-fou statique : aucun import LLM dans les wrappers."""
     forbidden = ["anthropic", "openai", "groq", "cohere", "mistralai", "google.generativeai"]

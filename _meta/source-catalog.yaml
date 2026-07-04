@@ -609,23 +609,3 @@ sources:
       → témoin lumineux). Extraite dans le proposal plaquette-de-frein (## Critères de
       choix). STATUS to_capture : page référencée par URL
       (delphiautoparts.com/.../ce-quil-faut-savoir-sur-les-temoins-dusure-...), archive à matérialiser.
-
-  - slug: pieces_marque_oes_catalog_db
-    title: 'AutoMecanik — catalogue interne marques équipementiers OES (pieces ⋈ pieces_marque : pm_oes, pm_nb_stars)'
-    type: parts_feed_certified                  # → max confidence: high
-    publisher: 'AutoMecanik (source de données interne)'
-    year: null
-    raw_ref:
-      repo: automecanik-raw
-      manifest_id: pieces_marque_oes_catalog_db
-      expected_sha256: null
-    archived_at: 'internal:db/pieces_marque (pm_oes, pm_nb_stars)'
-    status: active
-    license: internal_proprietary
-    notes: |
-      Source de données INTERNE autoritaire (db_owned, ADR-086) : hiérarchie des marques
-      équipementiers d'origine du freinage (Bosch, Brembo, ATE…) dérivée de la jointure
-      pieces ⋈ pieces_marque (champs pm_oes / pm_nb_stars). Ce n'est PAS un document web :
-      donnée curée du catalogue, toujours disponible (status active → coverage captured).
-      Seule la hiérarchie de marques est projetée — aucune réf/SKU/compatibilité exacte
-      (anti catalog_leak ; le fitment exact reste runtime/DB R2).

@@ -112,22 +112,19 @@ coverage_entries:
     source_policy: 1_high
     source_status: pending_capture
 
-  # --- hiérarchie équipementier : data catalogue interne (SoT) → high db_owned ---
-  - claim_id: plaquette-equipementiers-oes-hierarchie
-    section: "## Critères de choix"
-    text_anchor: "les équipementiers d'origine de référence du freinage sont Bosch, Brembo et ATE"
-    source_slug: pieces_marque_oes_catalog_db
-    evidence_type: internal_catalog_db
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
 notes: |
   Coverage map plaquette-de-frein — re-sourcée 2026-06-19 (démonstrateur chaîne TIER A).
-  14 claims : 5 conservés honnêtement (3 medium diagnostic to_capture + 2 low wikipedia),
-  8 sourcés équipementier OE RÉELLEMENT fetchés (footnotes live du proposal :
-  bremboparts/zf/delphi = oem → 1_high §9.1) + 1 hiérarchie équipementier issue de la
-  data catalogue interne (pieces ⋈ pieces_marque, pm_oes/pm_nb_stars = SoT → db_owned high).
+  12 claims : 5 conservés honnêtement (3 medium diagnostic to_capture + 2 low wikipedia),
+  7 sourcés équipementier OE RÉELLEMENT fetchés (footnotes live du proposal :
+  bremboparts/zf/delphi = oem → 1_high §9.1).
+  Retrait G2a (2026-07-04) : le claim db_owned « hiérarchie équipementier » citait une entrée
+  source-catalog de projection DB Massdoc (jointure pieces ⋈ pieces_marque, champs pm_oes /
+  pm_nb_stars) portant un raw_ref fictif (manifest absent du raw inventory, expected_sha256:null).
+  Une projection DB interne n'est PAS une preuve documentaire RAW ; le claim (captured/1_high)
+  était donc sémantiquement faux et a été retiré avec son entrée source-catalog (même PR). Le fait
+  Bosch/Brembo/ATE reste porté honnêtement par le bloc entity_data.quality_tiers du proposal
+  (source_ids incluant db:pieces-marque-oes, truth_level:sourced) — il n'est pas perdu.
   Aucune réf/SKU/compatibilité exacte exposée (anti catalog_leak) : seules la hiérarchie de
   marques et la connaissance générale sont projetées ; le fitment exact reste runtime/DB (R2).
-  mean(confidence) = (medium×3 + low×2 + high×9)/14 = (1.8 + 0.6 + 9.0)/14 ≈ 0.81 → dim A ≈ 24/30 (≥ plancher 22).
+  dim A honnêtement réduit — le crédit db_owned n'est pas re-scoré ici ; une reconstruction
+  légitime éventuelle passera par le vrai chemin bloc db_owned ADR-086, hors de ce registre.

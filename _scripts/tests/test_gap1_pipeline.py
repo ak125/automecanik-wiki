@@ -271,3 +271,62 @@ def test_resolve_status_requires_valid_section() -> None:
     assert AR._resolve_status(c_ok, catalog, valid) == "captured"
     assert AR._resolve_status(c_bad_section, catalog, valid) == "pending_capture"  # section invalide → fail-closed
     assert AR._resolve_status(c_unknown_domain, catalog, valid) == "pending_capture"
+
+
+# ---- 12. Gate raw_ref cross-repo (Plan P2) câblé dans la Safety Auto-Gate (point 4 owner) --------
+def test_raw_ref_gate_false_blocks_safety_verdict() -> None:
+    # échec FK/hash du gate source-catalog/raw-ref → BLOQUE le verdict sécurité (raison technique)
+    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(), adr091_amended=True,
+                           numeric_exactitude_verified=True, source_catalog_raw_refs_ok=False)
+    assert v["verdict"] == "safety_auto_blocked"
+    assert "source_catalog_raw_refs_ok" in v["gate"]["blocking"]
+
+
+def test_raw_ref_gate_true_included_but_backstop_still_blocks() -> None:
+    # gate PASS → check présent, NON bloquant ; MAIS NOT_YET_WIRED (no_quality_gate_fail) tient le backstop
+    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(), adr091_amended=True,
+                           numeric_exactitude_verified=True, source_catalog_raw_refs_ok=True)
+    assert v["gate"]["computable"]["source_catalog_raw_refs_ok"] is True
+    assert "source_catalog_raw_refs_ok" not in v["gate"]["blocking"]
+    assert "no_quality_gate_fail" in v["gate"]["not_yet_wired"], "backstop intact (non retiré)"
+    assert v["verdict"] == "safety_blocked_pending_gate_buildout", "jamais auto-approuvé (gate incomplète)"
+
+
+def test_raw_ref_gate_none_is_backward_compatible() -> None:
+    # défaut None = check non évalué → absent des computables (compat verdicts existants)
+    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(), adr091_amended=True)
+    assert "source_catalog_raw_refs_ok" not in v["gate"]["computable"]
+
+
+def test_raw_ref_gate_helper_flags_unreferenceable_source() -> None:
+    # le gate EXISTANT (gate_source_catalog_raw_refs) tourne RÉELLEMENT : entrée active sans raw_ref
+    # ni archived_at → source_unreferenceable → ok=False (contrôle structural, sans raw inventory).
+    ok, failures, warnings = AR._raw_ref_gate({"broken": {"status": "active", "type": "oem_manual"}})
+    assert ok is False
+    assert any("source_unreferenceable" in f for f in failures)
+
+
+def test_raw_ref_gate_helper_ok_when_to_capture() -> None:
+    # to_capture → pas de check (état attendu) → ok, non bloquant
+    ok, failures, warnings = AR._raw_ref_gate(
+        {"pending": {"status": "to_capture", "raw_ref": {"repo": "automecanik-raw", "manifest_id": "x"}}})
+    assert ok is True
+    assert failures == []
+
+
+def test_review_wires_raw_ref_gate(tmp_path: Path, monkeypatch) -> None:
+    # point 4 : review() invoque RÉELLEMENT le gate raw_ref → champ d'observabilité présent + alimente le verdict sécurité.
+    monkeypatch.setenv("AUTOMECANIK_RAW_PATH", str(tmp_path / "raw-absent"))  # inventory absent → hermétique
+    pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
+    _mk_bucket(tmp_path, "disque-de-frein", "selection_criteria", [BULLET])
+    meta = tmp_path / "_meta"; meta.mkdir(parents=True, exist_ok=True)
+    # catalog avec une entrée CASSÉE (active sans raw_ref) → gate FAIL → doit remonter
+    (meta / "source-catalog.yaml").write_text(yaml.safe_dump({"sources": [
+        {"slug": "broken_src", "type": "oem_manual", "status": "active", "title": "broken"}]}), encoding="utf-8")
+    monkeypatch.setattr(CM, "SOURCE_CATALOG", meta / "source-catalog.yaml")
+    rep = AR.review("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []), tmp_path / "shadow")
+    assert "source_catalog_raw_refs" in rep, "review() doit exposer le résultat du gate raw_ref"
+    assert rep["source_catalog_raw_refs"]["ok"] is False
+    assert any("source_unreferenceable" in f for f in rep["source_catalog_raw_refs"]["failures"])
+    # sécurité (freinage) + gate FAIL → verdict bloqué avec la raison raw_ref
+    assert "source_catalog_raw_refs_ok" in (rep.get("safety_auto_gate") or {}).get("blocking", [])

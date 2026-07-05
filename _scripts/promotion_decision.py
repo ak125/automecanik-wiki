@@ -19,8 +19,11 @@ Invariants :
     detector_stage, evidence} et JAMAIS next_action / worker / ExecutableActionKind.
   - Ordre canonique déterministe des reasons (C0/#4) : jamais un set à ordre implicite.
 
-A3-ii : `decide_promotion` ne consomme que `substance` (sortie evaluate_tier).
-A3-iii ajoutera coverage / regression / provenance (mêmes invariants fail-closed).
+Unités A3 : (ii) `decide_promotion` pur sur `substance` seul · (iii) coverage /
+regression / provenance composés (mêmes invariants fail-closed) · (iv) snapshot +
+input_manifest + engine revisions (anti-TOCTOU pendant l'éval) · (v) porte du DUMB
+EXECUTOR : `authorize_apply` exige eligible + `reverify_inputs` (manifeste complet +
+DEUX engine revisions inchangés) — le `--apply` n'est JAMAIS un 2ᵉ décideur.
 """
 from __future__ import annotations
 
@@ -41,6 +44,7 @@ _SUBSTANCE_DETECTOR = "PROMOTE_EVALUATE_TIER"
 _COVERAGE_DETECTOR = "COVERAGE_MAP"
 _REGRESSION_DETECTOR = "REGRESSION"
 _PROVENANCE_DETECTOR = "PROVENANCE_GATE"
+_APPLY_GUARD = "APPLY_GUARD"
 
 
 def blocking_reason(code: str, owner_stage: str, detector_stage: str, evidence) -> dict:
@@ -389,6 +393,19 @@ def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
     return substance, coverage_raw, regression_raw, provenance_raw, raw_available
 
 
+def _evaluation_passthrough(substance) -> dict:
+    """Évidence compacte de LA MÊME exécution evaluate_tier (tier/score/gate_status/
+    shadow) — portée par la décision pour le stamp `apply_promotion` (DUMB EXECUTOR)
+    et le report rétro-compat, SANS réexécution (contrat #2)."""
+    substance = substance or {}
+    return {
+        "tier": substance.get("tier"),
+        "confidence_score": substance.get("confidence_score"),
+        "gate_status": substance.get("gate_status"),
+        "shadow_score": substance.get("shadow_score"),
+    }
+
+
 def canonical_promotion_decision(candidate_path, wiki_root, *, raw_root=None,
                                  baseline_path=None, threshold=None, gates=None,
                                  compute_score=None, run_evaluators=None) -> dict:
@@ -419,11 +436,59 @@ def canonical_promotion_decision(candidate_path, wiki_root, *, raw_root=None,
                 "STALE_DURING_EVALUATION", "SNAPSHOT", "SNAPSHOT_GUARD",
                 {"before": manifest_before["input_manifest"],
                  "after": manifest_after["input_manifest"]})],
+            "evaluation": _evaluation_passthrough(substance),
             "inputs": manifest_after,
         }
 
     bundle = assemble_bundle(substance, coverage_raw=cov_raw, regression_raw=reg_raw,
                              provenance_raw=prov_raw, raw_available=raw_avail)
     decision = decide_promotion(bundle)
+    decision["evaluation"] = _evaluation_passthrough(substance)
     decision["inputs"] = manifest_after
     return decision
+
+
+# --- A3-v : porte du DUMB EXECUTOR (dry-run ≡ apply, anti-TOCTOU) --------------
+def reverify_inputs(decision, candidate_path, wiki_root, *, raw_root=None,
+                    baseline_path=None):
+    """Anti-TOCTOU au moment de l'apply : recompute le manifeste CANONIQUE COMPLET +
+    les DEUX engine revisions et compare à `decision.inputs`. Retourne None si toujours
+    courant, sinon une BlockingReason STALE_DECISION.
+
+    Vérifie TOUT ce qui peut invalider la décision (candidate/baseline/source-catalog/
+    schema/RAW via le manifeste + le code des évaluateurs et du décideur via les engine
+    revisions) — pas seulement candidate/baseline (contrat A3d). Aucune redécision.
+    """
+    captured = (decision or {}).get("inputs") or {}
+    fresh = capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path)
+    drift: dict = {}
+    if captured.get("input_manifest") != fresh.get("input_manifest"):
+        drift["input_manifest"] = {"before": captured.get("input_manifest"),
+                                   "after": fresh.get("input_manifest")}
+    for k in ("evaluation_engine_revision", "decision_engine_revision"):
+        if captured.get(k) != fresh.get(k):
+            drift[k] = {"before": captured.get(k), "after": fresh.get(k)}
+    if not drift:
+        return None
+    return blocking_reason("STALE_DECISION", "SNAPSHOT", _APPLY_GUARD, drift)
+
+
+def authorize_apply(decision, candidate_path, wiki_root, *, raw_root=None,
+                    baseline_path=None):
+    """Porte du DUMB EXECUTOR : retourne (ok: bool, refusal: dict|None).
+
+    Exige `eligible=true` + `promotion_status=ELIGIBLE` + anti-TOCTOU (manifeste complet
+    + engine revisions inchangés). Le `--apply` n'est JAMAIS un 2ᵉ décideur : cette
+    fonction ne rescore/redécide RIEN, elle autorise (ou refuse) la décision déjà rendue.
+    """
+    decision = decision or {}
+    if not (decision.get("eligible") and decision.get("promotion_status") == STATUS_ELIGIBLE):
+        return False, blocking_reason(
+            "APPLY_NOT_ELIGIBLE", "PROMOTION", _APPLY_GUARD,
+            {"promotion_status": decision.get("promotion_status"),
+             "eligible": decision.get("eligible")})
+    stale = reverify_inputs(decision, candidate_path, wiki_root,
+                            raw_root=raw_root, baseline_path=baseline_path)
+    if stale is not None:
+        return False, stale
+    return True, None

@@ -365,3 +365,77 @@ def test_assemble_bundle_omitted_evaluators_are_none(tmp_path):
     assert bundle["regression"] is None
     assert bundle["provenance"] is None
     assert dec.decide_promotion(bundle)["eligible"] is True  # substance seule = eligible
+
+
+# --- A3-iv : snapshot manifest + engine revisions + stale detection -----------
+def _write_candidate(tmp_path, content="---\nslug: filtre-a-huile\n---\nbody\n"):
+    (tmp_path / "_meta").mkdir(exist_ok=True)
+    (tmp_path / "_meta" / "source-catalog.yaml").write_text("sources: []\n", encoding="utf-8")
+    cand = tmp_path / "proposals" / "filtre-a-huile.md"
+    cand.parent.mkdir(exist_ok=True)
+    cand.write_text(content, encoding="utf-8")
+    return cand
+
+
+def test_capture_input_manifest_is_deterministic_and_canonical(tmp_path):
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    m1 = dec.capture_input_manifest(cand, tmp_path, None, None)
+    m2 = dec.capture_input_manifest(cand, tmp_path, None, None)
+    assert m1 == m2
+    entries = m1["input_manifest"]
+    # trié canoniquement (role, path) — pas d'ordre implicite
+    assert entries == sorted(entries, key=lambda e: (e["role"], e["path"]))
+    roles = {e["role"] for e in entries}
+    assert "candidate" in roles and "source_catalog" in roles
+    # pas de path absolu machine-dépendant
+    for e in entries:
+        assert not str(e["path"]).startswith("/")
+    # deux revisions d'engine distinctes conceptuellement (contrat #5)
+    assert "evaluation_engine_revision" in m1 and "decision_engine_revision" in m1
+
+
+def test_manifest_hash_reflects_actual_content(tmp_path):
+    """Worktree dirty : le hash suit le CONTENU réellement lu, pas seulement la SHA git."""
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path, "---\nslug: a\n---\nv1\n")
+    h1 = dec.capture_input_manifest(cand, tmp_path, None, None)
+    cand.write_text("---\nslug: a\n---\nv2 CHANGED\n", encoding="utf-8")
+    h2 = dec.capture_input_manifest(cand, tmp_path, None, None)
+    cand_sha1 = [e["sha256"] for e in h1["input_manifest"] if e["role"] == "candidate"][0]
+    cand_sha2 = [e["sha256"] for e in h2["input_manifest"] if e["role"] == "candidate"][0]
+    assert cand_sha1 != cand_sha2
+
+
+def test_canonical_decision_attaches_inputs_manifest(tmp_path):
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    substance = _clean_substance(tmp_path)
+
+    def fake_run(candidate_path, wiki_root, raw_root, baseline_path, threshold, gates, compute_score):
+        return substance, {"status": "PASS"}, {"verdict": "NEW"}, ([], []), True
+
+    d = dec.canonical_promotion_decision(cand, tmp_path, run_evaluators=fake_run)
+    assert "inputs" in d
+    assert d["inputs"]["input_manifest"]
+    assert d["eligible"] is True
+
+
+def test_stale_during_evaluation_is_fail_closed(tmp_path):
+    """Contrat #1 : si un input change PENDANT l'évaluation (hash-before != after),
+    la décision est UNKNOWN_FAIL_CLOSED / STALE_DURING_EVALUATION."""
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path, "---\nslug: a\n---\nbefore\n")
+    substance = _clean_substance(tmp_path)
+
+    def mutating_run(candidate_path, wiki_root, raw_root, baseline_path, threshold, gates, compute_score):
+        # simule une modif concurrente du candidat pendant l'évaluation
+        Path(candidate_path).write_text("---\nslug: a\n---\nMUTATED\n", encoding="utf-8")
+        return substance, {"status": "PASS"}, {"verdict": "NEW"}, ([], []), True
+
+    d = dec.canonical_promotion_decision(cand, tmp_path, run_evaluators=mutating_run)
+    assert d["eligible"] is False
+    assert d["promotion_status"] == "UNKNOWN_FAIL_CLOSED"
+    assert "STALE_DURING_EVALUATION" in [r["code"] for r in d["blocking_reasons"]]
+    # substance_tier préservé même en stale
+    assert d["substance_tier"] == substance_tier_of(substance)

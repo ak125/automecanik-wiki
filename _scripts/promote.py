@@ -471,6 +471,14 @@ def apply_promotion(target: Path, fm: dict, body: str, wiki_root: Path,
 
 
 # --- CLI ----------------------------------------------------------------------
+def _load_promotion_decision():
+    """Charge la composition canonique (même dir). sys.path pattern identique à
+    `_load_gates` / `_compute_shadow` — robuste en `__main__` ET sous importlib."""
+    sys.path.insert(0, str(SCRIPTS_DIR))
+    import promotion_decision  # noqa: E402
+    return promotion_decision
+
+
 def _candidate_files(wiki_root: Path, target: str | None, entity_id: str | None) -> list[Path]:
     proposals = wiki_root / "proposals"
     if target:
@@ -490,18 +498,28 @@ def _candidate_files(wiki_root: Path, target: str | None, entity_id: str | None)
 @click.option("--all", "scan_all", is_flag=True, help="Scanner toutes les proposals/.")
 @click.option("--threshold", type=float, default=AUTO_PROMOTE_THRESHOLD, show_default=True,
               help="Seuil confidence auto-promotion. 1.01 = no-op (aucune auto-promotion).")
-@click.option("--apply", "do_apply", is_flag=True, help="Écrit les promotions TIER A (sinon dry-run).")
+@click.option("--raw-root", "raw_root", type=click.Path(exists=True, file_okay=False, path_type=Path),
+              default=None, help="Checkout automecanik-raw (topology cross-repo). Absent ⇒ "
+                                 "provenance UNAVAILABLE (fail-closed, jamais skip silencieux).")
+@click.option("--apply", "do_apply", is_flag=True, help="Écrit les promotions éligibles (sinon dry-run).")
 @click.option("--dry-run", "dry_run", is_flag=True, help="Force le dry-run (défaut si --apply absent).")
 @click.option("--format", "output_format", type=click.Choice(["text", "json"]), default="text")
 def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: bool,
-         threshold: float, do_apply: bool, dry_run: bool, output_format: str) -> None:
+         threshold: float, raw_root: Path | None, do_apply: bool, dry_run: bool,
+         output_format: str) -> None:
     if not (target or scan_all or entity_id):
         raise click.UsageError("préciser --target, --entity-id ou --all")
     if dry_run:
         do_apply = False
 
+    pd = _load_promotion_decision()
     gates = _load_gates()
     compute_score = _load_confidence_fn()
+    # Topology (A3d) : --raw-root rend la provenance cross-repo enforçable. L'évaluateur
+    # provenance lit AUTOMECANIK_RAW_PATH → le CLI (composition root) le renseigne depuis
+    # --raw-root sans écraser un override explicite. Absent ⇒ provenance UNAVAILABLE.
+    if raw_root and not os.environ.get("AUTOMECANIK_RAW_PATH"):
+        os.environ["AUTOMECANIK_RAW_PATH"] = str(Path(raw_root).resolve())
     files = _candidate_files(wiki_root, target, entity_id)
 
     report: list[dict] = []
@@ -509,40 +527,65 @@ def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: b
         try:
             fm, body = _parse_markdown(f)
             if fm.get("review_status") not in PROMOTABLE_INPUT_STATUSES:
-                report.append({"file": str(f), "tier": "skip",
+                report.append({"file": str(f), "tier": "skip", "promotion_status": "SKIP",
+                               "eligible": False,
                                "reason": f"review_status={fm.get('review_status')} non promouvable"})
                 continue
             if _canon_already_approved(wiki_root, fm):
-                report.append({"file": str(f), "tier": "skip",
+                report.append({"file": str(f), "tier": "skip", "promotion_status": "SKIP",
+                               "eligible": False,
                                "reason": "canon déjà approved — pas d'écrasement (idempotent)"})
                 continue
-            decision = evaluate_tier(fm, body, f, wiki_root, threshold, gates, compute_score)
-        except Exception as exc:  # fail-closed → TIER B
-            report.append({"file": str(f), "tier": "B", "blocking_reasons": [f"erreur: {exc}"]})
+            # UN SEUL décideur canonique : dry-run ET apply partagent ce chemin
+            # (snapshot → collect → decide). --apply ne redécide jamais.
+            decision = pd.canonical_promotion_decision(
+                f, wiki_root, raw_root=raw_root, threshold=threshold,
+                gates=gates, compute_score=compute_score)
+        except Exception as exc:  # fail-closed
+            report.append({"file": str(f), "tier": "B", "promotion_status": "BLOCKED",
+                           "eligible": False,
+                           "blocking_reasons": [{"code": "EVALUATION_ERROR",
+                                                 "evidence": {"detail": str(exc)}}]})
             continue
 
-        entry = {"file": str(f), **decision}
-        if decision["tier"] == "A" and do_apply:
-            try:
-                out = apply_promotion(f, fm, body, wiki_root, decision)
-                entry["promoted_to"] = str(out)
-            except Exception as exc:  # fail-closed
-                entry["tier"] = "B"
-                entry.setdefault("blocking_reasons", []).append(f"écriture échouée: {exc}")
+        evaluation = decision.get("evaluation") or {}
+        # rétro-compat report : le pilote (SENSOR) lit `tier` (∈ {A,S}) et confidence_score.
+        entry = {"file": str(f), **decision, "tier": evaluation.get("tier"),
+                 "confidence_score": evaluation.get("confidence_score")}
+
+        if do_apply:
+            ok, refusal = pd.authorize_apply(decision, f, wiki_root, raw_root=raw_root)
+            if ok:
+                try:
+                    # apply_promotion = DUMB EXECUTOR : stampe l'évidence déjà décidée + déplace.
+                    out = apply_promotion(f, fm, body, wiki_root, evaluation)
+                    entry["promoted_to"] = str(out)
+                except Exception as exc:  # fail-closed
+                    entry["tier"] = "B"
+                    entry["apply_error"] = str(exc)
+            else:
+                entry["apply_refused"] = refusal
         report.append(entry)
 
     auto = sum(1 for r in report if r.get("tier") == "A")
     human = sum(1 for r in report if r.get("tier") == "B")
+    eligible = sum(1 for r in report if r.get("eligible") is True)
+    blocked = sum(1 for r in report if r.get("promotion_status") == "BLOCKED")
+    unknown = sum(1 for r in report if r.get("promotion_status") == "UNKNOWN_FAIL_CLOSED")
     if output_format == "json":
         click.echo(json.dumps({"threshold": threshold, "apply": do_apply,
-                               "tier_A": auto, "tier_B": human, "report": report},
+                               "tier_A": auto, "tier_B": human,
+                               "eligible": eligible, "blocked": blocked,
+                               "unknown_fail_closed": unknown, "report": report},
                               ensure_ascii=False, indent=2))
     else:
         for r in report:
-            click.echo(f"[{r.get('tier')}] {Path(r['file']).name} "
-                       f"score={r.get('confidence_score','-')} {r.get('blocking_reasons', r.get('reason',''))}")
-        click.echo(f"\nTIER A (auto)={auto}  TIER B (humain)={human}  "
-                   f"seuil={threshold}  apply={do_apply}")
+            codes = [x.get("code") for x in (r.get("blocking_reasons") or []) if isinstance(x, dict)]
+            click.echo(f"[{r.get('promotion_status', r.get('tier'))}] {Path(r['file']).name} "
+                       f"tier={r.get('substance_tier', '-')} eligible={r.get('eligible')} "
+                       f"{codes or r.get('reason', '')}")
+        click.echo(f"\néligibles={eligible}  bloqués={blocked}  unknown={unknown}  "
+                   f"(TIER A legacy={auto})  seuil={threshold}  apply={do_apply}")
     sys.exit(0)
 
 

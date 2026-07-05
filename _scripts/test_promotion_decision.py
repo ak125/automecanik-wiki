@@ -439,3 +439,139 @@ def test_stale_during_evaluation_is_fail_closed(tmp_path):
     assert "STALE_DURING_EVALUATION" in [r["code"] for r in d["blocking_reasons"]]
     # substance_tier préservé même en stale
     assert d["substance_tier"] == substance_tier_of(substance)
+
+
+# --- A3-v : CLI dry-run ≡ apply + anti-TOCTOU (dumb executor) ------------------
+def _decide_with_inputs(dec, cand, tmp_path, substance):
+    """Décision canonique avec un runner injecté (hermétique) — attache `inputs`."""
+    def fake_run(*a):
+        return substance, {"status": "PASS"}, {"verdict": "NEW"}, ([], []), True
+    return dec.canonical_promotion_decision(cand, tmp_path, run_evaluators=fake_run)
+
+
+def test_canonical_decision_carries_evaluation_passthrough(tmp_path):
+    """A3-v : la décision embarque l'évidence `evaluation` (tier/score/gate_status/
+    shadow) issue de LA MÊME exécution evaluate_tier — pour le stamp apply (DUMB
+    EXECUTOR) et le report rétro-compat, sans réexécution (contrat #2)."""
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    substance = _clean_substance(tmp_path)  # tier A
+    d = _decide_with_inputs(dec, cand, tmp_path, substance)
+    assert "evaluation" in d
+    assert d["evaluation"]["tier"] == substance["tier"]
+    assert d["evaluation"]["confidence_score"] == substance["confidence_score"]
+    assert d["evaluation"]["gate_status"] == substance["gate_status"]
+
+
+def test_reverify_inputs_none_when_unchanged(tmp_path):
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    d = _decide_with_inputs(dec, cand, tmp_path, _clean_substance(tmp_path))
+    assert dec.reverify_inputs(d, cand, tmp_path) is None
+
+
+def test_reverify_inputs_flags_content_drift(tmp_path):
+    """Anti-TOCTOU : un input change APRÈS la décision (hash du contenu) ⇒ STALE_DECISION."""
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path, "---\nslug: a\n---\nv1\n")
+    d = _decide_with_inputs(dec, cand, tmp_path, _clean_substance(tmp_path))
+    cand.write_text("---\nslug: a\n---\nv2 CHANGED\n", encoding="utf-8")
+    r = dec.reverify_inputs(d, cand, tmp_path)
+    assert r is not None and r["code"] == "STALE_DECISION"
+    assert "input_manifest" in r["evidence"]
+
+
+def test_reverify_inputs_flags_engine_revision_drift(tmp_path):
+    """Anti-TOCTOU couvre AUSSI les DEUX engine revisions — pas seulement
+    candidate/baseline (le code des évaluateurs peut invalider la décision)."""
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    d = _decide_with_inputs(dec, cand, tmp_path, _clean_substance(tmp_path))
+    d["inputs"]["evaluation_engine_revision"] = "TAMPERED"  # simule un engine différent
+    r = dec.reverify_inputs(d, cand, tmp_path)
+    assert r is not None and r["code"] == "STALE_DECISION"
+    assert "evaluation_engine_revision" in r["evidence"]
+
+
+def test_authorize_apply_refuses_when_not_eligible(tmp_path):
+    """La porte du DUMB EXECUTOR refuse une décision non-eligible sans réévaluer."""
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    blocked = {"promotion_status": "BLOCKED", "eligible": False,
+               "inputs": dec.capture_input_manifest(cand, tmp_path, None, None)}
+    ok, refusal = dec.authorize_apply(blocked, cand, tmp_path)
+    assert ok is False
+    assert refusal["code"] == "APPLY_NOT_ELIGIBLE"
+
+
+def test_authorize_apply_ok_when_eligible_and_fresh(tmp_path):
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    d = _decide_with_inputs(dec, cand, tmp_path, _clean_substance(tmp_path))
+    assert d["eligible"] is True
+    ok, refusal = dec.authorize_apply(d, cand, tmp_path)
+    assert ok is True and refusal is None
+
+
+def test_authorize_apply_refuses_on_stale(tmp_path):
+    """Éligible à la décision, mais un input dérive avant apply ⇒ refus STALE_DECISION
+    (le --apply n'est JAMAIS un 2ᵉ décideur ; il exige la fraîcheur du manifeste complet)."""
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path, "---\nslug: a\n---\nv1\n")
+    d = _decide_with_inputs(dec, cand, tmp_path, _clean_substance(tmp_path))
+    cand.write_text("---\nslug: a\n---\nMUTATED\n", encoding="utf-8")
+    ok, refusal = dec.authorize_apply(d, cand, tmp_path)
+    assert ok is False and refusal["code"] == "STALE_DECISION"
+
+
+# --- A3-v : CLI main() route dry-run ET apply par le MÊME décideur canonique ----
+def _write_promotable(tmp_path):
+    (tmp_path / "_meta").mkdir(exist_ok=True)
+    (tmp_path / "_meta" / "source-catalog.yaml").write_text("sources: []\n", encoding="utf-8")
+    prop = tmp_path / "proposals" / "filtre-a-huile.md"
+    prop.parent.mkdir(exist_ok=True)
+    prop.write_text(
+        "---\n"
+        "entity_type: gamme\n"
+        "slug: filtre-a-huile\n"
+        "truth_level: L1\n"
+        "review_status: in_review\n"
+        "source_refs:\n  - kind: raw\n  - kind: web\n"
+        "exportable:\n  seo: false\n  rag: false\n"
+        "---\nCorps de la fiche filtre à huile.\n",
+        encoding="utf-8")
+    return prop
+
+
+def _extract_json_obj(text):
+    """JSON du bloc principal — robuste à un éventuel bruit stdout/stderr autour."""
+    import json as _json
+    return _json.loads(text[text.index("{"):text.rindex("}") + 1])
+
+
+def test_cli_dry_run_routes_through_canonical_decision(tmp_path, monkeypatch):
+    """Preuve que main() dry-run passe par le décideur canonique (champs
+    promotion_status/eligible/substance_tier/inputs que evaluate_tier SEUL n'a jamais
+    produits) TOUT en préservant le contrat rétro-compat du pilote (report/tier_A/tier).
+    """
+    from click.testing import CliRunner
+    pm = _load_promote()
+    _write_promotable(tmp_path)
+    # RAW absent ⇒ provenance UNAVAILABLE (fail-closed, jamais skip silencieux) —
+    # pas de dépendance au repo raw réel.
+    monkeypatch.setenv("AUTOMECANIK_RAW_PATH", str(tmp_path / "no-raw"))
+    monkeypatch.delenv("PROMOTE_GATE_ENGINE", raising=False)
+    result = CliRunner().invoke(pm.main, [
+        "--wiki-root", str(tmp_path), "--target", "proposals/filtre-a-huile.md",
+        "--dry-run", "--format", "json"])
+    assert result.exit_code == 0, result.output
+    data = _extract_json_obj(result.output)
+    # rétro-compat pilote : clés top-level + entry.tier
+    assert "report" in data and "tier_A" in data and "tier_B" in data
+    entry = data["report"][0]
+    assert "tier" in entry  # le pilote lit ceci (tier in {A,S})
+    # routage canonique prouvé
+    assert entry["promotion_status"] in ("ELIGIBLE", "BLOCKED", "UNKNOWN_FAIL_CLOSED")
+    assert isinstance(entry["eligible"], bool)
+    assert "substance_tier" in entry
+    assert "inputs" in entry and entry["inputs"]["input_manifest"]

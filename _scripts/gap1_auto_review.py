@@ -37,6 +37,7 @@ sys.path.insert(0, str(SCRIPTS_DIR))
 
 import author_from_raw as author_mod  # noqa: E402
 import gen_coverage_map as cov_mod     # noqa: E402
+import promotion_decision as promo_decision  # noqa: E402  (A4 : décideur canonique unique, pydantic-free)
 
 NUMERIC_RANGES_PATH = REPO_ROOT / "_meta" / "numeric-plausibility.yaml"
 
@@ -173,16 +174,25 @@ def _safety_auto_gate(dims: dict, cov_report: dict,
 
 def compute_verdict(safety: bool, score: dict, cov_report: dict, adr091_amended: bool = False,
                     numeric_exactitude_verified: bool | None = None,
-                    source_catalog_raw_refs_ok: bool | None = None) -> dict:
-    """Verdict auto-review PUR (testable). Aucun `human_review` : sécurité = auto-gate, pas goulot humain."""
-    dims = (score or {}).get("dims") or {}
-    tier = (score or {}).get("tier")
-    floors_ko = (score or {}).get("floors_failed") or []
+                    source_catalog_raw_refs_ok: bool | None = None,
+                    promotion_decision: dict | None = None) -> dict:
+    """Verdict auto-review PUR (testable). Aucun `human_review`.
+
+    NON-sécurité (A4) : la promotion vient de la DÉCISION CANONIQUE EMBARQUÉE (promote.py
+    composition substance+coverage+regression+provenance), JAMAIS d'un tier/floor local —
+    gap1 REPORTE, ne décide plus la promotion. `promotion_decision is None` ⇒ auto_blocked
+    (fail-closed). Sécurité : Safety Auto-Gate (gouvernance ADR-091) inchangé."""
     if not safety:
-        if not floors_ko and tier in ("S", "A"):
+        pdz = promotion_decision or {}
+        if pdz.get("eligible") is True and pdz.get("promotion_status") == "ELIGIBLE":
             return {"verdict": "auto_promote_eligible",
-                    "reason": f"non-sécurité, tier {tier}, planchers OK → promote.py selon seuil owner"}
-        return {"verdict": "auto_blocked", "reason": f"non-sécurité, planchers KO={floors_ko or 'n/a'}"}
+                    "reason": "non-sécurité, décision canonique ELIGIBLE "
+                              "(promote.py composition : substance+coverage+regression+provenance)"}
+        codes = [r.get("code") for r in (pdz.get("blocking_reasons") or []) if isinstance(r, dict)]
+        status = pdz.get("promotion_status") or "NO_CANONICAL_DECISION"
+        return {"verdict": "auto_blocked",
+                "reason": f"non-sécurité, décision canonique {status} : {codes or 'aucune décision fournie'}"}
+    dims = (score or {}).get("dims") or {}
     gate = _safety_auto_gate(dims, cov_report, numeric_exactitude_verified, source_catalog_raw_refs_ok)
     if gate["blocking"]:
         return {"verdict": "safety_auto_blocked", "gate": gate,
@@ -197,6 +207,21 @@ def compute_verdict(safety: bool, score: dict, cov_report: dict, adr091_amended:
                           "(Safety Auto-Gate), jamais par contournement code"}
     return {"verdict": "safety_auto_approved", "gate": gate,
             "reason": "Safety Auto-Gate PASS + ADR-091 amendé → auto-approuvé sans humain"}
+
+
+def _canonical_promotion(fiche_path: Path, wiki_root: Path, raw_root: Path) -> dict:
+    """A4 : décision de promotion CANONIQUE (A3) sur le shadow fiche — gap1 EMBARQUE
+    l'objet, ne re-décide/re-score/route pas. `wiki_root = workdir` (contexte shadow :
+    fiche pas encore dans le wiki ⇒ coverage/provenance UNAVAILABLE = honnête, route capture).
+    Fail-closed : toute erreur → décision UNKNOWN_FAIL_CLOSED typée (jamais skip silencieux)."""
+    try:
+        return promo_decision.canonical_promotion_decision(fiche_path, wiki_root, raw_root=raw_root)
+    except Exception as exc:  # noqa: BLE001
+        return {"schema_version": promo_decision.SCHEMA_VERSION, "substance_tier": None,
+                "promotion_status": "UNKNOWN_FAIL_CLOSED", "eligible": False,
+                "blocking_reasons": [{"code": "PROMOTION_DECISION_ERROR", "owner_stage": "PROMOTION",
+                                      "detector_stage": "GAP1_REPORTER",
+                                      "evidence": {"detail": str(exc)}}]}
 
 
 def _run(cmd: list[str]) -> tuple[int, str]:
@@ -251,10 +276,15 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
     raw_refs_ok, raw_ref_failures, raw_ref_warnings = _raw_ref_gate(cov_mod._load_catalog()["slugs"])
     raw_refs_gate_input = raw_refs_ok if safety else None
 
+    # 4-bis) DÉCISION DE PROMOTION CANONIQUE (A3) — UN SEUL décideur : gap1 embarque l'objet,
+    #        ne calcule plus l'éligibilité (fin du décideur parallèle `auto_promote_eligible`).
+    promotion = _canonical_promotion(fiche_path, workdir, raw_root)
+
     # 4) VERDICT auto-review — Safety Auto-Gate (0 `human_review` ; goulot humain remplacé par gate auto)
     tier = (score or {}).get("tier")
     floors_ko = (score or {}).get("floors_failed") or []
-    v = compute_verdict(safety, score, cov_report, adr091_amended, numeric_gate_input, raw_refs_gate_input)
+    v = compute_verdict(safety, score, cov_report, adr091_amended, numeric_gate_input,
+                        raw_refs_gate_input, promotion_decision=promotion)
 
     return {
         "slug": slug,
@@ -281,6 +311,7 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
         "source_catalog_raw_refs": {"ok": raw_refs_ok,
                                     "failures": raw_ref_failures[:8], "failures_total": len(raw_ref_failures),
                                     "warnings": raw_ref_warnings[:8], "warnings_total": len(raw_ref_warnings)},
+        "promotion_decision": promotion,  # A4 : objet PromotionDecision canonique EMBARQUÉ (0 reconstruction)
         "verdict": v["verdict"],
         "verdict_reason": v["reason"],
         "safety_auto_gate": v.get("gate"),

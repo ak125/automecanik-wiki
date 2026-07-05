@@ -231,6 +231,76 @@ def test_non_safety_auto_promote_eligible() -> None:
     assert "human" not in v["verdict"]
 
 
+# ---- A4 : gap1 = REPORTER — embarque la décision canonique, ne décide plus la promotion --------
+import promotion_decision as PD  # noqa: E402
+
+
+def _mk_proposal_nonsafety(d: Path, slug: str, title: str) -> Path:
+    fm = {
+        "schema_version": "2.0.0", "id": f"gamme:{slug}", "entity_type": "gamme",
+        "slug": slug, "title": title, "lang": "fr", "truth_level": "L2",
+        "review_status": "proposed", "exportable": {"rag": False, "seo": False, "support": False},
+        "entity_data": {"pg_id": 42, "family": "filtration"},  # non-sécurité
+    }
+    p = d / "proposals"; p.mkdir(parents=True, exist_ok=True)
+    (p / f"{slug}.md").write_text("---\n" + yaml.safe_dump(fm, allow_unicode=True, sort_keys=False)
+                                  + "---\n\n# " + title + "\n", encoding="utf-8")
+    return p
+
+
+def test_compute_verdict_nonsafety_delegates_to_canonical_decision() -> None:
+    """A4 : la promotion NON-sécurité vient de la décision canonique EMBARQUÉE, jamais
+    d'un tier/floor local. eligible=True ⇒ auto_promote_eligible ; sinon auto_blocked."""
+    elig = {"promotion_status": "ELIGIBLE", "eligible": True, "blocking_reasons": []}
+    v = AR.compute_verdict(False, _score(0, 0, ["A"]), _cov(), promotion_decision=elig)
+    assert v["verdict"] == "auto_promote_eligible"  # planchers score KO mais décision canonique ELIGIBLE
+    blocked = {"promotion_status": "BLOCKED", "eligible": False,
+               "blocking_reasons": [{"code": "COVERAGE_STRICT_FAIL"}]}
+    v2 = AR.compute_verdict(False, _score(30, 20, []), _cov(), promotion_decision=blocked)
+    assert v2["verdict"] == "auto_blocked"
+    assert "COVERAGE_STRICT_FAIL" in v2["reason"]
+
+
+def test_compute_verdict_nonsafety_no_decision_is_failclosed() -> None:
+    """Aucune décision canonique fournie ⇒ auto_blocked (fail-closed), jamais eligible."""
+    v = AR.compute_verdict(False, _score(30, 20, []), _cov(), promotion_decision=None)
+    assert v["verdict"] == "auto_blocked"
+
+
+def test_review_embeds_canonical_promotion_decision(tmp_path: Path, monkeypatch) -> None:
+    """A4 (embed) : review() embarque l'OBJET PromotionDecision canonique tel quel
+    (schema_version + promotion_status + eligible + blocking_reasons typés)."""
+    monkeypatch.setenv("AUTOMECANIK_RAW_PATH", str(tmp_path / "raw-absent"))
+    pdir = _mk_proposal_nonsafety(tmp_path, "filtre-a-huile", "Filtre à huile")
+    _mk_bucket(tmp_path, "filtre-a-huile", "selection_criteria", [BULLET])
+    rep = AR.review("filtre-a-huile", tmp_path, pdir, _mk_manifest(tmp_path, []), tmp_path / "shadow")
+    assert rep["safety_family"] is False
+    pdz = rep["promotion_decision"]
+    assert pdz["schema_version"] == PD.SCHEMA_VERSION
+    assert pdz["promotion_status"] in ("ELIGIBLE", "BLOCKED", "UNKNOWN_FAIL_CLOSED")
+    assert isinstance(pdz["eligible"], bool)
+    for r in pdz["blocking_reasons"]:
+        assert set(("code", "owner_stage", "detector_stage", "evidence")) <= set(r)
+    # le verdict gap1 dérive de la décision canonique (jamais un calcul local)
+    assert (rep["verdict"] == "auto_promote_eligible") == (pdz["eligible"] is True)
+
+
+def test_review_promotion_decision_matches_direct_canonical_call(tmp_path: Path, monkeypatch) -> None:
+    """A4 (adversarial) : ∀ fiche — gap1.promotion_decision == canonical_promotion_decision()
+    en direct sur le MÊME shadow fiche. Zéro divergence possible (gap1 embarque l'objet)."""
+    monkeypatch.setenv("AUTOMECANIK_RAW_PATH", str(tmp_path / "raw-absent"))
+    pdir = _mk_proposal_nonsafety(tmp_path, "filtre-a-air", "Filtre à air")
+    _mk_bucket(tmp_path, "filtre-a-air", "selection_criteria", [BULLET])
+    workdir = tmp_path / "shadow"
+    rep = AR.review("filtre-a-air", tmp_path, pdir, _mk_manifest(tmp_path, []), workdir)
+    embedded = rep["promotion_decision"]
+    direct = PD.canonical_promotion_decision(workdir / "filtre-a-air.md", workdir, raw_root=tmp_path)
+    keys = ("promotion_status", "eligible", "substance_tier")
+    assert {k: embedded.get(k) for k in keys} == {k: direct.get(k) for k in keys}
+    assert sorted(r["code"] for r in embedded["blocking_reasons"]) == \
+           sorted(r["code"] for r in direct["blocking_reasons"])
+
+
 # ---- 11. Lock valeur numérique sécurité (numeric_exactitude) câblé dans la Safety Auto-Gate --------
 def _cov_ok():
     return _cov(valid=27, pending_capped=0, candidates=0)  # tous les autres computables PASS

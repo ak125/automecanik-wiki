@@ -242,6 +242,54 @@ def _serialize_gate_outcome(name: str, result) -> dict:
     }
 
 
+def _build_checks(is_safety, numeric_block, gate_results, truth_level,
+                  score, threshold, gate_engine, shadow, kinds) -> list[dict]:
+    """Reconstruit les CHECKS structurés à partir des valeurs DÉJÀ calculées par
+    evaluate_tier (aucune ré-exécution). Chaque check = {code, status, owner_stage,
+    evidence} — le substrat machine-readable que `decide_promotion` consomme sans
+    parser de prose (C0). `owner_stage` = domaine responsable du défaut.
+    """
+    checks: list[dict] = [
+        {"code": "SAFETY_HUMAN_REVIEW", "status": "fail" if is_safety else "pass",
+         "owner_stage": "POLICY_SAFETY", "evidence": {"is_safety": bool(is_safety)}},
+        {"code": "NUMERIC_HIGH_HARM", "status": "fail" if numeric_block else "pass",
+         "owner_stage": "POLICY_NUMERIC", "evidence": {"block": list(numeric_block[:5])}},
+    ]
+    for name, r in gate_results:
+        checks.append({
+            "code": f"GATE_{name.upper()}",
+            "status": "pass" if r.status == "pass" else "fail",
+            "owner_stage": "QUALITY",
+            "evidence": _serialize_gate_outcome(name, r),
+        })
+    checks.append({
+        "code": "TRUTH_LEVEL",
+        "status": "pass" if truth_level in AUTO_PROMOTE_TRUTH_LEVELS else "fail",
+        "owner_stage": "SUBSTANCE", "evidence": {"truth_level": truth_level},
+    })
+    if gate_engine == "adr088_6dim":
+        st = (shadow or {}).get("shadow_tier")
+        checks.append({
+            "code": "SUBSTANCE_TIER",
+            "status": "pass" if st in ADR088_PROMOTE_TIERS else "fail",
+            "owner_stage": "SUBSTANCE",
+            "evidence": {"shadow_tier": st, "engine": "adr088_6dim"},
+        })
+    else:
+        checks.append({
+            "code": "SUBSTANCE_SCORE",
+            "status": "pass" if score >= threshold else "fail",
+            "owner_stage": "SUBSTANCE",
+            "evidence": {"score": round(score, 4), "threshold": threshold, "engine": "legacy"},
+        })
+    checks.append({
+        "code": "SOURCE_DIVERSITY",
+        "status": "pass" if len(kinds) >= MIN_DISTINCT_SOURCE_KINDS else "fail",
+        "owner_stage": "SOURCE", "evidence": {"distinct_kinds": len(kinds)},
+    })
+    return checks
+
+
 def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
                   threshold: float, gates, compute_score) -> dict:
     """
@@ -253,7 +301,8 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     # INVARIANT SÉCURITÉ (fail-closed, prioritaire) : famille sécurité-critique →
     # JAMAIS auto-promue, quels que soient la substance et le moteur de gate. Force
     # TIER B (revue humaine ≠ auteur). Miroir de auto_review_wiki_proposal (monorepo).
-    if _is_safety_proposal(fm):
+    is_safety = _is_safety_proposal(fm)
+    if is_safety:
         reasons.append(
             "safety: famille sécurité-critique → revue humaine obligatoire (jamais auto-promu)"
         )
@@ -311,6 +360,8 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         "gate_engine": gate_engine,
         "gate_status": {n: r.status for n, r in gate_results},
         "gate_outcomes": [_serialize_gate_outcome(n, r) for n, r in gate_results],
+        "checks": _build_checks(is_safety, numeric_flags["block"], gate_results,
+                                truth_level, score, threshold, gate_engine, shadow, kinds),
         "blocking_reasons": reasons,
         "shadow_score": shadow,
         "numeric_flags": numeric_flags,

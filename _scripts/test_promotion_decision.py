@@ -116,3 +116,87 @@ def test_evaluate_tier_gate_outcomes_tolerates_status_only_gates(tmp_path):
     )
     outcomes = {o["name"]: o for o in d["gate_outcomes"]}
     assert outcomes["risk"]["violations"] == []
+
+
+# --- A3-ii : evaluate_tier emits structured checks + pure decide_promotion -----
+def _load_decision():
+    return _load("_promotion_decision", "promotion_decision.py")
+
+
+def _substance(mod, fm=None, gates=None, score=0.90, body="body", tmp_path=None):
+    """Produit un composant `substance` (sortie evaluate_tier) pour construire un bundle."""
+    return mod.evaluate_tier(
+        fm or FM_OK, body, (tmp_path or Path("/tmp")) / "p.md", (tmp_path or Path("/tmp")),
+        threshold=0.80, gates=gates or _gates(), compute_score=lambda *a: score,
+    )
+
+
+def test_evaluate_tier_emits_structured_checks(tmp_path):
+    """decide_promotion doit consommer des CHECKS structurés, pas de la prose (C0).
+    evaluate_tier expose une liste `checks` [{code, status, owner_stage, evidence}]."""
+    mod = _load_promote()
+    d = mod.evaluate_tier(
+        FM_OK, "body", tmp_path / "p.md", tmp_path,
+        threshold=0.80, gates=_gates("risk"), compute_score=lambda *a: 0.90,
+    )
+    assert "checks" in d
+    by_code = {c["code"]: c for c in d["checks"]}
+    # une check par dimension (safety, numeric, 5 gates, truth, substance, source-diversity)
+    for code in ("SAFETY_HUMAN_REVIEW", "NUMERIC_HIGH_HARM", "GATE_RISK",
+                 "TRUTH_LEVEL", "SUBSTANCE_SCORE", "SOURCE_DIVERSITY"):
+        assert code in by_code, code
+        assert by_code[code]["status"] in ("pass", "fail")
+        assert by_code[code]["owner_stage"]
+    assert by_code["GATE_RISK"]["status"] == "fail"
+    assert by_code["SAFETY_HUMAN_REVIEW"]["status"] == "pass"  # FM_OK non-safety
+
+
+def test_decide_promotion_is_pure_and_deterministic(tmp_path):
+    """Même bundle ⇒ même PromotionDecision (fonction pure : 0 I/O, appelable 2×)."""
+    pm = _load_promote()
+    dec = _load_decision()
+    substance = _substance(pm, tmp_path=tmp_path)
+    bundle = {"substance": substance, "coverage": None, "regression": None, "provenance": None}
+    d1 = dec.decide_promotion(bundle)
+    d2 = dec.decide_promotion(bundle)
+    assert d1 == d2
+    assert d1["schema_version"]
+
+
+def test_decide_promotion_eligible_when_substance_clean(tmp_path):
+    pm = _load_promote()
+    dec = _load_decision()
+    substance = _substance(pm, gates=_gates(), score=0.90, tmp_path=tmp_path)  # all pass
+    bundle = {"substance": substance}
+    d = dec.decide_promotion(bundle)
+    assert d["eligible"] is True
+    assert d["promotion_status"] == "ELIGIBLE"
+    assert d["blocking_reasons"] == []
+
+
+def test_decide_promotion_blocks_with_typed_reasons_not_prose(tmp_path):
+    """Blocking reasons = objets typés {code, owner_stage, detector_stage, evidence},
+    jamais de prose (C0 : détection ≠ routage ; ordre canonique stable)."""
+    pm = _load_promote()
+    dec = _load_decision()
+    substance = _substance(pm, gates=_gates("source"), score=0.90, tmp_path=tmp_path)
+    d = dec.decide_promotion({"substance": substance})
+    assert d["eligible"] is False
+    assert d["promotion_status"] == "BLOCKED"
+    codes = [r["code"] for r in d["blocking_reasons"]]
+    assert "GATE_SOURCE" in codes
+    for r in d["blocking_reasons"]:
+        assert set(r) >= {"code", "owner_stage", "detector_stage", "evidence"}
+        assert isinstance(r["code"], str)
+    # ordre canonique déterministe (tri stable)
+    assert codes == sorted(codes) or len(codes) == 1
+
+
+def test_decide_promotion_preserves_substance_tier(tmp_path):
+    """substance_tier reflète la dimension substance, exposée même quand bloqué."""
+    pm = _load_promote()
+    dec = _load_decision()
+    substance = _substance(pm, gates=_gates("risk"), score=0.90, tmp_path=tmp_path)
+    d = dec.decide_promotion({"substance": substance})
+    assert "substance_tier" in d
+    assert d["substance_tier"] is not None

@@ -223,6 +223,25 @@ def _compute_shadow(fm: dict, body: str, target: Path, wiki_root: Path) -> dict 
 
 
 # --- La porte tiered (cœur ADR-083) -------------------------------------------
+def _serialize_gate_outcome(name: str, result) -> dict:
+    """Sérialise un GateResult (gates/_common) en dict structuré et STABLE.
+
+    Contrat #2 (composition-promotion) : préserver l'evidence par-gate (violations
+    = gate_id + message) jusqu'à la décision — 1 gate = 1 exécution = 1 résultat
+    structuré conservé, jamais aplati en `gate:{n}={s}`. Tolérant aux gates factices
+    status-only (`.violations` absent → dégradé à [], jamais de crash).
+    """
+    violations = getattr(result, "violations", None) or []
+    return {
+        "name": name,
+        "status": result.status,
+        "violations": [
+            {"gate_id": getattr(v, "gate_id", ""), "message": getattr(v, "message", str(v))}
+            for v in violations
+        ],
+    }
+
+
 def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
                   threshold: float, gates, compute_score) -> dict:
     """
@@ -291,6 +310,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         "confidence_score": round(score, 4),
         "gate_engine": gate_engine,
         "gate_status": {n: r.status for n, r in gate_results},
+        "gate_outcomes": [_serialize_gate_outcome(n, r) for n, r in gate_results],
         "blocking_reasons": reasons,
         "shadow_score": shadow,
         "numeric_flags": numeric_flags,

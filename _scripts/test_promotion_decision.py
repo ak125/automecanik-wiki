@@ -200,3 +200,168 @@ def test_decide_promotion_preserves_substance_tier(tmp_path):
     d = dec.decide_promotion({"substance": substance})
     assert "substance_tier" in d
     assert d["substance_tier"] is not None
+
+
+# --- A1 + A3-iii : composer coverage / regression / provenance ----------------
+def _clean_substance(tmp_path):
+    """substance qui passe TOUS les checks (evaluate_tier ⇒ TIER A)."""
+    pm = _load_promote()
+    return _substance(pm, gates=_gates(), score=0.90, tmp_path=tmp_path)
+
+
+def test_A1_divergence_composition_blocks_when_coverage_fails(tmp_path):
+    """A1 (défaut central) : substance PASSE (eligible côté evaluate_tier), mais
+    coverage-strict FAIL ⇒ la composition DOIT bloquer. Prouve que la décision
+    n'est plus fragmentée (le gate manquant participe au verdict)."""
+    dec = _load_decision()
+    substance = _clean_substance(tmp_path)
+    # divergence : substance seule = eligible ; coverage FAIL doit renverser le verdict
+    assert dec.decide_promotion({"substance": substance})["eligible"] is True
+    d = dec.decide_promotion({
+        "substance": substance,
+        "coverage": {"status": "FAIL", "evidence": {"fails": ["source_slug FK absent"]}},
+    })
+    assert d["eligible"] is False
+    assert d["promotion_status"] == "BLOCKED"
+    codes = [r["code"] for r in d["blocking_reasons"]]
+    assert "COVERAGE_STRICT_FAIL" in codes
+    # substance_tier préservé (le défaut coverage ne falsifie pas la substance)
+    assert d["substance_tier"] == substance_tier_of(substance)
+
+
+def substance_tier_of(substance):
+    dec = _load_decision()
+    return dec._substance_tier(substance)
+
+
+def test_coverage_warn_is_observability_not_blocking(tmp_path):
+    """coverage WARN = advisory (mirror CI : --strict bloque sur FAIL, pas WARN)."""
+    dec = _load_decision()
+    d = dec.decide_promotion({
+        "substance": _clean_substance(tmp_path),
+        "coverage": {"status": "WARN", "evidence": {"warns": ["coverage-map absente"]}},
+    })
+    assert d["eligible"] is True
+
+
+def test_regression_regressed_blocks(tmp_path):
+    dec = _load_decision()
+    d = dec.decide_promotion({
+        "substance": _clean_substance(tmp_path),
+        "regression": {"verdict": "REGRESSED", "evidence": {"delta": -0.12}},
+    })
+    assert d["eligible"] is False
+    assert "REGRESSION_DETECTED" in [r["code"] for r in d["blocking_reasons"]]
+
+
+def test_regression_new_and_neutral_do_not_block(tmp_path):
+    dec = _load_decision()
+    for verdict in ("NEW", "NEUTRAL", "IMPROVED"):
+        d = dec.decide_promotion({
+            "substance": _clean_substance(tmp_path),
+            "regression": {"verdict": verdict, "evidence": {}},
+        })
+        assert d["eligible"] is True, verdict
+
+
+def test_A6_provenance_fail_blocks_nonsafety(tmp_path):
+    """A6 : une fiche NON-safety avec raw_ref KO NE PEUT PAS être eligible
+    (fermeture du fail-open non-safety au bon niveau : la composition)."""
+    dec = _load_decision()
+    d = dec.decide_promotion({
+        "substance": _clean_substance(tmp_path),
+        "provenance": {"status": "FAIL", "evidence": {"failures": ["raw_ref invalide"]}},
+    })
+    assert d["eligible"] is False
+    assert d["promotion_status"] == "BLOCKED"
+    assert "PROVENANCE_RAW_REF_FAIL" in [r["code"] for r in d["blocking_reasons"]]
+
+
+def test_P0_2_provenance_unavailable_is_unknown_fail_closed_not_false_tier(tmp_path):
+    """P0-2 : provenance INDISPONIBLE (RAW absent) ⇒ eligible=false +
+    promotion_status=UNKNOWN_FAIL_CLOSED + reason PROVENANCE_GATE_UNAVAILABLE,
+    substance_tier PRÉSERVÉ — JAMAIS un faux TIER B, JAMAIS route infra→specialist."""
+    dec = _load_decision()
+    substance = _clean_substance(tmp_path)
+    d = dec.decide_promotion({
+        "substance": substance,
+        "provenance": {"status": "UNAVAILABLE", "evidence": {"reason": "cross_repo_env_missing"}},
+    })
+    assert d["eligible"] is False
+    assert d["promotion_status"] == "UNKNOWN_FAIL_CLOSED"
+    reasons = {r["code"]: r for r in d["blocking_reasons"]}
+    assert "PROVENANCE_GATE_UNAVAILABLE" in reasons
+    assert reasons["PROVENANCE_GATE_UNAVAILABLE"]["owner_stage"] == "PROVENANCE"
+    # score métier NON falsifié : substance_tier reste celui de la substance
+    assert d["substance_tier"] == substance_tier_of(substance)
+
+
+def test_all_three_evaluators_clean_is_eligible(tmp_path):
+    dec = _load_decision()
+    d = dec.decide_promotion({
+        "substance": _clean_substance(tmp_path),
+        "coverage": {"status": "PASS", "evidence": {}},
+        "regression": {"verdict": "IMPROVED", "evidence": {"delta": 0.05}},
+        "provenance": {"status": "PASS", "evidence": {}},
+    })
+    assert d["eligible"] is True
+    assert d["promotion_status"] == "ELIGIBLE"
+
+
+# --- A3-iii : normalizers PURS (forme brute évaluateur → sous-résultat bundle) --
+def test_normalize_coverage_maps_status():
+    dec = _load_decision()
+    assert dec.normalize_coverage({"status": "FAIL", "fails": ["x"]})["status"] == "FAIL"
+    assert dec.normalize_coverage({"status": "warn", "warns": ["y"]})["status"] == "WARN"
+    assert dec.normalize_coverage({"status": "PASS"})["status"] == "PASS"
+
+
+def test_normalize_regression_maps_verdict():
+    dec = _load_decision()
+    r = dec.normalize_regression({"verdict": "REGRESSED", "delta_score": -0.1, "old_score": 0.9})
+    assert r["verdict"] == "REGRESSED"
+    assert r["evidence"]["delta_score"] == -0.1
+
+
+def test_normalize_provenance_distinguishes_infra_from_content():
+    """P0-2 au niveau normalizer : RAW absent / raw_inventory_unreachable = UNAVAILABLE,
+    échec de contenu (raw_ref malformé) = FAIL, distincts."""
+    dec = _load_decision()
+    # RAW absent
+    assert dec.normalize_provenance([], [], raw_available=False)["status"] == "UNAVAILABLE"
+    # marqueur infra dans failures
+    assert dec.normalize_provenance(
+        ["raw_inventory_unreachable:slug: cross-repo"], [])["status"] == "UNAVAILABLE"
+    # échec de contenu
+    assert dec.normalize_provenance(
+        ["raw_ref_malformed:slug"], [])["status"] == "FAIL"
+    # propre
+    assert dec.normalize_provenance([], ["advisory"])["status"] == "PASS"
+
+
+def test_assemble_bundle_then_decide_end_to_end(tmp_path):
+    """assemble_bundle (pur) + decide_promotion : chaîne complète depuis les sorties
+    brutes des évaluateurs réels, provenance RAW indisponible → UNKNOWN_FAIL_CLOSED."""
+    dec = _load_decision()
+    substance = _clean_substance(tmp_path)
+    bundle = dec.assemble_bundle(
+        substance,
+        coverage_raw={"status": "PASS"},
+        regression_raw={"verdict": "NEW"},
+        provenance_raw=([], []),
+        raw_available=False,  # RAW non fourni
+    )
+    d = dec.decide_promotion(bundle)
+    assert d["promotion_status"] == "UNKNOWN_FAIL_CLOSED"
+    assert d["eligible"] is False
+    assert "PROVENANCE_GATE_UNAVAILABLE" in [r["code"] for r in d["blocking_reasons"]]
+    assert d["substance_tier"] == substance_tier_of(substance)
+
+
+def test_assemble_bundle_omitted_evaluators_are_none(tmp_path):
+    dec = _load_decision()
+    bundle = dec.assemble_bundle(_clean_substance(tmp_path))
+    assert bundle["coverage"] is None
+    assert bundle["regression"] is None
+    assert bundle["provenance"] is None
+    assert dec.decide_promotion(bundle)["eligible"] is True  # substance seule = eligible

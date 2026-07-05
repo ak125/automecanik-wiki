@@ -362,6 +362,100 @@ def test_review_nonsafety_raw_ref_enforced_no_failopen(tmp_path: Path, monkeypat
     assert any(c.startswith("PROVENANCE_") for c in codes), codes
 
 
+# ---- A7 : comptabilité de perte RAW (conservation) + fail-closed 0-fait --------------------------
+def _write_bucket_raw(raw: Path, slug: str, filename: str, text: str) -> None:
+    bd = raw / "sources" / "web-research" / slug
+    bd.mkdir(parents=True, exist_ok=True)
+    (bd / filename).write_text(text, encoding="utf-8")
+
+
+def test_extraction_accounting_conservation(tmp_path: Path) -> None:
+    """A7 : chaque input_item_id éligible tombe dans EXACTEMENT un état final ; l'équation
+    de conservation ferme (eligible == consumed + unmapped + intentional_drop + unsupported)."""
+    pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
+    _mk_bucket(tmp_path, "disque-de-frein", "selection_criteria", [BULLET])       # → consumed
+    _mk_bucket(tmp_path, "disque-de-frein", "aspect_bidon_hors_table", [BULLET])  # → unmapped
+    _, rep = A.author("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []))
+    acct = rep["extraction_accounting"]
+    assert acct["conservation_ok"] is True
+    assert acct["eligible_input_count"] == (acct["consumed_count"] + acct["unmapped_count"]
+                                            + acct["intentional_drop_count"]
+                                            + acct["unsupported_format_count"])
+    assert acct["consumed_count"] >= 1 and acct["unmapped_count"] >= 1
+    # extracted = métrique intermédiaire séparée (bullets parsés), pas dans l'équation
+    assert acct["extracted_count"] == (acct["consumed_count"] + acct["unmapped_count"]
+                                       + acct["intentional_drop_count"])
+
+
+def test_unmapped_is_visible_never_silent(tmp_path: Path) -> None:
+    """A7 : unmapped_count>0 est VISIBLE (jamais un drop silencieux)."""
+    pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
+    _mk_bucket(tmp_path, "disque-de-frein", "aspect_bidon_hors_table", [BULLET])
+    _, rep = A.author("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []))
+    acct = rep["extraction_accounting"]
+    assert acct["unmapped_count"] >= 1
+    assert any(it["state"] == "unmapped" for it in acct["items"])
+
+
+def test_zero_extracted_from_nonempty_raw_is_hard_fail(tmp_path: Path) -> None:
+    """A7 (P0) : RAW non vide (candidats présents) mais 0 fait extrait (format cassé) ⇒
+    échec dur — jamais un candidat « réussi » silencieux."""
+    pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
+    # section reconnue MAIS lignes candidates qui NE matchent PAS le format bullet
+    _write_bucket_raw(tmp_path, "disque-de-frein", "selection_criteria.md",
+                      "---\naspect: selection_criteria\n---\n\n## Faits sourcés\n"
+                      "- une phrase sans url ni niveau de confiance\n"
+                      "- autre ligne au mauvais format\n")
+    _, rep = A.author("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []))
+    acct = rep["extraction_accounting"]
+    assert acct["eligible_input_count"] > 0
+    assert acct["extracted_count"] == 0
+    assert acct["unsupported_format_count"] == acct["eligible_input_count"]
+    assert rep["hard_fail"] is not None
+    assert rep["authored"] is False  # cesse de prétendre avoir authoré
+
+
+def test_bucket_without_facts_section_is_unsupported_not_silent(tmp_path: Path) -> None:
+    """A7 : un bucket non-vide SANS section '## Faits sourcés' (format facet/.full.md invisible
+    au reader) ⇒ unsupported_format (compté), jamais perdu en silence."""
+    pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
+    _write_bucket_raw(tmp_path, "disque-de-frein", "identification.full.md",
+                      "---\naspect: selection_criteria\n---\n\n## Autre format\n"
+                      "contenu facet-keyed que le reader ne sait pas extraire\n")
+    _, rep = A.author("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []))
+    acct = rep["extraction_accounting"]
+    assert acct["unsupported_format_count"] >= 1
+    assert any(it["state"] == "unsupported_format" and it["input_item_id"].endswith("::FILE")
+               for it in acct["items"])
+
+
+def test_intentional_drop_requires_reason_never_catchall(tmp_path: Path) -> None:
+    """A7 : INTENTIONAL_DROP n'est JAMAIS la poubelle verte — il exige reason_code + policy.
+    Un parser incapable (mauvais format) ⇒ unsupported_format, jamais intentional_drop."""
+    pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
+    _write_bucket_raw(tmp_path, "disque-de-frein", "selection_criteria.md",
+                      "---\naspect: selection_criteria\n---\n\n## Faits sourcés\n"
+                      "- ligne au mauvais format\n")
+    _, rep = A.author("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []))
+    for it in rep["extraction_accounting"]["items"]:
+        if it["state"] == "intentional_drop":
+            assert it.get("reason_code") and it.get("policy")
+        if it["state"] == "unsupported_format":
+            assert it["state"] != "intentional_drop"  # jamais reclassé en drop
+
+
+def test_main_hard_fail_exits_nonzero(tmp_path: Path) -> None:
+    """A7 : le CLI author_from_raw sort non-zéro sur un échec dur (0-fait extrait)."""
+    pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
+    _write_bucket_raw(tmp_path, "disque-de-frein", "selection_criteria.md",
+                      "---\naspect: selection_criteria\n---\n\n## Faits sourcés\n- mauvais format\n")
+    out = tmp_path / "shadow.md"
+    rc = A.main(["--slug", "disque-de-frein", "--raw-root", str(tmp_path),
+                 "--proposals-dir", str(pdir), "--manifest", str(_mk_manifest(tmp_path, [])),
+                 "--out", str(out)])
+    assert rc != 0
+
+
 # ---- 11. Lock valeur numérique sécurité (numeric_exactitude) câblé dans la Safety Auto-Gate --------
 def _cov_ok():
     return _cov(valid=27, pending_capped=0, candidates=0)  # tous les autres computables PASS

@@ -69,7 +69,7 @@ def _resolve_status(c: dict, catalog: dict, valid_sections: set) -> str:
     if not cat_slug or c.get("section") not in valid_sections:
         return "pending_capture"
     entry = catalog["slugs"][cat_slug]
-    authoritative = str(entry.get("type", "")) in cov_mod.CATALOG_AUTHORITATIVE
+    authoritative = str(entry.get("type", "")) in cov_mod._authoritative_types()
     if authoritative and cov_mod.is_page_proven(entry):
         return "captured"                         # status catalog `active` → token coverage prouvé (source_status)
     return "pending_capture"

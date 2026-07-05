@@ -59,12 +59,37 @@ FORUM_HINTS = re.compile(
     r"(bobistheoilguy|reddit|forum|forums|quora|\.forumactif|caradisiac\.com/forum|"
     r"forum-auto|worldstandards)", re.I)
 
-# Types catalog considérés AUTORITAIRES (→ policy 1_high autorisé quand la source est cataloguée).
-# NOTE (G2 EN PAUSE owner 2026-07-03) : le rôle exact de `tecdoc_official` (preuve externe /
-# corroboration, JAMAIS vérité métier — la vérité canonique = DB Massdoc) fait l'objet d'un audit
-# séparé. Aucune promotion de TecDoc ici : ce set reste inchangé (le membre `tecdoc` bare, absent de
-# l'enum `type`, demeure inerte) tant que l'audit n'a pas clarifié le rôle. Ne PAS « corriger » ici.
-CATALOG_AUTHORITATIVE = {"oem_manual", "normative_standard", "tecdoc", "db_owned", "manufacturer_official"}
+SCRIPTS_DIR = Path(__file__).resolve().parent
+
+# Types en G2 PAUSE (owner 2026-07-03) : `tecdoc_official` est `high` dans le SoT mais RESTE hors
+# du set autoritaire — TecDoc CORROBORE, ne PROUVE pas (vérité métier canonique = DB Massdoc). Reste
+# exclu tant que l'audit G2 vault n'a pas clarifié le rôle. Réf : mémoire
+# `massdoc_truth_source_catalog_proves_tecdoc_corroborates`. Owner-gated pour lever (jamais ici).
+_G2_PAUSED_AUTHORITATIVE_TYPES = frozenset({"tecdoc_official"})
+
+_authoritative_types_cache: frozenset | None = None
+
+
+def _authoritative_types() -> frozenset:
+    """Types catalog AUTORITAIRES (peuvent atteindre `1_high`/`captured` QUAND page-proven) —
+    DÉRIVÉS du SoT `source_type_max_confidence` (loader EXISTANT de quality-gates.py, 0 réimpl),
+    jamais hardcodés (fin de la dérive : phantoms retirés, vrais types high inclus). `high` = plafond
+    d'autorité ÉDITEUR, JAMAIS preuve automatique d'un claim — la preuve reste `is_page_proven`
+    (raw_ref) + text_anchor + relation coverage. Exclut les types en G2 PAUSE."""
+    global _authoritative_types_cache
+    if _authoritative_types_cache is None:
+        import importlib.util
+        legacy_path = SCRIPTS_DIR / "quality-gates.py"
+        spec = importlib.util.spec_from_file_location("_quality_gates_legacy", legacy_path)
+        if spec is None or spec.loader is None:
+            raise RuntimeError(f"unable to load legacy gates module: {legacy_path}")
+        legacy = importlib.util.module_from_spec(spec)
+        sys.modules["_quality_gates_legacy"] = legacy
+        spec.loader.exec_module(legacy)
+        high = {t for t, conf in legacy.SOURCE_TYPE_TO_MAX_CONFIDENCE.items()
+                if str(conf).lower() == "high"}
+        _authoritative_types_cache = frozenset(high - _G2_PAUSED_AUTHORITATIVE_TYPES)
+    return _authoritative_types_cache
 
 
 def is_page_proven(entry: dict) -> bool:
@@ -185,7 +210,7 @@ def generate(slug: str, fiche_md: str, raw_root: Path) -> tuple[dict, dict]:
         cat_slug = catalog["domain_to_slug"].get(dom)
         if cat_slug and c["section"] in valid_sections:
             entry = catalog["slugs"][cat_slug]
-            authoritative = str(entry.get("type", "")) in CATALOG_AUTHORITATIVE
+            authoritative = str(entry.get("type", "")) in _authoritative_types()
             # page-level : la PREUVE du claim dépend de la capture de la page (catalog status: active),
             # pas juste de l'éditeur. Le status catalog `active` → source_status coverage `captured`.
             page_proven = is_page_proven(entry)

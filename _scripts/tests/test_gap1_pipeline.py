@@ -301,6 +301,45 @@ def test_review_promotion_decision_matches_direct_canonical_call(tmp_path: Path,
            sorted(r["code"] for r in direct["blocking_reasons"])
 
 
+# ---- A5 : CATALOG_AUTHORITATIVE dérivé du SoT (source_type_max_confidence), plus hardcodé --------
+def _sot_high_types():
+    import importlib.util
+    p = SCRIPTS / "quality-gates.py"
+    spec = importlib.util.spec_from_file_location("_qg_a5", p)
+    qg = importlib.util.module_from_spec(spec); spec.loader.exec_module(qg)
+    return {t for t, c in qg.SOURCE_TYPE_TO_MAX_CONFIDENCE.items() if str(c).lower() == "high"}
+
+
+def test_authoritative_types_derived_from_sot_not_hardcoded() -> None:
+    """A5 : l'ensemble autoritaire = {types high du SoT} − {G2 PAUSE}. Fin de la dérive :
+    les 3 phantoms hardcodés (db_owned/manufacturer_official/tecdoc bare) disparaissent,
+    les vrais types high (oem_workshop…) apparaissent."""
+    auth = set(CM._authoritative_types())
+    expected = _sot_high_types() - CM._G2_PAUSED_AUTHORITATIVE_TYPES
+    assert auth == expected
+    # phantoms hardcodés éliminés
+    assert not ({"db_owned", "manufacturer_official", "tecdoc"} & auth)
+    # vrai type high précédemment manquant, désormais présent
+    assert "oem_workshop" in auth
+
+
+def test_tecdoc_official_stays_non_authoritative_g2_pause() -> None:
+    """G2 PAUSE (owner) : tecdoc_official est high dans le SoT mais RESTE hors du set
+    autoritaire — tecdoc corrobore, ne PROUVE pas (vérité métier = DB Massdoc)."""
+    assert "tecdoc_official" in _sot_high_types()          # bien high au SoT
+    assert "tecdoc_official" not in CM._authoritative_types()  # mais jamais autoritaire ici
+
+
+def test_authoritative_high_is_editor_cap_not_auto_proof(tmp_path: Path, monkeypatch) -> None:
+    """`high` = plafond d'autorité ÉDITEUR, JAMAIS preuve automatique : un type autoritaire
+    SANS raw_ref (page non prouvée) ⇒ capé medium/pending_capture (pas de fail-open)."""
+    entry_no_rawref = {"status": "active", "type": "oem_workshop"}  # autoritaire mais pas is_page_proven
+    assert CM.is_page_proven(entry_no_rawref) is False
+    entry_proven = {"status": "active", "type": "oem_workshop",
+                    "raw_ref": {"repo": "automecanik-raw", "manifest_id": "m1"}}
+    assert CM.is_page_proven(entry_proven) is True
+
+
 # ---- 11. Lock valeur numérique sécurité (numeric_exactitude) câblé dans la Safety Auto-Gate --------
 def _cov_ok():
     return _cov(valid=27, pending_capped=0, candidates=0)  # tous les autres computables PASS

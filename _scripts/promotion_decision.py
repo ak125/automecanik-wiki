@@ -29,8 +29,15 @@ from __future__ import annotations
 
 import hashlib
 import importlib.util
+import os
+import re
 import subprocess
+import sys
+from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
+
+import yaml
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
 
@@ -45,6 +52,14 @@ _COVERAGE_DETECTOR = "COVERAGE_MAP"
 _REGRESSION_DETECTOR = "REGRESSION"
 _PROVENANCE_DETECTOR = "PROVENANCE_GATE"
 _APPLY_GUARD = "APPLY_GUARD"
+
+
+class PromotionInputError(Exception):
+    """Erreur de cœur métier promotion (input invalide / config introuvable) —
+    exception de DOMAINE click-free. Le CLI (`promote.py`) la traduit en
+    `click.ClickException` À SA FRONTIÈRE (jamais l'inverse : la bibliothèque ne
+    dépend pas de click). Sous-classe d'`Exception` ⇒ capturée telle quelle par les
+    handlers fail-closed existants (`except Exception`), 0 changement de comportement."""
 
 
 def blocking_reason(code: str, owner_stage: str, detector_stage: str, evidence) -> dict:
@@ -248,7 +263,7 @@ def assemble_bundle(substance: dict, *, coverage_raw=None, regression_raw=None,
 # Fichiers-source des évaluateurs qui produisent le bundle : leur hash = la
 # `evaluation_engine_revision` (couvre le code réellement exécuté, worktree dirty inclus).
 _EVALUATION_ENGINE_FILES = (
-    "promote.py", "quality-gates.py", "check-coverage-map.py",
+    "promotion_decision.py", "quality-gates.py", "check-coverage-map.py",
     "compare-proposal-versions.py", "shadow_score.py", "compute-confidence-score.py",
 )
 
@@ -338,22 +353,448 @@ def _load_module(name: str, filename: str):
     return mod
 
 
+# =============================================================================
+# Cœur métier de promotion — DÉPLACÉ depuis promote.py (A+ : frontière CLI↔library).
+# `promote.py` (adapter CLI) IMPORTE ces symboles ; la bibliothèque canonique ne
+# charge/n'importe JAMAIS le module CLI (jamais library→CLI). Corps INCHANGÉS
+# (mêmes invariants ADR-083/088/091) — seule différence : les erreurs de cœur métier
+# lèvent `PromotionInputError` (domain), que le CLI traduit en click à sa frontière.
+# `evaluate_tier` + `gates/` restent tels quels (leur découplage click/pydantic est
+# un autre chantier, hors périmètre).
+# =============================================================================
+
+
+# --- Constantes gouvernées (ADR-083) -----------------------------------------
+# Seuil no-op par défaut. 1.01 = inatteignable → 0 auto-promotion (= aujourd'hui).
+# Activation = abaisser à 0.80 (valeur canon ADR-083), owner-décidé.
+AUTO_PROMOTE_THRESHOLD = 1.01
+AUTO_PROMOTE_TRUTH_LEVELS = {"L1", "L2"}
+# Cutover ADR-088 (gaté par flag, défaut OFF) : quel moteur de substance gate l'auto-promotion.
+#   legacy      = confidence_score scalaire 0-1 >= seuil (comportement historique, défaut)
+#   adr088_6dim = tier 6-dim shadow_score (planchers entity-aware) ∈ {A,S}
+# Le FLIP (mettre PROMOTE_GATE_ENGINE=adr088_6dim) reste owner-gated : ADR-088 accepté au vault
+# + 3 critères §F mesurés (new⊆old · known-bad→B/C · ≥1 fiche TIER A). Fail-closed dans les 2 modes.
+PROMOTE_GATE_ENGINE_ENV = "PROMOTE_GATE_ENGINE"
+ADR088_PROMOTE_TIERS = {"A", "S"}
+MIN_DISTINCT_SOURCE_KINDS = 2
+PROMOTER_ID = "skill:promoter"
+WIKI_ENTITY_DIRS = {"gamme", "vehicle", "constructeur", "diagnostic"}
+
+# --- Invariant SÉCURITÉ : familles sécurité-critiques → JAMAIS auto-promues ----
+# Classification déléguée au SINGLE SOURCE `safety_families.is_safety_proposal`
+# (ADR fix #5) — partagé avec `quality-gates.gate_safety_unsourced`. Import paresseux
+# (même pattern que `_load_gates` / `_compute_shadow` : modules chargés par chemin).
+# Fail-closed : une fiche sécurité reste 100% revue humaine, même substance forte.
+_safety_families_mod = None
+
+
+def _is_safety_proposal(fm: dict) -> bool:
+    """Délègue au classifieur sécurité unifié (single source, ADR fix #5). Fail-closed."""
+    global _safety_families_mod
+    try:
+        if _safety_families_mod is None:
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            import safety_families as _sf
+            _safety_families_mod = _sf
+        return _safety_families_mod.is_safety_proposal(fm)
+    except Exception:
+        return True  # fail-closed : doute → sécurité → revue humaine
+
+
+# --- Invariant ANTI-NUMBER-SWAPPING : valeurs numériques critiques → revue humaine -
+# Axiome n°0 : le contenu ne FABRIQUE jamais une valeur. La provenance PAR-VALEUR
+# n'existe pas dans le modèle (`source_refs` = niveau document) → la corroboration
+# automatique par-nombre est IMPOSSIBLE. On route donc vers la revue humaine les
+# valeurs HIGH-HARM (couple, pression) où un number-swapping est dangereux ; les
+# cotes mm/µm et températures sont FLAGGÉES (observabilité) sans bloquer (mesuré :
+# block ≈ 2 fiches véhicule à couple/pression ; les fiches sécurité sont déjà bloquées).
+# Enforcement par-valeur complet = futur (provenance par-claim au schéma, ADR-gated).
+_NUM_PREFIX = r"(?<![\w.,])\d[\d.,   ]*\s?"
+CRITICAL_NUMERIC_BLOCK = re.compile(
+    _NUM_PREFIX + r"(Nm|N·m|N\.m|daNm|m\.kg|mkg|bar|kPa|MPa|psi)\b", re.IGNORECASE
+)
+CRITICAL_NUMERIC_OBSERVE = re.compile(
+    _NUM_PREFIX + r"(mm|µm|μm|microns?|°\s?C)\b", re.IGNORECASE
+)
+
+
+def _numeric_review_flags(body: str) -> dict:
+    """Inventaire des valeurs numériques critiques d'un corps de proposal.
+
+    `block`   = couple/pression (HIGH-HARM) : number-swapping dangereux, non
+                auto-vérifiable → revue humaine obligatoire avant auto-promotion.
+    `observe` = cotes / températures : flaggées pour le relecteur, NE bloquent PAS.
+    Fail-closed : toute erreur → `block` non vide (route vers revue humaine).
+    """
+    try:
+        block = sorted({m.group(0).strip() for m in CRITICAL_NUMERIC_BLOCK.finditer(body or "")})
+        observe = sorted({m.group(0).strip() for m in CRITICAL_NUMERIC_OBSERVE.finditer(body or "")})
+        return {"block": block, "observe": observe}
+    except Exception as exc:  # fail-closed : doute → revue humaine
+        return {"block": [f"<erreur classif numérique: {exc}>"], "observe": []}
+
+
+FRONTMATTER_SEPARATOR = "---"
+
+
+# --- Composition de l'existant (aucun nouveau gate, aucun nouvel index) -------
+def _load_gates():
+    """Importe les 5 wrappers de gates existants (package _scripts/gates/)."""
+    sys.path.insert(0, str(SCRIPTS_DIR))
+    from gates.claim_gate import run_claim_gate
+    from gates.confidence_gate import run_confidence_gate
+    from gates.contradiction_gate import run_contradiction_gate
+    from gates.risk_gate import run_risk_gate
+    from gates.source_gate import run_source_gate
+
+    return [
+        ("source", run_source_gate),
+        ("claim", run_claim_gate),
+        ("contradiction", run_contradiction_gate),
+        ("risk", run_risk_gate),
+        ("confidence", run_confidence_gate),
+    ]
+
+
+def _load_confidence_fn():
+    """Charge compute_score depuis compute-confidence-score.py (filename à tirets)."""
+    path = SCRIPTS_DIR / "compute-confidence-score.py"
+    spec = importlib.util.spec_from_file_location("_confidence_score", path)
+    if spec is None or spec.loader is None:
+        raise PromotionInputError(f"compute-confidence-score.py introuvable: {path}")
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.compute_score
+
+
+def _parse_markdown(path: Path) -> tuple[dict[str, Any], str]:
+    text = path.read_text(encoding="utf-8")
+    if not text.startswith(FRONTMATTER_SEPARATOR):
+        raise PromotionInputError(f"proposal sans frontmatter: {path}")
+    parts = text.split(f"\n{FRONTMATTER_SEPARATOR}\n", 1)
+    if len(parts) != 2:
+        raise PromotionInputError(f"frontmatter close-fence manquante: {path}")
+    fm = yaml.safe_load(parts[0].lstrip(FRONTMATTER_SEPARATOR).lstrip("\n"))
+    if not isinstance(fm, dict):
+        raise PromotionInputError(f"frontmatter non-dict: {path}")
+    return fm, parts[1]
+
+
+def _wiki_commit_sha(wiki_root: Path) -> str:
+    import subprocess
+
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            cwd=wiki_root, check=True, capture_output=True, text=True,
+        )
+        return out.stdout.strip()
+    except Exception:
+        return "0000000"
+
+
+# --- Shadow scoring 6-dim (ADR-088 §F : observabilité AVANT cutover) ----------
+# SHADOW pur : calcule le tier 6-dim À CÔTÉ de la décision legacy, l'attache à
+# l'evidence pour mesurer les 3 critères de cutover sur le VRAI chemin de promotion,
+# SANS jamais modifier la décision de porte. Fail-closed total : toute erreur →
+# None (jamais de blocage, jamais d'exception remontée à evaluate_tier).
+def _compute_shadow(fm: dict, body: str, target: Path, wiki_root: Path) -> dict | None:
+    """Tier shadow 6-dim (report-only). Retourne un dict observabilité ou None si indéterminable.
+
+    Réutilise `shadow_score.score` (ADR-088 Phase 3.3) + `reality_manifest` (lecture 0-DB).
+    coverage-map : réutilise `shadow_score._load_coverage_map` (PR #53) si présent, sinon dégrade
+    proprement à `coverage_map=None` (dim A → `A:no_coverage_map(dégradé)`, jamais de crash).
+    """
+    try:
+        sys.path.insert(0, str(SCRIPTS_DIR))
+        import reality_manifest as _rm
+        import shadow_score as _ss
+
+        manifest = _rm.load_manifest(SCRIPTS_DIR.parent / "_meta" / "reality-manifest.json")
+        cmap = None
+        loader = getattr(_ss, "_load_coverage_map", None)  # fourni par PR #53
+        if callable(loader):
+            cmap = loader(fm.get("slug") or target.stem, wiki_root / "proposals")
+        ctx = {"path": str(target), "manifest": manifest, "coverage_map": cmap,
+               "wiki_root": wiki_root}
+        r = _ss.score(fm, body, ctx)
+        return {
+            "shadow_tier": r.tier,
+            "shadow_total": r.total,
+            "shadow_dims": r.dims,
+            "shadow_applicable": r.applicable,
+            "shadow_floors_failed": r.floors_failed,
+            "shadow_blocked": r.blocked,
+            "manifest_status": _rm.status(manifest),
+            "scorer": "shadow_score.score@6dim-v0",
+        }
+    except Exception as exc:  # noqa: BLE001 — fail-closed : observabilité best-effort, jamais bloquante
+        return {"shadow_error": str(exc)}
+
+
+# --- La porte tiered (cœur ADR-083) -------------------------------------------
+def _serialize_gate_outcome(name: str, result) -> dict:
+    """Sérialise un GateResult (gates/_common) en dict structuré et STABLE.
+
+    Contrat #2 (composition-promotion) : préserver l'evidence par-gate (violations
+    = gate_id + message) jusqu'à la décision — 1 gate = 1 exécution = 1 résultat
+    structuré conservé, jamais aplati en `gate:{n}={s}`. Tolérant aux gates factices
+    status-only (`.violations` absent → dégradé à [], jamais de crash).
+    """
+    violations = getattr(result, "violations", None) or []
+    return {
+        "name": name,
+        "status": result.status,
+        "violations": [
+            {"gate_id": getattr(v, "gate_id", ""), "message": getattr(v, "message", str(v))}
+            for v in violations
+        ],
+    }
+
+
+def _build_checks(is_safety, numeric_block, gate_results, truth_level,
+                  score, threshold, gate_engine, shadow, kinds) -> list[dict]:
+    """Reconstruit les CHECKS structurés à partir des valeurs DÉJÀ calculées par
+    evaluate_tier (aucune ré-exécution). Chaque check = {code, status, owner_stage,
+    evidence} — le substrat machine-readable que `decide_promotion` consomme sans
+    parser de prose (C0). `owner_stage` = domaine responsable du défaut.
+    """
+    checks: list[dict] = [
+        {"code": "SAFETY_HUMAN_REVIEW", "status": "fail" if is_safety else "pass",
+         "owner_stage": "POLICY_SAFETY", "evidence": {"is_safety": bool(is_safety)}},
+        {"code": "NUMERIC_HIGH_HARM", "status": "fail" if numeric_block else "pass",
+         "owner_stage": "POLICY_NUMERIC", "evidence": {"block": list(numeric_block[:5])}},
+    ]
+    for name, r in gate_results:
+        checks.append({
+            "code": f"GATE_{name.upper()}",
+            "status": "pass" if r.status == "pass" else "fail",
+            "owner_stage": "QUALITY",
+            "evidence": _serialize_gate_outcome(name, r),
+        })
+    checks.append({
+        "code": "TRUTH_LEVEL",
+        "status": "pass" if truth_level in AUTO_PROMOTE_TRUTH_LEVELS else "fail",
+        "owner_stage": "SUBSTANCE", "evidence": {"truth_level": truth_level},
+    })
+    if gate_engine == "adr088_6dim":
+        st = (shadow or {}).get("shadow_tier")
+        checks.append({
+            "code": "SUBSTANCE_TIER",
+            "status": "pass" if st in ADR088_PROMOTE_TIERS else "fail",
+            "owner_stage": "SUBSTANCE",
+            "evidence": {"shadow_tier": st, "engine": "adr088_6dim"},
+        })
+    else:
+        checks.append({
+            "code": "SUBSTANCE_SCORE",
+            "status": "pass" if score >= threshold else "fail",
+            "owner_stage": "SUBSTANCE",
+            "evidence": {"score": round(score, 4), "threshold": threshold, "engine": "legacy"},
+        })
+    checks.append({
+        "code": "SOURCE_DIVERSITY",
+        "status": "pass" if len(kinds) >= MIN_DISTINCT_SOURCE_KINDS else "fail",
+        "owner_stage": "SOURCE", "evidence": {"distinct_kinds": len(kinds)},
+    })
+    return checks
+
+
+def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
+                  threshold: float, gates, compute_score) -> dict:
+    """
+    Décision déterministe TIER A (auto) vs TIER B (humain). Fail-closed :
+    toute exception est capturée par l'appelant → TIER B.
+    """
+    reasons: list[str] = []
+
+    # INVARIANT SÉCURITÉ (fail-closed, prioritaire) : famille sécurité-critique →
+    # JAMAIS auto-promue, quels que soient la substance et le moteur de gate. Force
+    # TIER B (revue humaine ≠ auteur). Miroir de auto_review_wiki_proposal (monorepo).
+    is_safety = _is_safety_proposal(fm)
+    if is_safety:
+        reasons.append(
+            "safety: famille sécurité-critique → revue humaine obligatoire (jamais auto-promu)"
+        )
+
+    # INVARIANT ANTI-NUMBER-SWAPPING : valeurs HIGH-HARM (couple/pression) non
+    # auto-vérifiables → revue humaine. Cotes/températures = observabilité (ne bloquent pas).
+    numeric_flags = _numeric_review_flags(body)
+    if numeric_flags["block"]:
+        reasons.append(
+            "numeric: valeurs critiques couple/pression non auto-vérifiables → "
+            f"revue humaine (anti number-swapping): {numeric_flags['block'][:5]}"
+        )
+
+    gate_results = [(name, fn(target)) for name, fn in gates]
+    failing = [(n, r.status) for n, r in gate_results if r.status != "pass"]
+    if failing:
+        reasons += [f"gate:{n}={s}" for n, s in failing]
+
+    truth_level = fm.get("truth_level")
+    if truth_level not in AUTO_PROMOTE_TRUTH_LEVELS:
+        reasons.append(f"truth_level={truth_level} (auto exige L1/L2)")
+
+    try:
+        score = float(compute_score(fm, body, wiki_root))
+    except Exception as exc:  # fail-closed
+        reasons.append(f"confidence_score indéterminable: {exc}")
+        score = 0.0
+
+    # Le tier 6-dim est calculé dans les 2 modes : observabilité (toujours) + décisionnel (si flag on).
+    shadow = _compute_shadow(fm, body, target, wiki_root)
+    gate_engine = os.environ.get(PROMOTE_GATE_ENGINE_ENV, "legacy").strip().lower()
+    if gate_engine == "adr088_6dim":
+        # SUBSTANCE GATE = tier 6-dim (planchers entity-aware). Fail-closed : tier absent/erreur → blocage.
+        st = (shadow or {}).get("shadow_tier")
+        if st not in ADR088_PROMOTE_TIERS:
+            why = st or (shadow or {}).get("shadow_error", "indéterminable")
+            reasons.append(f"shadow_tier={why} (cutover ADR-088 : auto-promo exige A/S)")
+    else:
+        # SUBSTANCE GATE legacy (défaut) = confidence_score scalaire >= seuil.
+        if score < threshold:
+            reasons.append(f"confidence_score={score:.2f} < seuil={threshold:.2f}")
+
+    kinds = {
+        s.get("kind")
+        for s in (fm.get("source_refs") or [])
+        if isinstance(s, dict) and s.get("kind")
+    }
+    if len(kinds) < MIN_DISTINCT_SOURCE_KINDS:
+        reasons.append(f"source_refs kinds distincts={len(kinds)} (<{MIN_DISTINCT_SOURCE_KINDS})")
+
+    tier = "A" if not reasons else "B"
+    return {
+        "tier": tier,
+        "confidence_score": round(score, 4),
+        "gate_engine": gate_engine,
+        "gate_status": {n: r.status for n, r in gate_results},
+        "gate_outcomes": [_serialize_gate_outcome(n, r) for n, r in gate_results],
+        "checks": _build_checks(is_safety, numeric_flags["block"], gate_results,
+                                truth_level, score, threshold, gate_engine, shadow, kinds),
+        "blocking_reasons": reasons,
+        "shadow_score": shadow,
+        "numeric_flags": numeric_flags,
+    }
+
+
+def _promotion_target_path(wiki_root: Path, fm: dict) -> Path:
+    entity_type = fm.get("entity_type")
+    slug = fm.get("slug")
+    if entity_type not in WIKI_ENTITY_DIRS or not slug:
+        raise PromotionInputError(f"entity_type/slug invalides: {entity_type}/{slug}")
+    out = (wiki_root / "wiki" / entity_type / f"{slug}.md").resolve()
+    canon_root = (wiki_root / "wiki").resolve()
+    # path enforcement strict — n'écrit JAMAIS hors wiki/<entity_type>/
+    if canon_root not in out.parents:
+        raise PromotionInputError(f"refus écriture hors wiki/: {out}")
+    return out
+
+
+def _canon_already_approved(wiki_root: Path, fm: dict) -> bool:
+    """
+    True si wiki/<entity_type>/<slug>.md existe DÉJÀ en review_status: approved.
+
+    Garde anti-écrasement (ADR-083 durcissement) : promote.py ne clobbe JAMAIS
+    une fiche canon déjà validée (humain ou run antérieur). Fail-closed : fichier
+    présent mais illisible → True (on ne touche pas).
+    """
+    entity_type = fm.get("entity_type")
+    slug = fm.get("slug")
+    if entity_type not in WIKI_ENTITY_DIRS or not slug:
+        return False
+    target = wiki_root / "wiki" / entity_type / f"{slug}.md"
+    if not target.is_file():
+        return False
+    try:
+        existing_fm, _ = _parse_markdown(target)
+    except Exception:
+        return True  # fail-closed : illisible → ne pas écraser
+    return existing_fm.get("review_status") == "approved"
+
+
+def apply_promotion(target: Path, fm: dict, body: str, wiki_root: Path,
+                    decision: dict) -> Path:
+    """Déplace la proposal vers le canon wiki approved (TIER A uniquement). 0 enrichissement.
+
+    Move-semantics (invariant `check-slug-uniqueness`) : une gamme promue ne peut
+    coexister comme proposal ET canon. On écrit le canon PUIS on supprime la proposal
+    source. Traçabilité conservée : `promotion_evidence` + `provenance.promoted_from`
+    + l'historique git. Fail-safe : la proposal n'est supprimée qu'APRÈS écriture d'un
+    canon non-vide, et seulement si elle vit bien sous `proposals/`.
+    """
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    sha = _wiki_commit_sha(wiki_root)
+    out_path = _promotion_target_path(wiki_root, fm)
+    # defense-in-depth : ne JAMAIS écraser une fiche canon déjà approved (idempotence / TOCTOU)
+    if _canon_already_approved(wiki_root, fm):
+        raise PromotionInputError(f"refus écrasement canon déjà approved: {out_path}")
+
+    new_fm = dict(fm)  # copie — aucune modification du contenu éditorial
+    new_fm["review_status"] = "approved"
+    new_fm["reviewed_by"] = f"{PROMOTER_ID}@{sha}"
+    new_fm["reviewed_at"] = now
+    new_fm["auto_promoted"] = True
+    new_fm["promotion_tier"] = "A"
+    new_fm["promotion_evidence"] = {
+        "gate_status": decision["gate_status"],
+        "confidence_score": decision["confidence_score"],
+        "promoter": f"{PROMOTER_ID}@{sha}",
+        "promoted_at": now,
+    }
+    # SHADOW (ADR-088 §F) : trace le tier 6-dim si calculé, pour rendre les 3 critères
+    # de cutover mesurables sur le chemin réel. .get → rétro-compat (decision sans shadow).
+    shadow = decision.get("shadow_score")
+    if shadow is not None:
+        new_fm["promotion_evidence"]["shadow_score"] = shadow
+    exportable = dict(new_fm.get("exportable") or {})
+    exportable["seo"] = True
+    new_fm["exportable"] = exportable
+    provenance = dict(new_fm.get("provenance") or {})
+    provenance["promoted_from"] = str(target.relative_to(wiki_root))
+    provenance["promoted_at"] = now
+    new_fm["provenance"] = provenance
+
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    rendered = (
+        f"{FRONTMATTER_SEPARATOR}\n"
+        f"{yaml.safe_dump(new_fm, allow_unicode=True, sort_keys=False)}"
+        f"{FRONTMATTER_SEPARATOR}\n{body}"
+    )
+    out_path.write_text(rendered, encoding="utf-8")
+
+    # Move-semantics : supprimer la proposal source APRÈS écriture du canon. Gardes :
+    # (1) target est un vrai fichier, (2) sous proposals/ uniquement (jamais wiki/),
+    # (3) distinct du canon, (4) canon bien écrit et non-vide. Une OSError éventuelle
+    # remonte au handler de main() (pas de swallow silencieux — no-silent-fallback).
+    proposals_root = (wiki_root / "proposals").resolve()
+    if (
+        target.is_file()
+        and target.resolve() != out_path.resolve()
+        and proposals_root in target.resolve().parents
+        and out_path.is_file()
+        and out_path.stat().st_size > 0
+    ):
+        target.unlink()
+
+    return out_path
+
+
 def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
                          threshold, gates, compute_score):
     """Runner I/O par défaut : appelle les évaluateurs RÉELS existants (1 exécution
     chacun) et retourne leurs sorties BRUTES. Chaque évaluateur est fail-closed :
     toute erreur → sous-résultat UNAVAILABLE (jamais un skip silencieux)."""
     candidate_path, wiki_root = Path(candidate_path), Path(wiki_root)
-    promote = _load_module("_promote_eval", "promote.py")
-    fm, body = promote._parse_markdown(candidate_path)
+    fm, body = _parse_markdown(candidate_path)
     if gates is None:
-        gates = promote._load_gates()
+        gates = _load_gates()
     if compute_score is None:
-        compute_score = promote._load_confidence_fn()
+        compute_score = _load_confidence_fn()
     if threshold is None:
-        threshold = promote.AUTO_PROMOTE_THRESHOLD
+        threshold = AUTO_PROMOTE_THRESHOLD
 
-    substance = promote.evaluate_tier(fm, body, candidate_path, wiki_root,
+    substance = evaluate_tier(fm, body, candidate_path, wiki_root,
                                       threshold, gates, compute_score)
 
     # coverage-strict (check-coverage-map)
@@ -370,8 +811,8 @@ def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
         cmp_mod = _load_module("_compare_versions", "compare-proposal-versions.py")
         if baseline_path is None:
             try:
-                bp = promote._promotion_target_path(wiki_root, fm)
-                baseline_path = bp if (bp.is_file() and promote._canon_already_approved(wiki_root, fm)) else None
+                bp = _promotion_target_path(wiki_root, fm)
+                baseline_path = bp if (bp.is_file() and _canon_already_approved(wiki_root, fm)) else None
             except Exception:
                 baseline_path = None
         regression_raw = cmp_mod.compare(candidate_path, baseline_path, wiki_root)

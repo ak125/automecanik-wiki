@@ -383,7 +383,8 @@ def test_gate_engine_legacy_blocks_on_low_confidence_ignores_shadow(tmp_path, mo
     """Legacy : confidence<seuil bloque même si le shadow serait A (le 6-dim n'est PAS décisionnel)."""
     monkeypatch.delenv("PROMOTE_GATE_ENGINE", raising=False)
     mod = _load_promote()
-    monkeypatch.setattr(mod, "_compute_shadow", lambda *a: {"shadow_tier": "A"})
+    import promotion_decision as _pd  # evaluate_tier vit ici après le boundary move A+
+    monkeypatch.setattr(_pd, "_compute_shadow", lambda *a: {"shadow_tier": "A"})
     d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
                           threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.10)
     assert d["tier"] == "B"
@@ -394,7 +395,8 @@ def test_gate_engine_adr088_promotes_on_shadow_A_despite_low_confidence(tmp_path
     """Flag ON : substance = tier 6-dim. Shadow A + autres conditions OK → TIER A même si confidence faible."""
     monkeypatch.setenv("PROMOTE_GATE_ENGINE", "adr088_6dim")
     mod = _load_promote()
-    monkeypatch.setattr(mod, "_compute_shadow", lambda *a: {"shadow_tier": "A"})
+    import promotion_decision as _pd  # evaluate_tier vit ici après le boundary move A+
+    monkeypatch.setattr(_pd, "_compute_shadow", lambda *a: {"shadow_tier": "A"})
     d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
                           threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.10)
     assert d["tier"] == "A", d["blocking_reasons"]
@@ -405,7 +407,8 @@ def test_gate_engine_adr088_blocks_on_shadow_B_despite_high_confidence(tmp_path,
     """Flag ON : shadow B bloque même si confidence haute (le 6-dim gouverne la substance)."""
     monkeypatch.setenv("PROMOTE_GATE_ENGINE", "adr088_6dim")
     mod = _load_promote()
-    monkeypatch.setattr(mod, "_compute_shadow", lambda *a: {"shadow_tier": "B"})
+    import promotion_decision as _pd  # evaluate_tier vit ici après le boundary move A+
+    monkeypatch.setattr(_pd, "_compute_shadow", lambda *a: {"shadow_tier": "B"})
     d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
                           threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.99)
     assert d["tier"] == "B"
@@ -416,7 +419,8 @@ def test_gate_engine_adr088_fail_closed_on_shadow_error(tmp_path, monkeypatch):
     """Flag ON + shadow indéterminable/erreur → fail-closed : TIER B (jamais d'auto-promo sur erreur)."""
     monkeypatch.setenv("PROMOTE_GATE_ENGINE", "adr088_6dim")
     mod = _load_promote()
-    monkeypatch.setattr(mod, "_compute_shadow", lambda *a: {"shadow_error": "boom"})
+    import promotion_decision as _pd  # evaluate_tier vit ici après le boundary move A+
+    monkeypatch.setattr(_pd, "_compute_shadow", lambda *a: {"shadow_error": "boom"})
     d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
                           threshold=0.80, gates=_gates(True), compute_score=lambda *a: 0.99)
     assert d["tier"] == "B"

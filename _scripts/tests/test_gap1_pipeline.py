@@ -340,6 +340,28 @@ def test_authoritative_high_is_editor_cap_not_auto_proof(tmp_path: Path, monkeyp
     assert CM.is_page_proven(entry_proven) is True
 
 
+# ---- A6 : fail-open raw_ref non-safety fermé (enforcé par la décision canonique embarquée) --------
+def test_no_local_raw_ref_safety_conditional_failopen() -> None:
+    """A6 : plus de `if safety else None` local sur le raw_ref — le non-safety n'est plus
+    ignoré localement, il est ENFORCÉ par la décision canonique (provenance)."""
+    src = (SCRIPTS / "gap1_auto_review.py").read_text(encoding="utf-8")
+    assert "raw_refs_ok if safety else None" not in src, "fail-open non-safety raw_ref doit être retiré"
+
+
+def test_review_nonsafety_raw_ref_enforced_no_failopen(tmp_path: Path, monkeypatch) -> None:
+    """A6 : le raw_ref/provenance d'une fiche NON-safety est ENFORCÉ via la décision canonique
+    embarquée (plus de fail-open local). RAW absent ⇒ provenance non-PASS ⇒ eligible False + PROVENANCE_*."""
+    monkeypatch.setenv("AUTOMECANIK_RAW_PATH", str(tmp_path / "raw-absent"))
+    pdir = _mk_proposal_nonsafety(tmp_path, "filtre-carburant", "Filtre à carburant")
+    _mk_bucket(tmp_path, "filtre-carburant", "selection_criteria", [BULLET])
+    rep = AR.review("filtre-carburant", tmp_path, pdir, _mk_manifest(tmp_path, []), tmp_path / "shadow")
+    assert rep["safety_family"] is False
+    pdz = rep["promotion_decision"]
+    codes = [r["code"] for r in pdz["blocking_reasons"]]
+    assert pdz["eligible"] is False
+    assert any(c.startswith("PROVENANCE_") for c in codes), codes
+
+
 # ---- 11. Lock valeur numérique sécurité (numeric_exactitude) câblé dans la Safety Auto-Gate --------
 def _cov_ok():
     return _cov(valid=27, pending_capped=0, candidates=0)  # tous les autres computables PASS

@@ -274,7 +274,10 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
     #        Report-only ; alimente une condition DÉDIÉE de la Safety Auto-Gate (distincte de no_quality_gate_fail,
     #        qui reste NOT_YET_WIRED : la suite quality-gates COMPLÈTE n'est pas câblée ici → backstop intact).
     raw_refs_ok, raw_ref_failures, raw_ref_warnings = _raw_ref_gate(cov_mod._load_catalog()["slugs"])
-    raw_refs_gate_input = raw_refs_ok if safety else None
+    # A6 : plus de `if safety else None` local. Le raw_ref/provenance NON-safety n'est PLUS ignoré
+    # ici : il est ENFORCÉ par la décision canonique embarquée (provenance, A3/A4). Cette valeur ne
+    # sert plus qu'à la classification de la Safety Auto-Gate (branche sécurité) — fournie telle quelle.
+    raw_refs_gate_input = raw_refs_ok
 
     # 4-bis) DÉCISION DE PROMOTION CANONIQUE (A3) — UN SEUL décideur : gap1 embarque l'objet,
     #        ne calcule plus l'éligibilité (fin du décideur parallèle `auto_promote_eligible`).

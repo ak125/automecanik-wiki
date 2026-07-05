@@ -575,3 +575,64 @@ def test_cli_dry_run_routes_through_canonical_decision(tmp_path, monkeypatch):
     assert isinstance(entry["eligible"], bool)
     assert "substance_tier" in entry
     assert "inputs" in entry and entry["inputs"]["input_manifest"]
+
+
+# --- A8 : safety = non-régression (jamais éligible, même dimensions PASS) -------
+def _safety_substance(pm, tmp_path, *, slug="colonne-de-direction"):
+    """substance d'une fiche sécurité-critique (détectée par slug) — score parfait,
+    tous gates PASS : seul l'invariant safety doit la bloquer."""
+    fm = {**FM_OK, "slug": slug}
+    return pm.evaluate_tier(fm, "body", tmp_path / "p.md", tmp_path,
+                            threshold=0.80, gates=_gates(), compute_score=lambda *a: 0.99)
+
+
+def test_A8_safety_fiche_never_eligible_at_composition(tmp_path):
+    """A8 (non-régression ADR-091) : une fiche sécurité-critique n'est JAMAIS éligible,
+    même quand coverage/regression/provenance PASSENT tous. Le check SAFETY_HUMAN_REVIEW
+    (POLICY_SAFETY) bloque au niveau de LA COMPOSITION — jamais contourner par code."""
+    pm = _load_promote()
+    dec = _load_decision()
+    substance = _safety_substance(pm, tmp_path)
+    assert substance["tier"] == "B"  # invariant safety dès evaluate_tier
+    # toutes les autres dimensions PASSENT : seule la safety doit renverser le verdict
+    d = dec.decide_promotion({
+        "substance": substance,
+        "coverage": {"status": "PASS", "evidence": {}},
+        "regression": {"verdict": "IMPROVED", "evidence": {}},
+        "provenance": {"status": "PASS", "evidence": {}},
+    })
+    assert d["eligible"] is False
+    assert d["promotion_status"] == "BLOCKED"
+    assert "SAFETY_HUMAN_REVIEW" in [r["code"] for r in d["blocking_reasons"]]
+
+
+def test_A8_safety_by_declared_family_also_blocks_composition(tmp_path):
+    """La détection safety par `entity_data.family` (slug non-safety) bloque aussi
+    la composition — parité avec la détection par slug (aucune porte dérobée)."""
+    pm = _load_promote()
+    dec = _load_decision()
+    fm = {**FM_OK, "slug": "piece-generique", "entity_data": {"family": "freinage"}}
+    substance = pm.evaluate_tier(fm, "body", tmp_path / "p.md", tmp_path,
+                                 threshold=0.80, gates=_gates(), compute_score=lambda *a: 0.99)
+    d = dec.decide_promotion({"substance": substance,
+                              "coverage": {"status": "PASS"},
+                              "provenance": {"status": "PASS", "evidence": {}}})
+    assert d["eligible"] is False
+    assert "SAFETY_HUMAN_REVIEW" in [r["code"] for r in d["blocking_reasons"]]
+
+
+def test_A8_safety_authorize_apply_refuses(tmp_path):
+    """Bout-en-bout A8×A3-v : une fiche safety ne franchit JAMAIS la porte du DUMB
+    EXECUTOR (authorize_apply refuse — APPLY_NOT_ELIGIBLE)."""
+    pm = _load_promote()
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    substance = _safety_substance(pm, tmp_path)
+
+    def fake_run(*a):
+        return substance, {"status": "PASS"}, {"verdict": "NEW"}, ([], []), True
+
+    d = dec.canonical_promotion_decision(cand, tmp_path, run_evaluators=fake_run)
+    assert d["eligible"] is False
+    ok, refusal = dec.authorize_apply(d, cand, tmp_path)
+    assert ok is False and refusal["code"] == "APPLY_NOT_ELIGIBLE"

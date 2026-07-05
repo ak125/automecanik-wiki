@@ -61,8 +61,8 @@ def test_resolve_status_maps_active_authoritative_to_captured() -> None:
     """Intégration : un claim dont la source catalog est active+raw_ref+type autoritaire dans une section
     valide résout vers le token coverage `captured` (prouvé) → alimente le lock numérique sécurité.
 
-    Type = oem_manual (manuel constructeur = preuve, déjà dans CATALOG_AUTHORITATIVE). G2/tecdoc EN PAUSE :
-    hors périmètre de ce test."""
+    Type = oem_manual (manuel constructeur = preuve, `high` au SoT ⇒ dans `_authoritative_types()`
+    dérivé). G2/tecdoc EN PAUSE : hors périmètre de ce test."""
     catalog = {"domain_to_slug": {"oem.example": "oem"},
                "slugs": {"oem": _active_with_raw_ref("oem")}}
     valid = {"## Critères de sélection"}

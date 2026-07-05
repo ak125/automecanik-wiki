@@ -296,7 +296,11 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
         "authoring": {"editorial_sections": author_report.get("editorial_sections"),
                       "facts_total": author_report.get("facts_total"),
                       "related_gammes": author_report.get("related_gammes"),
-                      "commerce_intent": author_report.get("commerce_intent")},
+                      "commerce_intent": author_report.get("commerce_intent"),
+                      # A7 : comptabilité de perte RAW visible (authored / hard_fail / conservation)
+                      "authored": author_report.get("authored"),
+                      "authoring_hard_fail": author_report.get("hard_fail"),
+                      "extraction_accounting": author_report.get("extraction_accounting")},
         "coverage": {"valid_entries": cov_report["valid_entries"],
                      "cataloged_sources": cov_report["cataloged_sources"],
                      "candidate_sources": cov_report["candidate_sources"],

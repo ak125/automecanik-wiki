@@ -286,19 +286,42 @@ def test_review_embeds_canonical_promotion_decision(tmp_path: Path, monkeypatch)
 
 
 def test_review_promotion_decision_matches_direct_canonical_call(tmp_path: Path, monkeypatch) -> None:
-    """A4 (adversarial) : ∀ fiche — gap1.promotion_decision == canonical_promotion_decision()
-    en direct sur le MÊME shadow fiche. Zéro divergence possible (gap1 embarque l'objet)."""
+    """A4 (adversarial, hermétique) : gap1.promotion_decision == canonical_promotion_decision()
+    en direct sur le MÊME shadow fiche. La COLLECTE réelle (gates click+pydantic) est remplacée
+    par un fake runner injecté (le job minimal reste click/pydantic-free) ; la VRAIE
+    decide_promotion décide. gap1 EMBARQUE l'objet — 0 reconstruction, 0 redécision, 0 divergence."""
     monkeypatch.setenv("AUTOMECANIK_RAW_PATH", str(tmp_path / "raw-absent"))
+    calls = {"n": 0}
+
+    def fake_runner(candidate_path, wiki_root, raw_root, baseline_path, threshold, gates, compute_score):
+        calls["n"] += 1
+        substance = {
+            "tier": "A", "confidence_score": 0.9,
+            "gate_status": {"source": "pass", "claim": "pass", "contradiction": "pass",
+                            "risk": "pass", "confidence": "pass"},
+            "checks": [],  # substance PASS (aucune raison de blocage côté substance)
+            "shadow_score": {"shadow_tier": "A"},
+            "numeric_flags": {"block": [], "observe": []},
+        }
+        # coverage FAIL ⇒ un code de blocage DÉTERMINISTE (équalité de codes non vacante).
+        return substance, {"status": "FAIL", "fails": ["source_slug FK absent"]}, {"verdict": "NEW"}, ([], []), True
+
+    # Le MÊME fake pour les DEUX chemins : gap1.review (interne) + l'appel direct.
+    # canonical_promotion_decision(run_evaluators=None) résout _run_real_evaluators au module.
+    monkeypatch.setattr(PD, "_run_real_evaluators", fake_runner)
     pdir = _mk_proposal_nonsafety(tmp_path, "filtre-a-air", "Filtre à air")
     _mk_bucket(tmp_path, "filtre-a-air", "selection_criteria", [BULLET])
     workdir = tmp_path / "shadow"
     rep = AR.review("filtre-a-air", tmp_path, pdir, _mk_manifest(tmp_path, []), workdir)
+    assert calls["n"] == 1  # gap1 = exactement UNE collecte par décision (pas de double exécution)
     embedded = rep["promotion_decision"]
     direct = PD.canonical_promotion_decision(workdir / "filtre-a-air.md", workdir, raw_root=tmp_path)
+    assert calls["n"] == 2  # +1 collecte pour l'appel direct
     keys = ("promotion_status", "eligible", "substance_tier")
     assert {k: embedded.get(k) for k in keys} == {k: direct.get(k) for k in keys}
-    assert sorted(r["code"] for r in embedded["blocking_reasons"]) == \
-           sorted(r["code"] for r in direct["blocking_reasons"])
+    codes = sorted(r["code"] for r in embedded["blocking_reasons"])
+    assert codes == sorted(r["code"] for r in direct["blocking_reasons"])
+    assert codes == ["COVERAGE_STRICT_FAIL"]  # équalité prouvée sur une décision NON triviale
 
 
 # ---- A5 : CATALOG_AUTHORITATIVE dérivé du SoT (source_type_max_confidence), plus hardcodé --------
@@ -349,9 +372,26 @@ def test_no_local_raw_ref_safety_conditional_failopen() -> None:
 
 
 def test_review_nonsafety_raw_ref_enforced_no_failopen(tmp_path: Path, monkeypatch) -> None:
-    """A6 : le raw_ref/provenance d'une fiche NON-safety est ENFORCÉ via la décision canonique
-    embarquée (plus de fail-open local). RAW absent ⇒ provenance non-PASS ⇒ eligible False + PROVENANCE_*."""
+    """A6 (hermétique) : provenance KO d'une fiche NON-safety ⇒ fail-closed via la décision
+    canonique embarquée (plus de fail-open local). Le fake runner fournit des SORTIES
+    d'évaluateurs réalistes (substance A, quality/coverage/regression PASS, provenance FAIL) ;
+    la VRAIE decide_promotion calcule le verdict — jamais un 'fake returns blocked'."""
     monkeypatch.setenv("AUTOMECANIK_RAW_PATH", str(tmp_path / "raw-absent"))
+
+    def fake_runner(candidate_path, wiki_root, raw_root, baseline_path, threshold, gates, compute_score):
+        substance = {
+            "tier": "A", "confidence_score": 0.9,
+            "gate_status": {"source": "pass", "claim": "pass", "contradiction": "pass",
+                            "risk": "pass", "confidence": "pass"},
+            "checks": [],  # substance PASS
+            "shadow_score": {"shadow_tier": "A"},
+            "numeric_flags": {"block": [], "observe": []},
+        }
+        # provenance = FAIL (raw_ref CONTENU invalide, pas un défaut d'infra ; RAW disponible)
+        return (substance, {"status": "PASS"}, {"verdict": "NEW"},
+                (["raw_ref invalide: filtre-carburant"], []), True)
+
+    monkeypatch.setattr(PD, "_run_real_evaluators", fake_runner)
     pdir = _mk_proposal_nonsafety(tmp_path, "filtre-carburant", "Filtre à carburant")
     _mk_bucket(tmp_path, "filtre-carburant", "selection_criteria", [BULLET])
     rep = AR.review("filtre-carburant", tmp_path, pdir, _mk_manifest(tmp_path, []), tmp_path / "shadow")
@@ -359,7 +399,9 @@ def test_review_nonsafety_raw_ref_enforced_no_failopen(tmp_path: Path, monkeypat
     pdz = rep["promotion_decision"]
     codes = [r["code"] for r in pdz["blocking_reasons"]]
     assert pdz["eligible"] is False
-    assert any(c.startswith("PROVENANCE_") for c in codes), codes
+    assert pdz["promotion_status"] == "BLOCKED"        # provenance FAIL = définitif (pas UNKNOWN_FAIL_CLOSED)
+    assert pdz["substance_tier"] == "A"                # dimension substance PRÉSERVÉE (jamais un faux B)
+    assert "PROVENANCE_RAW_REF_FAIL" in codes          # le vrai code de refus provenance (non fail-open)
 
 
 # ---- A7 : comptabilité de perte RAW (conservation) + fail-closed 0-fait --------------------------

@@ -72,15 +72,29 @@ POLLUTION_PATTERNS = [
 ]
 
 CATALOG_LEAK_PATTERNS = [
-    r"\b\d+[,.]?\d*\s*€\b",
-    r"\b€\s*\d+[,.]?\d*\b",
+    # Prix : montant (milliers espacés/pointés tolérés) suivi de € ou 'euro(s)'.
+    # PAS de \b APRÈS € (non-word) — bug historique : le \b terminal ne matchait jamais
+    # quand € terminait le token (ex. "1500 €", "~1300€"), laissant fuir tous les prix.
+    r"\d+(?:[ .,]\d+)*\s*€",
+    r"€\s*\d+(?:[ .,]\d+)*",
+    r"\b\d+(?:[ .,]\d+)*\s*euros?\b",
     # SKU/EAN format : alphanumeric with at least one digit and hyphen/digits
     r"\b(?:SKU|EAN)\s*:?\s*[A-Z0-9][A-Z0-9-]{4,}\b",
     # Réf./Référence followed by code-like token (must contain digit)
     r"\b(?:Réf\.?|Référence)\s*:?\s*(?=[A-Z0-9-]*\d)[A-Z][A-Z0-9-]{3,}\b",
+    # Réfs OEM NUES (sans préfixe 'Réf.') — formes VAG/équipementier spécifiques, calibrées
+    # (test dual-corpus) pour NE PAS matcher km / couples Nm / codes P0xxx / spec huile 505.01 :
+    r"\b0\d{2}[ .]?\d{3}[ .]?\d{3}[A-Z]{0,2}\b",  # VAG 9 chiffres +lettre : 038109101R, 045105701C
+    r"\b[1-9][A-Z]\d[ .]?\d{6}[A-Z]?\b",          # VAG digit-lettre-digit : 1K0121407, 1K0906627
+    r"\bG0\d{5}[A-Z]\d\b",                          # fluide Haldex : G060175A2
+    r"\b(?:Sachs|LuK|RIDEX|Pierburg|Febi|Meyle|Topran|Corteco|Bosch|Textar|Ferodo|Delphi|Valeo|Mann|Mahle|TRW)\s+[0-9][0-9 .]{2,}[0-9]\b",  # marque + réf produit
     r"\bstock\s*:?\s*\d+\b",
     r"\b(?:en|hors)\s+stock\b",
     r"\bcompatible avec (?:la |le |les |l')?\w+\s+\w+\s+\d{2,4}\b",
+    # Domaines catalogue / e-commerce (self-catalog automecanik.com/pieces + revendeurs pièces) —
+    # une fiche encyclopédique ne cite jamais une URL produit transactionnelle.
+    r"\b(?:www\.)?automecanik\.com/pieces\b",
+    r"\b(?:www\.)?(?:auto-doc|autodoc|piecesauto24|oscaro|mister-auto|yakarouler)\.[a-z.]{2,}\b",
 ]
 
 COMMERCIAL_PROMISE_PATTERNS = [

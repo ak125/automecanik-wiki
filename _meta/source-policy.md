@@ -155,31 +155,36 @@ Pour le calcul de `confidence_score` (cf. `quality-gates.md` §4) :
 | `medium`   | 0.6     | Recyclé vérifié, blog métier, web clip qualifié |
 | `low`      | 0.3     | Tertiary, à corroborer, en attente validation   |
 
-### §9.1 — `source_type` → max confidence autorisée (canon ADR-033)
+### §9.1 — `source_type` → max confidence + rôle éditorial (canon ADR-033)
 
-> **Vue générée (S1d)** — la table ci-dessous est le **miroir prose** de la SoT machine `_meta/source-catalog.yaml › source_type_max_confidence`, lue directement à l'exécution par `_scripts/quality-gates.py` (cutover S1d : plus de dict hardcodé, lecture unique). **Éditer le YAML**, jamais cette table seule ; `_scripts/tests/test_source_type_confidence_parity.py` garde le loader contre la dérive.
+> **Vue générée (S1d)** — la table ci-dessous est le **miroir prose** de DEUX maps machine de la même SoT `_meta/source-catalog.yaml` : `source_type_max_confidence` ET `source_type_editorial_role`, lues directement à l'exécution par `_scripts/quality-gates.py` (cutover S1d : plus de dict hardcodé, lecture unique). **Éditer le YAML**, jamais cette table seule ; `_scripts/tests/test_source_type_confidence_parity.py` (confidence) et `test_source_type_editorial_role_parity.py` (rôle + parité de clés) gardent les loaders contre la dérive.
 
-Le champ `evidence.confidence` ne peut atteindre `high` que si le `source_type` (catalogue `_meta/source-catalog.yaml`) le permet. Une brochure pédagogique (Bosch FAD, Valeo formation) ≠ source `high`, peu importe la marque.
+**Deux axes ORTHOGONAUX** — ne pas les confondre :
 
-| `source_type`          | Max `confidence` | Exemples                                                |
-| ---------------------- | ---------------- | ------------------------------------------------------- |
-| `oem_manual`           | `high`           | Manuel utilisateur constructeur, doc atelier officielle |
-| `oem_workshop`         | `high`           | Manuel d'atelier OEM, fiches techniques constructeur    |
-| `tecdoc_official`      | `high`           | Fiches TecDoc officielles                               |
-| `normative_standard`   | `high`           | NF, ISO, ECE-R                                          |
-| `parts_feed_certified` | `high`           | Catalogue fournisseur certifié                          |
-| `brochure`             | `medium` (max)   | Bosch FAD, Valeo formation, ATE pédagogique             |
-| `formation`            | `medium` (max)   | Manuel de formation, support pédagogique                |
-| `marketing`            | `medium` (max)   | Brochure marketing fabricant                            |
-| `blog_pro`             | `medium` (max)   | Blog atelier reconnu, retours pro vérifiés              |
-| `forum`                | `low` (max)      | Forum technique, groupe d'utilisateurs                  |
-| `wiki_externe`         | `low` (max)      | Wikipedia, wikis tiers                                  |
-| `blog_consumer`        | `low` (max)      | Blog grand public, retours d'utilisateur                |
+- **`max_confidence`** (`low`/`medium`/`high`) = plafond de fiabilité déclarative de la source. Le champ `evidence.confidence` ne peut atteindre `high` que si le `source_type` le permet. Une brochure pédagogique (Bosch FAD, Valeo formation) ≠ source `high`, peu importe la marque.
+- **`editorial_role`** (`proof`/`corroboration`) = la source peut-elle **FONDER** un claim éditorial (`proof`) ou seulement le **corroborer/contextualiser** (`corroboration`) ? `tecdoc_official` est `high` **mais** `corroboration` : TecDoc corrobore, ne prouve pas — la vérité catalogue (prix/stock/SKU/réf/compatibilité exacte) vient de la **DB Massdoc**, jamais de TecDoc (`gate_catalog_leak` exclut d'ailleurs ces faits du contenu éditorial).
+
+| `source_type`          | Max `confidence` | `editorial_role` | Exemples                                                     |
+| ---------------------- | ---------------- | ---------------- | ------------------------------------------------------------ |
+| `oem_manual`           | `high`           | `proof`          | Manuel utilisateur constructeur, doc atelier officielle      |
+| `oem_workshop`         | `high`           | `proof`          | Manuel d'atelier OEM, fiches techniques constructeur         |
+| `tecdoc_official`      | `high`           | `corroboration`  | Fiches TecDoc officielles (corroborent, ne prouvent pas)     |
+| `normative_standard`   | `high`           | `proof`          | NF, ISO, ECE-R                                               |
+| `parts_feed_certified` | `high`           | `corroboration`  | Catalogue fournisseur certifié (donnée catalogue, corrobore) |
+| `brochure`             | `medium` (max)   | `corroboration`  | Bosch FAD, Valeo formation, ATE pédagogique                  |
+| `formation`            | `medium` (max)   | `corroboration`  | Manuel de formation, support pédagogique                     |
+| `marketing`            | `medium` (max)   | `corroboration`  | Brochure marketing fabricant                                 |
+| `blog_pro`             | `medium` (max)   | `corroboration`  | Blog atelier reconnu, retours pro vérifiés                   |
+| `forum`                | `low` (max)      | `corroboration`  | Forum technique, groupe d'utilisateurs                       |
+| `wiki_externe`         | `low` (max)      | `corroboration`  | Wikipedia, wikis tiers                                       |
+| `blog_consumer`        | `low` (max)      | `corroboration`  | Blog grand public, retours d'utilisateur                     |
+
+**Admissibilité éditoriale (dérivée du rôle)** : l'ensemble des `source_type` **autoritaires** (qui peuvent porter une page au niveau `1_high`/`captured` dans la coverage-map) est **dérivé** = `{editorial_role == proof ET max_confidence == high}` (`gen_coverage_map._authoritative_types`), plus aucune blocklist hardcodée. `tecdoc_official` en est exclu **par son rôle** (`corroboration`), pas par une exception à la main. `high` reste un plafond d'autorité ÉDITEUR : un type `proof`+`high` ne prouve un claim que si la page est réellement prouvée (`is_page_proven` : `raw_ref` + `text_anchor` + relation coverage).
 
 **Application** :
 
 - `evidence.confidence: high` + `source_type: brochure` → `blocked_reasons: [confidence_overclaimed]`
-- Pour atteindre `confidence: high` sur un claim cité par une brochure, **corroborer avec ≥ 1 source `oem_manual` ou `tecdoc_official`** (i.e. `source_policy: 2_medium_concordant` minimum, idéalement `1_high` via OEM).
+- Pour atteindre `confidence: high` sur un claim cité par une brochure, **corroborer avec ≥ 1 source `oem_manual` ou `tecdoc_official`** (i.e. `source_policy: 2_medium_concordant` minimum, idéalement `1_high` via OEM). ⚠️ Corroboration = axe *confidence* ; la **preuve éditoriale** d'un claim exige une source `editorial_role: proof` page-prouvée (TecDoc ne suffit jamais seul).
 
 ### §9.2 — Catalogue canon des slugs sources
 

@@ -34,6 +34,34 @@ source_type_max_confidence:
   wiki_externe: low
   blog_consumer: low
 
+# Rôle éditorial par source_type (SoT machine — miroir prose : source-policy.md §9.1).
+#   proof         = source de PREUVE éditoriale admissible : peut FONDER un claim éditorial
+#                   (sous réserve is_page_proven — raw_ref + text_anchor + coverage relation).
+#   corroboration = corrobore / contextualise SEULEMENT — ne PROUVE JAMAIS un claim éditorial,
+#                   quelle que soit sa max_confidence.
+# `tecdoc_official` est ICI en `corroboration` : TecDoc corrobore, ne prouve pas — la vérité
+# catalogue (prix/stock/SKU/réf/compatibilité exacte) vient de la DB Massdoc, jamais de TecDoc
+# (doctrine owner 2026-07-06 ; cf. gate_catalog_leak qui exclut ces faits du contenu éditorial).
+# L'admissibilité éditoriale (_authoritative_types de gen_coverage_map.py) se DÉRIVE de ce rôle
+# (editorial_role == proof ET max_confidence == high) — plus aucune blocklist hardcodée.
+# Parité de clés avec source_type_max_confidence imposée FAIL-CLOSED par le loader (quality-gates.py).
+source_type_editorial_role:
+  oem_manual: proof
+  oem_workshop: proof
+  tecdoc_official: corroboration
+  normative_standard: proof
+  parts_feed_certified: corroboration   # owner 2026-07-06 : feed fournisseur certifié = donnée
+                                        # CATALOGUE (réf/attribut/compat = domaine Massdoc DB),
+                                        # fiable mais pas preuve éditoriale primaire. high (peut
+                                        # corroborer vers 1_high confidence) mais JAMAIS proof.
+  brochure: corroboration
+  formation: corroboration
+  marketing: corroboration
+  blog_pro: corroboration
+  forum: corroboration
+  wiki_externe: corroboration
+  blog_consumer: corroboration
+
 # Conventions :
 # - status: 'active' (défaut implicite) → la source est archivée et le fichier
 #   `archived_at` existe dans automecanik-raw. La fiche peut s'appuyer dessus.

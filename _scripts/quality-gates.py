@@ -148,6 +148,50 @@ def _load_source_type_max_confidence() -> dict[str, str]:
 SOURCE_TYPE_TO_MAX_CONFIDENCE = _load_source_type_max_confidence()
 CONFIDENCE_RANK = {"low": 1, "medium": 2, "high": 3}
 
+
+# Source types → rôle éditorial (proof | corroboration). SoT machine UNIQUE = _meta/source-catalog.yaml
+# › source_type_editorial_role (doc prose miroir : source-policy.md §9.1). Modélise la frontière
+# métier « qui peut PROUVER un claim éditorial » orthogonalement à max_confidence : `tecdoc_official`
+# est `high` mais `corroboration` (TecDoc corrobore, ne prouve pas — vérité catalogue = DB Massdoc).
+# L'admissibilité éditoriale (gen_coverage_map._authoritative_types) se DÉRIVE de proof ∧ high,
+# remplaçant l'ancienne blocklist hardcodée. Fail-CLOSED comme la map confidence : SoT absente,
+# rôle invalide, OU parité de clés rompue avec source_type_max_confidence (dérive silencieuse d'un
+# type déclaré d'un côté et pas de l'autre) → exit 2 bruyant (no-silent-fallback).
+def _load_source_type_editorial_role() -> dict[str, str]:
+    valid = {"proof", "corroboration"}
+    if not SOURCE_CATALOG.exists():
+        sys.stderr.write(f"FATAL: source-catalog.yaml introuvable: {SOURCE_CATALOG}\n")
+        sys.exit(2)
+    try:
+        data = yaml.safe_load(SOURCE_CATALOG.read_text(encoding="utf-8")) or {}
+    except yaml.YAMLError as e:
+        sys.stderr.write(f"FATAL: source-catalog.yaml illisible: {e}\n")
+        sys.exit(2)
+    m = data.get("source_type_editorial_role")
+    if not isinstance(m, dict) or not m:
+        sys.stderr.write(
+            "FATAL: source-catalog.yaml › source_type_editorial_role manquant/vide "
+            "(SoT machine, cf. source-policy.md §9.1)\n"
+        )
+        sys.exit(2)
+    bad = {k: v for k, v in m.items() if v not in valid}
+    if bad:
+        sys.stderr.write(f"FATAL: source_type_editorial_role: rôles invalides {bad} (attendu ⊆ {valid})\n")
+        sys.exit(2)
+    if set(m) != set(SOURCE_TYPE_TO_MAX_CONFIDENCE):
+        missing = sorted(set(SOURCE_TYPE_TO_MAX_CONFIDENCE) - set(m))
+        extra = sorted(set(m) - set(SOURCE_TYPE_TO_MAX_CONFIDENCE))
+        sys.stderr.write(
+            "FATAL: source_type_editorial_role: parité de clés rompue avec source_type_max_confidence "
+            f"(sans rôle={missing}, sans confidence={extra}) — chaque source_type DOIT déclarer "
+            "max_confidence ET editorial_role\n"
+        )
+        sys.exit(2)
+    return m
+
+
+SOURCE_TYPE_EDITORIAL_ROLE = _load_source_type_editorial_role()
+
 # Slugs maintenance hardcoded (en attendant Phase 3 export)
 KG_MAINTENANCE_INTERVAL_SLUGS = {
     "filtre-a-huile",

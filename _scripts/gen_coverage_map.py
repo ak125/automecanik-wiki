@@ -61,21 +61,18 @@ FORUM_HINTS = re.compile(
 
 SCRIPTS_DIR = Path(__file__).resolve().parent
 
-# Types en G2 PAUSE (owner 2026-07-03) : `tecdoc_official` est `high` dans le SoT mais RESTE hors
-# du set autoritaire — TecDoc CORROBORE, ne PROUVE pas (vérité métier canonique = DB Massdoc). Reste
-# exclu tant que l'audit G2 vault n'a pas clarifié le rôle. Réf : mémoire
-# `massdoc_truth_source_catalog_proves_tecdoc_corroborates`. Owner-gated pour lever (jamais ici).
-_G2_PAUSED_AUTHORITATIVE_TYPES = frozenset({"tecdoc_official"})
-
 _authoritative_types_cache: frozenset | None = None
 
 
 def _authoritative_types() -> frozenset:
-    """Types catalog AUTORITAIRES (peuvent atteindre `1_high`/`captured` QUAND page-proven) —
-    DÉRIVÉS du SoT `source_type_max_confidence` (loader EXISTANT de quality-gates.py, 0 réimpl),
-    jamais hardcodés (fin de la dérive : phantoms retirés, vrais types high inclus). `high` = plafond
-    d'autorité ÉDITEUR, JAMAIS preuve automatique d'un claim — la preuve reste `is_page_proven`
-    (raw_ref) + text_anchor + relation coverage. Exclut les types en G2 PAUSE."""
+    """Types catalog AUTORITAIRES pour la PREUVE éditoriale (peuvent atteindre `1_high`/`captured`
+    QUAND page-proven) — DÉRIVÉS du SoT PAR RÔLE : `editorial_role == proof` ET `max_confidence ==
+    high` (deux loaders EXISTANTS de quality-gates.py, 0 réimpl, 0 blocklist hardcodée). Le rôle
+    modélise la frontière métier : `tecdoc_official` est `high` mais `corroboration` → exclu PAR SON
+    RÔLE (TecDoc corrobore, ne prouve pas ; vérité catalogue = DB Massdoc), plus par une exception à
+    la main. `high` reste un plafond d'autorité ÉDITEUR, JAMAIS preuve automatique d'un claim — la
+    preuve reste `is_page_proven` (raw_ref) + text_anchor + relation coverage. Parité role↔confidence
+    garantie fail-closed par le loader `_load_source_type_editorial_role` (quality-gates.py)."""
     global _authoritative_types_cache
     if _authoritative_types_cache is None:
         import importlib.util
@@ -86,9 +83,11 @@ def _authoritative_types() -> frozenset:
         legacy = importlib.util.module_from_spec(spec)
         sys.modules["_quality_gates_legacy"] = legacy
         spec.loader.exec_module(legacy)
-        high = {t for t, conf in legacy.SOURCE_TYPE_TO_MAX_CONFIDENCE.items()
-                if str(conf).lower() == "high"}
-        _authoritative_types_cache = frozenset(high - _G2_PAUSED_AUTHORITATIVE_TYPES)
+        conf = legacy.SOURCE_TYPE_TO_MAX_CONFIDENCE
+        role = legacy.SOURCE_TYPE_EDITORIAL_ROLE
+        _authoritative_types_cache = frozenset(
+            t for t in conf
+            if str(conf[t]).lower() == "high" and role.get(t) == "proof")
     return _authoritative_types_cache
 
 

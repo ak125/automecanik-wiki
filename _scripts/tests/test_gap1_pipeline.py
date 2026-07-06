@@ -324,33 +324,47 @@ def test_review_promotion_decision_matches_direct_canonical_call(tmp_path: Path,
     assert codes == ["COVERAGE_STRICT_FAIL"]  # équalité prouvée sur une décision NON triviale
 
 
-# ---- A5 : CATALOG_AUTHORITATIVE dérivé du SoT (source_type_max_confidence), plus hardcodé --------
-def _sot_high_types():
+# ---- A5 : ensemble autoritaire DÉRIVÉ du SoT PAR RÔLE (editorial_role=proof ∧ high), 0 hardcode ---
+def _load_qg_a5():
     import importlib.util
     p = SCRIPTS / "quality-gates.py"
     spec = importlib.util.spec_from_file_location("_qg_a5", p)
     qg = importlib.util.module_from_spec(spec); spec.loader.exec_module(qg)
+    return qg
+
+
+def _sot_high_types():
+    qg = _load_qg_a5()
     return {t for t, c in qg.SOURCE_TYPE_TO_MAX_CONFIDENCE.items() if str(c).lower() == "high"}
 
 
+def _sot_proof_types():
+    qg = _load_qg_a5()
+    return {t for t, r in qg.SOURCE_TYPE_EDITORIAL_ROLE.items() if r == "proof"}
+
+
 def test_authoritative_types_derived_from_sot_not_hardcoded() -> None:
-    """A5 : l'ensemble autoritaire = {types high du SoT} − {G2 PAUSE}. Fin de la dérive :
-    les 3 phantoms hardcodés (db_owned/manufacturer_official/tecdoc bare) disparaissent,
-    les vrais types high (oem_workshop…) apparaissent."""
+    """A5 : l'ensemble autoritaire = {types high du SoT} ∩ {types editorial_role=proof} — DÉRIVÉ
+    PAR RÔLE depuis le SoT, plus aucune blocklist hardcodée (`_G2_PAUSED_AUTHORITATIVE_TYPES`
+    supprimé). Fin de la dérive : les 3 phantoms hardcodés (db_owned/manufacturer_official/tecdoc
+    bare) disparaissent ; les vrais types high-proof (oem_workshop…) apparaissent."""
     auth = set(CM._authoritative_types())
-    expected = _sot_high_types() - CM._G2_PAUSED_AUTHORITATIVE_TYPES
+    expected = _sot_high_types() & _sot_proof_types()
     assert auth == expected
     # phantoms hardcodés éliminés
     assert not ({"db_owned", "manufacturer_official", "tecdoc"} & auth)
-    # vrai type high précédemment manquant, désormais présent
+    # vrai type high-proof précédemment manquant, désormais présent
     assert "oem_workshop" in auth
 
 
-def test_tecdoc_official_stays_non_authoritative_g2_pause() -> None:
-    """G2 PAUSE (owner) : tecdoc_official est high dans le SoT mais RESTE hors du set
-    autoritaire — tecdoc corrobore, ne PROUVE pas (vérité métier = DB Massdoc)."""
-    assert "tecdoc_official" in _sot_high_types()          # bien high au SoT
-    assert "tecdoc_official" not in CM._authoritative_types()  # mais jamais autoritaire ici
+def test_tecdoc_official_non_authoritative_by_corroboration_role() -> None:
+    """Frontière PAR RÔLE (owner 2026-07-06) : tecdoc_official est `high` au SoT mais son
+    editorial_role = `corroboration` → exclu du set autoritaire PAR SON RÔLE, plus par une
+    blocklist hardcodée. TecDoc corrobore, ne PROUVE pas (vérité catalogue = DB Massdoc)."""
+    qg = _load_qg_a5()
+    assert "tecdoc_official" in _sot_high_types()                          # bien high au SoT
+    assert qg.SOURCE_TYPE_EDITORIAL_ROLE["tecdoc_official"] == "corroboration"
+    assert "tecdoc_official" not in CM._authoritative_types()              # jamais autoritaire ici
 
 
 def test_authoritative_high_is_editor_cap_not_auto_proof(tmp_path: Path, monkeypatch) -> None:

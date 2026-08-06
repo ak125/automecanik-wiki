@@ -16,7 +16,7 @@ automecanik-raw  →  automecanik-wiki  →  exports  →  consommateurs
 > **Tout ce qui est brut par défaut va dans `automecanik-raw`.
 > Seul ce qui sort propre et validé entre dans `automecanik-wiki`.**
 
-La promotion `raw/recycled/` → `wiki/` est **toujours une décision humaine**, jamais automatique.
+La promotion `raw/recycled/` → `wiki/` est **triée par verdict machine gouverné** ; elle reste bloquée pour revue humaine dès qu'un motif `NEEDS_HUMAN_REVIEW`, risque, incertitude, contradiction ou frontière de publication est détecté.
 
 ## Structure
 

@@ -117,3 +117,10 @@
 - **Branche** : `fix/build-exports-seo-exportable-audience-gate`
 - **Décision** : fix(exports-seo): gate SEO export sur exportable.seo (mapping audience), pas truthy
 - **Sortie** : PR #70 | commits 4b700c3
+
+## 2026-09-12 — candidat éditorial filtre à huile
+
+- **Branche** : `codex/wiki-editorial-candidate-20260912`
+- **Changement** : texte et blocs structurés recentrés sur le guide général ; preuves au niveau des affirmations ; RAW préservé.
+- **Validation** : schéma, coverage et cinq gates PASS ; comparaison IMPROVED ; promotion BLOCKED (`SUBSTANCE_SCORE`, 0,58 < 0,85).
+- **Portée** : proposition en revue, aucune écriture du canon ni export. Voir `_audit/editorial-candidate-filtre-a-huile-20260912.md`.

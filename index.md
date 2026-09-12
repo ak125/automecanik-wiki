@@ -32,3 +32,7 @@ ______________________________________________________________________
 - 1 véhicule low-profile via `automecanik-raw/recycled/` (R8 — `entity_type: vehicle`)
 
 Routage par `entity_type` dans frontmatter, pas par sous-dossier `proposals/`.
+
+## Proposition éditoriale en cours
+
+- [Filtre à huile](proposals/filtre-a-huile.md) : guide général, `in_review`, non exportable. [Qualification ciblée](_audit/editorial-candidate-filtre-a-huile-20260912.md) ; décision automatique bloquée par le score, aucune promotion.

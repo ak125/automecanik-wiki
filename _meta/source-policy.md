@@ -196,7 +196,27 @@ Ajout d'une nouvelle source : PR éditoriale avec entrée minimale (`slug`, `tit
 
 ______________________________________________________________________
 
-## Référence canon
+### §9.3 — Sélection des faits selon l'usage
+
+Décision utilisateur du 12 septembre 2026 : l'éditorial général n'a pas à résoudre les références, codes moteur et dimensions qui ne participent pas à son contenu. Cette séparation prolonge le rôle éditorial des sources et la frontière catalogue déjà définis en §9.1.
+
+| Usage                                     | Faits retenus                                                                               | Référence et validation                                                                                     |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Article général                           | Fonction, fonctionnement, variantes générales, entretien, critères de choix compréhensibles | WIKI ; preuve du passage réellement utilisé, exactitude et absence de contradiction sur ces affirmations    |
+| Choix d'une pièce pour un véhicule précis | Référence OE, code moteur, dimensions, correspondances, compatibilité                       | Catalogue métier Massdoc et contrats applicatifs ; aucune correspondance déduite d'un texte général         |
+| Procédure ou conseil technique précis     | Couple, pression, tolérance, ordre de montage, diagnostic opérationnel                      | Documentation technique applicable au cas ; contrôles de contexte, unités, provenance et sécurité existants |
+
+Les identifiants techniques servent aux jointures et à la sélection dans l'application. Le texte éditorial peut expliquer que le choix dépend du véhicule et orienter vers le sélecteur sans recopier ces identifiants. Un diamètre ne devient pas une preuve de compatibilité ; une référence n'est pas un sujet éditorial à traiter par défaut.
+
+**Extraction depuis un document mixte :** conserver le RAW intact ; retenir les passages utiles à l'usage demandé ; relier chaque affirmation conservée à son passage source via les mécanismes de provenance/coverage existants. Les données catalogue non nécessaires restent hors du texte. Une contradiction locale non utilisée n'interdit pas une affirmation indépendante étayée ailleurs. En revanche, si elle affecte l'affirmation ou la fiabilité de sa preuve, ne pas publier cette affirmation.
+
+La validation demeure automatique par le décideur existant. Aucun nouveau profil ne désactive les gates : une donnée technique précise effectivement présente dans le contenu reste contrôlée. Ce cadrage ne remplace pas la qualification des preuves, ne change pas le seuil et ne confond pas score éditorial et vérité métier.
+
+**Exemple filtre à huile :** expliquer son rôle et les différences générales entre filtre vissé et élément remplaçable n'exige pas de résoudre l'association K9K / HU 711/51 x. Cette association reste une donnée catalogue contestée à traiter séparément. Elle ne doit ni entrer dans l'article ni servir à prouver son contenu.
+
+Voir le [spécimen éditorial](../_audit/editorial-scope-filtre-a-huile-20260912.md), document de cadrage qui ne constitue pas une fiche promue.
+
+## Références
 
 - ADR-031 — Raw / Wiki / RAG / SEO Separation (vault)
 - Plan rev 6 — *verifier-dans-existant-si-starry-feigenbaum* §5

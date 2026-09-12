@@ -365,9 +365,9 @@ def _load_module(name: str, filename: str):
 
 
 # --- Constantes gouvernées (ADR-083) -----------------------------------------
-# Seuil no-op par défaut. 1.01 = inatteignable → 0 auto-promotion (= aujourd'hui).
-# Activation = abaisser à 0.80 (valeur canon ADR-083), owner-décidé.
-AUTO_PROMOTE_THRESHOLD = 1.01
+# Validation automatique demandée le 2026-09-12 ; plancher qualité §7 conservé.
+# Ce score est un filtre déterministe, pas une probabilité de vérité.
+AUTO_PROMOTE_THRESHOLD = 0.85
 AUTO_PROMOTE_TRUTH_LEVELS = {"L1", "L2"}
 # Cutover ADR-088 (gaté par flag, défaut OFF) : quel moteur de substance gate l'auto-promotion.
 #   legacy      = confidence_score scalaire 0-1 >= seuil (comportement historique, défaut)
@@ -614,7 +614,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     is_safety = _is_safety_proposal(fm)
     if is_safety:
         reasons.append(
-            "safety: famille sécurité-critique → revue humaine obligatoire (jamais auto-promu)"
+            "safety: famille sécurité-critique → validation automatique non couverte ; bloquée"
         )
 
     # INVARIANT ANTI-NUMBER-SWAPPING : valeurs HIGH-HARM (couple/pression) non
@@ -623,7 +623,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     if numeric_flags["block"]:
         reasons.append(
             "numeric: valeurs critiques couple/pression non auto-vérifiables → "
-            f"revue humaine (anti number-swapping): {numeric_flags['block'][:5]}"
+            f"validation bloquée (anti number-swapping): {numeric_flags['block'][:5]}"
         )
 
     gate_results = [(name, fn(target)) for name, fn in gates]
@@ -735,6 +735,7 @@ def apply_promotion(target: Path, fm: dict, body: str, wiki_root: Path,
     new_fm["reviewed_by"] = f"{PROMOTER_ID}@{sha}"
     new_fm["reviewed_at"] = now
     new_fm["auto_promoted"] = True
+    new_fm["validation_mode"] = "automatic"
     new_fm["promotion_tier"] = "A"
     new_fm["promotion_evidence"] = {
         "gate_status": decision["gate_status"],

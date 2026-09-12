@@ -1,6 +1,6 @@
 # automecanik-wiki
 
-Base de connaissance métier canonique AutoMecanik — Markdown / Obsidian, sourcée, versionnée, maintenue par LLM sous validation humaine.
+Base de connaissance métier canonique AutoMecanik — Markdown / Obsidian, sourcée, versionnée, enrichie par LLM et validée automatiquement par le moteur déterministe existant.
 
 ## Rôle
 
@@ -16,7 +16,7 @@ automecanik-raw  →  automecanik-wiki  →  exports  →  consommateurs
 > **Tout ce qui est brut par défaut va dans `automecanik-raw`.
 > Seul ce qui sort propre et validé entre dans `automecanik-wiki`.**
 
-La promotion `raw/recycled/` → `wiki/` est **toujours une décision humaine**, jamais automatique.
+La promotion `raw/recycled/` → `proposals/` → `wiki/` repose sur une **validation automatique**. Aucun tampon humain n’est requis par fiche : le moteur `promotion_decision.py` approuve les contenus éligibles et bloque les autres avec des raisons traçables. Voir `_meta/quality-gates.md` §7 pour les conditions et limites mesurables.
 
 ## Structure
 

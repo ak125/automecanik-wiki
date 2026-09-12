@@ -8,15 +8,11 @@
 
 ______________________________________________________________________
 
-## §1 — Modèle de validation : automatique par défaut, humain ciblé
+## §1 — Validation automatique par preuves
 
-> *« On ne valide pas tout à la main. On automatise la qualité et on réserve l'humain aux cas où il apporte une vraie sécurité. »*
+La décision est automatique : les contrôles satisfaits permettent la promotion, les contrôles échoués ou indisponibles la bloquent. Aucune étape de validation humaine n'est obligatoire pour une fiche WIKI. Les cas bloqués doivent obtenir les preuves manquantes ou être corrigés puis réévalués.
 
-La validation humaine systématique n'est pas scalable. Le système applique :
-
-1. **Validation automatique** par défaut (gates §2 + score §4 + risk_level §3)
-1. **Échantillonnage** sur fiches auto-validées (§5)
-1. **Validation humaine obligatoire** uniquement pour critical (§3) ou bloqué par gates (§2)
+La politique opérationnelle est définie au §7. Les scores et heuristiques ci-dessous sont des contrôles nécessaires, pas une preuve suffisante à eux seuls. Les transitions vers les applications consommatrices restent régies par leurs propres contrats.
 
 ______________________________________________________________________
 
@@ -37,7 +33,7 @@ Sur chaque fiche `proposals/<slug>.md`, le pipeline `_scripts/quality-gates.py` 
 | 9   | Anti-duplication                     | Comparaison fingerprint vs fiches existantes                                            | PASS / WARN        |
 | 10  | Cohérence avec raw                   | `source_refs` pointent vers `automecanik-raw/sources/` ou `recycled/`                   | PASS / WARN        |
 | 11  | Pas de promesse commerciale          | Heuristique : « meilleur », « garanti », « le moins cher »…                             | PASS / FAIL        |
-| 12  | Pas d'affirmation safety non sourcée | Mots-clés safety + source `confidence: high` requis                                     | PASS / FAIL humain |
+| 12  | Pas d'affirmation safety non sourcée | Mots-clés safety + source `confidence: high` requis                                     | PASS / FAIL |
 | 13  | `confidence_score` ≥ seuil           | Formule §4 calculée par `_scripts/compute-confidence-score.py`                          | PASS / WARN        |
 
 Les rapports vivent dans `_meta/qa-reports/<date>/`. **Artefacts d'audit ; ne remplacent pas les fiches ni les manifests raw.**
@@ -50,8 +46,8 @@ ______________________________________________________________________
 | ------------ | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | **low**      | glossaire, synonymes, descriptions générales, KW non critiques                                          | auto-promotion possible                                                                                                                 |
 | **medium**   | gammes, constructeurs, vehicles généraux, FAQ non contractuelle                                         | auto-promotion possible si score §4 ≥ 0.85 + sampling périodique                                                                        |
-| **high**     | diagnostic freinage/direction/batterie, conseil pouvant influencer une réparation, support sensible     | promotion possible **uniquement** si sources solides ET mentions de prudence présentes ; sinon `human_review_required`. Export `false`. |
-| **critical** | paiement, retour, garantie, livraison contractuelle, compatibilité exacte, prix, stock, sécurité légale | humain obligatoire **ou blocage**                                                                                                       |
+| **high**     | diagnostic freinage/direction/batterie, conseil pouvant influencer une réparation, support sensible     | promotion possible **uniquement** si sources solides ET mentions de prudence présentes ; sinon `in_review`. Export `false`. |
+| **critical** | paiement, retour, garantie, livraison contractuelle, compatibilité exacte, prix, stock, sécurité légale | blocage automatique si preuve insuffisante                                                                                                       |
 
 ______________________________________________________________________
 
@@ -91,7 +87,7 @@ duplication_detected       — fiche fingerprint très proche d'une fiche exista
 source_conflict            — sources contradictoires
 confidence_below_threshold — score < seuil pour le risk_level
 post_hoc_source_disproven  — source devenue fausse après promotion (rollback §7)
-human_review_pending       — fiche critical en attente d'examen humain
+human_review_pending       — ancien code conservé pour historique, non émis comme attente obligatoire
 
 # Gates ADR-033 §D1-§D3 (canon diagnostic_relations[])
 relation_to_part_missing   — entrée diagnostic_relations[] sans relation_to_part
@@ -120,7 +116,7 @@ Pour **chaque** entrée `diagnostic_relations[]` :
 | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `1_high`              | ≥ 1 source `confidence: high` ET son `source_type` autorise `high` (cf. `source-policy.md §9.1`)                 |
 | `2_medium_concordant` | ≥ 2 sources `confidence: medium`, citant des **références distinctes** (pas simplement deux pages d'un même PDF) |
-| `manual_review`       | Fiche bloquée → `status: human_review_required` jusqu'à validation humaine                                       |
+| `manual_review`       | Fiche bloquée → `status: in_review` jusqu’à vérification automatique des preuves                                       |
 
 Sinon → `blocked_reasons: [source_policy_violated]`.
 
@@ -151,80 +147,50 @@ Le défaut conservateur est non-négociable : pas de flip automatique en bulk po
 
 ______________________________________________________________________
 
-## §6 — Échantillonnage QA continu
+## §6 — Réévaluation continue
 
-| `risk_level` | Taux d'échantillonnage humain |
-| ------------ | ----------------------------- |
-| low          | 1-2 %                         |
-| medium       | 5 %                           |
-| high         | 20 %                          |
-| critical     | 100 % ou blocage              |
+Les propositions bloquées sont réévaluées après correction des causes, avec les mêmes contrôles. Une revue humaine peut contribuer des informations, mais n'est ni un passage obligatoire ni un moyen de contourner une preuve manquante.
 
 ______________________________________________________________________
 
-## §7 — Promotion automatique `proposals/` → `wiki/<entity_type>/`
+## §7 — Validation et promotion automatiques
 
-Une fiche peut être promue **automatiquement** si **toutes** ces conditions sont vraies :
+Décision utilisateur du 12 septembre 2026 : supprimer la validation humaine systématique. Le décideur existant `_scripts/promotion_decision.py` compose substance, qualité, couverture, régression et provenance ; `promote.py` est son interface. Il n'existe pas de second décideur LLM.
 
-- `risk_level` ∈ {`low`, `medium`}
-- `confidence_score` ≥ 0.85
-- `source_refs` ≥ 1 (résolvables)
-- frontmatter valide (schema v1.0)
-- template complet (sections obligatoires)
-- aucune pollution détectée
-- aucune contradiction détectée
-- aucun contenu catalogue interdit
-- aucun contenu contractuel sensible
-- aucun diagnostic sécurité critique
-- aucune promesse commerciale détectée
+Conditions cumulatives pour le moteur legacy actuellement sélectionné :
 
-**Sinon** : la fiche reste dans `proposals/` avec :
+- cinq contrôles source/claim/contradiction/risk/confidence PASS ;
+- score déterministe au moins 0.85, niveaux L1/L2 et deux types de sources distincts ;
+- couverture stricte et provenance vérifiables, aucune régression bloquante ;
+- aucune condition de sécurité ou valeur critique que le moteur ne sait pas vérifier ;
+- empreintes des entrées et des moteurs identiques entre décision et écriture.
 
-- `status: human_review_required` + `blocked_reasons` rempli, **OU**
-- `status: quarantined` (selon gravité, §8)
+Le seuil 0.85 conserve le plancher de qualité déjà documenté. Ce n'est ni une probabilité de vérité ni une calibration statistique démontrée. L'ancien défaut 1.01 désactivait toutes les promotions ; il est remplacé par 0.85. Le CLI permet seulement de renforcer ce seuil jusqu'à 1.0. Le moteur six dimensions reste un chantier distinct, sans bascule implicite.
 
-> *Automatique ne veut pas dire « sans contrôle ».*
-> *Automatique veut dire : **contrôlé par des gates, traçable, réversible, avec blocage des cas risqués**.*
+Résultats : `ELIGIBLE` autorise l'exécuteur ; `BLOCKED` et `UNKNOWN_FAIL_CLOSED` maintiennent la proposition avec des motifs structurés. Correction des preuves puis nouvelle évaluation automatique. Aucun échec ne crée une attente humaine obligatoire. Les identifiants historiques tels que `SAFETY_HUMAN_REVIEW` restent compatibles avec les consommateurs existants ; leur résultat est un blocage technique, pas une tâche humaine.
 
-Pipeline complet :
+Le Safety Auto-Gate de `gap1_auto_review.py` reste partiellement câblé : il ne prouve pas une qualification complète du contenu sécurité. Ces fiches restent bloquées tant que les preuves et contrôles automatiques nécessaires manquent. La validation du WIKI n'autorise aucune modification du moteur diagnostic LIVE.
 
-```
-raw → normalized → proposal → automated quality gates
-                                ├── PASS  + low/medium + score ≥ 0.85 → auto_reviewed wiki
-                                ├── WARN  + low/medium                → sampled wiki (audit ultérieur)
-                                ├── FAIL  ou high/critical            → human_review_required dans proposals/
-                                └── pollution / contradiction critique → quarantined dans proposals/
+```bash
+python3 _scripts/promote.py --wiki-root /chemin/wiki --raw-root /chemin/raw --all --dry-run
+python3 _scripts/promote.py --wiki-root /chemin/wiki --raw-root /chemin/raw --target proposals/fiche.md --apply
 ```
 
-______________________________________________________________________
+`--apply` déclenche l'exécuteur, pas une revue humaine. Le dry-run permet de diagnostiquer sans écrire. L'activation d'un appelant périodique reste distincte de cette politique de décision.
 
-## §8 — Frontmatter post-promotion
+## §8 — Preuve post-promotion
 
 ```yaml
-# Voie automatique (gates §2 PASS, low/medium, score ≥ 0.85)
-status: auto_reviewed
-review_status: auto_passed
-validation_mode: automatic
-confidence_score: 0.91
-risk_level: medium
-blocked_reasons: []
-exportable: { rag: false, seo: false, support: false }   # toujours false — Partie 3 décide
-```
-
-```yaml
-# Voie humaine (critical, blocked, sampling §6)
-status: reviewed
 review_status: approved
-validation_mode: human_required
-confidence_score: 0.94
-risk_level: high
-blocked_reasons: []
-reviewer: <handle>
-review_date: 2026-04-XX
-exportable: { rag: false, seo: false, support: false }
+validation_mode: automatic
+auto_promoted: true
+promotion_tier: A
+reviewed_by: skill:promoter@<revision>
+reviewed_at: <date UTC>
+promotion_evidence: <gates, score, moteur, date>
 ```
 
-> **Mapping legacy → plan rev 6** : le champ `review_status` du schema v1.0 (`draft|proposed|in_review|approved|deprecated`) reste valide pour identifier l'état canonique. Les fiches mergées récemment portent ces deux vocabulaires en parallèle pendant la phase de transition. Cf. `ingestion-contract.md` §"Mapping vocabulaires".
+Le corps n'est pas réécrit. La provenance et les preuves sont conservées. Le comportement export SEO déjà existant du promoteur reste inchangé ; il ne prouve pas une publication. Les anciens marqueurs humains sont historiques et ne constituent plus une condition pour une nouvelle décision WIKI.
 
 ______________________________________________________________________
 
@@ -242,12 +208,12 @@ Une proposal qui échoue gravement reste dans `proposals/<slug>.md` avec `status
 ```yaml
 status: quarantined
 review_status: in_review
-validation_mode: human_required
+validation_mode: automatic
 blocked_reasons: [pollution_detected, source_conflict]
 quarantined_at: 2026-04-29T14:23:00Z
 ```
 
-Avantages : historique Git linéaire, recovery `quarantined → human_review_required` après correction, compat sampling §6.
+Avantages : historique Git linéaire, recovery `quarantined → in_review` après correction, compat sampling §6.
 
 ______________________________________________________________________
 
@@ -257,7 +223,7 @@ Si une fiche promue dans `wiki/<entity_type>/` est ensuite identifiée probléma
 
 1. **Rétrogradation in-place** (pas de `git revert` — préserve la généalogie) :
    ```yaml
-   status: human_review_required
+   status: in_review
    review_status: in_review
    blocked_reasons: [post_hoc_source_disproven]
    rollback_from_commit: <sha>
@@ -267,7 +233,7 @@ Si une fiche promue dans `wiki/<entity_type>/` est ensuite identifiée probléma
 1. **Move Git** : `wiki/<entity_type>/<slug>.md` → `proposals/<slug>.md` (commit *rollback*)
 1. **Audit log append-only** dans `_meta/audit-log.jsonl` :
    ```json
-   {"ts":"2026-04-29T14:23:00Z","action":"rollback","slug":"plaquette-de-frein","entity_type":"gamme","from_status":"auto_reviewed","to_status":"human_review_required","commit":"<sha>","reason":"source_disproven","actor":"<handle>"}
+   {"ts":"2026-04-29T14:23:00Z","action":"rollback","slug":"plaquette-de-frein","entity_type":"gamme","from_status":"auto_reviewed","to_status":"in_review","commit":"<sha>","reason":"source_disproven","actor":"<handle>"}
    ```
 1. **CI re-run** : `wiki-quality-gates.yml` ré-évalue depuis `proposals/`.
 

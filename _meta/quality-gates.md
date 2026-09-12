@@ -20,21 +20,21 @@ ______________________________________________________________________
 
 Sur chaque fiche `proposals/<slug>.md`, le pipeline `_scripts/quality-gates.py` vérifie :
 
-| #   | Contrôle                             | Méthode                                                                                 | Verdict            |
-| --- | ------------------------------------ | --------------------------------------------------------------------------------------- | ------------------ |
-| 1   | Frontmatter valide                   | Schema v1.0 (`_meta/schema/frontmatter.schema.json`, JSON Schema 2020-12)               | PASS / FAIL        |
-| 2   | Sources présentes                    | `source_refs ≥ 1` (sauf `truth_level: L4`)                                              | PASS / FAIL        |
-| 3   | Sources résolvables                  | Fichier `automecanik-raw/<path>` existe ou URL accessible                               | PASS / WARN        |
-| 4   | Sections obligatoires                | Cf. template `_meta/templates/<entity_type>.md`                                         | PASS / FAIL        |
-| 5   | Slug unique                          | Comparaison `_meta/entity-registry.json`                                                | PASS / FAIL        |
-| 6   | Pas de pollution scrape              | Skill `pollution-scanner` mode lint read-only (Textar, Brembo, "Skip to main content"…) | PASS / WARN        |
-| 7   | Pas de mélange catalogue             | Heuristique : prix, stock, SKU, compatibilité exacte produit/véhicule                   | PASS / FAIL        |
-| 8   | Liens internes valides               | Résolution dans `wiki/`                                                                 | PASS / WARN        |
-| 9   | Anti-duplication                     | Comparaison fingerprint vs fiches existantes                                            | PASS / WARN        |
-| 10  | Cohérence avec raw                   | `source_refs` pointent vers `automecanik-raw/sources/` ou `recycled/`                   | PASS / WARN        |
-| 11  | Pas de promesse commerciale          | Heuristique : « meilleur », « garanti », « le moins cher »…                             | PASS / FAIL        |
+| #   | Contrôle                             | Méthode                                                                                 | Verdict     |
+| --- | ------------------------------------ | --------------------------------------------------------------------------------------- | ----------- |
+| 1   | Frontmatter valide                   | Schema v1.0 (`_meta/schema/frontmatter.schema.json`, JSON Schema 2020-12)               | PASS / FAIL |
+| 2   | Sources présentes                    | `source_refs ≥ 1` (sauf `truth_level: L4`)                                              | PASS / FAIL |
+| 3   | Sources résolvables                  | Fichier `automecanik-raw/<path>` existe ou URL accessible                               | PASS / WARN |
+| 4   | Sections obligatoires                | Cf. template `_meta/templates/<entity_type>.md`                                         | PASS / FAIL |
+| 5   | Slug unique                          | Comparaison `_meta/entity-registry.json`                                                | PASS / FAIL |
+| 6   | Pas de pollution scrape              | Skill `pollution-scanner` mode lint read-only (Textar, Brembo, "Skip to main content"…) | PASS / WARN |
+| 7   | Pas de mélange catalogue             | Heuristique : prix, stock, SKU, compatibilité exacte produit/véhicule                   | PASS / FAIL |
+| 8   | Liens internes valides               | Résolution dans `wiki/`                                                                 | PASS / WARN |
+| 9   | Anti-duplication                     | Comparaison fingerprint vs fiches existantes                                            | PASS / WARN |
+| 10  | Cohérence avec raw                   | `source_refs` pointent vers `automecanik-raw/sources/` ou `recycled/`                   | PASS / WARN |
+| 11  | Pas de promesse commerciale          | Heuristique : « meilleur », « garanti », « le moins cher »…                             | PASS / FAIL |
 | 12  | Pas d'affirmation safety non sourcée | Mots-clés safety + source `confidence: high` requis                                     | PASS / FAIL |
-| 13  | `confidence_score` ≥ seuil           | Formule §4 calculée par `_scripts/compute-confidence-score.py`                          | PASS / WARN        |
+| 13  | `confidence_score` ≥ seuil           | Formule §4 calculée par `_scripts/compute-confidence-score.py`                          | PASS / WARN |
 
 Les rapports vivent dans `_meta/qa-reports/<date>/`. **Artefacts d'audit ; ne remplacent pas les fiches ni les manifests raw.**
 
@@ -42,12 +42,12 @@ ______________________________________________________________________
 
 ## §3 — Classification du risque (`risk_level`)
 
-| Niveau       | Exemples                                                                                                | Action par défaut                                                                                                                       |
-| ------------ | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| **low**      | glossaire, synonymes, descriptions générales, KW non critiques                                          | auto-promotion possible                                                                                                                 |
-| **medium**   | gammes, constructeurs, vehicles généraux, FAQ non contractuelle                                         | auto-promotion possible si score §4 ≥ 0.85 + sampling périodique                                                                        |
+| Niveau       | Exemples                                                                                                | Action par défaut                                                                                                           |
+| ------------ | ------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| **low**      | glossaire, synonymes, descriptions générales, KW non critiques                                          | auto-promotion possible                                                                                                     |
+| **medium**   | gammes, constructeurs, vehicles généraux, FAQ non contractuelle                                         | auto-promotion possible si score §4 ≥ 0.85 + sampling périodique                                                            |
 | **high**     | diagnostic freinage/direction/batterie, conseil pouvant influencer une réparation, support sensible     | promotion possible **uniquement** si sources solides ET mentions de prudence présentes ; sinon `in_review`. Export `false`. |
-| **critical** | paiement, retour, garantie, livraison contractuelle, compatibilité exacte, prix, stock, sécurité légale | blocage automatique si preuve insuffisante                                                                                                       |
+| **critical** | paiement, retour, garantie, livraison contractuelle, compatibilité exacte, prix, stock, sécurité légale | blocage automatique si preuve insuffisante                                                                                  |
 
 ______________________________________________________________________
 
@@ -116,7 +116,7 @@ Pour **chaque** entrée `diagnostic_relations[]` :
 | --------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `1_high`              | ≥ 1 source `confidence: high` ET son `source_type` autorise `high` (cf. `source-policy.md §9.1`)                 |
 | `2_medium_concordant` | ≥ 2 sources `confidence: medium`, citant des **références distinctes** (pas simplement deux pages d'un même PDF) |
-| `manual_review`       | Fiche bloquée → `status: in_review` jusqu’à vérification automatique des preuves                                       |
+| `manual_review`       | Fiche bloquée → `status: in_review` jusqu’à vérification automatique des preuves                                 |
 
 Sinon → `blocked_reasons: [source_policy_violated]`.
 

@@ -81,6 +81,13 @@
         "type": "object",
         "required": ["kind"],
         "unevaluatedProperties": false,
+        "properties": {
+          "confidence": {
+            "description": "Niveau de confiance documenté de la source, consommé par compute-confidence-score.py : high=1.0, medium=0.6, low=0.3. Absent = medium. Cette déclaration ne prouve ni la vérité d'une affirmation ni l'éligibilité à la promotion.",
+            "type": "string",
+            "enum": ["high", "medium", "low"]
+          }
+        },
         "oneOf": [
           {
             "properties": {

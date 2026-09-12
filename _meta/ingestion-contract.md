@@ -32,6 +32,8 @@ consommateurs : automecanik-rag, monorepo SEO, chatbot, site
 
 ## Schema frontmatter v1.0 (référence)
 
+Avant extraction, appliquer `_meta/source-policy.md` §9.3 : distinguer article général, donnée catalogue et instruction technique. Ne pas importer dans l'éditorial les codes moteur, références ou dimensions simplement parce qu'ils existent dans RAW. Les preuves portent sur les affirmations sélectionnées ; les correspondances exactes restent du ressort du catalogue et de ses contrats. Cette sélection n'accorde aucune exemption aux contrôles d'une affirmation technique effectivement publiée.
+
 Schema canonique versioné : `_meta/schema/frontmatter.schema.json` (à créer Phase B).
 
 5 blocs obligatoires :

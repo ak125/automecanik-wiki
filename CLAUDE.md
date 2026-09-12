@@ -27,6 +27,14 @@ Le LLM peut **proposer, relier, résumer, extraire, enrichir**. La validation re
 
 ## Workflow standard — UNIFORME pour toutes les entités
 
+### Définir le besoin avant d'extraire
+
+Pour un article général, sélectionner uniquement les faits utiles à l'explication : rôle de la pièce, principes, variantes générales, entretien et critères de choix. Ne pas demander de code moteur, référence OE, diamètre ou couple de serrage si le texte n'en a pas besoin. Ces données restent dans RAW pour la traçabilité et dans le catalogue métier pour leur utilisation applicative.
+
+Une erreur de compatibilité dans un passage RAW non utilisé ne bloque pas une explication indépendante et correctement sourcée. Vérifier les affirmations réellement retenues, avec leur passage source ; ne jamais attribuer une confiance globale à un document composite. Si l'erreur contamine une affirmation publiée ou remet en cause sa preuve, cette affirmation reste bloquée.
+
+Une affirmation précise de compatibilité ou une instruction de montage garde ses contrôles propres. Le titre « éditorial » n'autorise pas à publier une donnée technique non vérifiée. Ne pas ajouter des chiffres, des sections ou des liens seulement pour augmenter un score. Voir `_meta/source-policy.md` §9.3.
+
 Le même flux s'applique à **gammes, vehicles, constructeurs, support, diagnostic** — pas d'exception.
 
 1. Lire la source `automecanik-raw/recycled/...` ou `automecanik-raw/sources/...`

@@ -7,17 +7,17 @@
 
 Tout ce qui est brut par défaut va dans `automecanik-raw`. Seul ce qui sort propre et validé entre dans `automecanik-wiki`.
 
-La promotion `automecanik-raw/recycled/` → `automecanik-wiki/wiki/` est **toujours** une décision humaine, jamais automatique.
+La validation et la promotion WIKI sont **automatiques**, selon la décision utilisateur du 12 septembre 2026. Le décideur unique est `_scripts/promotion_decision.py` : contrôles satisfaits → éligible ; preuve insuffisante, contradictoire ou vérification indisponible → bloqué. Une validation humaine systématique ne fait plus partie du flux.
 
 ## Rôle du LLM
 
-Le LLM peut **proposer, relier, résumer, extraire, enrichir**. Il ne **valide** ni ne **publie** rien sans humain.
+Le LLM peut **proposer, relier, résumer, extraire, enrichir**. La validation relève du moteur déterministe et de ses preuves, jamais de l’auto-déclaration du LLM. Publication externe et validation WIKI sont des opérations distinctes.
 
 ## Interdictions absolues
 
-- Ne **jamais** écrire directement dans `wiki/<area>/` sans instruction humaine explicite
+- Écrire dans `wiki/<area>/` uniquement par le promoteur après décision automatique éligible et revérification des entrées
 - Écrire d'abord dans `proposals/` (FLAT — routage par frontmatter `entity_type`)
-- Ne **jamais** promouvoir une fiche en `review_status: approved` ou `exportable.<x>: true` sans validation humaine
+- Ne **jamais** contourner les contrôles pour passer `review_status: approved` ou rendre un contenu exportable
 - Ne **jamais** supprimer une source raw
 - Ne **jamais** inventer de compatibilité véhicule
 - Ne **jamais** transformer une hypothèse en fait
@@ -37,7 +37,7 @@ Le même flux s'applique à **gammes, vehicles, constructeurs, support, diagnost
 1. Ajouter `lineage_id` (UUIDv7) + `content_hash` (SHA-256 du body)
 1. Mettre à jour `index.md`
 1. Ajouter une entrée dans `log.md`
-1. Laisser `review_status: in_review` (statut canonique défini dans `_meta/schema/frontmatter.schema.json`)
+1. Soumettre la proposition `in_review` au décideur automatique ; appliquer seulement une décision `ELIGIBLE`, sinon corriger les motifs puis réévaluer
 
 ## Note ADR-022 (R8 vehicles) — sujet downstream backend
 
@@ -53,14 +53,11 @@ Pour `entity_type: gamme` (cf. ADR-033 `accepted` 2026-04-29) :
 - Les relations diagnostic pointent vers le bloc `diagnostic_relations[]` du frontmatter v2.0.0 (cf. `_meta/schema/frontmatter.schema.json`).
 - **Anti-pattern interdit** : `entity_data.symptoms[]` ou `diagnostic.symptoms[]` (ADR-033 §D2). Bloqué par `_scripts/quality-gates.py` `legacy_symptoms_block`.
 
-## Validation humaine
+## Validation automatique
 
-Seul l'humain peut passer :
+Le promoteur renseigne `review_status: approved`, `validation_mode: automatic`, le validateur, la date et les preuves de décision. Le seuil atteignable est 0.85, avec tous les contrôles obligatoires ; il ne représente pas une probabilité de vérité. Une erreur, une source absente, une régression ou une preuve non vérifiable interdit la promotion. Les cas bloqués restent `in_review`, sans tâche humaine obligatoire.
 
-- `review_status: approved` (transition finale dans l'enum `frontmatter.schema.json`)
-- `exportable.rag: true`
-- `exportable.seo: true`
-- `exportable.support: true`
+Le mode `--apply` exécute la décision existante après contrôle de fraîcheur. Il ne contourne aucun contrôle. Les exports conservent leurs contrats propres ; approbation WIKI ne prouve pas publication effective.
 
 > **Note** : les enums `review_status` autorisés sont `draft | proposed | in_review | approved | deprecated`
 > (cf. [\_meta/schema/frontmatter.schema.json](_meta/schema/frontmatter.schema.json#L169)). Les anciens

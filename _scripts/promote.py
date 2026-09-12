@@ -19,19 +19,19 @@ Pipeline :
         ↓ porte tiered déterministe (gates + confidence + truth_level + source diversity)
         ↓ TIER A  → wiki/<entity_type>/<slug>.md (review_status: approved, exportable.seo: true,
         ↓            reviewed_by: skill:promoter@<sha>, auto_promoted: true, promotion_tier: A)
-        ↓ TIER B  → reste in_review (humain requis). JAMAIS approuvé automatiquement.
+        ↓ TIER B  → reste in_review (contrôles non satisfaits, motifs explicites).
 
 TIER A (auto) — promu SSI TOUT est vrai :
     - les 5 gate wrappers (source/claim/contradiction/risk/confidence) = PASS ;
     - confidence_score >= AUTO_PROMOTE_THRESHOLD ;
     - truth_level in {L1, L2} ;
     - >= 2 source_refs de `kind` distincts.
-TIER B (humain) — tout le reste : un gate warn/fail, score insuffisant, L3/L4,
-    diversité de sources insuffisante. Le jugement E-E-A-T / sécurité reste humain.
+TIER B (bloqué) — gate warn/fail, score insuffisant, L3/L4, diversité insuffisante
+    ou vérification non couverte. Corriger les preuves puis réévaluer automatiquement.
 
 Fail-closed : toute exception / tout doute → TIER B (jamais d'auto-approve sur erreur).
-No-op par défaut : AUTO_PROMOTE_THRESHOLD = 1.01 (inatteignable) → 0 promotion auto,
-    comportement identique à aujourd'hui (100% humain). Owner abaisse à 0.80 pour activer.
+Validation automatique par défaut au seuil 0.85 ; aucun tampon humain par fiche.
+Le dry-run reste le mode CLI par défaut ; --apply exécute les seules décisions éligibles.
 
 Garde-fous (vérifiés par test_promote.py) : 0 LLM, 0 DB, 0 nouveau gate atomique,
     écriture uniquement sous wiki/<entity_type>/.
@@ -39,7 +39,7 @@ Garde-fous (vérifiés par test_promote.py) : 0 LLM, 0 DB, 0 nouveau gate atomiq
 Usage :
     promote.py --wiki-root /opt/automecanik/automecanik-wiki --all --dry-run
     promote.py --wiki-root ... --target proposals/colonne-de-direction.md --apply
-    promote.py --wiki-root ... --all --threshold 0.80 --apply
+    promote.py --wiki-root ... --raw-root ... --all --apply
 
 Exit : 0 — ok (promu/skipped) · 1 — source invalide · 2 — config/canon introuvable.
 """
@@ -97,8 +97,9 @@ def _candidate_files(wiki_root: Path, target: str | None, entity_id: str | None)
 @click.option("--target", default=None, help="Une proposal précise (relatif au wiki-root).")
 @click.option("--entity-id", default=None, help="Filtre par slug (ex: gamme:colonne-de-direction).")
 @click.option("--all", "scan_all", is_flag=True, help="Scanner toutes les proposals/.")
-@click.option("--threshold", type=float, default=AUTO_PROMOTE_THRESHOLD, show_default=True,
-              help="Seuil confidence auto-promotion. 1.01 = no-op (aucune auto-promotion).")
+@click.option("--threshold", type=click.FloatRange(min=AUTO_PROMOTE_THRESHOLD, max=1.0),
+              default=AUTO_PROMOTE_THRESHOLD, show_default=True,
+              help="Seuil qualité automatique, au moins 0.85. Utiliser --dry-run pour ne rien écrire.")
 @click.option("--raw-root", "raw_root", type=click.Path(exists=True, file_okay=False, path_type=Path),
               default=None, help="Checkout automecanik-raw (topology cross-repo). Absent ⇒ "
                                  "provenance UNAVAILABLE (fail-closed, jamais skip silencieux).")

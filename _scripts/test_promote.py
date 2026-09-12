@@ -8,11 +8,13 @@ au runtime réel des 5 gates).
 from __future__ import annotations
 
 import importlib.util
+import json
 import re
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from jsonschema import Draft202012Validator
 
 PROMOTE_PATH = Path(__file__).resolve().parent / "promote.py"
 
@@ -25,6 +27,24 @@ def _load_promote():
 
 
 SRC = PROMOTE_PATH.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("with_shadow", [False, True])
+def test_promoted_full_document_matches_frontmatter_schema(tmp_path, with_shadow):
+    """The executor must serialize a schema-valid document, including audit metadata."""
+    mod = _load_promote()
+    fixture = PROMOTE_PATH.parent / "tests/fixtures/valid-non-safety-filtre.md"
+    fm, body = mod._parse_markdown(fixture)
+    decision = {"gate_status": {}, "confidence_score": 0.9}
+    if with_shadow:
+        decision["shadow_score"] = mod._compute_shadow(fm, body, fixture, PROMOTE_PATH.parent.parent)
+    out = mod.apply_promotion(tmp_path / "proposals/test.md", fm, body, tmp_path, decision)
+    saved, _ = mod._parse_markdown(out)
+    schema_path = PROMOTE_PATH.parent.parent / "_meta/schema/frontmatter.schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    Draft202012Validator(schema).validate(saved)
+    assert saved["review_status"] == "approved"
+    assert saved["validation_mode"] == "automatic"
 
 
 # --- Tests statiques (garde-fous architecturaux) ------------------------------
@@ -42,9 +62,9 @@ def test_no_new_gate_defined():
     assert not re.search(r"def\s+run_\w+_gate", SRC)
 
 
-def test_default_threshold_is_noop():
+def test_default_threshold_is_reachable_quality_floor():
     mod = _load_promote()
-    assert mod.AUTO_PROMOTE_THRESHOLD > 1.0, "défaut doit être no-op (aucune auto-promotion)"
+    assert mod.AUTO_PROMOTE_THRESHOLD == 0.85
 
 
 def test_only_l1_l2_eligible_constant():
@@ -167,12 +187,39 @@ def test_tier_B_when_single_source_kind(tmp_path):
     assert d["tier"] == "B"
 
 
-def test_default_noop_threshold_blocks_everything(tmp_path):
+def test_default_threshold_allows_qualified_content_without_human(tmp_path):
     mod = _load_promote()
     d = mod.evaluate_tier(FM_OK, "body", tmp_path / "p.md", tmp_path,
                           threshold=mod.AUTO_PROMOTE_THRESHOLD, gates=_gates(True),
                           compute_score=lambda *a: 1.00)
-    assert d["tier"] == "B", "le défaut no-op (1.01) doit bloquer même un score parfait (1.00)"
+    assert d["tier"] == "A", d["blocking_reasons"]
+
+
+@pytest.mark.parametrize('score,expected',[(0.849,'B'),(0.85,'A'),(0.99,'A')])
+def test_automatic_quality_floor(score, expected, tmp_path):
+    mod = _load_promote()
+    d = mod.evaluate_tier(FM_OK, 'body', tmp_path/'p.md', tmp_path,
+                          threshold=mod.AUTO_PROMOTE_THRESHOLD, gates=_gates(True),
+                          compute_score=lambda *a: score)
+    assert d['tier'] == expected
+
+
+@pytest.mark.parametrize('threshold',['0.0','0.84','1.01'])
+def test_cli_refuses_quality_floor_bypass(threshold, tmp_path):
+    from click.testing import CliRunner
+    mod = _load_promote()
+    result = CliRunner().invoke(mod.main,['--wiki-root',str(tmp_path),'--all','--threshold',threshold])
+    assert result.exit_code == 2
+
+
+def test_human_metadata_is_replaced_on_automatic_validation(tmp_path):
+    mod = _load_promote()
+    fm = {**FM_OK,'validation_mode':'human_required','reviewed_by':'old-reviewer'}
+    out = mod.apply_promotion(tmp_path/'proposals'/'x.md',fm,'body',tmp_path,
+                              {'gate_status':{},'confidence_score':0.9})
+    saved,_ = mod._parse_markdown(out)
+    assert saved['validation_mode'] == 'automatic'
+    assert saved['reviewed_by'].startswith('skill:promoter@')
 
 
 def test_fail_closed_on_score_exception(tmp_path):
@@ -193,6 +240,7 @@ def test_apply_writes_only_under_wiki_entity_dir(tmp_path):
     written = out.read_text(encoding="utf-8")
     assert "review_status: approved" in written
     assert "auto_promoted: true" in written
+    assert "validation_mode: automatic" in written
     assert "promotion_tier: A" in written
 
 

@@ -113,9 +113,11 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install Python deps (Pydantic + Click + pytest)
-        run: pip install --quiet "pydantic>=2.5,<3" "click>=8.1,<9" "pyyaml>=6.0,<7" "pytest>=7.4,<9"
+        run: pip install --quiet "pydantic>=2.5,<3" "click>=8.1,<9" "pyyaml>=6.0,<7" "pytest>=7.4,<9" "jsonschema>=4.18,<5"
       - name: Pytest 5 wrappers (architectural + smoke)
         run: cd _scripts && python3 -m pytest gates/test_gates.py -v
+      - name: Canonical automatic promotion and apply guards
+        run: cd _scripts && python3 -m pytest test_promote.py test_promotion_decision.py -q
       - name: Sanity run on existing proposals (no-op if proposals/ empty)
         run: |
           set -e

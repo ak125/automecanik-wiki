@@ -15,12 +15,12 @@ automecanik-raw/sources/<type>/<file>
 automecanik-wiki/proposals/<slug>.md
        │  (FLAT — routage par frontmatter `entity_type`)
        │
-       │  validation humaine
+       │  validation automatique par promotion_decision.py
        │  (frontmatter complet, source_refs OK, no contradictions, lineage_id, content_hash)
        ▼
 automecanik-wiki/wiki/<entity_type>/<slug>.md
        │
-       │  decision humaine d'export (review_status: approved)
+       │  éligibilité d'export selon contrat (review_status: approved)
        │  (quality-gates.md PASS, exportable.<x>: true)
        ▼
 automecanik-wiki/exports/{rag,seo,support}/<slug>.<audience>.md
@@ -70,7 +70,7 @@ Captures via Obsidian Web Clipper :
 ```
 inbox/web-clips/<capture>.md  (status: inbox, trust_level: unverified)
        │
-       │  qualification humaine
+       │  qualification automatique des sources
        ▼
 - soit → automecanik-raw/sources/web-clips/  (si source à conserver)
 - soit → suppression (capture non retenue)
@@ -119,7 +119,7 @@ Esquisse à finaliser dans les 5 templates `_meta/templates/<type>.md` :
 
 - Dual-write `automecanik-rag/knowledge/` + `automecanik-wiki/wiki/` (drift garanti)
 - Génération de fiche `wiki/` depuis LLM seul, sans source raw vérifiable
-- Promotion automatique `proposals/` → `wiki/` sans gates §7 quality-gates **OU** review humaine
+- Promotion automatique `proposals/` → `wiki/` sans décision canonique éligible (§7 quality-gates)
 - Copie massive d'un CSV dans une fiche wiki
 - Direct write `wiki/<area>/` skip `proposals/` (refusé par hook `commit-msg` §3.8 plan + `wiki-protected-paths.yml` CI)
 - Suppression silencieuse sans tombstone `.MOVED.md` / `.DELETED.md`

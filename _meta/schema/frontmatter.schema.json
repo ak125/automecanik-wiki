@@ -155,20 +155,25 @@
       "default": []
     },
     "review_status": {
-      "description": "État de review. draft=brouillon, proposed=déposé en proposals/, in_review=en cours, approved=validé humainement (gate export), deprecated=obsolète.",
+      "description": "État de validation. draft=brouillon, proposed=déposé en proposals/, in_review=contrôles en cours ou bloqués, approved=contrôles de promotion satisfaits (gate export), deprecated=obsolète.",
       "type": "string",
       "enum": ["draft", "proposed", "in_review", "approved", "deprecated"]
     },
     "reviewed_by": {
-      "description": "Email humain ou 'skill:<name>' si auto-approuvé L4. Null si pas encore reviewé.",
+      "description": "Identifiant du validateur, notamment 'skill:promoter@<sha>' pour la validation automatique. Les identifiants humains historiques restent lisibles. Null si non validé.",
       "type": ["string", "null"]
     },
     "auto_promoted": {
-      "description": "True si promu automatiquement par promote.py (ADR-083 TIER A). Absent/false = promotion humaine.",
+      "description": "True si promu automatiquement par promote.py (ADR-083 TIER A). Absent/false ne prouve pas une validation.",
       "type": "boolean"
     },
+    "validation_mode": {
+      "description": "Mode enregistré par le promoteur automatique. Optionnel pour la compatibilité des fiches historiques.",
+      "type": "string",
+      "enum": ["automatic"]
+    },
     "promotion_tier": {
-      "description": "Tier de promotion ADR-083. A=auto (5 gates PASS + confidence>=seuil + truth_level L1/L2 + >=2 source kinds distincts), B=humain.",
+      "description": "Tier de promotion ADR-083. A=auto (5 gates PASS + confidence>=seuil + truth_level L1/L2 + >=2 source kinds distincts), B=bloqué avec motifs explicites.",
       "type": "string",
       "enum": ["A", "B"]
     },
@@ -180,7 +185,11 @@
         "gate_status": { "type": "object" },
         "confidence_score": { "type": "number" },
         "promoter": { "type": "string" },
-        "promoted_at": { "type": "string", "format": "date-time" }
+        "promoted_at": { "type": "string", "format": "date-time" },
+        "shadow_score": {
+          "description": "Résultat d'observation du scorer six dimensions, ou erreur tracée ; ne remplace pas les contrôles de promotion.",
+          "type": "object"
+        }
       }
     },
     "reviewed_at": {
@@ -209,7 +218,7 @@
       "maximum": 1
     },
     "exportable": {
-      "description": "Gates d'export par audience. Tous false par défaut. Décision humaine requise pour passer à true.",
+      "description": "Gates d'export par audience. Tous false par défaut. Activation par les contrôles applicables ; le promoteur automatique active seo pour les fiches éligibles.",
       "type": "object",
       "required": ["rag", "seo", "support"],
       "additionalProperties": false,

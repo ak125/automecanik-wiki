@@ -8,11 +8,13 @@ au runtime réel des 5 gates).
 from __future__ import annotations
 
 import importlib.util
+import json
 import re
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
+from jsonschema import Draft202012Validator
 
 PROMOTE_PATH = Path(__file__).resolve().parent / "promote.py"
 
@@ -25,6 +27,24 @@ def _load_promote():
 
 
 SRC = PROMOTE_PATH.read_text(encoding="utf-8")
+
+
+@pytest.mark.parametrize("with_shadow", [False, True])
+def test_promoted_full_document_matches_frontmatter_schema(tmp_path, with_shadow):
+    """The executor must serialize a schema-valid document, including audit metadata."""
+    mod = _load_promote()
+    fixture = PROMOTE_PATH.parent / "tests/fixtures/valid-non-safety-filtre.md"
+    fm, body = mod._parse_markdown(fixture)
+    decision = {"gate_status": {}, "confidence_score": 0.9}
+    if with_shadow:
+        decision["shadow_score"] = mod._compute_shadow(fm, body, fixture, PROMOTE_PATH.parent.parent)
+    out = mod.apply_promotion(tmp_path / "proposals/test.md", fm, body, tmp_path, decision)
+    saved, _ = mod._parse_markdown(out)
+    schema_path = PROMOTE_PATH.parent.parent / "_meta/schema/frontmatter.schema.json"
+    schema = json.loads(schema_path.read_text(encoding="utf-8"))
+    Draft202012Validator(schema).validate(saved)
+    assert saved["review_status"] == "approved"
+    assert saved["validation_mode"] == "automatic"
 
 
 # --- Tests statiques (garde-fous architecturaux) ------------------------------

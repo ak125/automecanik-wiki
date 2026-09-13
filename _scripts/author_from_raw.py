@@ -327,7 +327,23 @@ def main(argv: list[str] | None = None) -> int:
                     help="reality-manifest committé (validation related_gammes, 0-DB)")
     ap.add_argument("--out", type=Path, default=None, help="fiche shadow (défaut: stdout json report only)")
     ap.add_argument("--json", action="store_true", help="imprime le rapport JSON")
+    ap.add_argument("--document-selection", type=Path,
+                    help="Sélection de passages d'un document archivé ; candidat isolé, sans promotion")
     args = ap.parse_args(argv)
+    if args.document_selection:
+        from document_authoring import prepare_document, write_candidate
+        try:
+            md, report = prepare_document(args.slug, args.raw_root, args.proposals_dir,
+                                          args.document_selection)
+            if args.out:
+                write_candidate(args.out, md, (REPO_ROOT, args.raw_root, args.proposals_dir))
+                report["written"] = str(args.out)
+        except Exception as exc:
+            code = str(exc) if re.fullmatch(r"document_[a-z_]+", str(exc)) else "document_preparation_failed"
+            print(json.dumps({"action": "REFUSED", "error_code": code, "error_type": type(exc).__name__}), file=sys.stderr)
+            return 1
+        print(json.dumps(report, ensure_ascii=False, indent=2))
+        return 0
     md, report = author(args.slug, args.raw_root.resolve(), args.proposals_dir.resolve(), args.manifest)
     if args.out:
         args.out.write_text(md, encoding="utf-8")

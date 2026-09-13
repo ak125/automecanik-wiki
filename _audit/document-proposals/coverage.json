@@ -1,0 +1,57 @@
+{
+  "scope_requested": "Continuer le raccordement des captures documentaires RAW a la preparation WIKI",
+  "scope_actually_scanned": "Producteur et contrats WIKI sur main 01cea8d; anciens lecteurs examines seulement pour orientation",
+  "files_read_count": 20,
+  "files_read": [
+    "CLAUDE.md",
+    "_meta/agent-exit-contract.md",
+    "_scripts/author_from_raw.py",
+    "_scripts/raw_to_wiki_content_loop_pilot.py",
+    "_scripts/promotion_decision.py",
+    "_scripts/promote.py",
+    "_scripts/validate-frontmatter.py",
+    "_scripts/compute-confidence-score.py",
+    "_meta/schema/frontmatter.schema.json",
+    "_meta/schema/entity-data/gamme.schema.json",
+    "_meta/entity-registry.json",
+    "_meta/source-catalog.yaml",
+    "proposals/thermostat.md",
+    "_scripts/tests/conftest.py",
+    "_scripts/tests/requirements-dev.txt",
+    ".pre-commit-config.yaml",
+    ".github/workflows/wiki-quality-gates.yml",
+    "_scripts/document_authoring.py",
+    "_scripts/tests/test_document_authoring.py",
+    "_meta/schema/document-selection.schema.json"
+  ],
+  "read_depth": "Extraits cibles pour les fichiers existants, nouveaux fichiers et modifications relus",
+  "excluded_paths": [
+    "corpus canonique WIKI/RAW non modifie",
+    "connecteurs fournisseurs",
+    "autres gammes et vehicules"
+  ],
+  "unscanned_zones": [
+    "PREPROD/PROD",
+    "exports effectivement servis",
+    "verification semantique automatisee",
+    "ensemble du corpus WIKI"
+  ],
+  "corrections_proposed": [
+    "Mode documentaire dans author_from_raw, selection explicite et preuves liees au candidat"
+  ],
+  "corrections_applied": [
+    "Implementation DEV isolee sous instruction continuer"
+  ],
+  "validation_executed": [
+    "163 tests WIKI verts avant deux contre-exemples supplementaires",
+    "21 tests cibles verts sur code final",
+    "Lecteur RAW reel, schema WIKI et decideur reel sur MAHLE conserve; candidat BLOCKED"
+  ],
+  "remaining_unknowns": [
+    "Fidelite semantique et suffisance des reformulations",
+    "Corroboration et qualification des sources",
+    "Integration dans le sas canonique et promotion non executees",
+    "RAW PR53 non fusionnee"
+  ],
+  "final_status": "VALIDATED_FOR_SCOPE_ONLY"
+}

@@ -1,0 +1,46 @@
+{
+  "scope": "Offline native authoring and canonical decision on retained MAHLE capture",
+  "root": "/home/deploy/wiki-document-candidate-q3z7nw1g",
+  "candidate_sha256": "sha256:3dae7d90984dde084b3809111b34f728d45fc7cfe586a6eed85b552abbaf0644",
+  "claims_selected": 2,
+  "source_language": "en",
+  "candidate_language": "fr",
+  "schema_validation_exit": 0,
+  "raw_reader_mocked": false,
+  "promotion_evaluators_mocked": false,
+  "promotion_status": "BLOCKED",
+  "eligible": false,
+  "blocking_reasons": [
+    {
+      "code": "SOURCE_DIVERSITY",
+      "owner_stage": "SOURCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "distinct_kinds": 1
+      }
+    },
+    {
+      "code": "SUBSTANCE_SCORE",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "score": 0.24,
+        "threshold": 0.85,
+        "engine": "legacy"
+      }
+    },
+    {
+      "code": "TRUTH_LEVEL",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "truth_level": "L3"
+      }
+    }
+  ],
+  "code_hashes": {
+    "author_from_raw.py": "sha256:3ea96f0b88bfa11a0403ef3349e56851fcc61140ebdea6d8024ed707970f5439",
+    "document_authoring.py": "sha256:45c6c31628a8a6c860cb1dde9e6745a267e1718b5303d3a6f2bf03dcca2790c8"
+  },
+  "final_status": "VALIDATED_FOR_SCOPE_ONLY"
+}

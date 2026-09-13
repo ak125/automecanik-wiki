@@ -34,6 +34,36 @@ def load_reader(raw_root):
     return module.read_document
 
 
+def read_selection_documents(selection, raw_root):
+    """Read every pinned receipt once. Aliases and repeated text are not evidence."""
+    legacy = selection["version"] == "1.0.0"
+    entries = ([{"id": "document", **{k: selection[k] for k in
+                ("receipt_path", "receipt_sha256", "source_language")}}]
+               if legacy else selection["documents"])
+    reader = load_reader(raw_root)
+    documents, identities, texts = {}, set(), set()
+    for entry in entries:
+        identity = (entry["receipt_path"], entry["receipt_sha256"])
+        if entry["id"] in documents or identity in identities:
+            raise ValueError("document_selection_duplicate_document")
+        doc = reader(raw_root, entry["receipt_path"], expected_receipt_sha256=entry["receipt_sha256"])
+        if doc["receipt_path"] != entry["receipt_path"] or doc["receipt_sha256"] != entry["receipt_sha256"]:
+            raise ValueError("document_reader_identity_mismatch")
+        if doc["extraction"]["sha256"] in texts:
+            raise ValueError("document_selection_duplicate_text")
+        documents[entry["id"]] = {**doc, "source_language": entry["source_language"]}
+        identities.add(identity)
+        texts.add(doc["extraction"]["sha256"])
+    return documents
+
+
+def document_proof(doc):
+    return {"receipt_path": doc["receipt_path"], "receipt_sha256": doc["receipt_sha256"],
+            "original": doc["original"], "extraction": doc["extraction"],
+            "source_url": doc["source_url"], "source_language": doc["source_language"],
+            "license_status": doc["license_status"], "qualification_state": doc["qualification_state"]}
+
+
 def prepare_document(slug, raw_root, proposals_dir, selection_path):
     from author_from_raw import SECTION_SPEC, MIN_LEN, _split_fm, _section_prose
 
@@ -55,23 +85,45 @@ def prepare_document(slug, raw_root, proposals_dir, selection_path):
         raise ValueError("document_selection_entity_mismatch")
     if old.get("lineage_id") and old["lineage_id"] != selection["lineage_id"]:
         raise ValueError("document_lineage_changed")
-    doc = load_reader(raw_root)(raw_root, selection["receipt_path"],
-                                expected_receipt_sha256=selection["receipt_sha256"])
-    sections, evidence, spans = {}, [], set()
+    legacy = selection["version"] == "1.0.0"
+    documents = read_selection_documents(selection, raw_root)
+    sections, evidence, spans, used = {}, [], set(), set()
+    section_sources = {}
     for claim in selection["claims"]:
         section = claim["section"]
-        start, end = claim["start"], claim["end"]
-        if section not in SECTION_SPEC or end <= start or end > len(doc["text"]) or doc["text"][start:end] != claim["quote"]:
+        if section not in SECTION_SPEC:
             raise ValueError("document_claim_anchor_invalid")
-        if (start, end) in spans:
-            raise ValueError("document_claim_duplicate")
-        spans.add((start, end))
+        anchors = ([{"document_id": "document", **{k: claim[k] for k in ("start", "end", "quote")}}]
+                   if legacy else claim["anchors"])
+        verified = []
+        for anchor in anchors:
+            doc_id = anchor["document_id"]
+            if doc_id not in documents:
+                raise ValueError("document_claim_reference_unknown")
+            doc = documents[doc_id]
+            start, end = anchor["start"], anchor["end"]
+            if end <= start or end > len(doc["text"]) or doc["text"][start:end] != anchor["quote"]:
+                raise ValueError("document_claim_anchor_invalid")
+            if (doc_id, start, end) in spans:
+                raise ValueError("document_claim_duplicate")
+            spans.add((doc_id, start, end))
+            used.add(doc_id)
+            source_id = "raw:" + doc["extraction"]["sha256"][7:]
+            sources = section_sources.setdefault(section, [])
+            if source_id not in sources:
+                sources.append(source_id)
+            verified.append({**anchor, "quote_sha256": digest(anchor["quote"].encode("utf-8"))})
         # Treat markup as source data. Never execute or render supplied HTML.
         statement = html.escape(claim["statement"], quote=False)
         sections.setdefault(section, []).append({"claim": statement})
-        evidence.append({**claim, "derivation": "supplied_statement_unverified",
-                         "quote_sha256": digest(claim["quote"].encode("utf-8"))})
-    source_id = "raw:" + doc["extraction"]["sha256"][7:]
+        if legacy:
+            evidence.append({**claim, "derivation": "supplied_statement_unverified",
+                             "quote_sha256": verified[0]["quote_sha256"]})
+        else:
+            evidence.append({"section": section, "statement": claim["statement"],
+                             "derivation": "supplied_statement_unverified", "anchors": verified})
+    if used != set(documents):
+        raise ValueError("document_selection_unused_document")
     editorial, parts = {}, ["# " + html.escape(old["title"], quote=False), ""]
     for section, (heading, key) in SECTION_SPEC.items():
         if section not in sections:
@@ -79,7 +131,7 @@ def prepare_document(slug, raw_root, proposals_dir, selection_path):
         prose = _section_prose(sections[section])
         if len(prose) < MIN_LEN:
             raise ValueError("document_section_too_short")
-        editorial[key] = {"content_md": prose, "source_ids": [source_id], "truth_level": "inferred"}
+        editorial[key] = {"content_md": prose, "source_ids": section_sources[section], "truth_level": "inferred"}
         parts.extend([heading, "", prose, ""])
     # Only identity/catalog taxonomy is inherited. No old claims or approval flags.
     ed = old["entity_data"]
@@ -91,16 +143,18 @@ def prepare_document(slug, raw_root, proposals_dir, selection_path):
           "provenance": {"ingested_by": "script:author_from_raw:document", "promoted_from": None},
           "entity_data": {"pg_id": ed["pg_id"], "family": ed["family"], "editorial": editorial},
           "source_refs": [{"kind": "raw", "path": path, "cid": sha, "captured_at": doc["captured_at"][:10]}
+                          for doc in documents.values()
                           for path, sha in ((doc["receipt_path"], doc["receipt_sha256"]),
                                             (doc["original"]["path"], doc["original"]["sha256"]),
                                             (doc["extraction"]["path"], doc["extraction"]["sha256"]))],
-          "review_notes": "Candidate statements are unverified. One document, not three independent sources. "
-                          "No automatic language detection, entailment, license or completeness validation."}
+          "review_notes": ("Candidate statements are unverified. One document, not three independent sources. "
+                           if legacy else "Candidate statements are unverified. Artifact, URL and document counts do not prove independent sources. ")
+                          + "No automatic language detection, entailment, license or completeness validation."}
     proof = {"selection_sha256": digest(selection_bytes), "template_sha256": digest(template),
-             "receipt_path": doc["receipt_path"], "receipt_sha256": doc["receipt_sha256"],
-             "original": doc["original"], "extraction": doc["extraction"],
-             "source_url": doc["source_url"], "source_language": selection["source_language"],
-             "license_status": doc["license_status"], "qualification_state": doc["qualification_state"],
+             **(document_proof(documents["document"]) if legacy else
+                {"selection_version": "1.1.0", "documents": [{"id": key, **document_proof(value)}
+                                                           for key, value in documents.items()],
+                 "independent_sources_verified": False}),
              "anchor_unit": "unicode_code_points_zero_based_end_exclusive", "claims": evidence}
     # Bind evidence into the candidate body/hash, not only a detachable CLI report.
     parts += ["## Preuves de préparation — affirmations à vérifier", "",
@@ -112,9 +166,13 @@ def prepare_document(slug, raw_root, proposals_dir, selection_path):
         schema = json.loads((ROOT / "_meta/schema" / name).read_text())
         jsonschema.Draft202012Validator(schema, format_checker=jsonschema.FormatChecker()).validate(value)
     output = "---\n" + yaml.safe_dump(fm, allow_unicode=True, sort_keys=False) + "---\n" + body
-    return output, {"action": "CANDIDATE_PREPARED", "slug": slug, "claims_selected": len(evidence),
+    report = {"action": "CANDIDATE_PREPARED", "slug": slug, "claims_selected": len(evidence),
                     "editorial_sections": len(editorial), "candidate_sha256": digest(output.encode("utf-8")),
                     "promotion_evaluated": False, "retrievable": False, "evidence": proof}
+    if not legacy:
+        report["documents_selected"] = len(documents)
+        report["anchors_selected"] = len(spans)
+    return output, report
 
 
 def write_candidate(path, text, protected_roots):

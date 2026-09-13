@@ -33,6 +33,24 @@ Le résultat reste `review_status: in_review`, `truth_level: L3`, avec des blocs
 
 Les schémas WIKI de frontmatter et de gamme sont vérifiés avant toute sortie. Cela établit la conformité de structure. La décision de validation appartient ensuite à `promotion_decision.canonical_promotion_decision`, également utilisée par le promoteur. Le mode documentaire ne remplace pas ce décideur, ne l'appelle pas implicitement et ne modifie aucun de ses seuils.
 
-L'exemple MAHLE a été évalué séparément avec les évaluateurs réels : candidat bloqué pour diversité de sources, substance insuffisante et niveau L3. Un candidat bloqué reste un travail à compléter, sans approbation humaine systématique ajoutée au flux. Le dépôt dans le sas existant, son index et son journal restent une opération ultérieure ; l'outil ne remplace aucune proposition canonique.
+L'exemple MAHLE a été évalué séparément avec les évaluateurs réels : candidat bloqué pour diversité de sources, substance insuffisante et niveau L3. Compléter les passages ne suffira pas à résoudre tous ces motifs : le contrôle actuel de diversité compte les `kind` de références et non les documents indépendants. Le dépôt dans le sas existant, son index et son journal restent une opération ultérieure ; l'outil ne remplace aucune proposition canonique.
 
 Les appels du producteur sans `--document-selection` gardent leur comportement précédent. Pas de migration de corpus, d'ajout au catalogue des sources, de nouvelle extraction réseau ni d'export SEO/RAG/chatbot dans ce mode.
+
+## Plusieurs documents et passages par affirmation
+
+La sélection `version: 1.1.0` conserve l'identité, la langue du candidat, la date et l'empreinte du modèle. Elle remplace les trois champs source racine par `documents` : une liste de 1 à 10 entrées contenant `id`, `receipt_path`, `receipt_sha256` et `source_language`. Les identifiants sont uniques et locaux à la sélection. Le format 1.0.0 reste accepté ; sa sortie est conservée à l'octet près sur le témoin MAHLE.
+
+Chaque affirmation conserve `section` et `statement`, mais utilise `anchors` : de 1 à 10 passages contenant `document_id`, `start`, `end` et `quote`. Une affirmation peut ainsi citer plusieurs documents sans être répétée dans le texte éditorial. Chaque rubrique reçoit uniquement les identifiants des extractions auxquelles ses affirmations se réfèrent.
+
+Tous les reçus passent par le lecteur RAW avec leur empreinte attendue. Une seconde capture corrompue bloque tout le candidat. Les identifiants dupliqués, les alias d'un reçu, les extractions de texte identiques, les documents non utilisés et les passages répétés sont refusés. Ajouter des captures inutiles pour gonfler les références n'est donc pas accepté.
+
+L'annexe lie au candidat les documents et les passages de chaque affirmation. Les compteurs `documents_selected`, `anchors_selected` et `claims_selected` décrivent ces objets, sans certifier leur indépendance. Deux URL peuvent provenir du même éditeur ou reprendre la même information. L'adaptateur ne qualifie pas cette indépendance et ne transforme pas une convergence apparente en fait validé.
+
+## Limites mesurées du parcours de validation
+
+Les contrôles et le seuil 0,85 sont inchangés. Avec le moteur `legacy`, la confiance absente vaut `medium`. Sur une entrée synthétique contenant toutes les rubriques attendues et un lien résolu, uniquement des références RAW donnent 0,74 ; avec deux types de références, 0,84. Ce sont des reproductions de la formule, pas des scores de qualité du candidat réel. Le schéma accepte une confiance `high` documentée, mais l'adaptateur ne l'attribue pas lui-même.
+
+Le candidat réel thermostat reste à 0,24 et L3. Le mapping éditorial du producteur et les titres attendus par le score historique ne coïncident pas entièrement. Il faudra aligner les critères sur les contrats éditoriaux et la provenance réellement vérifiée avant de présenter ce raccordement comme un parcours complet de validation. Ajouter un alias `external_url`, du remplissage ou des liens artificiels pour passer les contrôles n'est pas une résolution de ce défaut.
+
+Les deux pages supplémentaires examinées, HELLA thermostat et MAHLE guide thermostat, ont été refusées par le scan de secrets sur l'original entier. Aucun nouveau fichier source n'a été conservé lors de ces deux tentatives. Le test de plusieurs documents utilise donc des fixtures ; l'intégration réelle vérifie le format 1.1.0 sur l'unique capture MAHLE conservée. Voir `_audit/document-proposals/multiple-documents-validation.md` et ses preuves JSON.

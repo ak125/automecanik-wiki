@@ -1,0 +1,62 @@
+{
+  "scope": "six_derived_scores_only",
+  "records": [
+    {
+      "path": "proposals/courroie-d-accessoire.md",
+      "before": 0.24,
+      "after": 0.3,
+      "file_sha256_before": "22e8f4aa437eaa2db7bd8e489a6c072b2e5b1b7e00ba5f519e838ccb125dc855",
+      "file_sha256_after": "d9cb92994c20d867841b6d5dbcd0b5bec66bdb9431c5a9ce9d28e44f37d4014a",
+      "body_sha256_unchanged": "b45d37b7108f2b432ffde57c84de6e4b1d7f7a6e73b66104d3697a3486572e61",
+      "only_confidence_score_changed": true
+    },
+    {
+      "path": "proposals/disque-de-frein.md",
+      "before": 0.36,
+      "after": 0.48,
+      "file_sha256_before": "5e676cd1af40fd0051b69f8ab17503a33269092ac288bcd28e412dba79b26b37",
+      "file_sha256_after": "a5ef95512906d5004b564f3fe6bde775459dfaef87a4b7a4f7163ad34080aaec",
+      "body_sha256_unchanged": "619c15860554cda0ddf3dcad97dfdd4b01e31d5b7ccacba045cec52e706b65a9",
+      "only_confidence_score_changed": true
+    },
+    {
+      "path": "proposals/filtre-a-huile.md",
+      "before": 0.46,
+      "after": 0.58,
+      "file_sha256_before": "811a538b769a021bbda5d8ff71cdd501fdfee5fb93cfd6783e89e344080ad5ff",
+      "file_sha256_after": "dd7e2ca2f90fba1524377bb6591019fd9c0f808c5a41da72ece9481024ff27d9",
+      "body_sha256_unchanged": "daeb863bf001799d1b0c5c35b2928ed1e309bbbb27738e2b7622f027b6ee2d9f",
+      "only_confidence_score_changed": true
+    },
+    {
+      "path": "proposals/support-moteur.md",
+      "before": 0.24,
+      "after": 0.3,
+      "file_sha256_before": "3bb470779ed1059fd08833b9f2f8a149de3df6a6953b3520b5b8d6cac9d711c3",
+      "file_sha256_after": "b2ba4fff8f3dd433bfcf1fe028682fb418e884da2d555d02a891161c38893159",
+      "body_sha256_unchanged": "16337c411f5cea14d5d3e4e6a917fca0538fe1502ee453e0468d1b0b19a29daa",
+      "only_confidence_score_changed": true
+    },
+    {
+      "path": "proposals/thermostat.md",
+      "before": 0.24,
+      "after": 0.3,
+      "file_sha256_before": "4080193a39790ee58d347dd445500b168d947fe149148c776567b3fc74514389",
+      "file_sha256_after": "d3f91f56a7f206b24dc58cd0fed01c323255da72b24b991d038151278e011d6e",
+      "body_sha256_unchanged": "9613632ca6cfd846f341e8879864edd6a3ba0141d3da783cd19f2e06aa26fd6d",
+      "only_confidence_score_changed": true
+    },
+    {
+      "path": "proposals/vanne-egr.md",
+      "before": 0.24,
+      "after": 0.3,
+      "file_sha256_before": "cd6b9aedf56a18a9780f590ed7b308df55d1464558df661fddc0c5475058d5b0",
+      "file_sha256_after": "b0a75308b54d3be3ac4c0aa3111a1bd3faf63348ea47a837ed6f8eaa55449c79",
+      "body_sha256_unchanged": "e61d14f9c6c82704f73299e007c7b05c9d731340e0f04695e6e74e6d0b8a8832",
+      "only_confidence_score_changed": true
+    }
+  ],
+  "status_sources_and_exports_unchanged": true,
+  "existing_document_selection_template_pins_now_stale": true,
+  "publication_performed": false
+}

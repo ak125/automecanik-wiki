@@ -105,7 +105,11 @@ repos:
       - id: wiki-confidence-score
         name: Verify confidence_score matches formula §4 (check-only ; --fix manuel séparé)
         entry: python3 _scripts/compute-confidence-score.py --check
-        language: system
+        language: python
+        additional_dependencies:
+          - PyYAML>=6.0
+          - markdown-it-py==3.0.0
+          - mdurl==0.1.2
         files: ^(wiki|proposals)/.*\.md$
         exclude: ^(wiki|proposals)/_
 
@@ -120,7 +124,12 @@ repos:
       - id: wiki-score-regression
         name: Compare fiche score vs git predecessor (report-only)
         entry: python3 _scripts/compare-proposal-versions.py --base HEAD
-        language: system
+        language: python
+        additional_dependencies:
+          - PyYAML>=6.0
+          - jsonschema>=4.18
+          - markdown-it-py==3.0.0
+          - mdurl==0.1.2
         verbose: true
         files: ^(wiki|proposals)/.*\.md$
         exclude: ^(wiki|proposals)/_

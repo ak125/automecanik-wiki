@@ -1,0 +1,22 @@
+[
+  {
+    "url": "https://www.hella.com/techworld/fr/pieces-detachees-automobiles/systeme-electrique-automobile/thermostats-de-liquide-de-refroidissement/",
+    "exit_code": 1,
+    "result": {
+      "action": "REFUSED",
+      "error_code": "submission_secret_scan_refused",
+      "error_type": "ValueError"
+    },
+    "new_source_files": 0
+  },
+  {
+    "url": "https://workshop-heroes.mahle.com/en/article/guide-to-thermostats",
+    "exit_code": 1,
+    "result": {
+      "action": "REFUSED",
+      "error_code": "submission_secret_scan_refused",
+      "error_type": "ValueError"
+    },
+    "new_source_files": 0
+  }
+]

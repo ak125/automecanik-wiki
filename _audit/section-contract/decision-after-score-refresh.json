@@ -1,0 +1,110 @@
+{
+  "schema_version": "promotion-decision/v1",
+  "substance_tier": "D",
+  "promotion_status": "BLOCKED",
+  "eligible": false,
+  "blocking_reasons": [
+    {
+      "code": "SOURCE_DIVERSITY",
+      "owner_stage": "SOURCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "distinct_kinds": 1
+      }
+    },
+    {
+      "code": "SUBSTANCE_SCORE",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "score": 0.3,
+        "threshold": 0.85,
+        "engine": "legacy"
+      }
+    },
+    {
+      "code": "TRUTH_LEVEL",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "truth_level": "L3"
+      }
+    }
+  ],
+  "evaluation": {
+    "tier": "B",
+    "confidence_score": 0.3,
+    "gate_status": {
+      "source": "pass",
+      "claim": "pass",
+      "contradiction": "pass",
+      "risk": "pass",
+      "confidence": "pass"
+    },
+    "shadow_score": {
+      "shadow_tier": "D",
+      "shadow_total": 12,
+      "shadow_dims": {
+        "E": 4.0,
+        "A": 0.0,
+        "C": 3.3,
+        "F": 2.5,
+        "D": 0.0
+      },
+      "shadow_applicable": [
+        "A",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "shadow_floors_failed": [
+        "A<22",
+        "C<15",
+        "D<10"
+      ],
+      "shadow_blocked": [],
+      "manifest_status": "stale",
+      "scorer": "shadow_score.score@6dim-v0"
+    }
+  },
+  "inputs": {
+    "schema_version": "promotion-decision/v1",
+    "input_manifest": [
+      {
+        "role": "baseline",
+        "path": "proposals/thermostat.md",
+        "sha256": "d3f91f56a7f206b24dc58cd0fed01c323255da72b24b991d038151278e011d6e"
+      },
+      {
+        "role": "candidate",
+        "path": "refreshed-thermostat.md",
+        "sha256": "cb846d8c5bc418e4a00823aafa53e98cd16e98ddce6f11494a2fad0debcbbcd2"
+      },
+      {
+        "role": "coverage_schema",
+        "path": "_meta/schema/coverage-map.schema.json",
+        "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+      },
+      {
+        "role": "raw_checksums",
+        "path": "manifests/checksums.json",
+        "sha256": "6d5eaa5ba484d42adba8156d79f7d6d3ab197a9339d5bf6a27cabe1d356d012b"
+      },
+      {
+        "role": "raw_inventory",
+        "path": "manifests/source-inventory.csv",
+        "sha256": "426c9c92d6d398aca1b9dab97516ff6196a893f6206cdd962b8d74a4308fbe29"
+      },
+      {
+        "role": "source_catalog",
+        "path": "_meta/source-catalog.yaml",
+        "sha256": "9eac8d1a99aaa48b38d87c32088d06934ad93498591a3592cc206a601d794178"
+      }
+    ],
+    "wiki_revision": "718f7fd-dirty",
+    "raw_revision": "unknown",
+    "evaluation_engine_revision": "9cc58b8637aaf9fab105787218ade57c38768f49c26a2afd42e916843239a3d8",
+    "decision_engine_revision": "d9ee18e42accd90cb5d60399fdaf26c92960c2101ecf75a6a316938d990eb6ee"
+  }
+}

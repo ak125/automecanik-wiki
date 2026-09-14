@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0.0",
+  "scope": "formula_only_not_promotion",
+  "engine": "legacy",
+  "score": 0.3,
+  "components": {
+    "source_confidence": {
+      "weight": 0.4,
+      "value": 0.6,
+      "reference_count": 3,
+      "default_confidence": "medium",
+      "contribution": 0.24
+    },
+    "sections": {
+      "weight": 0.3,
+      "value": 0.2,
+      "required": [
+        "Définition",
+        "Fonctionnement",
+        "Symptômes d'usure",
+        "Choix selon véhicule",
+        "FAQ"
+      ],
+      "filled": [
+        "Fonctionnement"
+      ],
+      "missing_or_insufficient": [
+        "Définition",
+        "Symptômes d'usure",
+        "Choix selon véhicule",
+        "FAQ"
+      ],
+      "observed_headings": [
+        "Rôle technique",
+        "Preuves de préparation — affirmations à vérifier"
+      ],
+      "matched_headings": {
+        "Définition": [],
+        "Fonctionnement": [
+          "Rôle technique"
+        ],
+        "Symptômes d'usure": [],
+        "Choix selon véhicule": [],
+        "FAQ": []
+      },
+      "matcher": "commonmark_exact_aliases_v1",
+      "parser": "markdown-it-py@3.0.0",
+      "minimum_prose_chars": 20,
+      "contribution": 0.06
+    },
+    "internal_links": {
+      "weight": 0.2,
+      "value": 0.0,
+      "resolved": 0,
+      "total": 0,
+      "contribution": 0.0
+    },
+    "source_kind_diversity": {
+      "weight": 0.1,
+      "value": 0.0,
+      "distinct_kind_count": 1,
+      "measures_publisher_independence": false,
+      "contribution": 0.0
+    }
+  }
+}

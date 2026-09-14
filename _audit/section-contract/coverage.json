@@ -1,0 +1,73 @@
+{
+  "scope_requested": "Aligner les rubriques du rédacteur et du score sans compter deux fois le contenu",
+  "scope_actually_scanned": "Contrat de titres gamme, lecture Markdown, dépendances et fraîcheur de décision",
+  "files_read_count": 22,
+  "files_read": [
+    "CLAUDE.md",
+    "_scripts/compute-confidence-score.py",
+    "_scripts/document_authoring.py",
+    "_scripts/author_from_raw.py",
+    "_scripts/build_exports_seo.py",
+    "_scripts/shadow_score.py",
+    "_scripts/promotion_decision.py",
+    "_scripts/test_promotion_decision.py",
+    "_scripts/tests/test_score_explanation.py",
+    "_scripts/tests/test_document_authoring.py",
+    "_scripts/tests/test_gap1_pipeline.py",
+    "_scripts/tests/conftest.py",
+    "_scripts/tests/requirements-dev.txt",
+    "_meta/schema/frontmatter.schema.json",
+    "_meta/source-policy.md",
+    ".github/workflows/wiki-quality-gates.yml",
+    ".pre-commit-config.yaml",
+    "docs/score-explanation.md",
+    "proposals/plaquette-de-frein.md",
+    "wiki/gamme/filtre-a-air.md",
+    "_scripts/test_build_exports_seo.py",
+    "package.json"
+  ],
+  "read_mode": "Lectures intégrales et extraits ciblés ; corpus de 24 fichiers comparé automatiquement à part",
+  "excluded_paths": [
+    "RAW sources/**",
+    "wiki/** : aucune édition",
+    "proposals/** : seul confidence_score de six fichiers",
+    "_meta/source-catalog.yaml",
+    "_meta/entity-registry.json"
+  ],
+  "unscanned_zones": [
+    "Vérification factuelle des fiches",
+    "Déploiements",
+    "Comptage historique des liens"
+  ],
+  "corrections_proposed": [
+    "Contrat partagé et alias exclusifs",
+    "Parsing CommonMark des rubriques",
+    "Empreinte du contrat et dépendances dans la décision"
+  ],
+  "corrections_applied": [
+    "Contrat partagé",
+    "Parser versions fixées",
+    "Tests de faux titres et fraîcheur",
+    "Configuration des dépendances CI/hooks",
+    "Rafraîchissement natif de six confidence_score ; autres octets vérifiés inchangés",
+    "Test de parité déplacé dans la suite export avec ses dépendances"
+  ],
+  "authorization": "Demandes explicites de poursuivre et améliorer",
+  "validation_executed": [
+    "225 tests ciblés avant dernier cas HTML",
+    "58 tests structure/diagnostic sur le code final",
+    "24 scores comparés : 6 augmentations, 18 inchangés, aucun franchissement du seuil 0.85",
+    "Reproduction à l'octet des candidats 1.0.0 et 1.1.0",
+    "Décideur réel : BLOCKED à 0.30, sans changement de candidat",
+    "Ancienne empreinte du modèle refusée ; candidat isolé régénéré, prose inchangée, décision BLOCKED",
+    "89 tests structure/export après correction CI ; contrôle des 24 scores déclaré/calculé et hooks requis verts"
+  ],
+  "remaining_unknowns": [
+    "Fidélité factuelle et complétude",
+    "Indépendance des sources",
+    "Autres titres hors contrat",
+    "CI du commit final à vérifier séparément"
+  ],
+  "final_status": "VALIDATED_FOR_SCOPE_ONLY",
+  "end_to_end_status": "PARTIAL_COVERAGE"
+}

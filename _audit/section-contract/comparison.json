@@ -1,0 +1,375 @@
+{
+  "baseline_commit": "d5d63386bf82385a30f98a5e100862a1d57b1d34",
+  "files_compared": 24,
+  "changes": [
+    {
+      "path": "proposals/courroie-d-accessoire.md",
+      "before": 0.24,
+      "after": 0.3,
+      "old_filled": [],
+      "new_sections": {
+        "weight": 0.3,
+        "value": 0.2,
+        "required": [
+          "Définition",
+          "Fonctionnement",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "filled": [
+          "Fonctionnement"
+        ],
+        "missing_or_insufficient": [
+          "Définition",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "observed_headings": [
+          "Rôle technique",
+          "Critères de sélection véhicule",
+          "Symptômes (source brute — usage filtré par rôle, voir review_notes)",
+          "Compatibilité véhicule × motorisation",
+          "Entretien associé",
+          "Sources OEM / Tier classification",
+          "Relations web (B1.2 — gammes + véhicules)",
+          "Provenance & cross-check (RAG candidate)"
+        ],
+        "matched_headings": {
+          "Définition": [],
+          "Fonctionnement": [
+            "Rôle technique"
+          ],
+          "Symptômes d'usure": [],
+          "Choix selon véhicule": [],
+          "FAQ": []
+        },
+        "matcher": "commonmark_exact_aliases_v1",
+        "parser": "markdown-it-py@3.0.0",
+        "minimum_prose_chars": 20,
+        "contribution": 0.06
+      }
+    },
+    {
+      "path": "proposals/disque-de-frein.md",
+      "before": 0.36,
+      "after": 0.48,
+      "old_filled": [
+        "Fonctionnement",
+        "FAQ"
+      ],
+      "new_sections": {
+        "weight": 0.3,
+        "value": 0.8,
+        "required": [
+          "Définition",
+          "Fonctionnement",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "filled": [
+          "Fonctionnement",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "missing_or_insufficient": [
+          "Définition"
+        ],
+        "observed_headings": [
+          "Rôle technique",
+          "En bref (facettes décisionnelles)",
+          "Fonctionnement",
+          "Symptômes & diagnostic",
+          "Quand remplacer le disque ?",
+          "Critères de choix selon le véhicule",
+          "Compatibilité technique avancée (ABS, ventilation, VIN)",
+          "Marques & équipementiers",
+          "Prix & niveaux de qualité",
+          "Entretien & corrosion",
+          "Erreurs fréquentes (achat & montage)",
+          "FAQ",
+          "Conformité de la pièce de rechange",
+          "Provenance & qualité"
+        ],
+        "matched_headings": {
+          "Définition": [],
+          "Fonctionnement": [
+            "Rôle technique",
+            "Fonctionnement"
+          ],
+          "Symptômes d'usure": [
+            "Symptômes & diagnostic"
+          ],
+          "Choix selon véhicule": [
+            "Critères de choix selon le véhicule"
+          ],
+          "FAQ": [
+            "FAQ"
+          ]
+        },
+        "matcher": "commonmark_exact_aliases_v1",
+        "parser": "markdown-it-py@3.0.0",
+        "minimum_prose_chars": 20,
+        "contribution": 0.24
+      }
+    },
+    {
+      "path": "proposals/filtre-a-huile.md",
+      "before": 0.46,
+      "after": 0.58,
+      "old_filled": [
+        "Fonctionnement",
+        "FAQ"
+      ],
+      "new_sections": {
+        "weight": 0.3,
+        "value": 0.8,
+        "required": [
+          "Définition",
+          "Fonctionnement",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "filled": [
+          "Fonctionnement",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "missing_or_insufficient": [
+          "Définition"
+        ],
+        "observed_headings": [
+          "Rôle technique",
+          "En bref (facettes décisionnelles)",
+          "Fonctionnement",
+          "Symptômes & diagnostic",
+          "Critères de choix selon le véhicule",
+          "Entretien & bonnes pratiques de montage",
+          "Marques & qualité",
+          "FAQ",
+          "Provenance & qualité"
+        ],
+        "matched_headings": {
+          "Définition": [],
+          "Fonctionnement": [
+            "Rôle technique",
+            "Fonctionnement"
+          ],
+          "Symptômes d'usure": [
+            "Symptômes & diagnostic"
+          ],
+          "Choix selon véhicule": [
+            "Critères de choix selon le véhicule"
+          ],
+          "FAQ": [
+            "FAQ"
+          ]
+        },
+        "matcher": "commonmark_exact_aliases_v1",
+        "parser": "markdown-it-py@3.0.0",
+        "minimum_prose_chars": 20,
+        "contribution": 0.24
+      }
+    },
+    {
+      "path": "proposals/support-moteur.md",
+      "before": 0.24,
+      "after": 0.3,
+      "old_filled": [],
+      "new_sections": {
+        "weight": 0.3,
+        "value": 0.2,
+        "required": [
+          "Définition",
+          "Fonctionnement",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "filled": [
+          "Fonctionnement"
+        ],
+        "missing_or_insufficient": [
+          "Définition",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "observed_headings": [
+          "Rôle technique",
+          "Critères de sélection véhicule",
+          "Symptômes (source brute — usage filtré par rôle, voir review_notes)",
+          "Compatibilité véhicule × motorisation",
+          "Entretien associé",
+          "Sources OEM / Tier classification",
+          "Relations web (B1.2 — gammes + véhicules)",
+          "Provenance & cross-check (RAG candidate)"
+        ],
+        "matched_headings": {
+          "Définition": [],
+          "Fonctionnement": [
+            "Rôle technique"
+          ],
+          "Symptômes d'usure": [],
+          "Choix selon véhicule": [],
+          "FAQ": []
+        },
+        "matcher": "commonmark_exact_aliases_v1",
+        "parser": "markdown-it-py@3.0.0",
+        "minimum_prose_chars": 20,
+        "contribution": 0.06
+      }
+    },
+    {
+      "path": "proposals/thermostat.md",
+      "before": 0.24,
+      "after": 0.3,
+      "old_filled": [],
+      "new_sections": {
+        "weight": 0.3,
+        "value": 0.2,
+        "required": [
+          "Définition",
+          "Fonctionnement",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "filled": [
+          "Fonctionnement"
+        ],
+        "missing_or_insufficient": [
+          "Définition",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "observed_headings": [
+          "Rôle technique",
+          "Critères de sélection véhicule",
+          "Symptômes (extraction web non-pertinente filtrée — requires_review)",
+          "Compatibilité véhicule × motorisation",
+          "Entretien associé",
+          "Sources OEM / Tier classification",
+          "Relations web (B1.2 — gammes + véhicules)",
+          "Provenance & cross-check (RAG candidate)"
+        ],
+        "matched_headings": {
+          "Définition": [],
+          "Fonctionnement": [
+            "Rôle technique"
+          ],
+          "Symptômes d'usure": [],
+          "Choix selon véhicule": [],
+          "FAQ": []
+        },
+        "matcher": "commonmark_exact_aliases_v1",
+        "parser": "markdown-it-py@3.0.0",
+        "minimum_prose_chars": 20,
+        "contribution": 0.06
+      }
+    },
+    {
+      "path": "proposals/vanne-egr.md",
+      "before": 0.24,
+      "after": 0.3,
+      "old_filled": [],
+      "new_sections": {
+        "weight": 0.3,
+        "value": 0.2,
+        "required": [
+          "Définition",
+          "Fonctionnement",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "filled": [
+          "Fonctionnement"
+        ],
+        "missing_or_insufficient": [
+          "Définition",
+          "Symptômes d'usure",
+          "Choix selon véhicule",
+          "FAQ"
+        ],
+        "observed_headings": [
+          "Rôle technique",
+          "Critères de sélection véhicule",
+          "Symptômes (source brute — usage filtré par rôle, voir review_notes)",
+          "Compatibilité véhicule × motorisation",
+          "Entretien associé",
+          "Différences carburant / motorisation",
+          "Sources OEM / Tier classification",
+          "Relations web (B1.2 — gammes + véhicules)",
+          "Provenance & cross-check (RAG candidate)"
+        ],
+        "matched_headings": {
+          "Définition": [],
+          "Fonctionnement": [
+            "Rôle technique"
+          ],
+          "Symptômes d'usure": [],
+          "Choix selon véhicule": [],
+          "FAQ": []
+        },
+        "matcher": "commonmark_exact_aliases_v1",
+        "parser": "markdown-it-py@3.0.0",
+        "minimum_prose_chars": 20,
+        "contribution": 0.06
+      }
+    }
+  ],
+  "upward_threshold_crossings_085": [],
+  "counterproof": {
+    "real_role": {
+      "before": 0.0,
+      "after": 0.06
+    },
+    "html_comment": {
+      "before": 0.06,
+      "after": 0.0
+    },
+    "fenced_code": {
+      "before": 0.06,
+      "after": 0.0
+    }
+  },
+  "authoring_v1_and_v11_byte_identical": true,
+  "candidate_sha256": "a43d3f4863c37aec3f70fa668d8cb11b3d26f24e19ae2d059fa1f23c9fa0ed04",
+  "promotion_status": "BLOCKED",
+  "blocking_reasons": [
+    {
+      "code": "SOURCE_DIVERSITY",
+      "owner_stage": "SOURCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "distinct_kinds": 1
+      }
+    },
+    {
+      "code": "SUBSTANCE_SCORE",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "score": 0.3,
+        "threshold": 0.85,
+        "engine": "legacy"
+      }
+    },
+    {
+      "code": "TRUTH_LEVEL",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "truth_level": "L3"
+      }
+    }
+  ],
+  "canonical_sources_unchanged": true
+}

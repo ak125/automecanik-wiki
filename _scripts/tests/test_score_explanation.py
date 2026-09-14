@@ -14,7 +14,7 @@ SCORER = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(SCORER)
 
 
-def write_candidate(path, score=0.24):
+def write_candidate(path, score=0.30):
     fm = {"entity_type": "gamme", "source_refs": [{"kind": "raw"}],
           "confidence_score": score}
     path.write_text("---\n" + yaml.safe_dump(fm) + "---\n\n## Rôle technique\n"
@@ -27,13 +27,13 @@ def test_explanation_uses_the_production_formula(tmp_path):
     fm = {"entity_type": "gamme", "source_refs": [{"kind": "raw"}]}
     body = "## Rôle technique\nTexte documentaire présent et suffisamment long."
     result = SCORER.explain_score(fm, body, tmp_path)
-    assert result["score"] == SCORER.compute_score(fm, body, tmp_path) == 0.24
+    assert result["score"] == SCORER.compute_score(fm, body, tmp_path) == 0.30
     assert result["scope"] == "formula_only_not_promotion"
     parts = result["components"]
     assert parts["source_confidence"]["contribution"] == 0.24
-    assert parts["sections"]["filled"] == []
+    assert parts["sections"]["filled"] == ["Fonctionnement"]
     assert parts["sections"]["observed_headings"] == ["Rôle technique"]
-    assert "Fonctionnement" in parts["sections"]["missing_or_insufficient"]
+    assert "Définition" in parts["sections"]["missing_or_insufficient"]
     assert parts["internal_links"]["resolved"] == parts["internal_links"]["total"] == 0
     assert parts["source_kind_diversity"]["distinct_kind_count"] == 1
     assert parts["source_kind_diversity"]["measures_publisher_independence"] is False
@@ -87,7 +87,7 @@ def test_cli_explain_is_read_only_and_json(tmp_path):
     assert result.returncode == 0 and not result.stderr
     report = json.loads(result.stdout)
     assert report["errors"] == []
-    assert report["results"][0]["score"] == 0.24
+    assert report["results"][0]["score"] == 0.30
     assert report["results"][0]["declared_score_status"] == "matches"
     assert {p.name: p.read_bytes() for p in tmp_path.iterdir()} == before
 
@@ -98,7 +98,7 @@ def test_explanation_distinguishes_declared_score_from_computed(tmp_path, capsys
     assert SCORER.explain_files([path], tmp_path) == 0
     result = json.loads(capsys.readouterr().out)["results"][0]
     assert result["declared_score_status"] == status
-    assert result["score"] == 0.24
+    assert result["score"] == 0.30
 
 
 @pytest.mark.parametrize("text", ["no frontmatter", "---\n- list\n---\n", "---\nx: [\n---\n"])

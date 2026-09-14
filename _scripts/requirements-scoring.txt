@@ -1,0 +1,3 @@
+# Reproducible Markdown structure used by the confidence evaluator.
+markdown-it-py==3.0.0
+mdurl==0.1.2

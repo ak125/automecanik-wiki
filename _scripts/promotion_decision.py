@@ -265,6 +265,7 @@ def assemble_bundle(substance: dict, *, coverage_raw=None, regression_raw=None,
 _EVALUATION_ENGINE_FILES = (
     "promotion_decision.py", "quality-gates.py", "check-coverage-map.py",
     "compare-proposal-versions.py", "shadow_score.py", "compute-confidence-score.py",
+    "editorial_sections.py", "requirements-scoring.txt",
 )
 
 

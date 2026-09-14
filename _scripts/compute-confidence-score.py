@@ -32,8 +32,15 @@ import json
 import math
 import re
 import sys
+import unicodedata
+from importlib.metadata import version
 from pathlib import Path
 from statistics import mean
+
+from markdown_it import MarkdownIt
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from editorial_sections import GAMME_SCORING_ALIASES
 
 try:
     import yaml
@@ -54,7 +61,6 @@ SECTIONS_REQUIRED = {
     "diagnostic": ["Symptôme", "Causes possibles", "Vérifications", "Renvoi", "safety_advisory"],
 }
 
-H2_RE = re.compile(r"^##\s+(.+?)\s*$", re.MULTILINE)
 WIKILINK_RE = re.compile(r"\[\[([^\]|#]+)(?:[|#][^\]]*)?\]\]")
 TOLERANCE = 0.01
 
@@ -68,23 +74,68 @@ def split_frontmatter(text: str) -> tuple[str, str]:
     return text[4:end], text[end + 5 :]
 
 
+def _heading_key(text: str) -> str:
+    return " ".join(unicodedata.normalize("NFC", text).replace("’", "'").casefold().split())
+
+
+def parse_sections(body: str) -> list[dict]:
+    """Read top-level H2 sections; never render HTML or execute source markup."""
+    if version("markdown-it-py") != "3.0.0" or version("mdurl") != "0.1.2":
+        raise ValueError("score_parser_version_unsupported")
+    tokens = MarkdownIt("commonmark").enable("table").parse(body)
+    sections, current = [], None
+    for i, token in enumerate(tokens):
+        if token.type == "heading_open":
+            # H1/H2 close the previous section. Nested quoted/list headings
+            # are not document sections. H3+ titles never supply prose length.
+            if token.level == 0 and token.tag in ("h1", "h2"):
+                current = None
+                if token.tag == "h2":
+                    inline = tokens[i + 1]
+                    if any(child.type == "html_inline" for child in (inline.children or [])):
+                        continue
+                    heading = "".join(child.content for child in (inline.children or [])
+                                      if child.type in ("text", "code_inline"))
+                    current = {"heading": heading, "text_chars": 0}
+                    sections.append(current)
+            continue
+        if token.type != "inline" or current is None:
+            continue
+        if i and tokens[i - 1].type == "heading_open":
+            continue
+        if any(child.type == "html_inline" for child in (token.children or [])):
+            continue
+        # Comments/HTML blocks, fenced and indented code are distinct tokens.
+        # Image alternative text and inline code are not documentary prose.
+        text = "".join(child.content for child in (token.children or [])
+                       if child.type == "text")
+        current["text_chars"] += len(re.sub(r"\s+", "", text))
+    return sections
+
+
+def section_evidence(body: str, required: list[str], aliases=None) -> dict:
+    sections = parse_sections(body)
+    aliases = aliases or {}
+    matches, owners = {}, {}
+    for criterion in required:
+        names = (criterion, *aliases.get(criterion, ()))
+        normalized = {_heading_key(name) for name in names}
+        for key in normalized:
+            if key in owners and owners[key] != criterion:
+                raise ValueError("score_section_alias_collision")
+            owners[key] = criterion
+        matches[criterion] = [s["heading"] for s in sections
+                              if _heading_key(s["heading"]) in normalized and s["text_chars"] >= 20]
+    return {"required": list(required),
+            "filled": [name for name in required if matches[name]],
+            "missing_or_insufficient": [name for name in required if not matches[name]],
+            "observed_headings": [s["heading"] for s in sections],
+            "matched_headings": matches, "matcher": "commonmark_exact_aliases_v1",
+            "parser": "markdown-it-py@3.0.0", "minimum_prose_chars": 20}
+
+
 def filled_section_names(body: str, required: list[str]) -> list[str]:
-    """Expose the existing matcher without inventing aliases between headings."""
-    headings = [h.lower() for h in H2_RE.findall(body)]
-    filled = []
-    for sec in required:
-        sec_low = sec.lower()
-        if any(sec_low in h or h in sec_low for h in headings):
-            # Check section has content (≥ 20 non-whitespace chars after heading)
-            pattern = re.compile(rf"^##\s+.*{re.escape(sec[:8])}", re.MULTILINE | re.IGNORECASE)
-            m = pattern.search(body)
-            if m:
-                start = m.end()
-                next_h2 = H2_RE.search(body, start)
-                section_body = body[start : next_h2.start() if next_h2 else len(body)]
-                if len(re.sub(r"\s+", "", section_body)) >= 20:
-                    filled.append(sec)
-    return filled
+    return section_evidence(body, required)["filled"]
 
 
 def count_filled_sections(body: str, required: list[str]) -> int:
@@ -124,7 +175,9 @@ def explain_score(fm: dict, body: str, wiki_root: Path) -> dict:
     # Component 2: sections filled ratio
     et = fm.get("entity_type", "")
     required = SECTIONS_REQUIRED.get(et, [])
-    filled = filled_section_names(body, required)
+    section_details = section_evidence(body, required,
+                                      GAMME_SCORING_ALIASES if et == "gamme" else None)
+    filled = section_details["filled"]
     sec_ratio = len(filled) / len(required) if required else 0.0
 
     # Component 3: internal links resolved ratio
@@ -139,10 +192,7 @@ def explain_score(fm: dict, body: str, wiki_root: Path) -> dict:
         "source_confidence": {"weight": 0.40, "value": src_score,
                               "reference_count": len(nums), "default_confidence": "medium"},
         "sections": {"weight": 0.30, "value": sec_ratio,
-                     "required": list(required), "filled": filled,
-                     "missing_or_insufficient": [s for s in required if s not in filled],
-                     "observed_headings": H2_RE.findall(body),
-                     "matcher": "legacy_heading_and_length"},
+                     **section_details},
         "internal_links": {"weight": 0.20, "value": link_ratio,
                            "resolved": resolved, "total": total},
         "source_kind_diversity": {"weight": 0.10, "value": diversity,

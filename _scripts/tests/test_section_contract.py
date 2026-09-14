@@ -96,12 +96,8 @@ def test_aliases_are_gamme_only():
     assert score("## Rôle technique\n\n" + PROSE, "vehicle")["filled"] == []
 
 
-def test_contract_is_shared_and_keys_match_export_taxonomy():
-    spec = importlib.util.spec_from_file_location("export_contract", ROOT / "_scripts/build_exports_seo.py")
-    exporter = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(exporter)
+def test_contract_is_shared_with_author():
     assert author_from_raw.SECTION_SPEC is contract.SECTION_SPEC
-    assert set(contract.SECTION_SPEC) == set(exporter._GAMME_EDITORIAL_ROLES)
 
 
 def test_alias_collision_is_refused():

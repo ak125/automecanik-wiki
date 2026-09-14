@@ -27,6 +27,11 @@ SCHEMA_PATH = Path(__file__).resolve().parent.parent / "_meta" / "schema" / "exp
 SCRIPT_PATH = Path(__file__).resolve().parent / "build_exports_seo.py"
 
 
+def test_editorial_contract_keys_match_export_taxonomy():
+    from editorial_sections import SECTION_SPEC
+    assert set(SECTION_SPEC) == set(builder._GAMME_EDITORIAL_ROLES)
+
+
 def _valid_payload() -> dict:
     """Payload minimal conforme au schema (référence)."""
     return {

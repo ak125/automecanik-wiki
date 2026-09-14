@@ -1,0 +1,39 @@
+{
+  "candidate_sha256": "sha256:cb846d8c5bc418e4a00823aafa53e98cd16e98ddce6f11494a2fad0debcbbcd2",
+  "old_template_pin_refused": true,
+  "template_pin_before": "sha256:4080193a39790ee58d347dd445500b168d947fe149148c776567b3fc74514389",
+  "template_pin_after": "sha256:d3f91f56a7f206b24dc58cd0fed01c323255da72b24b991d038151278e011d6e",
+  "all_other_candidate_frontmatter_unchanged": true,
+  "documentary_prose_unchanged": true,
+  "proof_annex_and_content_hash_refreshed": true,
+  "promotion_status": "BLOCKED",
+  "score": 0.3,
+  "blocking_reasons": [
+    {
+      "code": "SOURCE_DIVERSITY",
+      "owner_stage": "SOURCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "distinct_kinds": 1
+      }
+    },
+    {
+      "code": "SUBSTANCE_SCORE",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "score": 0.3,
+        "threshold": 0.85,
+        "engine": "legacy"
+      }
+    },
+    {
+      "code": "TRUTH_LEVEL",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "truth_level": "L3"
+      }
+    }
+  ]
+}

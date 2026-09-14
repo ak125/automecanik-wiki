@@ -26,7 +26,9 @@ Sur le candidat isolé MAHLE, SHA-256 `a43d3f4863c37aec3f70fa668d8cb11b3d26f24e1
 
 Le texte contient « Rôle technique », désormais reconnu uniquement comme « Fonctionnement ». Il ne remplit pas aussi « Définition ». Le score était de 0,24 avant cet alignement ; l'ajout de 0,06 mesure la structure reconnue, sans apporter de nouveau fait ni de source. Les trois références du candidat proviennent d'une seule capture conservée.
 
-Le décideur réel, réexécuté après ce changement, maintient `BLOCKED` : `SOURCE_DIVERSITY`, `SUBSTANCE_SCORE` (0,30 pour un seuil de 0,85), `TRUTH_LEVEL` (L3). Ni le candidat isolé ni sa proposition de référence n'ont été modifiés.
+Le décideur réel maintient `BLOCKED` : `SOURCE_DIVERSITY`, `SUBSTANCE_SCORE` (0,30 pour un seuil de 0,85), `TRUTH_LEVEL` (L3). Les six scores déclarés du corpus devenus obsolètes ont été recalculés avec `--fix`, sans changer les textes, sources, statuts ou exports.
+
+L'ancienne sélection documentaire est correctement refusée après ce changement d'empreinte du modèle. Une nouvelle sélection isolée référence le modèle vérifié ; son candidat porte l'empreinte `cb846d8c5bc418e4a00823aafa53e98cd16e98ddce6f11494a2fad0debcbbcd2`. Sa prose et ses autres métadonnées restent identiques ; son annexe de preuve et son hash sont renouvelés. La nouvelle décision réelle reste `BLOCKED` à 0,30.
 
 ## Limites de l'explication
 

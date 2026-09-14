@@ -1,0 +1,10 @@
+{
+  "formula_comparison": {
+    "files": 24,
+    "drift": []
+  },
+  "non_finite_counterproof": {
+    "before_accepted": true,
+    "after_accepted": false
+  }
+}

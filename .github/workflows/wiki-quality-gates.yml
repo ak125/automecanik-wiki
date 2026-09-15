@@ -78,6 +78,12 @@ jobs:
       - name: pytest fixtures (gates ADR-033 + ADR-032)
         run: cd _scripts/tests && python3 -m pytest -v
 
+      - name: pytest raw_to_wiki_content_loop_batch (backlog report-only, vehicle_gamme_fit)
+        # Les suites _scripts/test_*.py de premier niveau ne sont PAS ramassées par les autres
+        # jobs (qui ciblent _scripts/tests/ ou des fichiers nommés). On exécute EXPLICITEMENT
+        # cette suite ici (deps déjà installées via requirements-dev.txt : pytest/pyyaml/jsonschema).
+        run: python3 -m pytest _scripts/test_raw_to_wiki_content_loop_batch.py -v
+
       # Score-and-compare-before-overwrite — REPORT-ONLY (Phase A).
       # Compare chaque fiche modifiée dans la PR à sa version sur origin/main.
       # Ne bloque jamais le build (continue-on-error) tant que la formule n'est

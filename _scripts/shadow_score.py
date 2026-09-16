@@ -28,6 +28,7 @@ SCRIPTS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPTS_DIR))
 
 import reality_manifest as rm  # noqa: E402
+from gen_coverage_map import _cap_medium  # same page-level cap as the producer
 
 WEIGHTS = {"A": 30, "B": 20, "C": 20, "D": 15, "E": 10, "F": 5}
 
@@ -65,10 +66,15 @@ def _dim_A(fm, coverage_map):
     # ADR-040 : la coverage-map canonique porte la clé 'coverage_entries' ; 'coverage'/'claims' = compat ascendante.
     cov = (coverage_map.get("coverage_entries") or coverage_map.get("coverage")
            or coverage_map.get("claims") or [])
-    nums = [CONFIDENCE_NUMERIC.get((c or {}).get("confidence"), 0.0) for c in cov if isinstance(c, dict)]
+    entries = [c for c in cov if isinstance(c, dict)]
+    unproven = [c for c in entries if c.get("source_status") not in {"captured", "verified"}]
+    nums = [CONFIDENCE_NUMERIC.get(
+        c.get("confidence") if c.get("source_status") in {"captured", "verified"}
+        else _cap_medium(c.get("confidence")), 0.0) for c in entries]
     if not nums:
         return 0.0, "A:coverage_map_vide"
-    return WEIGHTS["A"] * (sum(nums) / len(nums)), None
+    note = f"A:page_unproven={len(unproven)} (confidence capped at medium)" if unproven else None
+    return WEIGHTS["A"] * (sum(nums) / len(nums)), note
 
 
 def _engine_blocks(fm):

@@ -14,7 +14,7 @@
 # Référence canon : `_meta/source-policy.md`, ADR-033
 
 schema_version: 1.0.0
-updated_at: '2026-06-12'
+updated_at: '2026-09-14'
 
 # Mapping source_type → max confidence autorisée — SoT MACHINE UNIQUE (miroir prose : source-policy.md §9.1).
 # Cutover S1d FAIT : _scripts/quality-gates.py lit cette map directement (lecture unique, plus de dict
@@ -483,12 +483,10 @@ sources:
     status: to_capture
     license: normative_reference_only
     notes: |
-      Série normative ISO 4548 référencée comme autorité (existence des méthodes
-      d'essai bypass / anti-retour / efficacité de filtration). URLs ISO.org en
-      403 au fetch automatisé → la NORME est citée comme référence d'autorité,
-      JAMAIS comme source de chiffres internes (cf. risques faq-symptoms.md /
-      compatibility-technical.md). STATUS to_capture : périmètre établi via
-      abstracts/catalogues, texte normatif intégral non lu.
+      Entree historique de serie, non archivee ; conservee pour les references
+      diagnostiques existantes non qualifiees. Ne prouve ni diagnostic, ni
+      performance, ni certification. Les trois mentions generales ISO du guide
+      utilisent desormais les notices par edition ci-dessous, toutes to_capture.
 
   - slug: mann_filter_oem_filtre_huile
     title: 'MANN-FILTER / MANN+HUMMEL — documentation technique filtres à huile (média, clapets, datasheet HU 711/51 x)'
@@ -509,6 +507,37 @@ sources:
       Datasheet HU 711/51 x = source PRIMARY corroborée multi-source. STATUS
       to_capture : fiches référencées par URL, archive physique à matérialiser.
 
+  - slug: mahle_oem_conception_filtre_huile
+    title: 'MAHLE Aftermarket — architectures, conception et entretien des filtres à huile'
+    type: oem_manual
+    publisher: 'MAHLE Aftermarket'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-fa488c047addedba6909fc86d9a4c3d1b6529dc93c7039a84f0589342fc0a77b
+      expected_sha256: sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md'
+    status: active
+    license: captured_for_internal_review
+    notes: |
+      Capture 2026-09-13T22:40:47Z dans le candidat RAW. Section technique retenue :
+      Spin-on oil filter mix up, jusqu'a Expertise in new media ; contexte conserve
+      dans l'archive. Difference des composants selon moteur, sans chiffres repris.
+      Source composite : les sections hydrauliques, performances commerciales,
+      intervalles generiques et exemple OX 345 D ne fondent PAS ces affirmations.
+      Pas de hierarchie universelle des medias ni de preuve de compatibilite catalogue.
+      Passage additionnel reutilise le 2026-09-14 : introduction, phrase sur les
+      maintenance intervals stipulated by the automobile manufacturers. Appuie
+      le respect des echeances constructeur, pas une duree universelle ni la
+      regle chaque-vidange ; aucune nouvelle capture pour la meme source.
+      Lot architecture-pilot : Oil filter cartridges, jusqu'a Hydraulic spin-on
+      filters, pour le remplacement de l'element en cartouche ; premiere phrase
+      Spin-on oil filter mix up pour l'ensemble boitier/element indissociable.
+      Meme section pour les differences de reglage du by-pass selon moteur.
+      Aucun emplacement general des clapets de cartouche deduit de ces passages.
+      Date de publication inconnue. Licence inconnue, CAPTURED_NEEDS_REVIEW ;
+      active signifie archive disponible, pas faits verifies ou publication autorisee.
+
   - slug: filtron_oem_clapets_filtre_huile
     title: 'Filtron (groupe MANN+HUMMEL) — fonctions des clapets dans les filtres à huile (anti-retour, bypass)'
     type: oem_manual                            # → max confidence: high
@@ -516,36 +545,64 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: filtron_oem_clapets_filtre_huile
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/filtre-a-huile/source-index.json'
-    status: to_capture
+      manifest_id: src-auto-capture-b8431d6ff4d46f8f4e7acf118fa89b3679683572706f59d159e6ab5e1c01ba6f
+      expected_sha256: sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md'
+    status: active
     license: captured_for_internal_review
     notes: |
-      Source équipementier PRIMARY (groupe MANN+HUMMEL) sur le rôle du clapet
-      anti-retour (anti-drain-back) et du clapet by-pass, leur dépendance à
-      l'orientation de montage moteur, et le risque de démarrage à sec. Extraite
-      dans faq-symptoms.md / selection-criteria.md / compatibility-technical.md.
-      STATUS to_capture : page technique référencée par URL, archive à matérialiser.
+      Capture du 2026-09-13 dans le candidat RAW, hash du fichier complet verifie.
+      Passage utile : introduction sur les clapets des filtres visses et section
+      Anti-drainback valve. La presence depend de la conception du filtre/moteur.
+      Source primaire sur son perimetre, pas une preuve de compatibilite d'une
+      reference, de materiau de joint ou de pression calibree. Licence inconnue,
+      CAPTURED_NEEDS_REVIEW : archive disponible ne signifie pas faits valides.
+      Lot architecture-pilot : Anti-drainback valve pour la dependance a
+      l'orientation ; Bypass valve pour colmatage/huile froide et maintien du
+      passage d'huile. Ces principes ne prouvent ni une perte de puissance,
+      ni l'ouverture permanente, ni les references normatives ISO du guide.
 
   - slug: eu_reg_461_2010_block_exemption
-    title: 'Règlement (UE) n°461/2010 — exemption par catégorie automobile (qualité OE / OES / équivalente)'
-    type: normative_standard                    # → max confidence: high
-    publisher: 'Union européenne (CLEPA / legislation.gov.uk)'
+    title: 'Règlement (UE) n°461/2010 — exemption par catégorie des accords dans le secteur automobile'
+    type: normative_standard
+    publisher: 'Commission européenne — EUR-Lex'
     year: 2010
     raw_ref:
       repo: automecanik-raw
       manifest_id: eu_reg_461_2010_block_exemption
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/filtre-a-huile/source-index.json'
     status: to_capture
-    license: regulatory_public
+    license: regulatory_reference_only
+    url: https://eur-lex.europa.eu/legal-content/FR/ALL/?uri=celex%3A32010R0461
     notes: |
-      Source réglementaire PRIMARY définissant les trois niveaux de qualité du
-      marché de la rechange (OE/OEM, OES, qualité équivalente / matching quality)
-      et le droit des équipementiers OE à vendre en rechange. Extraite dans
-      price-quality-brands.md (legislation.gov.uk + CLEPA). STATUS to_capture :
-      texte réglementaire référencé par URL, archive à matérialiser.
+      Reference historique conservee, pas une archive du texte primaire.
+      Le reglement encadre des accords et restrictions de concurrence ; il ne
+      justifie pas un classement universel de qualite OE/OES/equivalente ni une
+      identite de toutes les references d'une marque. Les definitions du guide
+      filtre-a-huile pointent desormais vers les lignes directrices 2023 ci-dessous.
+      Ancien index de liens non traite comme archive du reglement. Droits de
+      reutilisation non qualifies ; aucune preuve produit deduite.
+
+  - slug: eu_lignes_directrices_pieces_2023
+    title: 'Commission européenne — définitions des pièces, lignes directrices supplémentaires, version du 17 avril 2023'
+    type: normative_standard
+    publisher: 'Commission européenne — EUR-Lex'
+    year: 2023
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: eu_lignes_directrices_pieces_2023
+      expected_sha256: null
+    status: to_capture
+    license: regulatory_reference_only
+    url: https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A02010XC0528%2801%29-20230417
+    notes: |
+      Texte consolide 02010XC0528(01)-20230417 consulte le 14 septembre 2026.
+      Paragraphes 19 (origine, renvoi 2018/858) et 20 (qualite equivalente).
+      Consolidation documentaire ; versions faisant foi au Journal officiel.
+      Aucune hierarchie de marques, performance ou compatibilite precise etablie.
+      Native wl-filtre-a-huile-ue-definitions : fetch_failed, unsupported_mime.
+      Aucune archive creee ; consultation web ne vaut pas preuve RAW disponible.
+      Droits de reutilisation non qualifies ; statut to_capture et hash null.
 
   # ─── Plaquette-de-frein : équipementiers OE (web-research) + catalogue interne ───
   - slug: bremboparts_technologie_etriers
@@ -637,3 +694,75 @@ sources:
       → témoin lumineux). Extraite dans le proposal plaquette-de-frein (## Critères de
       choix). STATUS to_capture : page référencée par URL
       (delphiautoparts.com/.../ce-quil-faut-savoir-sur-les-temoins-dusure-...), archive à matérialiser.
+
+  # Lot ISO : notices distinctes, preuve RAW manquante explicite.
+  - slug: iso_4548_2_1997_notice
+    title: ISO 4548-2:1997 — notice publique de la méthode d’essai
+    type: normative_standard
+    publisher: ISO
+    year: 1997
+    url: https://www.iso.org/standard/21712.html
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: iso_4548_2_1997_notice
+      expected_sha256: null
+    status: to_capture
+    license: normative_reference_only
+    notes: 'Notice publique consultee le 2026-09-14 ; norme integrale non acquise/non lue. Edition 1997 et perimetre
+      general seulement, pas de certification ni resultat produit. Capture native -2 refusee HTTP403 ; autres
+      notices non tentees ensuite. Statut publie observe, non perpetuel. Edition confirmee en 2024 sur la notice. '
+  - slug: iso_4548_9_2008_notice
+    title: ISO 4548-9:2008 — notice publique de la méthode d’essai
+    type: normative_standard
+    publisher: ISO
+    year: 2008
+    url: https://www.iso.org/standard/44520.html
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: iso_4548_9_2008_notice
+      expected_sha256: null
+    status: to_capture
+    license: normative_reference_only
+    notes: 'Notice publique consultee le 2026-09-14 ; norme integrale non acquise/non lue. Edition 2008 et perimetre
+      general seulement, pas de certification ni resultat produit. Capture native -2 refusee HTTP403 ; autres
+      notices non tentees ensuite. Statut publie observe, non perpetuel. Edition en revision ; ne pas traiter
+      le projet comme une norme publiee. Le resume ISO indique 2007 mais le titre et les metadonnees indiquent
+      2008 ; ne pas inventer une autre edition. '
+  - slug: iso_4548_12_2017_notice
+    title: ISO 4548-12:2017 — notice publique de la méthode d’essai
+    type: normative_standard
+    publisher: ISO
+    year: 2017
+    url: https://www.iso.org/standard/62763.html
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: iso_4548_12_2017_notice
+      expected_sha256: null
+    status: to_capture
+    license: normative_reference_only
+    notes: 'Notice publique consultee le 2026-09-14 ; norme integrale non acquise/non lue. Edition 2017 et perimetre
+      general seulement, pas de certification ni resultat produit. Capture native -2 refusee HTTP403 ; autres
+      notices non tentees ensuite. Statut publie observe, non perpetuel. Edition en revision ; ne pas traiter
+      le projet comme une norme publiee. '
+
+  - slug: renault_clio5p1_alerte_pression_huile
+    title: 'Renault Clio 5 phase 1 — consignes des témoins de pression huile et arrêt impératif'
+    type: oem_manual
+    publisher: Renault
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-a64b110a256a86ffebaf26d3db725afef93e914f922ecb8f4eff96c13b70e884
+      expected_sha256: sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235
+    archived_at: automecanik-raw/sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md
+    status: active
+    license: captured_for_internal_review
+    url: https://www.user-manual.renault.com/fr/chapitre1-faites-connaissance-avec-votre-v%C3%A9hicule/temoins-lumineux
+    notes: |
+      Capture native du 14 septembre 2026, niveau2/licence inconnue, examen interne.
+      Notice Clio5phase1 ; passages Temoin de pression huile et Temoin arret imperatif.
+      Symbole texte ® dans la capture associe a arret imperatif ; conditions roulant,
+      temoin accompagne et signal sonore preservees. Ne pas confondre alerte et
+      auto-test a la mise sous contact. Aucun niveau/pression chiffre extrait.
+      Ne demontre ni causalite du filtre, ni frequence de panne, ni une consigne
+      identique pour chaque vehicule. Captured ne vaut pas validation diagnostique.

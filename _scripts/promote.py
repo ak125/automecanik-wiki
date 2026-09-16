@@ -41,7 +41,7 @@ Usage :
     promote.py --wiki-root ... --target proposals/colonne-de-direction.md --apply
     promote.py --wiki-root ... --raw-root ... --all --apply
 
-Exit : 0 — ok (promu/skipped) · 1 — source invalide · 2 — config/canon introuvable.
+Exit : 0 — diagnostic ou application réussie/skipped · 1 — application bloquée/échouée · 2 — usage/config invalide.
 """
 from __future__ import annotations
 
@@ -63,6 +63,7 @@ from promotion_decision import (  # noqa: E402 — import après sys.path (adapt
     AUTO_PROMOTE_THRESHOLD,
     AUTO_PROMOTE_TRUTH_LEVELS,  # noqa: F401 — ré-exporté (contrat test_promote)
     PromotionInputError,
+    PROMOTABLE_INPUT_STATUSES,
     _canon_already_approved,
     _compute_shadow,  # noqa: F401 — ré-exporté (contrat test_promote)
     _load_confidence_fn,
@@ -75,27 +76,24 @@ from promotion_decision import (  # noqa: E402 — import après sys.path (adapt
     evaluate_tier,  # noqa: F401 — ré-exporté (contrat test_promote / test_promotion_decision)
 )
 
-# Statuts d'entrée promouvables — scope du scan CLI uniquement (pas de logique métier).
-PROMOTABLE_INPUT_STATUSES = {"proposed", "in_review"}
-
-
 # --- CLI ----------------------------------------------------------------------
 def _candidate_files(wiki_root: Path, target: str | None, entity_id: str | None) -> list[Path]:
     proposals = wiki_root / "proposals"
     if target:
         p = (wiki_root / target).resolve() if not Path(target).is_absolute() else Path(target)
         return [p]
-    files = sorted(proposals.glob("*.md")) if proposals.is_dir() else []
+    # Same underscore metadata convention as the coverage/scoring batch readers.
+    files = sorted(p for p in proposals.glob("*.md") if not p.name.startswith("_")) if proposals.is_dir() else []
     if entity_id:
         slug = entity_id.split(":", 1)[-1]
-        files = [f for f in files if slug in f.stem]
+        files = [f for f in files if slug == f.stem]
     return files
 
 
 @click.command()
 @click.option("--wiki-root", type=click.Path(exists=True, file_okay=False, path_type=Path), required=True)
 @click.option("--target", default=None, help="Une proposal précise (relatif au wiki-root).")
-@click.option("--entity-id", default=None, help="Filtre par slug (ex: gamme:colonne-de-direction).")
+@click.option("--entity-id", default=None, help="Identité exacte (type:slug, ou slug seul pour compatibilité).")
 @click.option("--all", "scan_all", is_flag=True, help="Scanner toutes les proposals/.")
 @click.option("--threshold", type=click.FloatRange(min=AUTO_PROMOTE_THRESHOLD, max=1.0),
               default=AUTO_PROMOTE_THRESHOLD, show_default=True,
@@ -132,6 +130,20 @@ def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: b
     for f in files:
         try:
             fm, body = _parse_markdown(f)
+            if entity_id:
+                requested_type, separator, requested_slug = entity_id.partition(":")
+                if not separator:
+                    requested_slug, requested_type = requested_type, None
+                if fm.get("slug") != requested_slug or (
+                        requested_type is not None and fm.get("entity_type") != requested_type):
+                    report.append({"file": str(f), "tier": "B", "promotion_status": "BLOCKED",
+                                   "eligible": False,
+                                   "blocking_reasons": [{"code": "ENTITY_ID_MISMATCH", "evidence": {
+                                       "requested": entity_id,
+                                       "actual_type": fm.get("entity_type"),
+                                       "actual_slug": fm.get("slug"),
+                                   }}]})
+                    continue
             if fm.get("review_status") not in PROMOTABLE_INPUT_STATUSES:
                 report.append({"file": str(f), "tier": "skip", "promotion_status": "SKIP",
                                "eligible": False,
@@ -164,7 +176,7 @@ def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: b
             if ok:
                 try:
                     # apply_promotion = DUMB EXECUTOR : stampe l'évidence déjà décidée + déplace.
-                    out = apply_promotion(f, fm, body, wiki_root, evaluation)
+                    out = apply_promotion(f, wiki_root, decision, raw_root=raw_root)
                     entry["promoted_to"] = str(out)
                 except Exception as exc:  # fail-closed
                     entry["tier"] = "B"
@@ -178,8 +190,11 @@ def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: b
     eligible = sum(1 for r in report if r.get("eligible") is True)
     blocked = sum(1 for r in report if r.get("promotion_status") == "BLOCKED")
     unknown = sum(1 for r in report if r.get("promotion_status") == "UNKNOWN_FAIL_CLOSED")
+    apply_failures = sum(1 for r in report if r.get("apply_error") or r.get("apply_refused")
+                         or (do_apply and r.get("promotion_status") in {"BLOCKED", "UNKNOWN_FAIL_CLOSED"}))
     if output_format == "json":
         click.echo(json.dumps({"threshold": threshold, "apply": do_apply,
+                               "apply_failures": apply_failures,
                                "tier_A": auto, "tier_B": human,
                                "eligible": eligible, "blocked": blocked,
                                "unknown_fail_closed": unknown, "report": report},
@@ -187,12 +202,13 @@ def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: b
     else:
         for r in report:
             codes = [x.get("code") for x in (r.get("blocking_reasons") or []) if isinstance(x, dict)]
+            details = r.get("apply_error") or r.get("apply_refused") or codes or r.get("reason", "")
             click.echo(f"[{r.get('promotion_status', r.get('tier'))}] {Path(r['file']).name} "
                        f"tier={r.get('substance_tier', '-')} eligible={r.get('eligible')} "
-                       f"{codes or r.get('reason', '')}")
+                       f"{details}")
         click.echo(f"\néligibles={eligible}  bloqués={blocked}  unknown={unknown}  "
-                   f"(TIER A legacy={auto})  seuil={threshold}  apply={do_apply}")
-    sys.exit(0)
+                   f"(TIER A legacy={auto})  seuil={threshold}  apply={do_apply}  erreurs_apply={apply_failures}")
+    sys.exit(1 if do_apply and apply_failures else 0)
 
 
 if __name__ == "__main__":

@@ -1,130 +1,198 @@
 fiche: filtre-a-huile
 schema_version: 1.0.0
-generated_at: '2026-06-27'
+generated_at: '2026-09-14'
 coverage_entries:
+  - claim_id: filtre-huile-clapets-selon-conception
+    section: "## Fonctionnement"
+    text_anchor: "La présence des clapets dépend de la conception du filtre et du moteur."
+    source_slug: filtron_oem_clapets_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
   # --- claims sourcés normatif ISO (séries 4548) → high (§9.1 normative_standard) ---
   - claim_id: filtre-huile-efficacite-iso-4548-12
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "efficacité de filtration mesurée par comptage de particules (multipasse)"
-    source_slug: iso_4548_filtre_huile_serie
+    section: "## Lire les références aux normes d'essai"
+    text_anchor: "ISO 4548-12:2017 décrit un essai multipasse par comptage de particules, en régime\
+  \ stable."
+    source_slug: iso_4548_12_2017_notice
     evidence_type: normative_standard_scope
     confidence: high
     source_policy: 1_high
     source_status: pending_capture
 
   - claim_id: filtre-huile-bypass-clapet-iso-4548-2
-    section: "## Fonctionnement"
-    text_anchor: "clapet de dérivation (by-pass) calibré, testé à deux viscosités"
-    source_slug: iso_4548_filtre_huile_serie
+    section: "## Lire les références aux normes d'essai"
+    text_anchor: "ISO 4548-2:1997 concerne les essais des caractéristiques du clapet de dérivation"
+    source_slug: iso_4548_2_1997_notice
     evidence_type: normative_standard_scope
     confidence: high
     source_policy: 1_high
     source_status: pending_capture
 
   - claim_id: filtre-huile-anti-retour-iso-4548-9
-    section: "## Fonctionnement"
-    text_anchor: "clapet anti-retour (anti-drain-back) — composant fonctionnel normalisé"
-    source_slug: iso_4548_filtre_huile_serie
+    section: "## Lire les références aux normes d'essai"
+    text_anchor: "ISO 4548-9:2008 décrit la mesure d'efficacité des clapets anti-retour d'entrée ou\
+  \ de sortie"
+    source_slug: iso_4548_9_2008_notice
     evidence_type: normative_standard_scope
     confidence: high
     source_policy: 1_high
     source_status: pending_capture
 
   # --- claims sourcés équipementier OE (MANN+HUMMEL / Filtron) → high (§9.1 oem) ---
-  - claim_id: filtre-huile-media-cellulose-synthetique-verre
+  - claim_id: filtre-huile-media-selon-moteur
     section: "## Critères de choix selon le véhicule"
-    text_anchor: "média cellulose, mélange synthétique ou microfibres de verre"
-    source_slug: mann_filter_oem_filtre_huile
-    evidence_type: oem_whitepaper
+    text_anchor: "le média et la finesse de filtration peuvent différer selon le moteur."
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
+
+  - claim_id: filtre-huile-ressemblance-non-compatibilite
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "deux filtres vissés d'apparence identique peuvent avoir des caractéristiques internes différentes selon le moteur"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
 
   - claim_id: filtre-huile-cartouche-vs-spinon-type-moteur
     section: "## Critères de choix selon le véhicule"
-    text_anchor: "le type (vissé spin-on ou cartouche) est dicté par la conception moteur"
-    source_slug: mann_filter_oem_filtre_huile
-    evidence_type: oem_datasheet
+    text_anchor: "Le filtre vissé est remplacé avec son boîtier ; une cartouche permet de remplacer l'élément dans un boîtier réutilisé."
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-anti-retour-orientation
     section: "## Fonctionnement"
-    text_anchor: "anti-retour indispensable sur filtre monté horizontalement ou tête en bas"
+    text_anchor: "La nécessité de l'anti-retour dépend notamment de l'orientation du filtre"
     source_slug: filtron_oem_clapets_filtre_huile
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
-  - claim_id: filtre-huile-bypass-huile-non-filtree
+  - claim_id: filtre-huile-alerte-pression-consigne-clio5p1
     section: "## Symptômes & diagnostic"
-    text_anchor: "by-pass ouvert en permanence → huile non filtrée vers les organes en rotation"
-    source_slug: filtron_oem_clapets_filtre_huile
-    evidence_type: oem_technical_page
+    text_anchor: "impose de s'arrêter en sécurité, de couper le moteur et de ne pas le redémarrer."
+    source_slug: renault_clio5p1_alerte_pression_huile
+    evidence_type: oem_manual
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
-  # --- claims sourcés réglementaire UE 461/2010 → high (§9.1 normative) ---
-  - claim_id: filtre-huile-trois-niveaux-qualite-oe-oes-equivalent
+  - claim_id: filtre-huile-alerte-niveau-normal-autre-cause
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Elle précise qu'un niveau d'huile normal signifie que l'alerte a une autre cause."
+    source_slug: renault_clio5p1_alerte_pression_huile
+    evidence_type: oem_manual
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
+  # --- definitions des pieces : lignes directrices UE consolidees 2023 ---
+  - claim_id: filtre-huile-definition-piece-origine
     section: "## Marques & qualité"
-    text_anchor: "trois niveaux : OE/OEM, OES, qualité équivalente (matching quality)"
-    source_slug: eu_reg_461_2010_block_exemption
+    text_anchor: "Une pièce d'origine répond aux spécifications et normes de production du constructeur pour l'assemblage du véhicule."
+    source_slug: eu_lignes_directrices_pieces_2023
     evidence_type: regulatory_primary
     confidence: high
     source_policy: 1_high
     source_status: pending_capture
 
-  - claim_id: filtre-huile-oes-droit-rechange
+  - claim_id: filtre-huile-definition-qualite-equivalente
     section: "## Marques & qualité"
-    text_anchor: "les équipementiers OE peuvent vendre en rechange la même pièce que la première monte"
-    source_slug: eu_reg_461_2010_block_exemption
+    text_anchor: "Pour la « qualité équivalente », les lignes directrices retiennent une qualité suffisante pour préserver la réputation du réseau agréé."
+    source_slug: eu_lignes_directrices_pieces_2023
     evidence_type: regulatory_primary
     confidence: high
     source_policy: 1_high
     source_status: pending_capture
 
   # --- claim maintenance OEM générique → high (§9.1 oem_manual) ---
-  - claim_id: filtre-huile-remplacement-chaque-vidange
+  - claim_id: filtre-huile-echeance-constructeur
     section: "## Entretien & bonnes pratiques de montage"
-    text_anchor: "remplacer le filtre à chaque vidange (élément papier jetable)"
-    source_slug: oem_filter_maintenance_general
-    evidence_type: oem_workshop_excerpt
+    text_anchor: "respecter les échéances de remplacement du filtre indiquées par le constructeur du véhicule"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   # --- claims conservés honnêtement (sources medium/low, non-PRIMARY) ---
-  - claim_id: filtre-huile-clapets-cartouche-dans-boitier
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "sur cartouche, by-pass et anti-retour sont souvent dans le boîtier moteur"
-    source_slug: mann_filter_oem_filtre_huile
-    evidence_type: oem_datasheet
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
-
-  - claim_id: filtre-huile-capacite-retention-intervalle
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "la capacité de rétention de salissures conditionne la tenue entre deux vidanges"
-    source_slug: oem_filter_maintenance_general
-    evidence_type: oem_workshop_excerpt
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
+  - claim_id: filtre-huile-bypass-colmatage-froid
+    section: "## Fonctionnement"
+    text_anchor: "il permet de maintenir le passage d'huile lorsque le filtre est colmaté ou que l'huile est froide et visqueuse"
+    source_slug: filtron_oem_clapets_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
 
   - claim_id: filtre-huile-bypass-pression-engine-tied
     section: "## Fonctionnement"
-    text_anchor: "la pression d'ouverture du by-pass est calibrée selon le moteur (spec d'origine)"
-    source_slug: filtron_oem_clapets_filtre_huile
+    text_anchor: "Le réglage du by-pass peut différer selon le moteur"
+    source_slug: mahle_oem_conception_filtre_huile
     evidence_type: oem_technical_page
-    confidence: low
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
 
 notes: |
+  Lot diag-pilot 2026-09-14 : ancien claim bypass-huile-non-filtree retire
+  avec sa chaine causale non etablie ; retrait non compte comme preuve acquise.
+  Deux affirmations distinctes relatives a la consigne Clio 5 phase 1 ajoutees
+  depuis les passages Renault Temoins pression huile/arret imperatif captures.
+  Source contextualisee, pas preuve de panne de filtre ou compatibilite.
+  Les interpretations de bruit/perte de puissance restent prudentes ; relations
+  historiques non validees conservees, confiance low, reviewed/diagnostic_safe false.
+  La FAQ n'etablit plus de classement de frequence des causes. Captured, pas verified.
+  Lot oe-quality 2026-09-14 : retrait des claims trois-niveaux-qualite-oe-oes-equivalent
+  et oes-droit-rechange. Le premier reposait sur un classement excessif ; le second
+  ne figurait pas dans le corps et generalisait l'identite des pieces. Aucun des
+  deux n'est compte comme prouve. Deux definitions distinctes, paragraphes 19-20
+  des lignes directrices UE consolidees 2023, les remplacent dans la section utile
+  au choix. Liste globale de marques OE/OES retiree faute de preuve par reference.
+  Recommandations de justificatifs : consequence editoriale, pas certification.
+  Consultation EUR-Lex du 14 septembre ; capture native refusee unsupported_mime.
+  Aucune archive, deux pending_capture conserves et source to_capture/hash null.
+  Lot iso-pilot 2026-09-14 : trois mentions bornees aux notices officielles
+  4548-2:1997, -9:2008 et -12:2017, consultation web tracee dans le rapport.
+  Ancres et bloc structure alignes ; aucune certification ou performance produit
+  deduite. La capture native de -2 echoue HTTP403, -9/-12 non tentees ensuite.
+  Trois statuts pending_capture conserves ; consultation ne vaut pas archive.
+  Retrait du raccourci beta universel non etaye par ces notices.
+  Lot architecture-pilot 2026-09-14 : architectures, orientation anti-retour et
+  difference de reglage du by-pass rattachees aux captures existantes MAHLE/FILTRON.
+  Trois anciennes declarations remplacees par des formulations bornees a ces
+  passages. Claim boitier/clapets-cartouche retire avec sa generalisation non
+  etayee ; principe colmatage/froid du by-pass ajoute separement. Le claim
+  diagnostique by-pass permanent reste pending, pas valide par ce principe.
+  Les mentions ISO conservees dans le texte restent egalement pending ; aucune
+  valeur de pression ni compatibilite precise inferee. Captured, pas verified.
+  Lot claims-pilot 2026-09-14 : echeance renvoyee au constructeur, passage MAHLE
+  deja archive ; remplace le claim chaque-vidange. Le claim capacite/intervalle
+  est retire avec sa generalisation non etayee, pas compte comme lacune resolue
+  par une nouvelle preuve. Trace et disposition des 12 anciennes declarations
+  dans le rapport du lot. Les autres ancres restent a reparer, sans les faire
+  passer par simple reformulation ni leur attribuer verified.
+  Revision candidate 2026-09-14 : retrait de la declaration historique de hierarchie
+  des medias ; remplacement par une affirmation bornee a la conception moteur et
+  ajout de la ressemblance insuffisante. Deux ancres presentes dans la fiche,
+  rattachees au passage MAHLE Spin-on oil filter mix up. Captured, pas verified.
+  La recommandation de consulter le catalogue est une consequence editoriale,
+  pas une preuve de compatibilite pour une reference ou un moteur donne.
+  Revision candidate 2026-09-13 : une affirmation ajoutee, rattachee a la capture
+  FILTRON et au hash RAW dans le catalogue natif. Capture seule, pas verified.
+  Les compteurs et calculs ci-dessous decrivent la version historique du 27 juin ;
+  ils ne sont pas une evaluation de cette revision ni une preuve pour publication.
+
   Coverage map filtre-a-huile — reconstruite 2026-06-27 (démonstrateur boucle
   contenu, salvage RAG → web-research sourcée, parité avec plaquette-de-frein).
 

@@ -131,3 +131,37 @@ def test_strict_exit_code_via_cli(tmp_path, monkeypatch, capsys):
     assert ccm.main() == 1  # FAIL → enforcement exit 1
     monkeypatch.setattr("sys.argv", ["check-coverage-map.py", "--all", "--wiki-root", str(root)])
     assert ccm.main() == 0  # report-only → exit 0 malgré le FAIL
+
+
+@pytest.mark.parametrize("body,anchor,section,expected", [
+    ("## Fonctionnement\nLe **filtre** retient les particules.\n", "Le filtre retient les particules.", "## Fonctionnement", "PASS"),
+    ("## Fonctionnement\nLe filtre\nretient les particules.\n", "Le filtre retient les particules.", "## Fonctionnement", "PASS"),
+    ("## Fonctionnement\nMédia prévu.\n", "Me\u0301dia prévu.", "## Fonctionnement", "PASS"),
+    ("## Fonctionnement\nAutre texte.\n## FAQ\nAffirmation ailleurs.\n", "Affirmation ailleurs.", "## Fonctionnement", "FAIL"),
+    ("## Fonctionnement\nAncienne phrase modifiée.\n", "Affirmation supprimée.", "## Fonctionnement", "FAIL"),
+    ("## Fonctionnement\ntexte\n### Enfant\nAffirmation enfant.\n", "Affirmation enfant.", "## Fonctionnement", "PASS"),
+    ("## Fonctionnement\n### Enfant\ntexte\n### Voisin\nAffirmation ailleurs.\n", "Affirmation ailleurs.", "### Enfant", "FAIL"),
+    ("## Fonctionnement\nLe filtre retient\n\nles particules.\n", "Le filtre retient les particules.", "## Fonctionnement", "FAIL"),
+    ("## Fonctionnement\n<!-- Affirmation cachee. -->\n", "Affirmation cachee.", "## Fonctionnement", "FAIL"),
+    ("## Fonctionnement\n```\nAffirmation exemple.\n```\n", "Affirmation exemple.", "## Fonctionnement", "FAIL"),
+    ("```\n## Fonctionnement\nAffirmation exemple.\n```\n", "Affirmation exemple.", "## Fonctionnement", "FAIL"),
+    ("## Fonctionnement\n[Source](https://example.test/affirmation-inventee)\n", "affirmation-inventee", "## Fonctionnement", "FAIL"),
+    ("## Fonctionnement\ntexte\n## Fonctionnement\nAffirmation ambigue.\n", "Affirmation ambigue.", "## Fonctionnement", "FAIL"),
+    ("## Fonctionnement\nLe filtre ne convient pas.\n", "Le filtre convient.", "## Fonctionnement", "FAIL"),
+    ("## Fonctionnement\nValeur 40 bar.\n", "Valeur 4 bar.", "## Fonctionnement", "FAIL"),
+    ("## Fonctionnement\ntexte\n", "   ", "## Fonctionnement", "FAIL"),
+])
+def test_text_anchor_is_present_in_its_real_section(tmp_path, body, anchor, section, expected):
+    entry = {**_valid_entry(section=section), "text_anchor": anchor}
+    root = _make_wiki(tmp_path, catalog_slugs=["oem_x"], fiche_body=body,
+                      coverage={"fiche": "demo", "schema_version": "1.0.0", "coverage_entries": [entry]})
+    result = _check(root)
+    assert result["status"] == expected, result
+    if expected == "FAIL":
+        assert any("text_anchor" in f or "section" in f for f in result["fails"]), result
+
+
+def test_missing_optional_anchor_keeps_schema_contract(tmp_path):
+    root = _make_wiki(tmp_path, catalog_slugs=["oem_x"], fiche_body="## Fonctionnement\ntexte\n",
+                      coverage={"fiche": "demo", "schema_version": "1.0.0", "coverage_entries": [_valid_entry()]})
+    assert _check(root)["status"] == "PASS"

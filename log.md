@@ -117,3 +117,54 @@
 - **Branche** : `fix/build-exports-seo-exportable-audience-gate`
 - **Décision** : fix(exports-seo): gate SEO export sur exportable.seo (mapping audience), pas truthy
 - **Sortie** : PR #70 | commits 4b700c3
+
+## 2026-09-13 — candidat editorial filtre-a-huile
+
+Correction proposee du passage sur la presence des clapets, appuyee sur une capture RAW FILTRON dans le candidat isole raw-filtre-pilot-20260913. Source-catalog et coverage relies aux manifest/hash natifs; une archive disponible ne vaut pas validation factuelle. Deux formulations non justifiees par cette source retirees des passages corriges. Frontmatter, coverage et raw_ref cibles PASS. Score0.46 inchange, promotion dry-run BLOCKED; exports false. Evidence et coverage au vault: ledger/audit-trail/editorial-pipeline-evidence-20260912/filtre-pilot-verification.md. Aucune promotion ni export.
+
+## 2026-09-14 — candidat filtre-a-huile : preuve MAHLE de conception
+
+- Capture RAW native immuable, passage technique Spin-on oil filter mix up rattache au catalogue/coverage ; deux affirmations captured, sans verified.
+- Remplacement de la hierarchie universelle de medias fondee sur transmission ; criteres Markdown, resume et bloc structure alignees. Ancien claim remplace, pas conserve comme preuve.
+- Proprietes selon moteur seulement ; aucune valeur de pression, intervalle, compatibilite exacte ou performance marketing extrapolee. Provenance historique distinguee de la validation actuelle.
+- Validation native et limites : voir preuves mahle-pilot-* du dossier editorial. Proposition et exports inchanges ; aucune promotion appliquee.
+
+## 2026-09-14 — candidat claims-pilot : ancrage réel et échéance constructeur
+
+- Validateur coverage natif : text_anchor déclaré doit exister dans un bloc de prose de sa section H2/H3 unique. Parsing CommonMark, exclusions code/commentaires/URL, normalisation Unicode/espaces ; pas de similarité sémantique ni preuve factuelle implicite. Champ absent reste optionnel selon schéma canon.
+- Dépendance markdown-it-py 3.0.0 utilisée et déclarée dans les exigences déjà installées par CI. Aucune nouvelle règle canon ni workflow parallèle.
+- Filtre à huile : échéance constructeur remplace chaque-vidange et raccourci huile synthétique/intervalle long. Réemploi MAHLE immuable ; carte 14 déclarations dont 4 captured, aucune verified. Les 12 anciennes entrées pending examinées et dispositions dans les preuves du lot.
+- 197 tests ciblés PASS ; schéma fiche et score0.46 PASS. Promotion BLOCKED avec COVERAGE_STRICT_FAIL (10 ancres restantes) et SUBSTANCE_SCORE. Contrôle structurel 15 propositions : 1PASS/6WARN/8FAIL ; corpus non corrigé artificiellement. Aucun export/DB/site modifié.
+
+## 2026-09-14 — candidat architecture-pilot : architectures et clapets
+
+- Architecture vissé/cartouche réécrite selon MAHLE, structure variants et résumé alignés ; généralisation clapets-cartouche dans boîtier moteur retirée faute de preuve, retrait tracé.
+- Anti-retour lié à l'orientation sans généraliser une position ambiguë ; by-pass expliqué sur colmatage/froid selon FILTRON. Réglage selon moteur rattaché à MAHLE, sans chiffres ou extrapolation diagnostique validés.
+- Quatre déclarations ciblées reliées aux passages des archives existantes ; aucune capture ni mutation RAW. Carte14déclarations,8captured,0verified ;6ancres encore en échec (ISO3, réglementaire2, diagnostic1).
+- Schéma, calcul0.46, SHA et raw_ref cibles PASS. Promotion native BLOCKED : COVERAGE_STRICT_FAIL et SUBSTANCE_SCORE. Shadow89/tierA ne vaut pas publication :6page_unproven et reality stale. Code/test/dépendance du lot197tests précédent inchangés par hash ; validations de données rejouées.
+
+## 2026-09-14 — candidat iso-pilot : portée des méthodes d'essai
+
+- Trois mentions ISO reliées aux notices officielles par édition ; section de lecture des résultats et bloc structuré alignés. Retrait des formules normalisée et du raccourci bêta non étayé dans le bloc.
+- Les notices établissent des objets d'essai, pas une certification, une compatibilité ou une performance produit. Texte intégral des normes non lu. Ambiguïté 2007/2008 du résumé ISO-9 tracée, édition du titre conservée.
+- Capture native de la première notice : HTTP403 ; aucun contournement ou archive fabriquée. Les trois déclarations restent pending_capture et les sources to_capture. Demandes de capture préparées uniquement dans le candidat RAW.
+- Résultats et limites : iso-pilot-* dans le dossier de preuves du vault. Pas de promotion ou export appliqué.
+
+## 2026-09-14 — candidat proof-gate : preuve indépendante du score
+
+- Contre-preuve : sept cas sans preuve suffisante étaient ELIGIBLE avec score injecté0.99, évaluateurs couverture/provenance réels. Quatre autres contre-preuves montrent archive supprimée/modifiée, hash inventaire absent et archive changée avant application acceptés auparavant.
+- Extension des contrôles natifs : couverture de promotion exige carte non vide, ancre, état de capture et page active avec hash ; la préparation conserve les états pending. Le gate RAW lit et hache les archives référencées, refuse chemins hors RAW et ambiguïtés. Le snapshot inclut leurs octets ; racines explicites/environnement alignées entre évaluation et application.
+- 232tests ciblés PASS dont23nouveauxcas ; modes legacy/6dim éprouvés sans bascule runtime. Schéma/code py_compile et diff ciblé PASS. Pas de nouvel outil, dépendance ou changement des poids/seuils.
+- Filtre à huile : six preuves en attente deviennent des motifs explicites de refus, en plus de trois ancres existantes ; score0.46/shadow89 inchangés. Deux archives existantes liées au snapshot ; aucune mutation documentaire/RAW. Prochain travail : pertinence des passages, OE/OES, diagnostic. Preuves proof-gate-* au vault. Aucun commit/export/déploiement.
+
+## 2026-09-14 — candidat oe-quality : définitions et critères de choix
+
+- Classement universel OE/OES/équivalent et liste globale de marques retirés du corps et du bloc structuré. Deux anciennes déclarations retirées avec motif, deux définitions européennes bornées aux paragraphes 19-20 de la consolidation 2023 ; aucun retrait compté comme preuve acquise.
+- Source réglementaire historique rectifiée, nouvelle référence EUR-Lex précise, sans archive inventée. Capture native unsupported_mime : aucune archive ; deux déclarations restent pending_capture.
+- Recommandations de justificatifs par référence et d'affectation catalogue ; pas de certification ou identité universelle inférée. Score et droits de promotion inchangés. Contrôles et limites : oe-quality-* dans le dossier de preuves du vault.
+
+## 2026-09-14 — candidat diag-pilot : symptômes et conduite à tenir
+
+- Retrait de la chaîne by-pass ouvert/perte de puissance et des fréquences de causes non établies ; corps, FAQ, bloc failure_symptoms et notes de revue alignés. Relations historiques conservées comme hypothèses low, reviewed=false/diagnostic_safe=false ; aucun identifiant ou lien DB modifié.
+- Une capture native Renault Clio5phase1 apporte deux affirmations contextualisées de conduite à tenir ; pas de preuve de causalité du filtre. Catalogue content-addressed et carte reliés à l'archive ; ancien claim retiré séparément des deux nouveaux.
+- Aucun seuil, code ou statut de publication changé. Données candidates et contrôles : diag-pilot-* au vault. Aucun export/DB/runtime modifié.

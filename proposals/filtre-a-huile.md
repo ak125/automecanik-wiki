@@ -10,9 +10,18 @@ aliases:
 - cartouche de filtre à huile
 lang: fr
 created_at: '2026-05-27'
-updated_at: '2026-06-27'
+updated_at: '2026-09-14'
 truth_level: L2
 source_refs:
+- kind: raw
+  path: sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md
+  captured_at: '2026-09-14'
+- kind: raw
+  path: sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md
+  captured_at: '2026-09-13'
+- kind: raw
+  path: sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md
+  captured_at: '2026-09-13'
 - kind: raw
   path: sources/web-research/filtre-a-huile/faq-symptoms.md
   captured_at: '2026-06-20'
@@ -43,21 +52,13 @@ provenance:
 review_status: proposed
 reviewed_by: null
 reviewed_at: null
-review_notes: "Reconstruite 2026-06-27 depuis le scrape web-research RUN_TARGETED_RAW_TO_WIKI\
-  \ filtre-a-huile (5 aspects + source-index.json : 59 sources, 29 primary —\
-  \ MANN+HUMMEL/MANN-FILTER, Mahle, Denso, Bosch/Blue Print/Filtron, Donaldson,\
-  \ Fram, normes ISO 4548, Règlement UE 461/2010). REMPLACE l'ancienne fiche générée\
-  \ depuis recycled/rag-knowledge (RAG-recyclée, thin, cross_check RAG_ONLY).\
-  \ Pièce de filtration NON safety-critique. Axe : le type (vissé spin-on vs cartouche),\
-  \ le filetage/joint, le type de clapets et la pression d'ouverture du by-pass\
-  \ dépendent du SYSTÈME DE FILTRATION D'ORIGINE du moteur — d'où la sélection par\
-  \ référence OE/véhicule. diagnostic_relations[] : voyant_huile + perte_puissance_filtration\
-  \ (slugs canon exports/diag-canon-slugs.json, système filtration) ; le filtre est\
-  \ UNE cause possible parmi d'autres (niveau, pompe, capteur). Valeurs chiffrées de\
-  \ pression d'ouverture du by-pass (psi/bar/kPa) volontairement NON publiées :\
-  \ issues de forums (confidence low, cf. risques source-index) ET critiques au sens\
-  \ anti number-swapping → revue humaine. evidence reviewed=false + diagnostic_safe=false\
-  \ (défaut conservateur ADR-033 §D4)."
+review_notes: >-
+  Reconstruction historique du 27 juin 2026 depuis web-research ; ses compteurs ne valent pas validation.
+  Révision du 14 septembre : les causes diagnostiques, leur fréquence et le lien by-pass/perte de puissance
+  ne sont pas établis par les passages qualifiés. Relations historiques conservées comme hypothèses,
+  confiance low, reviewed=false et diagnostic_safe=false. Aucune modification de la DB des symptômes.
+  Consigne Renault Clio 5 phase 1 sourcée séparément ; elle ne prouve aucune causalité du filtre.
+  Qualification des relations, preuves ISO/UE, montage et réutilisation toujours ouvertes.
 no_disputed_claims: true
 confidence_score: 0.46
 exportable:
@@ -71,11 +72,9 @@ diagnostic_relations:
 - symptom_slug: voyant_huile
   system_slug: filtration
   relation_to_part: possible_cause
-  part_role: "voyant de pression d'huile allumé — un filtre fortement colmaté peut\
-    \ faire chuter la pression d'huile et déclencher le voyant ; le filtre est UNE\
-    \ cause possible parmi d'autres (niveau, pompe, capteur)"
+  part_role: 'Hypothèse non validée : un filtre colmaté peut être envisagé dans la recherche de cause d''une alerte de pression ; les passages qualifiés ne permettent pas de l''attribuer au filtre ni de classer les causes par fréquence.'
   evidence:
-    confidence: medium
+    confidence: low
     source_policy: manual_review
     reviewed: false
     diagnostic_safe: false
@@ -85,11 +84,9 @@ diagnostic_relations:
 - symptom_slug: perte_puissance_filtration
   system_slug: filtration
   relation_to_part: possible_cause
-  part_role: "perte de puissance moteur et bruit / claquement au démarrage à froid —\
-    \ lubrification insuffisante via un filtre colmaté (by-pass ouvert, huile non\
-    \ filtrée) ou un clapet anti-retour défaillant (démarrage à sec)"
+  part_role: 'Hypothèse historique non établie : perte de puissance ou bruit / claquement ne sont pas reliés au filtre par les passages qualifiés ; le rôle protecteur du by-pass ne démontre pas cette causalité.'
   evidence:
-    confidence: medium
+    confidence: low
     source_policy: manual_review
     reviewed: false
     diagnostic_safe: false
@@ -125,8 +122,7 @@ entity_data:
   - remplacement_piece
   - diagnostic_avant_achat
   maintenance:
-    educational_advice: "Remplacer le filtre à huile systématiquement à chaque vidange,\
-      \ jamais le réutiliser, et toujours commander la référence d'origine du moteur."
+    educational_advice: "Respecter les échéances de remplacement du filtre indiquées par le constructeur du véhicule."
     related_pages:
     - huile-moteur
     - filtre-a-air
@@ -134,9 +130,10 @@ entity_data:
     function_oneliner: "Le filtre à huile retient les impuretés en suspension dans\
       \ l'huile moteur pour protéger les organes lubrifiés de l'usure abrasive."
     selection_criteria_top:
-    - "Type d'origine : vissé (spin-on) ou cartouche, dicté par le moteur."
+    - "Type de filtre prévu : ensemble vissé ou élément en cartouche."
     - "Filetage et joint conformes au système de filtration d'origine."
-    - "Média et capacité adaptés à l'intervalle de vidange du moteur."
+    - "Média défini pour le moteur : son matériau seul ne justifie pas un classement de qualité universel."
+    - "Clapets selon la conception du filtre et du moteur ; leur présence seule ne prouve pas la compatibilité."
     compatibility_summary: "Pièce moteur : apparier le type, le filetage/joint et les\
       \ clapets à la référence d'origine du moteur, pas à une dimension approximative."
     source_kind: web_research_oe
@@ -152,52 +149,52 @@ entity_data:
       truth_level: sourced
     variants:
       content_md: >-
-        Deux architectures coexistent et ne se substituent pas librement : le filtre vissé (spin-on),
-        boîtier métallique complet remplacé en entier qui intègre ses propres clapets, et la cartouche
-        (insert papier sans carter métallique) logée dans un boîtier permanent sur le moteur, où les
-        clapets sont généralement portés par le boîtier. Le type est imposé par la conception moteur.
-      source_ids: [raw:filtre-a-huile-compatibility, oem:mann-filter, oem:filtron-clapets]
+        Le filtre vissé est remplacé avec son boîtier ; une cartouche permet de remplacer l'élément dans un boîtier réutilisé.
+        Respecter l'architecture prévue pour le véhicule lors du choix de la référence.
+      source_ids: [mahle_oem_conception_filtre_huile]
       truth_level: sourced
     selection_criteria:
       content_md: >-
-        Le choix se fait par référence d'origine du moteur : type (vissé ou cartouche), filetage et joint
-        d'embase, type de média (cellulose, synthétique ou microfibres de verre selon l'efficacité visée),
-        type de clapets (anti-retour, by-pass) et capacité de rétention adaptée à l'intervalle de vidange.
-        Un filetage qui « ressemble » ne suffit pas — le joint et les clapets doivent aussi correspondre.
-      source_ids: [raw:filtre-a-huile-selection-criteria, oem:mann-filter, web:donaldson-beta]
+        Deux filtres vissés d'apparence identique peuvent avoir des caractéristiques internes différentes
+        selon le moteur : filetage, présence d'un anti-retour, réglage du by-pass, média et finesse de filtration.
+        Le choix doit donc être confirmé dans le catalogue pour le véhicule concerné. Le matériau du média
+        ne suffit pas à établir une hiérarchie universelle de qualité entre filtres.
+      source_ids: [mahle_oem_conception_filtre_huile]
       truth_level: sourced
     failure_symptoms:
       content_md: >-
-        Un filtre fortement colmaté peut faire chuter la pression d'huile, allumer le voyant de pression
-        au tableau de bord et, par lubrification insuffisante, provoquer une perte de puissance. Un clapet
-        anti-retour défaillant laisse l'huile redescendre du filtre à l'arrêt : le moteur subit un démarrage
-        à sec, avec bruit au démarrage à froid et montée en pression retardée. Le filtre reste UNE cause
-        possible parmi d'autres (niveau, pompe, capteur de pression).
-      source_ids: [raw:filtre-a-huile-faq-symptoms, oem:filtron-clapets, web:fram-bypass]
+        En cas d'alerte de pression d'huile, suivre la consigne du constructeur du véhicule.
+        La notice Renault Clio 5 phase 1 demande l'arrêt en sécurité, la coupure du moteur sans
+        redémarrage et l'appel à un représentant lorsque l'alerte en roulant accompagne le témoin
+        d'arrêt impératif et un signal sonore. Un niveau normal ne suffit pas à lever l'alerte.
+        Un bruit ou une perte de puissance appelle une recherche de cause ; le principe du by-pass
+        ne permet pas, à lui seul, d'attribuer ces signes au filtre ni de justifier son remplacement.
+      source_ids: [renault_clio5p1_alerte_pression_huile, filtron_oem_clapets_filtre_huile]
       truth_level: sourced
     standards_norms:
       content_md: >-
-        La filtration à plein débit est encadrée par la série de normes ISO 4548 (méthodes d'essai :
-        caractéristique débit/perte de charge, clapet de dérivation, clapets anti-retour, efficacité par
-        comptage de particules). L'efficacité réelle s'exprime par le ratio bêta à une taille de particule
-        donnée — un seuil « X microns » seul ne suffit pas sans le bêta associé.
-      source_ids: [raw:filtre-a-huile-compatibility, normative:iso-4548, web:donaldson-beta]
+        Les notices ISO distinguent les essais du clapet de dérivation (4548-2:1997), des clapets
+        anti-retour lorsqu'ils équipent les filtres concernés (4548-9:2008), et la mesure multipasse
+        de filtration en régime stable par comptage de particules (4548-12:2017). Pour comparer
+        des filtres, demander les résultats et les conditions d'essai propres aux références ;
+        la seule citation d'une norme ne démontre pas leur performance ou leur compatibilité.
+      source_ids: [iso_4548_2_1997_notice, iso_4548_9_2008_notice, iso_4548_12_2017_notice]
       truth_level: sourced
     quality_tiers:
       content_md: >-
-        Le marché de la rechange se structure en trois niveaux au sens du Règlement européen 461/2010 :
-        pièce OE/OEM (montée d'origine en usine), pièce OES (équipementier d'origine vendant sous sa marque,
-        qualité identique) et pièce de qualité équivalente. Les équipementiers OE de la filtration incluent
-        notamment MANN-FILTER, Mahle, Purflux, Bosch, Denso, Valeo et Blue Print.
-      source_ids: [raw:filtre-a-huile-price-quality, normative:eu-461-2010, oem:mann-filter]
+        Les pièces d'origine répondent aux spécifications et normes de production du constructeur
+        pour l'assemblage du véhicule. La qualité équivalente est définie par une qualité suffisante
+        pour préserver la réputation du réseau agréé (lignes directrices européennes, paragraphes 19-20,
+        version du 17 avril 2023). Pour choisir un filtre, demander les justificatifs propres à la
+        référence proposée et confirmer son affectation au véhicule dans le catalogue.
+      source_ids: [eu_lignes_directrices_pieces_2023, mahle_oem_conception_filtre_huile]
       truth_level: sourced
     maintenance_interval:
       content_md: >-
-        L'élément papier d'un filtre à huile est conçu pour être remplacé à chaque vidange : garder un
-        filtre saturé fait ouvrir le by-pass prématurément et laisse circuler de l'huile non filtrée. Un
-        filtre papier jetable ne se nettoie pas et ne se réutilise pas. La capacité de rétention doit être
-        cohérente avec l'intervalle de service du moteur (intervalles longs en huile synthétique).
-      source_ids: [raw:filtre-a-huile-faq-symptoms, oem:mann-filter, web:fram-synthetic]
+        Respecter les échéances de remplacement du filtre indiquées par le constructeur du véhicule.
+        Consulter le programme d'entretien applicable au véhicule pour déterminer la date ou le
+        kilométrage de remplacement ; aucune durée universelle n'est déduite du seul type d'huile.
+      source_ids: [mahle_oem_conception_filtre_huile]
       truth_level: sourced
     replacement_guidance:
       content_md: >-
@@ -211,11 +208,11 @@ entity_data:
     faq:
       content_md: >-
         Peut-on nettoyer et réutiliser un filtre à huile ? Non pour un élément papier jetable. Quand le
-        remplacer ? À chaque vidange. Faut-il commander par dimension ? Non : par référence d'origine du
+        remplacer ? Selon les échéances du constructeur du véhicule. Faut-il commander par dimension ? Non : par référence d'origine du
         moteur, car le type, le filetage/joint et les clapets en dépendent. Un voyant de pression d'huile
-        vient-il toujours du filtre ? Non — c'est plus souvent le niveau, la pompe ou le capteur ; le filtre
-        colmaté n'est qu'une cause possible.
-      source_ids: [raw:filtre-a-huile-faq-symptoms, raw:filtre-a-huile-selection-criteria, oem:filtron-clapets]
+        vient-il toujours du filtre ? Ce voyant ne permet pas, à lui seul, d'identifier la pièce responsable.
+        Suivre la consigne de sécurité de la notice du véhicule, puis faire rechercher la cause.
+      source_ids: [raw:filtre-a-huile-faq-symptoms, raw:filtre-a-huile-selection-criteria, renault_clio5p1_alerte_pression_huile, mahle_oem_conception_filtre_huile]
       truth_level: sourced
   media:
   - slot: hero
@@ -241,61 +238,72 @@ Le filtre à huile retient les impuretés en suspension dans l'huile moteur — 
 ## En bref (facettes décisionnelles)
 
 - **Fonction** : retenir les contaminants de l'huile moteur pour protéger les organes lubrifiés.
-- **Critères de choix prioritaires** : type d'origine (vissé spin-on ou cartouche) · filetage et joint conformes · média (cellulose / synthétique / microfibres de verre) · type de clapets · capacité adaptée à l'intervalle de vidange.
+- **Critères de choix prioritaires** : type d'origine (vissé spin-on ou cartouche) · filetage et joint conformes · média prévu pour le moteur · type de clapets · programme d'entretien du véhicule.
 - **Compatibilité** : pièce moteur — apparier le type, le filetage/joint et les clapets à la référence d'origine, jamais une dimension approximative.
 - _Matière sourcée web-research équipementier/normative (MANN+HUMMEL/MANN-FILTER, Mahle, Denso, Bosch/Blue Print/Filtron, Donaldson, normes ISO 4548, Règlement UE 461/2010)._
 
 ## Fonctionnement
 
-Le filtre à huile travaille en pleine débitance : il reçoit 90 à 100 % du débit de la pompe et utilise un média poreux pour laisser passer un débit élevé avec une faible perte de charge ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)). Deux clapets le rendent sûr :
+La présence des clapets dépend de la conception du filtre et du moteur. Sur les filtres vissés, FILTRON décrit trois fonctions possibles : anti-retour, dérivation (by-pass) et anti-siphon. Elles ne sont pas nécessairement toutes présentes sur chaque filtre. La présence d'un clapet ne constitue donc pas, à elle seule, un critère de compatibilité ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)).
 
-- **Clapet anti-retour (anti-drain-back)** — membrane élastomère qui empêche l'huile de redescendre du filtre vers le carter à l'arrêt, pour que l'huile soit immédiatement disponible au redémarrage. Il est surtout indispensable quand le filtre est monté **horizontalement ou tête en bas** — d'où la dépendance à l'orientation du montage moteur ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)). Sa méthode d'essai est normalisée par **ISO 4548-9**.
-- **Clapet de dérivation (by-pass)** — clapet à ressort qui s'ouvre quand le média se colmate ou quand l'huile est trop visqueuse à froid, pour maintenir le débit vers le moteur (« de l'huile non filtrée vaut mieux que pas d'huile »). Il réagit à la **pression différentielle aux bornes du filtre**, pas à la pression d'huile absolue du moteur ; sa pression d'ouverture est **calibrée selon le moteur** — d'où la nécessité de la référence d'origine. Sa caractéristique est normalisée par **ISO 4548-2** ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)).
+- **Clapet anti-retour (anti-drain-back)** — souvent constitué d'une membrane en caoutchouc, il empêche l'huile de s'échapper du filtre à l'arrêt. La nécessité de l'anti-retour dépend notamment de l'orientation du filtre, comme l'explique FILTRON ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)).
+- **Clapet de dérivation (by-pass)** — il permet de maintenir le passage d'huile lorsque le filtre est colmaté ou que l'huile est froide et visqueuse. L'huile peut alors contourner le média filtrant pour préserver l'alimentation du moteur ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)). Le réglage du by-pass peut différer selon le moteur ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)).
 
 > _Les valeurs chiffrées de pression d'ouverture du by-pass (issues de forums techniques, confidence faible) ne sont pas reproduites ici : elles dépendent du moteur et relèvent de la référence d'origine + de la revue humaine._
 
 ## Symptômes & diagnostic
 
-> Le filtre à huile est **une cause possible parmi d'autres** des symptômes ci-dessous ; le diagnostic complet (niveau, pompe, capteur) vit dans la DB `__diag_symptom` et l'outil diagnostic, pas ici.
+**Alerte de pression d'huile : suivre d'abord la consigne constructeur.** Dans la notice Renault Clio 5 phase 1, l'alerte en roulant accompagnée du témoin d'arrêt impératif et d'un signal sonore impose de s'arrêter en sécurité, de couper le moteur et de ne pas le redémarrer. La notice demande de contacter un représentant de la marque. Elle précise qu'un niveau d'huile normal signifie que l'alerte a une autre cause. Consulter la notice applicable à son véhicule pour identifier les témoins et les consignes correspondantes ([Renault, témoins lumineux](https://www.user-manual.renault.com/fr/chapitre1-faites-connaissance-avec-votre-v%C3%A9hicule/temoins-lumineux)).
 
-**Voyant de pression d'huile allumé** *(possible cause, slug DB `voyant_huile`, système `filtration`)* — un filtre fortement colmaté peut faire chuter la pression d'huile et déclencher le voyant. Mais un voyant de pression bas vient plus souvent du **niveau d'huile**, de la **pompe** ou du **capteur** : le filtre colmaté n'est qu'une cause possible ([FRAM](https://www.fram.com/vehicle-maintenance-center/post/low-oil-pressure-causes-and-symptoms), [Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)).
-
-**Perte de puissance moteur** *(possible cause, slug DB `perte_puissance_filtration`, système `filtration`)* — quand le by-pass reste ouvert (média saturé), de l'**huile non filtrée** chargée de débris circule en permanence vers les organes en rotation, dégradant la lubrification ; un clapet anti-retour défaillant provoque un **démarrage à sec** avec **bruit / claquement** au démarrage à froid ([FRAM](https://www.fram.com/vehicle-maintenance-center/post/the-role-of-the-oil-filter-bypass-valve-in-engine-protection), [Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)).
+**Bruit ou perte de puissance : faire rechercher la cause.** Ces signes ne justifient pas à eux seuls de remplacer le filtre. Le fonctionnement protecteur du by-pass décrit par [FILTRON](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html) explique le maintien du passage d'huile ; il ne suffit pas à attribuer un bruit, un claquement ou une perte de puissance au filtre. Faire établir le diagnostic avant de choisir une pièce.
 
 ## Critères de choix selon le véhicule
 
 Pièce **moteur** : la sélection repose sur la conformité au système de filtration d'origine.
 
-1. **Type d'origine — vissé (spin-on) vs cartouche** — le filtre vissé est un boîtier métallique complet remplacé en entier (clapets intégrés) ; la cartouche est un élément papier sans carter, logé dans un boîtier permanent où les clapets sont souvent portés par le moteur. Le type est **imposé par la conception moteur** ([MANN-FILTER](https://www.mann-filter.com/en.html), [Counterman](https://www.counterman.com/spin-on-vs-cartridge-style-oil-filters/)).
-2. **Filetage & joint** — le filetage central ET le joint d'embase doivent correspondre simultanément ; un filetage métrique et un filetage en pouces peuvent se ressembler sans être interchangeables ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)).
-3. **Média filtrant** — cellulose, mélange cellulose + fibres synthétiques, ou microfibres de verre (efficacité croissante) ; l'efficacité réelle s'exprime par le **ratio bêta** à une taille de particule donnée ([MANN+HUMMEL](https://oem.mann-hummel.com/en/oem-products/oil-filters/transmission-oil-filters.html), [Donaldson](https://www.donaldson.com/en/resources/technical-articles/understanding-beta-ratings/)).
-4. **Type de clapets** — présence et matériau (silicone pour intervalles longs / haute température, nitrile pour intervalles standards) de l'anti-retour et du by-pass, conformes à l'origine ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)).
-5. **Capacité de rétention ↔ intervalle de vidange** — un intervalle long (huile synthétique) exige une capacité de rétention supérieure et un média qui tient la chaleur et la durée ([FRAM](https://www.fram.com/vehicle-maintenance-center/post/do-synthetic-oils-require-specialized-oil-filters)).
+1. **Filtre vissé ou cartouche** — Le filtre vissé est remplacé avec son boîtier ; une cartouche permet de remplacer l'élément dans un boîtier réutilisé. Respecter l'architecture prévue pour le véhicule lors du choix de la référence ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)).
+2. **Conception et filetage** — deux filtres vissés d'apparence identique peuvent avoir des caractéristiques internes différentes selon le moteur : filetage, présence d'un anti-retour ou réglage du by-pass. La ressemblance extérieure ne suffit pas pour choisir une référence ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)).
+3. **Média filtrant** — le média et la finesse de filtration peuvent différer selon le moteur. Le matériau seul ne permet pas d'établir ici une hiérarchie universelle de qualité ; confirmer le choix de la référence dans le catalogue pour le véhicule concerné ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)).
+4. **Clapets adaptés à la conception** — leur présence dépend du filtre et du moteur. Ne pas choisir un filtre sur la seule présence d'un anti-retour ; vérifier sa référence dans le catalogue de compatibilité ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)).
+5. **Programme d'entretien** — respecter les échéances de remplacement du filtre indiquées par le constructeur du véhicule. Le programme d'entretien applicable permet de déterminer quand remplacer le filtre ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)).
 6. **Référence d'origine du moteur** — l'indicateur d'interchangeabilité le plus fiable : commander par référence OE / véhicule, jamais par dimension approximative ([MANN-FILTER](https://www.mann-filter.com/en.html)).
+
+## Lire les références aux normes d'essai
+
+Les notices ISO distinguent plusieurs méthodes d'essai des filtres à huile à plein débit :
+
+- **ISO 4548-2:1997** concerne les essais des caractéristiques du clapet de dérivation ([notice ISO](https://www.iso.org/standard/21712.html)).
+- **ISO 4548-9:2008** décrit la mesure d'efficacité des clapets anti-retour d'entrée ou de sortie, lorsqu'ils équipent les filtres vissés ou à remplacement rapide concernés ([notice ISO](https://www.iso.org/standard/44520.html)).
+- **ISO 4548-12:2017** décrit un essai multipasse par comptage de particules, en régime stable. Son périmètre ne couvre pas les variations de débit ([notice ISO](https://www.iso.org/standard/62763.html)).
+
+Pour comparer deux références, rechercher les résultats mesurés et leurs conditions d'essai. La seule mention « ISO 4548 » sur une fiche ne permet pas de conclure à une performance, à une certification ou à une compatibilité véhicule. Ce repère de lecture ne remplace pas les données du fabricant pour la référence choisie.
 
 ## Entretien & bonnes pratiques de montage
 
-- **Remplacement à chaque vidange** : l'élément papier est conçu pour être changé à chaque vidange ; un filtre saturé fait ouvrir le by-pass prématurément (huile non filtrée). Un filtre papier jetable **ne se nettoie pas et ne se réutilise pas** ([SlashGear](https://www.slashgear.com/1862496/oil-filters-clean-reuse/), [Firestone](https://www.firestonecompleteautocare.com/blog/oil-change/change-oil-filter/)).
+- **Échéance de remplacement** : respecter les échéances de remplacement du filtre indiquées par le constructeur du véhicule ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)). Consulter son programme d'entretien ; ne pas déduire une durée universelle du seul type d'huile.
 - **Filtre vissé** : vérifier que l'ancien joint est parti (éviter le **double joint**), huiler le joint neuf, visser à la main jusqu'au contact puis serrer d'une fraction de tour selon la notice — sans clé ni sur-serrage ([PMM](https://pmmonline.co.uk/technical/how-to-fit-spin-on-oil-filters/)).
 - **Cartouche** : remplacer les joints toriques neufs fournis (placés dans leur gorge), ne pas oublier le tube central, respecter le couple du couvercle ([ECOGARD](https://ecogard.com/resources/articles/cartridge-oil-filter-replacement-missteps/)).
 
 ## Marques & qualité
 
-Trois niveaux structurent le marché de la rechange au sens du **Règlement européen 461/2010** : pièce **OE/OEM** (première monte usine), pièce **OES** (équipementier d'origine sous sa marque, qualité identique) et pièce de **qualité équivalente** ([CLEPA](https://www.clepa.eu/insights-updates/news/the-motor-vehicle-block-exemption-regulation-eu-no-461-2010/), [legislation.gov.uk](https://www.legislation.gov.uk/eur/2010/461/adopted)).
+Une pièce d'origine répond aux spécifications et normes de production du constructeur pour l'assemblage du véhicule. Pour la « qualité équivalente », les lignes directrices retiennent une qualité suffisante pour préserver la réputation du réseau agréé. Ces définitions figurent aux paragraphes 19 et 20 des [lignes directrices européennes, version du 17 avril 2023](https://eur-lex.europa.eu/legal-content/FR/TXT/?uri=CELEX%3A02010XC0528%2801%29-20230417).
 
-- **Équipementiers OE / OES** : MANN-FILTER (groupe MANN+HUMMEL), Mahle/Knecht, Purflux (groupe Sogefi, fournisseur OE de PSA), Bosch, Denso, Valeo, Blue Print ([MANN-FILTER](https://www.mann-filter.com/en.html), [Purflux](https://www.purflux.com/en/news/sogefi-first-choice-for-psa-s-new-euro-6-compliant-engines.html), [Denso](https://www.densoautoparts.com/filters-oil-filters/)).
-- **Différenciateur réel** = média + clapets + conformité au système d'origine, pas le seul nom de marque.
+Pour choisir un filtre, demander les justificatifs propres à la référence proposée : affectation au véhicule, caractéristiques techniques et résultats d'essai lorsqu'ils sont revendiqués. Le nom d'une marque ou la mention OES ne suffisent pas à démontrer que chaque référence est identique à la pièce montée en usine. Comparer ensuite les caractéristiques décrites dans « Critères de choix selon le véhicule » ; [MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/) explique que des filtres d'apparence identique peuvent différer intérieurement selon le moteur.
 
 ## FAQ
 
 **Peut-on nettoyer et réutiliser un filtre à huile ?** Non pour un élément papier jetable : le média ne se nettoie pas sans l'endommager ([SlashGear](https://www.slashgear.com/1862496/oil-filters-clean-reuse/)).
 
-**Quand remplacer le filtre à huile ?** À chaque vidange ([Firestone](https://www.firestonecompleteautocare.com/blog/oil-change/change-oil-filter/)).
+**Quand remplacer le filtre à huile ?** Selon les échéances indiquées par le constructeur du véhicule dans le programme d'entretien applicable ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)).
 
 **Faut-il commander par dimension ?** Non — par **référence d'origine du moteur**, car le type, le filetage/joint et les clapets en dépendent ([MANN-FILTER](https://www.mann-filter.com/en.html)).
 
-**Un voyant de pression d'huile vient-il toujours du filtre ?** Non : plus souvent le niveau, la pompe ou le capteur ; le filtre colmaté n'est **qu'une cause possible** ([FRAM](https://www.fram.com/vehicle-maintenance-center/post/low-oil-pressure-causes-and-symptoms)).
+**Un voyant de pression d'huile vient-il toujours du filtre ?** Il ne permet pas, à lui seul, d'identifier la pièce responsable. Suivre la consigne de sécurité de la notice du véhicule, puis faire rechercher la cause ; voir « Symptômes & diagnostic ».
 
 ## Provenance & qualité
 
-Fiche **reconstruite le 2026-06-27** depuis le scrape web-research (`automecanik-raw/sources/web-research/filtre-a-huile/`, 5 aspects + `source-index.json` : 59 sources, 29 primary). **Remplace** l'ancienne fiche dérivée de `recycled/rag-knowledge` (RAG-recyclée, non sourcée). Chaque affirmation porte sa source équipementier / normative / réglementaire. Les valeurs chiffrées de pression d'ouverture du by-pass (psi/bar/kPa) ne sont **pas** publiées (issues de forums, confidence faible, et critiques au sens **anti number-swapping** → revue humaine). `review_status: proposed` — revue humaine requise avant promotion vers `wiki/gamme/`. `diagnostic_relations[].evidence` : `reviewed: false` + `diagnostic_safe: false` (défaut conservateur ADR-033 §D4).
+La reconstruction du 27 juin 2026 s'appuyait sur le dossier web-research `automecanik-raw/sources/web-research/filtre-a-huile/`. Ses compteurs historiques (59 sources, 29 déclarées primary) ne prouvent ni l'archivage ni l'appui de chaque affirmation.
+
+Révision candidate du 14 septembre 2026 : passages FILTRON sur les clapets et MAHLE sur les différences de conception reliés à leurs captures RAW immuables, empreintes et entrées de couverture. Les critères de choix et leur version structurée ne reprennent plus la hiérarchie de médias issue d'une source transmission. L'échéance d'entretien renvoie désormais au programme du constructeur, sur la base du passage MAHLE déjà archivé. Les architectures et les principes des clapets sont précisés à partir de passages identifiés ; la généralisation sur les clapets des cartouches dans le boîtier moteur a été retirée faute d'appui dans ces sources. Les mentions ISO ont été bornées au périmètre des notices officielles consultées ; leur capture RAW reste indisponible après un refus HTTP 403 du collecteur natif. Elles restent en attente de preuve archivée, sans certification ni performance produit inférée. Les définitions OE/OES ont été rectifiées, mais la capture européenne reste indisponible. Les généralisations diagnostiques et les fréquences de causes ont été retirées ; une consigne constructeur contextualisée est désormais reliée à l'archive Renault. Les liens causaux du filtre, le montage et la réutilisation restent à qualifier séparément.
+
+`review_status: proposed`, exports désactivés. L'archivage ne vaut pas validation : la décision de promotion appartient au moteur WIKI natif et à ses contrôles de preuve et de droits. Les captures à licence inconnue restent destinées à l'examen interne. Les relations diagnostiques conservent `reviewed: false` et `diagnostic_safe: false`.

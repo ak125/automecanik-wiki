@@ -733,3 +733,260 @@ def test_entity_data_vehicle_engine_maps_validate_against_schema() -> None:
     schema = json.loads(VEHICLE_SCHEMA_PATH.read_text(encoding="utf-8"))
     ed = _vehicle_fm_with_engine_maps()["entity_data"]
     jsonschema.validate(ed, schema)  # conforme vehicle.schema v1.1.0
+
+
+# Explicit structured content for every requested public role. These test the
+# export boundary, not source truth or live publication; roles are declared by
+# the fixture rather than inferred from an arbitrary article body.
+EDITORIAL_ROLE_CASES = [
+    ('gamme', 'R1_ROUTER'), ('gamme', 'R2_PRODUCT'),
+    ('gamme', 'R3_CONSEILS'), ('gamme', 'R6_GUIDE_ACHAT'),
+    ('constructeur', 'R7_BRAND'), ('vehicle', 'R8_VEHICLE'),
+]
+
+
+@pytest.mark.parametrize('entity_type,role', EDITORIAL_ROLE_CASES)
+def test_explicit_editorial_role_preserves_structured_evidence(tmp_path, entity_type, role):
+    content = f'Fixture éditoriale {role} sans affirmation mécanique.'
+    src = _write_wiki_fiche(
+        tmp_path, entity_type, 'fixture-editorial', roles_allowed=[role],
+        extra_fm={
+            'source_refs': [{'id': 'oem:fixture', 'type': 'oem'}],
+            'entity_data': {'blocks': [{
+                'role': role, 'section': 'fixture', 'content_md': content,
+                'source_ids': ['oem:fixture'], 'truth_level': 'sourced',
+            }]},
+        },
+    )
+    payload = builder.build_export(src, tmp_path, 'a' * 40)
+    assert payload is not None
+    _validate(payload)
+    assert payload['roles_allowed'] == [role]
+    assert len(payload['blocks']) == 1
+    assert payload['blocks'][0]['content_md'] == content
+    assert payload['blocks'][0]['source_ids'] == ['oem:fixture']
+    assert payload['blocks'][0]['role'] == role
+
+
+@pytest.mark.parametrize('entity_type,role', EDITORIAL_ROLE_CASES)
+def test_editorial_role_losing_approval_is_not_exported(tmp_path, entity_type, role):
+    src = _write_wiki_fiche(
+        tmp_path, entity_type, 'fixture-editorial', roles_allowed=[role],
+        review_status='pending',
+    )
+    assert builder.build_export(src, tmp_path, 'a' * 40) is None
+
+
+def test_r9_is_not_silently_promoted_to_public_editorial_contract():
+    import jsonschema
+    payload = _valid_payload()
+    payload['roles_allowed'] = ['R9_GOVERNANCE']
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(payload)
+
+
+def _invoke_fixture_builder(tmp_path, monkeypatch, extra_args=()):
+    from click.testing import CliRunner
+    schema = tmp_path / '_meta/schema/exports-seo.schema.json'
+    schema.parent.mkdir(parents=True, exist_ok=True)
+    schema.write_bytes(SCHEMA_PATH.read_bytes())
+    # Git metadata resolution is separately tested; no real repository/commit
+    # mutations are necessary to exercise output reconciliation.
+    monkeypatch.setattr(builder, '_assert_full_clone', lambda root: None)
+    monkeypatch.setattr(builder, '_wiki_file_commit_meta', lambda root, src: ('a' * 40, '2026-09-12T00:00:00Z'))
+    return CliRunner().invoke(builder.main, ['--wiki-root', str(tmp_path), *extra_args])
+
+
+@pytest.mark.parametrize('single', [False, True])
+def test_cli_refuses_retained_export_after_approval_loss(tmp_path, monkeypatch, single):
+    _write_wiki_fiche(tmp_path, 'gamme', 'fixture-old', review_status='pending')
+    old = tmp_path / 'exports/seo/gamme/fixture-old.json'
+    old.parent.mkdir(parents=True)
+    old.write_text('historical export evidence')
+    args = ['--entity-id', 'gamme:fixture-old'] if single else []
+    result = _invoke_fixture_builder(tmp_path, monkeypatch, args)
+    assert result.exit_code != 0
+    assert 'UNRECONCILED' in result.output
+    assert old.read_text() == 'historical export evidence'
+
+
+def test_cli_refuses_orphan_export_before_writing_other_candidates(tmp_path, monkeypatch):
+    _write_wiki_fiche(tmp_path, 'gamme', 'fixture-new')
+    old = tmp_path / 'exports/seo/gamme/fixture-removed.json'
+    old.parent.mkdir(parents=True)
+    old.write_text('preserved withdrawal evidence')
+    result = _invoke_fixture_builder(tmp_path, monkeypatch)
+    assert result.exit_code != 0
+    assert 'UNRECONCILED' in result.output
+    assert old.read_text() == 'preserved withdrawal evidence'
+    assert not (old.parent / 'fixture-new.json').exists()
+
+
+def test_cli_dry_run_reports_unreconciled_export_without_writing(tmp_path, monkeypatch):
+    old = tmp_path / 'exports/seo/constructeur/fixture-removed.json'
+    old.parent.mkdir(parents=True)
+    old.write_text('preserved')
+    result = _invoke_fixture_builder(tmp_path, monkeypatch, ['--dry-run'])
+    assert result.exit_code != 0
+    assert 'UNRECONCILED' in result.output
+    assert old.read_text() == 'preserved'
+
+
+def test_cli_coherent_export_succeeds_and_replays_identically(tmp_path, monkeypatch):
+    _write_wiki_fiche(tmp_path, 'gamme', 'fixture-new')
+    result = _invoke_fixture_builder(tmp_path, monkeypatch)
+    assert result.exit_code == 0, result.output
+    out = tmp_path / 'exports/seo/gamme/fixture-new.json'
+    before = out.read_bytes()
+    result = _invoke_fixture_builder(tmp_path, monkeypatch)
+    assert result.exit_code == 0, result.output
+    assert out.read_bytes() == before
+
+
+def _retained_export(root, kind='gamme', slug='fixture-old', **overrides):
+    out = root / 'exports' / 'seo' / kind / f'{slug}.json'
+    out.parent.mkdir(parents=True, exist_ok=True)
+    payload = _valid_payload()
+    payload.update(entity_type=kind, entity_id=f'{kind}:{slug}',
+                   wiki_path=f'wiki/{kind}/{slug}.md', **overrides)
+    out.write_text(json.dumps(payload), encoding='utf-8')
+    return out
+
+
+@pytest.mark.parametrize('status', ['deprecated', 'in_review', 'draft'])
+@pytest.mark.parametrize('single', [False, True])
+def test_reconciliation_json_describes_status_without_authorizing_withdrawal(tmp_path, monkeypatch, status, single):
+    import hashlib
+    src = _write_wiki_fiche(tmp_path, 'gamme', 'fixture-old', review_status=status)
+    out = _retained_export(tmp_path)
+    before = out.read_bytes()
+    args = ['--format', 'json', '--dry-run']
+    if single:
+        args += ['--entity-id', 'gamme:fixture-old']
+    result = _invoke_fixture_builder(tmp_path, monkeypatch, args)
+    assert result.exit_code != 0
+    report = json.loads(result.stdout)
+    assert report['status'] == 'UNRECONCILED' and report['written'] == 0
+    row, = report['observations']
+    assert row['withdrawal_authorized'] is False
+    assert row['observed_source']['review_status'] == status
+    assert row['observed_export']['identity_matches_path'] is True
+    assert row['export_sha256'] == hashlib.sha256(before).hexdigest()
+    assert row['source_file_sha256'] == hashlib.sha256(src.read_bytes()).hexdigest()
+    assert row['reason'] == ('SOURCE_DEPRECATED_WITHOUT_WITHDRAWAL_DECISION' if status == 'deprecated'
+                             else 'SOURCE_PRESENT_WITHOUT_ELIGIBLE_EXPORT')
+    assert out.read_bytes() == before
+
+
+def test_single_missing_source_reports_existing_export_without_touching_other_scope(tmp_path, monkeypatch):
+    out = _retained_export(tmp_path)
+    _retained_export(tmp_path, slug='unrelated')
+    _write_wiki_fiche(tmp_path, 'gamme', 'fixture-new')
+    result = _invoke_fixture_builder(tmp_path, monkeypatch, ['--format', 'json', '--entity-id', 'gamme:fixture-old'])
+    assert result.exit_code != 0
+    row, = json.loads(result.stdout)['observations']
+    assert row['reason'] == 'SOURCE_MISSING'
+    assert row['expected_entity_id'] == 'gamme:fixture-old'
+    assert row['withdrawal_authorized'] is False
+    assert out.exists()
+    assert not (out.parent / 'fixture-new.json').exists()
+
+
+def test_untrusted_old_export_identity_is_observed_not_followed(tmp_path):
+    out = _retained_export(tmp_path)
+    payload = json.loads(out.read_text())
+    payload.update(entity_id='gamme:different', wiki_path='../../outside.md')
+    out.write_text(json.dumps(payload))
+    row = builder._unreconciled_export_evidence(out, tmp_path)
+    assert row['observed_export']['identity_matches_path'] is False
+    assert row['source_path'] == 'wiki/gamme/fixture-old.md'
+    assert row['withdrawal_authorized'] is False
+
+
+def test_invalid_historical_json_keeps_hash_and_file(tmp_path, monkeypatch):
+    import hashlib
+    out = _retained_export(tmp_path)
+    out.write_bytes(b'invalid retained export')
+    result = _invoke_fixture_builder(tmp_path, monkeypatch, ['--format', 'json'])
+    row, = json.loads(result.stdout)['observations']
+    assert result.exit_code != 0
+    assert row['export_error'] == 'EXPORT_UNREADABLE_OR_INVALID_JSON'
+    assert row['export_sha256'] == hashlib.sha256(out.read_bytes()).hexdigest()
+    assert out.read_bytes() == b'invalid retained export'
+
+
+@pytest.mark.parametrize('which', ['export', 'source'])
+def test_reconciliation_does_not_follow_outside_symlinks(tmp_path, which):
+    root = tmp_path / 'wiki-root'
+    out = _retained_export(root)
+    outside = tmp_path / 'outside.txt'
+    outside.write_text('private fixture bytes')
+    if which == 'export':
+        out.unlink()
+        out.symlink_to(outside)
+    else:
+        source = root / 'wiki/gamme/fixture-old.md'
+        source.parent.mkdir(parents=True)
+        source.symlink_to(outside)
+    row = builder._unreconciled_export_evidence(out, root)
+    assert row['reason'] == f'{which.upper()}_PATH_OUTSIDE_SCOPE'
+    assert row[f'{which}_sha256' if which == 'export' else 'source_file_sha256'] is None
+    assert 'private fixture bytes' not in json.dumps(row)
+
+
+@pytest.mark.parametrize('dry_run', [True, False])
+def test_json_success_distinguishes_planned_from_written(tmp_path, monkeypatch, dry_run):
+    _write_wiki_fiche(tmp_path, 'gamme', 'fixture-new')
+    args = ['--format', 'json'] + (['--dry-run'] if dry_run else [])
+    result = _invoke_fixture_builder(tmp_path, monkeypatch, args)
+    assert result.exit_code == 0, result.output
+    report = json.loads(result.stdout)
+    assert report['status'] == 'OK'
+    assert report['planned'] == 1
+    assert report['written'] == (0 if dry_run else 1)
+    assert report['observations'] == []
+    assert (tmp_path / 'exports/seo/gamme/fixture-new.json').exists() is not dry_run
+
+
+def test_source_observation_uses_the_same_bytes_for_hash_and_frontmatter(tmp_path, monkeypatch):
+    import hashlib
+    src = _write_wiki_fiche(tmp_path, 'gamme', 'fixture-old', review_status='deprecated')
+    before = src.read_bytes()
+    out = _retained_export(tmp_path)
+    parse = builder._parse_markdown
+    def changed(path, **kwargs):
+        path.write_bytes(before.replace(b'deprecated', b'approved'))
+        return parse(path, **kwargs)
+    monkeypatch.setattr(builder, '_parse_markdown', changed)
+    row = builder._unreconciled_export_evidence(out, tmp_path)
+    assert row['source_file_sha256'] == hashlib.sha256(before).hexdigest()
+    assert row['observed_source']['review_status'] == 'deprecated'
+
+
+@pytest.mark.parametrize('value', ['2026-09-13', '!!set {invalid: null}', '.nan'])
+def test_non_json_source_metadata_reports_invalid_without_losing_export(tmp_path, monkeypatch, value):
+    src = _write_wiki_fiche(tmp_path, 'gamme', 'fixture-old', review_status='deprecated')
+    src.write_text(src.read_text().replace('---\n', f'---\nlineage_id: {value}\n', 1))
+    out = _retained_export(tmp_path)
+    before = out.read_bytes()
+    result = _invoke_fixture_builder(tmp_path, monkeypatch, ['--format', 'json'])
+    assert result.exit_code != 0
+    row, = json.loads(result.stdout)['observations']
+    assert row['reason'] == 'SOURCE_UNREADABLE_OR_INVALID'
+    assert row['observed_source'] is None
+    assert row['source_file_sha256'] is not None
+    assert row['withdrawal_authorized'] is False
+    assert out.read_bytes() == before
+
+
+@pytest.mark.parametrize('constant', ['NaN', 'Infinity', '-Infinity'])
+def test_non_json_historical_numbers_are_preserved_but_not_reported_as_valid(tmp_path, constant):
+    out = _retained_export(tmp_path)
+    out.write_text('{"entity_id": ' + constant + '}')
+    before = out.read_bytes()
+    row = builder._unreconciled_export_evidence(out, tmp_path)
+    assert row['export_error'] == 'EXPORT_UNREADABLE_OR_INVALID_JSON'
+    assert row['observed_export'] is None
+    assert row['withdrawal_authorized'] is False
+    json.dumps(row, allow_nan=False)
+    assert out.read_bytes() == before

@@ -39,6 +39,18 @@ jobs:
         with:
           node-version: "20"
       - run: npm ci --no-audit --no-fund
+      # RATCHET entity_data (ADR-062 — aucune règle nouvelle ne démarre bloquante).
+      # Ouvert le 2026-09-16 en REPORT-ONLY : ce step ne porte PAS `--strict-entity-data`,
+      # donc les 98 écarts entity_data mesurés ce jour (15/24 fiches) sortent en
+      # `WARN [entity_data:<type>]` sans changer le code de sortie.
+      # BASCULE BLOQUANTE = PR DISTINCTE (ajout du drapeau à ce step), après résorption
+      # des écarts par leurs propriétaires respectifs (contenu / bump de schéma / owner).
       - run: node _scripts/validate-frontmatter.mjs
+      # PREUVE NÉGATIVE de la résolution des schémas entity-data : cette fixture DOIT
+      # échouer. Tant que `ajv.getSchema()` cherchait une URL inventée, elle passait avec
+      # 0 erreur et le bloc entity_data était sauté en silence. Si la résolution régresse,
+      # ce step redevient vert côté validateur — donc rouge ici.
+      - name: entity_data resolution — negative proof (fixture must fail)
+        run: '! node _scripts/validate-frontmatter.mjs --strict-entity-data _scripts/tests/fixtures/entity-data-invalid/gamme/bad.md'
       - run: node _scripts/check-slug-uniqueness.mjs
       - run: node _scripts/check-extension-whitelist.mjs

@@ -63,3 +63,49 @@ def test_source_metadata_stays_strict():
     fm["source_refs"][0]["unrecognized_evidence"] = True
     with pytest.raises(ValidationError):
         VALIDATOR.validate(fm)
+
+
+def test_long_heading_without_body_is_not_substance():
+    body = '\n'.join(
+        f"## {heading} avec un titre artificiellement tres long sans explication\n"
+        for heading in SCORER.SECTIONS_REQUIRED['gamme']
+    )
+    assert SCORER.count_filled_sections(body, SCORER.SECTIONS_REQUIRED['gamme']) == 0
+
+
+def test_next_heading_cannot_fill_previous_section():
+    body = '## Definition\n\n## Another long heading that contains no explanation\n'
+    assert SCORER.count_filled_sections(body, ['Definition']) == 0
+
+
+@pytest.mark.parametrize('content, expected', [('x' * 19, 0), ('x' * 20, 1), (' \n\t', 0)])
+def test_substance_boundary_excludes_heading_and_whitespace(content, expected):
+    body = f'## Definition with a long explanatory-looking heading\n{content}\n'
+    assert SCORER.count_filled_sections(body, ['Definition']) == expected
+
+
+def test_duplicate_heading_counts_required_section_only_once():
+    body = '## Definition\n' + 'x' * 20 + '\n## Definition\n' + 'y' * 20
+    assert SCORER.count_filled_sections(body, ['Definition']) == 1
+
+
+def test_score_details_explain_observed_oil_filter_components(tmp_path):
+    fm = document()  # absent confidence is the historical medium default
+    body = '## Fonctionnement\n' + 'x' * 25 + '\n## FAQ\n' + 'y' * 25
+    details = SCORER.compute_score_details(fm, body, tmp_path)
+    assert details['score'] == SCORER.compute_score(fm, body, tmp_path) == 0.46
+    assert {k: v['points'] for k, v in details['components'].items()} == {
+        'sources': 0.24, 'sections': 0.12, 'internal_links': 0.0, 'source_kinds': 0.1}
+    assert details['components']['sources']['defaulted_confidence_indices'] == [0, 1]
+    assert details['components']['sections']['unmatched_required'] == [
+        'Définition', "Symptômes d'usure", 'Choix selon véhicule']
+    assert details['components']['internal_links']['total'] == 0
+    assert details['scope'] == 'metadata_structure_proxy_not_factual_or_seo_validation'
+
+
+def test_score_details_identify_unresolved_links(tmp_path):
+    (tmp_path / 'known.md').write_text('canonical fixture')
+    details = SCORER.compute_score_details(document(), '[[known]] [[missing]]', tmp_path)
+    assert details['components']['internal_links']['unresolved'] == ['missing']
+    assert details['components']['internal_links']['resolved'] == 1
+    assert details['components']['internal_links']['points'] == 0.1

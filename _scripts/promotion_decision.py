@@ -33,6 +33,8 @@ import os
 import re
 import subprocess
 import sys
+import stat
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -42,6 +44,8 @@ import yaml
 SCRIPTS_DIR = Path(__file__).resolve().parent
 
 SCHEMA_VERSION = "promotion-decision/v1"
+
+PROMOTABLE_INPUT_STATUSES = {"proposed", "in_review"}
 
 STATUS_ELIGIBLE = "ELIGIBLE"
 STATUS_BLOCKED = "BLOCKED"
@@ -265,6 +269,7 @@ def assemble_bundle(substance: dict, *, coverage_raw=None, regression_raw=None,
 _EVALUATION_ENGINE_FILES = (
     "promotion_decision.py", "quality-gates.py", "check-coverage-map.py",
     "compare-proposal-versions.py", "shadow_score.py", "compute-confidence-score.py",
+    "gen_coverage_map.py",
 )
 
 
@@ -313,12 +318,18 @@ def _engine_revision(filenames) -> str:
     return h.hexdigest()
 
 
+def _effective_raw_root(raw_root, wiki_root) -> Path:
+    """Use the same explicit/environment/default RAW root for snapshots and gates."""
+    selected = raw_root if raw_root is not None else os.environ.get("AUTOMECANIK_RAW_PATH")
+    return Path(selected or Path(wiki_root).parent / "automecanik-raw").resolve()
+
+
 def capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path) -> dict:
     """Manifeste déterministe des inputs verdict-affectants réellement lisibles +
     revisions d'engine. `input_manifest` trié canoniquement (role, path). Le hash suit
     le contenu réel (worktree dirty). Aucune prétention de repro si SHA-only insuffisant."""
     wiki_root = Path(wiki_root)
-    raw_root = Path(raw_root) if raw_root else None
+    raw_root = _effective_raw_root(raw_root, wiki_root)
     entries: list[dict] = []
 
     def add(role: str, path):
@@ -327,13 +338,45 @@ def capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path) -
                         "sha256": _sha256_file(p)})
 
     add("candidate", candidate_path)
+    # The native evaluator can resolve its baseline without a caller override.
+    # Capture the actual destination (including absence) independently: another
+    # baseline must never hide a concurrent change to the canonical fiche.
+    fm, body = _parse_markdown(Path(candidate_path))
+    add("canon_target", _promotion_target_path(wiki_root, fm))
     if baseline_path is not None:
         add("baseline", baseline_path)
     add("source_catalog", wiki_root / "_meta" / "source-catalog.yaml")
     add("coverage_schema", wiki_root / "_meta" / "schema" / "coverage-map.schema.json")
+    add("reality_manifest", wiki_root / "_meta" / "reality-manifest.json")
+    # Coverage checker keys by filename; shadow loader keys by declared slug.
+    # Capture both when different, including absence, before allowing any apply.
+    for slug in sorted({Path(candidate_path).stem, fm.get("slug") or Path(candidate_path).stem}):
+        add("coverage_map", wiki_root / "proposals" / "_coverage" / f"{slug}.coverage.yaml")
+    # Snapshot only targets actually referenced by this candidate, using the
+    # scorer's own syntax. An unrelated fiche must not invalidate the decision.
+    scorer = _load_module("_confidence_snapshot", "compute-confidence-score.py")
+    link_slugs = {slug.strip() for slug in scorer.WIKILINK_RE.findall(body)}
+    if link_slugs:
+        for link_target in sorted((wiki_root / "wiki").rglob("*.md")):
+            if link_target.stem in link_slugs:
+                add("canonical_link_target", link_target)
     if raw_root is not None:
         add("raw_inventory", raw_root / "manifests" / "source-inventory.csv")
         add("raw_checksums", raw_root / "manifests" / "checksums.json")
+        # Bind the bytes of referenced archives as well as inventory metadata.
+        # Missing/malformed evidence still has its map/catalog inputs captured;
+        # the real evaluators reject it instead of the snapshot inventing proof.
+        try:
+            ccm = _load_module("_coverage_snapshot", "check-coverage-map.py")
+            catalog = ccm._load_catalog(wiki_root)
+            slugs = ccm.referenced_source_slugs(Path(candidate_path), wiki_root)
+            qg = _load_module("_archive_snapshot", "quality-gates.py")
+            qg.RAW_INVENTORY = raw_root / "manifests" / "source-inventory.csv"
+            paths, _ = qg.source_archive_paths({slug: catalog[slug] for slug in slugs if slug in catalog})
+        except (OSError, ValueError, TypeError, AttributeError, yaml.YAMLError):
+            paths = {}
+        for path in sorted(set(paths.values())):
+            add("raw_archive", path)
 
     entries.sort(key=lambda e: (e["role"], e["path"]))
     return {
@@ -457,18 +500,19 @@ def _load_gates():
 
 
 def _load_confidence_fn():
-    """Charge compute_score depuis compute-confidence-score.py (filename à tirets)."""
+    """Charge le calcul détaillé unique depuis compute-confidence-score.py (filename à tirets)."""
     path = SCRIPTS_DIR / "compute-confidence-score.py"
     spec = importlib.util.spec_from_file_location("_confidence_score", path)
     if spec is None or spec.loader is None:
         raise PromotionInputError(f"compute-confidence-score.py introuvable: {path}")
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
-    return mod.compute_score
+    return mod.compute_score_details
 
 
-def _parse_markdown(path: Path) -> tuple[dict[str, Any], str]:
-    text = path.read_text(encoding="utf-8")
+def _parse_markdown(path: Path, *, source_bytes: bytes | None = None) -> tuple[dict[str, Any], str]:
+    text = (path.read_text(encoding="utf-8") if source_bytes is None else
+            source_bytes.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n"))
     if not text.startswith(FRONTMATTER_SEPARATOR):
         raise PromotionInputError(f"proposal sans frontmatter: {path}")
     parts = text.split(f"\n{FRONTMATTER_SEPARATOR}\n", 1)
@@ -510,7 +554,7 @@ def _compute_shadow(fm: dict, body: str, target: Path, wiki_root: Path) -> dict 
         import reality_manifest as _rm
         import shadow_score as _ss
 
-        manifest = _rm.load_manifest(SCRIPTS_DIR.parent / "_meta" / "reality-manifest.json")
+        manifest = _rm.load_manifest(wiki_root / "_meta" / "reality-manifest.json")
         cmap = None
         loader = getattr(_ss, "_load_coverage_map", None)  # fourni par PR #53
         if callable(loader):
@@ -525,6 +569,7 @@ def _compute_shadow(fm: dict, body: str, target: Path, wiki_root: Path) -> dict 
             "shadow_applicable": r.applicable,
             "shadow_floors_failed": r.floors_failed,
             "shadow_blocked": r.blocked,
+            "shadow_notes": r.notes,
             "manifest_status": _rm.status(manifest),
             "scorer": "shadow_score.score@6dim-v0",
         }
@@ -635,8 +680,17 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     if truth_level not in AUTO_PROMOTE_TRUTH_LEVELS:
         reasons.append(f"truth_level={truth_level} (auto exige L1/L2)")
 
+    score_details = None
     try:
-        score = float(compute_score(fm, body, wiki_root))
+        # Same canonical link scope as compute-confidence-score.py --check.
+        # Native scorer returns evidence from ONE computation; injected legacy
+        # scalar callables remain supported without manufacturing explanations.
+        computed = compute_score(fm, body, wiki_root / "wiki")
+        if isinstance(computed, dict):
+            score = float(computed["score"])
+            score_details = computed
+        else:
+            score = float(computed)
     except Exception as exc:  # fail-closed
         reasons.append(f"confidence_score indéterminable: {exc}")
         score = 0.0
@@ -667,6 +721,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     return {
         "tier": tier,
         "confidence_score": round(score, 4),
+        "score_details": score_details,
         "gate_engine": gate_engine,
         "gate_status": {n: r.status for n, r in gate_results},
         "gate_outcomes": [_serialize_gate_outcome(n, r) for n, r in gate_results],
@@ -713,8 +768,8 @@ def _canon_already_approved(wiki_root: Path, fm: dict) -> bool:
     return existing_fm.get("review_status") == "approved"
 
 
-def apply_promotion(target: Path, fm: dict, body: str, wiki_root: Path,
-                    decision: dict) -> Path:
+def apply_promotion(target: Path, wiki_root: Path, decision: dict, *,
+                    raw_root=None, baseline_path=None) -> Path:
     """Déplace la proposal vers le canon wiki approved (TIER A uniquement). 0 enrichissement.
 
     Move-semantics (invariant `check-slug-uniqueness`) : une gamme promue ne peut
@@ -723,62 +778,126 @@ def apply_promotion(target: Path, fm: dict, body: str, wiki_root: Path,
     + l'historique git. Fail-safe : la proposal n'est supprimée qu'APRÈS écriture d'un
     canon non-vide, et seulement si elle vit bien sous `proposals/`.
     """
-    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
-    sha = _wiki_commit_sha(wiki_root)
-    out_path = _promotion_target_path(wiki_root, fm)
-    # defense-in-depth : ne JAMAIS écraser une fiche canon déjà approved (idempotence / TOCTOU)
-    if _canon_already_approved(wiki_root, fm):
-        raise PromotionInputError(f"refus écrasement canon déjà approved: {out_path}")
+    # POSIX runtime, as for the existing flock-based synchronization scripts.
+    # Lock the checkout directory inode: no extra lockfile, registry or scheduler.
+    # Every native promotion executor shares this lock; external authors must
+    # still obey the source-editing protocol (advisory lock, not a universal CAS).
+    try:
+        import fcntl
+    except ImportError as exc:
+        raise PromotionInputError("promotion requires POSIX flock; no unlocked fallback") from exc
+    lock_fd = os.open(wiki_root, os.O_RDONLY | os.O_DIRECTORY)
+    try:
+        try:
+            fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except BlockingIOError as exc:
+            raise PromotionInputError("PROMOTION_BUSY: another promoter holds this checkout") from exc
+        # The executor accepts the full canonical decision, never caller-cached
+        # frontmatter/body or a bare score. Parse the exact bytes matched to its input.
+        target, wiki_root = Path(target), Path(wiki_root)
+        ok, refusal = authorize_apply(decision, target, wiki_root,
+                                      raw_root=raw_root, baseline_path=baseline_path)
+        if not ok:
+            raise PromotionInputError(f"refus application: {refusal}")
+        source_bytes = target.read_bytes()
+        source_hash = hashlib.sha256(source_bytes).hexdigest()
+        candidates = [entry for entry in decision["inputs"]["input_manifest"]
+                      if entry.get("role") == "candidate"]
+        if len(candidates) != 1 or candidates[0].get("sha256") != source_hash:
+            raise PromotionInputError("STALE_DECISION: candidate bytes differ from evaluated input")
+        fm, body = _parse_markdown(target, source_bytes=source_bytes)
+        if fm.get("review_status") not in PROMOTABLE_INPUT_STATUSES:
+            raise PromotionInputError(f"source non promouvable: {fm.get('review_status')}")
+        evaluation = decision.get("evaluation") or {}
+        now = datetime.now(timezone.utc).isoformat(timespec="seconds")
+        sha = _wiki_commit_sha(wiki_root)
+        out_path = _promotion_target_path(wiki_root, fm)
+        # defense-in-depth : ne JAMAIS écraser une fiche canon déjà approved (idempotence / TOCTOU)
+        if _canon_already_approved(wiki_root, fm):
+            raise PromotionInputError(f"refus écrasement canon déjà approved: {out_path}")
 
-    new_fm = dict(fm)  # copie — aucune modification du contenu éditorial
-    new_fm["review_status"] = "approved"
-    new_fm["reviewed_by"] = f"{PROMOTER_ID}@{sha}"
-    new_fm["reviewed_at"] = now
-    new_fm["auto_promoted"] = True
-    new_fm["validation_mode"] = "automatic"
-    new_fm["promotion_tier"] = "A"
-    new_fm["promotion_evidence"] = {
-        "gate_status": decision["gate_status"],
-        "confidence_score": decision["confidence_score"],
-        "promoter": f"{PROMOTER_ID}@{sha}",
-        "promoted_at": now,
-    }
-    # SHADOW (ADR-088 §F) : trace le tier 6-dim si calculé, pour rendre les 3 critères
-    # de cutover mesurables sur le chemin réel. .get → rétro-compat (decision sans shadow).
-    shadow = decision.get("shadow_score")
-    if shadow is not None:
-        new_fm["promotion_evidence"]["shadow_score"] = shadow
-    exportable = dict(new_fm.get("exportable") or {})
-    exportable["seo"] = True
-    new_fm["exportable"] = exportable
-    provenance = dict(new_fm.get("provenance") or {})
-    provenance["promoted_from"] = str(target.relative_to(wiki_root))
-    provenance["promoted_at"] = now
-    new_fm["provenance"] = provenance
+        new_fm = dict(fm)  # copie — aucune modification du contenu éditorial
+        new_fm["review_status"] = "approved"
+        new_fm["reviewed_by"] = f"{PROMOTER_ID}@{sha}"
+        new_fm["reviewed_at"] = now
+        new_fm["auto_promoted"] = True
+        new_fm["validation_mode"] = "automatic"
+        new_fm["promotion_tier"] = "A"
+        new_fm["promotion_evidence"] = {
+            "gate_status": evaluation["gate_status"],
+            "confidence_score": evaluation["confidence_score"],
+            "promoter": f"{PROMOTER_ID}@{sha}",
+            "promoted_at": now,
+        }
+        # SHADOW (ADR-088 §F) : trace le tier 6-dim si calculé, pour rendre les 3 critères
+        # de cutover mesurables sur le chemin réel. .get → rétro-compat (decision sans shadow).
+        shadow = evaluation.get("shadow_score")
+        if shadow is not None:
+            new_fm["promotion_evidence"]["shadow_score"] = shadow
+        exportable = dict(new_fm.get("exportable") or {})
+        exportable["seo"] = True
+        new_fm["exportable"] = exportable
+        provenance = dict(new_fm.get("provenance") or {})
+        provenance["promoted_from"] = str(target.relative_to(wiki_root))
+        provenance["promoted_at"] = now
+        new_fm["provenance"] = provenance
 
-    out_path.parent.mkdir(parents=True, exist_ok=True)
-    rendered = (
-        f"{FRONTMATTER_SEPARATOR}\n"
-        f"{yaml.safe_dump(new_fm, allow_unicode=True, sort_keys=False)}"
-        f"{FRONTMATTER_SEPARATOR}\n{body}"
-    )
-    out_path.write_text(rendered, encoding="utf-8")
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        rendered = (
+            f"{FRONTMATTER_SEPARATOR}\n"
+            f"{yaml.safe_dump(new_fm, allow_unicode=True, sort_keys=False)}"
+            f"{FRONTMATTER_SEPARATOR}\n{body}"
+        )
+        # Same-directory staging gives readers either the complete previous file
+        # or the complete new file. No partial canonical document is published.
+        fd, temporary = tempfile.mkstemp(prefix=f".{out_path.stem}-", suffix=".tmp",
+                                         dir=out_path.parent)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as stream:
+                mode_source = out_path if out_path.exists() else target
+                os.fchmod(stream.fileno(), stat.S_IMODE(mode_source.stat().st_mode))
+                stream.write(rendered)
+                stream.flush()
+                os.fsync(stream.fileno())
+            ok, refusal = authorize_apply(decision, target, wiki_root,
+                                          raw_root=raw_root, baseline_path=baseline_path)
+            if not ok:
+                raise PromotionInputError(f"refus application avant écriture: {refusal}")
+            os.replace(temporary, out_path)
+            parent_fd = os.open(out_path.parent, os.O_RDONLY | os.O_DIRECTORY)
+            try:
+                os.fsync(parent_fd)
+            except OSError as exc:
+                raise PromotionInputError(
+                    f"canon publié: {out_path}; synchronisation répertoire échouée; proposal conservée") from exc
+            finally:
+                os.close(parent_fd)
+        finally:
+            try:
+                os.unlink(temporary)
+            except FileNotFoundError:
+                pass  # successful replace consumed the staged name
 
-    # Move-semantics : supprimer la proposal source APRÈS écriture du canon. Gardes :
-    # (1) target est un vrai fichier, (2) sous proposals/ uniquement (jamais wiki/),
-    # (3) distinct du canon, (4) canon bien écrit et non-vide. Une OSError éventuelle
-    # remonte au handler de main() (pas de swallow silencieux — no-silent-fallback).
-    proposals_root = (wiki_root / "proposals").resolve()
-    if (
-        target.is_file()
-        and target.resolve() != out_path.resolve()
-        and proposals_root in target.resolve().parents
-        and out_path.is_file()
-        and out_path.stat().st_size > 0
-    ):
-        target.unlink()
+        # Move-semantics : supprimer la proposal source APRÈS écriture du canon. Gardes :
+        # (1) target est un vrai fichier, (2) sous proposals/ uniquement (jamais wiki/),
+        # (3) distinct du canon, (4) canon bien écrit et non-vide. Une OSError éventuelle
+        # remonte au handler de main() (pas de swallow silencieux — no-silent-fallback).
+        proposals_root = (wiki_root / "proposals").resolve()
+        if (
+            target.is_file()
+            and target.resolve() != out_path.resolve()
+            and proposals_root in target.resolve().parents
+            and out_path.is_file()
+            and out_path.stat().st_size > 0
+        ):
+            if target.read_bytes() != source_bytes:
+                raise PromotionInputError(
+                    f"canon écrit: {out_path}; proposal modifiée pendant écriture, conservée: {target}")
+            target.unlink()
 
-    return out_path
+        return out_path
+    finally:
+        os.close(lock_fd)  # releases flock on every failure and normal return
 
 
 def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
@@ -801,9 +920,10 @@ def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
     # coverage-strict (check-coverage-map)
     try:
         ccm = _load_module("_check_coverage_map", "check-coverage-map.py")
-        catalog = ccm._load_catalog_slugs(wiki_root)
+        catalog = ccm._load_catalog(wiki_root)
         schema = ccm._load_schema(wiki_root)
-        coverage_raw = ccm.check_fiche(candidate_path, wiki_root, catalog, schema)
+        coverage_raw = ccm.check_fiche(
+            candidate_path, wiki_root, catalog, schema, require_source_proof=True)
     except Exception as exc:  # fail-closed
         coverage_raw = {"status": "UNAVAILABLE", "fails": [f"coverage_evaluator_error: {exc}"]}
 
@@ -823,10 +943,19 @@ def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
     # provenance raw_ref cross-repo (quality-gates) — RAW dispo depuis AUTOMECANIK_RAW_PATH
     try:
         qg = _load_module("_quality_gates_prov", "quality-gates.py")
+        # Validate the same roots captured in the decision manifest, not the
+        # module's installation checkout or an unrelated environment default.
+        qg.SOURCE_CATALOG = wiki_root / "_meta" / "source-catalog.yaml"
+        if raw_root is not None:
+            qg.RAW_INVENTORY = Path(raw_root) / "manifests" / "source-inventory.csv"
+            qg.RAW_CHECKSUMS = Path(raw_root) / "manifests" / "checksums.json"
         source_catalog = qg.load_source_catalog()
         _mids, _sha, _dups, raw_msg = qg.load_raw_inventory()
         raw_available = bool(_mids) or ("absent" not in (raw_msg or "").lower())
-        failures, warnings = qg.gate_source_catalog_raw_refs(source_catalog)
+        ccm = _load_module("_coverage_provenance", "check-coverage-map.py")
+        referenced_slugs = ccm.referenced_source_slugs(candidate_path, wiki_root)
+        failures, warnings = qg.gate_source_catalog_raw_refs(
+            source_catalog, verify_archive_slugs=referenced_slugs)
         provenance_raw = (failures, warnings)
     except Exception as exc:  # fail-closed → indisponible
         provenance_raw = ([f"provenance_evaluator_error: {exc}"], [])
@@ -843,6 +972,8 @@ def _evaluation_passthrough(substance) -> dict:
     return {
         "tier": substance.get("tier"),
         "confidence_score": substance.get("confidence_score"),
+        "score_details": substance.get("score_details"),
+        "gate_engine": substance.get("gate_engine"),
         "gate_status": substance.get("gate_status"),
         "shadow_score": substance.get("shadow_score"),
     }
@@ -860,15 +991,15 @@ def canonical_promotion_decision(candidate_path, wiki_root, *, raw_root=None,
     """
     candidate_path = Path(candidate_path)
     wiki_root = Path(wiki_root)
-    raw_root = Path(raw_root) if raw_root else None
+    raw_root = _effective_raw_root(raw_root, wiki_root)
     runner = run_evaluators or _run_real_evaluators
 
     manifest_before = capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path)
     substance, cov_raw, reg_raw, prov_raw, raw_avail = runner(
         candidate_path, wiki_root, raw_root, baseline_path, threshold, gates, compute_score)
-    manifest_after = capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path)
-
-    if manifest_before["input_manifest"] != manifest_after["input_manifest"]:
+    try:
+        manifest_after = capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path)
+    except (OSError, UnicodeError, yaml.YAMLError, PromotionInputError) as exc:
         return {
             "schema_version": SCHEMA_VERSION,
             "substance_tier": _substance_tier(substance or {}),
@@ -876,8 +1007,24 @@ def canonical_promotion_decision(candidate_path, wiki_root, *, raw_root=None,
             "eligible": False,
             "blocking_reasons": [blocking_reason(
                 "STALE_DURING_EVALUATION", "SNAPSHOT", "SNAPSHOT_GUARD",
-                {"before": manifest_before["input_manifest"],
-                 "after": manifest_after["input_manifest"]})],
+                {"recapture_error": str(exc)})],
+            "evaluation": _evaluation_passthrough(substance),
+            "inputs": manifest_before,
+        }
+
+    # Engine changes during evaluation invalidate even a dry-run decision.
+    # Git revision is provenance only; compare the actual captured file hashes.
+    compared_keys = ("input_manifest", "evaluation_engine_revision", "decision_engine_revision")
+    if any(manifest_before[k] != manifest_after[k] for k in compared_keys):
+        return {
+            "schema_version": SCHEMA_VERSION,
+            "substance_tier": _substance_tier(substance or {}),
+            "promotion_status": STATUS_UNKNOWN_FAIL_CLOSED,
+            "eligible": False,
+            "blocking_reasons": [blocking_reason(
+                "STALE_DURING_EVALUATION", "SNAPSHOT", "SNAPSHOT_GUARD",
+                {"before": {k: manifest_before[k] for k in compared_keys},
+                 "after": {k: manifest_after[k] for k in compared_keys}})],
             "evaluation": _evaluation_passthrough(substance),
             "inputs": manifest_after,
         }
@@ -902,7 +1049,11 @@ def reverify_inputs(decision, candidate_path, wiki_root, *, raw_root=None,
     revisions) — pas seulement candidate/baseline (contrat A3d). Aucune redécision.
     """
     captured = (decision or {}).get("inputs") or {}
-    fresh = capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path)
+    try:
+        fresh = capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path)
+    except (OSError, UnicodeError, yaml.YAMLError, PromotionInputError) as exc:
+        return blocking_reason("STALE_DECISION", "SNAPSHOT", _APPLY_GUARD,
+                               {"recapture_error": str(exc)})
     drift: dict = {}
     if captured.get("input_manifest") != fresh.get("input_manifest"):
         drift["input_manifest"] = {"before": captured.get("input_manifest"),

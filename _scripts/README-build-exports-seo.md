@@ -28,7 +28,7 @@ automecanik-wiki/wiki/<entity_type_singular>/<slug>.md (review_status: approved,
 > touche pas `wiki/`, donc ces champs ne bougent pas). `source_wiki_commit` est
 > informational-only (audit) per ADR-059 — autorité de replay = `exports_snapshot_hash`.
 
-## 9 garde-fous verrouillés (vérifiés par 49 tests Pytest)
+## 9 garde-fous verrouillés (vérifiés par Pytest)
 
 | #     | Verrou                                                             | Mécanisme                                              |
 | ----- | ------------------------------------------------------------------ | ------------------------------------------------------ |
@@ -70,7 +70,7 @@ python3 _scripts/build_exports_seo.py \
 python3 _scripts/build_exports_seo.py --wiki-root ... --dry-run
 ```
 
-## Tests (49/49 PASS)
+## Tests
 
 ```bash
 cd _scripts
@@ -104,3 +104,55 @@ canon wiki puis régénérer.
 - **PR-7** : RPC `get_active_seo_projection` + GRANT anon + adapter pages.
 
 Ces composants attendent l'instruction explicite séparée (owner-gated : apply migration, GRANT, flag, deploy).
+
+## Retrait et perte d'approbation
+
+Le builder prépare le périmètre demandé avant d'écrire. Si un ancien export JSON
+n'a plus de source éligible (fiche retirée, approbation perdue ou export SEO refusé),
+la commande termine en erreur `UNRECONCILED` et conserve l'export comme preuve.
+Aucun autre export du lot n'est écrit avant cette vérification. Le mode `--entity-id`
+ne contrôle que l'export de cette entité ; le mode complet contrôle les répertoires
+SEO des types supportés. Le dry-run rapporte la même incohérence sans écrire.
+
+Ce garde ne constitue pas un tombstone ni une autorisation de supprimer : le retrait
+aval, ses dépendances et l'invalidation DB/cache/index restent à réconcilier par le
+parcours gouverné avant publication. Un échec de builder ne doit pas être annoncé
+comme un snapshot complet fraîchement publiable.
+
+### Observations de réconciliation en JSON
+
+```bash
+python3 _scripts/build_exports_seo.py --wiki-root <checkout-wiki> \
+  --entity-id gamme:filtre-a-huile --dry-run --format json
+```
+
+Le format texte reste le défaut. En JSON, un build cohérent rend `status: OK`,
+`planned` et `written` (zéro en dry-run). Un export historique sans source éligible
+rend `status: UNRECONCILED`, `written: 0` et une liste `observations` sur stdout,
+avec un code de sortie non nul et le diagnostic texte sur stderr. Les erreurs
+préalables (racine, Git, parsing ou argument invalide) gardent le comportement
+Click existant ; elles ne garantissent pas une réponse JSON.
+
+Chaque observation contient l'identité attendue depuis le chemin de l'export,
+le chemin source dérivé, les empreintes SHA-256 des octets effectivement lus et
+les déclarations observées dans l'export et le frontmatter. Le chemin `wiki_path`
+déclaré dans le JSON n'est jamais suivi ; les liens sortant du périmètre sont
+refusés. Le hash source et ses métadonnées proviennent de la même lecture.
+`source_file_sha256` désigne le fichier entier ; `observed_source.content_hash`
+reste la déclaration du hash du corps, sans équivalence supposée entre les deux.
+`observed_export.blocks` conserve les coordonnées natives des blocs ; il ne
+calcule pas leurs identifiants DB et ne vérifie pas les consommateurs.
+
+Les motifs principaux distinguent `SOURCE_MISSING`,
+`SOURCE_PRESENT_WITHOUT_ELIGIBLE_EXPORT` et
+`SOURCE_DEPRECATED_WITHOUT_WITHDRAWAL_DECISION`. Les chemins hors périmètre,
+les fichiers illisibles et les métadonnées non représentables en JSON restent
+signalés sans écrire ni supprimer les exports historiques.
+
+Ces observations sont des déclarations non validées, pas une décision de retrait.
+`withdrawal_authorized` reste toujours `false`. La validation/promotion WIKI est
+automatique selon le moteur existant `promotion_decision.py` ; ce moteur ne
+produit actuellement aucun contrat de transition de retrait. Le seul statut
+`deprecated`, l'absence d'une fiche ou la perte de son gate SEO ne peuvent pas
+remplacer cette décision, ni autoriser la purge des consommateurs. Le diagnostic
+prépare leur réconciliation sans ajouter de moteur de décision parallèle.

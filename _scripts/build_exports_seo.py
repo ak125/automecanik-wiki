@@ -73,9 +73,10 @@ CONSUMERS_BY_ENTITY_TYPE_DEFAULT: dict[str, list[str]] = {
 }
 
 
-def _parse_markdown(path: Path) -> tuple[dict[str, Any], str]:
+def _parse_markdown(path: Path, *, source_bytes: bytes | None = None) -> tuple[dict[str, Any], str]:
     """Retourne (frontmatter, body)."""
-    text = path.read_text(encoding="utf-8")
+    text = (path.read_text(encoding="utf-8") if source_bytes is None
+            else source_bytes.decode("utf-8").replace("\r\n", "\n").replace("\r", "\n"))
     if not text.startswith(FRONTMATTER_SEPARATOR):
         raise click.ClickException(f"wiki source lacks frontmatter: {path}")
     parts = text.split(f"\n{FRONTMATTER_SEPARATOR}\n", 1)
@@ -619,6 +620,82 @@ def _iter_canon_files(wiki_root: Path) -> list[Path]:
     return candidates
 
 
+def _unreconciled_export_evidence(export_path: Path, wiki_root: Path) -> dict:
+    """Read-only observations, never a withdrawal command or a dependency registry.
+
+    Derive the source locator from the scoped export path, not from untrusted JSON.
+    Hash the exact observed bytes; the source body hash and file hash are distinct.
+    """
+    relative = export_path.relative_to(wiki_root)
+    kind, slug = export_path.parent.name, export_path.stem
+    source = wiki_root / "wiki" / kind / f"{slug}.md"
+    evidence = {
+        "export_path": relative.as_posix(),
+        "expected_entity_id": f"{kind}:{slug}",
+        "source_path": source.relative_to(wiki_root).as_posix(),
+        "withdrawal_authorized": False,
+        "reason": "SOURCE_MISSING",
+        "export_sha256": None,
+        "source_file_sha256": None,
+        "observed_export": None,
+        "observed_source": None,
+    }
+    # Do not turn diagnostics into an arbitrary-file reader through symlinks.
+    try:
+        _enforce_output_path_strict(export_path, wiki_root)
+    except click.ClickException:
+        evidence["reason"] = "EXPORT_PATH_OUTSIDE_SCOPE"
+        return evidence
+    try:
+        export_bytes = export_path.read_bytes()
+        evidence["export_sha256"] = hashlib.sha256(export_bytes).hexdigest()
+        old = json.loads(export_bytes)
+        if not isinstance(old, dict):
+            raise ValueError("export must be an object")
+        # Python accepts NaN/Infinity on input; the diagnostic must remain JSON.
+        json.dumps(old, allow_nan=False)
+        evidence["observed_export"] = {
+            "entity_id": old.get("entity_id"),
+            "wiki_path": old.get("wiki_path"),
+            "source_wiki_commit": old.get("source_wiki_commit"),
+            "source_content_hash": old.get("content_hash"),
+            "identity_matches_path": old.get("entity_id") == f"{kind}:{slug}"
+                and old.get("wiki_path") == evidence["source_path"],
+            "blocks": [
+                {key: block.get(key) for key in ("role", "section", "axis_key_type", "axis_key")}
+                for block in old.get("blocks", []) if isinstance(block, dict)
+            ] if isinstance(old.get("blocks"), list) else [],
+        }
+    except (OSError, UnicodeError, ValueError):
+        evidence["export_error"] = "EXPORT_UNREADABLE_OR_INVALID_JSON"
+    try:
+        source.resolve().relative_to(wiki_root.resolve() / "wiki")
+    except ValueError:
+        evidence["reason"] = "SOURCE_PATH_OUTSIDE_SCOPE"
+        return evidence
+    if source.is_file():
+        try:
+            source_bytes = source.read_bytes()
+            evidence["source_file_sha256"] = hashlib.sha256(source_bytes).hexdigest()
+            fm, _ = _parse_markdown(source, source_bytes=source_bytes)
+            observed_source = {
+                key: fm.get(key) for key in
+                ("lineage_id", "content_hash", "review_status", "validation_mode", "exportable")
+            }
+            # YAML dates/sets and non-finite numbers cannot enter a JSON report.
+            # Reject the observation without fabricating normalized metadata.
+            json.dumps(observed_source, allow_nan=False)
+            evidence["observed_source"] = observed_source
+            evidence["reason"] = (
+                "SOURCE_DEPRECATED_WITHOUT_WITHDRAWAL_DECISION"
+                if fm.get("review_status") == "deprecated"
+                else "SOURCE_PRESENT_WITHOUT_ELIGIBLE_EXPORT"
+            )
+        except (OSError, UnicodeError, ValueError, TypeError, yaml.YAMLError, click.ClickException):
+            evidence["reason"] = "SOURCE_UNREADABLE_OR_INVALID"
+    return evidence
+
+
 @click.command()
 @click.option(
     "--wiki-root",
@@ -637,7 +714,9 @@ def _iter_canon_files(wiki_root: Path) -> list[Path]:
     default=False,
     help="N'écrit rien sur disque, affiche ce qui serait écrit",
 )
-def main(wiki_root: Path, entity_id: str | None, dry_run: bool) -> None:
+@click.option("--format", "output_format", type=click.Choice(["text", "json"]), default="text",
+              help="Format du résultat de build et des observations de réconciliation.")
+def main(wiki_root: Path, entity_id: str | None, dry_run: bool, output_format: str) -> None:
     """
     Filter + transform wiki canon approved → exports/seo/<entity_type>/<slug>.json.
 
@@ -659,30 +738,80 @@ def main(wiki_root: Path, entity_id: str | None, dry_run: bool) -> None:
             raise click.ClickException(f"--entity-id invalid: {entity_id!r}")
         entity_type, slug = m.group(1), m.group(2)
         source = wiki_root / "wiki" / entity_type / f"{slug}.md"
-        if not source.exists():
+        if not source.exists() and not (wiki_root / "exports" / "seo" / entity_type / f"{slug}.json").exists():
             raise click.ClickException(f"canon source absent: {source}")
-        candidates = [source]
+        candidates = [source] if source.exists() else []
     else:
         candidates = _iter_canon_files(wiki_root)
 
-    written = 0
+    # Plan the whole requested scope before writing. A rejected/deleted source
+    # must not leave a formerly approved export while the run reports success.
+    # Its absence is not deletion authority: preserve it for governed withdrawal.
+    payloads: list[dict] = []
     skipped = 0
     for src in candidates:
+        try:
+            src.resolve().relative_to(wiki_root.resolve() / "wiki")
+        except ValueError as exc:
+            raise click.ClickException(f"canon source outside wiki scope: {src}") from exc
         commit_sha, commit_date = _wiki_file_commit_meta(wiki_root, src)
         payload = build_export(src, wiki_root, commit_sha, commit_date)
         if payload is None:
             skipped += 1
-            continue
+        else:
+            payloads.append(payload)
+
+    exports_root = wiki_root / "exports" / "seo"
+    expected = {
+        exports_root / p["entity_type"] / f"{p['entity_id'].split(':', 1)[1]}.json"
+        for p in payloads
+    }
+    if entity_id:
+        scoped_export = exports_root / entity_type / f"{slug}.json"
+        existing = {scoped_export} if scoped_export.exists() else set()
+    else:
+        existing = {
+            path
+            for kind in SEO_ENTITY_TYPES_BASE | {DIAGNOSTIC_CONDITIONAL_TYPE}
+            for path in (exports_root / kind).glob("*.json")
+            if path.is_file()
+        }
+    unreconciled = sorted(existing - expected)
+    if unreconciled:
+        if output_format == "json":
+            click.echo(json.dumps({
+                "status": "UNRECONCILED", "dry_run": dry_run,
+                "scope_entity_id": entity_id, "written": 0,
+                "observations": [_unreconciled_export_evidence(p, wiki_root) for p in unreconciled],
+            }, ensure_ascii=False, indent=2, sort_keys=True))
+        for path in unreconciled:
+            click.echo(f"UNRECONCILED {path.relative_to(wiki_root)} (preserved)", err=True)
+        raise click.ClickException(
+            "Retained SEO exports have no eligible source in the requested scope; "
+            "governed withdrawal reconciliation required before publication."
+        )
+
+    written = 0
+    for payload in payloads:
         if dry_run:
-            click.echo(
-                f"DRY_RUN would-write exports/seo/{payload['entity_type']}/{payload['entity_id'].split(':', 1)[1]}.json"
-            )
+            if output_format == "text":
+                click.echo(
+                    f"DRY_RUN would-write exports/seo/{payload['entity_type']}/{payload['entity_id'].split(':', 1)[1]}.json"
+                )
         else:
             out = _write_export(payload, wiki_root)
-            click.echo(f"OK {out.relative_to(wiki_root)}")
+            if output_format == "text":
+                click.echo(f"OK {out.relative_to(wiki_root)}")
         written += 1
 
-    click.echo(f"\ntotal: candidates={len(candidates)} written={written} skipped={skipped}")
+    if output_format == "json":
+        click.echo(json.dumps({
+            "status": "OK", "dry_run": dry_run, "scope_entity_id": entity_id,
+            "candidates": len(candidates), "written": 0 if dry_run else written,
+            "planned": written, "skipped": skipped, "observations": [],
+        }, ensure_ascii=False, indent=2, sort_keys=True))
+    else:
+        click.echo(f"\ntotal: candidates={len(candidates)} written={written} skipped={skipped}")
     sys.exit(0)
 
 

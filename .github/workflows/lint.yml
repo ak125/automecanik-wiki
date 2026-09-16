@@ -46,11 +46,36 @@ jobs:
       # BASCULE BLOQUANTE = PR DISTINCTE (ajout du drapeau à ce step), après résorption
       # des écarts par leurs propriétaires respectifs (contenu / bump de schéma / owner).
       - run: node _scripts/validate-frontmatter.mjs
-      # PREUVE NÉGATIVE de la résolution des schémas entity-data : cette fixture DOIT
-      # échouer. Tant que `ajv.getSchema()` cherchait une URL inventée, elle passait avec
-      # 0 erreur et le bloc entity_data était sauté en silence. Si la résolution régresse,
-      # ce step redevient vert côté validateur — donc rouge ici.
-      - name: entity_data resolution — negative proof (fixture must fail)
-        run: '! node _scripts/validate-frontmatter.mjs --strict-entity-data _scripts/tests/fixtures/entity-data-invalid/gamme/bad.md'
+      # PREUVE NÉGATIVE de la résolution des schémas entity-data. Tant que
+      # `ajv.getSchema()` cherchait une URL inventée, cette fixture passait avec 0 erreur
+      # et le bloc entity_data était sauté en silence.
+      # Le step assert le code de sortie EXACT **et** la raison de l'échec. Un simple
+      # `! node …` se contenterait de n'importe quel code non nul : il resterait vert sur
+      # une erreur de setup (exit 2), sur un plantage du validateur, ou si
+      # `gamme.schema.json` disparaissait (la fixture échouerait alors pour
+      # `entity_data_schema_missing`, pas pour ses 3 violations) — c'est-à-dire
+      # exactement les régressions qu'il prétend verrouiller.
+      - name: entity_data resolution — negative proof (fixture must fail for the right reasons)
+        run: |
+          set +e
+          out=$(node _scripts/validate-frontmatter.mjs --strict-entity-data \
+            _scripts/tests/fixtures/entity-data-invalid/gamme/bad.md 2>&1)
+          rc=$?
+          set -e
+          echo "$out"
+          if [ "$rc" -ne 1 ]; then
+            echo "REGRESSION: code de sortie $rc, attendu 1 (echec de validation)" >&2
+            exit 1
+          fi
+          for motif in \
+            '\[entity_data:gamme\]: /pg_id must be >= 1' \
+            '\[entity_data:gamme\]: /family must match pattern' \
+            '\[entity_data:gamme\]: / must NOT have additional properties'
+          do
+            if ! printf '%s\n' "$out" | grep -qE "$motif"; then
+              echo "REGRESSION: motif attendu absent de la sortie: $motif" >&2
+              exit 1
+            fi
+          done
       - run: node _scripts/check-slug-uniqueness.mjs
       - run: node _scripts/check-extension-whitelist.mjs

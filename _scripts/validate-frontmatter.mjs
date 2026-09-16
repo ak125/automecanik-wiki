@@ -9,9 +9,13 @@
 //
 // RATCHET entity_data (ADR-062 — aucune règle nouvelle ne démarre bloquante) :
 // les écarts du bloc `entity_data` sortent par défaut en `WARN [entity_data:<type>]`
-// et NE changent PAS le code de sortie. `--strict-entity-data` (opt-in, convention
-// du dépôt : cf. check-coverage-map.py --strict, quality-gates.py --cross-repo)
-// les passe en erreurs avec sortie non nulle. La bascule bloquante = PR distincte.
+// et NE changent PAS le code de sortie. `--strict-entity-data` les passe en erreurs
+// bloquantes. Le drapeau nomme la FAMILLE ratchetée, il n'est pas un mode global :
+// les erreurs de `frontmatter.schema.json` restent bloquantes sans lui. C'est ce qui
+// le distingue du `--strict` nu du dépôt (check-coverage-map.py:171,
+// anti-inflation-report.py:287, citation-readiness-report.py:296), qui gouverne tout
+// le verdict de son script. La bascule bloquante = PR distincte (le step CI porte
+// alors le drapeau).
 //
 // Exit codes: 0 = OK, 1 = validation failure, 2 = setup error.
 
@@ -151,10 +155,14 @@ function validateOne({ ajv, entitySchemaKeys }, file) {
 }
 
 // D19 : les fichiers/dossiers préfixés `_` sont les méta-conteneurs DES ARBRES DE
-// CONTENU (wiki/_quality/, proposals/_index.md…). La règle est donc ancrée sur
-// SCAN_ROOTS, exactement comme l'exclusion `^(wiki|proposals)/_` du hook pre-commit
-// `wiki-frontmatter-schema-py`. Un fichier explicitement listé hors de ces arbres
-// (fixture de test sous _scripts/tests/) est validé, pas écarté en silence.
+// CONTENU (wiki/_quality/, proposals/_index.md…). Le test du `_` sur n'importe quel
+// segment est celui de `main`, inchangé ; ce qui est ajouté ici est l'ANCRAGE sur
+// SCAN_ROOTS, pour qu'un fichier explicitement listé hors de ces arbres (fixture sous
+// _scripts/tests/) soit validé au lieu d'être écarté en silence comme sur `main`.
+// À ne pas confondre avec l'`exclude: ^(wiki|proposals)/_` du hook
+// `wiki-frontmatter-schema-py` (.pre-commit-config.yaml:85) : ce motif n'ancre le `_`
+// qu'au PREMIER segment sous la racine, et il ne s'applique pas au hook Node
+// `validate-frontmatter` (:53-58), qui n'a aucun `exclude`.
 function isMetaContentPath(rel) {
   const parts = rel.split(/[\\/]/);
   if (!SCAN_ROOTS.includes(parts[0])) return false;
@@ -231,7 +239,12 @@ function main() {
   }
 
   if (failed === 0) {
-    console.log(`validate-frontmatter: OK (${files.length} files)`);
+    // Jamais un `OK` nu quand des écarts ont été mesurés : un lecteur qui ne suit que
+    // stdout verrait « OK » alors que N déviations entity_data sont sorties sur stderr.
+    const ratchetNote = allWarnings.length
+      ? ` — ${allWarnings.length} écart(s) entity_data NON appliqué(s) (RATCHET, détail sur stderr)`
+      : "";
+    console.log(`validate-frontmatter: OK (${files.length} files)${ratchetNote}`);
     return 0;
   }
   console.error(`validate-frontmatter: ${failed}/${files.length} file(s) failed`);

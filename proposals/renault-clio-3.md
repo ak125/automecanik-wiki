@@ -12,7 +12,7 @@ aliases:
   - clio iii
 lang: fr
 created_at: '2026-04-29'
-updated_at: '2026-05-02'
+updated_at: '2026-09-24'
 truth_level: L3
 source_refs:
   - kind: raw
@@ -56,7 +56,7 @@ review_notes: |
 
   À reviewer humainement avant promotion vers wiki/vehicles/.
 
-  PROPOSITION 2026-09-23 (non appliquée, non reviewée) — alignement catalogue :
+  PROPOSITION 2026-09-23 (proposée, non reviewée) — alignement catalogue :
   motorisations re-dérivées de auto_type + auto_type_motor_code (modele_id
   140004 « CLIO III », 3/5 portes, types affichés ; Break = modele_id 140005).
   Puissances en ch = type_power_ps. displacement_cc : valeurs existantes

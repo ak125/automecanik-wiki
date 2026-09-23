@@ -12,7 +12,7 @@ aliases:
   - clio iii
 lang: fr
 created_at: '2026-04-29'
-updated_at: '2026-05-02'
+updated_at: '2026-09-24'
 truth_level: L3
 source_refs:
   - kind: raw
@@ -55,6 +55,17 @@ review_notes: |
     "Particularités d'entretien"
 
   À reviewer humainement avant promotion vers wiki/vehicles/.
+
+  PROPOSITION 2026-09-23 (proposée, non reviewée) — alignement catalogue :
+  motorisations re-dérivées de auto_type + auto_type_motor_code (modele_id
+  140004 « CLIO III », 3/5 portes, types affichés ; Break = modele_id 140005).
+  Puissances en ch = type_power_ps. displacement_cc : valeurs existantes
+  reprises telles quelles par famille moteur (D4F/K4J/K4M/F4R/K9K) ; aucune
+  valeur nouvelle (M4R sans cylindrée : le catalogue ne stocke que type_liter).
+  Clés `note` retirées (hors schéma entity-data/vehicle, additionalProperties
+  false). Supprimé :
+  « 1.2 TCe 100 ch », « 1.6 16V 110 ch », « 1.5 dCi 85 ch », « 1.5 dCi 105 ch »
+  (0 type au catalogue) ; « 2.0 16V 139 ch » passe de F4R à M4R 700/701.
 no_disputed_claims: true
 exportable:
   rag: false
@@ -72,51 +83,77 @@ entity_data:
     - 2014
   type_id: null
   motorizations:
-    - code: D4F
+    - code: D4F 764
+      fuel: essence
+      power_hp: 58
+      displacement_cc: 1149
+    - code: D4F 740
+      fuel: essence
+      power_hp: 65
+      displacement_cc: 1149
+    - code: D4F 706 / D4F 740 / D4F 764
       fuel: essence
       power_hp: 75
       displacement_cc: 1149
-      note: 1.2 16V atmosphérique
-    - code: D4F
+    - code: D4F 784
       fuel: essence
-      power_hp: 100
+      power_hp: 101
       displacement_cc: 1149
-      note: 1.2 TCe turbo
-    - code: K4J
+    - code: D4F 786
+      fuel: essence
+      power_hp: 103
+      displacement_cc: 1149
+    - code: K4J 780
       fuel: essence
       power_hp: 98
       displacement_cc: 1390
-      note: 1.4 16V
-    - code: K4M
+    - code: K4M 804
       fuel: essence
-      power_hp: 110
+      power_hp: 88
       displacement_cc: 1598
-      note: 1.6 16V
-    - code: F4R
+    - code: K4M 800 / K4M 801
+      fuel: essence
+      power_hp: 112
+      displacement_cc: 1598
+    - code: K4M 862
+      fuel: essence
+      power_hp: 128
+      displacement_cc: 1598
+    - code: M4R 700 / M4R 701
+      fuel: essence
+      power_hp: 139
+    - code: F4R 830 / F4R 832
       fuel: essence
       power_hp: 197
       displacement_cc: 1998
-      note: 2.0 RS Phase 1
-    - code: F4R
+    - code: F4R 832
       fuel: essence
       power_hp: 200
       displacement_cc: 1998
-      note: 2.0 RS Phase 2
-    - code: K9K
+    - code: K9K 752
       fuel: diesel
-      power_hp: 65
+      power_hp: 64
       displacement_cc: 1461
-      note: 1.5 dCi bridé
-    - code: K9K
+    - code: K9K 714 / K9K 768
+      fuel: diesel
+      power_hp: 68
+      displacement_cc: 1461
+    - code: K9K 770
+      fuel: diesel
+      power_hp: 75
+      displacement_cc: 1461
+    - code: K9K 766
       fuel: diesel
       power_hp: 86
       displacement_cc: 1461
-      note: 1.5 dCi standard
-    - code: K9K
+    - code: K9K 766 / K9K 770
+      fuel: diesel
+      power_hp: 88
+      displacement_cc: 1461
+    - code: K9K 764 / K9K 774
       fuel: diesel
       power_hp: 106
       displacement_cc: 1461
-      note: 1.5 dCi haut de gamme
   vlevel: V2
   low_profile_canary: false
 content_hash: sha256:555e766a1ff25028619b6dcccfa7540b5c400eceb92b1d4b371f4113c83030d7
@@ -131,7 +168,9 @@ confidence_score: 0.30
 
 La **Renault Clio 3** (génération III, codes carrosserie BR/CR) est une citadine du segment B produite de **2005 à 2014**. Elle a remplacé la Clio II et fut elle-même remplacée par la Clio IV. Disponible en 3 portes, 5 portes et Estate (break, lancé 2008).
 
-### Caractéristiques techniques détaillées (millésime 2009 — référence 1.5 dCi 86 ch)
+### Caractéristiques techniques détaillées (UNE variante : 1.5 dCi 86 ch — non généralisable)
+
+> ⚠️ **Portée** : valeurs d'une seule motorisation, identiques à la fiche Caradisiac « Renault Clio 3 III (2) 1.5 DCI 85 98G 4CV BUSINESS 5P 2011 » (puissance affichée 86 ch, K9K 766 au catalogue). Elles ne décrivent ni le 1.5 dCi 106 ch (relevé CNIT brut : boîte « M 6 » sur 10/10 lignes), ni les 1.2 16V (catalogue : 1,2 L), ni les autres motorisations. Ne pas projeter ce tableau sur une page motorisation (R8).
 
 | Caractéristique | Valeur |
 |---|---|
@@ -172,21 +211,24 @@ La **Renault Clio 3** (génération III, codes carrosserie BR/CR) est une citadi
 
 | Moteur | Puissance | Code moteur | Notes |
 |---|---|---|---|
-| 1.2 16V (atmosphérique) | 58 / 65 / 75 / 88 / 101 / 103 ch | D4F | Variantes Phase 1 (101 ch) / Phase 2 (103 ch). Bridées low-emission selon marché. |
-| 1.2 TCe (turbo) | 100 ch | D4F | Turbo — ne pas confondre avec 1.2 16V atmosphérique |
-| 1.4 16V | 98 ch | K4J | — |
-| 1.6 16V | 110 / 112 ch | K4M | Variante GT 128 ch (même code K4M optimisé) |
-| 2.0 16V | 139 ch | F4R | — |
-| 2.0 RS / Sport | 197 / 200 ch | F4R | Phase 1 (197 ch) / Phase 2 (200 ch) |
+| 1.2 16V | 58 / 65 / 75 ch | D4F 764 (58) · D4F 740 (65) · D4F 706 / 740 / 764 (75) | 78 ch (D4F 764) : Break uniquement parmi les types affichés |
+| 1.2 16V (Phase 1) | 101 ch | D4F 784 | Libellé catalogue. Aucun type « TCe » ni « 100 ch » au catalogue Clio III |
+| 1.2 16V (Phase 2) | 103 ch | D4F 786 | Libellé catalogue |
+| 1.4 16V | 98 ch | K4J 780 | — |
+| 1.6 16V | 88 / 112 ch | K4M 804 (88) · K4M 800 / 801 (112) | Aucun type à 110 ch au catalogue |
+| 1.6 16V GT | 128 ch | K4M 862 | — |
+| 2.0 16V | 139 ch | M4R 700 / 701 | — |
+| 2.0 16V Sport | 197 / 200 ch | F4R 830 / 832 (197) · F4R 832 (200) | Phase 1 (197 ch) / Phase 2 (200 ch) |
 
 ### Diesel
 
 | Moteur | Puissance | Code moteur | Notes |
 |---|---|---|---|
-| 1.5 dCi | 64 / 65 / 68 ch | K9K | Variantes K9K bridées low-emission |
-| 1.5 dCi | 75 ch | K9K | — |
-| 1.5 dCi | 85 / 86 / 88 ch | K9K | Référence catalogue (cf. caractéristiques techniques détaillées 86 ch) |
-| 1.5 dCi | 105 / 106 ch | K9K | — |
+| 1.5 dCi | 64 / 68 ch | K9K 752 (64) · K9K 714 / 768 (68) | 65 ch (K9K 752) : Break uniquement parmi les types affichés |
+| 1.5 dCi | 75 ch | K9K 770 | — |
+| 1.5 dCi | 86 / 88 ch | K9K 766 (86) · K9K 766 / 770 (88) | Aucun type à 85 ch au catalogue (86 ch = 63 kW) |
+| 1.5 dCi | 106 ch | K9K 764 / 774 | Aucun type à 105 ch au catalogue (106 ch = 78 kW) |
+| 1.5 dCi | 82 / 103 ch | K9K 750 (82) · K9K 772 (103) | Présents au catalogue ; 3/5 portes non affichés, 103 ch affiché en Break |
 
 ## Pièces compatibles (top gammes)
 
@@ -307,7 +349,7 @@ Indicateur de fréquence des demandes catalogue (nombre de références distinct
 2. **Surveillez le calorstat sur les 1.5 dCi.** Un calorstat bloqué ouvert empêche le moteur d'atteindre sa température, augmente la consommation. Symptôme : chauffage défaillant en hiver. Remplacement 50-100 €.
 3. **Attention au joint de collecteur d'échappement (1.2 16V D4F).** Bruit métallique à froid = fuite au joint. À remplacer rapidement sous peine d'endommager la sonde lambda.
 4. **Roulez 20 min pour régénérer le FAP.** Trajets courts urbains empêchent la régénération. Faire régulièrement un trajet à 3 000 tr/min sur voie rapide.
-5. **Ne confondez pas TCe et D4F.** Le 1.2 TCe 100 ch (turbo) ≠ 1.2 16V atmosphérique D4F. Intervalles, huile, filtre différents. Vérifier le code moteur (plaque constructeur porte gauche).
+5. **Vérifiez le code moteur exact des 1.2 16V.** Le catalogue distingue D4F 706 / 740 / 764 (58 à 78 ch) et D4F 784 / 786 (101 / 103 ch, « Phase 1 / Phase 2 »). Intervalles, huile et filtres peuvent différer : vérifier le code moteur (plaque constructeur porte gauche). *(Reformulation à valider humainement.)*
 
 ### Conseils saisonniers
 
@@ -371,6 +413,11 @@ Sources canoniques utilisées (cf. `_quality/sources-brief.md` Phase 3) :
 - [ ] Confirmer `vlevel: V2` (Clio 3 = best-seller Renault, top vente compactes 2005-2014)
 - [x] **2026-05-02** : `low_profile_canary: false` (best-seller, pas un canary low-profile R8)
 - [x] **2026-05-02** : `motorizations[]` structuré YAML (9 entrées : 6 essence + 3 diesel principales)
+- [ ] **2026-09-23 (proposé)** : `motorizations[]` re-dérivé du catalogue (18 entrées = 18 types affichés modele_id 140004) — relire avant d'accepter
+- [ ] Désignation « TCe » : le catalogue n'en porte aucune ; si une source externe capturée l'établit pour D4F 784 / 786, l'ajouter AVEC sa source
+- [ ] « Réservoir 55 L essence / 50 L diesel » : la fiche source (un diesel) indique 55 l — la valeur 50 L diesel n'a pas de source
+- [ ] 1.2 16V « 88 ch » (ancienne ligne essence) : aucun 1.2 à 88 ch au catalogue — 88 ch = 1.6 16V K4M 804 ou 1.5 dCi
+- [ ] Boîte de vitesses par motorisation (« Mécanique 5 rapports » n'est pas une valeur du modèle) : à sourcer par motorisation avant tout usage R8
 - [ ] Capturer Wikipedia FR Clio III via extension Obsidian preset `wikipedia-vehicle` (cf. `_quality/sources-brief.md`)
 - [ ] Capturer caradisiac fiche technique 2009 (≤200 mots citation)
 - [ ] Construire `_coverage/renault-clio-3.coverage.yaml` (Phase 5 plan parent)

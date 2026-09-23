@@ -5,6 +5,18 @@
 // Usage:
 //   node _scripts/validate-frontmatter.mjs                  # validate all
 //   node _scripts/validate-frontmatter.mjs <file> [<file>…] # validate listed files (pre-commit pass-filenames)
+//   node _scripts/validate-frontmatter.mjs --strict-entity-data [<file>…]
+//
+// RATCHET entity_data (ADR-062 — aucune règle nouvelle ne démarre bloquante) :
+// les écarts du bloc `entity_data` sortent par défaut en `WARN [entity_data:<type>]`
+// et NE changent PAS le code de sortie. `--strict-entity-data` les passe en erreurs
+// bloquantes. Le drapeau nomme la FAMILLE ratchetée, il n'est pas un mode global :
+// les erreurs de `frontmatter.schema.json` restent bloquantes sans lui. C'est ce qui
+// le distingue du `--strict` nu du dépôt (check-coverage-map.py:171,
+// anti-inflation-report.py:287, citation-readiness-report.py:296), qui gouverne tout
+// le verdict de son script. La bascule bloquante = PR distincte (le step CI porte
+// alors le drapeau).
+//
 // Exit codes: 0 = OK, 1 = validation failure, 2 = setup error.
 
 import { readFileSync, readdirSync, statSync } from "node:fs";
@@ -31,16 +43,25 @@ function loadSchema(path) {
   }
 }
 
+const ENTITY_SCHEMA_SUFFIX = ".schema.json";
+
+// Enregistre les schémas et MÉMORISE la clé d'enregistrement réelle de chacun.
+// La clé vient du schéma lui-même (`$id`) — aucune convention d'URL n'est devinée
+// ici : c'est précisément l'URL inventée côté résolution qui rendait `getSchema()`
+// systématiquement `undefined` et sautait le bloc entity_data en silence.
 function setupAjv() {
   const ajv = new Ajv({ allErrors: true, strict: false, allowUnionTypes: true });
   addFormats(ajv);
   ajv.addSchema(loadSchema(FM_SCHEMA_PATH), "frontmatter");
+  const entitySchemaKeys = new Map(); // entity_type -> clé ajv
   for (const f of readdirSync(join(SCHEMA_DIR, "entity-data"))) {
-    if (!f.endsWith(".schema.json")) continue;
+    if (!f.endsWith(ENTITY_SCHEMA_SUFFIX)) continue;
     const schema = loadSchema(join(SCHEMA_DIR, "entity-data", f));
-    ajv.addSchema(schema, schema.$id || `entity-data:${f}`);
+    const key = schema.$id || `entity-data:${f}`;
+    ajv.addSchema(schema, key);
+    entitySchemaKeys.set(f.slice(0, -ENTITY_SCHEMA_SUFFIX.length), key);
   }
-  return ajv;
+  return { ajv, entitySchemaKeys };
 }
 
 function walkMd(root) {
@@ -79,69 +100,151 @@ function parseFrontmatter(text, filePath) {
   }
 }
 
-function validateOne(ajv, file) {
+function validateOne({ ajv, entitySchemaKeys }, file) {
+  const rel = relative(REPO_ROOT, file);
   const text = readFileSync(file, "utf8");
   const { fm, error } = parseFrontmatter(text, file);
-  if (error) return [`${relative(REPO_ROOT, file)}: ${error}`];
+  if (error) return { errors: [`${rel}: ${error}`], entityDeviations: [] };
 
   const errors = [];
   const validateFm = ajv.getSchema("frontmatter");
   if (!validateFm(fm)) {
     for (const e of validateFm.errors || []) {
-      errors.push(`${relative(REPO_ROOT, file)} [frontmatter]: ${e.instancePath || "/"} ${e.message}`);
+      errors.push(`${rel} [frontmatter]: ${e.instancePath || "/"} ${e.message}`);
     }
   }
 
-  const entityType = fm.entity_type;
-  if (entityType) {
-    const id = `https://automecanik.com/schemas/entity-data/${entityType}.schema.json`;
-    const validateEntity = ajv.getSchema(id);
-    if (validateEntity && fm.entity_data) {
+  const entityDeviations = [];
+  if (fm.entity_data !== undefined && fm.entity_data !== null) {
+    const entityType = typeof fm.entity_type === "string" ? fm.entity_type : null;
+    const schemaKey = entityType ? entitySchemaKeys.get(entityType) : undefined;
+    if (!schemaKey) {
+      // Trou de contrat : un bloc entity_data que rien ne valide. Rendu VISIBLE,
+      // jamais sauté en silence (le `entity_type` manquant est déjà couvert par
+      // le schéma frontmatter, mais l'absence de schéma entity-data ne l'est pas).
+      entityDeviations.push({
+        entityType: entityType || "<entity_type absent>",
+        rel,
+        instancePath: "/",
+        message: `entity_data_schema_missing — aucun _meta/schema/entity-data/${
+          entityType ? `${entityType}${ENTITY_SCHEMA_SUFFIX}` : "<type>.schema.json"
+        } enregistré`,
+      });
+    } else {
+      const validateEntity = ajv.getSchema(schemaKey);
+      if (!validateEntity) {
+        // Incohérence interne (clé mémorisée à l'enregistrement mais absente d'ajv) :
+        // erreur de setup, jamais un skip.
+        console.error(`ERROR: schéma entity-data enregistré sous ${schemaKey} introuvable dans ajv`);
+        process.exit(2);
+      }
       if (!validateEntity(fm.entity_data)) {
         for (const e of validateEntity.errors || []) {
-          errors.push(`${relative(REPO_ROOT, file)} [entity_data:${entityType}]: ${e.instancePath || "/"} ${e.message}`);
+          entityDeviations.push({
+            entityType,
+            rel,
+            instancePath: e.instancePath || "/",
+            message: e.message,
+          });
         }
       }
     }
   }
 
-  return errors;
+  return { errors, entityDeviations };
+}
+
+// D19 : les fichiers/dossiers préfixés `_` sont les méta-conteneurs DES ARBRES DE
+// CONTENU (wiki/_quality/, proposals/_index.md…). Le test du `_` sur n'importe quel
+// segment est celui de `main`, inchangé ; ce qui est ajouté ici est l'ANCRAGE sur
+// SCAN_ROOTS, pour qu'un fichier explicitement listé hors de ces arbres (fixture sous
+// _scripts/tests/) soit validé au lieu d'être écarté en silence comme sur `main`.
+// À ne pas confondre avec l'`exclude: ^(wiki|proposals)/_` du hook
+// `wiki-frontmatter-schema-py` (.pre-commit-config.yaml:85) : ce motif n'ancre le `_`
+// qu'au PREMIER segment sous la racine, et il ne s'applique pas au hook Node
+// `validate-frontmatter` (:53-58), qui n'a aucun `exclude`.
+function isMetaContentPath(rel) {
+  const parts = rel.split(/[\\/]/);
+  if (!SCAN_ROOTS.includes(parts[0])) return false;
+  return parts.some((part) => part.startsWith("_"));
+}
+
+function parseArgv(argv) {
+  const opts = { strictEntityData: false };
+  const positional = [];
+  for (const a of argv) {
+    if (a === "--strict-entity-data") {
+      opts.strictEntityData = true;
+      continue;
+    }
+    if (a.startsWith("--")) {
+      console.error(`ERROR: unknown flag ${a} (known: --strict-entity-data)`);
+      process.exit(2);
+    }
+    positional.push(a);
+  }
+  return { opts, positional };
 }
 
 function main() {
-  const ajv = setupAjv();
-  const argv = process.argv.slice(2);
-  const files = argv.length
-    ? argv
+  const ctx = setupAjv();
+  const { opts, positional } = parseArgv(process.argv.slice(2));
+  const skipped = [];
+  const files = positional.length
+    ? positional
         .map((a) => (a.startsWith("/") ? a : join(REPO_ROOT, a)))
-        // Skip meta files/dirs (D19 convention): names prefixed with `_` at any path component.
-        .filter(
-          (f) =>
-            f.endsWith(".md") &&
-            !relative(REPO_ROOT, f)
-              .split(/[\\/]/)
-              .some((part) => part.startsWith("_")) &&
-            safeStat(f),
-        )
+        .filter((f) => {
+          const keep = f.endsWith(".md") && !isMetaContentPath(relative(REPO_ROOT, f)) && safeStat(f);
+          if (!keep) skipped.push(relative(REPO_ROOT, f));
+          return keep;
+        })
     : SCAN_ROOTS.flatMap(walkMd);
 
   if (files.length === 0) {
+    // Ne jamais rendre 0 en silence sur des arguments écartés : dire lesquels.
     console.log("validate-frontmatter: no .md files to check");
+    if (skipped.length) console.log(`  skipped (non-.md, meta D19, or missing): ${skipped.join(", ")}`);
     return 0;
   }
 
   let failed = 0;
   const allErrors = [];
+  const allWarnings = [];
+  const warnFiles = new Set();
   for (const file of files) {
-    const errs = validateOne(ajv, file);
-    if (errs.length) {
+    const { errors, entityDeviations } = validateOne(ctx, file);
+    const fileErrors = [...errors];
+    if (opts.strictEntityData) {
+      for (const d of entityDeviations) {
+        fileErrors.push(`${d.rel} [entity_data:${d.entityType}]: ${d.instancePath} ${d.message}`);
+      }
+    } else if (entityDeviations.length) {
+      allWarnings.push(...entityDeviations);
+      for (const d of entityDeviations) warnFiles.add(d.rel);
+    }
+    if (fileErrors.length) {
       failed += 1;
-      allErrors.push(...errs);
+      allErrors.push(...fileErrors);
+    }
+  }
+
+  if (allWarnings.length) {
+    // RATCHET : report-only, le code de sortie ne change pas (ADR-062).
+    console.error(
+      `validate-frontmatter: ${allWarnings.length} entity_data deviation(s) in ${warnFiles.size}/${files.length} file(s) — RATCHET report-only, exit code unchanged (use --strict-entity-data to enforce)`,
+    );
+    for (const w of allWarnings) {
+      console.error(`  WARN [entity_data:${w.entityType}] ${w.rel}: ${w.instancePath} ${w.message}`);
     }
   }
 
   if (failed === 0) {
-    console.log(`validate-frontmatter: OK (${files.length} files)`);
+    // Jamais un `OK` nu quand des écarts ont été mesurés : un lecteur qui ne suit que
+    // stdout verrait « OK » alors que N déviations entity_data sont sorties sur stderr.
+    const ratchetNote = allWarnings.length
+      ? ` — ${allWarnings.length} écart(s) entity_data NON appliqué(s) (RATCHET, détail sur stderr)`
+      : "";
+    console.log(`validate-frontmatter: OK (${files.length} files)${ratchetNote}`);
     return 0;
   }
   console.error(`validate-frontmatter: ${failed}/${files.length} file(s) failed`);

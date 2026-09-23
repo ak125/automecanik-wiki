@@ -1,0 +1,52 @@
+{
+  "scope_requested": "Poursuivre et renforcer le parcours documentaire RAW vers WIKI",
+  "scope_actually_scanned": "Adaptateur documentaire et contrats associes, controles de promotion et capture HTML ciblee",
+  "files_read_count": 14,
+  "files_read": [
+    "CLAUDE.md",
+    "_meta/agent-exit-contract.md",
+    "_meta/schema/frontmatter.schema.json",
+    "_meta/schema/document-selection.schema.json",
+    "_scripts/author_from_raw.py",
+    "_scripts/document_authoring.py",
+    "_scripts/tests/test_document_authoring.py",
+    "_scripts/compute-confidence-score.py",
+    "_scripts/promotion_decision.py",
+    "docs/document-proposals.md",
+    ".pre-commit-config.yaml",
+    ".github/workflows/wiki-quality-gates.yml",
+    "RAW:_scripts/document_capture.py",
+    "RAW:_scripts/auto-capture-runner.py"
+  ],
+  "read_depth": "Lectures completes des petits fichiers; extraits cibles pour producteur, decideur, schema global et capture RAW",
+  "excluded_paths": [
+    "Corps du corpus canonique RAW/WIKI",
+    "Connecteurs fournisseurs",
+    "NestJS applicatif"
+  ],
+  "unscanned_zones": [
+    "PREPROD/PROD",
+    "Publication SEO/RAG/chatbot",
+    "Qualification automatique de fidelite et independance"
+  ],
+  "corrections_proposed": [
+    "Selection versionnee avec plusieurs documents et plusieurs passages par affirmation"
+  ],
+  "corrections_applied": [
+    "Implementation dans le worktree DEV de PR87 sous instruction utilisateur continuer et ameliorer"
+  ],
+  "validation_executed": [
+    "39 tests cibles verts, dont 18 nouveaux",
+    "Integration du lecteur RAW et decideur WIKI reels avec une capture conservee; BLOCKED",
+    "Identite octet par octet du candidat version 1.0.0",
+    "Deux nouvelles captures refusees sans nouveau fichier source",
+    "Reproduction isolee de la formule sur donnees synthetiques"
+  ],
+  "remaining_unknowns": [
+    "Deuxieme capture reelle non obtenue",
+    "Independance et fidelite semantique non etablies",
+    "Criteres de diversite et titres du score historique non alignes avec ce parcours",
+    "RAW PR53 et WIKI PR87 non fusionnees"
+  ],
+  "final_status": "VALIDATED_FOR_SCOPE_ONLY"
+}

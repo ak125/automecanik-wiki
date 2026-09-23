@@ -11,6 +11,7 @@ Formula:
 Modes:
     --check (default) — verify written value matches formula. FAIL if author cheated.
     --fix             — rewrite frontmatter confidence_score in place.
+    --explain         — print JSON arithmetic and section evidence, without writes.
 
 Usage:
     compute-confidence-score.py --check <file>...
@@ -27,10 +28,19 @@ Reference: plan rev 6 §5.1.1
 from __future__ import annotations
 
 import argparse
+import json
+import math
 import re
 import sys
+import unicodedata
+from importlib.metadata import version
 from pathlib import Path
 from statistics import mean
+
+from markdown_it import MarkdownIt
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from editorial_sections import GAMME_SCORING_ALIASES
 
 try:
     import yaml
@@ -51,7 +61,6 @@ SECTIONS_REQUIRED = {
     "diagnostic": ["Symptôme", "Causes possibles", "Vérifications", "Renvoi", "safety_advisory"],
 }
 
-H2_RE = re.compile(r"^##\s+(.+?)\s*$", re.MULTILINE)
 WIKILINK_RE = re.compile(r"\[\[([^\]|#]+)(?:[|#][^\]]*)?\]\]")
 TOLERANCE = 0.01
 
@@ -65,22 +74,72 @@ def split_frontmatter(text: str) -> tuple[str, str]:
     return text[4:end], text[end + 5 :]
 
 
+def _heading_key(text: str) -> str:
+    return " ".join(unicodedata.normalize("NFC", text).replace("’", "'").casefold().split())
+
+
+def parse_sections(body: str) -> list[dict]:
+    """Read top-level H2 sections; never render HTML or execute source markup."""
+    if version("markdown-it-py") != "3.0.0" or version("mdurl") != "0.1.2":
+        raise ValueError("score_parser_version_unsupported")
+    tokens = MarkdownIt("commonmark").enable("table").parse(body)
+    sections, current = [], None
+    for i, token in enumerate(tokens):
+        if token.type == "heading_open":
+            # H1/H2 close the previous section. Nested quoted/list headings
+            # are not document sections. H3+ titles never supply prose length.
+            if token.level == 0 and token.tag in ("h1", "h2"):
+                current = None
+                if token.tag == "h2":
+                    inline = tokens[i + 1]
+                    if any(child.type == "html_inline" for child in (inline.children or [])):
+                        continue
+                    heading = "".join(child.content for child in (inline.children or [])
+                                      if child.type in ("text", "code_inline"))
+                    current = {"heading": heading, "text_chars": 0}
+                    sections.append(current)
+            continue
+        if token.type != "inline" or current is None:
+            continue
+        if i and tokens[i - 1].type == "heading_open":
+            continue
+        if any(child.type == "html_inline" for child in (token.children or [])):
+            continue
+        # Comments/HTML blocks, fenced and indented code are distinct tokens.
+        # Image alternative text and inline code are not documentary prose.
+        text = "".join(child.content for child in (token.children or [])
+                       if child.type == "text")
+        current["text_chars"] += len(re.sub(r"\s+", "", text))
+    return sections
+
+
+def section_evidence(body: str, required: list[str], aliases=None) -> dict:
+    sections = parse_sections(body)
+    aliases = aliases or {}
+    matches, owners = {}, {}
+    for criterion in required:
+        names = (criterion, *aliases.get(criterion, ()))
+        normalized = {_heading_key(name) for name in names}
+        for key in normalized:
+            if key in owners and owners[key] != criterion:
+                raise ValueError("score_section_alias_collision")
+            owners[key] = criterion
+        matches[criterion] = [s["heading"] for s in sections
+                              if _heading_key(s["heading"]) in normalized and s["text_chars"] >= 20]
+    return {"required": list(required),
+            "filled": [name for name in required if matches[name]],
+            "missing_or_insufficient": [name for name in required if not matches[name]],
+            "observed_headings": [s["heading"] for s in sections],
+            "matched_headings": matches, "matcher": "commonmark_exact_aliases_v1",
+            "parser": "markdown-it-py@3.0.0", "minimum_prose_chars": 20}
+
+
+def filled_section_names(body: str, required: list[str]) -> list[str]:
+    return section_evidence(body, required)["filled"]
+
+
 def count_filled_sections(body: str, required: list[str]) -> int:
-    headings = [h.lower() for h in H2_RE.findall(body)]
-    filled = 0
-    for sec in required:
-        sec_low = sec.lower()
-        if any(sec_low in h or h in sec_low for h in headings):
-            # Check section has content (≥ 20 non-whitespace chars after heading)
-            pattern = re.compile(rf"^##\s+.*{re.escape(sec[:8])}", re.MULTILINE | re.IGNORECASE)
-            m = pattern.search(body)
-            if m:
-                start = m.end()
-                next_h2 = H2_RE.search(body, start)
-                section_body = body[start : next_h2.start() if next_h2 else len(body)]
-                if len(re.sub(r"\s+", "", section_body)) >= 20:
-                    filled += 1
-    return filled
+    return len(filled_section_names(body, required))
 
 
 def count_links(body: str, wiki_root: Path) -> tuple[int, int]:
@@ -98,7 +157,12 @@ def count_links(body: str, wiki_root: Path) -> tuple[int, int]:
     return resolved, len(matches)
 
 
-def compute_score(fm: dict, body: str, wiki_root: Path) -> float:
+def explain_score(fm: dict, body: str, wiki_root: Path) -> dict:
+    """Single arithmetic implementation for scoring and read-only diagnostics.
+
+    This legacy formula counts kinds, not independent publishers, and section
+    length, not factual validity. It never establishes promotion eligibility.
+    """
     refs = fm.get("source_refs") or []
     # Component 1: source confidence average
     nums = [
@@ -111,11 +175,10 @@ def compute_score(fm: dict, body: str, wiki_root: Path) -> float:
     # Component 2: sections filled ratio
     et = fm.get("entity_type", "")
     required = SECTIONS_REQUIRED.get(et, [])
-    if required:
-        filled = count_filled_sections(body, required)
-        sec_ratio = filled / len(required)
-    else:
-        sec_ratio = 0.0
+    section_details = section_evidence(body, required,
+                                      GAMME_SCORING_ALIASES if et == "gamme" else None)
+    filled = section_details["filled"]
+    sec_ratio = len(filled) / len(required) if required else 0.0
 
     # Component 3: internal links resolved ratio
     resolved, total = count_links(body, wiki_root)
@@ -125,8 +188,64 @@ def compute_score(fm: dict, body: str, wiki_root: Path) -> float:
     kinds = {r.get("kind") for r in refs if isinstance(r, dict)}
     diversity = 1.0 if len(kinds) >= 2 else 0.0
 
-    score = 0.40 * src_score + 0.30 * sec_ratio + 0.20 * link_ratio + 0.10 * diversity
-    return round(score, 2)
+    components = {
+        "source_confidence": {"weight": 0.40, "value": src_score,
+                              "reference_count": len(nums), "default_confidence": "medium"},
+        "sections": {"weight": 0.30, "value": sec_ratio,
+                     **section_details},
+        "internal_links": {"weight": 0.20, "value": link_ratio,
+                           "resolved": resolved, "total": total},
+        "source_kind_diversity": {"weight": 0.10, "value": diversity,
+                                  "distinct_kind_count": len(kinds),
+                                  "measures_publisher_independence": False},
+    }
+    # Preserve the existing order and full precision before the final rounding.
+    contributions = []
+    for component in components.values():
+        contribution = component["weight"] * component["value"]
+        contributions.append(contribution)
+        component["contribution"] = round(contribution, 6)
+    return {"schema_version": "1.0.0", "scope": "formula_only_not_promotion",
+            "engine": "legacy", "score": round(sum(contributions), 2),
+            "components": components}
+
+
+def compute_score(fm: dict, body: str, wiki_root: Path) -> float:
+    return explain_score(fm, body, wiki_root)["score"]
+
+
+def _finite_score(value) -> float:
+    if isinstance(value, bool):
+        raise ValueError("score must be finite and numeric")
+    result = float(value)
+    if not math.isfinite(result):
+        raise ValueError("score must be finite and numeric")
+    return result
+
+
+def explain_files(files: list[Path], wiki_root: Path) -> int:
+    results, errors = [], []
+    for path in files:
+        try:
+            fm_yaml, body = split_frontmatter(path.read_text(encoding="utf-8"))
+            fm = yaml.safe_load(fm_yaml)
+            if not isinstance(fm, dict):
+                raise ValueError("invalid frontmatter")
+            report = explain_score(fm, body, wiki_root)
+            declared = fm.get("confidence_score")
+            try:
+                declared = _finite_score(declared)
+                status = "matches" if abs(declared - report["score"]) <= TOLERANCE else "mismatch"
+            except (TypeError, ValueError, OverflowError):
+                status = "missing" if "confidence_score" not in fm else "invalid"
+                declared = None
+            results.append({"path": str(path), **report, "declared_score": declared,
+                            "declared_score_status": status})
+        except (OSError, UnicodeError, yaml.YAMLError, TypeError, ValueError, AttributeError):
+            errors.append({"path": str(path), "code": "score_explanation_unavailable"})
+    print(json.dumps({"schema_version": "1.0.0", "results": results, "errors": errors},
+                     ensure_ascii=False, allow_nan=False))
+    return 1 if errors else 0
 
 
 def process_file(path: Path, mode: str, wiki_root: Path) -> bool:
@@ -153,9 +272,9 @@ def process_file(path: Path, mode: str, wiki_root: Path) -> bool:
             print(f"FAIL {path}: confidence_score missing (expected {expected:.2f})")
             return False
         try:
-            written_f = float(written)
-        except (TypeError, ValueError):
-            print(f"FAIL {path}: confidence_score not numeric: {written!r}")
+            written_f = _finite_score(written)
+        except (TypeError, ValueError, OverflowError):
+            print(f"FAIL {path}: confidence_score must be finite and numeric")
             return False
         if abs(written_f - expected) > TOLERANCE:
             print(
@@ -166,7 +285,11 @@ def process_file(path: Path, mode: str, wiki_root: Path) -> bool:
         return True
 
     # mode == "fix"
-    if "confidence_score" in fm and abs(float(fm.get("confidence_score") or 0) - expected) <= TOLERANCE:
+    try:
+        already_matches = abs(_finite_score(written) - expected) <= TOLERANCE
+    except (TypeError, ValueError, OverflowError):
+        already_matches = False
+    if already_matches:
         print(f"SKIP {path}: already correct ({expected:.2f})")
         return True
     new_fm_lines = []
@@ -213,17 +336,20 @@ def main() -> int:
     g = ap.add_mutually_exclusive_group(required=True)
     g.add_argument("--check", action="store_true", help="Verify (default mode at pre-commit)")
     g.add_argument("--fix", action="store_true", help="Rewrite frontmatter")
+    g.add_argument("--explain", action="store_true", help="Explain the formula as JSON, without writes")
     ap.add_argument("files", nargs="*")
     ap.add_argument("--all", action="store_true")
     args = ap.parse_args()
 
     mode = "fix" if args.fix else "check"
     files = gather_files(args)
+    wiki_root = REPO_ROOT / "wiki"
+    if args.explain:
+        return explain_files(files, wiki_root)
     if not files:
         sys.stderr.write("No files to process\n")
         return 0
 
-    wiki_root = REPO_ROOT / "wiki"
     failed = 0
     for f in files:
         if not process_file(f, mode, wiki_root):

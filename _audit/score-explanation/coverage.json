@@ -1,0 +1,55 @@
+{
+  "scope_requested": "Poursuivre un flux documentaire RAW vers WIKI robuste et explicable",
+  "scope_actually_scanned": "Formule historique WIKI, mode diagnostic et contrôle des valeurs déclarées",
+  "files_read_count": 13,
+  "files_read": [
+    "CLAUDE.md",
+    "_scripts/compute-confidence-score.py",
+    "_scripts/tests/test_confidence_schema_contract.py",
+    "_scripts/tests/test_source_type_confidence_parity.py",
+    "_scripts/author_from_raw.py",
+    "_scripts/promotion_decision.py",
+    "_meta/templates/gamme.md",
+    "_meta/agent-exit-contract.md",
+    "_meta/quality-gates.md",
+    ".pre-commit-config.yaml",
+    ".github/workflows/wiki-quality-gates.yml",
+    "_scripts/tests/requirements-dev.txt",
+    ".github/workflows/lint.yml"
+  ],
+  "read_mode": "Lectures intégrales et extraits ciblés ; hors comparaison automatique des 24 fiches",
+  "excluded_paths": [
+    "wiki/** (aucune édition)",
+    "proposals/** (aucune édition)",
+    "_meta/source-catalog.yaml",
+    "_meta/entity-registry.json",
+    "RAW sources/**"
+  ],
+  "unscanned_zones": [
+    "Sémantique de toutes les fiches",
+    "Déploiements et exports"
+  ],
+  "corrections_proposed": [
+    "Explication structurée sans duplication du calcul",
+    "Refus des scores déclarés non finis ou booléens"
+  ],
+  "corrections_applied": [
+    "Mode --explain",
+    "Contrôle numérique strict"
+  ],
+  "authorization": "Demandes explicites de continuer et améliorer le flux existant",
+  "validation_executed": [
+    "149 tests ciblés réussis",
+    "24 scores comparés, zéro variation",
+    "Contre-preuve NaN avant/après",
+    "Décision canonique réelle sur le candidat MAHLE conservé"
+  ],
+  "remaining_unknowns": [
+    "Alignement sémantique des rubriques",
+    "Indépendance des sources",
+    "Fidélité factuelle du candidat",
+    "CI du nouveau commit à vérifier séparément"
+  ],
+  "final_status": "VALIDATED_FOR_SCOPE_ONLY",
+  "end_to_end_status": "PARTIAL_COVERAGE"
+}

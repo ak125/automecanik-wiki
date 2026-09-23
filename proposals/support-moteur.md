@@ -984,7 +984,7 @@ entity_data:
       brand_name: RENAULT
       source_url: https://www.automecanik.com/pieces/support-moteur-247/renault-140/master-ii-140038/3-0-dci-18000.html
       db_status: PASS_DB_ALIGNED
-confidence_score: 0.24
+confidence_score: 0.30
 ---
 
 ## Rôle technique

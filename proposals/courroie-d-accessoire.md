@@ -853,7 +853,7 @@ entity_data:
       brand_name: RENAULT
       source_url: https://www.automecanik.com/pieces/courroie-d-accessoire-10/renault-140/megane-i-140041/1-9-dti-7884.html
       db_status: PASS_DB_ALIGNED
-confidence_score: 0.24
+confidence_score: 0.30
 ---
 
 ## Rôle technique

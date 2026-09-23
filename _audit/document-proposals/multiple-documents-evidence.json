@@ -1,0 +1,60 @@
+{
+  "root": "/home/deploy/wiki-multidocument-evidence-yzgodklh",
+  "candidate_sha256": "sha256:a43d3f4863c37aec3f70fa668d8cb11b3d26f24e19ae2d059fa1f23c9fa0ed04",
+  "selection_version": "1.1.0",
+  "documents_selected": 1,
+  "claims_selected": 2,
+  "anchors_selected": 2,
+  "legacy_candidate_byte_identical": true,
+  "raw_reader_mocked": false,
+  "promotion_evaluators_mocked": false,
+  "schema_validation_exit": 0,
+  "eligible": false,
+  "promotion_status": "BLOCKED",
+  "blocking_reasons": [
+    {
+      "code": "SOURCE_DIVERSITY",
+      "owner_stage": "SOURCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "distinct_kinds": 1
+      }
+    },
+    {
+      "code": "SUBSTANCE_SCORE",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "score": 0.24,
+        "threshold": 0.85,
+        "engine": "legacy"
+      }
+    },
+    {
+      "code": "TRUTH_LEVEL",
+      "owner_stage": "SUBSTANCE",
+      "detector_stage": "PROMOTE_EVALUATE_TIER",
+      "evidence": {
+        "truth_level": "L3"
+      }
+    }
+  ],
+  "canonical_template_unchanged": true,
+  "real_multiple_document_capture_available": false,
+  "formula_reproduction": {
+    "input_kind": "synthetic_maximum_sections_and_links",
+    "scores": {
+      "raw_default_confidence": 0.74,
+      "raw_high_confidence": 0.9,
+      "two_kinds_default_confidence": 0.84
+    },
+    "not_a_candidate_quality_measure": true
+  },
+  "code_hashes": {
+    "_scripts/document_authoring.py": "sha256:6ae346bb060dd332c6bc9e74bb1ddd52753f7840103212c1a88120c20c401fbd",
+    "_meta/schema/document-selection.schema.json": "sha256:49034c02b775815e26bd646def09894c3ec4a156d2e5fa456f1303170803521e",
+    "_scripts/compute-confidence-score.py": "sha256:0d79adaea47700c946c98db3d33a5996e3b139eb2883cafff8717638120a9abf",
+    "_scripts/promotion_decision.py": "sha256:b9e216142c9a70c66ce24cb67451eb16db6edcbd88d26d45a2270924e221a3f2"
+  },
+  "final_status": "VALIDATED_FOR_SCOPE_ONLY"
+}

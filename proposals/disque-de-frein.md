@@ -45,7 +45,7 @@ review_notes: "Reconstruite 2026-06-20 depuis le scrape web-research RUN_TARGETE
   \ via exports/diag-canon-slugs.json (pas d'invention de slug). Valeurs spécifiques\
   \ véhicule (couple Nm, cotes exactes) volontairement non généralisées (anti number-swapping)."
 no_disputed_claims: true
-confidence_score: 0.36
+confidence_score: 0.48
 exportable:
   rag: false
   seo: false

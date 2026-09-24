@@ -223,17 +223,23 @@ def _is_seo_eligible(fm: dict, body: str, source_path: Path) -> tuple[bool, str]
     return True, "eligible"
 
 
-def _gamme_source_id(source_refs: list) -> str:
-    """1er source_ref → id PRÉFIXÉ (raw:/web:) pour les blocs éditoriaux (ADR-086)."""
+def _gamme_source_id(source_refs: list) -> str | None:
+    """1er source_ref TRAÇABLE → id PRÉFIXÉ pour les blocs éditoriaux (ADR-086) : `raw:<path>`
+    (canon `kind: raw` + `path` ; forme proposal `recycled` + `origin_path`) ou `web:<id|url>`.
+    Aucun ref traçable → None : l'appelant n'émet pas le bloc, jamais d'identifiant inventé."""
     for ref in source_refs or []:
         if not isinstance(ref, dict):
             continue
         kind = (ref.get("kind") or ref.get("type") or "").lower()
         if kind in ("recycled", "raw"):
-            return f"raw:{ref.get('origin_path') or ref.get('id') or 'recycled'}"
-        if kind in ("web", "external_url", "specialist", "oem"):
-            return f"web:{ref.get('id') or ref.get('url') or 'web'}"
-    return "raw:recycled"
+            path = ref.get("path") or ref.get("origin_path")
+            if path:
+                return f"raw:{path}"
+        elif kind in ("web", "external_url", "specialist", "oem"):
+            ident = ref.get("id") or ref.get("url")
+            if ident:
+                return f"web:{ident}"
+    return None
 
 
 # ADR-086 §2bis — taxonomie section éditoriale gamme → rôle SEO (déterministe, contrôlé).
@@ -310,7 +316,7 @@ def _map_vehicle_to_blocks(ed: dict) -> list[dict]:
 
 
 def _map_gamme_to_facts_blocks(
-    ed: dict, source_refs: list
+    ed: dict, source_refs: list, slug: str | None
 ) -> tuple[list[dict], list[dict]]:
     """gamme `entity_data.{dimensions,decision_brief,maintenance,related_parts}` → facts + blocks
     role-aware. DÉTERMINISTE, LOSSLESS (champ partiel → consigné, jamais inventé), ZÉRO filler
@@ -362,11 +368,19 @@ def _map_gamme_to_facts_blocks(
     maint = ed.get("maintenance") or {}
     advice = maint.get("educational_advice") if isinstance(maint, dict) else None
     if advice:
-        blocks.append({
-            "role": "R3_CONSEILS", "section": "maintenance",
-            "content_md": str(advice), "source_ids": [_gamme_source_id(source_refs)],
-            "truth_level": "editorial", "usefulness_target": "achat",
-        })
+        source_id = _gamme_source_id(source_refs)
+        if source_id is None:
+            click.echo(
+                f"WARN gamme:{slug} — maintenance.educational_advice sans source_ref raw/web "
+                "traçable ; bloc R3 non émis, AUCUN identifiant de source inventé.",
+                err=True,
+            )
+        else:
+            blocks.append({
+                "role": "R3_CONSEILS", "section": "maintenance",
+                "content_md": str(advice), "source_ids": [source_id],
+                "truth_level": "editorial", "usefulness_target": "achat",
+            })
 
     # Maillage interne (db_owned)
     rp = ed.get("related_parts") or []
@@ -454,7 +468,7 @@ def _extract_facts_sources_blocks(
 
         # Path v1.1.0 : mapping par type d'entité (le contenu structuré devient projetable)
         if entity_type == "gamme":
-            ef, eb = _map_gamme_to_facts_blocks(entity_data, source_refs)
+            ef, eb = _map_gamme_to_facts_blocks(entity_data, source_refs, fm.get("slug"))
             facts.extend(ef)
             blocks.extend(eb)
             # Path v2.3.0 (ADR-086 §2bis) : sections éditoriales gamme → blocks role-aware

@@ -4,7 +4,7 @@ generated_at: '2026-05-02'
 coverage_entries:
   - claim_id: 206-1998-2013-9m-unites
     section: "## Présentation"
-    text_anchor: "produite de 1998 à 2013, plus de 9 millions d'unités"
+    text_anchor: "de 1998 à 2013 (15 ans de production). Best-seller historique Peugeot avec plus de 9 millions d'unités vendues mondialement"
     source_slug: wikipedia_fr_peugeot_206
     evidence_type: wikipedia_factual
     confidence: low
@@ -13,7 +13,7 @@ coverage_entries:
 
   - claim_id: 206-3-phases-1-2-plus
     section: "## Présentation"
-    text_anchor: "Phase 1 (1998-2003), Phase 2 (2003-2009), 206+ (2009-2013)"
+    text_anchor: "Phase 1 (1998-2003)"
     source_slug: wikipedia_fr_peugeot_206
     evidence_type: wikipedia_factual
     confidence: low
@@ -22,7 +22,7 @@ coverage_entries:
 
   - claim_id: 206-rc-177ch-rfk-ew10j4s
     section: "## Particularités d'entretien"
-    text_anchor: "Peugeot 206 RC (2003-2007), 2.0 16V 177 ch (RFK EW10J4S)"
+    text_anchor: "2.0 16V 177 ch (RFK EW10J4S)"
     source_slug: wikipedia_fr_peugeot_206
     evidence_type: wikipedia_factual
     confidence: low

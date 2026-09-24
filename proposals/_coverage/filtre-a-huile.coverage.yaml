@@ -5,7 +5,7 @@ coverage_entries:
   # --- claims sourcés normatif ISO (séries 4548) → high (§9.1 normative_standard) ---
   - claim_id: filtre-huile-efficacite-iso-4548-12
     section: "## Critères de choix selon le véhicule"
-    text_anchor: "efficacité de filtration mesurée par comptage de particules (multipasse)"
+    text_anchor: "l'efficacité réelle s'exprime par le ratio bêta à une taille de particule donnée"
     source_slug: iso_4548_filtre_huile_serie
     evidence_type: normative_standard_scope
     confidence: high
@@ -14,7 +14,7 @@ coverage_entries:
 
   - claim_id: filtre-huile-bypass-clapet-iso-4548-2
     section: "## Fonctionnement"
-    text_anchor: "clapet de dérivation (by-pass) calibré, testé à deux viscosités"
+    text_anchor: "Sa caractéristique est normalisée par ISO 4548-2"
     source_slug: iso_4548_filtre_huile_serie
     evidence_type: normative_standard_scope
     confidence: high
@@ -23,7 +23,7 @@ coverage_entries:
 
   - claim_id: filtre-huile-anti-retour-iso-4548-9
     section: "## Fonctionnement"
-    text_anchor: "clapet anti-retour (anti-drain-back) — composant fonctionnel normalisé"
+    text_anchor: "Sa méthode d'essai est normalisée par ISO 4548-9"
     source_slug: iso_4548_filtre_huile_serie
     evidence_type: normative_standard_scope
     confidence: high
@@ -33,7 +33,7 @@ coverage_entries:
   # --- claims sourcés équipementier OE (MANN+HUMMEL / Filtron) → high (§9.1 oem) ---
   - claim_id: filtre-huile-media-cellulose-synthetique-verre
     section: "## Critères de choix selon le véhicule"
-    text_anchor: "média cellulose, mélange synthétique ou microfibres de verre"
+    text_anchor: "Média filtrant — cellulose, mélange cellulose + fibres synthétiques, ou microfibres de verre"
     source_slug: mann_filter_oem_filtre_huile
     evidence_type: oem_whitepaper
     confidence: high
@@ -42,7 +42,7 @@ coverage_entries:
 
   - claim_id: filtre-huile-cartouche-vs-spinon-type-moteur
     section: "## Critères de choix selon le véhicule"
-    text_anchor: "le type (vissé spin-on ou cartouche) est dicté par la conception moteur"
+    text_anchor: "Le type est imposé par la conception moteur"
     source_slug: mann_filter_oem_filtre_huile
     evidence_type: oem_datasheet
     confidence: high
@@ -51,7 +51,7 @@ coverage_entries:
 
   - claim_id: filtre-huile-anti-retour-orientation
     section: "## Fonctionnement"
-    text_anchor: "anti-retour indispensable sur filtre monté horizontalement ou tête en bas"
+    text_anchor: "Il est surtout indispensable quand le filtre est monté horizontalement ou tête en bas"
     source_slug: filtron_oem_clapets_filtre_huile
     evidence_type: oem_technical_page
     confidence: high
@@ -60,7 +60,7 @@ coverage_entries:
 
   - claim_id: filtre-huile-bypass-huile-non-filtree
     section: "## Symptômes & diagnostic"
-    text_anchor: "by-pass ouvert en permanence → huile non filtrée vers les organes en rotation"
+    text_anchor: "de l'huile non filtrée chargée de débris circule en permanence vers les organes en rotation"
     source_slug: filtron_oem_clapets_filtre_huile
     evidence_type: oem_technical_page
     confidence: high
@@ -70,7 +70,7 @@ coverage_entries:
   # --- claims sourcés réglementaire UE 461/2010 → high (§9.1 normative) ---
   - claim_id: filtre-huile-trois-niveaux-qualite-oe-oes-equivalent
     section: "## Marques & qualité"
-    text_anchor: "trois niveaux : OE/OEM, OES, qualité équivalente (matching quality)"
+    text_anchor: "Trois niveaux structurent le marché de la rechange au sens du Règlement européen 461/2010"
     source_slug: eu_reg_461_2010_block_exemption
     evidence_type: regulatory_primary
     confidence: high
@@ -79,7 +79,7 @@ coverage_entries:
 
   - claim_id: filtre-huile-oes-droit-rechange
     section: "## Marques & qualité"
-    text_anchor: "les équipementiers OE peuvent vendre en rechange la même pièce que la première monte"
+    text_anchor: "pièce OES (équipementier d'origine sous sa marque, qualité identique)"
     source_slug: eu_reg_461_2010_block_exemption
     evidence_type: regulatory_primary
     confidence: high
@@ -89,7 +89,7 @@ coverage_entries:
   # --- claim maintenance OEM générique → high (§9.1 oem_manual) ---
   - claim_id: filtre-huile-remplacement-chaque-vidange
     section: "## Entretien & bonnes pratiques de montage"
-    text_anchor: "remplacer le filtre à chaque vidange (élément papier jetable)"
+    text_anchor: "l'élément papier est conçu pour être changé à chaque vidange"
     source_slug: oem_filter_maintenance_general
     evidence_type: oem_workshop_excerpt
     confidence: high
@@ -99,7 +99,7 @@ coverage_entries:
   # --- claims conservés honnêtement (sources medium/low, non-PRIMARY) ---
   - claim_id: filtre-huile-clapets-cartouche-dans-boitier
     section: "## Critères de choix selon le véhicule"
-    text_anchor: "sur cartouche, by-pass et anti-retour sont souvent dans le boîtier moteur"
+    text_anchor: "logé dans un boîtier permanent où les clapets sont souvent portés par le moteur"
     source_slug: mann_filter_oem_filtre_huile
     evidence_type: oem_datasheet
     confidence: medium
@@ -108,7 +108,7 @@ coverage_entries:
 
   - claim_id: filtre-huile-capacite-retention-intervalle
     section: "## Critères de choix selon le véhicule"
-    text_anchor: "la capacité de rétention de salissures conditionne la tenue entre deux vidanges"
+    text_anchor: "un intervalle long (huile synthétique) exige une capacité de rétention supérieure"
     source_slug: oem_filter_maintenance_general
     evidence_type: oem_workshop_excerpt
     confidence: medium
@@ -117,7 +117,7 @@ coverage_entries:
 
   - claim_id: filtre-huile-bypass-pression-engine-tied
     section: "## Fonctionnement"
-    text_anchor: "la pression d'ouverture du by-pass est calibrée selon le moteur (spec d'origine)"
+    text_anchor: "sa pression d'ouverture est calibrée selon le moteur"
     source_slug: filtron_oem_clapets_filtre_huile
     evidence_type: oem_technical_page
     confidence: low

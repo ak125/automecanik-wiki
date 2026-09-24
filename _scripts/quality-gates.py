@@ -298,7 +298,41 @@ def load_raw_inventory() -> tuple[set[str], dict[str, str], set[str], str]:
         return set(), {}, set(), f"failed to read {RAW_INVENTORY}: {e}"
 
 
-def gate_source_catalog_raw_refs(source_catalog: dict[str, dict]) -> tuple[list[str], list[str]]:
+def source_archive_paths(source_catalog: dict[str, dict]) -> tuple[dict[str, Path], list[str]]:
+    """Resolve only requested active source pages inside the selected RAW checkout.
+
+    Shared by the promotion snapshot and integrity gate. A recycled document can
+    have multiple chunks: the expected hash must identify one concrete archive.
+    No reading of a target outside RAW, including escaped symlinks.
+    """
+    import csv
+    requested = {slug: entry for slug, entry in source_catalog.items()
+                 if entry.get("status") == "active"}
+    if not requested:
+        return {}, []
+    with RAW_INVENTORY.open(encoding="utf-8") as stream:
+        rows = list(csv.DictReader(stream))
+    root = RAW_INVENTORY.parent.parent.resolve()
+    paths, failures = {}, []
+    for slug, entry in requested.items():
+        ref = entry.get("raw_ref") or {}
+        mid, digest = ref.get("manifest_id"), ref.get("expected_sha256")
+        matches = [row for row in rows if mid and row.get("manifest_id", "").strip() == mid
+                   and digest and row.get("sha256", "").strip() == digest]
+        if len(matches) != 1:
+            failures.append(f"raw_archive_unresolved:{slug}: expected one archive with matching id/hash")
+            continue
+        raw_path = matches[0].get("path", "")
+        path = (root / raw_path).resolve()
+        if not raw_path or root not in path.parents:
+            failures.append(f"raw_archive_path_invalid:{slug}: outside RAW or empty")
+            continue
+        paths[slug] = path
+    return paths, failures
+
+
+def gate_source_catalog_raw_refs(source_catalog: dict[str, dict], *,
+                                 verify_archive_slugs: set[str] | None = None) -> tuple[list[str], list[str]]:
     """Plan P2 — valide raw_ref cross-repo + arbitrage transition raw_ref vs archived_at.
 
     Returns (failures, warnings). Tableau d'arbitrage 4 cas :
@@ -362,6 +396,27 @@ def gate_source_catalog_raw_refs(source_catalog: dict[str, dict]) -> tuple[list[
                     f"legacy_archived_at_deprecated:{slug}: pas de raw_ref ; migrer avant deadline (Plan P2)"
                 )
             # to_capture seul — OK, mode transition silencieux
+
+    if verify_archive_slugs:
+        # Promotion only: catalog declarations and CSV rows are not file proof.
+        # Keep the preparatory catalog lint usable for unarchived candidates.
+        import hashlib
+        selected = {slug: source_catalog[slug] for slug in verify_archive_slugs
+                    if slug in source_catalog}
+        paths, path_failures = source_archive_paths(selected)
+        failures.extend(path_failures)
+        for slug, path in sorted(paths.items()):
+            if not path.is_file():
+                failures.append(f"raw_archive_missing:{slug}")
+                continue
+            digest = hashlib.sha256()
+            with path.open("rb") as stream:
+                for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                    digest.update(chunk)
+            actual = "sha256:" + digest.hexdigest()
+            expected = selected[slug]["raw_ref"]["expected_sha256"]
+            if actual != expected:
+                failures.append(f"raw_archive_sha_drift:{slug}: expected={expected} actual={actual}")
 
     return failures, warnings
 

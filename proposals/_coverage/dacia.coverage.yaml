@@ -31,7 +31,7 @@ coverage_entries:
 
   - claim_id: dacia-gamme-actuelle-2024
     section: "## Gamme actuelle"
-    text_anchor: "Sandero, Logan, Duster, Spring, Jogger, Bigster"
+    text_anchor: "Modèles de la gamme commerciale Dacia (millésime 2024)"
     source_slug: dacia_corporate_factsheet_2024
     evidence_type: brochure_marketing
     confidence: medium

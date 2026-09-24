@@ -4,7 +4,7 @@ generated_at: '2026-05-02'
 coverage_entries:
   - claim_id: golf-6-vi-5k-2008-2012
     section: "## Présentation"
-    text_anchor: "génération VI, code interne 5K, produite de 2008 à 2012"
+    text_anchor: "La Volkswagen Golf 6 (génération VI, code interne 5K) est une compacte du segment C produite de 2008 à 2012"
     source_slug: wikipedia_fr_volkswagen_golf_vi
     evidence_type: wikipedia_factual
     confidence: low
@@ -40,7 +40,7 @@ coverage_entries:
 
   - claim_id: golf-6-dsg-vidange-60000km-mecatronique
     section: "## Particularités d'entretien"
-    text_anchor: "Boîte DSG : Vidange huile tous les 60 000 km strictement obligatoire"
+    text_anchor: "Vidange huile : tous les 60 000 km strictement obligatoire (sinon usure mécatronique accélérée)"
     source_slug: oem_filter_maintenance_general
     evidence_type: oem_workshop_excerpt
     confidence: medium
@@ -49,7 +49,7 @@ coverage_entries:
 
   - claim_id: golf-6-r-mk6-270ch-4motion-haldex
     section: "## Particularités d'entretien"
-    text_anchor: "Golf R Mk6 (270 ch), Transmission 4WD 4Motion (Haldex génération 4)"
+    text_anchor: "Transmission 4WD 4Motion (Haldex génération 4)"
     source_slug: wikipedia_fr_volkswagen_golf_vi
     evidence_type: wikipedia_factual
     confidence: low

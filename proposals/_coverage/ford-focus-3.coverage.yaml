@@ -4,7 +4,7 @@ generated_at: '2026-05-02'
 coverage_entries:
   - claim_id: focus-3-c346-2011-2018
     section: "## Présentation"
-    text_anchor: "génération III, code C346, produite de 2011 à 2018"
+    text_anchor: "La Ford Focus 3 (génération III, code C346) est une compacte du segment C produite de 2011 à 2018"
     source_slug: wikipedia_fr_ford_focus
     evidence_type: wikipedia_factual
     confidence: low
@@ -13,7 +13,7 @@ coverage_entries:
 
   - claim_id: focus-3-rs-mk3-350ch-4wd-drift
     section: "## Particularités d'entretien"
-    text_anchor: "RS Mk3 (2016-2018, 350 ch), Transmission 4WD AWD, mode Drift"
+    text_anchor: "Transmission 4WD AWD (Ford Performance AWD)"
     source_slug: wikipedia_fr_ford_focus
     evidence_type: wikipedia_factual
     confidence: low
@@ -31,7 +31,7 @@ coverage_entries:
 
   - claim_id: focus-3-powershift-dct-usure
     section: "## Particularités d'entretien"
-    text_anchor: "Boîte Powershift (DCT 6 rapports) : Embrayages : usure prématurée"
+    text_anchor: "Embrayages : usure prématurée (boîte conçue pour conduite mixte, dégrade vite en urbain pur)"
     source_slug: oem_filter_maintenance_general
     evidence_type: oem_workshop_excerpt
     confidence: medium
@@ -40,7 +40,7 @@ coverage_entries:
 
   - claim_id: focus-3-vidange-powershift-50000km
     section: "## Particularités d'entretien"
-    text_anchor: "Vidange Powershift DCT 50 000 km obligatoire"
+    text_anchor: "Boîte Powershift : vidange recommandée 50 000 km, OBLIGATOIRE pour limiter usure embrayages"
     source_slug: oem_filter_maintenance_general
     evidence_type: oem_workshop_excerpt
     confidence: medium

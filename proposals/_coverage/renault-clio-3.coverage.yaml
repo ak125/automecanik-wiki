@@ -4,7 +4,7 @@ generated_at: '2026-05-02'
 coverage_entries:
   - claim_id: clio-3-iii-br-cr-2005-2014
     section: "## Présentation"
-    text_anchor: "génération III, codes carrosserie BR/CR, 2005 à 2014"
+    text_anchor: "La Renault Clio 3 (génération III, codes carrosserie BR/CR) est une citadine du segment B produite de 2005 à 2014"
     source_slug: wikipedia_fr_renault_clio_iii
     evidence_type: wikipedia_factual
     confidence: low
@@ -13,7 +13,7 @@ coverage_entries:
 
   - claim_id: clio-3-caracteristiques-techniques-2009
     section: "## Présentation"
-    text_anchor: "Longueur 4,02 m, Vitesse max 176 km/h, Consommation 3,7 L/100 km"
+    text_anchor: "4,02 m"
     source_slug: caradisiac_fiche_renault_clio_3_2009
     evidence_type: caradisiac_spec_table
     confidence: medium
@@ -31,7 +31,7 @@ coverage_entries:
 
   - claim_id: clio-3-rappel-platine-fusibles
     section: "## Particularités d'entretien"
-    text_anchor: "Platine fusibles : court-circuit, rappel 2006-2009"
+    text_anchor: "Platine fusibles : problèmes de contacts (rappel 2006-2009)"
     source_slug: renault_rappel_constructeur
     evidence_type: manufacturer_recall_official
     confidence: high
@@ -58,7 +58,7 @@ coverage_entries:
 
   - claim_id: clio-3-vehicules-proches-modus-twingo-sandero
     section: "## Présentation"
-    text_anchor: "Renault Modus, Twingo II, Dacia Sandero I, Nissan Micra K12, Renault Kangoo II"
+    text_anchor: "Plate-forme B, moteurs D4F/K9K, boîte JH3/JR5, train roulant avant"
     source_slug: wikipedia_fr_renault_clio_iii
     evidence_type: wikipedia_factual
     confidence: low

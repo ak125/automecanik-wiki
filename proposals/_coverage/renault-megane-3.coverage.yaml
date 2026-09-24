@@ -4,7 +4,7 @@ generated_at: '2026-05-02'
 coverage_entries:
   - claim_id: megane-3-iii-2008-2016
     section: "## Présentation"
-    text_anchor: "génération III, produite de 2008 à 2016"
+    text_anchor: "La Renault Mégane 3 (génération III) est une compacte du segment C produite de 2008 à 2016"
     source_slug: wikipedia_fr_renault_megane_iii
     evidence_type: wikipedia_factual
     confidence: low
@@ -12,7 +12,7 @@ coverage_entries:
     source_status: pending_capture
 
   - claim_id: megane-3-rs-trophy-265ch-record-nurburgring
-    section: "## Particularités d'entretien"
+    section: "### La Mégane RS Trophy 265 ch est-elle plus rapide que la 250 ch ?"
     text_anchor: "Trophy 2014 (8 min 8 s — record voitures à traction avant pendant 2 ans)"
     source_slug: wikipedia_fr_renault_megane_iii
     evidence_type: wikipedia_factual
@@ -40,7 +40,7 @@ coverage_entries:
 
   - claim_id: megane-3-edc-vidange-60000km
     section: "## Particularités d'entretien"
-    text_anchor: "Boîte EDC (double-embrayage) Vidange huile 60 000 km"
+    text_anchor: "Boîte EDC : vidange huile 60 000 km strictement obligatoire"
     source_slug: oem_filter_maintenance_general
     evidence_type: oem_workshop_excerpt
     confidence: medium

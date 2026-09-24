@@ -120,7 +120,8 @@ def test_contract_or_dependency_change_invalidates_decision(tmp_path, monkeypatc
     for name in promotion_decision._EVALUATION_ENGINE_FILES:
         (scripts / name).write_bytes((ROOT / "_scripts" / name).read_bytes())
     candidate = tmp_path / "candidate.md"
-    candidate.write_text("---\nslug: sample\n---\n")
+    # Candidat ciblable (entity_type + slug) : le manifeste capture sa cible canon.
+    candidate.write_text("---\nentity_type: gamme\nslug: sample\n---\n")
     monkeypatch.setattr(promotion_decision, "SCRIPTS_DIR", scripts)
     inputs = promotion_decision.capture_input_manifest(candidate, tmp_path, None, None)
     assert promotion_decision.reverify_inputs({"inputs": inputs}, candidate, tmp_path) is None

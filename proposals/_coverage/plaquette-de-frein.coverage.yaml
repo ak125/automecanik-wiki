@@ -49,15 +49,6 @@ coverage_entries:
     source_status: pending_capture
 
   # --- claims sourcés équipementier OE (réellement fetchés, footnotes live) → high (§9.1 oem) ---
-  - claim_id: plaquette-etrier-flottant-vs-fixe
-    section: "## Définition"
-    text_anchor: "étrier flottant (ou coulissant)"
-    source_slug: bremboparts_technologie_etriers
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
   - claim_id: plaquette-fonction-conversion-energie
     section: "## Fonction"
     text_anchor: "transforme l'énergie cinétique en chaleur"
@@ -67,54 +58,9 @@ coverage_entries:
     source_policy: 1_high
     source_status: pending_capture
 
-  - claim_id: plaquette-sens-montage-cote-piston
-    section: "## Critères de choix"
-    text_anchor: "placée côté piston"
-    source_slug: zf_installation_plaquettes
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  - claim_id: plaquette-temoin-usure-types
-    section: "## Critères de choix"
-    text_anchor: "acoustique/mécanique"
-    source_slug: zf_installation_plaquettes
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  - claim_id: plaquette-rodage-200km
-    section: "## Critères de choix"
-    text_anchor: "environ 200 km en freinages doux et courts"
-    source_slug: bremboparts_remplacement_kit
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  - claim_id: plaquette-dix-criteres-oe-vs-equivalent
-    section: "## Critères de choix"
-    text_anchor: "dix critères distinguant une pièce d'origine d'une équivalente"
-    source_slug: bremboparts_oe_vs_equivalent
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  - claim_id: plaquette-temoin-usure-delphi
-    section: "## Critères de choix"
-    text_anchor: "capteur filaire qui déclenche un témoin lumineux"
-    source_slug: delphi_temoins_usure
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
 notes: |
   Coverage map plaquette-de-frein — re-sourcée 2026-06-19 (démonstrateur chaîne TIER A).
-  12 claims : 5 conservés honnêtement (3 medium diagnostic to_capture + 2 low wikipedia),
+  12 claims à la création : 5 conservés honnêtement (3 medium diagnostic to_capture + 2 low wikipedia),
   7 sourcés équipementier OE RÉELLEMENT fetchés (footnotes live du proposal :
   bremboparts/zf/delphi = oem → 1_high §9.1).
   Retrait G2a (2026-07-04) : le claim db_owned « hiérarchie équipementier » citait une entrée
@@ -128,3 +74,16 @@ notes: |
   marques et la connaissance générale sont projetées ; le fitment exact reste runtime/DB (R2).
   dim A honnêtement réduit — le crédit db_owned n'est pas re-scoré ici ; une reconstruction
   légitime éventuelle passera par le vrai chemin bloc db_owned ADR-086, hors de ce registre.
+  Retrait règle 5 (2026-09-24) : 6 entrées OE retirées — plaquette-etrier-flottant-vs-fixe,
+  plaquette-sens-montage-cote-piston, plaquette-temoin-usure-types, plaquette-rodage-200km,
+  plaquette-dix-criteres-oe-vs-equivalent, plaquette-temoin-usure-delphi. Leur text_anchor n'a
+  JAMAIS figuré dans le corps de la fiche (git log -S vide sur proposals/plaquette-de-frein.md) :
+  #55 (0aa5f3b) les a déclarées dans ce seul registre. La règle 5 de check-coverage-map (ancre
+  verbatim dans l'occurrence unique de sa section) les refuse à bon droit ; aucune prose n'est
+  écrite pour les faire passer. Restent portés par entity_data.editorial : étrier flottant / fixe
+  (function, oem:bremboparts-etriers), type de témoin d'usure et rodage ~200 km (selection_criteria,
+  oem:zf-installation), critères OE (quality_tiers, oem:bremboparts-10-points). Ne sont portés
+  nulle part dans la fiche : le sens de montage côté piston et le capteur filaire Delphi
+  (delphi_temoins_usure n'est cité par aucun source_ids). Les 5 entrées du source-catalog restent
+  to_capture. 6 claims restants. dim A honnêtement réduit ; ré-inscrire un de ces claims exige
+  d'abord sa prose sourcée dans la section déclarée.

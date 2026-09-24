@@ -54,7 +54,7 @@ def test_degradation_manifest_not_ready_skips_realitycheck():
 
 
 def test_floor_caps_tier_to_B_when_commerce_floor_fails():
-    cov = {"coverage": [{"confidence": "high"}]}  # A=30
+    cov = {"coverage": [{"confidence": "high", "source_status": "captured"}]}  # A=30
     fm = {"entity_type": "vehicle", "review_status": "approved", "lineage_id": "x", "exportable": {},
           "entity_data": {"known_issues_by_engine": {"engine_family:bkc": _block(applies_to={"engine_codes": ["BKC"]})}}}
     # PAS de related_gammes → D=0 → plancher D<10 échoue ; total=85 (≥80) → tier A capé à B
@@ -68,7 +68,7 @@ def test_floor_caps_tier_to_B_when_commerce_floor_fails():
 
 def test_dim_A_reads_canonical_coverage_entries_key():
     # ADR-040 : la coverage-map réelle utilise 'coverage_entries' (pas 'coverage'/'claims').
-    cov = {"coverage_entries": [{"confidence": "high"}, {"confidence": "medium"}]}
+    cov = {"coverage_entries": [{"confidence": "high", "source_status": "captured"}, {"confidence": "medium", "source_status": "captured"}]}
     pts, note = ss._dim_A({}, cov)
     assert note is None
     assert pts == ss.WEIGHTS["A"] * ((1.0 + 0.6) / 2)  # 30 * 0.8 = 24.0
@@ -76,7 +76,7 @@ def test_dim_A_reads_canonical_coverage_entries_key():
 
 def test_dim_A_backward_compat_legacy_coverage_key():
     # compat ascendante : l'ancienne clé 'coverage' reste lue.
-    pts, _ = ss._dim_A({}, {"coverage": [{"confidence": "high"}]})
+    pts, _ = ss._dim_A({}, {"coverage": [{"confidence": "high", "source_status": "captured"}]})
     assert pts == ss.WEIGHTS["A"] * 1.0
 
 
@@ -90,7 +90,7 @@ def test_load_coverage_map_reads_real_file(tmp_path):
     cov_dir = tmp_path / "_coverage"
     cov_dir.mkdir()
     (cov_dir / "x.coverage.yaml").write_text(
-        "coverage_entries:\n  - confidence: high\n  - confidence: low\n", encoding="utf-8")
+        "coverage_entries:\n  - confidence: high\n    source_status: captured\n  - confidence: low\n    source_status: captured\n", encoding="utf-8")
     cmap = ss._load_coverage_map("x", tmp_path)
     assert cmap is not None and len(cmap["coverage_entries"]) == 2
     pts, note = ss._dim_A({}, cmap)  # bout-en-bout : loader → _dim_A
@@ -127,3 +127,27 @@ def test_old_score_computed_in_shadow():
         return 0.42
     r = ss.score({"entity_type": "gamme", "entity_data": {}}, "", {**_ctx(), "compute_old": fake_old})
     assert called.get("yes") and r.old_score == 0.42
+
+
+def test_pending_capture_cannot_receive_high_source_points():
+    points, note = ss._dim_A({}, {'coverage_entries': [
+        {'confidence': 'high', 'source_status': 'pending_capture'},
+        {'confidence': 'medium', 'source_status': 'captured'},
+    ]})
+    assert points == 18.0  # existing generator's high -> medium cap, no new threshold
+    assert 'page_unproven=1' in note
+
+
+def test_legacy_missing_capture_status_is_reported_and_capped():
+    points, note = ss._dim_A({}, {'claims': [{'confidence': 'high'}]})
+    assert points == 18.0
+    assert 'page_unproven=1' in note
+
+
+def test_verified_capture_retains_declared_confidence():
+    points, note = ss._dim_A({}, {'coverage_entries': [
+        {'confidence': 'high', 'source_status': 'verified'},
+        {'confidence': 'low', 'source_status': 'captured'},
+    ]})
+    assert points == 30 * .65
+    assert note is None

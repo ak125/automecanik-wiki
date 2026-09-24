@@ -19,6 +19,8 @@ import importlib.util
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
+
 SCRIPTS = Path(__file__).resolve().parent
 
 
@@ -368,7 +370,7 @@ def test_assemble_bundle_omitted_evaluators_are_none(tmp_path):
 
 
 # --- A3-iv : snapshot manifest + engine revisions + stale detection -----------
-def _write_candidate(tmp_path, content="---\nslug: filtre-a-huile\n---\nbody\n"):
+def _write_candidate(tmp_path, content="---\nentity_type: gamme\nslug: filtre-a-huile\n---\nbody\n"):
     (tmp_path / "_meta").mkdir(exist_ok=True)
     (tmp_path / "_meta" / "source-catalog.yaml").write_text("sources: []\n", encoding="utf-8")
     cand = tmp_path / "proposals" / "filtre-a-huile.md"
@@ -398,9 +400,9 @@ def test_capture_input_manifest_is_deterministic_and_canonical(tmp_path):
 def test_manifest_hash_reflects_actual_content(tmp_path):
     """Worktree dirty : le hash suit le CONTENU réellement lu, pas seulement la SHA git."""
     dec = _load_decision()
-    cand = _write_candidate(tmp_path, "---\nslug: a\n---\nv1\n")
+    cand = _write_candidate(tmp_path, "---\nentity_type: gamme\nslug: a\n---\nv1\n")
     h1 = dec.capture_input_manifest(cand, tmp_path, None, None)
-    cand.write_text("---\nslug: a\n---\nv2 CHANGED\n", encoding="utf-8")
+    cand.write_text("---\nentity_type: gamme\nslug: a\n---\nv2 CHANGED\n", encoding="utf-8")
     h2 = dec.capture_input_manifest(cand, tmp_path, None, None)
     cand_sha1 = [e["sha256"] for e in h1["input_manifest"] if e["role"] == "candidate"][0]
     cand_sha2 = [e["sha256"] for e in h2["input_manifest"] if e["role"] == "candidate"][0]
@@ -425,12 +427,12 @@ def test_stale_during_evaluation_is_fail_closed(tmp_path):
     """Contrat #1 : si un input change PENDANT l'évaluation (hash-before != after),
     la décision est UNKNOWN_FAIL_CLOSED / STALE_DURING_EVALUATION."""
     dec = _load_decision()
-    cand = _write_candidate(tmp_path, "---\nslug: a\n---\nbefore\n")
+    cand = _write_candidate(tmp_path, "---\nentity_type: gamme\nslug: a\n---\nbefore\n")
     substance = _clean_substance(tmp_path)
 
     def mutating_run(candidate_path, wiki_root, raw_root, baseline_path, threshold, gates, compute_score):
         # simule une modif concurrente du candidat pendant l'évaluation
-        Path(candidate_path).write_text("---\nslug: a\n---\nMUTATED\n", encoding="utf-8")
+        Path(candidate_path).write_text("---\nentity_type: gamme\nslug: a\n---\nMUTATED\n", encoding="utf-8")
         return substance, {"status": "PASS"}, {"verdict": "NEW"}, ([], []), True
 
     d = dec.canonical_promotion_decision(cand, tmp_path, run_evaluators=mutating_run)
@@ -473,9 +475,9 @@ def test_reverify_inputs_none_when_unchanged(tmp_path):
 def test_reverify_inputs_flags_content_drift(tmp_path):
     """Anti-TOCTOU : un input change APRÈS la décision (hash du contenu) ⇒ STALE_DECISION."""
     dec = _load_decision()
-    cand = _write_candidate(tmp_path, "---\nslug: a\n---\nv1\n")
+    cand = _write_candidate(tmp_path, "---\nentity_type: gamme\nslug: a\n---\nv1\n")
     d = _decide_with_inputs(dec, cand, tmp_path, _clean_substance(tmp_path))
-    cand.write_text("---\nslug: a\n---\nv2 CHANGED\n", encoding="utf-8")
+    cand.write_text("---\nentity_type: gamme\nslug: a\n---\nv2 CHANGED\n", encoding="utf-8")
     r = dec.reverify_inputs(d, cand, tmp_path)
     assert r is not None and r["code"] == "STALE_DECISION"
     assert "input_manifest" in r["evidence"]
@@ -517,9 +519,9 @@ def test_authorize_apply_refuses_on_stale(tmp_path):
     """Éligible à la décision, mais un input dérive avant apply ⇒ refus STALE_DECISION
     (le --apply n'est JAMAIS un 2ᵉ décideur ; il exige la fraîcheur du manifeste complet)."""
     dec = _load_decision()
-    cand = _write_candidate(tmp_path, "---\nslug: a\n---\nv1\n")
+    cand = _write_candidate(tmp_path, "---\nentity_type: gamme\nslug: a\n---\nv1\n")
     d = _decide_with_inputs(dec, cand, tmp_path, _clean_substance(tmp_path))
-    cand.write_text("---\nslug: a\n---\nMUTATED\n", encoding="utf-8")
+    cand.write_text("---\nentity_type: gamme\nslug: a\n---\nMUTATED\n", encoding="utf-8")
     ok, refusal = dec.authorize_apply(d, cand, tmp_path)
     assert ok is False and refusal["code"] == "STALE_DECISION"
 
@@ -636,3 +638,324 @@ def test_A8_safety_authorize_apply_refuses(tmp_path):
     assert d["eligible"] is False
     ok, refusal = dec.authorize_apply(d, cand, tmp_path)
     assert ok is False and refusal["code"] == "APPLY_NOT_ELIGIBLE"
+
+
+# The canonical target is an input even when no caller supplies baseline_path.
+# No corpus or consumer is mutated here; gates are injected to isolate freshness.
+def _target_fixture(tmp_path):
+    candidate = _write_candidate(tmp_path, "---\nentity_type: gamme\nslug: filtre-a-huile\n---\nproposal\n")
+    target = tmp_path / "wiki/gamme/filtre-a-huile.md"
+    target.parent.mkdir(parents=True)
+    target.write_text("---\nreview_status: deprecated\n---\nold canon\n")
+    return candidate, target
+
+
+@pytest.mark.parametrize('change', ['edit', 'remove', 'create'])
+def test_native_target_change_during_evaluation_blocks_decision(tmp_path, change):
+    dec = _load_decision()
+    candidate, target = _target_fixture(tmp_path)
+    if change == 'create':
+        target.unlink()
+    substance = _clean_substance(tmp_path)
+    def runner(*args):
+        if change == 'remove':
+            target.unlink()
+        else:
+            target.write_text("---\nreview_status: deprecated\n---\nchanged canon\n")
+        return substance, {"status": "PASS"}, {"verdict": "NEW"}, ([], []), True
+    decision = dec.canonical_promotion_decision(candidate, tmp_path, run_evaluators=runner)
+    assert decision['eligible'] is False
+    assert decision['blocking_reasons'][0]['code'] == 'STALE_DURING_EVALUATION'
+
+
+@pytest.mark.parametrize('change', ['edit', 'remove', 'create'])
+def test_native_target_change_before_apply_refuses_stale_decision(tmp_path, change):
+    dec = _load_decision()
+    candidate, target = _target_fixture(tmp_path)
+    if change == 'create':
+        target.unlink()
+    decision = _decide_with_inputs(dec, candidate, tmp_path, _clean_substance(tmp_path))
+    if change == 'remove':
+        target.unlink()
+    else:
+        target.write_text("---\nreview_status: deprecated\n---\nchanged canon\n")
+    allowed, refusal = dec.authorize_apply(decision, candidate, tmp_path)
+    assert allowed is False
+    assert refusal['code'] == 'STALE_DECISION'
+
+
+def test_native_target_is_captured_even_with_an_explicit_other_baseline(tmp_path):
+    import hashlib
+    dec = _load_decision()
+    candidate, target = _target_fixture(tmp_path)
+    baseline = tmp_path / 'previous.md'
+    baseline.write_text('historical comparison fixture')
+    manifest = dec.capture_input_manifest(candidate, tmp_path, None, baseline)
+    entries = {e['role']: e for e in manifest['input_manifest']}
+    assert entries['canon_target']['path'] == 'wiki/gamme/filtre-a-huile.md'
+    assert entries['canon_target']['sha256'] == hashlib.sha256(target.read_bytes()).hexdigest()
+    assert entries['baseline']['sha256'] == hashlib.sha256(baseline.read_bytes()).hexdigest()
+
+
+@pytest.mark.parametrize('frontmatter', ['slug: filtre-a-huile', 'entity_type: inconnu\nslug: x',
+                                         'entity_type: gamme'])
+def test_untargetable_candidate_is_refused_not_captured_without_target(tmp_path, frontmatter):
+    """Sans cible canon résoluble, pas de manifeste partiel : les adapters (CLI, gap1)
+    traduisent l'erreur en refus fail-closed."""
+    dec = _load_decision()
+    candidate = tmp_path / 'candidate.md'
+    candidate.write_text(f"---\n{frontmatter}\n---\n")
+    with pytest.raises(dec.PromotionInputError, match='entity_type/slug invalides'):
+        dec.capture_input_manifest(candidate, tmp_path, None, None)
+
+
+@pytest.mark.parametrize('engine', ['evaluation_engine_revision', 'decision_engine_revision'])
+def test_engine_change_during_evaluation_blocks_immediate_decision(tmp_path, monkeypatch, engine):
+    dec = _load_decision()
+    candidate, _ = _target_fixture(tmp_path)
+    capture = dec.capture_input_manifest
+    calls = []
+    def changed(*args):
+        result = capture(*args)
+        if calls:
+            result[engine] = 'changed engine fixture'
+        calls.append(1)
+        return result
+    monkeypatch.setattr(dec, 'capture_input_manifest', changed)
+    decision = _decide_with_inputs(dec, candidate, tmp_path, _clean_substance(tmp_path))
+    assert decision['eligible'] is False
+    assert decision['blocking_reasons'][0]['code'] == 'STALE_DURING_EVALUATION'
+
+
+@pytest.mark.parametrize('change', ['missing', 'invalid'])
+@pytest.mark.parametrize('phase', ['evaluation', 'apply'])
+def test_unreadable_candidate_recapture_is_a_typed_refusal(tmp_path, change, phase):
+    dec = _load_decision()
+    candidate, _ = _target_fixture(tmp_path)
+    substance = _clean_substance(tmp_path)
+    def mutate():
+        if change == 'missing':
+            candidate.unlink()
+        else:
+            candidate.write_text('invalid frontmatter fixture')
+    if phase == 'evaluation':
+        def runner(*args):
+            mutate()
+            return substance, {"status": "PASS"}, {"verdict": "NEW"}, ([], []), True
+        decision = dec.canonical_promotion_decision(candidate, tmp_path, run_evaluators=runner)
+        assert decision['eligible'] is False
+        refusal = decision['blocking_reasons'][0]
+        assert refusal['code'] == 'STALE_DURING_EVALUATION'
+    else:
+        decision = _decide_with_inputs(dec, candidate, tmp_path, substance)
+        mutate()
+        allowed, refusal = dec.authorize_apply(decision, candidate, tmp_path)
+        assert allowed is False
+        assert refusal['code'] == 'STALE_DECISION'
+    assert 'recapture_error' in refusal['evidence']
+
+
+def test_unrelated_fiche_change_does_not_invalidate_target_decision(tmp_path):
+    dec = _load_decision()
+    candidate, target = _target_fixture(tmp_path)
+    decision = _decide_with_inputs(dec, candidate, tmp_path, _clean_substance(tmp_path))
+    target.with_name('unrelated.md').write_text('unrelated fixture')
+    assert dec.authorize_apply(decision, candidate, tmp_path) == (True, None)
+
+
+
+def test_native_regression_resolver_target_is_guarded_without_baseline_override(tmp_path, monkeypatch):
+    dec = _load_decision()
+    candidate, target = _target_fixture(tmp_path)
+    target.write_text("---\nreview_status: approved\n---\naccepted predecessor\n")
+    observed = []
+    substance = _clean_substance(tmp_path)
+    monkeypatch.setattr(dec, 'evaluate_tier', lambda *a: substance)
+    def compare(cand, baseline, root):
+        observed.append(baseline)
+        target.write_text("---\nreview_status: approved\n---\nconcurrent predecessor\n")
+        return {"verdict": "NEUTRAL"}
+    real_load = dec._load_module
+    def module(name, filename):
+        if filename == 'compute-confidence-score.py':
+            return real_load(name, filename)
+        if filename == 'compare-proposal-versions.py':
+            return SimpleNamespace(compare=compare)
+        if filename == 'check-coverage-map.py':
+            return SimpleNamespace(_load_catalog_slugs=lambda *a: set(),
+                                   _load_schema=lambda *a: {},
+                                   check_fiche=lambda *a: {"status": "PASS"})
+        if filename == 'quality-gates.py':
+            return SimpleNamespace(load_source_catalog=lambda: {},
+                                   load_raw_inventory=lambda: ({'fixture'}, {}, {}, ''),
+                                   gate_source_catalog_raw_refs=lambda *a: ([], []))
+        raise AssertionError(filename)
+    monkeypatch.setattr(dec, '_load_module', module)
+    # Real runner and native automatic baseline resolution; evaluator transports
+    # are injected. This is a decision test, not a CLI overwrite authorization.
+    decision = dec.canonical_promotion_decision(candidate, tmp_path, gates=[], compute_score=lambda *a: 1)
+    assert observed == [target]
+    assert decision['eligible'] is False
+    assert decision['blocking_reasons'][0]['code'] == 'STALE_DURING_EVALUATION'
+
+
+@pytest.mark.parametrize('relative_path', [
+    'proposals/_coverage/a.coverage.yaml', '_meta/reality-manifest.json', 'wiki/gammes/related.md'])
+def test_score_input_added_after_decision_invalidates_apply(tmp_path, relative_path):
+    dec = _load_decision()
+    candidate = _write_candidate(tmp_path, '---\nentity_type: gamme\nslug: a\n---\n[[related]]\n')
+    decision = _decide_with_inputs(dec, candidate, tmp_path, _clean_substance(tmp_path))
+    assert decision['eligible'] is True
+    changed = tmp_path / relative_path
+    changed.parent.mkdir(parents=True, exist_ok=True)
+    changed.write_text('changed scoring input')
+    assert dec.reverify_inputs(decision, candidate, tmp_path) is not None
+
+
+@pytest.mark.parametrize("engine", ["legacy", "adr088_6dim"])
+@pytest.mark.parametrize("state", ["pending", "false_captured", "false_verified", "no_hash", "no_anchor", "empty_map", "missing_map"])
+def test_high_score_cannot_replace_archived_claim_proof(tmp_path, monkeypatch, state, engine):
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, state)
+    monkeypatch.setenv(dec.PROMOTE_GATE_ENGINE_ENV, engine)
+    monkeypatch.setattr(dec, "_compute_shadow", lambda *a: {"shadow_tier": "S", "shadow_total": 99})
+    decision = dec.canonical_promotion_decision(
+        cand, tmp_path, raw_root=raw, gates=_gates(), compute_score=lambda *a: 0.99)
+    assert decision["evaluation"]["confidence_score"] == 0.99
+    assert decision["eligible"] is False, decision
+    assert "COVERAGE_STRICT_FAIL" in [r["code"] for r in decision["blocking_reasons"]]
+    assert any("proof_" in str(r["evidence"]) for r in decision["blocking_reasons"])
+    ok, refusal = dec.authorize_apply(decision, cand, tmp_path, raw_root=raw)
+    assert ok is False
+    assert cand.exists() and not (tmp_path / "wiki" / "gamme" / "filtre-a-huile.md").exists()
+
+
+def test_archived_anchored_claim_remains_eligible(tmp_path, monkeypatch):
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured")
+    decision = dec.canonical_promotion_decision(
+        cand, tmp_path, raw_root=raw, gates=_gates(), compute_score=lambda *a: 0.99)
+    assert decision["eligible"] is True, decision
+
+
+def _proof_candidate(tmp_path, monkeypatch, state, *, bind_provenance=True):
+    """Real coverage/provenance evaluators; isolate unrelated score and domain gates."""
+    import hashlib
+    import json
+    import shutil
+    import yaml
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path, "---\n" + yaml.safe_dump(FM_OK) +
+                            "---\n## Fonctionnement\nUne explication sourcée.\n")
+    raw = tmp_path / "raw"
+    (raw / "manifests").mkdir(parents=True)
+    (raw / "sources").mkdir()
+    archive = raw / "sources" / "proof.md"
+    archive.write_text("Une explication sourcée.\n")
+    digest = "sha256:" + hashlib.sha256(archive.read_bytes()).hexdigest()
+    (raw / "manifests" / "source-inventory.csv").write_text(
+        "manifest_id,path,sha256\nsrc-proof,sources/proof.md," + digest + "\n")
+    (raw / "manifests" / "checksums.json").write_text(json.dumps({"sources/proof.md": digest}))
+    schema = tmp_path / "_meta" / "schema"
+    schema.mkdir()
+    shutil.copyfile(SCRIPTS.parent / "_meta" / "schema" / "coverage-map.schema.json", schema / "coverage-map.schema.json")
+    source = {"slug": "source_test", "type": "oem_manual", "status": "active",
+              "raw_ref": {"repo": "automecanik-raw", "manifest_id": "src-proof", "expected_sha256": digest}}
+    if state in {"pending", "false_captured", "false_verified"}:
+        source["status"] = "to_capture"
+        source["raw_ref"]["expected_sha256"] = None
+    if state == "no_hash":
+        source["raw_ref"].pop("expected_sha256")
+    (tmp_path / "_meta" / "source-catalog.yaml").write_text(yaml.safe_dump({"sources": [source]}))
+    entry = {"claim_id": "filtre-huile-test", "section": "## Fonctionnement",
+             "text_anchor": "Une explication sourcée.", "source_slug": "source_test",
+             "evidence_type": "oem_technical_page", "confidence": "high", "source_policy": "1_high",
+             "source_status": "pending_capture" if state == "pending" else "verified" if state == "false_verified" else "captured"}
+    if state == "no_anchor":
+        entry.pop("text_anchor")
+    coverage = tmp_path / "proposals" / "_coverage"
+    coverage.mkdir()
+    if state != "missing_map":
+        (coverage / "filtre-a-huile.coverage.yaml").write_text(yaml.safe_dump({
+            "fiche": "filtre-a-huile", "schema_version": "1.0.0",
+            "coverage_entries": [] if state == "empty_map" else [entry]}))
+    # Bind the real existing provenance module to this isolated fixture even on
+    # the pre-fix implementation, which otherwise reads its installation root.
+    original_loader = dec._load_module
+    def scoped_loader(name, filename):
+        module = original_loader(name, filename)
+        if filename == "quality-gates.py":
+            module.SOURCE_CATALOG = tmp_path / "_meta" / "source-catalog.yaml"
+            module.RAW_INVENTORY = raw / "manifests" / "source-inventory.csv"
+        return module
+    if bind_provenance:
+        monkeypatch.setattr(dec, "_load_module", scoped_loader)
+    return dec, cand, raw
+
+
+@pytest.mark.parametrize("state", ["missing_file", "changed_file", "inventory_without_hash"])
+def test_promotion_checks_archive_bytes_not_only_declared_status(tmp_path, monkeypatch, state):
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured", bind_provenance=False)
+    archive = raw / "sources" / "proof.md"
+    if state == "missing_file":
+        archive.unlink()
+    elif state == "changed_file":
+        archive.write_text("Different document, old inventory unchanged.")
+    else:
+        (raw / "manifests" / "source-inventory.csv").write_text(
+            "manifest_id,path,sha256\nsrc-proof,sources/proof.md,\n")
+    decision = dec.canonical_promotion_decision(
+        cand, tmp_path, raw_root=raw, gates=_gates(), compute_score=lambda *a: 0.99)
+    assert decision["eligible"] is False, decision
+    assert "PROVENANCE_RAW_REF_FAIL" in [r["code"] for r in decision["blocking_reasons"]]
+
+
+def test_native_proof_roots_and_archive_change_before_apply(tmp_path, monkeypatch):
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured", bind_provenance=False)
+    decision = dec.canonical_promotion_decision(
+        cand, tmp_path, raw_root=raw, gates=_gates(), compute_score=lambda *a: 0.99)
+    assert decision["eligible"] is True, decision
+    (raw / "sources" / "proof.md").write_text("Changed after decision.")
+    ok, refusal = dec.authorize_apply(decision, cand, tmp_path, raw_root=raw)
+    assert ok is False
+    assert refusal["code"] == "STALE_DECISION"
+
+
+def test_unavailable_proof_schema_fails_closed(tmp_path, monkeypatch):
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured")
+    (tmp_path / "_meta" / "schema" / "coverage-map.schema.json").unlink()
+    decision = dec.canonical_promotion_decision(
+        cand, tmp_path, raw_root=raw, gates=_gates(), compute_score=lambda *a: 0.99)
+    assert decision["eligible"] is False
+    assert decision["promotion_status"] == "UNKNOWN_FAIL_CLOSED"
+    assert "COVERAGE_GATE_UNAVAILABLE" in [r["code"] for r in decision["blocking_reasons"]]
+
+
+
+def test_environment_raw_root_archive_is_in_apply_snapshot(tmp_path, monkeypatch):
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured", bind_provenance=False)
+    monkeypatch.setenv("AUTOMECANIK_RAW_PATH", str(raw))
+    decision = dec.canonical_promotion_decision(
+        cand, tmp_path, gates=_gates(), compute_score=lambda *a: 0.99)
+    assert decision["eligible"] is True, decision
+    assert any(e["role"] == "raw_archive" for e in decision["inputs"]["input_manifest"])
+    (raw / "sources" / "proof.md").write_text("Changed, inventory still untouched.")
+    ok, refusal = dec.authorize_apply(decision, cand, tmp_path)
+    assert ok is False and refusal["code"] == "STALE_DECISION"
+
+
+@pytest.mark.parametrize("escape", ["parent_path", "symlink"])
+def test_archive_outside_raw_never_qualifies(tmp_path, monkeypatch, escape):
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured", bind_provenance=False)
+    archive = raw / "sources" / "proof.md"
+    outside = tmp_path / "outside.md"
+    outside.write_bytes(archive.read_bytes())
+    if escape == "symlink":
+        archive.unlink()
+        archive.symlink_to(outside)
+    else:
+        inv = raw / "manifests" / "source-inventory.csv"
+        inv.write_text(inv.read_text().replace("sources/proof.md", "../outside.md"))
+    decision = dec.canonical_promotion_decision(
+        cand, tmp_path, raw_root=raw, gates=_gates(), compute_score=lambda *a: 0.99)
+    assert decision["eligible"] is False
+    assert any("raw_archive_path_invalid" in str(r["evidence"]) for r in decision["blocking_reasons"])
+    assert not any(e["role"] == "raw_archive" for e in decision["inputs"]["input_manifest"])

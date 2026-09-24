@@ -117,7 +117,7 @@ jobs:
       - name: Pytest 5 wrappers (architectural + smoke)
         run: cd _scripts && python3 -m pytest gates/test_gates.py -v
       - name: Canonical automatic promotion and apply guards
-        run: cd _scripts && python3 -m pytest test_promote.py test_promotion_decision.py test_shadow_score.py -q
+        run: cd _scripts && python3 -m pytest test_promote.py test_promotion_decision.py test_raw_to_wiki_content_loop_pilot.py test_shadow_score.py -q
       - name: Sanity run on existing proposals (no-op if proposals/ empty)
         run: |
           set -e

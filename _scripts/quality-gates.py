@@ -331,6 +331,118 @@ def source_archive_paths(source_catalog: dict[str, dict]) -> tuple[dict[str, Pat
     return paths, failures
 
 
+# Statuts worklist RAW (ingestion-worklist.schema.json) qui portent une archive capturée.
+# TODO / GATED / REJECTED n'en portent pas : rapportés, jamais comptés comme capture.
+RAW_CAPTURED_STATUSES = frozenset({"CAPTURED", "CAPTURED_NEEDS_REVIEW", "PROMOTED"})
+
+
+def _is_positive_id(value) -> bool:
+    return isinstance(value, int) and not isinstance(value, bool) and value > 0
+
+
+def raw_worklist_captures(slug: str, pg_id: int | None) -> dict:
+    """Captures RAW d'UNE gamme, liées par son identité canonique `entity_ref.pg_id`.
+
+    Lit `manifests/ingestion-worklist.yaml` du checkout RAW sélectionné (même point
+    d'override que RAW_INVENTORY). Contrat RAW (`_schemas/ingestion-worklist.schema.json`) :
+    l'identité est `entity_ref` ; le libellé `gamme` est DESCRIPTIF. Donc :
+      • aucun rattachement par libellé seul : un item sans `entity_ref.pg_id` n'est jamais
+        compté, seulement rapporté dans `unbound_same_label` ;
+      • même pg_id mais libellé ≠ slug ⇒ `mismatch` (liaison ambiguë, fail-closed côté appelant) ;
+      • une capture ne compte que si son `capture.raw_path` désigne UNE ligne de l'inventaire,
+        dans le checkout RAW, dont les octets ont le sha256 inventorié (même contrat que
+        `source_archive_paths` + vérification d'archive de `gate_source_catalog_raw_refs`).
+    Lecture seule : une capture reste `CAPTURED_NEEDS_REVIEW` et ne devient jamais ici une
+    source catalog `active` (acte owner, `check-activation-guard.py`).
+    `readable=False` ⇔ worklist ou inventaire illisible : l'appelant rend UNKNOWN, jamais un faux 0."""
+    import csv
+    import hashlib
+    manifests = RAW_INVENTORY.parent
+    worklist_path = manifests / "ingestion-worklist.yaml"
+    out = {"worklist": str(worklist_path), "pg_id": pg_id, "readable": True, "detail": None,
+           "resolved": [], "not_captured": [], "mismatch": [], "failures": [],
+           "unbound_same_label": []}
+    if not _is_positive_id(pg_id):
+        return {**out, "pg_id": None, "detail": "pg_id_absent"}
+    if not worklist_path.is_file():
+        return {**out, "detail": "worklist_absent"}
+    try:
+        data = yaml.safe_load(worklist_path.read_text(encoding="utf-8"))
+    except (OSError, yaml.YAMLError) as e:
+        return {**out, "readable": False, "detail": f"worklist_unreadable: {e}"}
+    items = data.get("worklist") if isinstance(data, dict) else None
+    if not isinstance(items, list):
+        return {**out, "readable": False, "detail": "worklist_malformed: clé `worklist` (liste) absente"}
+
+    captured = []
+    for index, item in enumerate(items):
+        if not isinstance(item, dict):
+            out["failures"].append(f"worklist_item_malformed:#{index}")
+            continue
+        wid, label = item.get("id"), item.get("gamme")
+        ref = item.get("entity_ref")
+        bound = (item.get("subject_type") == "gamme" and isinstance(ref, dict)
+                 and _is_positive_id(ref.get("pg_id")) and ref.get("pg_id") == pg_id)
+        if not bound:
+            if label == slug:
+                out["unbound_same_label"].append(wid)
+            continue
+        if label != slug:
+            out["mismatch"].append({"worklist_id": wid, "gamme": label})
+            continue
+        source = item.get("source") if isinstance(item.get("source"), dict) else {}
+        capture = item.get("capture") if isinstance(item.get("capture"), dict) else {}
+        record = {"worklist_id": wid, "status": capture.get("status"),
+                  "authoritative_domain": source.get("authoritative_domain"),
+                  "url": source.get("url"), "source_type": source.get("source_type")}
+        if capture.get("status") not in RAW_CAPTURED_STATUSES:
+            out["not_captured"].append(record)
+        elif not isinstance(capture.get("raw_path"), str) or not capture["raw_path"]:
+            out["failures"].append(f"capture_raw_path_absent:{wid}")
+        else:
+            captured.append({**record, "raw_path": capture["raw_path"]})
+    if not captured:
+        return out
+
+    if not RAW_INVENTORY.is_file():
+        return {**out, "readable": False, "detail": f"raw inventory absent at {RAW_INVENTORY}"}
+    try:
+        with RAW_INVENTORY.open(encoding="utf-8") as stream:
+            rows = list(csv.DictReader(stream))
+    except (OSError, csv.Error) as e:
+        return {**out, "readable": False, "detail": f"raw inventory unreadable: {e}"}
+    root = manifests.parent.resolve()
+    for record in captured:
+        wid, raw_path = record["worklist_id"], record["raw_path"]
+        path = (root / raw_path).resolve()
+        if root not in path.parents:
+            out["failures"].append(f"raw_archive_path_invalid:{wid}: outside RAW")
+            continue
+        matches = [row for row in rows if (row.get("path") or "").strip() == raw_path]
+        if len(matches) != 1:
+            out["failures"].append(f"raw_archive_unresolved:{wid}: expected one inventory row for {raw_path}")
+            continue
+        manifest_id = (matches[0].get("manifest_id") or "").strip()
+        expected = (matches[0].get("sha256") or "").strip()
+        if not manifest_id:
+            out["failures"].append(f"raw_archive_unresolved:{wid}: inventory row without manifest_id")
+            continue
+        if not path.is_file():
+            out["failures"].append(f"raw_archive_missing:{wid}")
+            continue
+        digest = hashlib.sha256()
+        with path.open("rb") as stream:
+            for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                digest.update(chunk)
+        actual = "sha256:" + digest.hexdigest()
+        if actual != expected:
+            out["failures"].append(f"raw_archive_sha_drift:{wid}: expected={expected} actual={actual}")
+            continue
+        out["resolved"].append({**record, "manifest_id": manifest_id, "sha256": expected})
+    out["resolved"].sort(key=lambda r: str(r["worklist_id"]))
+    return out
+
+
 def gate_source_catalog_raw_refs(source_catalog: dict[str, dict], *,
                                  verify_archive_slugs: set[str] | None = None) -> tuple[list[str], list[str]]:
     """Plan P2 — valide raw_ref cross-repo + arbitrage transition raw_ref vs archived_at.

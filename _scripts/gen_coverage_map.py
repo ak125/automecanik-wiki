@@ -188,6 +188,19 @@ def _collect_claims(slug: str, raw_root: Path) -> list[dict]:
     return out
 
 
+def _raw_captures(slug: str, fm: dict, raw_root: Path) -> dict:
+    """Captures RAW liées à la gamme par `entity_data.pg_id` (jamais par slug) — lecteur UNIQUE
+    `quality-gates.raw_worklist_captures` (worklist + inventaire + octets vérifiés), 0 réimpl."""
+    import importlib.util
+    ed = fm.get("entity_data") if isinstance(fm.get("entity_data"), dict) else {}
+    pg_id = ed.get("pg_id") if fm.get("entity_type") == "gamme" else None
+    spec = importlib.util.spec_from_file_location("_coverage_map_raw_captures", SCRIPTS_DIR / "quality-gates.py")
+    qg = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(qg)
+    qg.RAW_INVENTORY = raw_root / "manifests" / "source-inventory.csv"
+    return qg.raw_worklist_captures(slug, pg_id)
+
+
 def _claim_id(slug: str, section: str, i: int) -> str:
     sec = re.sub(r"[^a-z0-9]+", "-", section.lower()).strip("-")[:24]
     return f"{slug}-{sec}-{i}"
@@ -239,6 +252,31 @@ def generate(slug: str, fiche_md: str, raw_root: Path) -> tuple[dict, dict]:
             rec["claims"] += 1
             rec["sections"].add(c["section"])
 
+    # Captures RAW liées par pg_id : PROPOSENT un raw_ref pour validation humaine, n'activent rien
+    # (claims 0 → aucun score ne bouge ; `source_status: captured` reste réservé à is_page_proven).
+    # Liaison ambiguë (même pg_id, autre libellé) → aucune proposition (fail-closed), cause rapportée.
+    raw_captures = _raw_captures(slug, fm, raw_root)
+    for cap in ([] if raw_captures["mismatch"] else raw_captures["resolved"]):
+        dom = _domain(str(cap.get("url") or ""))
+        if not dom:
+            raw_captures["failures"].append(f"capture_url_absent:{cap['worklist_id']}")
+            continue
+        cap["catalog_domain_match"] = catalog["domain_to_slug"].get(dom)
+        if cap["catalog_domain_match"]:
+            continue
+        rec = to_validate.setdefault(dom, {
+            "domain": dom, "example_url": cap["url"], "proposed_type": _propose_type(dom),
+            "scraper_level": "unknown", "claims": 0, "sections": set(),
+            "status": "pending_source_validation",
+            "reason": "capture RAW liée par pg_id, domaine absent de source-catalog.yaml — "
+                      "autorité à confirmer par un humain (1×)",
+        })
+        rec.setdefault("raw_captures", []).append({
+            "worklist_id": cap["worklist_id"], "raw_source_type": cap["source_type"],
+            "capture_status": cap["status"], "raw_path": cap["raw_path"],
+            "proposed_raw_ref": {"manifest_id": cap["manifest_id"], "expected_sha256": cap["sha256"]},
+        })
+
     cov = None
     if entries:
         cov = {"fiche": slug, "schema_version": "1.0.0", "coverage_entries": entries}
@@ -257,8 +295,10 @@ def generate(slug: str, fiche_md: str, raw_root: Path) -> tuple[dict, dict]:
         "authority_hint_counts": _count_by(tv, "proposed_type"),
         "entries_by_confidence": _count_by(entries, "confidence"),
         "entries_page_pending_capped": sum(1 for e in entries if e["source_status"] == "pending_capture"),
+        "raw_captures": raw_captures,
         "note": ("dim A = moyenne des confidences ; page pending_capture → medium MAX (publisher validé "
-                 "≠ preuve du claim). Sources inconnues = pending_source_validation, exclues (Option A)."),
+                 "≠ preuve du claim). Sources inconnues = pending_source_validation, exclues (Option A). "
+                 "Captures RAW liées par pg_id : raw_ref PROPOSÉ (claims 0), activation = acte owner."),
     }
     return cov, report
 

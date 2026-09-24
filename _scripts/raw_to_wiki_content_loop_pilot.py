@@ -96,13 +96,55 @@ def _score_at_ref(ref: str, slug: str, wiki_root: Path, tmp: Path) -> dict:
     return _shadow(p, wiki_root, pdir)
 
 
-def stage_raw(slug: str, raw_root: Path) -> dict:
+def _quality_gates_for(raw_root: Path):
+    """quality-gates.py lié au checkout RAW demandé (même override que promotion_decision.py)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("_loop_pilot_quality_gates", SCRIPTS_DIR / "quality-gates.py")
+    qg = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(qg)
+    qg.RAW_INVENTORY = raw_root / "manifests" / "source-inventory.csv"
+    return qg
+
+
+def stage_document_receipts(raw_root: Path) -> dict:
+    """Voie documentaire RAW (reçus claim→document) : sonde le MÊME lecteur que
+    document_authoring.load_reader, sans l'exécuter (aucun code d'un autre repo lancé ici)."""
+    reader = raw_root / "_scripts" / "document_contract.py"
+    if reader.is_symlink() or not reader.is_file():
+        return {"state": PENDING, "reason": "document_reader_unavailable: _scripts/document_contract.py "
+                                            "absent du checkout RAW — ancres claim→document indisponibles"}
+    return {"state": NA, "reason": "voie documentaire RAW présente — reçus lus par document_authoring.py, pas par ce pilote"}
+
+
+def stage_raw(slug: str, raw_root: Path, pg_id: int | None = None) -> dict:
+    """RAW : captures gouvernées liées à l'identité canonique `pg_id` (worklist + inventaire,
+    octets vérifiés) + voie web-research legacy. PASS ⇔ ≥1 capture résolue ou ≥1 fichier
+    web-research, sans liaison ambiguë ni capture non résolue (fail-closed)."""
     d = raw_root / "sources" / "web-research" / slug
     if not raw_root.is_dir():
-        return {"state": UNKNOWN, "dir": str(d), "detail": "raw-root inaccessible"}
+        return {"state": UNKNOWN, "reason": "raw-root inaccessible", "raw_root": str(raw_root),
+                "document_receipts": {"state": UNKNOWN, "reason": "raw-root inaccessible"}}
     mds = sorted(d.glob("*.md")) if d.is_dir() else []
     has_idx = d.is_dir() and any(d.glob("*source-index*.json"))
-    return {"state": _state_from_ok(bool(mds)), "dir": str(d), "md_files": len(mds), "has_source_index": has_idx}
+    caps = _quality_gates_for(raw_root).raw_worklist_captures(slug, pg_id)
+    out = {"legacy_web_research": {"dir": str(d), "md_files": len(mds), "has_source_index": has_idx},
+           "auto_captures": {**caps, "count": len(caps["resolved"])},
+           "document_receipts": stage_document_receipts(raw_root)}
+    if not caps["readable"]:
+        return {**out, "state": UNKNOWN, "reason": caps["detail"]}
+    if caps["mismatch"]:
+        labels = sorted({str(m["gamme"]) for m in caps["mismatch"]})
+        return {**out, "state": FAIL,
+                "reason": f"entity_binding_mismatch: pg_id={pg_id} porté par gamme={labels} ≠ {slug}"}
+    if caps["failures"]:
+        return {**out, "state": FAIL, "reason": f"captures RAW non résolues: {caps['failures']}"}
+    if caps["resolved"] or mds:
+        return {**out, "state": PASS,
+                "reason": f"{len(caps['resolved'])} capture(s) RAW résolue(s), {len(mds)} fichier(s) web-research"}
+    if caps["pg_id"] is None:
+        return {**out, "state": FAIL,
+                "reason": "pg_id absent de la fiche — captures RAW non liables (fail-closed) ; aucune source web-research"}
+    return {**out, "state": FAIL, "reason": f"aucune capture RAW liée à pg_id={pg_id} ni source web-research"}
 
 
 def stage_wiki(slug: str, wiki_root: Path) -> dict:
@@ -114,9 +156,11 @@ def stage_wiki(slug: str, wiki_root: Path) -> dict:
     ed = fm.get("entity_data") or {}
     structured = bool(ed.get("editorial") or ed.get("known_issues_by_engine")
                       or ed.get("maintenance_by_engine") or ed.get("related_gammes"))
+    pg_id = ed.get("pg_id")
     return {"state": _state_from_ok(structured), "path": str(p.relative_to(wiki_root)),
             "entity_type": fm.get("entity_type"), "review_status": fm.get("review_status"),
-            "structured_entity_data": structured}
+            "structured_entity_data": structured,
+            "pg_id": pg_id if isinstance(pg_id, int) and not isinstance(pg_id, bool) else None}
 
 
 def stage_citation(entity_id: str, slug: str, wiki_root: Path) -> dict:
@@ -336,8 +380,9 @@ def run(entity_id: str, wiki_root: Path, raw_root: Path, monorepo_root: Path,
     etype, _, slug = entity_id.partition(":")
     proposal = wiki_root / "proposals" / f"{slug}.md"
 
-    raw = stage_raw(slug, raw_root)
     wiki = stage_wiki(slug, wiki_root)
+    # identité canonique d'une gamme = entity_data.pg_id (jamais le slug) ; autres types : non liés
+    raw = stage_raw(slug, raw_root, wiki.get("pg_id") if etype == "gamme" else None)
     after = _shadow(proposal, wiki_root, wiki_root / "proposals") if proposal.is_file() else {"tier": None, "total": None, "floors_failed": ["absente"]}
     import tempfile
     with tempfile.TemporaryDirectory() as td:
@@ -361,7 +406,8 @@ def run(entity_id: str, wiki_root: Path, raw_root: Path, monorepo_root: Path,
     # ── Blockers (FAIL = bloquant) vs pending (PENDING = planifié, non bloquant) vs unknown ──
     blockers, pending, unknown = [], [], []
     stage_map = {
-        "raw": (raw["state"], "aucune source web-research scrapée", False),
+        "raw": (raw["state"], raw["reason"], False),
+        "raw_document_receipts": (raw["document_receipts"]["state"], raw["document_receipts"]["reason"], True),
         "wiki_proposal": (wiki["state"], "proposal absente ou entity_data non structuré", False),
         "score": (score_state, f"tier_after={after.get('tier')} < A (planchers {after.get('floors_failed')}) → retour scraping/enrichissement", False),
         "citation": (citation["state"], f"verdict={citation.get('verdict')} (≠ READY)", False),

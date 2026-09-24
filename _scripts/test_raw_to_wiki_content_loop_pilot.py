@@ -38,12 +38,13 @@ def test_stage_raw_counts_md_and_index(tmp_path):
     (d / "b.md").write_text("y", encoding="utf-8")
     (d / "deep-source-index.json").write_text("{}", encoding="utf-8")
     r = lp.stage_raw("x", tmp_path)
-    assert r["state"] == lp.PASS and r["md_files"] == 2 and r["has_source_index"]
+    legacy = r["legacy_web_research"]
+    assert r["state"] == lp.PASS and legacy["md_files"] == 2 and legacy["has_source_index"]
 
 
 def test_stage_raw_absent_is_not_ok(tmp_path):
     r = lp.stage_raw("inexistant", tmp_path)
-    assert r["state"] == lp.FAIL and r["md_files"] == 0
+    assert r["state"] == lp.FAIL and r["legacy_web_research"]["md_files"] == 0
 
 
 def test_stage_consumer_replay_only_is_blocked(tmp_path):

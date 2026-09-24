@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """raw_to_wiki_content_loop_pilot — ORCHESTRATEUR de la boucle contenu (PAS un scorer).
 
-Exécute la trajectoire COMPLÈTE sur UNE entité pilote et émet UN rapport unique qui prouve
-(ou réfute) chaque maillon, avec `remaining_blockers` explicites :
+Examine la trajectoire sur UNE entité pilote et émet un rapport de diagnostic,
+avec `remaining_blockers` explicites. Les sources et propositions doivent déjà exister ;
+ce CLI ne collecte pas de nouvelles sources et ne planifie pas de runs récurrents :
 
     RAW source  →  WIKI proposal  →  SHADOW SCORE (before/after)  →  CITATION-READINESS
     →  PROMOTION (dry)  →  EXPORT SEO  →  CONSUMER (projection DB)  →  OUTCOME (observe)
@@ -133,18 +134,44 @@ def stage_citation(entity_id: str, slug: str, wiki_root: Path) -> dict:
         return {"state": UNKNOWN, "verdict": f"err:{(err or out)[:120]}"}
 
 
-def stage_promotion(entity_id: str, wiki_root: Path, threshold: float) -> dict:
-    rc, out, err = _run([sys.executable, str(SCRIPTS_DIR / "promote.py"), "--wiki-root", str(wiki_root),
-                         "--entity-id", entity_id, "--threshold", str(threshold), "--dry-run", "--format", "json"])
+def stage_promotion(entity_id: str, wiki_root: Path, threshold: float | None,
+                    raw_root: Path | None = None) -> dict:
+    # Adapter uniquement : le promoteur porte le seuil et la decision de preuve.
+    cmd = [sys.executable, str(SCRIPTS_DIR / "promote.py"), "--wiki-root", str(wiki_root),
+           "--entity-id", entity_id, "--dry-run", "--format", "json"]
+    if threshold is not None:
+        cmd += ["--threshold", str(threshold)]
+    if raw_root is not None:
+        cmd += ["--raw-root", str(raw_root)]
+    rc, out, err = _run(cmd)
+    result = {"state": UNKNOWN, "tier": None, "threshold": threshold,
+              "promotion_status": None, "eligible": None, "blocking_reasons": []}
+    if rc != 0:
+        return {**result, "detail": f"promote.py failed (exit={rc})", "exit_code": rc}
     try:
         data = _extract_json(out)
-        rows = data.get("report", []) if isinstance(data, dict) else (data if isinstance(data, list) else [])
-        row = rows[0] if rows else {}
-        tier = row.get("tier")
-        reasons = row.get("blocking_reasons") or []
-        return {"state": _state_from_ok(tier in TIER_A_OK), "tier": tier, "threshold": threshold, "blocking_reasons": reasons}
-    except Exception:  # noqa: BLE001
-        return {"state": UNKNOWN, "tier": None, "threshold": threshold, "blocking_reasons": [f"err:{(err or out)[:160]}"]}
+        rows = data.get("report", []) if isinstance(data, dict) else []
+        if not isinstance(rows, list) or len(rows) != 1 or not isinstance(rows[0], dict):
+            return {**result, "detail": "one canonical promotion decision required"}
+        row = rows[0]
+        status, eligible = row.get("promotion_status"), row.get("eligible")
+        reasons = row.get("blocking_reasons", [])
+        result.update(tier=row.get("tier"), threshold=data.get("threshold", threshold),
+                      promotion_status=status, eligible=eligible, blocking_reasons=reasons,
+                      evaluation=row.get("evaluation"))
+        if not isinstance(reasons, list):
+            return {**result, "detail": "invalid blocking_reasons"}
+        if status == "ELIGIBLE" and eligible is True and not reasons:
+            result["state"] = PASS
+        elif status in {"BLOCKED", "SKIP"} and eligible is False:
+            result["state"] = FAIL
+        elif status == "UNKNOWN_FAIL_CLOSED" and eligible is False:
+            result["state"] = UNKNOWN
+        else:
+            result["detail"] = "missing or inconsistent canonical promotion decision"
+        return result
+    except (ValueError, TypeError):
+        return {**result, "detail": "invalid promote.py JSON report"}
 
 
 def stage_export(entity_id: str, wiki_root: Path) -> dict:
@@ -305,7 +332,7 @@ def compute_page_quality_ready(tier: str | None, blockers: list) -> tuple[object
 
 
 def run(entity_id: str, wiki_root: Path, raw_root: Path, monorepo_root: Path,
-        baseline_ref: str, threshold: float, evidence: dict | None = None) -> dict:
+        baseline_ref: str, threshold: float | None, evidence: dict | None = None) -> dict:
     etype, _, slug = entity_id.partition(":")
     proposal = wiki_root / "proposals" / f"{slug}.md"
 
@@ -316,7 +343,7 @@ def run(entity_id: str, wiki_root: Path, raw_root: Path, monorepo_root: Path,
     with tempfile.TemporaryDirectory() as td:
         before = _score_at_ref(baseline_ref, slug, wiki_root, Path(td))
     citation = stage_citation(entity_id, slug, wiki_root)
-    promotion = stage_promotion(entity_id, wiki_root, threshold)
+    promotion = stage_promotion(entity_id, wiki_root, threshold, raw_root=raw_root)
     export = stage_export(entity_id, wiki_root)
     static = static_proofs(monorepo_root)
     runtime = runtime_proofs(evidence)
@@ -338,7 +365,7 @@ def run(entity_id: str, wiki_root: Path, raw_root: Path, monorepo_root: Path,
         "wiki_proposal": (wiki["state"], "proposal absente ou entity_data non structuré", False),
         "score": (score_state, f"tier_after={after.get('tier')} < A (planchers {after.get('floors_failed')}) → retour scraping/enrichissement", False),
         "citation": (citation["state"], f"verdict={citation.get('verdict')} (≠ READY)", False),
-        "promotion": (promotion["state"], f"promote.py dry-run tier={promotion.get('tier')} (cutover moteur 6-dim requis ; seuil no-op 1.01)", True),
+        "promotion": (promotion["state"], f"promote.py dry-run status={promotion.get('promotion_status')} reasons={promotion.get('blocking_reasons')} detail={promotion.get('detail')}", True),
         "seo_export": (export["state"], "export impossible tant que la fiche n'est pas PROMUE (build lit wiki/<type>/)", True),
         "consumer_writer": (static["writer_code_present"]["state"], static["writer_code_present"]["detail"], True),
         "consumer_wired": (static["module_wired_in_source"]["state"], static["module_wired_in_source"]["detail"], True),
@@ -378,6 +405,12 @@ def run(entity_id: str, wiki_root: Path, raw_root: Path, monorepo_root: Path,
         "seo_export": export,
         "static_proofs": static,
         "runtime_proofs": runtime,
+        "verdict_scope": {
+            "projection_operational": "static wiring and supplied projection runtime evidence only",
+            "business_loop_closed": "projection_operational and supplied outcome evidence only",
+            "loop_closed": "legacy alias of business_loop_closed; not editorial quality approval",
+            "editorial_limits": "inspect remaining_blockers, pending, unknown and page_quality_ready separately",
+        },
         "verdicts": {
             "projection_operational": projection_operational,
             "outcome_status": outcome_status,
@@ -401,7 +434,7 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--raw-root", type=Path, default=Path("/opt/automecanik/automecanik-raw"))
     ap.add_argument("--monorepo-root", type=Path, default=Path("/opt/automecanik/app"))
     ap.add_argument("--baseline-ref", default="origin/main", help="ref git pour le score 'before' (effet contenu)")
-    ap.add_argument("--threshold", type=float, default=0.80, help="seuil promotion simulé (dry-run)")
+    ap.add_argument("--threshold", type=float, default=None, help="surcharge du seuil du promoteur (dry-run) ; absent = défaut canonique du promoteur")
     ap.add_argument("--evidence", type=Path, default=None,
                     help="JSON de preuves runtime 3B (export_generated, projection_run_succeeded, "
                          "active_version_present, projection_rpc_readable, page_render_consumed_projection, "

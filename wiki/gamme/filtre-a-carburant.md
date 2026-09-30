@@ -60,7 +60,7 @@ diagnostic_relations:
   sources:
   - web_vroomly_filtre_gasoil_20260612
   - web_idgarages_filtre_gasoil_20260612
-confidence_score: 0.77
+confidence_score: 0.84
 auto_promoted: true
 promotion_tier: A
 promotion_evidence:

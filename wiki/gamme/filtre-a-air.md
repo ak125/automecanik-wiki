@@ -91,7 +91,7 @@ entity_data:
     related_pages:
     - filtre-habitacle
     - filtre-a-huile
-confidence_score: 0.81
+confidence_score: 0.84
 auto_promoted: true
 promotion_tier: A
 promotion_evidence:

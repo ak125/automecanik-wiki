@@ -57,7 +57,7 @@ diagnostic_relations:
     diagnostic_safe: false
   sources:
   - web_carglass_filtre_habitacle_20260612
-confidence_score: 0.79
+confidence_score: 0.84
 auto_promoted: true
 promotion_tier: A
 promotion_evidence:

@@ -509,6 +509,42 @@ def test_block_source_ids_are_prefixed() -> None:
             assert re.match(r"^(db|web|raw|oem|specialist):", sid), f"source_id not prefixed: {sid}"
 
 
+def _maintenance_source_ids(source_refs: list) -> list[list[str]]:
+    fm = _gamme_fm_with_dimensions()
+    fm["source_refs"] = source_refs
+    _, _, blocks = builder._extract_facts_sources_blocks(fm, "", "gamme")
+    return [b["source_ids"] for b in blocks if b["section"] == "maintenance"]
+
+
+def test_maintenance_block_cites_canonical_raw_path() -> None:
+    """Forme canon du frontmatter (`kind: raw` + `path`) : le bloc cite le chemin RAW exact,
+    jamais le littéral `raw:recycled` qui ne désigne aucun fichier."""
+    refs = [
+        {"kind": "manual", "note": "revue", "author": "human:@fixture"},
+        {"kind": "raw", "path": "recycled/rag-knowledge/_raw/evidence/filtre-a-huile.yml"},
+    ]
+    assert _maintenance_source_ids(refs) == [["raw:recycled/rag-knowledge/_raw/evidence/filtre-a-huile.yml"]]
+
+
+@pytest.mark.parametrize(
+    "source_refs",
+    [
+        [],
+        [{"kind": "manual", "note": "revue", "author": "human:@fixture"}],
+        [{"kind": "raw"}],
+        [{"kind": "raw", "id": "raw-filtre-a-huile"}],
+        [{"kind": "external_url"}],
+    ],
+    ids=["none", "manual-only", "raw-without-path", "raw-id-only", "url-missing"],
+)
+def test_maintenance_block_without_traceable_source_is_not_emitted(source_refs, capsys) -> None:
+    """ZÉRO filler (ADR-086) : sans source raw/web désignant un fichier ou une URL, le conseil
+    n'est pas projeté — aucun identifiant inventé, et l'omission est nommée (WARN), pas muette."""
+    assert _maintenance_source_ids(source_refs) == []
+    err = capsys.readouterr().err
+    assert "gamme:filtre-a-huile" in err and "maintenance.educational_advice" in err
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 # v2.3.0 (ADR-086 §2bis) — sections éditoriales gamme → blocks role-aware
 # ──────────────────────────────────────────────────────────────────────────────

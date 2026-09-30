@@ -12,6 +12,12 @@ name: wiki-protected-paths
 #     metadata writes by audit-trailed tooling.)
 #
 # Reference: réplique du pattern D22 (automecanik-rag/knowledge/), adapté wiki/.
+#
+# Périmètre = TOUT sous-dossier de wiki/ (CLAUDE.md : « Écrire dans wiki/<area>/
+# uniquement par le promoteur »). Motif générique, jamais une liste de noms : la
+# liste en dur (gammes|vehicles|constructeurs) a rendu la garde muette sans aucun
+# signal quand #24 (2026-05-13) a renommé les dossiers au singulier — la promotion
+# #40 est passée sans marqueur. Un nouveau dossier est protégé par défaut.
 
 on:
   pull_request:
@@ -25,6 +31,8 @@ jobs:
   check-protected-paths:
     name: check wiki/<entity_type>/ writes are mediated
     runs-on: ubuntu-latest
+    env:
+      PROTECTED_RE: '^wiki/[^/]+/.+\.md$'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -35,7 +43,7 @@ jobs:
         run: |
           base="${{ github.event.pull_request.base.sha }}"
           head="${{ github.event.pull_request.head.sha }}"
-          changed=$(git diff --name-only "$base" "$head" -- 'wiki/' | grep -E '^wiki/(gammes|vehicles|constructeurs|support|diagnostic)/.*\.md$' || true)
+          changed=$(git diff --name-only "$base" "$head" -- 'wiki/' | grep -E "$PROTECTED_RE" || true)
           echo "files<<EOF" >> "$GITHUB_OUTPUT"
           echo "$changed" >> "$GITHUB_OUTPUT"
           echo "EOF" >> "$GITHUB_OUTPUT"
@@ -51,7 +59,7 @@ jobs:
           # For each commit in the PR that touches wiki/<entity_type>/, the message must contain a marker
           fail=0
           for commit in $(git rev-list "$base..$head"); do
-            touched=$(git diff-tree --no-commit-id --name-only -r "$commit" -- 'wiki/' | grep -E '^wiki/(gammes|vehicles|constructeurs|support|diagnostic)/.*\.md$' || true)
+            touched=$(git diff-tree --no-commit-id --name-only -r "$commit" -- 'wiki/' | grep -E "$PROTECTED_RE" || true)
             if [ -z "$touched" ]; then continue; fi
             msg=$(git log -1 --pretty=%B "$commit")
             if echo "$msg" | grep -Eq '(promotion-from-proposals:|rollback:|template-migration:|metadata-backfill:)' ; then

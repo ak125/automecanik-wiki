@@ -528,6 +528,50 @@ sources:
       dans faq-symptoms.md / selection-criteria.md / compatibility-technical.md.
       STATUS to_capture : page technique référencée par URL, archive à matérialiser.
 
+  - slug: mahle_oem_conception_filtre_huile
+    title: 'MAHLE Aftermarket — conception et entretien des filtres à huile (vissé, cartouche, by-pass, média)'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'MAHLE Aftermarket'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-fa488c047addedba6909fc86d9a4c3d1b6529dc93c7039a84f0589342fc0a77b
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Page équipementier (capture RAW 2026-09-13, sha256:8358e439…).
+      Passages retenus : introduction (échéances de remplacement fixées par le
+      constructeur), clapets by-pass et anti-retour, cartouche vs filtre vissé,
+      « Spin-on oil filter mix up » (filtres d'apparence identique, intérieur
+      différent selon le moteur : clapets, filetage, pression du by-pass, média,
+      finesse). Ne fonde PAS : une durée universelle, la règle « à chaque vidange »,
+      une hiérarchie des médias, une compatibilité catalogue, ni aucun chiffre
+      promotionnel. Type oem_manual aligné sur la pratique du catalogue (Filtron,
+      MANN) ; la prose §9.1 classerait plutôt ce contenu en brochure — à trancher
+      au vault.
+
+  - slug: renault_clio5p1_alerte_pression_huile
+    title: 'Renault Clio 5 phase 1 — notice : témoin de pression d’huile et arrêt impératif'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Renault'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-a64b110a256a86ffebaf26d3db725afef93e914f922ecb8f4eff96c13b70e884
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Notice utilisateur constructeur (capture RAW 2026-09-14, sha256:fc3dc890…),
+      Clio 5 phase 1 uniquement. Passages retenus : « Témoin de pression d'huile »
+      et « Témoin d'arrêt impératif » (en roulant, avec signal sonore : s'arrêter,
+      couper le contact ; niveau normal = autre cause). Ne pas confondre avec
+      l'auto-test à la mise sous contact. Ne prouve ni que le filtre est en cause,
+      ni une consigne identique pour tous les véhicules.
+
   - slug: eu_reg_461_2010_block_exemption
     title: 'Règlement (UE) n°461/2010 — exemption par catégorie automobile (qualité OE / OES / équivalente)'
     type: normative_standard                    # → max confidence: high

@@ -10,7 +10,7 @@ aliases:
 - cartouche de filtre à huile
 lang: fr
 created_at: '2026-05-27'
-updated_at: '2026-09-30'
+updated_at: '2026-10-01'
 truth_level: L2
 source_refs:
 - kind: raw
@@ -45,9 +45,9 @@ reviewed_by: null
 reviewed_at: null
 review_notes: "Révisée 2026-09-30 : chaque affirmation repose sur l'une de trois pages\
   \ archivées dans RAW (sources/auto-captures/filtre-a-huile/) — Filtron (clapets\
-  \ du filtre vissé, source active), MAHLE Aftermarket (conception, entretien,\
-  \ qualité) et notice Renault Clio 5 phase 1 (témoin de pression d'huile) ; MAHLE\
-  \ et Renault restent to_capture jusqu'à l'activation par le propriétaire. Les\
+  \ du filtre vissé), MAHLE Aftermarket (conception, entretien,\
+  \ qualité) et notice Renault Clio 5 phase 1 (témoin de pression d'huile) ; les\
+  \ trois sources sont actives au catalogue (activations bd29675 et 817be22). Les\
   \ trois références external_url désignent les mêmes pages que les références raw\
   \ (même document, pas une source indépendante). Retirés faute de preuve archivée :\
   \ débit « 90 à 100 % », « deux clapets », filetages métriques/pouces, matériaux\
@@ -290,4 +290,4 @@ MAHLE cite trois caractéristiques importantes de qualité d'un filtre à huile 
 
 ## Provenance & qualité
 
-Fiche **révisée le 2026-09-30**. Chaque affirmation repose sur l'une de trois pages archivées dans RAW : la page Filtron sur les clapets (source active), la page MAHLE sur les filtres à huile et la notice Renault Clio 5 phase 1 (ces deux dernières attendent l'activation par le propriétaire). Ont été **retirés**, faute de preuve archivée : le débit « 90 à 100 % », l'idée de « deux clapets », les filetages métriques ou en pouces, les matériaux des clapets, les normes ISO 4548 et le ratio bêta, les trois niveaux du règlement 461/2010, la règle « à chaque vidange », les consignes de serrage et la liste d'équipementiers. Aucune valeur de pression ni de couple n'est publiée. `review_status: proposed`, exports désactivés ; relations diagnostic en confiance faible, `reviewed: false`, `diagnostic_safe: false`.
+Fiche **révisée le 2026-09-30**. Chaque affirmation repose sur l'une de trois pages archivées dans RAW, toutes trois actives au catalogue des sources : la page Filtron sur les clapets, la page MAHLE sur les filtres à huile et la notice Renault Clio 5 phase 1. Ont été **retirés**, faute de preuve archivée : le débit « 90 à 100 % », l'idée de « deux clapets », les filetages métriques ou en pouces, les matériaux des clapets, les normes ISO 4548 et le ratio bêta, les trois niveaux du règlement 461/2010, la règle « à chaque vidange », les consignes de serrage et la liste d'équipementiers. Aucune valeur de pression ni de couple n'est publiée. Les relations diagnostic restent des hypothèses en confiance faible (`reviewed: false`, `diagnostic_safe: false`).

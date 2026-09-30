@@ -43,7 +43,7 @@
       "section": "maintenance",
       "content_md": "Remplacement typique tous les 30 000 km, plus fréquent en milieu poussiéreux ou usage tout-terrain.",
       "source_ids": [
-        "raw:recycled"
+        "raw:recycled/rag-knowledge/_raw/evidence/filtre-a-air.yml"
       ],
       "truth_level": "editorial",
       "usefulness_target": "achat"

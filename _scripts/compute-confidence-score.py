@@ -10,7 +10,8 @@ Formula:
 
 Modes:
     --check (default) — verify written value matches formula. FAIL if author cheated.
-    --fix             — rewrite frontmatter confidence_score in place.
+    --fix             — rewrite the top-level frontmatter confidence_score in place
+                        (never promotion_evidence.confidence_score).
     --explain         — print JSON arithmetic and section evidence, without writes.
 
 Usage:
@@ -296,9 +297,10 @@ def process_file(path: Path, mode: str, wiki_root: Path) -> bool:
     fm_lines = fm_yaml.split("\n")
     found = False
     for line in fm_lines:
-        if line.lstrip().startswith("confidence_score:"):
-            indent = line[: len(line) - len(line.lstrip())]
-            new_fm_lines.append(f"{indent}confidence_score: {expected:.2f}")
+        # Top-level key only: promotion_evidence.confidence_score is the score
+        # recorded at promotion time — evidence, never recomputed.
+        if line.startswith("confidence_score:"):
+            new_fm_lines.append(f"confidence_score: {expected:.2f}")
             found = True
         else:
             new_fm_lines.append(line)

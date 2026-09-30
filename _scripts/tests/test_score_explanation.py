@@ -79,6 +79,24 @@ def test_explicit_fix_can_repair_invalid_score(tmp_path, value):
     assert path.read_bytes() == after
 
 
+@pytest.mark.parametrize("declared", [0.99, None])
+def test_fix_never_rewrites_the_score_recorded_at_promotion(tmp_path, declared):
+    fm = {"entity_type": "gamme", "source_refs": [{"kind": "raw"}],
+          "promotion_evidence": {"confidence_score": 0.84,
+                                 "promoter": "skill:promoter@abc1234"}}
+    if declared is not None:
+        fm["confidence_score"] = declared
+    path = tmp_path / "canon.md"
+    path.write_text("---\n" + yaml.safe_dump(fm) + "---\n\n## Rôle technique\n"
+                    "Une explication documentaire suffisamment longue pour la rubrique.\n",
+                    encoding="utf-8")
+    assert SCORER.process_file(path, "fix", tmp_path) is True
+    written = yaml.safe_load(path.read_text(encoding="utf-8").split("---\n")[1])
+    assert written["confidence_score"] == 0.30
+    assert written["promotion_evidence"]["confidence_score"] == 0.84
+    assert SCORER.process_file(path, "check", tmp_path) is True
+
+
 def test_cli_explain_is_read_only_and_json(tmp_path):
     path = write_candidate(tmp_path / "candidate.md")
     before = {p.name: p.read_bytes() for p in tmp_path.iterdir()}

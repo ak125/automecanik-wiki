@@ -1,0 +1,190 @@
+{
+  "entity_id": "gamme:filtre-a-huile",
+  "entity_type": "gamme",
+  "schema_version": "1.1.0",
+  "projection_contract_version": "1.0.0",
+  "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
+  "wiki_path": "wiki/gamme/filtre-a-huile.md",
+  "content_hash": "sha256:773367f7531a2c35118530fad506092d8567879ecc0e01f4eb9edf098d8e8561",
+  "generated_at": "2026-10-01T00:50:04+02:00",
+  "builder_version": "1.1.0",
+  "facts": [
+    {
+      "key": "pg_id",
+      "value": 7,
+      "source_id": "db:pieces_gamme"
+    },
+    {
+      "key": "family",
+      "value": "filtration",
+      "source_id": "db:pieces_gamme"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-0",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-1",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-2",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-3",
+      "type": "manual",
+      "url": "https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html"
+    },
+    {
+      "id": "src-4",
+      "type": "manual",
+      "url": "https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/"
+    },
+    {
+      "id": "src-5",
+      "type": "manual",
+      "url": "https://www.user-manual.renault.com/fr/chapitre1-faites-connaissance-avec-votre-v%C3%A9hicule/temoins-lumineux"
+    }
+  ],
+  "blocks": [
+    {
+      "role": "R3_CONSEILS",
+      "section": "maintenance",
+      "content_md": "Remplacer le filtre à huile aux échéances d'entretien fixées par le constructeur du véhicule, et choisir la référence prévue pour ce véhicule, pas un filtre qui lui ressemble.",
+      "source_ids": [
+        "raw:sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md"
+      ],
+      "truth_level": "editorial",
+      "usefulness_target": "achat"
+    },
+    {
+      "role": "R4_REFERENCE",
+      "section": "related",
+      "content_md": "Pièces de la même famille d'entretien : huile-moteur, joint-de-vidange-carter, filtre-a-air, filtre-a-carburant, filtre-d-habitacle, bouchon-de-vidange.",
+      "source_ids": [
+        "db:pieces_gamme"
+      ],
+      "truth_level": "db_owned",
+      "usefulness_target": "maillage"
+    },
+    {
+      "role": "R6_GUIDE_ACHAT",
+      "section": "selection",
+      "content_md": "Critères de choix : Forme prévue pour le véhicule : filtre vissé ou cartouche. ; Même aspect ne veut pas dire même intérieur (clapets, filetage, média). ; Remplacement aux échéances fixées par le constructeur..",
+      "source_ids": [
+        "db:pieces_gamme"
+      ],
+      "truth_level": "inferred",
+      "usefulness_target": "achat"
+    },
+    {
+      "role": "R4_REFERENCE",
+      "section": "definition",
+      "content_md": "Le filtre à huile empêche les impuretés d'entrer dans le circuit de lubrification et aide à préserver l'huile et le moteur.",
+      "source_ids": [
+        "db:pieces_gamme"
+      ],
+      "truth_level": "inferred",
+      "usefulness_target": "page_indexable"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "function",
+      "content_md": "Le filtre à huile empêche les impuretés d'entrer dans le circuit de lubrification du moteur. Il aide ainsi à préserver la qualité de l'huile, ainsi que les performances et le rendement du moteur.",
+      "source_ids": [
+        "oem:mahle_oem_conception_filtre_huile"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "function"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "failure_symptoms",
+      "content_md": "Un symptôme seul ne désigne pas le filtre à huile. Exemple de la Renault Clio 5 phase 1 : si le témoin de pression d'huile s'allume en roulant, avec le témoin d'arrêt impératif et un signal sonore, il faut s'arrêter impérativement, couper le contact et vérifier le niveau d'huile ; si le niveau est normal, l'alerte a une autre cause. Quand le by-pass reste ouvert, de l'huile non filtrée circule vers les organes en rotation.",
+      "source_ids": [
+        "oem:renault_clio5p1_alerte_pression_huile",
+        "oem:filtron_oem_clapets_filtre_huile"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "failure_symptoms"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "maintenance_interval",
+      "content_md": "Le filtre à huile se remplace aux échéances d'entretien fixées par le constructeur du véhicule. Un filtre gardé trop longtemps peut se colmater : le by-pass s'ouvre alors pour continuer d'alimenter le moteur, avec une huile qui n'est plus filtrée.",
+      "source_ids": [
+        "oem:mahle_oem_conception_filtre_huile",
+        "oem:filtron_oem_clapets_filtre_huile"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "maintenance_interval"
+    },
+    {
+      "role": "R4_REFERENCE",
+      "section": "variants",
+      "content_md": "Deux formes existent. Le filtre vissé réunit le boîtier et l'élément filtrant en un seul bloc, qui se change en entier. La cartouche s'utilise avec un boîtier démontable : seul l'élément filtrant sale est renouvelé. Selon sa conception, fixée par le constructeur du moteur ou du véhicule, un filtre vissé peut comporter trois types de clapets : anti-retour, de dérivation (by-pass) et anti-siphon.",
+      "source_ids": [
+        "oem:mahle_oem_conception_filtre_huile",
+        "oem:filtron_oem_clapets_filtre_huile"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "variants"
+    },
+    {
+      "role": "R6_GUIDE_ACHAT",
+      "section": "selection_criteria",
+      "content_md": "Le choix part du véhicule, jamais de l'apparence : des filtres qui se ressemblent peuvent être très différents à l'intérieur selon le moteur (clapet anti-retour présent ou non, filetage de raccordement, pression d'ouverture du by-pass, média, finesse de filtration, surpression admissible). Plus l'intervalle de remplacement est long, plus la qualité du filtre compte.",
+      "source_ids": [
+        "oem:mahle_oem_conception_filtre_huile"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "selection_criteria"
+    },
+    {
+      "role": "R6_GUIDE_ACHAT",
+      "section": "quality_tiers",
+      "content_md": "MAHLE cite le papier filtrant, le clapet de dérivation (by-pass) et le clapet anti-retour comme caractéristiques importantes de qualité d'un filtre à huile. Selon le même fabricant, la qualité du montage et de l'entretien compte autant que celle du filtre.",
+      "source_ids": [
+        "oem:mahle_oem_conception_filtre_huile"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "quality_tiers"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "replacement_guidance",
+      "content_md": "Un filtre vissé se change en entier ; avec une cartouche, seul l'élément filtrant est renouvelé. Même un filtre de qualité ne fonctionne correctement que s'il a été bien monté : suivre les instructions du constructeur du véhicule et du fabricant du filtre.",
+      "source_ids": [
+        "oem:mahle_oem_conception_filtre_huile"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "replacement_guidance"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "faq",
+      "content_md": "Que remplace-t-on lors de l'entretien ? Le filtre vissé en entier, ou seulement l'élément filtrant d'une cartouche. Quand le remplacer ? Aux échéances d'entretien prévues par le constructeur du véhicule. Peut-on le choisir à sa taille ou à son apparence ? Non : des filtres qui se ressemblent peuvent être très différents à l'intérieur selon le moteur. Le voyant de pression d'huile vient-il du filtre ? Ce voyant ne désigne pas à lui seul le filtre : suivre la notice du véhicule, puis faire rechercher la cause.",
+      "source_ids": [
+        "oem:mahle_oem_conception_filtre_huile",
+        "oem:renault_clio5p1_alerte_pression_huile"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "faq"
+    }
+  ],
+  "roles_allowed": [
+    "R3_CONSEILS",
+    "R4_REFERENCE",
+    "R6_GUIDE_ACHAT"
+  ],
+  "consumers_allowed": [
+    "seo",
+    "rag"
+  ]
+}

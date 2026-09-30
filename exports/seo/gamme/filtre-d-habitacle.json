@@ -3,10 +3,10 @@
   "entity_type": "gamme",
   "schema_version": "1.1.0",
   "projection_contract_version": "1.0.0",
-  "source_wiki_commit": "6590fc54c835e4bd3191b87e197778d5d73b1199",
+  "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
   "wiki_path": "wiki/gamme/filtre-d-habitacle.md",
-  "content_hash": "sha256:39116a2be2861cfc87008d3a5ca80362685c686c426ac2aee674203d8ee471da",
-  "generated_at": "2026-06-13T13:51:53+02:00",
+  "content_hash": "sha256:28915d6cde4c6c3f88d21fd5c91541933befd2b75c37dc45bdda3447ccf66572",
+  "generated_at": "2026-10-01T00:50:04+02:00",
   "builder_version": "1.1.0",
   "facts": [],
   "sources": [

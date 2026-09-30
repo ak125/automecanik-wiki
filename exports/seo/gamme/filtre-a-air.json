@@ -3,10 +3,10 @@
   "entity_type": "gamme",
   "schema_version": "1.1.0",
   "projection_contract_version": "1.0.0",
-  "source_wiki_commit": "6590fc54c835e4bd3191b87e197778d5d73b1199",
+  "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
   "wiki_path": "wiki/gamme/filtre-a-air.md",
-  "content_hash": "sha256:b004ed7ea0945abd5359c2012ac75c7e54be2b9ebd67399f024389cca5e3b876",
-  "generated_at": "2026-06-13T13:51:53+02:00",
+  "content_hash": "sha256:3217ce282740ae50f5caadef5b78b9a8fd994680890bf09a926d632440eb8671",
+  "generated_at": "2026-10-01T00:50:04+02:00",
   "builder_version": "1.1.0",
   "facts": [
     {

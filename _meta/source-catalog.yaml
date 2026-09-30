@@ -536,9 +536,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-fa488c047addedba6909fc86d9a4c3d1b6529dc93c7039a84f0589342fc0a77b
-      expected_sha256: null
+      expected_sha256: 'sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589'
     archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Page équipementier (capture RAW 2026-09-13, sha256:8358e439…).
@@ -560,9 +560,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-a64b110a256a86ffebaf26d3db725afef93e914f922ecb8f4eff96c13b70e884
-      expected_sha256: null
+      expected_sha256: 'sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235'
     archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Notice utilisateur constructeur (capture RAW 2026-09-14, sha256:fc3dc890…),

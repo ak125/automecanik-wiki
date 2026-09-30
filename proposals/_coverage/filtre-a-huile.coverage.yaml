@@ -30,7 +30,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-anti-retour-arret-moteur
     section: "## Fonctionnement"
@@ -39,7 +39,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-bypass-colmatage-froid
     section: "## Fonctionnement"
@@ -48,7 +48,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-anti-siphon
     section: "## Fonctionnement"
@@ -57,7 +57,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   # --- MAHLE Aftermarket (conception, entretien, qualité) — source to_capture ---
   - claim_id: filtre-huile-definition-visse-bloc
@@ -67,7 +67,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-definition-cartouche-element
     section: "## Définition"
@@ -76,7 +76,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-role-contaminants
     section: "## Rôle technique"
@@ -85,7 +85,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   # Id historique conservé, ré-pointé de Filtron vers MAHLE (passage « differ in
   # the oil pressure of the bypass valve … depending on the engine »).
@@ -96,7 +96,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-apparence-identique-interieur-different
     section: "## Critères de choix selon le véhicule"
@@ -105,7 +105,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-qualite-selon-intervalle
     section: "## Critères de choix selon le véhicule"
@@ -114,7 +114,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-remplacement-echeances-constructeur
     section: "## Entretien & bonnes pratiques"
@@ -123,7 +123,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-montage-correct
     section: "## Entretien & bonnes pratiques"
@@ -132,7 +132,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-criteres-qualite-media-clapets
     section: "## Marques & qualité"
@@ -141,7 +141,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   # --- Notice Renault Clio 5 phase 1 (témoin de pression d'huile) — source to_capture ---
   - claim_id: filtre-huile-alerte-pression-clio5-consigne
@@ -151,7 +151,7 @@ coverage_entries:
     evidence_type: oem_owner_manual_excerpt
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-alerte-niveau-normal-autre-cause
     section: "## Symptômes & diagnostic"
@@ -160,7 +160,7 @@ coverage_entries:
     evidence_type: oem_owner_manual_excerpt
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
 notes: |
   Coverage map filtre-a-huile — réécrite 2026-09-30 avec la fiche.

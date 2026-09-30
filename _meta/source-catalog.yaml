@@ -516,10 +516,10 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: filtron_oem_clapets_filtre_huile
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/filtre-a-huile/source-index.json'
-    status: to_capture
+      manifest_id: src-auto-capture-b8431d6ff4d46f8f4e7acf118fa89b3679683572706f59d159e6ab5e1c01ba6f
+      expected_sha256: 'sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md'
+    status: active
     license: captured_for_internal_review
     notes: |
       Source équipementier PRIMARY (groupe MANN+HUMMEL) sur le rôle du clapet

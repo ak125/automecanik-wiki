@@ -56,7 +56,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-huile-bypass-huile-non-filtree
     section: "## Symptômes & diagnostic"
@@ -65,7 +65,7 @@ coverage_entries:
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
-    source_status: pending_capture
+    source_status: captured
 
   # --- claims sourcés réglementaire UE 461/2010 → high (§9.1 normative) ---
   - claim_id: filtre-huile-trois-niveaux-qualite-oe-oes-equivalent

@@ -118,8 +118,10 @@ def test_read_predecessor_returns_none_for_absent_file():
 
 
 def test_read_predecessor_returns_committed_text():
-    # filtre-a-huile.md is a committed proposal on origin/main (HEAD of this worktree).
-    text = cmp.read_predecessor(REPO_ROOT, "HEAD", "proposals/filtre-a-huile.md")
+    # A committed test fixture, never a live fiche: fiches move on promotion
+    # (proposals/ → wiki/<type>/), which must not break the git-layer test.
+    relpath = (FIXTURES / "compare-fixture-rich.md").relative_to(REPO_ROOT).as_posix()
+    text = cmp.read_predecessor(REPO_ROOT, "HEAD", relpath)
     assert text is not None
     assert text.startswith("---")
 

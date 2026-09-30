@@ -39,28 +39,28 @@ source_refs:
   captured_at: '2026-09-14'
 provenance:
   ingested_by: skill:wiki-proposal-writer
-  promoted_from: null
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: "Révisée 2026-09-30 : chaque affirmation repose sur l'une de trois pages\
-  \ archivées dans RAW (sources/auto-captures/filtre-a-huile/) — Filtron (clapets\
-  \ du filtre vissé), MAHLE Aftermarket (conception, entretien,\
-  \ qualité) et notice Renault Clio 5 phase 1 (témoin de pression d'huile) ; les\
-  \ trois sources sont actives au catalogue (activations bd29675 et 817be22). Les\
-  \ trois références external_url désignent les mêmes pages que les références raw\
-  \ (même document, pas une source indépendante). Retirés faute de preuve archivée :\
-  \ débit « 90 à 100 % », « deux clapets », filetages métriques/pouces, matériaux\
-  \ des clapets, ISO 4548 et ratio bêta, trois niveaux du règlement 461/2010, règle\
-  \ « à chaque vidange », consignes de serrage, liste d'équipementiers. Aucune\
-  \ valeur de pression ni de couple n'est publiée. diagnostic_relations[] : deux\
-  \ hypothèses non établies (les sources ne rattachent ni le voyant ni la perte\
-  \ de puissance au filtre) → confidence low, reviewed=false, diagnostic_safe=false."
+  promoted_from: proposals/filtre-a-huile.md
+  promoted_at: '2026-09-30T22:42:35+00:00'
+review_status: approved
+reviewed_by: skill:promoter@1e8003c
+reviewed_at: '2026-09-30T22:42:35+00:00'
+review_notes: 'Révisée 2026-09-30 : chaque affirmation repose sur l''une de trois
+  pages archivées dans RAW (sources/auto-captures/filtre-a-huile/) — Filtron (clapets
+  du filtre vissé), MAHLE Aftermarket (conception, entretien, qualité) et notice Renault
+  Clio 5 phase 1 (témoin de pression d''huile) ; les trois sources sont actives au
+  catalogue (activations bd29675 et 817be22). Les trois références external_url désignent
+  les mêmes pages que les références raw (même document, pas une source indépendante).
+  Retirés faute de preuve archivée : débit « 90 à 100 % », « deux clapets », filetages
+  métriques/pouces, matériaux des clapets, ISO 4548 et ratio bêta, trois niveaux du
+  règlement 461/2010, règle « à chaque vidange », consignes de serrage, liste d''équipementiers.
+  Aucune valeur de pression ni de couple n''est publiée. diagnostic_relations[] :
+  deux hypothèses non établies (les sources ne rattachent ni le voyant ni la perte
+  de puissance au filtre) → confidence low, reviewed=false, diagnostic_safe=false.'
 no_disputed_claims: true
 confidence_score: 0.92
 exportable:
   rag: false
-  seo: false
+  seo: true
   support: false
 target_classes:
 - KB_Knowledge
@@ -69,10 +69,9 @@ diagnostic_relations:
 - symptom_slug: voyant_huile
   system_slug: filtration
   relation_to_part: possible_cause
-  part_role: "hypothèse non établie — la notice Renault Clio 5 phase 1 décrit la\
-    \ conduite à tenir quand le voyant de pression d'huile s'allume (arrêt, contrôle\
-    \ du niveau, autre cause si le niveau est normal) sans attribuer cette alerte\
-    \ au filtre à huile"
+  part_role: hypothèse non établie — la notice Renault Clio 5 phase 1 décrit la conduite
+    à tenir quand le voyant de pression d'huile s'allume (arrêt, contrôle du niveau,
+    autre cause si le niveau est normal) sans attribuer cette alerte au filtre à huile
   evidence:
     confidence: low
     source_policy: manual_review
@@ -83,9 +82,9 @@ diagnostic_relations:
 - symptom_slug: perte_puissance_filtration
   system_slug: filtration
   relation_to_part: possible_cause
-  part_role: "hypothèse non établie pour la perte de puissance — les sources décrivent\
-    \ l'ouverture du by-pass quand le filtre est colmaté (huile non filtrée vers le\
-    \ moteur), sans établir qu'un filtre soit la cause d'une perte de puissance"
+  part_role: hypothèse non établie pour la perte de puissance — les sources décrivent
+    l'ouverture du by-pass quand le filtre est colmaté (huile non filtrée vers le
+    moteur), sans établir qu'un filtre soit la cause d'une perte de puissance
   evidence:
     confidence: low
     source_policy: manual_review
@@ -123,87 +122,98 @@ entity_data:
   - remplacement_piece
   - diagnostic_avant_achat
   maintenance:
-    educational_advice: "Remplacer le filtre à huile aux échéances d'entretien fixées\
-      \ par le constructeur du véhicule, et choisir la référence prévue pour ce véhicule,\
-      \ pas un filtre qui lui ressemble."
+    educational_advice: Remplacer le filtre à huile aux échéances d'entretien fixées
+      par le constructeur du véhicule, et choisir la référence prévue pour ce véhicule,
+      pas un filtre qui lui ressemble.
     related_pages:
     - huile-moteur
     - filtre-a-air
   decision_brief:
-    function_oneliner: "Le filtre à huile empêche les impuretés d'entrer dans le circuit\
-      \ de lubrification et aide à préserver l'huile et le moteur."
+    function_oneliner: Le filtre à huile empêche les impuretés d'entrer dans le circuit
+      de lubrification et aide à préserver l'huile et le moteur.
     selection_criteria_top:
-    - "Forme prévue pour le véhicule : filtre vissé ou cartouche."
-    - "Même aspect ne veut pas dire même intérieur (clapets, filetage, média)."
-    - "Remplacement aux échéances fixées par le constructeur."
-    compatibility_summary: "Choisir le filtre à partir du véhicule dans le catalogue,\
-      \ jamais à son apparence ni à une dimension approchée."
+    - 'Forme prévue pour le véhicule : filtre vissé ou cartouche.'
+    - Même aspect ne veut pas dire même intérieur (clapets, filetage, média).
+    - Remplacement aux échéances fixées par le constructeur.
+    compatibility_summary: Choisir le filtre à partir du véhicule dans le catalogue,
+      jamais à son apparence ni à une dimension approchée.
     source_kind: web_research_oe
     cross_check_status: SOURCED_OE
   editorial:
     function:
-      content_md: >-
-        Le filtre à huile empêche les impuretés d'entrer dans le circuit de lubrification du moteur.
-        Il aide ainsi à préserver la qualité de l'huile, ainsi que les performances et le rendement
-        du moteur.
-      source_ids: [oem:mahle_oem_conception_filtre_huile]
+      content_md: Le filtre à huile empêche les impuretés d'entrer dans le circuit
+        de lubrification du moteur. Il aide ainsi à préserver la qualité de l'huile,
+        ainsi que les performances et le rendement du moteur.
+      source_ids:
+      - oem:mahle_oem_conception_filtre_huile
       truth_level: sourced
     variants:
-      content_md: >-
-        Deux formes existent. Le filtre vissé réunit le boîtier et l'élément filtrant en un seul bloc,
-        qui se change en entier. La cartouche s'utilise avec un boîtier démontable : seul l'élément
-        filtrant sale est renouvelé. Selon sa conception, fixée par le constructeur du moteur ou du
-        véhicule, un filtre vissé peut comporter trois types de clapets : anti-retour, de dérivation
-        (by-pass) et anti-siphon.
-      source_ids: [oem:mahle_oem_conception_filtre_huile, oem:filtron_oem_clapets_filtre_huile]
+      content_md: 'Deux formes existent. Le filtre vissé réunit le boîtier et l''élément
+        filtrant en un seul bloc, qui se change en entier. La cartouche s''utilise
+        avec un boîtier démontable : seul l''élément filtrant sale est renouvelé.
+        Selon sa conception, fixée par le constructeur du moteur ou du véhicule, un
+        filtre vissé peut comporter trois types de clapets : anti-retour, de dérivation
+        (by-pass) et anti-siphon.'
+      source_ids:
+      - oem:mahle_oem_conception_filtre_huile
+      - oem:filtron_oem_clapets_filtre_huile
       truth_level: sourced
     selection_criteria:
-      content_md: >-
-        Le choix part du véhicule, jamais de l'apparence : des filtres qui se ressemblent peuvent être
-        très différents à l'intérieur selon le moteur (clapet anti-retour présent ou non, filetage de
-        raccordement, pression d'ouverture du by-pass, média, finesse de filtration, surpression
-        admissible). Plus l'intervalle de remplacement est long, plus la qualité du filtre compte.
-      source_ids: [oem:mahle_oem_conception_filtre_huile]
+      content_md: 'Le choix part du véhicule, jamais de l''apparence : des filtres
+        qui se ressemblent peuvent être très différents à l''intérieur selon le moteur
+        (clapet anti-retour présent ou non, filetage de raccordement, pression d''ouverture
+        du by-pass, média, finesse de filtration, surpression admissible). Plus l''intervalle
+        de remplacement est long, plus la qualité du filtre compte.'
+      source_ids:
+      - oem:mahle_oem_conception_filtre_huile
       truth_level: sourced
     failure_symptoms:
-      content_md: >-
-        Un symptôme seul ne désigne pas le filtre à huile. Exemple de la Renault Clio 5 phase 1 : si le
-        témoin de pression d'huile s'allume en roulant, avec le témoin d'arrêt impératif et un signal
-        sonore, il faut s'arrêter impérativement, couper le contact et vérifier le niveau d'huile ; si
-        le niveau est normal, l'alerte a une autre cause. Quand le by-pass reste ouvert, de l'huile non
-        filtrée circule vers les organes en rotation.
-      source_ids: [oem:renault_clio5p1_alerte_pression_huile, oem:filtron_oem_clapets_filtre_huile]
+      content_md: 'Un symptôme seul ne désigne pas le filtre à huile. Exemple de la
+        Renault Clio 5 phase 1 : si le témoin de pression d''huile s''allume en roulant,
+        avec le témoin d''arrêt impératif et un signal sonore, il faut s''arrêter
+        impérativement, couper le contact et vérifier le niveau d''huile ; si le niveau
+        est normal, l''alerte a une autre cause. Quand le by-pass reste ouvert, de
+        l''huile non filtrée circule vers les organes en rotation.'
+      source_ids:
+      - oem:renault_clio5p1_alerte_pression_huile
+      - oem:filtron_oem_clapets_filtre_huile
       truth_level: sourced
     quality_tiers:
-      content_md: >-
-        MAHLE cite le papier filtrant, le clapet de dérivation (by-pass) et le clapet anti-retour comme
-        caractéristiques importantes de qualité d'un filtre à huile. Selon le même fabricant, la qualité
-        du montage et de l'entretien compte autant que celle du filtre.
-      source_ids: [oem:mahle_oem_conception_filtre_huile]
+      content_md: MAHLE cite le papier filtrant, le clapet de dérivation (by-pass)
+        et le clapet anti-retour comme caractéristiques importantes de qualité d'un
+        filtre à huile. Selon le même fabricant, la qualité du montage et de l'entretien
+        compte autant que celle du filtre.
+      source_ids:
+      - oem:mahle_oem_conception_filtre_huile
       truth_level: sourced
     maintenance_interval:
-      content_md: >-
-        Le filtre à huile se remplace aux échéances d'entretien fixées par le constructeur du véhicule.
-        Un filtre gardé trop longtemps peut se colmater : le by-pass s'ouvre alors pour continuer
-        d'alimenter le moteur, avec une huile qui n'est plus filtrée.
-      source_ids: [oem:mahle_oem_conception_filtre_huile, oem:filtron_oem_clapets_filtre_huile]
+      content_md: 'Le filtre à huile se remplace aux échéances d''entretien fixées
+        par le constructeur du véhicule. Un filtre gardé trop longtemps peut se colmater
+        : le by-pass s''ouvre alors pour continuer d''alimenter le moteur, avec une
+        huile qui n''est plus filtrée.'
+      source_ids:
+      - oem:mahle_oem_conception_filtre_huile
+      - oem:filtron_oem_clapets_filtre_huile
       truth_level: sourced
     replacement_guidance:
-      content_md: >-
-        Un filtre vissé se change en entier ; avec une cartouche, seul l'élément filtrant est renouvelé.
-        Même un filtre de qualité ne fonctionne correctement que s'il a été bien monté : suivre les
-        instructions du constructeur du véhicule et du fabricant du filtre.
-      source_ids: [oem:mahle_oem_conception_filtre_huile]
+      content_md: 'Un filtre vissé se change en entier ; avec une cartouche, seul
+        l''élément filtrant est renouvelé. Même un filtre de qualité ne fonctionne
+        correctement que s''il a été bien monté : suivre les instructions du constructeur
+        du véhicule et du fabricant du filtre.'
+      source_ids:
+      - oem:mahle_oem_conception_filtre_huile
       truth_level: sourced
     faq:
-      content_md: >-
-        Que remplace-t-on lors de l'entretien ? Le filtre vissé en entier, ou seulement l'élément
-        filtrant d'une cartouche. Quand le remplacer ? Aux échéances d'entretien prévues par le
-        constructeur du véhicule. Peut-on le choisir à sa taille ou à son apparence ? Non : des filtres
-        qui se ressemblent peuvent être très différents à l'intérieur selon le moteur. Le voyant de
-        pression d'huile vient-il du filtre ? Ce voyant ne désigne pas à lui seul le filtre : suivre la
-        notice du véhicule, puis faire rechercher la cause.
-      source_ids: [oem:mahle_oem_conception_filtre_huile, oem:renault_clio5p1_alerte_pression_huile]
+      content_md: 'Que remplace-t-on lors de l''entretien ? Le filtre vissé en entier,
+        ou seulement l''élément filtrant d''une cartouche. Quand le remplacer ? Aux
+        échéances d''entretien prévues par le constructeur du véhicule. Peut-on le
+        choisir à sa taille ou à son apparence ? Non : des filtres qui se ressemblent
+        peuvent être très différents à l''intérieur selon le moteur. Le voyant de
+        pression d''huile vient-il du filtre ? Ce voyant ne désigne pas à lui seul
+        le filtre : suivre la notice du véhicule, puis faire rechercher la cause.'
+      source_ids:
+      - oem:mahle_oem_conception_filtre_huile
+      - oem:renault_clio5p1_alerte_pression_huile
       truth_level: sourced
   media:
   - slot: hero
@@ -220,6 +230,40 @@ entity_data:
     asset: null
     license: null
     status: DEFERRED
+auto_promoted: true
+validation_mode: automatic
+promotion_tier: A
+promotion_evidence:
+  gate_status:
+    source: pass
+    claim: pass
+    contradiction: pass
+    risk: pass
+    confidence: pass
+  confidence_score: 0.92
+  promoter: skill:promoter@1e8003c
+  promoted_at: '2026-09-30T22:42:35+00:00'
+  shadow_score:
+    shadow_tier: S
+    shadow_total: 95
+    shadow_dims:
+      E: 10.0
+      F: 1.0
+      D: 15.0
+      A: 30.0
+      C: 20.0
+    shadow_applicable:
+    - A
+    - C
+    - D
+    - E
+    - F
+    shadow_floors_failed: []
+    shadow_blocked: []
+    shadow_notes:
+    - reality-check SKIPPÉ (manifest status=stale)
+    manifest_status: stale
+    scorer: shadow_score.score@6dim-v0
 ---
 
 ## Définition

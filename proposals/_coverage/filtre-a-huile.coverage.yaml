@@ -1,54 +1,9 @@
 fiche: filtre-a-huile
 schema_version: 1.0.0
-generated_at: '2026-06-27'
+generated_at: '2026-09-30'
 coverage_entries:
-  # --- claims sourcés normatif ISO (séries 4548) → high (§9.1 normative_standard) ---
-  - claim_id: filtre-huile-efficacite-iso-4548-12
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "l'efficacité réelle s'exprime par le ratio bêta à une taille de particule donnée"
-    source_slug: iso_4548_filtre_huile_serie
-    evidence_type: normative_standard_scope
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  - claim_id: filtre-huile-bypass-clapet-iso-4548-2
-    section: "## Fonctionnement"
-    text_anchor: "Sa caractéristique est normalisée par ISO 4548-2"
-    source_slug: iso_4548_filtre_huile_serie
-    evidence_type: normative_standard_scope
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  - claim_id: filtre-huile-anti-retour-iso-4548-9
-    section: "## Fonctionnement"
-    text_anchor: "Sa méthode d'essai est normalisée par ISO 4548-9"
-    source_slug: iso_4548_filtre_huile_serie
-    evidence_type: normative_standard_scope
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  # --- claims sourcés équipementier OE (MANN+HUMMEL / Filtron) → high (§9.1 oem) ---
-  - claim_id: filtre-huile-media-cellulose-synthetique-verre
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "Média filtrant — cellulose, mélange cellulose + fibres synthétiques, ou microfibres de verre"
-    source_slug: mann_filter_oem_filtre_huile
-    evidence_type: oem_whitepaper
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  - claim_id: filtre-huile-cartouche-vs-spinon-type-moteur
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "Le type est imposé par la conception moteur"
-    source_slug: mann_filter_oem_filtre_huile
-    evidence_type: oem_datasheet
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
+  # --- Filtron (clapets du filtre vissé) — source ACTIVE ---
+  # Deux claims déjà contrôlés contre la capture (captured) — inchangés.
   - claim_id: filtre-huile-anti-retour-orientation
     section: "## Fonctionnement"
     text_anchor: "Il est surtout indispensable quand le filtre est monté horizontalement ou tête en bas"
@@ -67,78 +22,162 @@ coverage_entries:
     source_policy: 1_high
     source_status: captured
 
-  # --- claims sourcés réglementaire UE 461/2010 → high (§9.1 normative) ---
-  - claim_id: filtre-huile-trois-niveaux-qualite-oe-oes-equivalent
-    section: "## Marques & qualité"
-    text_anchor: "Trois niveaux structurent le marché de la rechange au sens du Règlement européen 461/2010"
-    source_slug: eu_reg_461_2010_block_exemption
-    evidence_type: regulatory_primary
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  - claim_id: filtre-huile-oes-droit-rechange
-    section: "## Marques & qualité"
-    text_anchor: "pièce OES (équipementier d'origine sous sa marque, qualité identique)"
-    source_slug: eu_reg_461_2010_block_exemption
-    evidence_type: regulatory_primary
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  # --- claim maintenance OEM générique → high (§9.1 oem_manual) ---
-  - claim_id: filtre-huile-remplacement-chaque-vidange
-    section: "## Entretien & bonnes pratiques de montage"
-    text_anchor: "l'élément papier est conçu pour être changé à chaque vidange"
-    source_slug: oem_filter_maintenance_general
-    evidence_type: oem_workshop_excerpt
-    confidence: high
-    source_policy: 1_high
-    source_status: pending_capture
-
-  # --- claims conservés honnêtement (sources medium/low, non-PRIMARY) ---
-  - claim_id: filtre-huile-clapets-cartouche-dans-boitier
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "logé dans un boîtier permanent où les clapets sont souvent portés par le moteur"
-    source_slug: mann_filter_oem_filtre_huile
-    evidence_type: oem_datasheet
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
-
-  - claim_id: filtre-huile-capacite-retention-intervalle
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "un intervalle long (huile synthétique) exige une capacité de rétention supérieure"
-    source_slug: oem_filter_maintenance_general
-    evidence_type: oem_workshop_excerpt
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
-
-  - claim_id: filtre-huile-bypass-pression-engine-tied
+  # Nouveaux claims Filtron — à relire contre la capture avant passage en captured.
+  - claim_id: filtre-huile-clapets-selon-conception
     section: "## Fonctionnement"
-    text_anchor: "sa pression d'ouverture est calibrée selon le moteur"
+    text_anchor: "Leur présence dépend de la conception du filtre, fixée par le constructeur du moteur ou du véhicule"
     source_slug: filtron_oem_clapets_filtre_huile
     evidence_type: oem_technical_page
-    confidence: low
-    source_policy: 2_medium_concordant
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-anti-retour-arret-moteur
+    section: "## Fonctionnement"
+    text_anchor: "Il empêche l'huile de s'échapper du filtre quand le moteur est arrêté"
+    source_slug: filtron_oem_clapets_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-bypass-colmatage-froid
+    section: "## Fonctionnement"
+    text_anchor: "il sert quand le filtre est colmaté, par exemple après un trop long délai entre deux remplacements, ou quand l'huile est froide et épaisse"
+    source_slug: filtron_oem_clapets_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-anti-siphon
+    section: "## Fonctionnement"
+    text_anchor: "Le filtre reste plein : au démarrage, l'huile arrive vite au moteur, ce qui réduit fortement le frottement à sec"
+    source_slug: filtron_oem_clapets_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # --- MAHLE Aftermarket (conception, entretien, qualité) — source to_capture ---
+  - claim_id: filtre-huile-definition-visse-bloc
+    section: "## Définition"
+    text_anchor: "le boîtier et l'élément filtrant forment un seul bloc, qui se change en entier"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-definition-cartouche-element
+    section: "## Définition"
+    text_anchor: "au lieu de remplacer tout le filtre, on ne renouvelle que l'élément filtrant sale"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-role-contaminants
+    section: "## Rôle technique"
+    text_anchor: "Le filtre à huile empêche les impuretés d'entrer dans le circuit de lubrification"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # Id historique conservé, ré-pointé de Filtron vers MAHLE (passage « differ in
+  # the oil pressure of the bypass valve … depending on the engine »).
+  - claim_id: filtre-huile-bypass-pression-engine-tied
+    section: "## Fonctionnement"
+    text_anchor: "La pression à laquelle il s'ouvre peut différer d'un filtre à l'autre selon le moteur"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-apparence-identique-interieur-different
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "beaucoup de filtres se ressemblent mais sont très différents à l'intérieur selon le moteur"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-qualite-selon-intervalle
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "plus l'intervalle de remplacement est long, plus la qualité du filtre à huile compte"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-remplacement-echeances-constructeur
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "aux échéances d'entretien fixées par le constructeur du véhicule"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-montage-correct
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "même un filtre de qualité ne fonctionne correctement que s'il a été bien monté"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-criteres-qualite-media-clapets
+    section: "## Marques & qualité"
+    text_anchor: "le papier filtrant, le clapet de dérivation (by-pass) et le clapet anti-retour"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # --- Notice Renault Clio 5 phase 1 (témoin de pression d'huile) — source to_capture ---
+  - claim_id: filtre-huile-alerte-pression-clio5-consigne
+    section: "## Symptômes & diagnostic"
+    text_anchor: "il faut s'arrêter impérativement et couper le contact, puis vérifier le niveau d'huile"
+    source_slug: renault_clio5p1_alerte_pression_huile
+    evidence_type: oem_owner_manual_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-alerte-niveau-normal-autre-cause
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Si le niveau est normal, l'alerte a une autre cause"
+    source_slug: renault_clio5p1_alerte_pression_huile
+    evidence_type: oem_owner_manual_excerpt
+    confidence: high
+    source_policy: 1_high
     source_status: pending_capture
 
 notes: |
-  Coverage map filtre-a-huile — reconstruite 2026-06-27 (démonstrateur boucle
-  contenu, salvage RAG → web-research sourcée, parité avec plaquette-de-frein).
+  Coverage map filtre-a-huile — réécrite 2026-09-30 avec la fiche.
 
-  13 claims : 10 sourcés PRIMARY (3 normatif ISO 4548 + 4 équipementier OE
-  MANN+HUMMEL/Filtron + 2 réglementaire UE 461/2010 + 1 maintenance OEM
-  générique) → high §9.1 (normative_standard / oem_manual). 3 conservés
-  honnêtement (2 medium corroborés multi-source + 1 low pression by-pass, dont
-  les valeurs chiffrées restent volontairement HORS fiche — anti number-swapping
-  + ces chiffres viennent de forums, cf. risques source-index).
+  17 claims, chacun rattaché à UNE page archivée dans RAW
+  (sources/auto-captures/filtre-a-huile/) :
+  - Filtron (active) : 2 claims déjà captured (inchangés) + 4 nouveaux en
+    pending_capture ;
+  - MAHLE Aftermarket (to_capture) : 9 claims pending_capture ;
+  - notice Renault Clio 5 phase 1 (to_capture) : 2 claims pending_capture.
 
-  Toutes les sources extraites de
-  automecanik-raw/sources/web-research/filtre-a-huile/ (RUN_TARGETED_RAW_TO_WIKI,
-  source-index.json : 59 sources, 29 primary). Aucun chiffre de couple/pression
-  (Nm/bar/psi) projeté dans la fiche (route revue humaine + non auto-vérifiable).
+  Retirés avec leurs affirmations (aucune capture ne les prouve) : ISO 4548
+  (efficacité, by-pass, anti-retour), MANN-FILTER (média, cartouche/vissé,
+  clapets portés par le boîtier), règlement UE 461/2010 (trois niveaux, OES),
+  maintenance OEM générique (« à chaque vidange », capacité de rétention).
 
-  mean(confidence) = (high×10 + medium×2 + low×1) / 13
-                   = (10.0 + 1.2 + 0.3) / 13 ≈ 0.885 → dim A ≈ 26.5/30 (≥ plancher 22).
+  Passage en captured = acte propriétaire, après activation des sources MAHLE
+  et Renault (expected_sha256 + status active) et relecture de chaque claim
+  contre sa capture. Question ouverte pour le vault : une page produit
+  d'équipementier doit-elle rester typée oem_manual (plafond high) ?

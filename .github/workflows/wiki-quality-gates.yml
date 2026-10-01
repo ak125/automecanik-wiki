@@ -72,8 +72,14 @@ jobs:
         # cross-repo (`quality-gates.py --cross-repo`, 2 repos frais), non lançable en CI wiki
         # (pas de credential cross-repo secretless). Ce guard fail-closed bloque toute activation
         # par édition directe ; l'activation légitime passe par le flux gouverné (hors CI) qui
-        # exécute --cross-repo. fetch-depth: 0 (checkout ci-dessus) → origin/main résout.
-        run: python3 _scripts/check-activation-guard.py --base origin/main
+        # exécute --cross-repo. fetch-depth: 0 (checkout ci-dessus) → la base résout.
+        # Base : sur pull_request, origin/main (état avant fusion). Sur push main,
+        # origin/main == HEAD : la comparaison serait vide et le guard passerait à tort ;
+        # on compare donc au commit d'avant le push (github.event.before). Un before
+        # nul ou injoignable (force-push) fait sortir le guard en 2, jamais en PASS.
+        env:
+          GUARD_BASE: ${{ github.event_name == 'push' && github.event.before || 'origin/main' }}
+        run: python3 _scripts/check-activation-guard.py --base "$GUARD_BASE"
 
       - name: pytest fixtures (gates ADR-033 + ADR-032)
         run: cd _scripts/tests && python3 -m pytest -v

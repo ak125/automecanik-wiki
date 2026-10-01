@@ -17,7 +17,8 @@ nouvelle archive devient la preuve, et les ancres des fiches qui la citent doive
 revérifiées par `--cross-repo` avant la mutation, sinon une ancre casserait en silence.
 
 Usage :
-  check-activation-guard.py --base origin/main   # CI wiki (fetch-depth: 0)
+  check-activation-guard.py --base origin/main   # CI wiki, pull_request (fetch-depth: 0)
+  check-activation-guard.py --base <before-sha>  # CI wiki, push main (github.event.before)
   check-activation-guard.py --base HEAD          # pre-commit (HEAD vs working tree)
 """
 from __future__ import annotations
@@ -72,7 +73,9 @@ def _git(args: list[str]) -> subprocess.CompletedProcess:
 
 def _load_base_entries(base: str) -> dict[str, dict]:
     # Ref invalide = CI/hook mal configuré → fail-loud (jamais un skip silencieux).
-    if _git(["rev-parse", "--verify", "--quiet", base]).returncode != 0:
+    # `^{commit}` : sans lui, `rev-parse --verify` accepte tout SHA complet bien formé
+    # (y compris le SHA nul d'un push) sans vérifier que l'objet existe.
+    if _git(["rev-parse", "--verify", "--quiet", f"{base}^{{commit}}"]).returncode != 0:
         print(
             f"FAIL activation-guard: base_ref_introuvable: '{base}' — CI/hook mal configuré "
             "(fetch-depth insuffisant ?). Fail-loud, pas de skip silencieux."

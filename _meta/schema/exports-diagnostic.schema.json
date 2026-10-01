@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/exports-diagnostic.schema.json",
+  "title": "automecanik-wiki exports/diagnostic/ contract v1.0.0",
+  "description": "Vue dérivée déterministe des diagnostic_relations (ADR-033) des fiches wiki/gamme/*.md approuvées, produite par _scripts/build_exports_diagnostic.py. Deux formes : un export par gamme (exports/diagnostic/gamme/<slug>.json) et l'index (exports/diagnostic/_index.json). Les champs de relation et de source sont des $ref vers frontmatter.schema.json et source-catalog-entry.schema.json : ce schéma ne duplique aucun contrat canonique.",
+  "oneOf": [
+    { "$ref": "#/$defs/gamme_export" },
+    { "$ref": "#/$defs/index" }
+  ],
+  "$defs": {
+    "sha256_prefixed": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "commit_sha": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+    "semver": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "catalog_slug", "type", "status", "raw_ref", "raw_proven"],
+      "properties": {
+        "slug": { "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/sources/items" },
+        "catalog_slug": { "$ref": "source-catalog-entry.schema.json#/properties/slug" },
+        "type": { "$ref": "source-catalog-entry.schema.json#/properties/type" },
+        "status": { "$ref": "source-catalog-entry.schema.json#/properties/status" },
+        "raw_ref": {
+          "anyOf": [
+            { "type": "null" },
+            { "$ref": "source-catalog-entry.schema.json#/properties/raw_ref" }
+          ]
+        },
+        "raw_proven": {
+          "description": "Prédicat G1 gen_coverage_map.is_page_proven (status active ET raw_ref.manifest_id). Calculé par le builder, jamais par le consommateur.",
+          "type": "boolean"
+        }
+      },
+      "if": { "properties": { "raw_proven": { "const": true } }, "required": ["raw_proven"] },
+      "then": {
+        "properties": {
+          "status": { "const": "active" },
+          "raw_ref": {
+            "type": "object",
+            "required": ["expected_sha256"],
+            "properties": { "expected_sha256": { "type": "string" } }
+          }
+        }
+      }
+    },
+    "relation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "relation_index", "relation_sha256", "symptom_slug", "system_slug", "relation_to_part",
+        "part_role", "evidence", "confidence_score_computed", "sources"
+      ],
+      "properties": {
+        "relation_index": { "type": "integer", "minimum": 0 },
+        "relation_sha256": { "$ref": "#/$defs/sha256_prefixed" },
+        "symptom_slug": { "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/symptom_slug" },
+        "system_slug": { "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/system_slug" },
+        "relation_to_part": { "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/relation_to_part" },
+        "part_role": { "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/part_role" },
+        "evidence": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["confidence", "source_policy", "reviewed", "diagnostic_safe"],
+          "properties": {
+            "confidence": { "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/evidence/properties/confidence" },
+            "source_policy": { "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/evidence/properties/source_policy" },
+            "reviewed": { "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/evidence/properties/reviewed" },
+            "diagnostic_safe": { "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/evidence/properties/diagnostic_safe" }
+          }
+        },
+        "confidence_score_computed": {
+          "$ref": "frontmatter.schema.json#/properties/diagnostic_relations/items/properties/evidence/properties/confidence_score_computed"
+        },
+        "sources": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/source" } }
+      }
+    },
+    "gamme_export": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version", "builder_version", "export_kind", "gamme_slug", "wiki_path",
+        "source_wiki_commit", "source_catalog_commit", "content_hash", "relations"
+      ],
+      "properties": {
+        "schema_version": { "const": "1.0.0" },
+        "builder_version": { "$ref": "#/$defs/semver" },
+        "export_kind": { "const": "diagnostic_gamme" },
+        "gamme_slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*[a-z0-9]$" },
+        "wiki_path": { "type": "string", "pattern": "^wiki/gamme/[a-z0-9][a-z0-9-]*[a-z0-9]\\.md$" },
+        "source_wiki_commit": { "$ref": "#/$defs/commit_sha" },
+        "source_catalog_commit": { "$ref": "#/$defs/commit_sha" },
+        "content_hash": { "$ref": "#/$defs/sha256_prefixed" },
+        "relations": { "type": "array", "minItems": 1, "items": { "$ref": "#/$defs/relation" } }
+      }
+    },
+    "index": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "builder_version", "export_kind", "source_catalog_commit", "files"],
+      "properties": {
+        "schema_version": { "const": "1.0.0" },
+        "builder_version": { "$ref": "#/$defs/semver" },
+        "export_kind": { "const": "diagnostic_index" },
+        "source_catalog_commit": { "$ref": "#/$defs/commit_sha" },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256", "source_wiki_commit", "relation_count"],
+            "properties": {
+              "path": { "type": "string", "pattern": "^gamme/[a-z0-9][a-z0-9-]*[a-z0-9]\\.json$" },
+              "sha256": { "$ref": "#/$defs/sha256_prefixed" },
+              "source_wiki_commit": { "$ref": "#/$defs/commit_sha" },
+              "relation_count": { "type": "integer", "minimum": 1 }
+            }
+          }
+        }
+      }
+    }
+  }
+}

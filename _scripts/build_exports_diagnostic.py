@@ -158,6 +158,32 @@ def _export_relation(index: int, item: dict, catalog: dict[str, dict]) -> dict:
     }
 
 
+_RELATION_KEYS = ("symptom_slug", "system_slug", "relation_to_part", "part_role", "evidence", "sources")
+_EVIDENCE_KEYS = ("confidence", "source_policy", "reviewed", "diagnostic_safe")
+
+
+def _check_relations(relations: Any, fiche_name: str) -> None:
+    """Échec explicite (jamais de défaut ni de relation ignorée) sur une relation malformée."""
+    if not isinstance(relations, list):
+        raise click.ClickException(
+            f"{fiche_name}: diagnostic_relations must be a list, got {type(relations).__name__}"
+        )
+    for i, item in enumerate(relations):
+        where = f"{fiche_name}: diagnostic_relations[{i}]"
+        if not isinstance(item, dict):
+            raise click.ClickException(f"{where} must be a mapping (relation), got {type(item).__name__}")
+        for key in _RELATION_KEYS:
+            if key not in item:
+                raise click.ClickException(f"{where} is missing required key '{key}'")
+        if not isinstance(item["evidence"], dict):
+            raise click.ClickException(f"{where}.evidence must be a mapping")
+        for key in _EVIDENCE_KEYS:
+            if key not in item["evidence"]:
+                raise click.ClickException(f"{where}.evidence is missing required key '{key}'")
+        if not isinstance(item["sources"], list):
+            raise click.ClickException(f"{where}.sources must be a list")
+
+
 def is_eligible(fm: dict) -> bool:
     """Fiche approuvée portant au moins une diagnostic_relation."""
     return fm.get("review_status") == "approved" and bool(fm.get("diagnostic_relations"))
@@ -177,6 +203,7 @@ def build_gamme_export(
         raise click.ClickException(
             f"frontmatter slug {slug!r} differs from file name {source_path.name}"
         )
+    _check_relations(fm["diagnostic_relations"], source_path.name)
     exported = [
         _export_relation(i, item, catalog) for i, item in enumerate(fm["diagnostic_relations"])
     ]

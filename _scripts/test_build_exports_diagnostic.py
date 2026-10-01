@@ -155,6 +155,16 @@ def test_index_hashes_the_written_bytes(wiki: Path):
     assert entry["relation_count"] == 1
 
 
+def test_json_format_success_report(wiki: Path):
+    result = _run(wiki, "--format", "json")
+
+    assert result.exit_code == 0, result.output
+    written = len(list((wiki / "exports" / "diagnostic" / "gamme").glob("*.json")))
+    assert written == 1
+    report = json.loads(result.stdout[result.stdout.index("{"): result.stdout.rindex("}") + 1])
+    assert report == {"status": "OK", "written": written, "observations": []}
+
+
 def test_zero_eligible_fiche_gives_empty_valid_index(wiki: Path):
     _write_fiche(wiki, "filtre-a-air", review_status="draft", relations=[_relation(["oem_doc"])])
     _commit_all(wiki, "unapprove")
@@ -213,7 +223,10 @@ def test_shallow_clone_fails(wiki: Path, tmp_path: Path):
 
 def test_missing_export_schema_exits_2(wiki: Path):
     (wiki / "_meta" / "schema" / SCHEMA_PATH.name).unlink()
-    assert _run(wiki).exit_code == 2
+    result = _run(wiki)
+    assert result.exit_code == 2
+    assert "export schema not found" in result.output
+    assert SCHEMA_PATH.name in result.output
 
 
 # --- retrait gouverné ---------------------------------------------------------------
@@ -341,6 +354,36 @@ def test_relation_sha256_is_stable_and_content_sensitive():
                                        catalog)["relation_sha256"]
     assert changed != first
     assert first.startswith("sha256:") and len(first) == len("sha256:") + 64
+
+
+def _malformed_relation_cases():
+    no_evidence = _relation(["oem_doc"])
+    del no_evidence["evidence"]
+    no_sources = _relation(["oem_doc"])
+    del no_sources["sources"]
+    no_role = _relation(["oem_doc"])
+    del no_role["part_role"]
+    return [
+        ([no_evidence], "evidence"),
+        ([no_sources], "sources"),
+        ([no_role], "part_role"),
+        (["pas un objet"], "relation"),
+        ({"symptom_slug": "x"}, "list"),
+    ]
+
+
+@pytest.mark.parametrize("relations,expected_word", _malformed_relation_cases())
+def test_malformed_relation_fails_naming_fiche_and_key(wiki: Path, relations, expected_word: str):
+    _write_fiche(wiki, "filtre-a-huile", relations=relations)
+    _commit_all(wiki, "malformed relation")
+
+    result = _run(wiki)
+
+    assert result.exit_code == 1
+    assert "filtre-a-huile" in result.output
+    assert expected_word in result.output
+    assert "Traceback" not in result.output
+    assert not (wiki / "exports").exists()
 
 
 def test_frontmatter_slug_must_match_file_name(wiki: Path):

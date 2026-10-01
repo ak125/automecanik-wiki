@@ -27,7 +27,7 @@
           ]
         },
         "raw_proven": {
-          "description": "Prédicat G1 gen_coverage_map.is_page_proven (status active ET raw_ref.manifest_id). Calculé par le builder, jamais par le consommateur.",
+          "description": "Prédicat G1 gen_coverage_map.is_page_proven (status active ET raw_ref.manifest_id). Calculé par le builder, jamais par le consommateur. Ce schéma est volontairement plus strict que G1 : raw_proven true exige aussi expected_sha256 en chaîne (cohérent avec gate_source_catalog_raw_refs de _scripts/quality-gates.py).",
           "type": "boolean"
         }
       },

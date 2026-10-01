@@ -47,7 +47,7 @@ jobs:
       - name: quality-gates §2 + §5.bis (ADR-033 + ADR-032 gates — SAME-REPO)
         # --all-local : gates same-repo uniquement. Le gate cross-repo raw_ref (exige
         # automecanik-raw) n'est PAS lançable en CI (aucun credential cross-repo secretless
-        # entre 2 repos privés) : il est exécuté HORS CI par le flux GOUVERNÉ d'activation
+        # vers le repo RAW, privé) : il est exécuté HORS CI par le flux GOUVERNÉ d'activation
         # (`--cross-repo`, 2 repos présents+frais) comme précondition de toute transition
         # to_capture→active. La CI wiki ne vérifie QUE ce qu'elle possède ; l'activation
         # par édition directe est bloquée par le guard (activation-guard, étape suivante).

@@ -5,7 +5,7 @@ L'état dangereux n'est pas « un commit existe » — c'est précisément qu'un
 `_meta/source-catalog.yaml` passe à `active`. Une transition `to_capture → active` (ou une
 nouvelle entrée `active`) crée une PREUVE active dont la validité exige le gate cross-repo
 (`quality-gates.py --cross-repo`, les 2 repos wiki+raw présents et frais) — ce que la CI wiki
-seule NE PEUT PAS vérifier (aucun credential cross-repo secretless entre 2 repos privés).
+seule NE PEUT PAS vérifier (aucun credential cross-repo secretless vers le repo RAW, privé).
 
 Le seul chemin autorisé pour activer est le flux GOUVERNÉ d'activation qui exécute `--cross-repo`
 AVANT la mutation. Ce guard fail-closed empêche le contournement de ce chemin par ÉDITION

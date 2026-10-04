@@ -3,6 +3,18 @@
 > Versionnage du schema canonique frontmatter + exports + entity-data.
 > Bump majeur (X.0) = breaking change. Bump mineur (X.Y) = ajout rétrocompatible. Bump patch (X.Y.Z) = clarification.
 
+## \[1.2.0\] — 2026-10-05
+
+Amendements d'ADR-033 portés par ADR-112 (base diagnostic experte, D13 phase 0) et ADR-113 (couverture des relations). Ajout rétrocompatible : tous les champs sont optionnels, aucune fiche existante ne change.
+
+- `diagnostic_relations[]` : `cause_slug` (la cause nommée, pas la pièce), `evidence.strength` (`souvent` | `parfois` | `rare`, jamais un pourcentage), `vehicle_scope` (carburant seul, vocabulaire de `entity-data/vehicle.schema.json` ; séries moteur fermées tant que la table de correspondance d'ADR-113 n'existe pas), `citations[]` (source, `start`, `end`, `quote_sha256`).
+- `diagnostic.quick_checks[]` (fiche gamme) : chaque contrôle rapide pointe un `cause_slug` déclaré dans les relations de la même fiche. L'ancien bloc `diagnostic.symptoms` reste refusé.
+- `safety_rules[]` : chemin unique `wiki/diagnostic/regles-securite.md` (`id` `diagnostic:regles-securite`), `rule_slug` unique.
+- `diagnostic_not_applicable` (fiche gamme) : constat relu « aucune relation », exclusif de `diagnostic_relations[]`.
+- `_scripts/quality-gates.py` : nouveaux codes `citation_span_invalid`, `citation_source_not_in_sources`, `citation_source_not_raw_proven`, `diagnostic_not_applicable_with_relations`, `quick_check_cause_unlinked`, `safety_rules_path_invalid`, `safety_rule_slug_duplicate`. Les libellés existants des relations sont inchangés.
+- Ancres RAW vérifiées à la promotion (`gate_citation_anchors`, appelé par la preuve de provenance de `promotion_decision.py`) : extrait recalculé sur l'archive épinglée par `raw_ref.expected_sha256`, unité points de code Unicode (convention de `document_authoring.py`). Les archives citées entrent dans le manifeste de décision : un changement après décision donne `STALE_DECISION`.
+- Tests : `_scripts/tests/test_diagnostic_claims_contract.py`, 6 fiches de test (`_scripts/tests/fixtures/*claims*`, `invalid-citation-*`, `invalid-quick-check-*`, `invalid-not-applicable-*`, `invalid-safety-rule-*`), cas de promotion dans `_scripts/test_promotion_decision.py`.
+
 ## \[1.1.0\] — 2026-06-26
 
 Retrait du `source_kind: recycled` (déprécié en 1.0.1, wiki #66). Le corpus recyclé `automecanik-raw/recycled/rag-knowledge/` est désormais cité comme source `raw` normale (`kind: raw`). **0 fiche concernée** (toutes repointées en #66 ; 0 `kind: recycled` résiduel). Aligné ADR-031/046 (le repo externe `automecanik-rag` n'est pas une source ; le RAG live = consommateur chatbot only). Surfaces : `frontmatter.schema.json` (branche `oneOf` retirée), `enums.yaml source_kinds`, `ingestion-contract.md`. Le `type` d'export `recycled` (`exports-seo.schema.json`) et le mapping défensif `build_exports_seo.py` restent (enum séparé, latent — `exports/seo/` vide).

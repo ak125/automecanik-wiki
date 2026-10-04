@@ -959,3 +959,77 @@ def test_archive_outside_raw_never_qualifies(tmp_path, monkeypatch, escape):
     assert decision["eligible"] is False
     assert any("raw_archive_path_invalid" in str(r["evidence"]) for r in decision["blocking_reasons"])
     assert not any(e["role"] == "raw_archive" for e in decision["inputs"]["input_manifest"])
+
+
+# ADR-112 (§Amendements d'ADR-033) : citations[] ancrées dans RAW, vérifiées à la promotion.
+ARCHIVE_TEXT = "Une explication sourcée.\n"
+
+
+def _citation(text, quote, source="source_test"):
+    import hashlib
+    start = text.index(quote)
+    return {"source": source, "start": start, "end": start + len(quote),
+            "quote_sha256": "sha256:" + hashlib.sha256(quote.encode("utf-8")).hexdigest()}
+
+
+def _cite(cand, citation):
+    """Réécrit le candidat avec une relation diagnostic qui porte `citation`."""
+    import yaml
+    relation = {"symptom_slug": "voyant_huile", "system_slug": "filtration", "cause_slug": "filtre_colmate",
+                "relation_to_part": "possible_cause", "part_role": "Un filtre colmaté réduit le débit d'huile.",
+                "evidence": {"confidence": "medium", "source_policy": "1_high", "reviewed": False,
+                             "diagnostic_safe": False, "strength": "parfois"},
+                "sources": [citation["source"]], "citations": [citation]}
+    cand.write_text("---\n" + yaml.safe_dump({**FM_OK, "diagnostic_relations": [relation]}, allow_unicode=True) +
+                    "---\n## Fonctionnement\nUne explication sourcée.\n", encoding="utf-8")
+
+
+@pytest.mark.parametrize("anchor, code", [
+    ("exact", None),
+    ("wrong_quote", "citation_quote_mismatch"),
+    ("out_of_range", "citation_span_out_of_range"),
+])
+def test_promotion_verifies_citation_anchor_against_pinned_archive(tmp_path, monkeypatch, anchor, code):
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured", bind_provenance=False)
+    citation = _citation(ARCHIVE_TEXT, "explication sourcée")
+    if anchor == "wrong_quote":
+        citation["quote_sha256"] = "sha256:" + "0" * 64
+    elif anchor == "out_of_range":
+        citation["end"] = len(ARCHIVE_TEXT) + 1
+    _cite(cand, citation)
+    decision = dec.canonical_promotion_decision(
+        cand, tmp_path, raw_root=raw, gates=_gates(), compute_score=lambda *a: 0.99)
+    if code is None:
+        assert decision["eligible"] is True, decision
+        return
+    assert decision["eligible"] is False, decision
+    reasons = [r for r in decision["blocking_reasons"] if r["code"] == "PROVENANCE_RAW_REF_FAIL"]
+    assert reasons and code in str(reasons[0]["evidence"]), decision
+
+
+def test_cited_only_archive_is_bound_to_the_decision(tmp_path, monkeypatch):
+    """Une source citée mais absente de la carte de couverture est un input du verdict :
+    ses octets sont dans le manifeste, et leur changement invalide l'application."""
+    import hashlib
+    import yaml
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured", bind_provenance=False)
+    text = "Contrôle : un filtre colmaté allume le voyant.\n"
+    cited = raw / "sources" / "cited.md"
+    cited.write_bytes(text.encode("utf-8"))
+    digest = "sha256:" + hashlib.sha256(cited.read_bytes()).hexdigest()
+    inventory = raw / "manifests" / "source-inventory.csv"
+    inventory.write_text(inventory.read_text() + "src-cited,sources/cited.md," + digest + "\n")
+    catalog_path = tmp_path / "_meta" / "source-catalog.yaml"
+    catalog = yaml.safe_load(catalog_path.read_text())
+    catalog["sources"].append({"slug": "source_cited", "type": "oem_manual", "status": "active",
+                               "raw_ref": {"repo": "automecanik-raw", "manifest_id": "src-cited", "expected_sha256": digest}})
+    catalog_path.write_text(yaml.safe_dump(catalog))
+    _cite(cand, _citation(text, "filtre colmaté allume le voyant", source="source_cited"))
+    decision = dec.canonical_promotion_decision(
+        cand, tmp_path, raw_root=raw, gates=_gates(), compute_score=lambda *a: 0.99)
+    assert decision["eligible"] is True, decision
+    assert any(e["role"] == "raw_archive" and e["path"].endswith("sources/cited.md")
+               for e in decision["inputs"]["input_manifest"]), decision["inputs"]["input_manifest"]
+    cited.write_text("Changé après la décision, inventaire intact.\n", encoding="utf-8")
+    ok, refusal = dec.authorize_apply(decision, cand, tmp_path, raw_root=raw)
+    assert ok is False and refusal["code"] == "STALE_DECISION"

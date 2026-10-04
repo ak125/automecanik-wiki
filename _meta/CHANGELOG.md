@@ -7,7 +7,7 @@
 
 Amendements d'ADR-033 portés par ADR-112 (base diagnostic experte, D13 phase 0) et ADR-113 (couverture des relations). Ajout rétrocompatible : tous les champs sont optionnels, aucune fiche existante ne change.
 
-- `diagnostic_relations[]` : `cause_slug` (la cause nommée, pas la pièce), `evidence.strength` (`souvent` | `parfois` | `rare`, jamais un pourcentage), `vehicle_scope` (carburant seul, vocabulaire de `entity-data/vehicle.schema.json` ; séries moteur fermées tant que la table de correspondance d'ADR-113 n'existe pas), `citations[]` (source, `start`, `end`, `quote_sha256`).
+- `diagnostic_relations[]` : `cause_slug` (la cause nommée, pas la pièce), `evidence.strength` (`souvent` | `parfois` | `rarement` | `non_precisee`, absent = `non_precisee` ; jamais un pourcentage), `vehicle_scope` (carburant seul, vocabulaire de `entity-data/vehicle.schema.json` ; séries moteur fermées tant que la table de correspondance d'ADR-113 n'existe pas), `citations[]` (source, `start`, `end`, `quote_sha256`).
 - `diagnostic.quick_checks[]` (fiche gamme) : chaque contrôle rapide pointe un `cause_slug` déclaré dans les relations de la même fiche. L'ancien bloc `diagnostic.symptoms` reste refusé.
 - `safety_rules[]` : chemin unique `wiki/diagnostic/regles-securite.md` (`id` `diagnostic:regles-securite`), `rule_slug` unique.
 - `diagnostic_not_applicable` (fiche gamme) : constat relu « aucune relation », exclusif de `diagnostic_relations[]`.

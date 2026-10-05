@@ -8,6 +8,7 @@ on:
   push:
     branches: [main]
     paths:
+      - '.github/workflows/wiki-quality-gates.yml'
       - 'proposals/**/*.md'
       - 'wiki/**/*.md'
       - '_scripts/*.py'
@@ -16,6 +17,7 @@ on:
       - '_meta/source-catalog.yaml'
   pull_request:
     paths:
+      - '.github/workflows/wiki-quality-gates.yml'
       - 'proposals/**/*.md'
       - 'wiki/**/*.md'
       - '_scripts/*.py'
@@ -55,11 +57,9 @@ jobs:
 
       - name: compute-confidence-score --check (formula §4)
         run: python3 _scripts/compute-confidence-score.py --check --all
-        continue-on-error: true   # tolérance phase d'amorçage
 
       - name: compute-symptom-confidence --check (ADR-033 §C8)
         run: python3 _scripts/compute-symptom-confidence.py --check --all
-        continue-on-error: true   # tolérance phase d'amorçage
 
       - name: check-coverage-map (ADR-089 — coverage-map FK/schéma/ancrage)
         # ENFORCE (--strict, exit 1 si FAIL) : backlog nettoyé (0 FAIL au merge de cette PR).

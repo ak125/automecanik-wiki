@@ -270,6 +270,12 @@
             "pattern": "^[a-z][a-z0-9_-]*[a-z0-9]$",
             "maxLength": 60
           },
+          "cause_slug": {
+            "description": "FK __diag_cause.slug (ADR-112 §Amendements d'ADR-033) : la cause que porte cette pièce pour ce symptôme. Optionnel en mode « rattacher » (résolution par CAUSE_GAMME_MAP, vérifiée contre le WIKI). Obligatoire en mode « créer ou remplacer » (ADR-112 D2) : la projection refuse l'entrée sans lui. Validation FK stricte déléguée au validateur du monorepo via l'export du vocabulaire canon.",
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*[a-z0-9]$",
+            "maxLength": 80
+          },
           "relation_to_part": {
             "description": "Typage de la relation. possible_cause: la pièce peut être cause directe. symptom_amplifier: aggrave un symptôme dont la cause est ailleurs. secondary_effect: manifestation conséquence d'un autre défaut.",
             "type": "string",
@@ -281,6 +287,18 @@
             "minLength": 10,
             "maxLength": 280
           },
+          "vehicle_scope": {
+            "description": "Portée véhicule de la relation (ADR-112 §Amendements d'ADR-033, ADR-113 D4). Absent = relation sans portée. fuel : même vocabulaire que entity-data/vehicle.schema.json (parité vérifiée par test). La série moteur du constructeur n'est pas encore admise : une série n'est valide que si la correspondance code → série sourcée d'ADR-113 D4 la contient, et cette correspondance n'existe pas encore. Une appellation commerciale (TDI, HDi, PureTech…) n'est jamais une valeur valide.",
+            "type": "object",
+            "additionalProperties": false,
+            "minProperties": 1,
+            "properties": {
+              "fuel": {
+                "type": "string",
+                "enum": ["essence", "diesel", "hybride", "electrique", "gpl", "ethanol"]
+              }
+            }
+          },
           "evidence": {
             "type": "object",
             "additionalProperties": false,
@@ -289,6 +307,11 @@
               "confidence": {
                 "type": "string",
                 "enum": ["low", "medium", "high"]
+              },
+              "strength": {
+                "description": "Force du lien symptôme → cause, en mots (ADR-112 D4). Absent = non_precisee, la valeur prudente. La traduction en nombre vit uniquement dans la table versionnée du moteur, jamais dans le WIKI.",
+                "type": "string",
+                "enum": ["souvent", "parfois", "rarement", "non_precisee"]
               },
               "source_policy": {
                 "description": "Règle d'acceptation explicite. 1_high: une seule source haute fiabilité suffit. 2_medium_concordant: deux sources medium concordantes (mêmes claims, références distinctes). manual_review: revue humaine ciblée obligatoire.",
@@ -324,6 +347,39 @@
             },
             "uniqueItems": true
           },
+          "citations": {
+            "description": "Ancres dans RAW (ADR-112 §Amendements d'ADR-033) : identifiant de source, emplacement, empreinte de l'extrait. Obligatoires pour le niveau « probable » et pour le mode « créer ou remplacer » : la projection plafonne une entrée sans citation. Chaque source citée doit figurer dans sources[] et être raw_proven (quality-gates.py). L'ancre est vérifiée contre l'archive RAW épinglée par raw_ref.expected_sha256 à la promotion vers wiki/ (preuve de provenance de promotion_decision.py, quality-gates.py gate_citation_anchors).",
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["source", "start", "end", "quote_sha256"],
+              "properties": {
+                "source": {
+                  "description": "Slug de base de l'entrée _meta/source-catalog.yaml citée (sans suffixe de page).",
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9_-]*[a-z0-9]$"
+                },
+                "start": {
+                  "description": "Début de l'extrait. Unité : points de code Unicode, base zéro, fin exclue, sur le texte UTF-8 de l'archive RAW sans normalisation des fins de ligne (même unité que document_authoring.py).",
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "end": {
+                  "description": "Fin de l'extrait, exclue. Doit être strictement supérieure à start.",
+                  "type": "integer",
+                  "minimum": 1
+                },
+                "quote_sha256": {
+                  "description": "Empreinte de l'extrait : sha256 de texte[start:end] encodé en UTF-8 (même calcul que document_authoring.py).",
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$"
+                }
+              }
+            }
+          },
           "fingerprint": {
             "description": "SHA-256 [:16] de canonical(symptom_slug|system_slug|relation_to_part|sorted(sources)). Anti-duplication DB. Optionnel.",
             "type": "string",
@@ -332,6 +388,97 @@
         }
       },
       "default": []
+    },
+    "diagnostic": {
+      "description": "ADR-033 D2/D6 : éléments propres à la pièce, fiche gamme uniquement (allOf ci-dessous). quick_checks[] = affirmations cause → vérification (ADR-112 D1). Ni symptoms[] (anti-pattern ADR-033 D2) ni causes[] (causes hors pièce différées, ADR-112 D1).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["quick_checks"],
+      "properties": {
+        "quick_checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["cause_slug", "check", "evidence", "sources"],
+            "properties": {
+              "cause_slug": {
+                "description": "Cause vérifiée par ce contrôle. Doit être portée par une diagnostic_relations[].cause_slug de la même fiche (quality-gates.py).",
+                "$ref": "#/properties/diagnostic_relations/items/properties/cause_slug"
+              },
+              "check": {
+                "description": "Le contrôle, en une phrase (10-280 caractères). Remplace le texte libre __diag_cause.verification_method à la projection (ADR-112 D1).",
+                "type": "string",
+                "minLength": 10,
+                "maxLength": 280
+              },
+              "evidence": { "$ref": "#/$defs/claim_evidence" },
+              "sources": { "$ref": "#/properties/diagnostic_relations/items/properties/sources" },
+              "citations": { "$ref": "#/properties/diagnostic_relations/items/properties/citations" }
+            }
+          }
+        }
+      }
+    },
+    "safety_rules": {
+      "description": "Règles de sécurité diagnostic (ADR-112 D1), cible __diag_safety_rule. Chemin fixé : une seule fiche wiki/diagnostic/regles-securite.md (id diagnostic:regles-securite), une entrée par règle — jamais un fichier par symptôme (ADR-033 D3). Les champs de projection (risk_flag, urgency, blocks_catalog) arrivent avec la projection des règles.",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_slug", "system_slug", "condition", "evidence", "sources"],
+        "properties": {
+          "rule_slug": {
+            "description": "Identifiant stable de la règle = __diag_safety_rule.rule_slug. Unique dans la fiche (quality-gates.py).",
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*[a-z0-9]$",
+            "maxLength": 80
+          },
+          "system_slug": { "$ref": "#/properties/diagnostic_relations/items/properties/system_slug" },
+          "condition": {
+            "description": "La situation qui déclenche la règle, en une phrase (10-280 caractères). Cible __diag_safety_rule.condition_description.",
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 280
+          },
+          "evidence": { "$ref": "#/$defs/claim_evidence" },
+          "sources": { "$ref": "#/properties/diagnostic_relations/items/properties/sources" },
+          "citations": { "$ref": "#/properties/diagnostic_relations/items/properties/citations" }
+        }
+      }
+    },
+    "diagnostic_not_applicable": {
+      "description": "Constat relu qu'une gamme n'a aucune relation diagnostic avec un symptôme du vocabulaire (ADR-113 D2, §Amendements d'ADR-033). Fiche gamme uniquement. Jamais avec des diagnostic_relations[] (allOf ci-dessous + quality-gates.py).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reason", "reviewed"],
+      "properties": {
+        "reason": {
+          "description": "Le motif, en une phrase (10-280 caractères).",
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 280
+        },
+        "reviewed": {
+          "description": "Relecture humaine. Défaut false ; bascule selon ADR-033 D4 (manuelle, ou couverte par une règle d'ADR explicite).",
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  },
+  "$defs": {
+    "claim_evidence": {
+      "description": "Preuve d'un contrôle ou d'une règle : même objet que diagnostic_relations[].evidence, sans strength (propre au lien symptôme → cause) ni confidence_score_computed (calculé pour les relations seulement).",
+      "$ref": "#/properties/diagnostic_relations/items/properties/evidence",
+      "not": {
+        "anyOf": [
+          { "required": ["strength"] },
+          { "required": ["confidence_score_computed"] }
+        ]
+      }
     }
   },
   "allOf": [
@@ -365,6 +512,37 @@
           "no_disputed_claims": { "const": true }
         },
         "required": ["reviewed_by", "reviewed_at"]
+      }
+    },
+    {
+      "if": { "required": ["diagnostic_not_applicable"] },
+      "then": {
+        "properties": {
+          "diagnostic_relations": { "maxItems": 0 }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          { "required": ["diagnostic"] },
+          { "required": ["diagnostic_not_applicable"] }
+        ]
+      },
+      "then": {
+        "properties": {
+          "entity_type": { "const": "gamme" }
+        }
+      }
+    },
+    {
+      "if": { "required": ["safety_rules"] },
+      "then": {
+        "properties": {
+          "entity_type": { "const": "diagnostic" },
+          "id": { "const": "diagnostic:regles-securite" },
+          "slug": { "const": "regles-securite" }
+        }
       }
     }
   ]

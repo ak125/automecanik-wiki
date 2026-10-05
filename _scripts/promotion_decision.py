@@ -369,9 +369,10 @@ def capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path) -
         try:
             ccm = _load_module("_coverage_snapshot", "check-coverage-map.py")
             catalog = ccm._load_catalog(wiki_root)
-            slugs = ccm.referenced_source_slugs(Path(candidate_path), wiki_root)
             qg = _load_module("_archive_snapshot", "quality-gates.py")
             qg.RAW_INVENTORY = raw_root / "manifests" / "source-inventory.csv"
+            # Archives cited by citations[] are verdict inputs too (gate_citation_anchors).
+            slugs = ccm.referenced_source_slugs(Path(candidate_path), wiki_root) | qg.cited_source_slugs(fm)
             paths, _ = qg.source_archive_paths({slug: catalog[slug] for slug in slugs if slug in catalog})
         except (OSError, ValueError, TypeError, AttributeError, yaml.YAMLError):
             paths = {}
@@ -954,9 +955,11 @@ def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
         _mids, _sha, _dups, raw_msg = qg.load_raw_inventory()
         raw_available = bool(_mids) or ("absent" not in (raw_msg or "").lower())
         ccm = _load_module("_coverage_provenance", "check-coverage-map.py")
-        referenced_slugs = ccm.referenced_source_slugs(candidate_path, wiki_root)
+        referenced_slugs = ccm.referenced_source_slugs(candidate_path, wiki_root) | qg.cited_source_slugs(fm)
         failures, warnings = qg.gate_source_catalog_raw_refs(
             source_catalog, verify_archive_slugs=referenced_slugs)
+        # Citations « ancrées dans RAW » (ADR-112) : span + empreinte contre l'archive épinglée.
+        failures = failures + qg.gate_citation_anchors(fm, source_catalog)
         provenance_raw = (failures, warnings)
     except Exception as exc:  # fail-closed → indisponible
         provenance_raw = ([f"provenance_evaluator_error: {exc}"], [])

@@ -41,6 +41,13 @@ CASES = [
     ("invalid-legacy-symptoms-block.md", "legacy_symptoms_block"),
     ("invalid-source-slug-unknown.md", "source_slug_unknown"),
     ("invalid-maintenance-advice-missing.md", "maintenance_advice_missing"),
+    # ADR-112 / ADR-113 (amendements d'ADR-033)
+    ("valid-diagnostic-claims-v12.md", None),
+    ("invalid-quick-check-cause-unlinked.md", "quick_check_cause_unlinked"),
+    ("invalid-citation-not-in-sources.md", "citation_source_not_in_sources"),
+    ("invalid-citation-not-raw-proven.md", "citation_source_not_raw_proven"),
+    ("invalid-not-applicable-with-relations.md", "diagnostic_not_applicable_with_relations"),
+    ("invalid-safety-rule-slug-duplicate.md", "safety_rule_slug_duplicate"),
 ]
 
 

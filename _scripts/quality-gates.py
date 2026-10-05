@@ -21,6 +21,16 @@ Gates §5.bis (canon ADR-033 §D1-§D3) :
     source_slug_unknown          — slug absent de _meta/source-catalog.yaml
     maintenance_advice_missing   — kg_nodes.MaintenanceInterval mais pas entity_data.maintenance.educational_advice (ADR-032)
 
+Gates ADR-112 / ADR-113 (amendements d'ADR-033) :
+    citation_span_invalid                    — citations[].end <= start
+    citation_source_not_in_sources           — source citée absente des sources[] de l'entrée
+    citation_source_not_raw_proven           — source citée non active ou sans raw_ref (gen_coverage_map.is_page_proven)
+    diagnostic_not_applicable_with_relations — constat « sans relation » + diagnostic_relations[] non vide
+    quick_check_cause_unlinked               — diagnostic.quick_checks[].cause_slug absent des cause_slug de la fiche
+    safety_rules_path_invalid                — safety_rules hors wiki/diagnostic/regles-securite.md
+    safety_rule_slug_duplicate               — rule_slug déclaré deux fois
+    (cross-repo, à la promotion : gate_citation_anchors — span + empreinte contre l'archive RAW épinglée)
+
 Usage:
     quality-gates.py <file>...
     quality-gates.py --all
@@ -115,6 +125,9 @@ FORBIDDEN_PER_SYMPTOM_RE = re.compile(
     r"/(bruit|grincement|vibration|voyant|fumee|fumée|surchauffe|fuite|usure|symptome|symptôme|claquement|sifflement)[a-z0-9_-]*\.md$",
     re.IGNORECASE,
 )
+
+# Chemin unique des règles de sécurité (ADR-112 D1 : fixé par la PR de schéma, phase 0)
+SAFETY_RULES_PATH = "wiki/diagnostic/regles-securite.md"
 
 # Source types → max confidence autorisée. SoT machine UNIQUE = _meta/source-catalog.yaml
 # › source_type_max_confidence (doc prose miroir : source-policy.md §9.1). Cutover S1d :
@@ -619,58 +632,262 @@ def gate_diagnostic_relations(fm: dict, source_catalog: dict[str, dict]) -> list
         rtp = r.get("relation_to_part")
         if rtp and rtp not in {"possible_cause", "symptom_amplifier", "secondary_effect"}:
             issues.append(f"schema_invalid: diagnostic_relations[{i}].relation_to_part invalid: {rtp}")
-        # Evidence sub-fields
-        ev = r.get("evidence") or {}
-        if isinstance(ev, dict):
-            for k in ("confidence", "source_policy", "reviewed", "diagnostic_safe"):
-                if k not in ev:
-                    issues.append(f"schema_invalid: diagnostic_relations[{i}].evidence missing {k}")
-            conf = ev.get("confidence")
-            policy = ev.get("source_policy")
-            sources = r.get("sources") or []
-            # Policy violation
-            if policy == "1_high":
-                # Need ≥ 1 source whose source_type allows high
-                has_high = any(
-                    source_catalog.get(s, {}).get("type") in {"oem_manual", "oem_workshop", "tecdoc_official", "normative_standard", "parts_feed_certified"}
-                    for s in sources
-                )
-                if not has_high:
-                    issues.append(
-                        f"source_policy_violated: diagnostic_relations[{i}] policy=1_high but no source with type allowing 'high' confidence"
-                    )
-            elif policy == "2_medium_concordant":
-                medium_sources = [s for s in sources if source_catalog.get(s, {}).get("type") in SOURCE_TYPE_TO_MAX_CONFIDENCE]
-                # Distinct references (>= 2 distinct slugs)
-                if len(set(medium_sources)) < 2:
-                    issues.append(
-                        f"source_policy_violated: diagnostic_relations[{i}] policy=2_medium_concordant but < 2 distinct sources"
-                    )
-            elif policy == "manual_review":
-                # OK — fiche bloquée jusqu'à revue humaine, pas FAIL ici
-                pass
-            elif policy is not None:
+        issues += _evidence_and_sources_issues(f"diagnostic_relations[{i}]", r, source_catalog)
+        issues += _citation_issues(f"diagnostic_relations[{i}]", r, source_catalog)
+    return issues
+
+
+def _evidence_and_sources_issues(label: str, entry: dict, source_catalog: dict[str, dict]) -> list[str]:
+    """Evidence (ADR-033 §D1) + source slugs of one sourced entry.
+
+    Shared by diagnostic_relations[], diagnostic.quick_checks[] and safety_rules[]
+    (ADR-112 D1) : same evidence object, same source catalog, same messages."""
+    issues = []
+    # Evidence sub-fields
+    ev = entry.get("evidence") or {}
+    if isinstance(ev, dict):
+        for k in ("confidence", "source_policy", "reviewed", "diagnostic_safe"):
+            if k not in ev:
+                issues.append(f"schema_invalid: {label}.evidence missing {k}")
+        conf = ev.get("confidence")
+        policy = ev.get("source_policy")
+        sources = entry.get("sources") or []
+        # Policy violation
+        if policy == "1_high":
+            # Need ≥ 1 source whose source_type allows high
+            has_high = any(
+                source_catalog.get(s, {}).get("type") in {"oem_manual", "oem_workshop", "tecdoc_official", "normative_standard", "parts_feed_certified"}
+                for s in sources
+            )
+            if not has_high:
                 issues.append(
-                    f"schema_invalid: diagnostic_relations[{i}].evidence.source_policy invalid: {policy}"
+                    f"source_policy_violated: {label} policy=1_high but no source with type allowing 'high' confidence"
                 )
-            # Confidence overclaim : high requires source_type allowing high
-            if conf == "high":
-                has_eligible = any(
-                    SOURCE_TYPE_TO_MAX_CONFIDENCE.get(source_catalog.get(s, {}).get("type"), "low") == "high"
-                    for s in sources
-                )
-                if not has_eligible:
-                    issues.append(
-                        f"confidence_overclaimed: diagnostic_relations[{i}] confidence=high but no source has eligible source_type"
-                    )
-        # Sources slugs must exist in catalog
-        for s in r.get("sources") or []:
-            # Tolerate page suffix like bosch_fad_2020_p27 → strip _pNN
-            base = re.sub(r"_p\d+$", "", s)
-            if base not in source_catalog:
+        elif policy == "2_medium_concordant":
+            medium_sources = [s for s in sources if source_catalog.get(s, {}).get("type") in SOURCE_TYPE_TO_MAX_CONFIDENCE]
+            # Distinct references (>= 2 distinct slugs)
+            if len(set(medium_sources)) < 2:
                 issues.append(
-                    f"source_slug_unknown: diagnostic_relations[{i}] cites '{s}' (base '{base}') absent from _meta/source-catalog.yaml"
+                    f"source_policy_violated: {label} policy=2_medium_concordant but < 2 distinct sources"
                 )
+        elif policy == "manual_review":
+            # OK — fiche bloquée jusqu'à revue humaine, pas FAIL ici
+            pass
+        elif policy is not None:
+            issues.append(
+                f"schema_invalid: {label}.evidence.source_policy invalid: {policy}"
+            )
+        # Confidence overclaim : high requires source_type allowing high
+        if conf == "high":
+            has_eligible = any(
+                SOURCE_TYPE_TO_MAX_CONFIDENCE.get(source_catalog.get(s, {}).get("type"), "low") == "high"
+                for s in sources
+            )
+            if not has_eligible:
+                issues.append(
+                    f"confidence_overclaimed: {label} confidence=high but no source has eligible source_type"
+                )
+    # Sources slugs must exist in catalog
+    for s in entry.get("sources") or []:
+        # Tolerate page suffix like bosch_fad_2020_p27 → strip _pNN
+        base = re.sub(r"_p\d+$", "", s)
+        if base not in source_catalog:
+            issues.append(
+                f"source_slug_unknown: {label} cites '{s}' (base '{base}') absent from _meta/source-catalog.yaml"
+            )
+    return issues
+
+
+def _is_page_proven(entry: dict) -> bool:
+    """raw_proven (ADR-112 D2) = gen_coverage_map.is_page_proven, the single definition."""
+    scripts_dir = str(Path(__file__).resolve().parent)
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    from gen_coverage_map import is_page_proven
+    return is_page_proven(entry)
+
+
+def _citation_issues(label: str, entry: dict, source_catalog: dict[str, dict]) -> list[str]:
+    """Same-repo checks of citations[] (ADR-112 §Amendements d'ADR-033).
+
+    The anchor itself (span + quote digest against the RAW archive bytes) needs RAW :
+    `gate_citation_anchors`, run by the promotion provenance evaluator."""
+    citations = entry.get("citations")
+    if citations is None:
+        return []
+    if not isinstance(citations, list):
+        return [f"schema_invalid: {label}.citations must be an array"]
+    issues = []
+    source_bases = {re.sub(r"_p\d+$", "", s) for s in entry.get("sources") or [] if isinstance(s, str)}
+    for j, c in enumerate(citations):
+        where = f"{label}.citations[{j}]"
+        if not isinstance(c, dict):
+            issues.append(f"schema_invalid: {where} not a mapping")
+            continue
+        start, end = c.get("start"), c.get("end")
+        if type(start) is int and type(end) is int and end <= start:
+            issues.append(f"citation_span_invalid: {where} end={end} <= start={start}")
+        src = c.get("source")
+        if not isinstance(src, str):
+            issues.append(f"schema_invalid: {where} missing source")
+        elif src not in source_bases:
+            issues.append(f"citation_source_not_in_sources: {where} cites '{src}' absent from {label}.sources")
+        elif not _is_page_proven(source_catalog.get(src) or {}):
+            issues.append(
+                f"citation_source_not_raw_proven: {where} cites '{src}' — not active with raw_ref.manifest_id in _meta/source-catalog.yaml"
+            )
+    return issues
+
+
+def gate_diagnostic_not_applicable(fm: dict) -> list[str]:
+    """ADR-113 §Amendements d'ADR-033 : a reviewed « no relation » statement excludes relations."""
+    if "diagnostic_not_applicable" in fm and (fm.get("diagnostic_relations") or []):
+        return [
+            "diagnostic_not_applicable_with_relations: diagnostic_not_applicable and diagnostic_relations[] are mutually exclusive (ADR-113)"
+        ]
+    return []
+
+
+def gate_quick_checks(fm: dict, source_catalog: dict[str, dict]) -> list[str]:
+    """ADR-112 D1 : diagnostic.quick_checks[] = cause → check, tied to a cause of this fiche."""
+    diagnostic = fm.get("diagnostic")
+    if not isinstance(diagnostic, dict) or "quick_checks" not in diagnostic:
+        return []  # legacy diagnostic.symptoms block: gate_legacy_symptoms_block
+    checks = diagnostic.get("quick_checks")
+    if not isinstance(checks, list):
+        return ["schema_invalid: diagnostic.quick_checks must be an array"]
+    relations = fm.get("diagnostic_relations") or []
+    causes = {r.get("cause_slug") for r in relations if isinstance(r, dict)} if isinstance(relations, list) else set()
+    issues = []
+    for i, qc in enumerate(checks):
+        label = f"diagnostic.quick_checks[{i}]"
+        if not isinstance(qc, dict):
+            issues.append(f"schema_invalid: {label} not a mapping")
+            continue
+        for field in ("cause_slug", "check", "evidence", "sources"):
+            if field not in qc:
+                issues.append(f"schema_invalid: {label} missing {field}")
+        cause = qc.get("cause_slug")
+        if cause and cause not in causes:
+            issues.append(
+                f"quick_check_cause_unlinked: {label} cause_slug '{cause}' is not a diagnostic_relations[].cause_slug of this fiche"
+            )
+        issues += _evidence_and_sources_issues(label, qc, source_catalog)
+        issues += _citation_issues(label, qc, source_catalog)
+    return issues
+
+
+def gate_safety_rules(fm: dict, path: Path, source_catalog: dict[str, dict]) -> list[str]:
+    """ADR-112 D1/D5 : safety rules live in ONE fiche, one entry per rule, stable rule_slug."""
+    rules = fm.get("safety_rules")
+    if rules is None:
+        return []
+    if not isinstance(rules, list):
+        return ["schema_invalid: safety_rules must be an array"]
+    issues = []
+    try:
+        rel = path.resolve().relative_to(REPO_ROOT.resolve()).as_posix()
+    except ValueError:
+        rel = None
+    # proposals/ stay free (promotion writes wiki/<entity_type>/<slug>.md, schema pins the slug)
+    if rel is not None and rel.startswith("wiki/") and rel != SAFETY_RULES_PATH:
+        issues.append(f"safety_rules_path_invalid: safety_rules allowed only in {SAFETY_RULES_PATH} (ADR-112 D1), found in {rel}")
+    seen: set[str] = set()
+    for i, rule in enumerate(rules):
+        label = f"safety_rules[{i}]"
+        if not isinstance(rule, dict):
+            issues.append(f"schema_invalid: {label} not a mapping")
+            continue
+        for field in ("rule_slug", "system_slug", "condition", "evidence", "sources"):
+            if field not in rule:
+                issues.append(f"schema_invalid: {label} missing {field}")
+        slug = rule.get("rule_slug")
+        if isinstance(slug, str):
+            if slug in seen:
+                issues.append(f"safety_rule_slug_duplicate: {label} rule_slug '{slug}' already declared")
+            seen.add(slug)
+        issues += _evidence_and_sources_issues(label, rule, source_catalog)
+        issues += _citation_issues(label, rule, source_catalog)
+    return issues
+
+
+def _sourced_entries(fm: dict) -> list[tuple[str, dict]]:
+    """(label, entry) of every entry that may carry citations[] (ADR-112 D1)."""
+    out = []
+    relations = fm.get("diagnostic_relations")
+    if isinstance(relations, list):
+        out += [(f"diagnostic_relations[{i}]", r) for i, r in enumerate(relations) if isinstance(r, dict)]
+    diagnostic = fm.get("diagnostic")
+    checks = diagnostic.get("quick_checks") if isinstance(diagnostic, dict) else None
+    if isinstance(checks, list):
+        out += [(f"diagnostic.quick_checks[{i}]", c) for i, c in enumerate(checks) if isinstance(c, dict)]
+    rules = fm.get("safety_rules")
+    if isinstance(rules, list):
+        out += [(f"safety_rules[{i}]", r) for i, r in enumerate(rules) if isinstance(r, dict)]
+    return out
+
+
+def cited_source_slugs(fm: dict) -> set[str]:
+    """Catalog slugs named by citations[] — archives the promotion must bind and verify."""
+    return {c["source"] for _, entry in _sourced_entries(fm)
+            for c in (entry.get("citations") if isinstance(entry.get("citations"), list) else [])
+            if isinstance(c, dict) and isinstance(c.get("source"), str)}
+
+
+def gate_citation_anchors(fm: dict, source_catalog: dict[str, dict]) -> list[str]:
+    """Cross-repo : each citation must match the bytes of the RAW archive pinned by
+    raw_ref.expected_sha256 (ADR-112 §Amendements d'ADR-033, « ancrées dans RAW »).
+
+    Needs RAW : run by the promotion provenance evaluator, the only path into wiki/.
+    Same anchor unit and digest as document_authoring.py : Unicode code points,
+    zero-based, end exclusive, on the UTF-8 text without newline translation."""
+    import hashlib
+    cited = cited_source_slugs(fm)
+    if not cited:
+        return []
+    if not RAW_INVENTORY.is_file():
+        return [f"raw_inventory_unreachable:citations: raw inventory absent at {RAW_INVENTORY}"]
+    issues = []
+    selected = {}
+    for slug in sorted(cited):
+        entry = source_catalog.get(slug) or {}
+        if entry.get("status") == "active":
+            selected[slug] = entry
+        else:
+            issues.append(f"citation_source_not_raw_proven:{slug}: not an active entry of _meta/source-catalog.yaml")
+    paths, path_failures = source_archive_paths(selected)
+    issues += path_failures
+    texts: dict[str, str] = {}
+    for slug, path in sorted(paths.items()):
+        try:
+            data = path.read_bytes()
+        except OSError:
+            issues.append(f"citation_archive_missing:{slug}")
+            continue
+        actual = "sha256:" + hashlib.sha256(data).hexdigest()
+        expected = selected[slug]["raw_ref"]["expected_sha256"]
+        if actual != expected:
+            issues.append(f"citation_archive_sha_drift:{slug}: expected={expected} actual={actual}")
+            continue
+        try:
+            texts[slug] = data.decode("utf-8")
+        except UnicodeDecodeError:
+            issues.append(f"citation_source_not_text:{slug}: archive is not UTF-8 text, no anchor possible")
+    # A citation whose archive is not readable text is covered by the per-slug failure above.
+    for label, entry in _sourced_entries(fm):
+        citations = entry.get("citations")
+        for j, c in enumerate(citations if isinstance(citations, list) else []):
+            if not isinstance(c, dict) or c.get("source") not in texts:
+                continue
+            text, src = texts[c["source"]], c["source"]
+            start, end = c.get("start"), c.get("end")
+            where = f"{label}.citations[{j}]"
+            if not (type(start) is int and type(end) is int and 0 <= start < end <= len(text)):
+                issues.append(f"citation_span_out_of_range: {where} [{start}, {end}) outside '{src}' ({len(text)} code points)")
+                continue
+            digest = "sha256:" + hashlib.sha256(text[start:end].encode("utf-8")).hexdigest()
+            if digest != c.get("quote_sha256"):
+                issues.append(f"citation_quote_mismatch: {where} quote_sha256 does not match '{src}'[{start}:{end}]")
     return issues
 
 
@@ -790,6 +1007,9 @@ def run_gates(path: Path, registry: dict, source_catalog: dict[str, dict]) -> tu
 
     # §5.bis ADR-033 + ADR-032 gates
     failures += gate_diagnostic_relations(fm, source_catalog)
+    failures += gate_diagnostic_not_applicable(fm)
+    failures += gate_quick_checks(fm, source_catalog)
+    failures += gate_safety_rules(fm, path, source_catalog)
     failures += gate_legacy_symptoms_block(fm_yaml)
     failures += gate_path_anti_patterns(path)
     failures += gate_symptom_unstructured(fm, body)

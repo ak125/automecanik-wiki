@@ -59,7 +59,7 @@
     "volant_moteur_bimasse_hs": "embrayage",
     "water_pump_failing": "refroidissement"
   },
-  "generated_at": "2026-10-06T02:26:22Z",
+  "generated_at": "2026-10-08T02:29:38Z",
   "symptoms": {
     "ampoule_grille_frequemment": "eclairage",
     "battery_drains_overnight": "demarrage_charge",

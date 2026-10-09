@@ -15,6 +15,7 @@ on:
       - '_scripts/tests/**'
       - '_meta/schema/**'
       - '_meta/source-catalog.yaml'
+      - 'exports/diagnostic/**'
   pull_request:
     paths:
       - '.github/workflows/wiki-quality-gates.yml'
@@ -24,6 +25,7 @@ on:
       - '_scripts/tests/**'
       - '_meta/schema/**'
       - '_meta/source-catalog.yaml'
+      - 'exports/diagnostic/**'
   workflow_dispatch:
 
 permissions:
@@ -165,5 +167,45 @@ jobs:
             echo "=== ajv $f ==="
             ajv validate -c ajv-formats --strict=false \
               -s _meta/schema/exports-seo.schema.json -d "$f"
+          done
+        shell: bash
+
+  validate-exports-diagnostic:
+    name: Validate exports/diagnostic/ (ajv + builder pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install Python deps
+        run: pip install --quiet "click>=8.1,<9" "pyyaml>=6.0,<7" "jsonschema>=4.20,<5" "pytest>=7.4,<9"
+      - name: Install ajv-cli + ajv-formats
+        run: npm install -g ajv-cli@5 ajv-formats
+      - name: Pytest builder + schema
+        run: cd _scripts && python3 -m pytest test_build_exports_diagnostic.py -v
+      - name: ajv-validate existing exports/diagnostic/*.json (no-op if empty)
+        # Schéma draft 2020-12 dont les champs sont des $ref vers les deux schémas
+        # canoniques : ils sont chargés avec -r, rien n'est recopié.
+        run: |
+          set -e
+          if [[ ! -d exports/diagnostic ]]; then
+            echo "no exports/diagnostic/ yet — skipping ajv validation"
+            exit 0
+          fi
+          # Dès que le répertoire existe, l'index est exigé : un index absent fait échouer
+          # ajv (le nom reste dans la liste, nullglob ne retire que les motifs).
+          shopt -s nullglob
+          files=(exports/diagnostic/_index.json exports/diagnostic/gamme/*.json)
+          for f in "${files[@]}"; do
+            echo "=== ajv $f ==="
+            ajv validate --spec=draft2020 -c ajv-formats --strict=false \
+              -s _meta/schema/exports-diagnostic.schema.json \
+              -r _meta/schema/frontmatter.schema.json \
+              -r _meta/schema/source-catalog-entry.schema.json \
+              -d "$f"
           done
         shell: bash

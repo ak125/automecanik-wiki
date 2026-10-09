@@ -15,15 +15,10 @@ on:
       - '_scripts/tests/**'
       - '_meta/schema/**'
       - '_meta/source-catalog.yaml'
+  # Toute PR, sans filtre `paths` : les 3 jobs sont des contrôles exigés sur main
+  # (ruleset « main — contrôles requis »). Un workflow sauté par son filtre laisse
+  # un contrôle exigé en attente à vie, et la PR ne peut plus fusionner.
   pull_request:
-    paths:
-      - '.github/workflows/wiki-quality-gates.yml'
-      - 'proposals/**/*.md'
-      - 'wiki/**/*.md'
-      - '_scripts/*.py'
-      - '_scripts/tests/**'
-      - '_meta/schema/**'
-      - '_meta/source-catalog.yaml'
   workflow_dispatch:
 
 permissions:

@@ -49,7 +49,7 @@ jobs:
       - name: quality-gates §2 + §5.bis (ADR-033 + ADR-032 gates — SAME-REPO)
         # --all-local : gates same-repo uniquement. Le gate cross-repo raw_ref (exige
         # automecanik-raw) n'est PAS lançable en CI (aucun credential cross-repo secretless
-        # entre 2 repos privés) : il est exécuté HORS CI par le flux GOUVERNÉ d'activation
+        # vers le repo RAW, privé) : il est exécuté HORS CI par le flux GOUVERNÉ d'activation
         # (`--cross-repo`, 2 repos présents+frais) comme précondition de toute transition
         # to_capture→active. La CI wiki ne vérifie QUE ce qu'elle possède ; l'activation
         # par édition directe est bloquée par le guard (activation-guard, étape suivante).
@@ -72,8 +72,14 @@ jobs:
         # cross-repo (`quality-gates.py --cross-repo`, 2 repos frais), non lançable en CI wiki
         # (pas de credential cross-repo secretless). Ce guard fail-closed bloque toute activation
         # par édition directe ; l'activation légitime passe par le flux gouverné (hors CI) qui
-        # exécute --cross-repo. fetch-depth: 0 (checkout ci-dessus) → origin/main résout.
-        run: python3 _scripts/check-activation-guard.py --base origin/main
+        # exécute --cross-repo. fetch-depth: 0 (checkout ci-dessus) → la base résout.
+        # Base : sur pull_request, origin/main (état avant fusion). Sur push main,
+        # origin/main == HEAD : la comparaison serait vide et le guard passerait à tort ;
+        # on compare donc au commit d'avant le push (github.event.before). Un before
+        # nul ou injoignable (force-push) fait sortir le guard en 2, jamais en PASS.
+        env:
+          GUARD_BASE: ${{ github.event_name == 'push' && github.event.before || 'origin/main' }}
+        run: python3 _scripts/check-activation-guard.py --base "$GUARD_BASE"
 
       - name: pytest fixtures (gates ADR-033 + ADR-032)
         run: cd _scripts/tests && python3 -m pytest -v

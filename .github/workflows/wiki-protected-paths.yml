@@ -18,11 +18,14 @@ name: wiki-protected-paths
 # liste en dur (gammes|vehicles|constructeurs) a rendu la garde muette sans aucun
 # signal quand #24 (2026-05-13) a renommé les dossiers au singulier — la promotion
 # #40 est passée sans marqueur. Un nouveau dossier est protégé par défaut.
+#
+# Toute PR, sans filtre `paths` : ce job est un contrôle exigé sur main (ruleset
+# « main — contrôles requis »). Sans fichier wiki/<entity_type>/ modifié, l'étape
+# de vérification est sautée et le job est vert ; avec un filtre, le contrôle
+# resterait en attente à vie et la PR ne pourrait plus fusionner.
 
 on:
   pull_request:
-    paths:
-      - 'wiki/**/*.md'
 
 permissions:
   contents: read

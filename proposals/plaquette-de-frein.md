@@ -73,8 +73,7 @@ review_notes: "Révisée 2026-10-11 : chaque affirmation repose sur l'une de six
   \ cinq pages d'équipementiers de freinage (montage des plaquettes, technologie\
   \ des étriers, pièces d'origine et équivalentes, procédure de remplacement,\
   \ témoins d'usure) et l'article Wikipédia, utilisé seulement en corroboration\
-  \ (plafond low). Les six sources restent to_capture jusqu'à leur activation par\
-  \ le propriétaire. Les six références external_url désignent les mêmes pages que\
+  \ (plafond low). Les six références external_url désignent les mêmes pages que\
   \ les références raw (même document, pas une source indépendante). Retirés faute\
   \ de preuve archivée : anciennes références recycled et web-research, épaisseur\
   \ minimale chiffrée, distance de rodage, contrôle avant un long trajet, causes de\
@@ -308,4 +307,4 @@ Cette fiche ne classe pas les marques : la page source est la présentation d'un
 
 ## Provenance & qualité
 
-Fiche **révisée le 2026-10-11**. Chaque affirmation repose sur l'une de six pages archivées dans RAW : cinq pages techniques d'équipementiers de freinage (montage des plaquettes, technologie des étriers, pièces d'origine et équivalentes, procédure de remplacement, témoins d'usure) et un article encyclopédique, utilisé seulement en corroboration. Ces six sources attendent l'activation par le propriétaire. Ont été **retirés**, faute de preuve archivée : l'épaisseur minimale chiffrée, la distance de rodage, les causes de bruit par contamination de la garniture, le lien avec un disque voilé, les familles de matériaux de friction et toute hiérarchie de marques. Aucune valeur de couple, de pression, de cote ni de distance n'est publiée : ces valeurs dépendent du véhicule et relèvent de sa documentation. `review_status: proposed`, exports désactivés ; relation diagnostic en confiance moyenne, `reviewed: false`, `diagnostic_safe: false`.
+Fiche **révisée le 2026-10-11**. Chaque affirmation repose sur l'une de six pages archivées dans RAW : cinq pages techniques d'équipementiers de freinage (montage des plaquettes, technologie des étriers, pièces d'origine et équivalentes, procédure de remplacement, témoins d'usure) et un article encyclopédique, utilisé seulement en corroboration. Ont été **retirés**, faute de preuve archivée : l'épaisseur minimale chiffrée, la distance de rodage, les causes de bruit par contamination de la garniture, le lien avec un disque voilé, les familles de matériaux de friction et toute hiérarchie de marques. Aucune valeur de couple, de pression, de cote ni de distance n'est publiée : ces valeurs dépendent du véhicule et relèvent de sa documentation. `review_status: proposed`, exports désactivés ; relation diagnostic en confiance moyenne, `reviewed: false`, `diagnostic_safe: false`.

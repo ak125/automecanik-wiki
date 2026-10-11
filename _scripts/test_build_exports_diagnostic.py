@@ -550,3 +550,164 @@ def test_untracked_eligible_input_has_no_invented_commit(wiki: Path):
     assert "no commit found" in result.output
     assert "filtre-a-huile.md" in result.output
     assert not (wiki / "exports").exists()
+
+
+# --- --check : comparaison sans écriture --------------------------------------------
+
+
+def _tree(root: Path) -> dict[str, bytes]:
+    return {p.relative_to(root).as_posix(): p.read_bytes()
+            for p in root.rglob("*") if p.is_file() and ".git" not in p.relative_to(root).parts}
+
+
+def test_check_passes_on_fresh_exports(wiki: Path):
+    assert _run(wiki).exit_code == 0
+    before = _tree(wiki)
+
+    result = _run(wiki, "--check")
+
+    assert result.exit_code == 0, result.output
+    assert "check: 2 file(s) up to date" in result.output
+    assert _tree(wiki) == before
+
+
+@pytest.mark.parametrize("rel", ["gamme/filtre-a-air.json", "_index.json"])
+def test_check_reports_hand_edit_without_rewriting(wiki: Path, rel: str):
+    assert _run(wiki).exit_code == 0
+    path = wiki / "exports" / "diagnostic" / rel
+    path.write_bytes(path.read_bytes().replace(b'"schema_version": "2.0.0"', b'"schema_version": "2.0.1"'))
+    before = _tree(wiki)
+
+    result = _run(wiki, "--check")
+
+    assert result.exit_code == 1, result.output
+    assert f"STALE exports/diagnostic/{rel}" in result.output
+    assert "never edited by hand" in result.output
+    assert _tree(wiki) == before
+
+
+@pytest.mark.parametrize("rel", ["gamme/filtre-a-air.json", "_index.json"])
+def test_check_reports_missing_file(wiki: Path, rel: str):
+    assert _run(wiki).exit_code == 0
+    (wiki / "exports" / "diagnostic" / rel).unlink()
+    before = _tree(wiki)
+
+    result = _run(wiki, "--check")
+
+    assert result.exit_code == 1, result.output
+    assert f"MISSING exports/diagnostic/{rel}" in result.output
+    assert _tree(wiki) == before
+
+
+def test_check_reports_committed_source_change_not_yet_regenerated(wiki: Path):
+    assert _run(wiki).exit_code == 0
+    _commit_all(wiki, "exports")
+    _write_fiche(wiki, "filtre-a-air", relations=[_relation(["oem_doc"])])
+    _commit_all(wiki, "fiche change")
+    before = _tree(wiki)
+
+    result = _run(wiki, "--check")
+
+    assert result.exit_code == 1, result.output
+    assert "STALE exports/diagnostic/gamme/filtre-a-air.json" in result.output
+    assert "STALE exports/diagnostic/_index.json" in result.output
+    assert _tree(wiki) == before
+
+
+def test_check_reports_unreconciled_export(wiki: Path):
+    assert _run(wiki).exit_code == 0
+    _write_fiche(wiki, "filtre-a-air", review_status="draft", relations=[_relation(["oem_doc"])])
+    _commit_all(wiki, "unapprove")
+    before = _tree(wiki)
+
+    result = _run(wiki, "--check")
+
+    assert result.exit_code == 1, result.output
+    assert "UNRECONCILED exports/diagnostic/gamme/filtre-a-air.json" in result.output
+    assert "STALE exports/diagnostic/_index.json" in result.output
+    assert _tree(wiki) == before
+
+
+def test_check_on_a_tree_without_exports_creates_nothing(wiki: Path):
+    result = _run(wiki, "--check")
+
+    assert result.exit_code == 1, result.output
+    assert "MISSING exports/diagnostic/gamme/filtre-a-air.json" in result.output
+    assert "MISSING exports/diagnostic/_index.json" in result.output
+    assert not (wiki / "exports").exists()
+
+
+def test_check_json_report(wiki: Path):
+    assert _run(wiki).exit_code == 0
+    (wiki / "exports" / "diagnostic" / "_index.json").unlink()
+
+    result = _run(wiki, "--check", "--format", "json")
+
+    assert result.exit_code == 1
+    report = json.loads(result.stdout[: result.stdout.rindex("}") + 1])
+    assert report == {"status": "DRIFT", "written": 0, "observations": [
+        {"export_path": "exports/diagnostic/_index.json", "drift": "missing"}]}
+    assert _run(wiki).exit_code == 0
+    ok = _run(wiki, "--check", "--format", "json")
+    assert ok.exit_code == 0, ok.output
+    assert json.loads(ok.stdout) == {"status": "OK", "written": 0, "observations": []}
+
+
+# --- --require-commits-on : les commits épinglés survivent à la fusion squash ----------
+
+
+def test_pinned_commits_on_ref_are_accepted(wiki: Path):
+    _git(wiki, "branch", "published")
+
+    assert _run(wiki, "--require-commits-on", "published").exit_code == 0
+    _commit_all(wiki, "exports")
+    result = _run(wiki, "--check", "--require-commits-on", "published")
+    assert result.exit_code == 0, result.output
+
+
+@pytest.mark.parametrize("rel", ["wiki/gamme/filtre-a-air.md", builder.CATALOG_REL])
+@pytest.mark.parametrize("check", [False, True])
+def test_branch_commit_pinned_is_refused(wiki: Path, rel: str, check: bool):
+    _git(wiki, "branch", "published")
+    _git(wiki, "checkout", "-qb", "feature")
+    source = wiki / rel
+    source.write_bytes(source.read_bytes().replace(b"reviewed: false", b"reviewed: true")
+                       .replace(b"status: active", b"status: withdrawn"))
+    branch_commit = _commit_all(wiki, "source change on a branch")
+    before = _tree(wiki)
+
+    result = _run(wiki, *(["--check"] if check else []), "--require-commits-on", "published")
+
+    assert result.exit_code == 1, result.output
+    assert f"NOT ON published {branch_commit} ({rel})" in result.output
+    assert "regenerated after merge" in result.output
+    assert _tree(wiki) == before
+
+
+def test_exports_built_on_a_branch_go_stale_at_squash_merge(wiki: Path):
+    """Pourquoi la règle : la fusion squash remplace le commit épinglé par un autre."""
+    assert _run(wiki).exit_code == 0
+    _commit_all(wiki, "exports")
+    _git(wiki, "branch", "published")
+    _git(wiki, "checkout", "-qb", "feature")
+    _write_fiche(wiki, "filtre-a-air", relations=[_relation(["oem_doc"])])
+    _commit_all(wiki, "fiche change")
+    assert _run(wiki).exit_code == 0
+    _commit_all(wiki, "exports regenerated on the branch")
+    _git(wiki, "checkout", "-q", "published")
+    _git(wiki, "merge", "--squash", "feature")
+    _commit_all(wiki, "squash merge")
+
+    result = _run(wiki, "--check")
+
+    assert result.exit_code == 1, result.output
+    assert "STALE exports/diagnostic/gamme/filtre-a-air.json" in result.output
+
+
+@pytest.mark.parametrize("ref", ["no-such-ref", "-x"])
+def test_unverifiable_ref_fails(wiki: Path, ref: str):
+    result = _run(wiki, "--require-commits-on", ref)
+
+    assert result.exit_code == 1, result.output
+    assert ("cannot verify" in result.output) if ref == "no-such-ref" else ("invalid ref" in result.output)
+    assert not (wiki / "exports").exists()

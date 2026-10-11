@@ -22,8 +22,15 @@ Contrat :
 - Retrait : un export existant sans fiche éligible est rapporté UNRECONCILED, conservé,
   et le build échoue. Le retrait est une PR WIKI qui supprime
   `exports/diagnostic/gamme/<slug>.json` puis relance ce builder (l'index est régénéré).
+- Publication : les exports sont régénérés après fusion, sur `main` (ADR-035 D6.2, même
+  modèle que les exports SEO). Une PR qui modifie une fiche ou le catalogue ne les
+  régénère pas : le commit qu'elle épinglerait disparaît à la fusion squash.
+  `--require-commits-on REF` refuse tout commit épinglé qui n'est pas un ancêtre de REF.
+- `--check` : recalcule les exports en mémoire et les compare octet à octet à
+  `exports/diagnostic/` (STALE, MISSING, UNRECONCILED). N'écrit rien.
 
-Exit : 0 OK · 1 erreur de build ou UNRECONCILED · 2 schéma d'export introuvable.
+Exit : 0 OK · 1 erreur de build, UNRECONCILED ou dérive (`--check`) · 2 schéma d'export
+introuvable.
 """
 from __future__ import annotations
 
@@ -274,24 +281,17 @@ def _write_strict(out_path: Path, data: bytes, wiki_root: Path) -> None:
     click.echo(f"OK {EXPORTS_REL / rel}", err=True)
 
 
-@click.command()
-@click.option(
-    "--wiki-root",
-    type=click.Path(file_okay=False, path_type=Path),
-    default=Path("/opt/automecanik/automecanik-wiki"),
-    show_default=True,
-)
-@click.option("--format", "output_format", type=click.Choice(["text", "json"]), default="text")
-def main(wiki_root: Path, output_format: str) -> None:
-    """wiki/gamme/*.md approuvées avec diagnostic_relations → exports/diagnostic/."""
-    if not (wiki_root / EXPORT_SCHEMA_REL).exists():
-        click.echo(f"export schema not found: {wiki_root / EXPORT_SCHEMA_REL}", err=True)
-        sys.exit(2)
-    _assert_full_clone(wiki_root)
+def _plan(wiki_root: Path) -> tuple[dict[str, bytes], list[str], dict[str, list[str]]]:
+    """Calcule les exports sans rien écrire.
 
+    Retourne les octets attendus par chemin relatif à `exports/diagnostic/` (gammes triées
+    puis `_index.json`), les exports existants sans fiche éligible, et les entrées
+    attestées par chaque commit épinglé.
+    """
     catalog_bytes = _read_source(wiki_root / CATALOG_REL)
     catalog_commit = _committed_source_sha(wiki_root, CATALOG_REL, catalog_bytes)
     catalog = _load_catalog(wiki_root, source_bytes=catalog_bytes)
+    pins: dict[str, list[str]] = {catalog_commit: [CATALOG_REL]}
 
     payloads: list[dict] = []
     gamme_dir = wiki_root / "wiki" / "gamme"
@@ -301,60 +301,155 @@ def main(wiki_root: Path, output_format: str) -> None:
         if not is_eligible(fm):
             continue
         rel = src.resolve().relative_to(wiki_root.resolve()).as_posix()
-        payloads.append(
-            build_gamme_export(
-                fm, src, wiki_root, catalog,
-                _committed_source_sha(wiki_root, rel, source_bytes), catalog_commit,
-            )
-        )
+        commit = _committed_source_sha(wiki_root, rel, source_bytes)
+        pins.setdefault(commit, []).append(rel)
+        payloads.append(build_gamme_export(fm, src, wiki_root, catalog, commit, catalog_commit))
 
-    exports_root = wiki_root / EXPORTS_REL
-    expected = {exports_root / "gamme" / f"{p['gamme_slug']}.json" for p in payloads}
-    existing = {p for p in (exports_root / "gamme").glob("*.json") if p.is_file()}
-    unreconciled = sorted(existing - expected)
-    if unreconciled:
-        observations = [
-            {"export_path": p.relative_to(wiki_root).as_posix(), "withdrawal_authorized": False}
-            for p in unreconciled
-        ]
-        if output_format == "json":
-            click.echo(json.dumps(
-                {"status": "UNRECONCILED", "written": 0, "observations": observations},
-                ensure_ascii=False, indent=2, sort_keys=True,
-            ))
-        for obs in observations:
-            click.echo(f"UNRECONCILED {obs['export_path']} (preserved)", err=True)
-        raise click.ClickException(
-            "Retained diagnostic exports have no eligible fiche; governed withdrawal "
-            "(WIKI PR deleting the export) required before publication."
-        )
-
+    expected: dict[str, bytes] = {}
     files = []
     for payload in sorted(payloads, key=lambda p: p["gamme_slug"]):
+        rel = f"gamme/{payload['gamme_slug']}.json"
         data = _serialise(payload)
-        _write_strict(exports_root / "gamme" / f"{payload['gamme_slug']}.json", data, wiki_root)
+        expected[rel] = data
         files.append({
-            "path": f"gamme/{payload['gamme_slug']}.json",
+            "path": rel,
             "sha256": _sha256_prefixed(data),
             "source_wiki_commit": payload["source_wiki_commit"],
             "relation_count": len(payload["relations"]),
         })
-    index = {
+    expected["_index.json"] = _serialise({
         "schema_version": SCHEMA_VERSION,
         "builder_version": BUILDER_VERSION,
         "export_kind": "diagnostic_index",
         "source_catalog_commit": catalog_commit,
         "files": files,
-    }
-    _write_strict(exports_root / "_index.json", _serialise(index), wiki_root)
+    })
 
+    exports_root = wiki_root / EXPORTS_REL
+    existing = {
+        p.relative_to(exports_root).as_posix()
+        for p in (exports_root / "gamme").glob("*.json") if p.is_file()
+    }
+    return expected, sorted(existing - set(expected)), pins
+
+
+def _assert_commits_on(wiki_root: Path, pins: dict[str, list[str]], ref: str) -> None:
+    """Chaque commit épinglé doit être un ancêtre de `ref` : il survit à la fusion squash."""
+    if ref.startswith("-"):
+        raise click.ClickException(f"invalid ref: {ref!r}")
+    off_ref = []
+    for commit, inputs in sorted(pins.items()):
+        try:
+            out = subprocess.run(
+                ["git", "merge-base", "--is-ancestor", commit, ref],
+                cwd=wiki_root, capture_output=True, text=True,
+            )
+        except OSError as exc:
+            raise click.ClickException(f"git unavailable: {exc}") from exc
+        if out.returncode == 1:
+            off_ref.append(f"{commit} ({', '.join(inputs)})")
+        elif out.returncode != 0:
+            raise click.ClickException(
+                f"cannot verify pinned commit {commit} against {ref}: {out.stderr.strip()}"
+            )
+    if off_ref:
+        for line in off_ref:
+            click.echo(f"NOT ON {ref} {line}", err=True)
+        raise click.ClickException(
+            f"pinned commit(s) not on {ref}. A PR that modifies a fiche or the source "
+            "catalog does not regenerate diagnostic exports (the pinned commit disappears "
+            "at squash merge); they are regenerated after merge (ADR-035 D6.2)."
+        )
+
+
+def _report_unreconciled(unreconciled: list[str], output_format: str) -> None:
+    observations = [
+        {"export_path": (EXPORTS_REL / rel).as_posix(), "withdrawal_authorized": False}
+        for rel in unreconciled
+    ]
     if output_format == "json":
         click.echo(json.dumps(
-            {"status": "OK", "written": len(files), "observations": []},
+            {"status": "UNRECONCILED", "written": 0, "observations": observations},
+            ensure_ascii=False, indent=2, sort_keys=True,
+        ))
+    for obs in observations:
+        click.echo(f"UNRECONCILED {obs['export_path']} (preserved)", err=True)
+    raise click.ClickException(
+        "Retained diagnostic exports have no eligible fiche; governed withdrawal "
+        "(WIKI PR deleting the export) required before publication."
+    )
+
+
+def _check(wiki_root: Path, expected: dict[str, bytes], unreconciled: list[str],
+           output_format: str) -> None:
+    """Compare les octets attendus à `exports/diagnostic/` ; n'écrit rien."""
+    exports_root = wiki_root / EXPORTS_REL
+    drift = [(rel, "unreconciled") for rel in unreconciled]
+    for rel, data in expected.items():
+        path = exports_root / rel
+        if not path.is_file():
+            drift.append((rel, "missing"))
+        elif path.read_bytes() != data:
+            drift.append((rel, "stale"))
+    observations = [
+        {"export_path": (EXPORTS_REL / rel).as_posix(), "drift": kind} for rel, kind in drift
+    ]
+    if output_format == "json":
+        click.echo(json.dumps(
+            {"status": "DRIFT" if drift else "OK", "written": 0, "observations": observations},
+            ensure_ascii=False, indent=2, sort_keys=True,
+        ))
+    for obs in observations:
+        click.echo(f"{obs['drift'].upper()} {obs['export_path']}", err=True)
+    if drift:
+        raise click.ClickException(
+            f"{len(drift)} diagnostic export file(s) differ from the builder output; "
+            "exports are regenerated by this builder, never edited by hand."
+        )
+    if output_format == "text":
+        click.echo(f"check: {len(expected)} file(s) up to date")
+
+
+@click.command()
+@click.option(
+    "--wiki-root",
+    type=click.Path(file_okay=False, path_type=Path),
+    default=Path("/opt/automecanik/automecanik-wiki"),
+    show_default=True,
+)
+@click.option("--format", "output_format", type=click.Choice(["text", "json"]), default="text")
+@click.option("--check", is_flag=True,
+              help="Compare exports/diagnostic/ with the builder output, write nothing; exit 1 on drift.")
+@click.option("--require-commits-on", "commits_ref", metavar="REF", default=None,
+              help="Fail if a pinned source commit is not an ancestor of REF (squash merge safety).")
+def main(wiki_root: Path, output_format: str, check: bool, commits_ref: str | None) -> None:
+    """wiki/gamme/*.md approuvées avec diagnostic_relations → exports/diagnostic/."""
+    if not (wiki_root / EXPORT_SCHEMA_REL).exists():
+        click.echo(f"export schema not found: {wiki_root / EXPORT_SCHEMA_REL}", err=True)
+        sys.exit(2)
+    _assert_full_clone(wiki_root)
+
+    expected, unreconciled, pins = _plan(wiki_root)
+    if commits_ref is not None:
+        _assert_commits_on(wiki_root, pins, commits_ref)
+    if check:
+        _check(wiki_root, expected, unreconciled, output_format)
+        sys.exit(0)
+    if unreconciled:
+        _report_unreconciled(unreconciled, output_format)
+
+    exports_root = wiki_root / EXPORTS_REL
+    for rel, data in expected.items():
+        _write_strict(exports_root / rel, data, wiki_root)
+
+    written = len(expected) - 1  # l'index n'est pas un export de gamme
+    if output_format == "json":
+        click.echo(json.dumps(
+            {"status": "OK", "written": written, "observations": []},
             ensure_ascii=False, indent=2, sort_keys=True,
         ))
     else:
-        click.echo(f"total: exported={len(files)}")
+        click.echo(f"total: exported={written}")
     sys.exit(0)
 
 

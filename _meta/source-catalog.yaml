@@ -205,14 +205,24 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: wikipedia_fr_plaquette_de_frein
+      manifest_id: src-auto-capture-f3c3e816b59fe565eb03ac2ad027a5e1a9496ab6df1139e51571539b548c984a
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/wikipedia-fr-plaquette-de-frein.md'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md'
     status: to_capture
-    license: CC-BY-SA-3.0
+    license: captured_for_internal_review
     notes: |
+      Article encyclopédique (capture RAW 2026-10-10, sha256:9f3297f6…),
       URL canonique : https://fr.wikipedia.org/wiki/Plaquette_de_frein
-      Capture intégrale autorisée. Action humaine Phase 3.
+      Rôle : corroboration seulement (wiki_externe, plafond low) ; ne prouve
+      aucune affirmation de la fiche à lui seul.
+      Passages retenus : la plaquette est l'élément qui entre en friction avec
+      la surface en rotation ; en pinçant le disque, elle transforme l'énergie
+      cinétique en chaleur. Ne fonde PAS : les familles de matériaux de friction
+      (attestées par cette seule source, donc absentes de la fiche), une durée
+      de vie, une épaisseur limite, ni aucune règle de choix.
+      Licence : la valeur précédente du catalogue était CC-BY-SA-3.0 ; la
+      capture RAW porte license: null, license_status: unknown. Valeur alignée
+      sur les autres captures (revue interne) en attendant la décision owner.
 
   - slug: wikipedia_fr_filtre_a_air
     title: "Wikipedia FR — Filtre à air"
@@ -599,16 +609,22 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: bremboparts_technologie_etriers
+      manifest_id: src-auto-capture-c18ae54948c09ff83213e12e16dd1e85f115ffa97a3008589282516428a2ef04
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md'
     status: to_capture
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage (première monte). Page support officielle sur la
-      différence étriers fixes / flottants. Extraite dans le proposal plaquette-de-frein
-      (## Définition). STATUS to_capture : page référencée par URL
-      (bremboparts.com/.../technologie-et-fonction-des-etriers-de-frein-324333), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:05d748bc…).
+      Passages retenus : l'étrier transforme l'énergie hydraulique en force
+      mécanique (pression du maître-cylindre sur les pistons, qui poussent les
+      plaquettes contre les disques) ; étrier flottant (pistons d'un seul côté,
+      corps coulissant sur des guides, le plus répandu en entrée et milieu de
+      gamme et sur les utilitaires légers) ; étrier fixe (pistons opposés,
+      véhicules sportifs) ; ressorts qui ramènent les plaquettes au repos ;
+      qualité des garnitures parmi les facteurs décisifs. Ne fonde PAS : les
+      valeurs de pression et de température de la page, une comparaison
+      d'usure entre types d'étriers, ni une hiérarchie de marques.
 
   - slug: bremboparts_remplacement_kit
     title: 'Brembo — Instructions pour remplacer disques et plaquettes (Kit EV)'
@@ -617,16 +633,25 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: bremboparts_remplacement_kit
+      manifest_id: src-auto-capture-51e9790a643ad2b22c26188aa409d0ed1fb456b2f396c94be62016c9f4c82d6b
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md'
     status: to_capture
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage. Procédure de remplacement (conversion d'énergie,
-      rodage ~200 km). Extraite dans le proposal plaquette-de-frein (## Fonction,
-      ## Critères de choix). STATUS to_capture : page référencée par URL
-      (bremboparts.com/.../instructions-pour-remplacer-les-disques-et-les-plaquettes-kit-ev-280501), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:ac179373…).
+      Passages retenus (« Importantes normes générales » et suivants) :
+      composant de sécurité, remplacement par un personnel compétent ;
+      contrôle à intervalles réguliers ; remplacement à l'épaisseur limite ou
+      quand le témoin d'usure s'allume ; remplacement par essieu, et des
+      plaquettes à chaque remplacement des disques ; pièce adaptée à la marque
+      et au modèle ; matériau de friction tourné vers le disque, flèche dans le
+      sens de rotation en marche avant ; pas de contact avec les graisses ;
+      coulissement de l'étrier flottant ; pédale jusqu'à une course stable et
+      niveau de liquide ; rodage selon les instructions du constructeur ; pas
+      d'air comprimé ni de brosse dure (poussières nocives). Ne fonde PAS : les
+      cotes, distances et durées chiffrées de la page (non reprises), ni les
+      passages sur l'oscillation des disques.
 
   - slug: bremboparts_oe_vs_equivalent
     title: 'Brembo — Différencier pièces d''origine et pièces équivalentes en 10 points'
@@ -635,16 +660,22 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: bremboparts_oe_vs_equivalent
+      manifest_id: src-auto-capture-ebb13203d391b157d95a3d1bb3f54fa2ec3c7e55efc05f8fbfd9f3215bf961f6
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md'
     status: to_capture
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage. Dix critères distinguant une pièce d'origine d'une
-      équivalente. Extraite dans le proposal plaquette-de-frein (## Critères de choix).
-      STATUS to_capture : page référencée par URL
-      (bremboparts.com/.../pieces-de-rechange-comment-differencier-...-en-10-points-219855), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:87deee38…).
+      Passages retenus : mention « OE supplier » des pièces d'origine ; matériaux
+      de friction adaptés au véhicule et au style de conduite ; traitement
+      thermique de surface (scorching) contre la perte d'efficacité à chaud ;
+      shim antibruit multicouche ; confort et absence de bruit attendus du
+      matériau ; essais sur bancs puis sur route ; homologation ECE R90
+      obligatoire en Europe ; plaquettes directionnelles montées du mauvais côté
+      (plus de bruit, plus d'usure, performances réduites). Ne fonde PAS : une
+      hiérarchie de marques (page promotionnelle d'un équipementier), ni les
+      chiffres promotionnels de la page (non repris).
 
   - slug: zf_installation_plaquettes
     title: 'ZF Aftermarket (TRW) — Installation correcte des plaquettes de frein'
@@ -653,16 +684,23 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: zf_installation_plaquettes
+      manifest_id: src-auto-capture-565c00d21e16973beeb12521b32d694df35f2dcb58bc20afc4ebbf1362b13d57
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md'
     status: to_capture
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage. Conseil atelier : sens de montage (côté piston),
-      types de témoins d'usure (acoustique/mécanique). Extraite dans le proposal
-      plaquette-de-frein (## Critères de choix). STATUS to_capture : page référencée
-      par URL (aftermarket.zf.com/.../installation-correcte-des-plaquettes-de-frein/), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:6f4636a4…).
+      Passages retenus : montage incorrect, cause de bruits de freinage ou d'une
+      performance réduite ; rôle du shim, de la rainure, de la tôle de guidage,
+      de l'indicateur d'usure mécanique (signal sonore au contact du disque) et
+      du ressort de piston ; primauté des prescriptions du constructeur ; flèche
+      dans le sens de sortie du disque ; repères côté piston ; indicateur
+      d'usure généralement sur deux plaquettes du jeu, côté piston, là où
+      l'usure la plus importante est à craindre ; position des tôles de guidage
+      à vérifier dans la documentation. Ne fonde PAS : le passage sur la masse
+      d'amortissement, ni les références produit citées en exemple (non
+      reprises).
 
   - slug: delphi_temoins_usure
     title: 'Delphi Technologies — Ce qu''il faut savoir sur les témoins d''usure des plaquettes'
@@ -671,13 +709,20 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: delphi_temoins_usure
+      manifest_id: src-auto-capture-a57fe2c9a006f4f2b06a68b52282ee1964b1923dea6a3c8f58f0178fb9d134eb
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md'
     status: to_capture
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage. Fonctionnement des témoins d'usure (capteur filaire
-      → témoin lumineux). Extraite dans le proposal plaquette-de-frein (## Critères de
-      choix). STATUS to_capture : page référencée par URL
-      (delphiautoparts.com/.../ce-quil-faut-savoir-sur-les-temoins-dusure-...), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:76b90102…).
+      Passages retenus : facteurs de la vitesse d'usure (route, style de
+      conduite, vitesse, charge, type de plaquettes et de disques) ; languettes
+      métalliques (son strident au contact du disque) ; témoin électronique
+      (boucle de fil, circuit ouvert, voyant au tableau de bord) ; témoins à deux
+      niveaux ; nombre de capteurs selon la conception du système ; témoins
+      intégrés ou montés sur la plaquette ; témoins conçus pour rompre, à
+      remplacer avec les plaquettes ; dommages possibles par la chaleur ou lors
+      d'autres interventions. Ne fonde PAS : un intervalle de remplacement
+      chiffré, ni la cause d'un voyant de frein allumé (relève de l'outil de
+      diagnostic).

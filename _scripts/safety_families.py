@@ -7,13 +7,14 @@ Source UNIQUE consommée par :
 
 Les deux modules l'importent en LAZY (les scripts ``_scripts/`` sont chargés par chemin de fichier —
 pas d'import module-top sur un sibling). Le classifieur monorepo
-``auto_review_wiki_proposal.detect_safety_category`` garde ses propres familles ; il n'a aucune
-autorité de promotion (ADR-114 D2).
+``auto_review_wiki_proposal.detect_safety_category`` garde ses propres familles : la classification
+n'est PAS identique des deux côtés.
 
 Familles : freinage, direction, distribution, electricite-safety, airbag, suspension.
 Motifs de slug : ces familles, plus l'union L0 d'ADR-093 (transmission, roulement/moyeu de roue,
 visserie de roue ; circuit de frein et direction assistée tombent sous freinage et direction).
-Ajouter un motif rend le contrôle plus strict (PR WIKI) ; en retirer un exige un ADR (ADR-114 D1).
+L'union L0 est un minimum (ADR-093 L0 b) : ajouter un motif rend le contrôle plus strict ; retirer
+un motif qui la couvre la contredit.
 Classif robuste (``entity_data.family`` souvent ABSENT des proposals) : family + tokens slug/alias/title.
 Fail-closed : doute / erreur → True (sécurité → revue humaine).
 """

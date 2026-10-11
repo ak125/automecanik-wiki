@@ -2,10 +2,10 @@
 
 Verrouille : les 6 familles, la détection par family ET par slug (entity_data.family
 souvent absent), la couverture airbag/suspension (manquaient à gate_safety_unsourced),
-l'union L0 d'ADR-093 (précondition (b) d'ADR-114 D5), les négatifs non-sécurité, et le
-comportement fail-closed.
+l'union L0 minimale d'ADR-093 (L0 b), les négatifs non-sécurité, et le comportement
+fail-closed.
 
-Placé sous _scripts/tests/ pour être exécuté par la CI (job « pytest fixtures »).
+Placé sous _scripts/tests/ pour être exécuté par la CI (étape « pytest fixtures » de wiki-quality-gates).
 """
 import importlib.util
 from pathlib import Path

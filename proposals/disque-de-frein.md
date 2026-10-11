@@ -40,8 +40,7 @@ review_notes: "Réécrite 2026-10-11 : chaque affirmation repose sur l'une de de
   \ page d'atelier d'équipementier sur le broutement, rédigée en anglais et reformulée\
   \ en français dans la fiche (la capture RAW reste dans sa langue d'origine), et un\
   \ article d'encyclopédie en français sur le frein à disque, en corroboration\
-  \ seulement (confiance plafonnée à low). Les deux sources restent to_capture jusqu'à\
-  \ l'activation par le propriétaire. Les deux références external_url désignent les\
+  \ seulement (confiance plafonnée à low). Les deux références external_url désignent les\
   \ mêmes pages que les références raw (même document, pas une source indépendante).\
   \ Retirés faute de preuve archivée ou par règle de sécurité : noms de marques et\
   \ d'équipementiers, prix, cotes et tolérances chiffrées (variation d'épaisseur,\
@@ -202,4 +201,4 @@ La fonte est de loin le matériau le plus utilisé pour les disques : elle rouil
 
 ## Provenance & qualité
 
-Fiche **réécrite le 2026-10-11**. Chaque affirmation repose sur l'une de deux pages archivées dans RAW : une page d'atelier d'un équipementier consacrée au broutement, rédigée en anglais et reformulée ici en français, et un article d'encyclopédie en ligne sur le frein à disque, qui ne sert que de corroboration (confiance faible). Les deux sources attendent l'activation par le propriétaire. Ont été **retirés**, faute de preuve archivée ou par règle de sécurité : les noms de marques et d'équipementiers, les prix, les cotes et tolérances chiffrées (variation d'épaisseur, voile, faux-rond, épaisseur minimale gravée), les températures et fréquences, l'homologation des disques de rechange, les couples de serrage, la compatibilité couronne ABS et VIN, les revêtements anticorrosion, et la relation `brake_noise_metallic`. Aucune valeur chiffrée n'est publiée. `review_status: proposed`, exports désactivés ; relations diagnostic à l'état d'hypothèses, `reviewed: false`, `diagnostic_safe: false`.
+Fiche **réécrite le 2026-10-11**. Chaque affirmation repose sur l'une de deux pages archivées dans RAW : une page d'atelier d'un équipementier consacrée au broutement, rédigée en anglais et reformulée ici en français, et un article d'encyclopédie en ligne sur le frein à disque, qui ne sert que de corroboration (confiance faible). Ont été **retirés**, faute de preuve archivée ou par règle de sécurité : les noms de marques et d'équipementiers, les prix, les cotes et tolérances chiffrées (variation d'épaisseur, voile, faux-rond, épaisseur minimale gravée), les températures et fréquences, l'homologation des disques de rechange, les couples de serrage, la compatibilité couronne ABS et VIN, les revêtements anticorrosion, et la relation `brake_noise_metallic`. Aucune valeur chiffrée n'est publiée. `review_status: proposed`, exports désactivés ; relations diagnostic à l'état d'hypothèses, `reviewed: false`, `diagnostic_safe: false`.

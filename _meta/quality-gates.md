@@ -173,15 +173,15 @@ Résultats : `ELIGIBLE` autorise l'exécuteur ; `BLOCKED` et `UNKNOWN_FAIL_CLOSE
 
 Une fiche d'une famille sécurité-critique (`safety_families.py`) est jugée par le même décideur. `SAFETY_HUMAN_REVIEW` y porte la Safety Auto-Gate : la fiche n'est éligible que si **toutes** les conditions suivantes sont prouvées.
 
-| Condition | Preuve exigée |
-| --- | --- |
-| `dim_A_floor`, `dim_C_floor` | dimensions shadow A (preuve) ≥ 22 et C (couverture) ≥ 15 ; tier shadow indéterminable = échec |
-| `no_quality_gate_fail` | les cinq contrôles source/claim/contradiction/risk/confidence exécutés et PASS |
-| `numeric_exactitude_verified` | chaque valeur chiffrée du texte rendu (prose, titres, code, HTML, alt d'image) est `numeric_verified` (`numeric_exactitude.py`) ; une valeur hors ancre de la coverage-map est non sourcée |
-| `no_disputed_claims` | déclaration explicite `no_disputed_claims: true` dans le frontmatter |
-| `diagnostic_live_authority_not_claimed` | aucun `evidence.diagnostic_safe: true` (flip humain ciblé, §5.bis) |
-| `no_manual_review_policy` | aucun `source_policy: manual_review`, ni dans les preuves ni dans la coverage-map |
-| `coverage_strict_pass`, `regression_gate_pass`, `provenance_pass` | couverture stricte PASS (un WARN bloque ici), régression NEW/NEUTRAL/IMPROVED, provenance PASS ; un résultat absent n'est jamais un succès |
+| Condition                                                         | Preuve exigée                                                                                                                                                                              |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `dim_A_floor`, `dim_C_floor`                                      | dimensions shadow A (preuve) ≥ 22 et C (couverture) ≥ 15 ; tier shadow indéterminable = échec                                                                                              |
+| `no_quality_gate_fail`                                            | les cinq contrôles source/claim/contradiction/risk/confidence exécutés et PASS                                                                                                             |
+| `numeric_exactitude_verified`                                     | chaque valeur chiffrée du texte rendu (prose, titres, code, HTML, alt d'image) est `numeric_verified` (`numeric_exactitude.py`) ; une valeur hors ancre de la coverage-map est non sourcée |
+| `no_disputed_claims`                                              | déclaration explicite `no_disputed_claims: true` dans le frontmatter                                                                                                                       |
+| `diagnostic_live_authority_not_claimed`                           | aucun `evidence.diagnostic_safe: true` (flip humain ciblé, §5.bis)                                                                                                                         |
+| `no_manual_review_policy`                                         | aucun `source_policy: manual_review`, ni dans les preuves ni dans la coverage-map                                                                                                          |
+| `coverage_strict_pass`, `regression_gate_pass`, `provenance_pass` | couverture stricte PASS (un WARN bloque ici), régression NEW/NEUTRAL/IMPROVED, provenance PASS ; un résultat absent n'est jamais un succès                                                 |
 
 Une condition dont le calcul échoue est fausse et son erreur est rapportée. Seule une plage `validated` de `_meta/numeric-plausibility.yaml`, corroborée par deux sources captées distinctes, rend une valeur dimensionnée vérifiable : tant que les plages restent `proposed`, toute fiche sécurité portant une valeur avec unité reste bloquée.
 

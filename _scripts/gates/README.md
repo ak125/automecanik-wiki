@@ -10,13 +10,13 @@ Référence : [ADR-059 SEO Runtime Projection](https://github.com/ak125/governan
 
 Step 0 audit `ast.parse` sur `_scripts/quality-gates.py` (618 lignes, 0 classes, 22 fonctions dont **13 gates atomiques**). Les gates ADR-112/113 ajoutés ensuite à `run_gates` (`gate_diagnostic_not_applicable`, `gate_quick_checks`, `gate_safety_rules`) sont composés par `contradiction_gate` ; `test_wrappers_cover_every_gate_of_run_gates` garantit que tout gate de `run_gates` reste couvert :
 
-| Wrapper              | Gates legacy composés                                                                                                    |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `source_gate`        | `gate_source_catalog_raw_refs` + `gate_sources_missing`                                                                  |
-| `claim_gate`         | `gate_schema_invalid` + `gate_slug_collision` + `gate_path_anti_patterns`                                                |
+| Wrapper              | Gates legacy composés                                                                                                                     |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| `source_gate`        | `gate_source_catalog_raw_refs` + `gate_sources_missing`                                                                                   |
+| `claim_gate`         | `gate_schema_invalid` + `gate_slug_collision` + `gate_path_anti_patterns`                                                                 |
 | `contradiction_gate` | `gate_diagnostic_relations` + `gate_diagnostic_not_applicable` + `gate_quick_checks` + `gate_safety_rules` + `gate_legacy_symptoms_block` |
-| `risk_gate`          | `gate_pollution` + `gate_catalog_leak` + `gate_commercial_promise` + `gate_safety_unsourced` + `gate_maintenance_advice` |
-| `confidence_gate`    | `gate_symptom_unstructured`                                                                                              |
+| `risk_gate`          | `gate_pollution` + `gate_catalog_leak` + `gate_commercial_promise` + `gate_safety_unsourced` + `gate_maintenance_advice`                  |
+| `confidence_gate`    | `gate_symptom_unstructured`                                                                                                               |
 
 ## Contrat de retour (Pydantic v2 strict)
 

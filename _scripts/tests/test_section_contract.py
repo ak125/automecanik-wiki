@@ -113,11 +113,13 @@ def test_parser_version_drift_is_refused(monkeypatch):
         score("## Fonctionnement\n" + PROSE)
 
 
-@pytest.mark.parametrize("filename", ["editorial_sections.py", "requirements-scoring.txt"])
+@pytest.mark.parametrize("filename", ["editorial_sections.py", "requirements-scoring.txt",
+                                      "numeric_exactitude.py", "gates/contradiction_gate.py"])
 def test_contract_or_dependency_change_invalidates_decision(tmp_path, monkeypatch, filename):
     scripts = tmp_path / "_scripts"
     scripts.mkdir()
     for name in promotion_decision._EVALUATION_ENGINE_FILES:
+        (scripts / name).parent.mkdir(parents=True, exist_ok=True)
         (scripts / name).write_bytes((ROOT / "_scripts" / name).read_bytes())
     candidate = tmp_path / "candidate.md"
     # Candidat ciblable (entity_type + slug) : le manifeste capture sa cible canon.

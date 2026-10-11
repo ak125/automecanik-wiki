@@ -165,3 +165,41 @@ def test_missing_optional_anchor_keeps_schema_contract(tmp_path):
     root = _make_wiki(tmp_path, catalog_slugs=["oem_x"], fiche_body="## Fonctionnement\ntexte\n",
                       coverage={"fiche": "demo", "schema_version": "1.0.0", "coverage_entries": [_valid_entry()]})
     assert _check(root)["status"] == "PASS"
+
+
+def _anchorable_by_section(body: str) -> dict[str, list[str]]:
+    out: dict[str, list[str]] = {}
+    for block in ccm.visible_text_blocks(body):
+        if block["anchorable"]:
+            for label in block["sections"]:
+                out.setdefault(label, []).append(ccm._normalize_anchor(block["text"]))
+    return out
+
+
+_PARITY_BODIES = [p.read_text(encoding="utf-8") for d in ("proposals", "wiki")
+                  for p in sorted((REPO_ROOT / d).rglob("*.md"))]
+
+
+@pytest.mark.parametrize("body", [
+    "## A\nLe **filtre** retient.\n### B\nEnfant.\n## A\nRépété.\n",
+    "## A\n<!-- caché -->\n```\ncode\n```\n| x | y |\n|---|---|\n| 1 | 2 |\n",
+    "intro\n## A\n- item <b>html</b>\n- item simple\n> cité\n",
+    *[ccm._split_md(text)[1] for text in _PARITY_BODIES],
+])
+def test_visible_blocks_mark_exactly_the_anchorable_prose(body):
+    # Le décideur localise une ancre via visible_text_blocks ; check_fiche la prouve via
+    # _prose_sections. Les deux doivent voir la même prose, sinon la preuve et le scan divergent.
+    expected = {label: [b for occurrence in occurrences for b in occurrence]
+                for label, occurrences in ccm._prose_sections(body).items()}
+    expected = {label: blocks for label, blocks in expected.items() if blocks}
+    assert _anchorable_by_section(body) == expected
+
+
+def test_visible_blocks_reach_text_that_is_not_anchorable_prose():
+    body = ("## Couple 120 Nm\n<!-- 90 Nm -->\n```\n80 Nm\n```\n"
+            "Texte <span>70 Nm</span>.\n\n![schéma 60 Nm](x.png)\n\n    50 Nm\n")
+    texts = " | ".join(b["text"] for b in ccm.visible_text_blocks(body))
+    for value in ("120 Nm", "90 Nm", "80 Nm", "70 Nm", "60 Nm", "50 Nm"):
+        assert value in texts, texts
+    assert not any(b["anchorable"] for b in ccm.visible_text_blocks(body)
+                   if any(v in b["text"] for v in ("120 Nm", "90 Nm", "80 Nm", "70 Nm", "60 Nm", "50 Nm")))

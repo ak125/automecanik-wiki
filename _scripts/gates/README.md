@@ -8,13 +8,13 @@ Référence : [ADR-059 SEO Runtime Projection](https://github.com/ak125/governan
 
 ## Mapping inventaire → 5 wrappers
 
-Step 0 audit `ast.parse` sur `_scripts/quality-gates.py` (618 lignes, 0 classes, 22 fonctions dont **13 gates atomiques**) :
+Step 0 audit `ast.parse` sur `_scripts/quality-gates.py` (618 lignes, 0 classes, 22 fonctions dont **13 gates atomiques**). Les gates ADR-112/113 ajoutés ensuite à `run_gates` (`gate_diagnostic_not_applicable`, `gate_quick_checks`, `gate_safety_rules`) sont composés par `contradiction_gate` ; `test_wrappers_cover_every_gate_of_run_gates` garantit que tout gate de `run_gates` reste couvert :
 
 | Wrapper              | Gates legacy composés                                                                                                    |
 | -------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `source_gate`        | `gate_source_catalog_raw_refs` + `gate_sources_missing`                                                                  |
 | `claim_gate`         | `gate_schema_invalid` + `gate_slug_collision` + `gate_path_anti_patterns`                                                |
-| `contradiction_gate` | `gate_diagnostic_relations` + `gate_legacy_symptoms_block`                                                               |
+| `contradiction_gate` | `gate_diagnostic_relations` + `gate_diagnostic_not_applicable` + `gate_quick_checks` + `gate_safety_rules` + `gate_legacy_symptoms_block` |
 | `risk_gate`          | `gate_pollution` + `gate_catalog_leak` + `gate_commercial_promise` + `gate_safety_unsourced` + `gate_maintenance_advice` |
 | `confidence_gate`    | `gate_symptom_unstructured`                                                                                              |
 
@@ -32,9 +32,10 @@ class GateResult(BaseModel):
         return {"pass": 0, "fail": 1, "warn": 2}[self.status]
 ```
 
-## Garde-fous architecturaux (vérifiés par 18 tests Pytest)
+## Garde-fous architecturaux (vérifiés par 21 tests Pytest)
 
 - `test_no_new_atomic_gate_defined_in_wrappers` : refuse toute fonction `def gate_*` dans `gates/*.py` (forbids re-inventing what exists in legacy)
+- `test_wrappers_cover_every_gate_of_run_gates` : chaque `gate_*` appelé par `run_gates` (suite `--all-local` de la CI) est composé par un wrapper (anti-dérive AST)
 - `test_no_llm_inference_imports_in_wrappers` : refuse `anthropic / openai / groq / cohere / mistralai / google.generativeai`
 - `test_no_db_imports_in_wrappers` : refuse `psycopg / asyncpg / supabase / sqlalchemy / django`
 - `test_all_wrappers_expose_gate_result` : chaque `*_gate.py` exporte `run_<name>_gate` retournant `GateResult`
@@ -57,7 +58,7 @@ cd _scripts
 pytest gates/test_gates.py -v
 ```
 
-Résultat : **18 passed**.
+Résultat : **21 passed**.
 
 ## Option future (hors PR-4)
 

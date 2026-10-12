@@ -1,0 +1,41 @@
+{
+  "schema_version": "2.0.0",
+  "builder_version": "2.0.0",
+  "export_kind": "diagnostic_gamme",
+  "gamme_slug": "filtre-d-habitacle",
+  "wiki_path": "wiki/gamme/filtre-d-habitacle.md",
+  "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
+  "source_catalog_commit": "817be22f5adea7ecd9e721944210e1f6db1a3e4f",
+  "content_hash": "sha256:843da8d7e04e3a907a968fe39b7d8bd98280c9b2c2f2048c8c577bfb7d827959",
+  "relations": [
+    {
+      "relation_index": 0,
+      "relation_sha256": "sha256:9ccc6b865d24eb40fd6b6d9d232e97694d073507e1aff10ea761ef8ff82915f6",
+      "symptom_slug": "odeur_habitacle",
+      "system_slug": "filtration",
+      "relation_to_part": "possible_cause",
+      "part_role": "mauvaises odeurs à la mise en route de la ventilation — filtre d'habitacle saturé chargé d'humidité, de pollens et de polluants. Concordant Carglass (web research 2026-06-12) + corpus RAW S2.",
+      "evidence": {
+        "confidence": "medium",
+        "source_policy": "manual_review",
+        "reviewed": false,
+        "diagnostic_safe": false
+      },
+      "confidence_score_computed": 0.0,
+      "sources": [
+        {
+          "slug": "web_carglass_filtre_habitacle_20260612",
+          "catalog_slug": "web_carglass_filtre_habitacle_20260612",
+          "type": "blog_pro",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "web_carglass_filtre_habitacle_20260612",
+            "expected_sha256": null
+          },
+          "raw_proven": false
+        }
+      ]
+    }
+  ]
+}

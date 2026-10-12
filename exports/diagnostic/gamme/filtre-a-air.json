@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0.0",
+  "builder_version": "2.0.0",
+  "export_kind": "diagnostic_gamme",
+  "gamme_slug": "filtre-a-air",
+  "wiki_path": "wiki/gamme/filtre-a-air.md",
+  "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
+  "source_catalog_commit": "817be22f5adea7ecd9e721944210e1f6db1a3e4f",
+  "content_hash": "sha256:3425808a4ac0d7563c4283098917d6fe79b948269cca905b3833c408c1061c24",
+  "relations": [
+    {
+      "relation_index": 0,
+      "relation_sha256": "sha256:daf43f0db7044fea6f175ae3b2907f29248d23935f7fe433de7d0e7e265ba264",
+      "symptom_slug": "perte_puissance_filtration",
+      "system_slug": "filtration",
+      "relation_to_part": "possible_cause",
+      "part_role": "perte de puissance moteur progressive — filtre à air colmaté réduisant le débit d'admission, dégradant la combustion. Symptôme typique après dépassement intervalle entretien ou usage en milieu poussiéreux.",
+      "evidence": {
+        "confidence": "medium",
+        "source_policy": "2_medium_concordant",
+        "reviewed": false,
+        "diagnostic_safe": false
+      },
+      "confidence_score_computed": 1.0,
+      "sources": [
+        {
+          "slug": "oem_filter_maintenance_general",
+          "catalog_slug": "oem_filter_maintenance_general",
+          "type": "oem_manual",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "oem_filter_maintenance_general",
+            "expected_sha256": null
+          },
+          "raw_proven": false
+        },
+        {
+          "slug": "bosch_fad_2020",
+          "catalog_slug": "bosch_fad_2020",
+          "type": "brochure",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "bosch_fad_2020",
+            "expected_sha256": null
+          },
+          "raw_proven": false
+        }
+      ]
+    }
+  ]
+}

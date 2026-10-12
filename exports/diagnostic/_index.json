@@ -1,0 +1,32 @@
+{
+  "schema_version": "2.0.0",
+  "builder_version": "2.0.0",
+  "export_kind": "diagnostic_index",
+  "source_catalog_commit": "817be22f5adea7ecd9e721944210e1f6db1a3e4f",
+  "files": [
+    {
+      "path": "gamme/filtre-a-air.json",
+      "sha256": "sha256:43d64f2dfe95dd9abd5fff828b4cf16a0031776a95cabcc61851f173a69157ac",
+      "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
+      "relation_count": 1
+    },
+    {
+      "path": "gamme/filtre-a-carburant.json",
+      "sha256": "sha256:08a55eea018147516ef3857836b26fbbc487320dba930f2e86852a77ee9cc4e8",
+      "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
+      "relation_count": 1
+    },
+    {
+      "path": "gamme/filtre-a-huile.json",
+      "sha256": "sha256:ceeced720641f901d268a51748704e54dc81a9031d6abd7fb0a11075a6aca127",
+      "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
+      "relation_count": 2
+    },
+    {
+      "path": "gamme/filtre-d-habitacle.json",
+      "sha256": "sha256:3b33c36c7fec06a91f7f975377bb233c4f8c45232c4dc729d750aba8f8d25aa0",
+      "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
+      "relation_count": 1
+    }
+  ]
+}

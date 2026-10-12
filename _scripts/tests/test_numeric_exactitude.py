@@ -238,6 +238,15 @@ def test_unrecognized_unit_blocks_at_gate():
     assert out, "un couple exprimé en unité épelée doit bloquer, pas s'évader"
 
 
+def test_spelled_unit_on_pending_source_blocks_at_provenance():
+    # un claim pending dont le seul chiffre a une unité épelée ne doit PAS produire 0 violation
+    out = NE.gate_numeric_value_exactitude(
+        [{"text": "le couple de serrage est de 120 newton-mètres", "source_status": "pending_capture"}],
+        family="freinage", ranges=RANGES)
+    assert out, "unité épelée sur source non captée : invérifiable, donc bloquant"
+    assert all(v.startswith("numeric_source_not_captured") for v in out)
+
+
 def test_non_critical_validated_still_needs_corroboration():
     # HAUTE 4 : toute plage validée exige corroboration ≥2 (le garde ne doit pas être mort pour non-critique).
     host = "tenue 800 °C sur le disque avant du véhicule"

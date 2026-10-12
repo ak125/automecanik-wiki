@@ -1,89 +1,579 @@
 fiche: plaquette-de-frein
 schema_version: 1.0.0
-generated_at: '2026-06-19'
+generated_at: '2026-10-11'
 coverage_entries:
-  # --- claims diagnostic (sources to_capture, conservées honnêtement) ---
-  - claim_id: plaquette-grincement-aigu-causes
-    section: "## Symptômes d'usure"
-    text_anchor: "usure à la limite, contamination de la garniture (huile, gravillons), ou mauvaise mise en place"
-    source_slug: oem_renault_clio_iii_workshop
-    evidence_type: oem_workshop_excerpt
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
-
-  - claim_id: plaquette-grincement-aigu-corroboration
-    section: "## Symptômes d'usure"
-    text_anchor: "usure à la limite, contamination de la garniture"
-    source_slug: bosch_fad_2020
-    evidence_type: brochure_marketing
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
-
-  - claim_id: plaquette-vibration-pedale-cause
-    section: "## Symptômes d'usure"
-    text_anchor: "voile de disque préexistant, plaquette à friction inégale"
-    source_slug: tecdoc_15_02_01_brake_noise
-    evidence_type: tecdoc_diagnostic_card
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
-
-  - claim_id: plaquette-definition-fonctionnement
+  # --- bremboparts_technologie_etriers (page technique étriers de frein) — source to_capture ---
+  - claim_id: plaquette-definition-presse-contre-disque
     section: "## Définition"
-    text_anchor: "garniture de friction pressée par l'étrier hydraulique contre le disque de frein"
-    source_slug: wikipedia_fr_plaquette_de_frein
-    evidence_type: wikipedia_factual
-    confidence: low
-    source_policy: 2_medium_concordant
+    text_anchor: "La plaquette de frein est l'élément de friction du frein à disque : l'étrier la presse contre le disque pour ralentir ou arrêter le véhicule"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
     source_status: pending_capture
 
-  - claim_id: plaquette-fonction-friction-thermique
-    section: "## Fonction"
-    text_anchor: "friction transforme l'énergie cinétique en chaleur"
-    source_slug: wikipedia_fr_frein_a_disque
-    evidence_type: wikipedia_factual
-    confidence: low
-    source_policy: 2_medium_concordant
+  - claim_id: plaquette-pression-hydraulique-pistons
+    section: "## Rôle technique"
+    text_anchor: "la pression hydraulique venue du maître-cylindre agit sur les pistons, qui poussent les plaquettes contre le disque"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
     source_status: pending_capture
 
-  # --- claims sourcés équipementier OE (réellement fetchés, footnotes live) → high (§9.1 oem) ---
-  - claim_id: plaquette-fonction-conversion-energie
-    section: "## Fonction"
-    text_anchor: "transforme l'énergie cinétique en chaleur"
+  - claim_id: plaquette-etrier-energie-hydraulique-force-mecanique
+    section: "## Rôle technique"
+    text_anchor: "L'étrier transforme ainsi l'énergie hydraulique en force mécanique"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-pistons-isolants-chaleur
+    section: "## Rôle technique"
+    text_anchor: "Les pistons sont faits d'une matière isolante qui limite la chaleur transmise de la plaquette au liquide de frein"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-ressorts-position-repos
+    section: "## Rôle technique"
+    text_anchor: "des ressorts ramènent les plaquettes en position de repos et les maintiennent contre leurs pistons"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-etrier-flottant-fonctionnement
+    section: "## Rôle technique"
+    text_anchor: "l'autre est poussée par le corps de l'étrier, qui glisse sur des guides"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-etrier-flottant-usage
+    section: "## Rôle technique"
+    text_anchor: "C'est le type le plus répandu sur les véhicules d'entrée et de milieu de gamme et sur les utilitaires légers"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-etrier-fixe-pistons-opposes
+    section: "## Rôle technique"
+    text_anchor: "son corps porte des pistons opposés qui actionnent les plaquettes"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-etrier-fixe-usage
+    section: "## Rôle technique"
+    text_anchor: "On le trouve sur les véhicules sportifs de milieu à haut de gamme"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-qualite-garnitures-facteur-decisif
+    section: "## Marques & qualité"
+    text_anchor: "La qualité des garnitures fait partie des facteurs décisifs d'une réponse rapide et précise du freinage"
+    source_slug: bremboparts_technologie_etriers
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # --- zf_installation_plaquettes (page montage des plaquettes) — source to_capture ---
+  - claim_id: plaquette-accessoire-shim
+    section: "## Rôle technique"
+    text_anchor: "élément d'amortissement fixé sur la plaque arrière de la plaquette"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-accessoire-rainure
+    section: "## Rôle technique"
+    text_anchor: "elle permet d'évacuer rapidement l'eau, la saleté et la poussière"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-accessoire-tole-guidage
+    section: "## Rôle technique"
+    text_anchor: "elle maintient la plaquette en position, évite les cliquetis et la ramène en position initiale quand le frein est relâché"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-accessoire-ressort-piston
+    section: "## Rôle technique"
+    text_anchor: "il maintient la plaquette en position, côté piston"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-indicateur-mecanique-signal-sonore
+    section: "## Symptômes & diagnostic"
+    text_anchor: "L'indicateur d'usure mécanique émet lui aussi un signal sonore au contact du disque quand les plaquettes sont usées"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-montage-incorrect-bruits-performance
+    section: "## Symptômes & diagnostic"
+    text_anchor: "une plaquette ou des accessoires mal montés causent dans la plupart des cas des bruits de freinage ou une performance réduite des freins"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-choix-prescriptions-constructeur
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "Les prescriptions du constructeur du véhicule priment sur toute autre indication"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-choix-indicateur-mecanique-ou-electrique
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "Type d'indicateur d'usure — mécanique ou électrique"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-montage-fleche-sortie-disque
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "si une flèche figure sur le shim ou la plaque arrière, elle doit coïncider avec le sens de sortie du disque"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-montage-cote-piston
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "la plaquette dotée d'une échancrure en quart-de-rond ou d'un ressort de piston riveté se place côté piston"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-indicateurs-cote-piston-usure
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "Les indicateurs d'usure équipent normalement deux des quatre plaquettes d'un jeu, côté piston des plaquettes symétriques"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-toles-guidage-documentation
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "la position de montage ne peut pas être déduite de leur forme : il faut se reporter à la documentation correspondante"
+    source_slug: zf_installation_plaquettes
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # --- delphi_temoins_usure (page témoins d'usure) — source to_capture ---
+  - claim_id: plaquette-languettes-son-strident
+    section: "## Symptômes & diagnostic"
+    text_anchor: "les languettes métalliques des systèmes de freinage plus anciens émettent un son strident en frottant contre le disque"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-temoin-electronique-circuit-ouvert
+    section: "## Symptômes & diagnostic"
+    text_anchor: "au contact du disque, le circuit s'ouvre et le témoin s'allume au tableau de bord"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-temoin-deux-niveaux
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Les témoins à deux niveaux estiment en plus la durée de vie restante de la plaquette"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-choix-capteurs-selon-conception
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "Le nombre de capteurs et leur position varient selon la conception du système de freinage"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-choix-capteurs-integres-ou-montes
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "les plus courants sont intégrés au matériau de la plaquette et ne sont pas amovibles, d'autres sont montés sur la plaquette"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-vitesse-usure-facteurs
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "il dépend des conditions de la route, du style de conduite, de la vitesse, de la charge du véhicule et du type de plaquettes et de disques"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-temoins-concus-pour-rompre
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "conçus pour rompre, ils se remplacent chaque fois que des plaquettes neuves sont posées"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-temoins-inspection-chaleur
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "la chaleur des freins peut endommager leur câblage et leurs clips"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-temoins-autres-interventions
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "ils peuvent être abîmés lors d'autres interventions, comme la pose de disques neufs"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-faq-temoin-a-remplacer
+    section: "## FAQ"
+    text_anchor: "Les témoins d'usure étant conçus pour rompre, ils se remplacent chaque fois que des plaquettes neuves sont posées"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-faq-son-strident-fin-usure
+    section: "## FAQ"
+    text_anchor: "une languette métallique ou un indicateur d'usure mécanique frotte contre le disque"
+    source_slug: delphi_temoins_usure
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # --- bremboparts_oe_vs_equivalent (page pièces d'origine et équivalentes) — source to_capture ---
+  - claim_id: plaquette-directionnelle-mauvais-cote
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Une plaquette directionnelle montée du mauvais côté augmente le bruit au freinage et l'usure des plaquettes"
+    source_slug: bremboparts_oe_vs_equivalent
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-choix-materiaux-friction
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "il existe de nombreux matériaux de friction, adaptés à chaque véhicule et à chaque style de conduite"
+    source_slug: bremboparts_oe_vs_equivalent
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-homologation-ece-r90
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "en Europe, l'homologation ECE R90 est obligatoire pour commercialiser disques et plaquettes"
+    source_slug: bremboparts_oe_vs_equivalent
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-logo-oe-supplier
+    section: "## Marques & qualité"
+    text_anchor: "Les pièces d'origine (première monte) se reconnaissent au logo « OE supplier » qu'elles portent"
+    source_slug: bremboparts_oe_vs_equivalent
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-qualite-scorching-fading
+    section: "## Marques & qualité"
+    text_anchor: "un traitement thermique de surface (scorching) qui élimine les gaz et limite la perte d'efficacité aux températures élevées (fading)"
+    source_slug: bremboparts_oe_vs_equivalent
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-qualite-shim-multicouche
+    section: "## Marques & qualité"
+    text_anchor: "un shim antibruit multicouche en caoutchouc, acier et caoutchouc"
+    source_slug: bremboparts_oe_vs_equivalent
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-qualite-materiau-confort
+    section: "## Marques & qualité"
+    text_anchor: "un matériau de friction qui assure le confort et l'absence de bruit gênant"
+    source_slug: bremboparts_oe_vs_equivalent
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-qualite-essais-bancs-route
+    section: "## Marques & qualité"
+    text_anchor: "des essais sur bancs statiques et dynamiques, puis sur route"
+    source_slug: bremboparts_oe_vs_equivalent
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # --- bremboparts_remplacement_kit (page procédure de remplacement) — source to_capture ---
+  - claim_id: plaquette-definition-plaque-arriere-materiau
+    section: "## Définition"
+    text_anchor: "Elle associe une plaque arrière et un matériau de friction, monté tourné vers le disque"
     source_slug: bremboparts_remplacement_kit
     evidence_type: oem_technical_page
     confidence: high
     source_policy: 1_high
     source_status: pending_capture
 
+  - claim_id: plaquette-composants-securite
+    section: "## Définition"
+    text_anchor: "Les plaquettes sont des composants de sécurité du système de freinage"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-choix-marque-modele
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "s'assurer que la plaquette est adaptée à la marque et au modèle du véhicule"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-choix-par-essieu
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "les plaquettes se remplacent par essieu, et à chaque remplacement des disques, les plaquettes sont remplacées aussi"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-montage-personnel-competent
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "un travail mal exécuté risque de rendre le système de freinage totalement inefficace"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-montage-asymetrique-sens-rotation
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "Sur les plaquettes asymétriques, la flèche est orientée dans le sens de rotation du disque en marche avant"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-montage-etrier-flottant-coulissement
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "vérifier le coulissement du corps de l'étrier sur ses tiges de guidage"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-montage-graisses-surfaces-freinage
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "éviter tout contact de graisse ou de lubrifiant avec les surfaces de freinage du disque et des plaquettes"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-montage-couple-constructeur
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "respecter le couple de serrage conseillé par le constructeur du véhicule"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-montage-pedale-niveau-liquide
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "actionner la pédale de frein jusqu'à ce que sa course se stabilise, et contrôler le niveau du liquide de frein"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-rodage-sans-force-excessive
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "Ne pas freiner avec une force excessive ni de façon continue pour accélérer le rodage"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-rodage-instructions-constructeur
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "un mauvais rodage risque de compromettre l'efficacité du freinage"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-nettoyage-air-comprime
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "ne pas nettoyer les composants du frein à l'air comprimé ni à la brosse dure"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-controle-intervalles-reguliers
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "les plaquettes s'usent : elles doivent être contrôlées à intervalles réguliers"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-remplacement-limite-ou-temoin
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "quand le matériau de friction atteint sa limite d'usure ou quand le témoin de l'indicateur d'usure s'allume"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-remplacement-usure-differenciee
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "en cas d'usure différenciée, de fissures ou de profondes rayures"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-faq-par-essieu
+    section: "## FAQ"
+    text_anchor: "Les plaquettes se remplacent par essieu, et à chaque remplacement des disques"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: plaquette-faq-premiers-freinages
+    section: "## FAQ"
+    text_anchor: "Lors des premiers freinages, l'efficacité du frein peut être inférieure"
+    source_slug: bremboparts_remplacement_kit
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # --- wikipedia_fr_plaquette_de_frein (article encyclopédique) — source to_capture, corroboration seulement ---
+  # Ancre aussi couverte par plaquette-definition-presse-contre-disque (étriers).
+  - claim_id: plaquette-definition-element-friction-corroboration
+    section: "## Définition"
+    text_anchor: "La plaquette de frein est l'élément de friction du frein à disque"
+    source_slug: wikipedia_fr_plaquette_de_frein
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: 2_medium_concordant
+    source_status: pending_capture
+
 notes: |
-  Coverage map plaquette-de-frein — re-sourcée 2026-06-19 (démonstrateur chaîne TIER A).
-  12 claims à la création : 5 conservés honnêtement (3 medium diagnostic to_capture + 2 low wikipedia),
-  7 sourcés équipementier OE RÉELLEMENT fetchés (footnotes live du proposal :
-  bremboparts/zf/delphi = oem → 1_high §9.1).
-  Retrait G2a (2026-07-04) : le claim db_owned « hiérarchie équipementier » citait une entrée
-  source-catalog de projection DB Massdoc (jointure pieces ⋈ pieces_marque, champs pm_oes /
-  pm_nb_stars) portant un raw_ref fictif (manifest absent du raw inventory, expected_sha256:null).
-  Une projection DB interne n'est PAS une preuve documentaire RAW ; le claim (captured/1_high)
-  était donc sémantiquement faux et a été retiré avec son entrée source-catalog (même PR). Le fait
-  Bosch/Brembo/ATE reste porté honnêtement par le bloc entity_data.quality_tiers du proposal
-  (source_ids incluant db:pieces-marque-oes, truth_level:sourced) — il n'est pas perdu.
-  Aucune réf/SKU/compatibilité exacte exposée (anti catalog_leak) : seules la hiérarchie de
-  marques et la connaissance générale sont projetées ; le fitment exact reste runtime/DB (R2).
-  dim A honnêtement réduit — le crédit db_owned n'est pas re-scoré ici ; une reconstruction
-  légitime éventuelle passera par le vrai chemin bloc db_owned ADR-086, hors de ce registre.
-  Retrait règle 5 (2026-09-24) : 6 entrées OE retirées — plaquette-etrier-flottant-vs-fixe,
-  plaquette-sens-montage-cote-piston, plaquette-temoin-usure-types, plaquette-rodage-200km,
-  plaquette-dix-criteres-oe-vs-equivalent, plaquette-temoin-usure-delphi. Leur text_anchor n'a
-  JAMAIS figuré dans le corps de la fiche (git log -S vide sur proposals/plaquette-de-frein.md) :
-  #55 (0aa5f3b) les a déclarées dans ce seul registre. La règle 5 de check-coverage-map (ancre
-  verbatim dans l'occurrence unique de sa section) les refuse à bon droit ; aucune prose n'est
-  écrite pour les faire passer. Restent portés par entity_data.editorial : étrier flottant / fixe
-  (function, oem:bremboparts-etriers), type de témoin d'usure et rodage ~200 km (selection_criteria,
-  oem:zf-installation), critères OE (quality_tiers, oem:bremboparts-10-points). Ne sont portés
-  nulle part dans la fiche : le sens de montage côté piston et le capteur filaire Delphi
-  (delphi_temoins_usure n'est cité par aucun source_ids). Les 5 entrées du source-catalog restent
-  to_capture. 6 claims restants. dim A honnêtement réduit ; ré-inscrire un de ces claims exige
-  d'abord sa prose sourcée dans la section déclarée.
+  Coverage map plaquette-de-frein — réécrite 2026-10-11 avec la fiche.
+
+  60 claims, chacun rattaché à UNE page archivée dans RAW
+  (sources/auto-captures/plaquette-de-frein/, PR RAW #69) :
+  - montage des plaquettes (zf_installation_plaquettes) : 12 claims ;
+  - technologie des étriers (bremboparts_technologie_etriers) : 10 claims ;
+  - pièces d'origine et équivalentes (bremboparts_oe_vs_equivalent) : 8 claims ;
+  - procédure de remplacement (bremboparts_remplacement_kit) : 18 claims ;
+  - témoins d'usure (delphi_temoins_usure) : 11 claims ;
+  - article encyclopédique (wikipedia_fr_plaquette_de_frein) : 1 claim, en corroboration
+    seulement (plafond low), sur une ancre déjà couverte par une page
+    d'équipementier.
+  Toutes les entrées sont en pending_capture : les six sources sont to_capture.
+
+  Retirés avec leurs affirmations (aucune capture archivée ne les prouve, ou
+  seule la source encyclopédique les porte) : causes de bruit par contamination
+  de la garniture (oem_renault_clio_iii_workshop, bosch_fad_2020), relation avec
+  un disque voilé (tecdoc_15_02_01_brake_noise), conversion de l'énergie
+  cinétique en chaleur (wikipedia_fr_frein_a_disque, puis à tort
+  bremboparts_remplacement_kit : la page de remplacement ne le dit pas).
+  Les entrées de l'ancien registre pour ces sources sont supprimées ; leurs
+  entrées du source-catalog ne sont pas modifiées par cette PR.
+
+  Passage en captured = acte propriétaire, après activation des six sources
+  (expected_sha256 + status active) et relecture de chaque claim contre sa
+  capture. Question ouverte pour le vault : une page technique
+  d'équipementier doit-elle rester typée oem_manual (plafond high) ?

@@ -1,0 +1,648 @@
+fiche: disque-de-frein
+schema_version: 1.0.0
+generated_at: '2026-10-11'
+coverage_entries:
+  # --- Page d'atelier d'équipementier « Brake Judder » (oem_workshop, EN) — to_capture ---
+  # Capture RAW : sources/auto-captures/disque-de-frein/aftermarket-zf-com-wl-disque-de-frein-zf-broutement-c38b7a9a.md
+  # La page est en anglais : chaque ancre est la reformulation française portée par la fiche.
+  - claim_id: disque-broutement-causes-multiples
+    section: "## Symptômes & diagnostic"
+    text_anchor: "le broutement a le plus souvent plusieurs causes, ce qui rend difficile d'en isoler une seule"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-definition
+    section: "## Symptômes & diagnostic"
+    text_anchor: "le broutement désigne des vibrations de rotation du volant qui apparaissent au freinage, en général accompagnées d'un bruit sourd"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-thermique-vs-froid
+    section: "## Symptômes & diagnostic"
+    text_anchor: "le broutement thermique, qui apparaît en décélérant depuis une vitesse élevée, et le broutement à froid"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-thermique-signes
+    section: "## Symptômes & diagnostic"
+    text_anchor: "par des vibrations dans le volant et par une pulsation dans la pédale de frein"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-intensite-force-pedale
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Son intensité dépend de la force de freinage exercée sur la pédale"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-thermique-taches
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Il se reconnaît en général à des taches disposées en cercle sur les faces de friction du disque"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-thermique-depot-matiere
+    section: "## Symptômes & diagnostic"
+    text_anchor: "provoquent un dépôt de matière de la plaquette sur le disque, ou une modification durable de la structure du matériau du disque"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-zones-durcies-usinage
+    section: "## Symptômes & diagnostic"
+    text_anchor: "sont plus dures que le reste du disque et ne s'enlèvent que par usinage"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-zones-durcies-remplacement
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Pour écarter tout risque, le mieux est de remplacer le disque"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-froid-signes
+    section: "## Symptômes & diagnostic"
+    text_anchor: "il survient lors des freinages normaux et se reconnaît à une pulsation dans la pédale de frein"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-froid-toute-temperature
+    section: "## Symptômes & diagnostic"
+    text_anchor: "il peut survenir presque à chaque freinage, quelle que soit la température"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-froid-variation-epaisseur
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Sa cause principale est la variation d'épaisseur du disque"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-roulements-balourd-amplifient
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Des pièces de roulement défectueuses et un balourd des roues peuvent aussi en accentuer l'effet"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-epaisseur-faux-rond-montage
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Un faux-rond dû à un mauvais montage met la plaquette en contact local avec le disque à chaque tour de roue, même sans freiner"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-epaisseur-plaquettes-pistons-grippes
+    section: "## Symptômes & diagnostic"
+    text_anchor: "Des plaquettes ou des pistons légèrement grippés, qui laissent la plaquette frotter en partie sur le disque, sont souvent en cause"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-epaisseur-autres-causes
+    section: "## Symptômes & diagnostic"
+    text_anchor: "un montage incorrect (saleté, corrosion, serrage excessif à la clé à chocs), les conditions d'utilisation, le style de conduite"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-epaisseur-trajets-autoroute
+    section: "## Symptômes & diagnostic"
+    text_anchor: "De longs trajets sur autoroute avec des freinages très légers peuvent créer une variation d'épaisseur"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-epaisseur-resorption-freinages-appuyes
+    section: "## Symptômes & diagnostic"
+    text_anchor: "sur la plupart des disques, quelques freinages plus appuyés permettent de la résorber"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-diagnostic-essieu-avant-arriere
+    section: "## Symptômes & diagnostic"
+    text_anchor: "déterminer d'abord si le broutement vient de l'essieu avant ou de l'essieu arrière"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-diagnostic-chaine-freinage
+    section: "## Symptômes & diagnostic"
+    text_anchor: "de la pédale au servofrein, au maître-cylindre, aux conduites et aux flexibles de frein, jusqu'aux freins de roue"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-diagnostic-roues-pneus
+    section: "## Symptômes & diagnostic"
+    text_anchor: "contrôler aussi l'équilibrage des roues, leur voile, leur faux-rond et l'état de la bande de roulement des pneus"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-diagnostic-trains-direction
+    section: "## Symptômes & diagnostic"
+    text_anchor: "vérifier enfin la géométrie des trains, les suspensions de roue et les éléments de direction"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-remplacement-essieu-complet
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "afin d'éviter un freinage inégal, les plaquettes et les disques de frein se remplacent toujours par essieu complet"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-tolerances-bras-multiples
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "la tolérance de voile latéral y a été réduite de plus de moitié par rapport aux anciens trains avant à triangles"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-vehicules-plus-exigeants
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "leurs systèmes de freinage doivent être de plus en plus résistants"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-vehicules-sujets-broutement
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "Certains véhicules sont plus sujets au broutement en raison de la forte sollicitation de leur système de freinage"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-effets-selon-type-vehicule
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "les effets d'une variation d'épaisseur du disque varient beaucoup d'un type de véhicule à l'autre"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-moyeu-propre-reglet
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "si un jour de lumière apparaît, le moyeu doit être remplacé sans attendre"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-moyeu-cause-voile
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "le moyeu peut lui aussi être responsable d'un voile excessif du disque"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-moyeu-voile-consequences
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "usure accrue des rotules et des roulements de roue, risque de desserrage des boulons de roue"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-moyeu-exces-graisse
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "le disque ne repose pas bien à plat sur la bride : un léger voile apparaît et s'accentue avec le temps"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-controle-voile-comparateur
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "le voile du disque se contrôle frein monté, au comparateur, sur plusieurs tours de roue"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-idee-recue-leger-voile
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "il est faux qu'un disque doive avoir un léger voile pour que les plaquettes s'en écartent après le freinage"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-erreur-remplacement-seul
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "alors que mesurer les composants, et les remplacer si besoin, permettrait dans une large mesure de localiser et de supprimer le défaut"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-faq-essieu-complet
+    section: "## FAQ"
+    text_anchor: "les plaquettes et les disques de frein se remplacent toujours par essieu complet"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-faq-idee-recue
+    section: "## FAQ"
+    text_anchor: "C'est une idée reçue répandue, mais fausse"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-faq-causes-multiples
+    section: "## FAQ"
+    text_anchor: "Le broutement a le plus souvent plusieurs causes"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-thermique-bruit-sourd
+    section: "## Symptômes & diagnostic"
+    text_anchor: "il se manifeste par un bruit sourd, dont l'intensité peut varier pendant la décélération"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-depot-matiere-part-freinages-normaux
+    section: "## Symptômes & diagnostic"
+    text_anchor: "La matière déposée part en général lors des freinages normaux"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-broutement-froid-volant-chassis
+    section: "## Symptômes & diagnostic"
+    text_anchor: "à des à-coups de couple dans le volant ou à des vibrations des éléments d'essieu et de châssis"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-epaisseur-perte-matiere
+    section: "## Symptômes & diagnostic"
+    text_anchor: "le disque perd de la matière à cet endroit, ce qui finit par provoquer le broutement"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-suspensions-confort-tolerances
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "offrent plus de confort et une meilleure dynamique de conduite, mais n'admettent que des tolérances bien plus faibles sur chaque composant"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-vehicules-puissants-lourds
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "les véhicules sont de plus en plus puissants, donc plus rapides, et de plus en plus lourds"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-effets-amortissement
+    section: "## Critères de choix selon le véhicule"
+    text_anchor: "selon la capacité d'amortissement des pièces d'essieu, de direction et de châssis"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-moyeu-surfaces-appui
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "les surfaces d'appui et les portées doivent être propres et en parfait état"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-moyeu-reglet-controle
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "Un réglet posé sur la face d'appui du moyeu permet de la contrôler vite et simplement"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-moyeu-surface-plane
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "Le disque ne peut être monté sereinement que si la surface du moyeu est plane"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-moyeu-roulement-examen
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "le moyeu ou le roulement de roue doit être examiné et remplacé si nécessaire"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-moyeu-voile-consequences-disque
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "disque voilé, broutement, disque chargé d'un seul côté, répartition inégale de la température"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-exces-graisse-symptomes
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "jusqu'à ce que le conducteur en ressente les symptômes"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-positionnement-moyeu
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "Placer le disque sur le moyeu, par rapport aux trous de fixation, de façon à obtenir la valeur mesurée la plus faible"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-positionnement-combinaison-pieces
+    section: "## Montage & erreurs fréquentes"
+    text_anchor: "échanger ou combiner les pièces en cause (moyeu, disque, roulement)"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-faq-remplacement-seul
+    section: "## FAQ"
+    text_anchor: "Souvent, seuls les disques et les plaquettes sont remplacés, alors que mesurer les composants"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: disque-faq-recherche-pas-a-pas
+    section: "## FAQ"
+    text_anchor: "Il faut rechercher la cause pas à pas"
+    source_slug: oem_zf_trw_brake_judder
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  # --- Article d'encyclopédie « Frein à disque » (wiki_externe, FR) — to_capture ---
+  # Capture RAW : sources/auto-captures/disque-de-frein/fr-wikipedia-org-wl-disque-de-frein-wikipedia-fr-88f2cfa4.md
+  # Corroboration seulement : confiance plafonnée à low, ne prouve seule aucune affirmation.
+  - claim_id: disque-definition-moyeu-plaquettes
+    section: "## Définition"
+    text_anchor: "le disque, fixé sur le moyeu de la roue, est serré par des plaquettes qui viennent frotter de chaque côté"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-definition-etrier-chape
+    section: "## Définition"
+    text_anchor: "Les plaquettes sont maintenues dans un étrier (frein fixe) ou une chape (frein coulissant), fixés au véhicule"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-energie-cinetique-chaleur
+    section: "## Définition"
+    text_anchor: "transforme l'énergie cinétique du véhicule en chaleur, qui doit être évacuée le plus rapidement possible"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-pistons-pression-hydraulique
+    section: "## Rôle technique"
+    text_anchor: "en général soumis à une pression hydraulique sur les véhicules de tourisme, poussent les plaquettes contre le disque"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-couple-freinage-chaleur
+    section: "## Rôle technique"
+    text_anchor: "La force de frottement entre les plaquettes et le disque crée le couple de freinage, mais aussi de la chaleur"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-chaleur-evite-deformation
+    section: "## Rôle technique"
+    text_anchor: "Cette chaleur doit être évacuée le plus rapidement possible pour éviter une déformation du disque"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-chaleur-voile
+    section: "## Fonctionnement"
+    text_anchor: "Disque voilé — le disque se déforme"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-chaleur-glace
+    section: "## Fonctionnement"
+    text_anchor: "il prend une couleur légèrement bleutée et le mordant au freinage diminue"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-ventile-entretoises
+    section: "## Fonctionnement"
+    text_anchor: "il est formé de deux disques légèrement séparés par des entretoises : l'air circule entre eux et refroidit le disque de l'intérieur"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-perfore-film-eau
+    section: "## Fonctionnement"
+    text_anchor: "de petits trous à sa surface rompent le film d'eau qui se forme entre le disque et la plaquette sous la pluie"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-perfore-inconvenients
+    section: "## Fonctionnement"
+    text_anchor: "la puissance de freinage diminue un peu par temps sec, car la surface de friction est légèrement réduite"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-fonte-materiau
+    section: "## Fonctionnement"
+    text_anchor: "La fonte est de loin le matériau le plus utilisé pour les disques"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-faq-perfore
+    section: "## FAQ"
+    text_anchor: "il freine un peu moins par temps sec et il est relativement fragile"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-perfore-fragilite
+    section: "## Fonctionnement"
+    text_anchor: "ces disques sont relativement fragiles"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-fonte-proprietes
+    section: "## Fonctionnement"
+    text_anchor: "elle rouille facilement et elle est assez lourde, mais elle est très économique et efficace à l'emploi"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-chaleur-deux-defauts
+    section: "## Fonctionnement"
+    text_anchor: "Une chaleur trop élevée, ou mal évacuée, expose le disque à deux défauts"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: disque-faq-perfore-film-eau
+    section: "## FAQ"
+    text_anchor: "Ses petits trous rompent le film d'eau qui se forme entre le disque et la plaquette sous la pluie"
+    source_slug: wikipedia_fr_frein_a_disque
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture

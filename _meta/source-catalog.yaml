@@ -138,21 +138,29 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: oem_zf_trw_brake_judder
+      manifest_id: src-auto-capture-c38b7a9aba872406f01d1e9d420d9e1542f3ad9cc7fbc95c9d412b60a811993b
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/oem-zf-trw-brake-judder-dtv.md'
+    archived_at: 'automecanik-raw/sources/auto-captures/disque-de-frein/aftermarket-zf-com-wl-disque-de-frein-zf-broutement-c38b7a9a.md'
     status: to_capture
     license: captured_for_internal_review
     notes: |
-      Guidance atelier OE équipementier (ZF/TRW) sur le broutement (brake judder) :
-      seuils DTV (12-15 µm), voile latéral (< 0,05 mm), faux-rond moyeu (30 µm),
-      méthode au comparateur. Corrobore le symptôme brake_vibration_pedal
-      (variation d'épaisseur / faux-rond disque ou moyeu).
-      Provenance web-research : automecanik-raw/sources/web-research/disque-de-frein/
-      source-index.json (url zf.com .../for-workshops/.../brake-judder, level:
-      primary « OE primaire »). STATUS to_capture (2026-06-27) : capture standalone
-      du document OE à matérialiser ; les relations qui la citent gardent
-      diagnostic_safe: false jusqu'à archivage + revue humaine.
+      Page d'atelier équipementier « Brake Judder » (capture RAW 2026-10-10,
+      sha256:46ef0642…), rédigée en ANGLAIS : la fiche disque-de-frein en porte
+      une reformulation en français, la capture RAW reste dans sa langue d'origine.
+      Passages retenus : définition du broutement (vibrations de rotation du volant
+      au freinage, en général avec un bruit sourd) ; broutement thermique (dépôt de
+      matière de la plaquette sur le disque, zones durcies du disque) et broutement
+      à froid (pulsation de la pédale, cause principale = variation d'épaisseur du
+      disque) ; origines de la variation d'épaisseur (faux-rond dû au montage,
+      plaquettes ou pistons légèrement grippés, saleté, corrosion, serrage excessif,
+      longs trajets à freinages très légers) ; recherche pas à pas (essieu, chaîne
+      de freinage, roues, trains roulants) ; remplacement plaquettes et disques par
+      essieu complet « pour des raisons de sécurité » ; moyeu propre, plan, sans
+      excès de graisse ; idée reçue du « léger voile nécessaire » contredite.
+      Ne fonde PAS : de valeur publiable (les tolérances chiffrées de la page sont
+      volontairement non reprises dans une fiche sécurité), de règle d'usure ou
+      d'épaisseur minimale, de périodicité, ni aucune promesse produit (passages
+      marque et catalogue ignorés).
 
   - slug: oem_filter_maintenance_general
     title: 'Constructeurs OEM — recommandations entretien filtres'
@@ -188,15 +196,24 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: wikipedia_fr_frein_a_disque
+      manifest_id: src-auto-capture-88f2cfa406b96ea6fd9ed40f1ebec6045bc0b7d42a0934146fb6786397f13ef7
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/wikipedia-fr-frein-a-disque.md'
+    archived_at: 'automecanik-raw/sources/auto-captures/disque-de-frein/fr-wikipedia-org-wl-disque-de-frein-wikipedia-fr-88f2cfa4.md'
     status: to_capture
-    license: CC-BY-SA-3.0
+    license: captured_for_internal_review
     notes: |
-      URL canonique : https://fr.wikipedia.org/wiki/Frein_à_disque
-      Capture intégrale autorisée (CC-BY-SA-3.0). Action humaine Phase 3 via
-      extension Obsidian Web Clipper preset wikipedia-vehicle ou generic-article.
+      Article d'encyclopédie en français (capture RAW 2026-10-10, sha256:7359136c…).
+      Licence déclarée auparavant à ce catalogue : CC-BY-SA-3.0 ; la capture RAW
+      ne porte pas de licence (license: null, license_status: unknown).
+      wiki_externe = corroboration seulement, confiance plafonnée à low : ne prouve
+      seule aucune affirmation. Passages retenus : « Principe et fonctionnement »
+      (disque fixé sur le moyeu, plaquettes de chaque côté, étrier ou chape, énergie
+      cinétique transformée en chaleur à évacuer) ; « Disques » (fonte = matériau
+      de loin le plus utilisé) ; « Dissipation de la chaleur » (disque voilé ou
+      glacé si la chaleur est trop élevée ou mal évacuée, disques ventilés) ;
+      « Évacuation de l'eau » (disques perforés : rôle et inconvénients).
+      Ne fonde PAS : l'historique, les applications moto, avion et train, les
+      émissions de particules, ni les modèles de véhicules cités en légende.
 
   - slug: wikipedia_fr_plaquette_de_frein
     title: 'Wikipedia FR — Plaquette de frein'

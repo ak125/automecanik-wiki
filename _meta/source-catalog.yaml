@@ -139,9 +139,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-c38b7a9aba872406f01d1e9d420d9e1542f3ad9cc7fbc95c9d412b60a811993b
-      expected_sha256: null
+      expected_sha256: 'sha256:46ef0642d8ac7f34b2930913a45db75b785acbcbc7b230ce3cbf0150ac81757a'
     archived_at: 'automecanik-raw/sources/auto-captures/disque-de-frein/aftermarket-zf-com-wl-disque-de-frein-zf-broutement-c38b7a9a.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Page d'atelier équipementier « Brake Judder » (capture RAW 2026-10-10,
@@ -197,9 +197,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-88f2cfa406b96ea6fd9ed40f1ebec6045bc0b7d42a0934146fb6786397f13ef7
-      expected_sha256: null
+      expected_sha256: 'sha256:7359136cb80c9e21948e7c393fc5a78c960d0a749ff8c08e4c16b92f1a76a296'
     archived_at: 'automecanik-raw/sources/auto-captures/disque-de-frein/fr-wikipedia-org-wl-disque-de-frein-wikipedia-fr-88f2cfa4.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Article d'encyclopédie en français (capture RAW 2026-10-10, sha256:7359136c…).
@@ -223,9 +223,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-f3c3e816b59fe565eb03ac2ad027a5e1a9496ab6df1139e51571539b548c984a
-      expected_sha256: null
+      expected_sha256: 'sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933'
     archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Article encyclopédique (capture RAW 2026-10-10, sha256:9f3297f6…),
@@ -627,9 +627,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-c18ae54948c09ff83213e12e16dd1e85f115ffa97a3008589282516428a2ef04
-      expected_sha256: null
+      expected_sha256: 'sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8'
     archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Page équipementier (capture RAW 2026-10-10, sha256:05d748bc…).
@@ -651,9 +651,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-51e9790a643ad2b22c26188aa409d0ed1fb456b2f396c94be62016c9f4c82d6b
-      expected_sha256: null
+      expected_sha256: 'sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738'
     archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Page équipementier (capture RAW 2026-10-10, sha256:ac179373…).
@@ -678,9 +678,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-ebb13203d391b157d95a3d1bb3f54fa2ec3c7e55efc05f8fbfd9f3215bf961f6
-      expected_sha256: null
+      expected_sha256: 'sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e'
     archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Page équipementier (capture RAW 2026-10-10, sha256:87deee38…).
@@ -702,9 +702,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-565c00d21e16973beeb12521b32d694df35f2dcb58bc20afc4ebbf1362b13d57
-      expected_sha256: null
+      expected_sha256: 'sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37'
     archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Page équipementier (capture RAW 2026-10-10, sha256:6f4636a4…).
@@ -727,9 +727,9 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-a57fe2c9a006f4f2b06a68b52282ee1964b1923dea6a3c8f58f0178fb9d134eb
-      expected_sha256: null
+      expected_sha256: 'sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd'
     archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md'
-    status: to_capture
+    status: active
     license: captured_for_internal_review
     notes: |
       Page équipementier (capture RAW 2026-10-10, sha256:76b90102…).

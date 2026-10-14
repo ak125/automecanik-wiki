@@ -274,14 +274,30 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: wikipedia_fr_dacia
+      manifest_id: src-auto-capture-e3d3d4e674121ceb9948ff1f2d4a1f831070bcd951ec917995cbbcca9dde43d5
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/wikipedia-brand/wikipedia-fr-dacia.md'
+    archived_at: 'automecanik-raw/sources/auto-captures/divers/fr-wikipedia-org-wl-dacia-wikipedia-fr-e3d3d4e6.md'
     status: to_capture
-    license: CC-BY-SA-3.0
+    license: captured_for_internal_review
     notes: |
+      Article encyclopédique (capture RAW 2026-10-10, sha256:5c560f87…),
       URL canonique : https://fr.wikipedia.org/wiki/Dacia
-      Capture via preset wikipedia-brand (PR2 livré). Action humaine Phase 3.
+      Rôle : corroboration seulement (wiki_externe, plafond low) ; ne prouve
+      aucune affirmation de la fiche à lui seul.
+      Passages retenus : création de l'UAP (Pitești) le 16 septembre 1966,
+      devenue Automobile Dacia SA en 1990 ; contrat définitif du 2 juillet
+      1999 par lequel Renault acquiert les huit sociétés du groupe Dacia ;
+      Dacia 1100 (Renault 8) puis Dacia 1300 (Renault 12) assemblées dès
+      1968-1969 ; Logan lancée en septembre 2004 ; Sandero, Duster, Lodgy,
+      Dokker, Jogger, Spring et Bigster avec leurs dates et plateformes ;
+      usines de Pitești, Tanger, Casablanca et Shiyan ; siège à Mioveni.
+      Ne fonde PAS : un prix, une part de marché chiffrée, une pièce
+      d'usure ou un intervalle d'entretien. L'article se contredit sur
+      l'année de fondation (1966 dans l'infobox, « fondée en 1968 » dans une
+      section) : la fiche retient 1966 (création de l'UAP) et le signale.
+      Licence : la valeur précédente du catalogue était CC-BY-SA-3.0 ; la
+      capture RAW porte license: null, license_status: unknown. Valeur alignée
+      sur les autres captures (revue interne).
 
   - slug: wikipedia_fr_citroen_c3
     title: "Wikipedia FR — Citroën C3"
@@ -411,21 +427,38 @@ sources:
   # ─── Brochures marketing constructeurs (publiques) ───────────────────────
 
   - slug: dacia_corporate_factsheet_2024
-    title: 'Dacia — Fiche corporate marketing 2024'
-    type: brochure
+    title: "Dacia — site constructeur dacia.fr (page d'accueil)"
+    type: marketing
     publisher: Dacia
-    year: 2024
+    year: 2026
     raw_ref:
       repo: automecanik-raw
-      manifest_id: dacia_corporate_factsheet_2024
+      manifest_id: src-auto-capture-464e5258f3087fd636a302c7c69da6a0f9edba0a99ad6a40746e318008109841
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/dacia_corporate_factsheet_2024.md'
+    archived_at: 'automecanik-raw/sources/auto-captures/divers/dacia-fr-wl-dacia-site-constructeur-464e5258.md'
     status: to_capture
-    license: proprietary_manufacturer
+    license: captured_for_internal_review
     notes: |
-      URL canonique : https://www.dacia.fr (page d'accueil corporate)
-      Capture intégrale autorisée si robots.txt permet — vérifier avant.
-      Référence pour fiche constructeur dacia.md.
+      Page d'accueil du site constructeur (capture RAW 2026-10-10,
+      sha256:c67d0c65…), capturée pour cette entrée par l'élément
+      wl-dacia-site-constructeur de la liste de capture RAW.
+      URL canonique : https://www.dacia.fr
+      Le slug est historique : la source n'est pas une fiche corporate 2024
+      mais la page d'accueil telle que capturée en 2026 ; titre, type
+      (marketing, même plafond medium que brochure) et année corrigés.
+      Rôle : corroboration seulement (plafond medium) ; ne prouve aucune
+      donnée technique.
+      Passages retenus : gamme présentée (Spring électrique, Sandero, Sandero
+      Stepway, Jogger, Duster, Bigster) ; version d'entrée du Bigster
+      « mild hybrid-G 140 » ; mention légale « RENAULT, en tant
+      qu'importateur DACIA en France ».
+      Ne fonde PAS : les prix et offres de la page (exclus du WIKI), la
+      motorisation de chaque modèle (badges « full hybrid » non rattachables
+      sans ambiguïté), ni le modèle « STRIKER » (cité sans description).
+      Licence : la valeur précédente du catalogue était
+      proprietary_manufacturer ; la capture RAW porte license: null,
+      license_status: unknown. Valeur alignée sur les autres captures
+      (revue interne).
 
   - slug: renault_rappel_constructeur
     title: 'Renault — Site rappels constructeur officiels'

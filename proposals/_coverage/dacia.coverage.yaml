@@ -1,61 +1,505 @@
 fiche: dacia
 schema_version: 1.0.0
-generated_at: '2026-05-02'
+generated_at: '2026-10-11'
 coverage_entries:
-  - claim_id: dacia-fondation-1966-pitesti
-    section: "## Histoire"
-    text_anchor: "fondé en 1966 à Pitești (Roumanie)"
+  # --- wikipedia_fr_dacia (article encyclopédique) — source to_capture, corroboration seulement (plafond low) ---
+  - claim_id: dacia-constructeur-roumain-siege-mioveni
+    section: "## Identité"
+    text_anchor: "Dacia est un constructeur automobile roumain dont le siège social est situé à Mioveni, en Roumanie"
     source_slug: wikipedia_fr_dacia
     evidence_type: wikipedia_factual
     confidence: low
-    source_policy: 2_medium_concordant
+    source_policy: manual_review
     source_status: pending_capture
 
-  - claim_id: dacia-rachat-renault-1999
-    section: "## Histoire"
-    text_anchor: "Renault Group rachète Dacia"
+  - claim_id: dacia-uap-creation-1966-pitesti
+    section: "## Identité"
+    text_anchor: "l'usine UAP (Uzina de Autoturisme Pitești), créée le 16 septembre 1966 à Pitești"
     source_slug: wikipedia_fr_dacia
     evidence_type: wikipedia_factual
     confidence: low
-    source_policy: 2_medium_concordant
+    source_policy: manual_review
     source_status: pending_capture
 
-  - claim_id: dacia-logan-2004-lancement
-    section: "## Histoire"
-    text_anchor: "Dacia Logan, lancée en 2004"
+  - claim_id: dacia-automobile-dacia-sa-1990
+    section: "## Identité"
+    text_anchor: "devenue Automobile Dacia SA en 1990"
     source_slug: wikipedia_fr_dacia
     evidence_type: wikipedia_factual
     confidence: low
-    source_policy: 2_medium_concordant
+    source_policy: manual_review
     source_status: pending_capture
 
-  - claim_id: dacia-gamme-actuelle-2024
-    section: "## Gamme actuelle"
-    text_anchor: "Modèles de la gamme commerciale Dacia (millésime 2024)"
+  - claim_id: dacia-acquisition-renault-2-juillet-1999
+    section: "## Identité"
+    text_anchor: "Par un contrat définitif signé le 2 juillet 1999, Renault a acquis les huit sociétés du groupe Dacia"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-marque-renault-group
+    section: "## Identité"
+    text_anchor: "Dacia est depuis une marque de Renault Group"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-positionnement-modeles-accessibles
+    section: "## Identité"
+    text_anchor: "La marque est positionnée sur des modèles financièrement plus accessibles"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-44-pays-2022
+    section: "## Identité"
+    text_anchor: "En 2022, les véhicules Dacia étaient commercialisés dans 44 pays, en Europe, au Maghreb, en Turquie, en Israël et au Liban"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-rebadge-renault-hors-marches
+    section: "## Identité"
+    text_anchor: "Ailleurs dans le monde, ils sont rebadgés sous la marque Renault"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  # --- dacia_corporate_factsheet_2024 (page d'accueil dacia.fr, 2026-10-10) — source to_capture, plafond medium ---
+  - claim_id: dacia-renault-importateur-france
+    section: "## Identité"
+    text_anchor: "En France, Renault est l'importateur de la marque Dacia"
     source_slug: dacia_corporate_factsheet_2024
-    evidence_type: brochure_marketing
+    evidence_type: manufacturer_homepage
     confidence: medium
-    source_policy: 2_medium_concordant
+    source_policy: manual_review
     source_status: pending_capture
 
-  - claim_id: dacia-sandero-leader-vente-particuliers
-    section: "## Gamme actuelle"
-    text_anchor: "Sandero (citadine 5 portes) — modèle le plus vendu en Europe particuliers depuis 2017"
+  # --- wikipedia_fr_dacia (article encyclopédique) — source to_capture, corroboration seulement (plafond low) ---
+  - claim_id: dacia-dix-millions-vehicules-2022
+    section: "## Identité"
+    text_anchor: "En avril 2022, Dacia a annoncé avoir atteint dix millions de véhicules produits"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-premieres-renault-sous-licence
+    section: "## Modèles principaux"
+    text_anchor: "Les premières Dacia sont des Renault produites sous licence à Pitești"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-1100-copie-renault-8-1968
+    section: "## Modèles principaux"
+    text_anchor: "La Dacia 1100, copie de la Renault 8, voit le jour le 3 août 1968"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-1100-pieces-produites-en-france
+    section: "## Modèles principaux"
+    text_anchor: "toutes ses pièces sont produites en France et assemblées en Roumanie"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-1300-identique-renault-12-1969
+    section: "## Modèles principaux"
+    text_anchor: "La Dacia 1300, identique à la Renault 12 aux logos et enjoliveurs près, est assemblée à partir du 20 août 1969"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-1300-production-1969-2006
+    section: "## Modèles principaux"
+    text_anchor: "Entre 1969 et 2006, 2 278 691 Dacia 1300 et dérivés ont été produites"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-1300-part-avant-logan
+    section: "## Modèles principaux"
+    text_anchor: "La 1300 représente plus de 90 % des Dacia produites avant la Logan"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-logan-lancement-2004-france-2005
+    section: "## Modèles principaux"
+    text_anchor: "La Logan est lancée en septembre 2004 et commercialisée en France à partir du 9 juin 2005"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-logan-mcv-2007-sept-places
+    section: "## Modèles principaux"
+    text_anchor: "la Logan MCV, produite en 2007, propose jusqu'à sept places"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-sandero-bresil-2007-europe-2008
+    section: "## Modèles principaux"
+    text_anchor: "La Sandero, citadine à cinq portes, sort au Brésil en 2007 et en Europe en 2008"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-duster-lancement-2010
+    section: "## Modèles principaux"
+    text_anchor: "Le SUV Duster est lancé en 2010"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-lodgy-dokker-2012
+    section: "## Modèles principaux"
+    text_anchor: "En 2012, Dacia présente le Lodgy, son premier monospace, et le Dokker, son premier ludospace"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-spring-premier-electrique-2021
+    section: "## Modèles principaux"
+    text_anchor: "La Spring, disponible depuis l'automne 2021, est le premier véhicule électrique de la marque"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-gamme-logan-iii
+    section: "## Modèles principaux"
+    text_anchor: "Logan III (depuis 2020), berline tricorps compacte, qui n'est plus distribuée en France depuis la troisième génération"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-gamme-sandero-iii-stepway
+    section: "## Modèles principaux"
+    text_anchor: "Sandero III (depuis 2020), citadine à cinq portes, déclinée en version Stepway à châssis surélevé"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-gamme-duster-iii
+    section: "## Modèles principaux"
+    text_anchor: "Duster III (depuis 2024), SUV compact à cinq portes"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-gamme-spring
+    section: "## Modèles principaux"
+    text_anchor: "Spring (depuis 2021), citadine électrique"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-gamme-jogger
+    section: "## Modèles principaux"
+    text_anchor: "Jogger (depuis 2021), break surélevé à cinq ou sept places"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-gamme-bigster
+    section: "## Modèles principaux"
+    text_anchor: "Bigster (depuis 2025), version rallongée du Duster III"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  # --- dacia_corporate_factsheet_2024 (page d'accueil dacia.fr, 2026-10-10) — source to_capture, plafond medium ---
+  - claim_id: dacia-gamme-site-dacia-fr-2026
+    section: "## Modèles principaux"
+    text_anchor: "les modèles Spring, Sandero, Sandero Stepway, Jogger, Duster et Bigster ; la Logan n'y figure pas"
     source_slug: dacia_corporate_factsheet_2024
-    evidence_type: brochure_marketing
+    evidence_type: manufacturer_homepage
     confidence: medium
-    source_policy: 2_medium_concordant
+    source_policy: manual_review
+    source_status: pending_capture
+
+  # --- wikipedia_fr_dacia (article encyclopédique) — source to_capture, corroboration seulement (plafond low) ---
+  - claim_id: dacia-ventes-cumulees-mars-2022
+    section: "## Modèles principaux"
+    text_anchor: "Au 1er mars 2022, les modèles les plus vendus depuis la création de la marque sont la Sandero (2 518 976 exemplaires)"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-sandero-plateforme-logan
+    section: "## Spécificités techniques"
+    text_anchor: "La Sandero est dérivée de la Logan, avec laquelle elle partage la plateforme et les motorisations"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-duster-chassis-logan
+    section: "## Spécificités techniques"
+    text_anchor: "Le premier Duster (2010) reprend le châssis de la Logan"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-plateforme-clio-v
+    section: "## Spécificités techniques"
+    text_anchor: "la Logan III et la Sandero III reposent sur la plateforme de la Renault Clio de cinquième génération"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-jogger-plateforme-motorisations
+    section: "## Spécificités techniques"
+    text_anchor: "Le Jogger (2021) hérite de cette plateforme et dispose des mêmes motorisations que la Logan et la Sandero"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-bigster-chassis-duster-iii
+    section: "## Spécificités techniques"
+    text_anchor: "Le Bigster repose sur le même châssis que le Duster III et dispose des mêmes finitions et moteurs"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-duster-iii-deux-ou-quatre-roues-motrices
+    section: "## Spécificités techniques"
+    text_anchor: "Le Duster III est disponible en deux ou quatre roues motrices"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-spring-k-ze-shiyan
+    section: "## Spécificités techniques"
+    text_anchor: "La Spring est une Renault City K-ZE rebadgée, assemblée en Chine à l'usine Dongfeng de Shiyan"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-spring-hors-roumanie-maroc
+    section: "## Spécificités techniques"
+    text_anchor: "c'est la première Dacia produite hors des usines roumaines ou marocaines"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-quatre-usines
+    section: "## Spécificités techniques"
+    text_anchor: "Dacia possède quatre usines : Pitești en Roumanie, Tanger et Casablanca au Maroc, et Shiyan en Chine"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-easy-r-electromecanique
+    section: "## Spécificités techniques"
+    text_anchor: "une boîte de vitesses pilotée, dénommée Easy-R, qui remplace le pilotage hydraulique contrôlé par l'électronique"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-easy-r-2015-pieces-reduites
+    section: "## Spécificités techniques"
+    text_anchor: "Dacia la propose en Europe à partir de 2015 ; son nombre de pièces a été réduit d'un quart"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  # --- dacia_corporate_factsheet_2024 (page d'accueil dacia.fr, 2026-10-10) — source to_capture, plafond medium ---
+  - claim_id: dacia-versions-entree-motorisations-2026
+    section: "## Spécificités techniques"
+    text_anchor: "TCe 100 (Sandero), Eco-G 120 (Sandero Stepway, Jogger et Duster) et mild hybrid-G 140 (Bigster)"
+    source_slug: dacia_corporate_factsheet_2024
+    evidence_type: manufacturer_homepage
+    confidence: medium
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-spring-electrique-site
+    section: "## Spécificités techniques"
+    text_anchor: "la Spring y est présentée comme électrique"
+    source_slug: dacia_corporate_factsheet_2024
+    evidence_type: manufacturer_homepage
+    confidence: medium
+    source_policy: manual_review
+    source_status: pending_capture
+
+  # --- wikipedia_fr_dacia (article encyclopédique) — source to_capture, corroboration seulement (plafond low) ---
+  - claim_id: dacia-faq-uap-1966
+    section: "## FAQ"
+    text_anchor: "L'usine UAP de Pitești, à l'origine de Dacia, a été créée le 16 septembre 1966"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-faq-premiere-voiture-1968
+    section: "## FAQ"
+    text_anchor: "La première voiture de la marque, la Dacia 1100, a vu le jour le 3 août 1968"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-faq-renault-licence
+    section: "## FAQ"
+    text_anchor: "Les premières Dacia étaient des Renault produites sous licence (Renault 8, puis Renault 12)"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-faq-rachat-renault-1999
+    section: "## FAQ"
+    text_anchor: "Renault a racheté Dacia le 2 juillet 1999, et la marque appartient depuis à Renault Group"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  # --- dacia_corporate_factsheet_2024 (page d'accueil dacia.fr, 2026-10-10) — source to_capture, plafond medium ---
+  - claim_id: dacia-faq-renault-importateur
+    section: "## FAQ"
+    text_anchor: "En France, Renault est l'importateur de Dacia"
+    source_slug: dacia_corporate_factsheet_2024
+    evidence_type: manufacturer_homepage
+    confidence: medium
+    source_policy: manual_review
+    source_status: pending_capture
+
+  # --- wikipedia_fr_dacia (article encyclopédique) — source to_capture, corroboration seulement (plafond low) ---
+  - claim_id: dacia-faq-usines
+    section: "## FAQ"
+    text_anchor: "Shiyan en Chine, où est assemblée la Spring"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-faq-plateforme-clio-v
+    section: "## FAQ"
+    text_anchor: "La Logan III, la Sandero III et le Jogger reposent sur la plateforme de la Renault Clio de cinquième génération"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-faq-bigster-chassis
+    section: "## FAQ"
+    text_anchor: "Le Bigster reprend le châssis du Duster III"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
+    source_status: pending_capture
+
+  - claim_id: dacia-faq-spring-k-ze
+    section: "## FAQ"
+    text_anchor: "La Spring est une Renault City K-ZE rebadgée"
+    source_slug: wikipedia_fr_dacia
+    evidence_type: wikipedia_factual
+    confidence: low
+    source_policy: manual_review
     source_status: pending_capture
 
 notes: |
-  Coverage map dacia — Phase 5.
-  5 claims couverts par 2 sources distinctes (1 medium + 1 low).
-  Source mix : wikipedia_fr_dacia (×3, faits historiques),
-  dacia_corporate_factsheet_2024 (×2, gamme actuelle marketing).
+  Coverage map dacia — réécrite 2026-10-11 avec la fiche.
 
-  Confidence_score impact prévu :
-  - mean(source_confidence) = (0.6×2 + 0.3×3) / 5 = 0.42
-  - 0.40 × 0.42 + 0.30 + 0.20 + 0 (pas ≥2 source_types distincts car wiki+brochure
-    seulement) = 0.17 + 0.30 + 0.20 + 0 = 0.67 (low-medium tier).
-  - reason_code: source_max_medium documenté (impossible d'atteindre 0.95
-    sans source OEM workshop Dacia — Phase 7).
+  52 claims, chacun rattaché à UNE page archivée dans RAW
+  (sources/auto-captures/divers/, PR RAW #69) :
+  - article encyclopédique (wikipedia_fr_dacia) : 47 claims, corroboration
+    seulement (plafond low) ;
+  - page d'accueil du site constructeur (dacia_corporate_factsheet_2024,
+    slug historique) : 5 claims (plafond medium).
+  Toutes les entrées sont en pending_capture (les deux sources sont
+  to_capture) et en manual_review : aucune des deux n'est une source de preuve
+  (manuel ou documentation atelier du constructeur), et la concordance d'une
+  source low et d'une source medium ne satisfait pas 2_medium_concordant.
+
+  Les cinq entrées de l'ancien registre sont remplacées : fondation 1966,
+  rachat de 1999 et lancement de la Logan sont repris sous de nouveaux
+  identifiants, ancrés sur la prose réécrite d'après l'article ; la gamme
+  « millésime 2024 » et la Sandero « la plus vendue en Europe aux
+  particuliers depuis 2017 » sont retirées, absentes des deux captures.
+
+  Passage en captured = acte propriétaire, après activation des deux sources
+  (expected_sha256 + status active) et relecture de chaque claim contre sa
+  capture. Promotion : exige une source de preuve constructeur, absente à ce
+  jour.

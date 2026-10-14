@@ -6,38 +6,82 @@ slug: dacia
 title: Dacia
 aliases:
   - DACIA
-  - Dacia Auto
   - Automobile Dacia
 lang: fr
 created_at: '2026-04-28'
-updated_at: '2026-05-02'
+updated_at: '2026-10-11'
 truth_level: L3
 source_refs:
   - kind: raw
-    path: recycled/rag-knowledge/constructeurs/dacia.md
-    captured_at: '2026-04-28'
+    path: sources/auto-captures/divers/fr-wikipedia-org-wl-dacia-wikipedia-fr-e3d3d4e6.md
+    cid: sha256:5c560f87ab0025e803985ebe0e465c01f9dea19c903db4c7cb1c3dcd83eaa41d
+    captured_at: '2026-10-10'
+    confidence: low
+  - kind: raw
+    path: sources/auto-captures/divers/dacia-fr-wl-dacia-site-constructeur-464e5258.md
+    cid: sha256:c67d0c659b36310fa5a5f2f4ae04932316b71e7e96d020977b6623f85122c4c7
+    captured_at: '2026-10-10'
+    confidence: medium
+  - kind: external_url
+    url: https://fr.wikipedia.org/wiki/Dacia
+    captured_at: '2026-10-10'
+    confidence: low
+  - kind: external_url
+    url: https://www.dacia.fr
+    captured_at: '2026-10-10'
+    confidence: medium
 provenance:
-  ingested_by: human:@fafa
+  ingested_by: skill:wiki-proposal-writer
   promoted_from: null
 review_status: proposed
 reviewed_by: null
 reviewed_at: null
 review_notes: |
-  Pilote ADR-031 Phase E constructeur entity. Tier 3 brand low-profile per
-  runbook §"Phase E" (dacia/seat/skoda parmi candidats Tier 3).
+  Révisée 2026-10-11 : chaque affirmation repose sur l'une des deux pages
+  archivées dans RAW (sources/auto-captures/divers/, PR RAW #69) : l'article
+  Wikipédia « Dacia », utilisé en corroboration seulement (plafond low), et la
+  page d'accueil de dacia.fr capturée le 10 octobre 2026 (site constructeur,
+  plafond medium). Les deux références external_url désignent les mêmes pages
+  que les références raw (même document, pas une source indépendante).
 
-  2026-05-02 (Phase 4 plan deja-verifier-existant) :
-  - Sections H2 alignées sur ordre canon _templates/new-constructeur.md
-    (Histoire / Gamme actuelle / Modèles couverts par le catalogue /
-    Pièces les plus demandées / Sources et provenance / Points à vérifier)
-  - Section "Résumé proposé / Faits extraits / Faits inférés / Zones ambiguës"
-    (template proposal draft) supprimées et fusionnées dans sections canon
-  - target_classes étendu [] → [KB_Knowledge, KB_Catalog]
-  - entity_data.models[] peuplé avec 7 modèles canon Dacia
-    (sandero, logan, duster, spring, jogger, lodgy, dokker)
-  - aliases enrichis avec "Automobile Dacia" (raison sociale historique)
+  Aucune des deux n'est une source de preuve (manuel ou documentation atelier
+  du constructeur) : toutes les entrées du registre de couverture sont en
+  manual_review, et la fiche ne peut pas être promue sur ces seules sources.
 
-  À reviewer humainement avant promotion vers wiki/constructeurs/.
+  Retirés faute de preuve archivée : l'ancienne référence recycled/rag-knowledge ;
+  l'initiative attribuée à Nicolae Ceaușescu ; l'origine du nom (province
+  antique), absente de la capture ; une production de la Dacia 1300 « jusqu'en
+  2004 » et son record de longévité (l'article donne 1969-2006) ; le prix
+  d'entrée de la Logan ; le « millésime 2024 » ; la Sandero « la plus vendue en
+  Europe aux particuliers depuis 2017 » ; toute la section des pièces les plus
+  demandées (intervalles et kilométrages) ; le partage de pièces avec Clio,
+  Modus, Twingo et Micra ; l'identifiant de marque interne ; une part de 55 %
+  détenue par Renault, que l'article contredit lui-même (cession de 51,005 % du
+  capital, puis acquisition des huit sociétés du groupe). L'alias « Dacia Auto »
+  n'est attesté par aucune capture : retiré.
+
+  Non repris de dacia.fr : prix, offres et loyers ; le modèle « STRIKER », cité
+  sans description ; les mentions « full hybrid », que la mise en page ne permet
+  pas de rattacher à un modèle précis.
+
+  L'article se contredit sur l'année de fondation (1966 dans l'encadré et
+  l'introduction, « fondée en 1968 » dans une section) : la fiche date de 1966
+  la création de l'UAP et de 1968 la première voiture, ce qui concilie les deux.
+
+  Sections alignées sur le gabarit _meta/templates/constructeur.md (Identité,
+  Modèles principaux, Spécificités techniques, FAQ), celui qu'appliquent
+  compute-confidence-score.py et le contrat d'ingestion ; la version précédente
+  suivait _templates/new-constructeur.md, qui propose un autre découpage.
+  Aucune page véhicule ni constructeur n'existe dans wiki/ : aucun lien n'est
+  posé, les modèles restent dans entity_data.models (liste inchangée, chaque
+  modèle y figurant est attesté par l'article). Tier : 3 conservé (runbook
+  Phase E) ; l'exemple de _meta/enums.yaml, qui classe Dacia en 2, n'est qu'une
+  illustration.
+
+  Licences : le catalogue indiquait CC-BY-SA-3.0 (Wikipédia) et
+  proprietary_manufacturer (dacia.fr) ; les deux captures portent license null
+  (license_status unknown). Valeur alignée sur les autres captures (revue
+  interne).
 no_disputed_claims: true
 exportable:
   rag: false
@@ -63,82 +107,80 @@ entity_data:
     - dacia-dokker
   tier: 3
   vlevel: V3
-confidence_score: 0.28
+confidence_score: 0.58
 ---
 
 # Dacia
 
-> 📥 **Proposition pilote ADR-031 Phase E** — extraite manuellement depuis `automecanik-rag/knowledge/constructeurs/dacia.md`. Marque Tier 3 retenue comme low-profile pour piloter le flux constructeur. Sections H2 ordre canon Phase 4 plan deja-verifier-existant.
+## Identité
 
-## Histoire
+Dacia est un constructeur automobile roumain dont le siège social est situé à Mioveni, en Roumanie.
 
-Dacia est un constructeur automobile roumain fondé en **1966** à **Pitești** (Roumanie), à l'initiative du gouvernement de Nicolae Ceaușescu. Le nom est dérivé de la province antique de **Dacia** (Roumanie historique).
+La marque trouve son origine dans l'usine UAP (Uzina de Autoturisme Pitești), créée le 16 septembre 1966 à Pitești et devenue Automobile Dacia SA en 1990.
 
-À l'origine, Dacia produit sous licence des modèles Renault (Renault 8 puis Renault 12 sous le nom Dacia 1300, produite jusqu'en 2004 — record de longévité de production en Europe).
+Par un contrat définitif signé le 2 juillet 1999, Renault a acquis les huit sociétés du groupe Dacia. Dacia est depuis une marque de Renault Group.
 
-En **1999**, **Renault Group** rachète Dacia et redéfinit son positionnement comme marque **low-cost moderne**. Premier modèle "nouvelle ère" : la Dacia Logan, lancée en **2004** — voiture conçue pour atteindre un prix d'entrée de gamme sous 5 000 € via plateforme partagée Renault simplifiée.
+La marque est positionnée sur des modèles financièrement plus accessibles.
 
-Depuis 2004, Dacia est devenue l'un des principaux moteurs de croissance du Groupe Renault, particulièrement sur les marchés Europe de l'Est, France, Espagne, Italie et Allemagne.
+En 2022, les véhicules Dacia étaient commercialisés dans 44 pays, en Europe, au Maghreb, en Turquie, en Israël et au Liban. Ailleurs dans le monde, ils sont rebadgés sous la marque Renault.
 
-## Gamme actuelle
+En France, Renault est l'importateur de la marque Dacia.
 
-Modèles de la gamme commerciale Dacia (millésime 2024) :
+En avril 2022, Dacia a annoncé avoir atteint dix millions de véhicules produits.
 
-- **Sandero** (citadine 5 portes) — modèle le plus vendu en Europe particuliers depuis 2017
-- **Sandero Stepway** (citadine surélevée look SUV)
-- **Logan** (berline tricorps low-cost)
-- **Duster** (SUV compact, lancement 2010, succès commercial majeur)
-- **Spring** (citadine 100% électrique, lancement 2021)
-- **Jogger** (familiale 5/7 places, lancement 2022)
-- **Bigster** (SUV familial, lancement 2024-2025)
+## Modèles principaux
 
-Modèles historiques arrêtés ou hors EU : Lodgy (monospace), Dokker (utilitaire), Logan MCV (break).
+Les premières Dacia sont des Renault produites sous licence à Pitești. La Dacia 1100, copie de la Renault 8, voit le jour le 3 août 1968 ; toutes ses pièces sont produites en France et assemblées en Roumanie. La Dacia 1300, identique à la Renault 12 aux logos et enjoliveurs près, est assemblée à partir du 20 août 1969.
 
-## Modèles couverts par le catalogue
+Entre 1969 et 2006, 2 278 691 Dacia 1300 et dérivés ont été produites. La 1300 représente plus de 90 % des Dacia produites avant la Logan.
 
-Slugs des fiches véhicule wiki canoniques :
+La Logan est lancée en septembre 2004 et commercialisée en France à partir du 9 juin 2005. Sa version break, la Logan MCV, produite en 2007, propose jusqu'à sept places.
 
-- [[dacia-sandero]] — toutes générations
-- [[dacia-logan]] — incluant Logan MCV (break)
-- [[dacia-duster]] — phase 1 (2010-2017) + phase 2 (2018-2024) + phase 3 (2024+)
-- [[dacia-spring]] — VE 100%
-- [[dacia-jogger]] — familiale 5/7 places
-- [[dacia-lodgy]] — historique 2012-2022
-- [[dacia-dokker]] — historique 2012-2022 (utilitaire)
+La Sandero, citadine à cinq portes, sort au Brésil en 2007 et en Europe en 2008. Le SUV Duster est lancé en 2010. En 2012, Dacia présente le Lodgy, son premier monospace, et le Dokker, son premier ludospace. La Spring, disponible depuis l'automne 2021, est le premier véhicule électrique de la marque.
 
-Note : à la date de cette fiche, les pages [[dacia-*]] vehicles ne sont pas encore dans `wiki/vehicles/`. Promotion croisée à effectuer en Phase F.3 du runbook ADR-031 (vehicles batch).
+La gamme actuelle décrite par l'article encyclopédique comprend :
 
-## Pièces les plus demandées
+- Logan III (depuis 2020), berline tricorps compacte, qui n'est plus distribuée en France depuis la troisième génération ;
+- Sandero III (depuis 2020), citadine à cinq portes, déclinée en version Stepway à châssis surélevé ;
+- Duster III (depuis 2024), SUV compact à cinq portes ;
+- Spring (depuis 2021), citadine électrique ;
+- Jogger (depuis 2021), break surélevé à cinq ou sept places ;
+- Bigster (depuis 2025), version rallongée du Duster III.
 
-Sur la base du catalogue de pièces compatibles toutes générations Dacia confondues, les gammes les plus demandées sont :
+La page d'accueil de dacia.fr présente, le 10 octobre 2026, les modèles Spring, Sandero, Sandero Stepway, Jogger, Duster et Bigster ; la Logan n'y figure pas.
 
-- [[plaquette-de-frein]] — pièce d'usure standard, demande forte sur Sandero/Logan/Duster
-- [[disque-de-frein]] — fréquemment associé au remplacement plaquettes
-- [[filtre-a-air]] — entretien planifié 30 000 km
-- [[filtre-a-huile]] — vidange chaque cycle
-- [[filtre-a-carburant]] — diesel 60 000 km
+Au 1er mars 2022, les modèles les plus vendus depuis la création de la marque sont la Sandero (2 518 976 exemplaires), la Dacia 1300 et ses dérivés (2 278 691), le Duster (2 032 669) et la Logan avec la Logan MCV (1 944 080).
 
-Pièces partagées avec la plateforme Renault (B0 / CMF-B / Logan-1 selon génération) : large recouvrement avec Renault Clio, Modus, Twingo II et Nissan Micra K12 (cf. fiches véhicule [[dacia-sandero]] § "Véhicules proches").
+## Spécificités techniques
 
-## Sources et provenance
+La Sandero est dérivée de la Logan, avec laquelle elle partage la plateforme et les motorisations. Le premier Duster (2010) reprend le châssis de la Logan.
 
-Sources canoniques utilisées (cf. `_quality/sources-brief.md` Phase 3) :
+Depuis 2020, la Logan III et la Sandero III reposent sur la plateforme de la Renault Clio de cinquième génération. Le Jogger (2021) hérite de cette plateforme et dispose des mêmes motorisations que la Logan et la Sandero.
 
-- **Wikipedia FR — Dacia** : https://fr.wikipedia.org/wiki/Dacia (license `CC-BY-SA-3.0`, capture intégrale autorisée via preset `wikipedia-brand` PR2 livré skill `web-clip-template`). À capturer Phase 3 humain via extension Obsidian.
-- **Site corporate Dacia** : https://www.dacia.fr (license `proprietary-manufacturer`, capture intégrale autorisée si robots.txt permet — vérifier). À capturer Phase 3 via preset `generic-article` ou `manuel-constructeur-pdf` (Phase 7).
-- **Wikipedia FR — Renault Group** (section AvtoVAZ) : https://fr.wikipedia.org/wiki/Renault_Group (CC-BY-SA-3.0). Référence pour historique groupe.
+Le Bigster repose sur le même châssis que le Duster III et dispose des mêmes finitions et moteurs. Le Duster III est disponible en deux ou quatre roues motrices.
 
-`brand_id (DB Supabase legacy)` : 47 — référencé par `__auto_marque`.
+La Spring est une Renault City K-ZE rebadgée, assemblée en Chine à l'usine Dongfeng de Shiyan : c'est la première Dacia produite hors des usines roumaines ou marocaines.
 
-## Points à vérifier
+Dacia possède quatre usines : Pitești en Roumanie, Tanger et Casablanca au Maroc, et Shiyan en Chine.
 
-- [ ] Vérifier `brand_id: 47` aligné DB Supabase (référencé par `__auto_marque`)
-- [ ] Confirmer `tier: 3` (peut basculer à 2 selon stratégie SEO 2026 — voir `r7-curation-method.md` vault). Note : Dacia Sandero est leader vente VP particuliers Europe depuis 2017 — argument pour tier 2.
-- [x] **2026-05-02** : `entity_data.models[]` peuplé avec 7 slugs canon (sandero, logan, duster, spring, jogger, lodgy, dokker)
-- [ ] Vérifier que les 7 slugs `dacia-*` correspondront aux fiches `wiki/vehicles/dacia-*.md` futures (Phase F.3 vehicles batch ADR-031)
-- [ ] Capturer Wikipedia FR Dacia via extension Obsidian preset `wikipedia-brand` (PR2 livré, voir `_quality/sources-brief.md`)
-- [ ] Capturer page corporate Dacia.fr (vérifier robots.txt avant)
-- [ ] Compléter `entity_data.vlevel` validation via `r7-curation-method.md`
-- [ ] Construire `_coverage/dacia.coverage.yaml` (Phase 5 plan parent)
-- [ ] Décider promotion → `wiki/constructeurs/dacia.md` (commit message obligatoire `promotion-from-proposals: dacia`)
-- [ ] Si promotion : `review_status: approved`, `reviewed_by: <email>`, `reviewed_at: <ISO date-time>`
+Renault a développé une boîte de vitesses pilotée, dénommée Easy-R, qui remplace le pilotage hydraulique contrôlé par l'électronique par des éléments électromécaniques. Dacia la propose en Europe à partir de 2015 ; son nombre de pièces a été réduit d'un quart.
+
+Sur la page d'accueil de dacia.fr du 10 octobre 2026, les versions d'entrée affichées portent les désignations TCe 100 (Sandero), Eco-G 120 (Sandero Stepway, Jogger et Duster) et mild hybrid-G 140 (Bigster) ; la Spring y est présentée comme électrique.
+
+## FAQ
+
+### Quand Dacia a-t-elle été créée ?
+
+L'usine UAP de Pitești, à l'origine de Dacia, a été créée le 16 septembre 1966. La première voiture de la marque, la Dacia 1100, a vu le jour le 3 août 1968.
+
+### Quel est le lien entre Dacia et Renault ?
+
+Les premières Dacia étaient des Renault produites sous licence (Renault 8, puis Renault 12). Renault a racheté Dacia le 2 juillet 1999, et la marque appartient depuis à Renault Group. En France, Renault est l'importateur de Dacia.
+
+### Où sont fabriquées les Dacia ?
+
+Dacia possède quatre usines : Pitești en Roumanie, Tanger et Casablanca au Maroc, et Shiyan en Chine, où est assemblée la Spring.
+
+### Quelles Dacia partagent leur plateforme avec d'autres modèles ?
+
+La Logan III, la Sandero III et le Jogger reposent sur la plateforme de la Renault Clio de cinquième génération. Le Bigster reprend le châssis du Duster III. La Spring est une Renault City K-ZE rebadgée.

@@ -1033,3 +1033,225 @@ def test_cited_only_archive_is_bound_to_the_decision(tmp_path, monkeypatch):
     cited.write_text("Changé après la décision, inventaire intact.\n", encoding="utf-8")
     ok, refusal = dec.authorize_apply(decision, cand, tmp_path, raw_root=raw)
     assert ok is False and refusal["code"] == "STALE_DECISION"
+
+
+# --- Safety Auto-Gate (quality-gates.md §7) : conditions composées, politique en code -
+SAFETY_FM = {**FM_OK, "slug": "colonne-de-direction", "no_disputed_claims": True}
+SAFETY_BODY = "## Rôle technique\n\nLa colonne transmet la rotation du volant au boîtier.\n"
+SAFETY_SHADOW = {"shadow_dims": {"A": 25.0, "C": 18.0}}
+
+
+def _safety_wiki(tmp_path, *, entries=(), body=SAFETY_BODY):
+    """Mini wiki : la fiche et, si fournie, sa coverage-map (clé = nom de fichier)."""
+    target = tmp_path / "proposals" / "colonne-de-direction.md"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(body, encoding="utf-8")
+    if entries:
+        import yaml
+        cov = tmp_path / "proposals" / "_coverage" / "colonne-de-direction.coverage.yaml"
+        cov.parent.mkdir(parents=True, exist_ok=True)
+        cov.write_text(yaml.safe_dump({"fiche": "colonne-de-direction",
+                                       "coverage_entries": list(entries)}), encoding="utf-8")
+    return target
+
+
+def _local(dec, tmp_path, *, fm=SAFETY_FM, body=SAFETY_BODY, shadow=SAFETY_SHADOW,
+           gate_results=None, entries=()):
+    target = _safety_wiki(tmp_path, entries=entries, body=body)
+    if gate_results is None:
+        gate_results = [(n, _gate_result("pass")) for n in dec.CANONICAL_GATE_NAMES]
+    return dec._safety_local_conditions(fm, body, target, tmp_path, shadow, gate_results)
+
+
+def test_safety_canonical_gate_names_are_the_loaded_gates():
+    """`no_quality_gate_fail` exige exactement les 5 contrôles de `_load_gates` : la liste
+    attendue ne peut pas dériver de celle réellement exécutée."""
+    dec = _load_decision()
+    assert tuple(n for n, _ in dec._load_gates()) == dec.CANONICAL_GATE_NAMES
+
+
+def test_safety_local_conditions_all_proven_on_a_clean_fiche(tmp_path):
+    dec = _load_decision()
+    local = _local(dec, tmp_path)
+    assert local["conditions"] and all(v is True for v in local["conditions"].values()), local
+
+
+_RELATION_SAFE = {"symptom": "volant_dur", "evidence": {
+    "confidence": "medium", "source_policy": "2_medium_concordant",
+    "reviewed": False, "diagnostic_safe": True}}
+_RULE_MANUAL = {"rule": "contrôle visuel", "evidence": {
+    "confidence": "low", "source_policy": "manual_review",
+    "reviewed": False, "diagnostic_safe": False}}
+
+
+@pytest.mark.parametrize("condition, overrides", [
+    ("dim_A_floor", {"shadow": {"shadow_dims": {"A": 21.9, "C": 18.0}}}),
+    ("dim_C_floor", {"shadow": {"shadow_dims": {"A": 25.0, "C": None}}}),
+    ("dim_C_floor", {"shadow": {"shadow_dims": {"A": 25.0, "C": True}}}),
+    ("no_quality_gate_fail", {"gate_results": "risk_fails"}),
+    ("no_quality_gate_fail", {"gate_results": "contradiction_missing"}),
+    ("numeric_exactitude_verified",
+     {"body": "## Rôle technique\n\nSerrer la colonne à 25 Nm.\n"}),
+    ("no_disputed_claims", {"fm": {**FM_OK, "slug": "colonne-de-direction"}}),
+    ("no_disputed_claims", {"fm": {**SAFETY_FM, "no_disputed_claims": "yes"}}),
+    ("diagnostic_live_authority_not_claimed",
+     {"fm": {**SAFETY_FM, "diagnostic_relations": [_RELATION_SAFE]}}),
+    ("no_manual_review_policy", {"fm": {**SAFETY_FM, "safety_rules": [_RULE_MANUAL]}}),
+    ("no_manual_review_policy", {"entries": [{
+        "claim_id": "c1", "section": "## Rôle technique",
+        "text_anchor": "La colonne transmet la rotation", "source_slug": "src_x",
+        "source_policy": "manual_review", "source_status": "captured"}]}),
+])
+def test_safety_each_local_condition_blocks_alone(tmp_path, condition, overrides):
+    """Chaque condition est isolée : la casser ne fait tomber qu'elle."""
+    dec = _load_decision()
+    kwargs = dict(overrides)
+    if kwargs.get("gate_results") == "risk_fails":
+        kwargs["gate_results"] = [(n, _gate_result("fail" if n == "risk" else "pass"))
+                                  for n in dec.CANONICAL_GATE_NAMES]
+    elif kwargs.get("gate_results") == "contradiction_missing":
+        kwargs["gate_results"] = [(n, _gate_result("pass"))
+                                  for n in dec.CANONICAL_GATE_NAMES if n != "contradiction"]
+    conditions = _local(dec, tmp_path, **kwargs)["conditions"]
+    assert conditions[condition] is False
+    assert [k for k, v in conditions.items() if v is not True] == [condition], conditions
+
+
+def test_safety_indeterminable_shadow_fails_both_floors_and_says_why(tmp_path):
+    dec = _load_decision()
+    local = _local(dec, tmp_path, shadow={"shadow_error": "manifest absent"})
+    assert [k for k, v in local["conditions"].items() if v is not True] == ["dim_A_floor",
+                                                                            "dim_C_floor"]
+    assert local["details"]["dim_A_floor"]["shadow_error"] == "manifest absent"
+
+
+def test_safety_malformed_evidence_lists_fail_closed_with_reported_error(tmp_path):
+    dec = _load_decision()
+    local = _local(dec, tmp_path, fm={**SAFETY_FM, "diagnostic_relations": "pas une liste"})
+    for name in ("diagnostic_live_authority_not_claimed", "no_manual_review_policy"):
+        assert local["conditions"][name] is False
+        assert "diagnostic_relations_malformed" in local["details"][name]["error"]
+
+
+def test_safety_numeric_anchored_on_captured_source_still_blocks_on_proposed_range(tmp_path):
+    """Valeur ancrée sur une source captée : la provenance est prouvée, mais aucune plage
+    `validated` n'existe → jamais `numeric_verified` (pas de valeur dimensionnée auto)."""
+    dec = _load_decision()
+    body = "## Montage\n\nIl faut serrer à 25 Nm la vis de colonne.\n"
+    target = _safety_wiki(tmp_path, body=body, entries=[{
+        "claim_id": "c1", "section": "## Montage", "text_anchor": "serrer à 25 Nm",
+        "source_slug": "src_x", "source_status": "captured"}])
+    result = dec._safety_numeric_exactitude(SAFETY_FM, body, target, tmp_path)
+    assert result["anchored_claims"] == 1
+    assert result["verified"] is False
+    assert not any("numeric_source_not_captured" in v for v in result["sample"]), result
+
+
+@pytest.mark.parametrize("where", [
+    "## Montage\n\nIl faut serrer à 25 Nm la vis.\n",          # prose non ancrée
+    "## Montage 25 Nm\n\nIl faut serrer la vis.\n",            # titre
+    "## Montage\n\n```\n25 Nm\n```\n",                          # bloc de code
+    "## Montage\n\nIl faut serrer ![25 Nm](x.png) la vis.\n",  # alt d'image
+])
+def test_safety_numeric_unanchored_rendered_value_is_unsourced(tmp_path, where):
+    """Toute valeur du texte rendu hors ancre est non sourcée, où qu'elle se trouve."""
+    dec = _load_decision()
+    target = _safety_wiki(tmp_path, body=where)
+    result = dec._safety_numeric_exactitude(SAFETY_FM, where, target, tmp_path)
+    assert result["verified"] is False
+    assert any("numeric_source_not_captured" in v for v in result["sample"]), result
+
+
+def _safety_bundle(dec, tmp_path, monkeypatch, **bundle):
+    """Substance réelle via evaluate_tier ; seul le tier shadow est fixé (planchers OK)."""
+    monkeypatch.setattr(dec, "_compute_shadow", lambda *a: SAFETY_SHADOW)
+    target = _safety_wiki(tmp_path)
+    substance = dec.evaluate_tier(SAFETY_FM, SAFETY_BODY, target, tmp_path, threshold=0.80,
+                                  gates=_gates(), compute_score=lambda *a: 0.99)
+    return {"substance": substance, **bundle}
+
+
+_ALL_PASS = {"coverage": {"status": "PASS", "evidence": {}},
+             "regression": {"verdict": "IMPROVED", "evidence": {}},
+             "provenance": {"status": "PASS", "evidence": {}}}
+
+
+def test_safety_all_conditions_proven_but_policy_unratified_blocks_once(tmp_path, monkeypatch):
+    dec = _load_decision()
+    assert dec.SAFETY_AUTO_APPROVAL_ADR is None  # flip = PR dédiée après l'ADR vault
+    d = dec.decide_promotion(_safety_bundle(dec, tmp_path, monkeypatch, **_ALL_PASS))
+    assert d["eligible"] is False and d["promotion_status"] == "BLOCKED"
+    assert [r["code"] for r in d["blocking_reasons"]] == ["SAFETY_HUMAN_REVIEW"]
+    evidence = d["blocking_reasons"][0]["evidence"]
+    assert evidence["blocking_conditions"] == []
+    assert evidence["policy"] == {"auto_approval_adr": None, "status": "not_ratified"}
+
+
+def test_safety_policy_ratified_and_all_conditions_proven_is_eligible(tmp_path, monkeypatch):
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "SAFETY_AUTO_APPROVAL_ADR", "ADR-TEST")
+    bundle = _safety_bundle(dec, tmp_path, monkeypatch, **_ALL_PASS)
+    assert bundle["substance"]["tier"] == "A"
+    d = dec.decide_promotion(bundle)
+    assert d["eligible"] is True and d["promotion_status"] == "ELIGIBLE"
+
+
+@pytest.mark.parametrize("missing, condition", [
+    ("coverage", "coverage_strict_pass"),
+    ("regression", "regression_gate_pass"),
+    ("provenance", "provenance_pass"),
+])
+def test_safety_absent_evaluator_is_never_a_pass_even_when_ratified(
+        tmp_path, monkeypatch, missing, condition):
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "SAFETY_AUTO_APPROVAL_ADR", "ADR-TEST")
+    rest = {k: v for k, v in _ALL_PASS.items() if k != missing}
+    d = dec.decide_promotion(_safety_bundle(dec, tmp_path, monkeypatch, **rest))
+    assert d["eligible"] is False
+    safety = next(r for r in d["blocking_reasons"] if r["code"] == "SAFETY_HUMAN_REVIEW")
+    assert safety["evidence"]["blocking_conditions"] == [condition]
+
+
+def test_safety_regressed_or_warn_coverage_blocks_safety_even_when_ratified(tmp_path, monkeypatch):
+    """WARN de couverture : advisory pour une fiche ordinaire, bloquant pour la sécurité."""
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "SAFETY_AUTO_APPROVAL_ADR", "ADR-TEST")
+    d = dec.decide_promotion(_safety_bundle(
+        dec, tmp_path, monkeypatch, **{**_ALL_PASS, "coverage": {"status": "WARN"},
+                                       "regression": {"verdict": "REGRESSED"}}))
+    safety = next(r for r in d["blocking_reasons"] if r["code"] == "SAFETY_HUMAN_REVIEW")
+    assert safety["evidence"]["blocking_conditions"] == ["coverage_strict_pass",
+                                                         "regression_gate_pass"]
+
+
+def test_safety_hand_built_check_without_conditions_never_passes(monkeypatch):
+    """Un check sécurité sans conditions évaluées n'est jamais un succès, même ratifié."""
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "SAFETY_AUTO_APPROVAL_ADR", "ADR-TEST")
+    substance = {"checks": [{"code": "SAFETY_HUMAN_REVIEW", "status": "fail",
+                             "owner_stage": "POLICY_SAFETY", "evidence": {"is_safety": True}}]}
+    d = dec.decide_promotion({"substance": substance, **_ALL_PASS})
+    safety = next(r for r in d["blocking_reasons"] if r["code"] == "SAFETY_HUMAN_REVIEW")
+    assert "safety_local_conditions_evaluated" in safety["evidence"]["blocking_conditions"]
+
+
+def test_load_numeric_ranges_absent_is_empty_and_malformed_raises(tmp_path):
+    dec = _load_decision()
+    assert dec.load_numeric_ranges(tmp_path / "absent.yaml") == {}
+    bad = tmp_path / "bad.yaml"
+    bad.write_text("families: [1, 2]\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="numeric_ranges_malformed"):
+        dec.load_numeric_ranges(bad)
+    broken = tmp_path / "broken.yaml"
+    broken.write_text("families: {a: [\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="numeric_ranges_unreadable"):
+        dec.load_numeric_ranges(broken)
+
+
+def test_numeric_ranges_are_a_decision_input(tmp_path):
+    """Valider une plage change la décision possible : le fichier est dans le manifest."""
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    manifest = dec.capture_input_manifest(cand, tmp_path, None, None)
+    roles = {e["role"] for e in manifest["input_manifest"]}
+    assert "numeric_ranges" in roles

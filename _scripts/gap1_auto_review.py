@@ -9,18 +9,17 @@ Report-only, 0 mutation (fiche/coverage écrites dans un dossier SHADOW temporai
 0 LLM, 0 DB, 0 promotion réelle. Réutilise les scorers/validateurs existants (verify-before-invent) — ne
 réimplémente rien.
 
-VERDICT — Safety Auto-Gate (cible owner 2026-07-03) : le goulot « revue humaine obligatoire » n'est PLUS un
-état cible. Le blocage sécurité devient :
-  • `auto_promote_eligible`               — non-sécurité, planchers OK (promote.py selon seuil owner).
-  • `auto_blocked`                        — non-sécurité, planchers KO (raisons exactes).
-  • `safety_auto_blocked`                 — sécurité, Safety Auto-Gate KO = raisons TECHNIQUES (page non
-                                            capturée, source pending, plancher KO) → capturer puis re-score.
-                                            PAS un besoin humain.
-  • `safety_blocked_pending_gate_buildout`— sécurité, gate PASS sur le calculable mais conditions restantes
-                                            (disputed/regression…) pas encore câblées (fail-closed).
-  • `blocked_by_current_safety_policy`    — sécurité, Safety Auto-Gate PASS mais ADR-091 impose encore une
-                                            revue → lever par AMENDEMENT VAULT (jamais contournement code).
-  • `safety_auto_approved`                — sécurité, gate PASS + ADR-091 amendé (`--adr091-amended`).
+VERDICT — Safety Auto-Gate (quality-gates.md §7). Un seul décideur : la décision canonique
+(`promotion_decision`) ; gap1 la REPORTE et y ajoute ses conditions sur les claims RAW extraits.
+  • `auto_promote_eligible`           — non-sécurité, décision canonique ELIGIBLE.
+  • `auto_blocked`                    — non-sécurité, décision canonique non éligible (codes exacts).
+  • `safety_auto_blocked`             — sécurité, ≥1 condition non prouvée : condition RAW de gap1, condition
+                                        de la Safety Auto-Gate canonique ou autre motif canonique. Raison
+                                        TECHNIQUE (capturer, sourcer, corriger), jamais une tâche humaine.
+  • `blocked_by_current_safety_policy`— sécurité, toutes les conditions prouvées ; seule la politique bloque
+                                        (`promotion_decision.SAFETY_AUTO_APPROVAL_ADR` vide). Se lève par une
+                                        PR WIKI citant l'ADR vault acceptée, jamais par option ni variable.
+  • `safety_auto_approved`            — sécurité, décision canonique ELIGIBLE et 0 condition RAW bloquante.
 Sources inconnues → `pending_source_validation` (Option A) : listées, ne comptent pas pour dim A.
 """
 from __future__ import annotations
@@ -43,20 +42,16 @@ NUMERIC_RANGES_PATH = REPO_ROOT / "_meta" / "numeric-plausibility.yaml"
 
 
 def _load_numeric_ranges() -> dict:
-    """{family: {quantity: {...}}} depuis numeric-plausibility.yaml.
+    """Plages chiffrées via le chargeur unique `promotion_decision.load_numeric_ranges`.
 
     Absent → {} (fail-closed : toute valeur → numeric_ambiguous, rien ne se vérifie).
-    Malformé → {} + message OBSERVABLE sur stderr (fail-closed, pas de repli silencieux)."""
-    if not NUMERIC_RANGES_PATH.exists():
-        return {}
-    import yaml
+    Illisible ou mal formé → {} + message OBSERVABLE sur stderr (fail-closed, pas de repli silencieux)."""
     try:
-        data = yaml.safe_load(NUMERIC_RANGES_PATH.read_text(encoding="utf-8")) or {}
-    except yaml.YAMLError as exc:
-        print(f"[numeric-lock] numeric-plausibility.yaml ILLISIBLE ({exc}) → 0 plage chargée, "
-              f"toute valeur numérique BLOQUÉE (fail-closed).", file=sys.stderr)
+        return promo_decision.load_numeric_ranges(NUMERIC_RANGES_PATH)
+    except ValueError as exc:
+        print(f"[numeric-lock] {exc} → 0 plage chargée, toute valeur numérique BLOQUÉE (fail-closed).",
+              file=sys.stderr)
         return {}
-    return data.get("families", {}) if isinstance(data, dict) else {}
 
 
 def _resolve_status(c: dict, catalog: dict, valid_sections: set) -> str:
@@ -133,55 +128,68 @@ def _is_safety(slug: str, fm: dict) -> bool:
         return True  # fail-closed
 
 
-DIM_A_FLOOR = 22.0
-DIM_C_FLOOR = 15.0
-
-# Safety Auto-Gate (cible owner 2026-07-03) — REMPLACE le human spot-check obligatoire par une porte
-# AUTOMATIQUE stricte. `human_review` n'est PLUS un état cible ; le blocage sécurité devient soit un
-# `safety_auto_blocked` TECHNIQUE (conditions de preuve KO → capture les pages, je re-score), soit un
-# `blocked_by_current_safety_policy` (gouvernance : ADR-091 impose encore une revue → lever par amendement
-# vault, JAMAIS par contournement code). Fail-closed : toute condition non satisfaite bloque.
-NOT_YET_WIRED = ["coverage_strict_pass", "no_quality_gate_fail", "no_disputed_claims",
-                 "diagnostic_safe", "regression_gate_pass"]
-
-
-def _safety_auto_gate(dims: dict, cov_report: dict,
-                      numeric_exactitude_verified: bool | None = None,
-                      source_catalog_raw_refs_ok: bool | None = None) -> dict:
-    """Conditions AUTO-vérifiables ici (les autres = à câbler avant tout auto-approve, fail-closed)."""
-    A = float(dims.get("A", 0.0) or 0.0)
-    C = float(dims.get("C", 0.0) or 0.0)
-    computable = {
-        "dim_A_floor": A >= DIM_A_FLOOR,
-        "dim_C_floor": C >= DIM_C_FLOOR,
+# Safety Auto-Gate — conditions propres à gap1, sur les claims RAW extraits (la fiche publiée, elle, est
+# jugée par la décision canonique : planchers A/C, 5 contrôles qualité, exactitude chiffrée du texte rendu,
+# no_disputed_claims, diagnostic_safe, manual_review, couverture stricte, régression, provenance, politique).
+def _raw_claim_conditions(cov_report: dict, numeric_exactitude_verified: bool | None = None,
+                          source_catalog_raw_refs_ok: bool | None = None) -> dict:
+    """None = non évalué (absent du résultat) ; bool = condition évaluée."""
+    conditions = {
         "page_level_all_captured": (cov_report.get("valid_entries", 0) > 0
                                     and cov_report.get("entries_page_pending_capped", 0) == 0),
         "no_pending_source_validation": cov_report.get("candidate_sources", 0) == 0,
     }
-    # lock valeur numérique sécurité (numeric_exactitude.py) — ADR-093 numeric-exactitude hole.
-    # None = non évalué (compat tests unitaires) ; bool = toutes valeurs sécurité `numeric_verified`.
+    # Lock valeur numérique sur TOUS les claims RAW authored (ADR-093 numeric-exactitude hole).
     if numeric_exactitude_verified is not None:
-        computable["numeric_exactitude_verified"] = bool(numeric_exactitude_verified)
-    # gate raw_ref cross-repo EXISTANT (gate_source_catalog_raw_refs, Plan P2) exécuté dans le flux (point 4).
-    # Condition DÉDIÉE : un échec FK/hash du raw_ref → bloque. DISTINCTE de `no_quality_gate_fail`
-    # (NOT_YET_WIRED) qui reste non-câblée (la suite quality-gates COMPLÈTE n'est pas exécutée ici).
-    # None = non évalué (compat) ; bool = 0 failure du gate raw_ref.
+        conditions["numeric_exactitude_verified"] = bool(numeric_exactitude_verified)
+    # Gate raw_ref cross-repo EXISTANT (gate_source_catalog_raw_refs, Plan P2) : échec FK/hash → bloque.
     if source_catalog_raw_refs_ok is not None:
-        computable["source_catalog_raw_refs_ok"] = bool(source_catalog_raw_refs_ok)
-    blocking = [k for k, ok in computable.items() if not ok]
-    return {"computable": computable, "blocking": blocking, "not_yet_wired": list(NOT_YET_WIRED)}
+        conditions["source_catalog_raw_refs_ok"] = bool(source_catalog_raw_refs_ok)
+    return conditions
 
 
-def compute_verdict(safety: bool, score: dict, cov_report: dict, adr091_amended: bool = False,
+def _safety_auto_gate(cov_report: dict, numeric_exactitude_verified: bool | None = None,
+                      source_catalog_raw_refs_ok: bool | None = None,
+                      promotion_decision: dict | None = None) -> dict:
+    """Union des conditions RAW de gap1 et de la décision canonique (jamais re-décidée ici).
+
+    `blocking` liste tout ce qui n'est pas prouvé ; `policy_only` ⇔ rien d'autre que la politique
+    (`SAFETY_HUMAN_REVIEW` sans condition bloquante). Fail-closed : décision absente ou non éligible
+    sans motif = bloquant."""
+    raw_claims = _raw_claim_conditions(cov_report, numeric_exactitude_verified, source_catalog_raw_refs_ok)
+    pdz = promotion_decision or {}
+    reasons = [r for r in (pdz.get("blocking_reasons") or []) if isinstance(r, dict)]
+    safety = next((r for r in reasons if r.get("code") == "SAFETY_HUMAN_REVIEW"), None)
+    safety_evidence = (safety or {}).get("evidence") or {}
+    eligible = pdz.get("eligible") is True and pdz.get("promotion_status") == "ELIGIBLE"
+    canonical = {
+        "promotion_status": pdz.get("promotion_status") or "NO_CANONICAL_DECISION",
+        "eligible": eligible,
+        "safety_blocking_conditions": list(safety_evidence.get("blocking_conditions") or []),
+        "other_blocking_codes": [r.get("code") for r in reasons if r.get("code") != "SAFETY_HUMAN_REVIEW"],
+        "policy": safety_evidence.get("policy"),
+    }
+    blocking = [k for k, ok in raw_claims.items() if not ok]
+    if not pdz:
+        blocking.append("canonical_decision_available")
+    if safety is not None and "blocking_conditions" not in safety_evidence:
+        blocking.append("canonical_safety_conditions_reported")
+    blocking += canonical["safety_blocking_conditions"] + canonical["other_blocking_codes"]
+    if pdz and not blocking and not eligible and safety is None:
+        blocking.append("canonical_decision_eligible")
+    return {"raw_claims": raw_claims, "canonical": canonical, "blocking": blocking,
+            "policy_only": not blocking and safety is not None}
+
+
+def compute_verdict(safety: bool, cov_report: dict, *,
                     numeric_exactitude_verified: bool | None = None,
                     source_catalog_raw_refs_ok: bool | None = None,
                     promotion_decision: dict | None = None) -> dict:
     """Verdict auto-review PUR (testable). Aucun `human_review`.
 
-    NON-sécurité (A4) : la promotion vient de la DÉCISION CANONIQUE EMBARQUÉE (promote.py
-    composition substance+coverage+regression+provenance), JAMAIS d'un tier/floor local —
-    gap1 REPORTE, ne décide plus la promotion. `promotion_decision is None` ⇒ auto_blocked
-    (fail-closed). Sécurité : Safety Auto-Gate (gouvernance ADR-091) inchangé."""
+    La promotion vient de la DÉCISION CANONIQUE EMBARQUÉE (promote.py : substance + coverage +
+    regression + provenance, et Safety Auto-Gate pour la sécurité), JAMAIS d'un tier/floor local.
+    `promotion_decision is None` ⇒ bloqué (fail-closed). Sécurité : union avec les conditions RAW."""
     if not safety:
         pdz = promotion_decision or {}
         if pdz.get("eligible") is True and pdz.get("promotion_status") == "ELIGIBLE":
@@ -192,21 +200,20 @@ def compute_verdict(safety: bool, score: dict, cov_report: dict, adr091_amended:
         status = pdz.get("promotion_status") or "NO_CANONICAL_DECISION"
         return {"verdict": "auto_blocked",
                 "reason": f"non-sécurité, décision canonique {status} : {codes or 'aucune décision fournie'}"}
-    dims = (score or {}).get("dims") or {}
-    gate = _safety_auto_gate(dims, cov_report, numeric_exactitude_verified, source_catalog_raw_refs_ok)
+    gate = _safety_auto_gate(cov_report, numeric_exactitude_verified, source_catalog_raw_refs_ok,
+                             promotion_decision)
     if gate["blocking"]:
         return {"verdict": "safety_auto_blocked", "gate": gate,
                 "reason": "Safety Auto-Gate KO (raisons techniques, PAS besoin humain) : "
-                          + ", ".join(gate["blocking"]) + " → capturer les pages OE puis re-score auto"}
-    if gate["not_yet_wired"]:
-        return {"verdict": "safety_blocked_pending_gate_buildout", "gate": gate,
-                "reason": "conditions gate définies mais pas encore câblées : " + ", ".join(gate["not_yet_wired"])}
-    if not adr091_amended:
+                          + ", ".join(gate["blocking"])}
+    if gate["policy_only"]:
         return {"verdict": "blocked_by_current_safety_policy", "gate": gate,
-                "reason": "Safety Auto-Gate PASS ; ADR-091 impose encore une revue → lever par AMENDEMENT VAULT "
-                          "(Safety Auto-Gate), jamais par contournement code"}
+                "reason": "Safety Auto-Gate : toutes les conditions prouvées ; auto-validation sécurité non "
+                          "ratifiée (promotion_decision.SAFETY_AUTO_APPROVAL_ADR vide) → se lève par PR WIKI "
+                          "citant l'ADR vault acceptée, jamais par contournement code"}
     return {"verdict": "safety_auto_approved", "gate": gate,
-            "reason": "Safety Auto-Gate PASS + ADR-091 amendé → auto-approuvé sans humain"}
+            "reason": "Safety Auto-Gate PASS, décision canonique ELIGIBLE "
+                      f"(politique {promo_decision.SAFETY_AUTO_APPROVAL_ADR})"}
 
 
 def _canonical_promotion(fiche_path: Path, wiki_root: Path, raw_root: Path) -> dict:
@@ -229,8 +236,7 @@ def _run(cmd: list[str]) -> tuple[int, str]:
     return p.returncode, (p.stdout + p.stderr)
 
 
-def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workdir: Path,
-           adr091_amended: bool = False) -> dict:
+def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workdir: Path) -> dict:
     workdir.mkdir(parents=True, exist_ok=True)
     (workdir / "_coverage").mkdir(exist_ok=True)
     fiche_path = workdir / f"{slug}.md"
@@ -271,8 +277,8 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
 
     # 3-ter) GATE raw_ref cross-repo EXISTANT (gate_source_catalog_raw_refs, Plan P2) exécuté DANS le flux
     #        GAP-1 → rend vrai le contrat G1 (active+raw_ref réellement vérifié par le gate, pas juste supposé).
-    #        Report-only ; alimente une condition DÉDIÉE de la Safety Auto-Gate (distincte de no_quality_gate_fail,
-    #        qui reste NOT_YET_WIRED : la suite quality-gates COMPLÈTE n'est pas câblée ici → backstop intact).
+    #        Report-only ; alimente une condition RAW DÉDIÉE de la Safety Auto-Gate (les 5 contrôles qualité
+    #        de la fiche sont, eux, jugés par la décision canonique : `no_quality_gate_fail`).
     raw_refs_ok, raw_ref_failures, raw_ref_warnings = _raw_ref_gate(cov_mod._load_catalog()["slugs"])
     # A6 : plus de `if safety else None` local. Le raw_ref/provenance NON-safety n'est PLUS ignoré
     # ici : il est ENFORCÉ par la décision canonique embarquée (provenance, A3/A4). Cette valeur ne
@@ -286,13 +292,13 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
     # 4) VERDICT auto-review — Safety Auto-Gate (0 `human_review` ; goulot humain remplacé par gate auto)
     tier = (score or {}).get("tier")
     floors_ko = (score or {}).get("floors_failed") or []
-    v = compute_verdict(safety, score, cov_report, adr091_amended, numeric_gate_input,
-                        raw_refs_gate_input, promotion_decision=promotion)
+    v = compute_verdict(safety, cov_report, numeric_exactitude_verified=numeric_gate_input,
+                        source_catalog_raw_refs_ok=raw_refs_gate_input, promotion_decision=promotion)
 
     return {
         "slug": slug,
         "safety_family": safety,
-        "adr091_amended": adr091_amended,
+        "safety_auto_approval_adr": promo_decision.SAFETY_AUTO_APPROVAL_ADR,
         "authoring": {"editorial_sections": author_report.get("editorial_sections"),
                       "facts_total": author_report.get("facts_total"),
                       "related_gammes": author_report.get("related_gammes"),
@@ -324,8 +330,8 @@ def review(slug: str, raw_root: Path, proposals_dir: Path, manifest: Path, workd
         "safety_auto_gate": v.get("gate"),
         "invariants": ["shadow-only (0 mutation proposals/catalog réel)", "0 LLM/0 DB/0 promotion",
                        "sources inconnues = pending_source_validation (ne comptent pas dim A)",
-                       "sécurité : blocage = gate AUTO (technique) ou policy ADR-091 (gouvernance) — "
-                       "jamais un goulot humain ; zéro-humain sécurité = amendement vault ADR-091"],
+                       "sécurité : blocage = gate AUTO (technique) ou politique (gouvernance) — "
+                       "jamais un goulot humain ; lever la politique = PR WIKI citant l'ADR vault acceptée"],
     }
 
 
@@ -336,13 +342,10 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--proposals-dir", type=Path, default=author_mod.PROPOSALS_DIR)
     ap.add_argument("--manifest", type=Path, default=REPO_ROOT / "_meta" / "reality-manifest.json")
     ap.add_argument("--workdir", type=Path, required=True, help="dossier SHADOW (hors proposals/ réel)")
-    ap.add_argument("--adr091-amended", action="store_true",
-                    help="ADR-091 amendé au vault (Safety Auto-Gate ratifié) → autorise safety_auto_approved. "
-                         "Défaut FALSE = ne JAMAIS auto-approuver sécurité par code (anti-contournement).")
     ap.add_argument("--out", type=Path, default=None)
     args = ap.parse_args(argv)
     rep = review(args.slug, args.raw_root.resolve(), args.proposals_dir.resolve(),
-                 args.manifest.resolve(), args.workdir.resolve(), args.adr091_amended)
+                 args.manifest.resolve(), args.workdir.resolve())
     js = json.dumps(rep, ensure_ascii=False, indent=2)
     if args.out:
         args.out.write_text(js, encoding="utf-8")

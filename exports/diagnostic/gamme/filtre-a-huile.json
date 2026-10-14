@@ -1,0 +1,82 @@
+{
+  "schema_version": "2.0.0",
+  "builder_version": "2.0.0",
+  "export_kind": "diagnostic_gamme",
+  "gamme_slug": "filtre-a-huile",
+  "wiki_path": "wiki/gamme/filtre-a-huile.md",
+  "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
+  "source_catalog_commit": "6bc00e7e38e0d0e1d64ea5c170617695bc77bf58",
+  "content_hash": "sha256:2b8b07c3c391b1fe2fa60250c09b6af14c95e2b4fe4f1ad14423d43749fbc507",
+  "relations": [
+    {
+      "relation_index": 0,
+      "relation_sha256": "sha256:1c0b7924c261bab53dfdd3dd27c726c5b953f890022127e0d66093fc0c2eae8d",
+      "symptom_slug": "voyant_huile",
+      "system_slug": "filtration",
+      "relation_to_part": "possible_cause",
+      "part_role": "hypothèse non établie — la notice Renault Clio 5 phase 1 décrit la conduite à tenir quand le voyant de pression d'huile s'allume (arrêt, contrôle du niveau, autre cause si le niveau est normal) sans attribuer cette alerte au filtre à huile",
+      "evidence": {
+        "confidence": "low",
+        "source_policy": "manual_review",
+        "reviewed": false,
+        "diagnostic_safe": false
+      },
+      "confidence_score_computed": 0.4,
+      "sources": [
+        {
+          "slug": "renault_clio5p1_alerte_pression_huile",
+          "catalog_slug": "renault_clio5p1_alerte_pression_huile",
+          "type": "oem_manual",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-a64b110a256a86ffebaf26d3db725afef93e914f922ecb8f4eff96c13b70e884",
+            "expected_sha256": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+          },
+          "raw_proven": true
+        }
+      ]
+    },
+    {
+      "relation_index": 1,
+      "relation_sha256": "sha256:deb2c3d35f3c40e6c6f971a16fb0bbc5fb6235de46c8eb88a412abc4b178bf39",
+      "symptom_slug": "perte_puissance_filtration",
+      "system_slug": "filtration",
+      "relation_to_part": "possible_cause",
+      "part_role": "hypothèse non établie pour la perte de puissance — les sources décrivent l'ouverture du by-pass quand le filtre est colmaté (huile non filtrée vers le moteur), sans établir qu'un filtre soit la cause d'une perte de puissance",
+      "evidence": {
+        "confidence": "low",
+        "source_policy": "manual_review",
+        "reviewed": false,
+        "diagnostic_safe": false
+      },
+      "confidence_score_computed": 0.6,
+      "sources": [
+        {
+          "slug": "filtron_oem_clapets_filtre_huile",
+          "catalog_slug": "filtron_oem_clapets_filtre_huile",
+          "type": "oem_manual",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-b8431d6ff4d46f8f4e7acf118fa89b3679683572706f59d159e6ab5e1c01ba6f",
+            "expected_sha256": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178"
+          },
+          "raw_proven": true
+        },
+        {
+          "slug": "mahle_oem_conception_filtre_huile",
+          "catalog_slug": "mahle_oem_conception_filtre_huile",
+          "type": "oem_manual",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-fa488c047addedba6909fc86d9a4c3d1b6529dc93c7039a84f0589342fc0a77b",
+            "expected_sha256": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589"
+          },
+          "raw_proven": true
+        }
+      ]
+    }
+  ]
+}

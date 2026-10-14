@@ -271,6 +271,32 @@ def test_safety_other_canonical_codes_block_alongside_safety_conditions() -> Non
     assert v["gate"]["blocking"] == ["provenance_pass", "PROVENANCE_GATE_UNAVAILABLE"]
 
 
+def test_safety_reason_separates_unavailable_from_failing_conditions() -> None:
+    """Une condition canonique non évaluable faute d'entrée est nommée comme telle, à part des
+    échecs ; la condition RAW homonyme, elle, reste un échec de contenu."""
+    ok = _cov(valid=27, pending_capped=0, candidates=0)
+    head = "Safety Auto-Gate KO (raisons techniques, PAS besoin humain) : "
+    absent = "non évaluables dans ce contexte (entrée absente) : "
+    cases = [
+        (["dim_A_floor", "proof_sources_min"], ["proof_sources_min"], None,
+         "dim_A_floor ; " + absent + "proof_sources_min"),
+        (["proof_sources_min", "numeric_exactitude_verified"],
+         ["proof_sources_min", "numeric_exactitude_verified"], None,
+         absent + "proof_sources_min, numeric_exactitude_verified"),
+        (["numeric_exactitude_verified"], ["numeric_exactitude_verified"], False,
+         "numeric_exactitude_verified ; " + absent + "numeric_exactitude_verified"),
+        # Décision incohérente (non évaluable hors des conditions bloquantes) : ignorée, bloqué.
+        (["dim_A_floor"], ["proof_sources_min"], None, "dim_A_floor"),
+    ]
+    for blocking, unavailable, numeric, expected in cases:
+        reason = _safety_reason(blocking)
+        reason["evidence"]["unavailable_conditions"] = unavailable
+        v = AR.compute_verdict(True, ok, numeric_exactitude_verified=numeric,
+                               promotion_decision=_decision(reasons=[reason]))
+        assert v["verdict"] == "safety_auto_blocked"
+        assert v["reason"] == head + expected, v["reason"]
+
+
 def test_non_safety_auto_promote_eligible() -> None:
     v = AR.compute_verdict(False, _cov(0, 0, 0), promotion_decision=ELIGIBLE)
     assert v["verdict"] == "auto_promote_eligible"
@@ -658,3 +684,51 @@ def test_review_wires_raw_ref_gate(tmp_path: Path, monkeypatch) -> None:
     assert any("source_unreferenceable" in f for f in rep["source_catalog_raw_refs"]["failures"])
     # sécurité (freinage) + gate FAIL → verdict bloqué avec la raison raw_ref
     assert "source_catalog_raw_refs_ok" in (rep.get("safety_auto_gate") or {}).get("blocking", [])
+
+
+def test_review_names_conditions_unavailable_in_the_shadow_workdir(tmp_path: Path, monkeypatch) -> None:
+    """Workdir shadow sans `_meta/source-catalog.yaml` : la décision canonique y est rendue,
+    compose `proof_sources_min` UNAVAILABLE en condition non évaluable, et le verdict la nomme
+    comme telle, jamais comme un échec. Hermétique : la COLLECTE réelle (gates click+pydantic,
+    projections des exporteurs) est remplacée par un fake runner injecté (le job minimal reste
+    click/pydantic-free) ; la VRAIE decide_promotion compose. Que le catalogue absent rende la
+    condition UNAVAILABLE est prouvé sur le vrai calcul par
+    test_promotion_decision.py::test_safety_local_conditions_absent_catalog_are_unavailable."""
+    monkeypatch.setenv("AUTOMECANIK_RAW_PATH", str(tmp_path / "raw-absent"))
+    meta = tmp_path / "_meta"; meta.mkdir(parents=True, exist_ok=True)
+    (meta / "source-catalog.yaml").write_text(yaml.safe_dump({"sources": []}), encoding="utf-8")
+    monkeypatch.setattr(CM, "SOURCE_CATALOG", meta / "source-catalog.yaml")
+    missing = "_meta/source-catalog.yaml absent de l'arbre évalué"
+    evaluated = []
+
+    def fake_runner(candidate_path, wiki_root, raw_root, baseline_path, threshold, gates, compute_score):
+        evaluated.append((Path(wiki_root), (Path(wiki_root) / "_meta" / "source-catalog.yaml").exists()))
+        local = {"conditions": {"dim_A_floor": True, "proof_sources_min": False},
+                 "details": {"dim_A_floor": {"value": 30.0, "floor": 20.0},
+                             "proof_sources_min": {"status": "UNAVAILABLE", "missing_input": missing}}}
+        substance = {
+            "tier": "B", "confidence_score": 0.9,
+            "gate_status": {"source": "pass", "claim": "pass", "contradiction": "pass",
+                            "risk": "pass", "confidence": "pass"},
+            "checks": [{"code": "SAFETY_HUMAN_REVIEW", "status": "fail", "owner_stage": "POLICY_SAFETY",
+                        "evidence": {"is_safety": True, **local}}],
+            "shadow_score": {"shadow_tier": "A"},
+            "numeric_flags": {"block": [], "observe": []},
+        }
+        return substance, {"status": "PASS", "fails": []}, {"verdict": "NEW"}, ([], []), True
+
+    monkeypatch.setattr(PD, "_run_real_evaluators", fake_runner)
+    pdir = _mk_proposal(tmp_path, "disque-de-frein", "Disque de frein")
+    _mk_bucket(tmp_path, "disque-de-frein", "selection_criteria", [BULLET])
+    workdir = tmp_path / "shadow"
+    rep = AR.review("disque-de-frein", tmp_path, pdir, _mk_manifest(tmp_path, []), workdir)
+    assert evaluated == [(workdir, False)]  # une décision, rendue sur le workdir sans catalogue
+    safety = next(r for r in rep["promotion_decision"]["blocking_reasons"]
+                  if r["code"] == "SAFETY_HUMAN_REVIEW")
+    assert safety["evidence"]["details"]["proof_sources_min"] == {
+        "status": "UNAVAILABLE", "missing_input": missing}
+    assert safety["evidence"]["unavailable_conditions"] == ["proof_sources_min"]
+    assert rep["safety_auto_gate"]["canonical"]["safety_unavailable_conditions"] == ["proof_sources_min"]
+    failing, unavailable = rep["verdict_reason"].split(
+        " ; non évaluables dans ce contexte (entrée absente) : ")
+    assert unavailable == "proof_sources_min" and "proof_sources_min" not in failing

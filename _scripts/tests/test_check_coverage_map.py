@@ -184,6 +184,7 @@ _PARITY_BODIES = [p.read_text(encoding="utf-8") for d in ("proposals", "wiki")
     "## A\nLe **filtre** retient.\n### B\nEnfant.\n## A\nRépété.\n",
     "## A\n<!-- caché -->\n```\ncode\n```\n| x | y |\n|---|---|\n| 1 | 2 |\n",
     "intro\n## A\n- item <b>html</b>\n- item simple\n> cité\n",
+    "## A\nTexte <b>70</b> Nm.\n\n<div>\n<b>40</b>&nbsp;Nm\n</div>\n\nSuite.\n",
     *[ccm._split_md(text)[1] for text in _PARITY_BODIES],
 ])
 def test_visible_blocks_mark_exactly_the_anchorable_prose(body):
@@ -203,3 +204,192 @@ def test_visible_blocks_reach_text_that_is_not_anchorable_prose():
         assert value in texts, texts
     assert not any(b["anchorable"] for b in ccm.visible_text_blocks(body)
                    if any(v in b["text"] for v in ("120 Nm", "90 Nm", "80 Nm", "70 Nm", "60 Nm", "50 Nm")))
+
+
+@pytest.mark.parametrize("body, shown", [
+    ("Texte <b>70</b> Nm.\n", "Texte 70 Nm."),
+    ("<div>\n<b>40</b>&nbsp;Nm\n</div>\n", "40 Nm"),
+    ("<p>2,5&#8239;bar</p>\n", "2,5 bar"),
+])
+def test_visible_blocks_read_html_as_a_renderer_shows_it(body, shown):
+    # Un renderer HTML retire les balises et décode les entités : `<b>70</b> Nm` s'affiche
+    # « 70 Nm », valeur qu'aucune lecture du texte tel qu'écrit ne voit entière.
+    blocks = ccm.visible_text_blocks(body)
+    assert ("rendue", shown) in [(b["form"], b["text"]) for b in blocks], blocks
+    assert not any(b["anchorable"] for b in blocks)
+
+
+@pytest.mark.parametrize("body, form, text", [
+    # HTML brut, en bloc ou en ligne : tel qu'écrit, entités décodées ou non.
+    ('<div title="25&#32;mm">x</div>\n', "écrite", '<div title="25&#32;mm">x</div>'),
+    ('<div title="25&#32;mm">x</div>\n', "écrite", '<div title="25 mm">x</div>'),
+    ('Jeu <b title="25&#32;mm">x</b>.\n', "écrite", 'Jeu <b title="25&#32;mm">x</b>.'),
+    ('Jeu <b title="25&#32;mm">x</b>.\n', "écrite", 'Jeu <b title="25 mm">x</b>.'),
+    # Code : affiché tel quel ; info du bloc, écrite.
+    ("```\n25 \u339c\n```\n", "rendue", "25 mm"),
+    ("```25mm\nx\n```\n", "écrite", "25mm"),
+    # Liens et images : titre, destination aux échappements décodés, image du texte alternatif.
+    ('Voir [x](https://e.x "25 mm").\n', "écrite", "25 mm"),
+    ("Voir [x](https://e.x/25%20mm).\n", "écrite", "https://e.x/25 mm"),
+    ("![x](img/25%20mm.png)\n", "écrite", "img/25 mm.png"),
+    ("![![y](b/25%20mm.png)](a.png)\n", "écrite", "b/25 mm.png"),
+    # … et telle qu'écrite, échappements d'URL gardés (lien, image, autolien, définition).
+    ("Voir [x](<https://e.x/tarage :%45 bar>).\n", "écrite", "https://e.x/tarage :%45 bar"),
+    ("![x](img/25%20mm.png)\n", "écrite", "img/25%20mm.png"),
+    ("Voir <https://e.x/25%20mm>.\n", "écrite", "https://e.x/25%20mm"),
+    ("[r]: <https://e.x/%45 bar>\n", "écrite", "https://e.x/%45 bar"),
+    # Texte affiché : texte alternatif d'image (entités comprises), code, retour à la ligne.
+    ("Jeu ![25&#32;mm](x.png).\n", "rendue", "Jeu 25 mm."),
+    ("Jeu <b>x</b> `25` mm.\n", "rendue", "Jeu x 25 mm."),
+    ("Jeu <b>x</b> 25\nmm.\n", "rendue", "Jeu x 25 mm."),
+    # Définition de référence : ligne sans jeton, titre et destination, définition répétée comprise.
+    ('[r]: https://e.x/25&#32;mm "t"\n', "écrite", '[r]: https://e.x/25&#32;mm "t"'),
+    ('[r]: https://e.x/25&#32;mm "t"\n', "écrite", '[r]: https://e.x/25 mm "t"'),
+    ('[r]: https://e.x/25&#32;mm "t"\n', "sans balisage", 'r: https://e.x/25 mm "t"'),
+    ('[r]: https://e.x/25&#32;mm "t"\n', "écrite", "https://e.x/25 mm"),
+    ('[r]: /a\n[r]: /25%20mm "25 Nm"\n', "écrite", "25 Nm"),
+    ('[r]: /a\n[r]: /25%20mm "25 Nm"\n', "écrite", "/25 mm"),
+    # Définition imbriquée dans une citation ou une liste : son conteneur n'a pas de jeton pour elle.
+    ("> [jeu 25 mm]: https://e.x/n\n", "écrite", "> [jeu 25 mm]: https://e.x/n"),
+    ("- [jeu 25 mm]: https://e.x/n\n", "sans balisage", "- jeu 25 mm: https://e.x/n"),
+    # Sans balisage : entités, balises, commentaires, caractères de balisage, liens imbriqués.
+    ("```\n25&#32;mm\n```\n", "sans balisage", "25 mm"),
+    ("```\n25 <b>mm</b>\n```\n", "sans balisage", "25 mm"),
+    ("```\n25<!-- x --> mm\n```\n", "sans balisage", "25 mm"),
+    ("```\n25 *mm*\n```\n", "sans balisage", "25 mm"),
+    ("Serrer à 25\\Nm.\n", "sans balisage", "Serrer à 25Nm."),
+    ("Jeu de 25~mm.\n", "sans balisage", "Jeu de 25mm."),
+    ("Jeu ![[25](a) mm](b).\n", "sans balisage", "Jeu 25 mm."),
+    # Caractère de format (trait d'union conditionnel) retiré.
+    ("```\n25\u00admm\n```\n", "rendue", "25mm"),
+    # Hors prose ancrable : lu à la compatibilité près, invisibles retirés, exposant replié sauf
+    # celui de l'unité `mm²`.
+    ("Jeu de 2,5 \u339f et 3 \u33a5.\n", "rendue", "Jeu de 2,5 mm² et 3 m3."),
+    ("Jeu de 2,5 \u339f et 3 \u33a5.\n", "sans balisage", "Jeu de 2,5 mm² et 3 m3."),
+    ("Jeu de 25\u034fmm.\n", "rendue", "Jeu de 25mm."),
+    # `$` et commande TeX : aucune lecture en formule, lus sans balisage tels qu'écrits.
+    ("Serrer à $120\\Nm$.\n", "sans balisage", "Serrer à $120Nm$."),
+    ("Kit à 30 $ ; serrage 120\\Nm ; main-d'œuvre 50 $.\n", "sans balisage",
+     "Kit à 30 $ ; serrage 120Nm ; main-d'œuvre 50 $."),
+    ("```math\n120\\Nm\n```\n", "sans balisage", "120Nm"),
+])
+def test_visible_blocks_read_each_construct_in_its_form(body, form, text):
+    # Chaque construction est lue sous la forme que la docstring lui donne : le texte seul ne
+    # suffit pas, une autre forme le retrouverait souvent.
+    blocks = ccm.visible_text_blocks(body)
+    assert (form, text) in [(b["form"], b["text"]) for b in blocks], blocks
+
+
+@pytest.mark.parametrize("separator", ["\u2028", "\u0085", "\u000c", "\u2029", "\x1c"])
+def test_visible_blocks_count_lines_as_the_parser_does(separator):
+    # Un séparateur que l'analyseur ne compte pas comme une fin de ligne ne décale pas les lignes
+    # lues telles qu'écrites : la définition de note reste lue, pas le paragraphe qui la suit.
+    body = f"## Montage\n\nVoir{separator}la note[^1].\n\n[^1]: 25**Nm**\nTexte suivant.\n"
+    blocks = ccm.visible_text_blocks(body)
+    assert ("sans balisage", "^1: 25Nm") in [(b["form"], b["text"]) for b in blocks], blocks
+
+
+def test_visible_blocks_read_plain_prose_once_per_form():
+    # Une prose sans balisage : une fois rendue (ancrable), une fois sans balisage ; ses lignes
+    # sont couvertes par leur jeton et ne sont pas relues telles qu'écrites.
+    blocks = ccm.visible_text_blocks("Jeu de 25 mm.\n")
+    assert [(b["form"], b["text"], b["anchorable"], b["origin"]) for b in blocks] == [
+        ("rendue", "Jeu de 25 mm.", True, None), ("sans balisage", "Jeu de 25 mm.", False, 0)]
+
+
+@pytest.mark.parametrize("text, read", [
+    ("2,5 \u339f", "2,5 mm²"),           # ㎟ : décomposé, l'exposant de l'unité gardé
+    ("2,5 mm\u00b2", "2,5 mm²"),
+    ("x\u00b2 H\u2082O 25\u00b9", "x2 H2O 251"),  # tout autre exposant ou indice : replié, comme NFKC
+    ("1,2\u00b710\u00b2 Nm", "1,2·102 Nm"),
+    ("\u00b2\u2078 mm", "28 mm"),
+    ("\u2081\u2082\u2080 Nm", "120 Nm"),
+    ("120 \u1d3a\u1d50", "120 Nm"),
+    ("mm\u00b2\u2075", "mm25"),         # ² suivi d'un exposant : un nombre, pas l'unité
+    ("mm\N{SUPERSCRIPT TWO}\N{SUBSCRIPT FIVE}", "mm25"),   # … ou d'un indice
+    ("3 \u33a5", "3 m3"),
+    ("120 \u2103", "120 °C"),
+    ("\uff12\uff15 \uff4d\uff4d", "25 mm"),
+    ("25\u200b\u034f\u3164mm", "25mm"),  # invisibles retirés, dans et hors Cf
+    ("e\u0301  25", "é 25"),              # composé (NFC), espaces réduits
+])
+def test_compat_reads_like_nfkc_but_keeps_the_square_of_mm(text, read):
+    assert ccm._compat(text) == read
+
+
+def test_compat_char_is_nfkc_except_through_superscripts_and_subscripts():
+    # Exhaustif : la décomposition de `_compat_char` est celle de NFKC pour tout point de code,
+    # sauf quand elle passe par un exposant ou un indice, gardé tel quel.
+    import unicodedata
+
+    def through_super_or_sub(ch):
+        decomposition = unicodedata.decomposition(ch)
+        return decomposition.startswith(("<super>", "<sub>")) or any(
+            through_super_or_sub(chr(int(cp, 16))) for cp in decomposition.split() if not cp.startswith("<"))
+
+    differ = [cp for cp in range(0x110000) if not 0xD800 <= cp <= 0xDFFF
+              and unicodedata.normalize("NFC", ccm._compat_char(chr(cp))) != unicodedata.normalize("NFKC", chr(cp))]
+    assert differ and all(through_super_or_sub(chr(cp)) for cp in differ)
+
+
+def test_compat_of_each_character_is_nfkc_except_the_square_of_mm_and_blank_glyphs():
+    # Exhaustif : `_compat` lit chaque point de code comme NFKC (invisibles retirés, espaces
+    # réduits), sauf ㎟, seul dont la lecture produit l'unité `mm²`, et les glyphes vides, lus
+    # comme un espace.
+    import unicodedata
+
+    def nfkc(text):
+        return " ".join("".join(c for c in unicodedata.normalize("NFKC", text) if not ccm.invisible(c)).split())
+
+    differ = [cp for cp in range(0x110000) if not 0xD800 <= cp <= 0xDFFF
+              and ccm._compat(chr(cp)) != nfkc(chr(cp))]
+    # Attendu écrit en dur : une constante sous test ne fait pas son propre oracle.
+    assert differ == [0x2800, 0x339F, 0x13441, 0x13442, 0x16FE4, 0x1D159]
+
+
+def test_invisible_is_format_or_default_ignorable():
+    # Exhaustif, oracle indépendant du code : catégorie Cf, plus Default_Ignorable_Code_Point
+    # recopié de DerivedCoreProperties.txt (Unicode).
+    import unicodedata
+
+    ignorable = ((0x00AD, 0x00AD), (0x034F, 0x034F), (0x061C, 0x061C), (0x115F, 0x1160),
+                 (0x17B4, 0x17B5), (0x180B, 0x180D), (0x180E, 0x180E), (0x180F, 0x180F),
+                 (0x200B, 0x200F), (0x202A, 0x202E), (0x2060, 0x2064), (0x2065, 0x2065),
+                 (0x2066, 0x206F), (0x3164, 0x3164), (0xFE00, 0xFE0F), (0xFEFF, 0xFEFF),
+                 (0xFFA0, 0xFFA0), (0xFFF0, 0xFFF8), (0x1BCA0, 0x1BCA3), (0x1D173, 0x1D17A),
+                 (0xE0000, 0xE0000), (0xE0001, 0xE0001), (0xE0002, 0xE001F), (0xE0020, 0xE007F),
+                 (0xE0080, 0xE00FF), (0xE0100, 0xE01EF), (0xE01F0, 0xE0FFF))
+    points = [cp for cp in range(0x110000) if not 0xD800 <= cp <= 0xDFFF]
+    expected = [cp for cp in points if unicodedata.category(chr(cp)) == "Cf"
+                or any(lo <= cp <= hi for lo, hi in ignorable)]
+    assert [cp for cp in points if ccm.invisible(chr(cp))] == expected
+    # Cf hors de toute plage ignorable : retiré lui aussi
+    assert ccm._compat("25\ufffbNm") == ccm._compat("25\U000110bdNm") == "25Nm"
+
+
+@pytest.mark.parametrize("name", ["BRAILLE PATTERN BLANK", "EGYPTIAN HIEROGLYPH FULL BLANK",
+                                  "EGYPTIAN HIEROGLYPH HALF BLANK", "KHITAN SMALL SCRIPT FILLER",
+                                  "MUSICAL SYMBOL NULL NOTEHEAD"])
+def test_compat_reads_a_blank_glyph_as_a_space(name):
+    # Dessiné sans encre, il sépare le nombre de son unité comme un espace.
+    import unicodedata
+
+    ch = unicodedata.lookup(name)
+    assert ccm._compat(f"25{ch}Nm") == "25 Nm"
+    assert unicodedata.category(ch) != "Zs" and not ccm.invisible(ch)
+
+
+def test_visible_blocks_read_a_table_by_its_cells():
+    # Un tableau est un bloc feuille : chaque cellule est lue rendue (ancrable) et sans balisage,
+    # ses lignes source ne sont pas relues telles qu'écrites (une valeur ancrée y resterait).
+    blocks = ccm.visible_text_blocks("| Pièce | Jeu |\n| --- | --- |\n| Étrier | 25 mm |\n")
+    assert [(b["form"], b["text"], b["anchorable"]) for b in blocks] == [
+        (form, cell, form == "rendue") for cell in ("Pièce", "Jeu", "Étrier", "25 mm")
+        for form in ("rendue", "sans balisage")]
+
+
+def test_form_text_reads_an_excerpt_like_its_derived_block():
+    # Un extrait ancré est masqué dans les blocs dérivés sous leur forme : sans balisage, le
+    # caractère `_` d'une référence disparaît comme dans le bloc.
+    assert ccm.form_text("Jeu de 25 mm (cote_A)", "sans balisage") == "Jeu de 25 mm (coteA)"
+    assert ccm.form_text("Jeu de 25\u00a0mm (cote_A)", "rendue") == "Jeu de 25 mm (cote_A)"

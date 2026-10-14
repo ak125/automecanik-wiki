@@ -166,6 +166,8 @@ def _safety_auto_gate(cov_report: dict, numeric_exactitude_verified: bool | None
         "promotion_status": pdz.get("promotion_status") or "NO_CANONICAL_DECISION",
         "eligible": eligible,
         "safety_blocking_conditions": list(safety_evidence.get("blocking_conditions") or []),
+        # sous-ensemble des précédentes dont une entrée gouvernée manque au workdir (infra, pas contenu)
+        "safety_unavailable_conditions": list(safety_evidence.get("unavailable_conditions") or []),
         "other_blocking_codes": [r.get("code") for r in reasons if r.get("code") != "SAFETY_HUMAN_REVIEW"],
         "policy": safety_evidence.get("policy"),
     }
@@ -203,9 +205,16 @@ def compute_verdict(safety: bool, cov_report: dict, *,
     gate = _safety_auto_gate(cov_report, numeric_exactitude_verified, source_catalog_raw_refs_ok,
                              promotion_decision)
     if gate["blocking"]:
+        failing = list(gate["blocking"])
+        unavailable = [k for k in gate["canonical"]["safety_unavailable_conditions"] if k in failing]
+        for k in unavailable:  # une occurrence : la condition RAW homonyme reste un échec
+            failing.remove(k)
+        parts = ([", ".join(failing)] if failing else []) + (
+            ["non évaluables dans ce contexte (entrée absente) : " + ", ".join(unavailable)]
+            if unavailable else [])
         return {"verdict": "safety_auto_blocked", "gate": gate,
                 "reason": "Safety Auto-Gate KO (raisons techniques, PAS besoin humain) : "
-                          + ", ".join(gate["blocking"])}
+                          + " ; ".join(parts)}
     if gate["policy_only"]:
         return {"verdict": "blocked_by_current_safety_policy", "gate": gate,
                 "reason": "Safety Auto-Gate : toutes les conditions prouvées ; auto-validation sécurité non "
@@ -219,7 +228,10 @@ def compute_verdict(safety: bool, cov_report: dict, *,
 def _canonical_promotion(fiche_path: Path, wiki_root: Path, raw_root: Path) -> dict:
     """A4 : décision de promotion CANONIQUE (A3) sur le shadow fiche — gap1 EMBARQUE
     l'objet, ne re-décide/re-score/route pas. `wiki_root = workdir` (contexte shadow :
-    fiche pas encore dans le wiki ⇒ coverage/provenance UNAVAILABLE = honnête, route capture).
+    fiche pas encore dans le wiki ⇒ coverage/provenance UNAVAILABLE = honnête, route capture ;
+    sans `_meta/source-catalog.yaml` ni `_meta/numeric-plausibility.yaml` dans le workdir,
+    `proof_sources_min` et `numeric_exactitude_verified` sont UNAVAILABLE ; le contrôle chiffré
+    propre à gap1 lit, lui, les plages du dépôt).
     Fail-closed : toute erreur → décision UNKNOWN_FAIL_CLOSED typée (jamais skip silencieux)."""
     try:
         return promo_decision.canonical_promotion_decision(fiche_path, wiki_root, raw_root=raw_root)

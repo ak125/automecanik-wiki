@@ -271,10 +271,12 @@ def classify_all(claims: list[dict], *, family: str, ranges: dict) -> list[tuple
             corr = int(override) if override is not None else len(buckets.get(_corro_key(q, nv), ()))
             res.append((nv.raw, classify(nv, text, source_status=status, family=family,
                                           ranges=ranges, corroborating_sources=corr, quantity=q)))
-        # évasion silencieuse : uniquement pertinent quand la source est prouvée (sinon déjà source_not_captured)
-        if status in PROVEN_STATUSES:
-            for tok in _unverifiable_tokens(text, family, ranges, vals):
-                res.append((tok, "numeric_unit_conflict"))
+        # évasion silencieuse : chiffre à unité épelée ou sans unité, que `extract_values` ne voit pas.
+        # Source non prouvée → échec de provenance (même verdict que les valeurs extraites) ; sinon,
+        # un claim pending dont les seuls chiffres sont épelés produirait 0 violation.
+        verdict = "numeric_unit_conflict" if status in PROVEN_STATUSES else "numeric_source_not_captured"
+        for tok in _unverifiable_tokens(text, family, ranges, vals):
+            res.append((tok, verdict))
     return res
 
 

@@ -35,6 +35,7 @@ import subprocess
 import sys
 import stat
 import tempfile
+import unicodedata
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -103,9 +104,12 @@ def _substance_tier(substance: dict):
 
 
 def _reasons_from_substance(substance: dict) -> list[dict]:
-    """Dérive les BlockingReason typées depuis les CHECKS structurés (pas de prose, C0)."""
+    """Dérive les BlockingReason typées depuis les CHECKS structurés (pas de prose, C0).
+    SAFETY_HUMAN_REVIEW est composé à part (`_reasons_from_safety`)."""
     reasons: list[dict] = []
     for c in (substance or {}).get("checks", []):
+        if c.get("code") == "SAFETY_HUMAN_REVIEW":
+            continue
         if c.get("status") != "pass":
             reasons.append(blocking_reason(
                 c.get("code", "SUBSTANCE_UNKNOWN"),
@@ -159,6 +163,47 @@ def _reasons_from_provenance(provenance) -> list[dict]:
     return []
 
 
+_REGRESSION_PASS_VERDICTS = {"NEW", "NEUTRAL", "IMPROVED"}
+
+
+def _reasons_from_safety(substance: dict, bundle: dict) -> list[dict]:
+    """Safety Auto-Gate composée (quality-gates.md §7). Non-sécurité → aucun motif.
+
+    Sécurité → éligible seulement si les conditions locales (evaluate_tier), la couverture
+    stricte, la régression et la provenance PASSENT, ET si `SAFETY_AUTO_APPROVAL_ADR` est
+    renseignée. Un résultat absent (None) n'est jamais un succès. Sinon UN motif
+    SAFETY_HUMAN_REVIEW (identifiant historique) portant les conditions bloquantes et l'état
+    de la politique : blocage technique ou de gouvernance, jamais une tâche humaine."""
+    check = next((c for c in (substance or {}).get("checks", [])
+                  if c.get("code") == "SAFETY_HUMAN_REVIEW"), None)
+    if check is None or check.get("status") == "pass":
+        return []  # `_build_checks` : fail ⇔ famille sécurité
+    evidence = check.get("evidence") or {}
+    conditions = dict(evidence.get("conditions") or {})
+    if not conditions:
+        conditions["safety_local_conditions_evaluated"] = False
+    coverage = bundle.get("coverage") or {}
+    regression = bundle.get("regression") or {}
+    provenance = bundle.get("provenance") or {}
+    conditions["coverage_strict_pass"] = str(coverage.get("status", "")).upper() == "PASS"
+    conditions["regression_gate_pass"] = (
+        str(regression.get("verdict", "")).upper() in _REGRESSION_PASS_VERDICTS)
+    conditions["provenance_pass"] = str(provenance.get("status", "")).upper() == "PASS"
+    blocking = [k for k, ok in conditions.items() if ok is not True]
+    if not blocking and SAFETY_AUTO_APPROVAL_ADR:
+        return []
+    return [blocking_reason("SAFETY_HUMAN_REVIEW", check.get("owner_stage", "POLICY_SAFETY"),
+                            _SUBSTANCE_DETECTOR, {
+                                "is_safety": True,
+                                "conditions": conditions,
+                                "blocking_conditions": blocking,
+                                "details": evidence.get("details") or {},
+                                "policy": {"auto_approval_adr": SAFETY_AUTO_APPROVAL_ADR,
+                                           "status": "ratified" if SAFETY_AUTO_APPROVAL_ADR
+                                           else "not_ratified"},
+                            })]
+
+
 def decide_promotion(bundle: dict) -> dict:
     """PURE : compose un PromotionEvidenceBundle en PromotionDecision (0 I/O, 0 repo).
 
@@ -169,6 +214,7 @@ def decide_promotion(bundle: dict) -> dict:
     bundle = bundle or {}
     substance = bundle.get("substance") or {}
     reasons: list[dict] = list(_reasons_from_substance(substance))
+    reasons += _reasons_from_safety(substance, bundle)
     reasons += _reasons_from_coverage(bundle.get("coverage"))
     reasons += _reasons_from_regression(bundle.get("regression"))
     reasons += _reasons_from_provenance(bundle.get("provenance"))
@@ -270,6 +316,10 @@ _EVALUATION_ENGINE_FILES = (
     "promotion_decision.py", "quality-gates.py", "check-coverage-map.py",
     "compare-proposal-versions.py", "shadow_score.py", "compute-confidence-score.py",
     "editorial_sections.py", "requirements-scoring.txt", "gen_coverage_map.py",
+    # Safety Auto-Gate : classifieur, lock numérique, famille, et les 5 contrôles qualité.
+    "safety_families.py", "numeric_exactitude.py", "author_from_raw.py",
+    "gates/__init__.py", "gates/_common.py", "gates/source_gate.py", "gates/claim_gate.py",
+    "gates/contradiction_gate.py", "gates/risk_gate.py", "gates/confidence_gate.py",
 )
 
 
@@ -348,6 +398,7 @@ def capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path) -
     add("source_catalog", wiki_root / "_meta" / "source-catalog.yaml")
     add("coverage_schema", wiki_root / "_meta" / "schema" / "coverage-map.schema.json")
     add("reality_manifest", wiki_root / "_meta" / "reality-manifest.json")
+    add("numeric_ranges", wiki_root / NUMERIC_RANGES_RELPATH)
     # Coverage checker keys by filename; shadow loader keys by declared slug.
     # Capture both when different, including absence, before allowing any apply.
     for slug in sorted({Path(candidate_path).stem, fm.get("slug") or Path(candidate_path).stem}):
@@ -443,6 +494,38 @@ def _is_safety_proposal(fm: dict) -> bool:
         return _safety_families_mod.is_safety_proposal(fm)
     except Exception:
         return True  # fail-closed : doute → sécurité → revue humaine
+
+
+# --- Safety Auto-Gate (quality-gates.md §7) -------------------------------------
+# Une fiche sécurité n'est éligible que si TOUTES ses conditions sont prouvées ET que la
+# politique est levée. La politique est une constante de CODE, jamais une variable
+# d'environnement ni une option CLI : la lever = PR WIKI dédiée qui y inscrit l'ADR vault
+# ACCEPTÉE amendant ADR-091 §4 / ADR-093. Le fichier entre dans `decision_engine_revision` :
+# changer la constante invalide toute décision déjà rendue (STALE_DECISION).
+SAFETY_AUTO_APPROVAL_ADR: str | None = None
+# Planchers des dimensions shadow A (preuve) et C (couverture), en points bruts.
+SAFETY_DIM_FLOORS = {"A": 22.0, "C": 15.0}
+# Les 5 contrôles qualité attendus, dans l'ordre de `_load_gates` (test de parité).
+CANONICAL_GATE_NAMES = ("source", "claim", "contradiction", "risk", "confidence")
+NUMERIC_RANGES_RELPATH = Path("_meta") / "numeric-plausibility.yaml"
+
+
+def load_numeric_ranges(path) -> dict:
+    """{family: {quantity: {...}}} depuis `_meta/numeric-plausibility.yaml` — chargeur unique.
+
+    Absent → {} : aucune plage, aucune valeur ne peut être `numeric_verified` (fail-closed).
+    Illisible ou mal formé → ValueError ; l'appelant le rend observable, jamais de repli ici."""
+    path = Path(path)
+    if not path.is_file():
+        return {}
+    try:
+        data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except yaml.YAMLError as exc:
+        raise ValueError(f"numeric_ranges_unreadable: {exc}") from exc
+    families = data.get("families", {}) if isinstance(data, dict) else None
+    if not isinstance(families, dict):
+        raise ValueError("numeric_ranges_malformed: `families` doit être un mapping")
+    return families
 
 
 # --- Invariant ANTI-NUMBER-SWAPPING : valeurs numériques critiques → revue humaine -
@@ -599,16 +682,154 @@ def _serialize_gate_outcome(name: str, result) -> dict:
     }
 
 
+def _coverage_entries(wiki_root: Path, target: Path) -> list[dict]:
+    """Entrées de la coverage-map de la fiche, clé = nom de fichier (comme check_fiche)."""
+    path = Path(wiki_root) / "proposals" / "_coverage" / f"{Path(target).stem}.coverage.yaml"
+    if not path.is_file():
+        return []
+    data = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    if not isinstance(data, dict):
+        raise ValueError(f"coverage_map_malformed: {path.name}")
+    return [e for e in (data.get("coverage_entries") or []) if isinstance(e, dict)]
+
+
+def _safety_numeric_exactitude(fm: dict, body: str, target: Path, wiki_root: Path) -> dict:
+    """Chaque valeur chiffrée du texte PUBLIÉ doit être `numeric_verified`.
+
+    Un extrait ancré (`text_anchor` de la coverage-map, localisé dans sa section) porte le
+    statut et l'identité de sa source ; tout le reste du texte rendu — prose non ancrée,
+    titres, code, HTML, alt d'image — est non sourcé (`pending_capture`). Classification
+    déléguée à `numeric_exactitude` : aucune règle numérique n'est redéfinie ici."""
+    sys.path.insert(0, str(SCRIPTS_DIR))
+    import author_from_raw as _author
+    import numeric_exactitude as _ne
+    ccm = _load_module("_coverage_visible_text", "check-coverage-map.py")
+    blocks = [dict(b) for b in ccm.visible_text_blocks(body)]
+    claims: list[dict] = []
+    for entry in _coverage_entries(wiki_root, target):
+        anchor = entry.get("text_anchor")
+        if not isinstance(anchor, str) or not anchor.strip():
+            continue
+        needle = re.compile(re.escape(" ".join(unicodedata.normalize("NFC", anchor).split())),
+                            re.IGNORECASE)
+        for block in blocks:
+            if not block["anchorable"] or entry.get("section") not in block["sections"]:
+                continue
+            m = needle.search(block["text"])
+            if m:
+                claims.append({"text": m.group(0), "source_status": entry.get("source_status"),
+                               "source_id": entry.get("source_slug")})
+                # `;` borne la clause : le texte voisin ne s'attache pas à la valeur retirée
+                block["text"] = block["text"][:m.start()] + " ; " + block["text"][m.end():]
+                break
+    anchored = len(claims)
+    residual = " ; ".join(b["text"] for b in blocks if b["text"].strip())
+    if residual:
+        claims.append({"text": residual, "source_status": "pending_capture", "source_id": None})
+    family = _author._family_of(str(fm.get("slug") or Path(target).stem), fm) or ""
+    ranges = load_numeric_ranges(Path(wiki_root) / NUMERIC_RANGES_RELPATH)
+    violations = _ne.gate_numeric_value_exactitude(claims, family=family, ranges=ranges)
+    return {"verified": not violations, "violations_total": len(violations),
+            "sample": violations[:8], "anchored_claims": anchored,
+            "family": family or None, "ranges_loaded": bool(ranges)}
+
+
+def _sourced_entries(fm: dict):
+    """(label, entrée) des listes sourcées ADR-112/113 portant un objet `evidence`."""
+    diagnostic = fm.get("diagnostic")
+    if diagnostic is not None and not isinstance(diagnostic, dict):
+        raise ValueError("diagnostic_malformed: `diagnostic` doit être un mapping")
+    for label, items in (("diagnostic_relations", fm.get("diagnostic_relations")),
+                         ("diagnostic.quick_checks", (diagnostic or {}).get("quick_checks")),
+                         ("safety_rules", fm.get("safety_rules"))):
+        if items is None:
+            continue
+        if not isinstance(items, list):
+            raise ValueError(f"{label}_malformed: liste attendue")
+        for i, item in enumerate(items):
+            if isinstance(item, dict):
+                yield f"{label}[{i}]", item
+
+
+def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
+                             shadow, gate_results) -> dict:
+    """Conditions de la Safety Auto-Gate calculables sur la fiche elle-même. Couverture,
+    régression et provenance sont composées ensuite par `decide_promotion` (mêmes résultats
+    que pour toute fiche, jamais réévalués ici). Fail-closed : une condition dont le calcul
+    lève est FAUSSE et son erreur est rapportée."""
+    conditions: dict[str, bool] = {}
+    details: dict[str, Any] = {}
+
+    def record(name, compute):
+        try:
+            ok, detail = compute()
+        except Exception as exc:  # noqa: BLE001 — fail-closed, erreur rapportée
+            ok, detail = False, {"error": f"{type(exc).__name__}: {exc}"}
+        conditions[name] = ok is True
+        details[name] = detail
+
+    dims = (shadow or {}).get("shadow_dims") or {}
+
+    def dim_floor(dim, floor):
+        value = dims.get(dim)
+        number = isinstance(value, (int, float)) and not isinstance(value, bool)
+        return (number and value >= floor), {"value": value, "floor": floor,
+                                             "shadow_error": (shadow or {}).get("shadow_error")}
+
+    for dim, floor in SAFETY_DIM_FLOORS.items():
+        record(f"dim_{dim}_floor", lambda dim=dim, floor=floor: dim_floor(dim, floor))
+
+    def quality_gates():
+        names = tuple(n for n, _ in gate_results)
+        failing = [n for n, r in gate_results if r.status != "pass"]
+        return (names == CANONICAL_GATE_NAMES and not failing), {"gates": list(names), "failing": failing}
+
+    record("no_quality_gate_fail", quality_gates)
+
+    def numeric():
+        result = _safety_numeric_exactitude(fm, body, target, wiki_root)
+        return result["verified"], result
+
+    record("numeric_exactitude_verified", numeric)
+    # Déclaration explicite exigée ; la détection de contradiction dans la prose est un résidu V2.
+    record("no_disputed_claims",
+           lambda: (fm.get("no_disputed_claims") is True, {"value": fm.get("no_disputed_claims")}))
+
+    def live_authority():
+        claimed = [label for label, item in _sourced_entries(fm)
+                   if isinstance(item.get("evidence"), dict) and item["evidence"].get("diagnostic_safe") is True]
+        return not claimed, {"diagnostic_safe_true": claimed}
+
+    # `diagnostic_safe: true` = flip humain ciblé (quality-gates.md §diagnostic_safe), jamais auto.
+    record("diagnostic_live_authority_not_claimed", live_authority)
+
+    def manual_review():
+        flagged = [label for label, item in _sourced_entries(fm)
+                   if isinstance(item.get("evidence"), dict)
+                   and item["evidence"].get("source_policy") == "manual_review"]
+        flagged += [f"coverage_entries[{e.get('claim_id')}]" for e in _coverage_entries(wiki_root, target)
+                    if e.get("source_policy") == "manual_review"]
+        return not flagged, {"manual_review": flagged}
+
+    # `manual_review` = « fiche bloquée jusqu'à revue humaine » (schéma) : jamais levé par code.
+    record("no_manual_review_policy", manual_review)
+    return {"conditions": conditions, "details": details}
+
+
 def _build_checks(is_safety, numeric_block, gate_results, truth_level,
-                  score, threshold, gate_engine, shadow, kinds) -> list[dict]:
+                  score, threshold, gate_engine, shadow, kinds,
+                  safety_local=None) -> list[dict]:
     """Reconstruit les CHECKS structurés à partir des valeurs DÉJÀ calculées par
     evaluate_tier (aucune ré-exécution). Chaque check = {code, status, owner_stage,
     evidence} — le substrat machine-readable que `decide_promotion` consomme sans
     parser de prose (C0). `owner_stage` = domaine responsable du défaut.
     """
     checks: list[dict] = [
+        # Identifiant historique conservé (quality-gates.md §7). `decide_promotion` le compose
+        # avec couverture/régression/provenance et la politique (`_reasons_from_safety`).
         {"code": "SAFETY_HUMAN_REVIEW", "status": "fail" if is_safety else "pass",
-         "owner_stage": "POLICY_SAFETY", "evidence": {"is_safety": bool(is_safety)}},
+         "owner_stage": "POLICY_SAFETY",
+         "evidence": {"is_safety": bool(is_safety), **(safety_local or {})}},
         {"code": "NUMERIC_HIGH_HARM", "status": "fail" if numeric_block else "pass",
          "owner_stage": "POLICY_NUMERIC", "evidence": {"block": list(numeric_block[:5])}},
     ]
@@ -658,11 +879,8 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     # INVARIANT SÉCURITÉ (fail-closed, prioritaire) : famille sécurité-critique →
     # JAMAIS auto-promue, quels que soient la substance et le moteur de gate. Force
     # TIER B (revue humaine ≠ auteur). Miroir de auto_review_wiki_proposal (monorepo).
+    # Raison prose insérée en tête plus bas, une fois ses conditions locales calculées.
     is_safety = _is_safety_proposal(fm)
-    if is_safety:
-        reasons.append(
-            "safety: famille sécurité-critique → validation automatique non couverte ; bloquée"
-        )
 
     # INVARIANT ANTI-NUMBER-SWAPPING : valeurs HIGH-HARM (couple/pression) non
     # auto-vérifiables → revue humaine. Cotes/températures = observabilité (ne bloquent pas).
@@ -719,6 +937,16 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     if len(kinds) < MIN_DISTINCT_SOURCE_KINDS:
         reasons.append(f"source_refs kinds distincts={len(kinds)} (<{MIN_DISTINCT_SOURCE_KINDS})")
 
+    safety_local = None
+    if is_safety:
+        safety_local = _safety_local_conditions(fm, body, target, wiki_root, shadow, gate_results)
+        failed = [k for k, ok in safety_local["conditions"].items() if not ok]
+        if failed or not SAFETY_AUTO_APPROVAL_ADR:
+            why = (f"conditions non prouvées : {', '.join(failed)}" if failed else
+                   "conditions locales prouvées, auto-validation sécurité non ratifiée au vault")
+            reasons.insert(0, "safety: famille sécurité-critique → Safety Auto-Gate "
+                              f"({why}) ; décision composée par SAFETY_HUMAN_REVIEW")
+
     tier = "A" if not reasons else "B"
     return {
         "tier": tier,
@@ -728,7 +956,8 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         "gate_status": {n: r.status for n, r in gate_results},
         "gate_outcomes": [_serialize_gate_outcome(n, r) for n, r in gate_results],
         "checks": _build_checks(is_safety, numeric_flags["block"], gate_results,
-                                truth_level, score, threshold, gate_engine, shadow, kinds),
+                                truth_level, score, threshold, gate_engine, shadow, kinds,
+                                safety_local),
         "blocking_reasons": reasons,
         "shadow_score": shadow,
         "numeric_flags": numeric_flags,

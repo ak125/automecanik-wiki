@@ -153,6 +153,49 @@ def _prose_sections(body: str) -> dict[str, list[list[str]]]:
     return sections
 
 
+def visible_text_blocks(body: str) -> list[dict]:
+    """Every rendered text block of the body: prose, headings, code, HTML, image alt.
+
+    Same parse and section ranges as `_prose_sections`, which keeps only the
+    anchorable prose. `anchorable` marks exactly those blocks, so an anchor can
+    be located in its section; everything else is returned too, so that a value
+    scan of the published text has nothing outside its reach. Text is NFC with
+    collapsed whitespace but keeps its case (units such as `mm`/`MPa` are
+    case-sensitive). Link URLs are not rendered text and are not returned.
+    """
+    tokens = MarkdownIt("commonmark").enable("table").parse(body)
+    headings = [(i, int(t.tag[1:]), "#" * int(t.tag[1:]) + " " + tokens[i + 1].content.strip())
+                for i, t in enumerate(tokens)
+                if t.type == "heading_open" and t.level == 0]
+    ranges = []
+    for pos, (index, depth, label) in enumerate(headings):
+        if depth in (2, 3):
+            end = next((j for j, d, _ in headings[pos + 1:] if d <= depth), len(tokens))
+            ranges.append((index + 3, end, label))
+
+    def block(j: int, text: str, anchorable: bool) -> dict:
+        return {"text": " ".join(unicodedata.normalize("NFC", text).split()),
+                "sections": {label for start, end, label in ranges if start <= j < end},
+                "anchorable": anchorable}
+
+    blocks: list[dict] = []
+    for j, token in enumerate(tokens):
+        if token.type == "inline":
+            children = token.children or []
+            hidden = any(c.type == "html_inline" for c in children)
+            visible = "".join(c.content if c.type in ("text", "code_inline", "html_inline") else
+                              " " if c.type in ("softbreak", "hardbreak") else ""
+                              for c in children)
+            if visible.strip():
+                blocks.append(block(j, visible, tokens[j - 1].type != "heading_open" and not hidden))
+            alt = " ".join(c.content for c in children if c.type == "image")
+            if alt.strip():
+                blocks.append(block(j, alt, False))
+        elif token.type in ("fence", "code_block", "html_block") and token.content.strip():
+            blocks.append(block(j, token.content, False))
+    return blocks
+
+
 def check_fiche(md_path: Path, root: Path, catalog: set[str] | dict[str, dict], schema, *, require_source_proof: bool = False) -> dict:
     """Retourne {slug, status (PASS|WARN|FAIL), fails[], warns[]}."""
     if require_source_proof:

@@ -248,14 +248,24 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: wikipedia_fr_filtre_a_air
+      manifest_id: src-auto-capture-b930673714a9bfa7e2b38b4f9a3f3674e3731143ce0763f4efcd162b4dce04b1
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/wikipedia-fr-filtre-a-air.md'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/fr-wikipedia-org-wl-filtre-a-air-wikipedia-fr-b9306737.md'
     status: to_capture
-    license: CC-BY-SA-3.0
+    license: captured_for_internal_review
     notes: |
+      Article encyclopédique (capture RAW 2026-10-10, sha256:cceaf6c9…),
       URL canonique : https://fr.wikipedia.org/wiki/Filtre_à_air
-      Capture intégrale autorisée. Action humaine Phase 3.
+      Rôle : corroboration seulement (wiki_externe, plafond low) ; ne prouve
+      aucune affirmation de la fiche à lui seul.
+      Passages retenus : le filtre à air est constitué d'une ou de plusieurs
+      couches de matériau poreux, fibreux ou granulaire ; dans un véhicule à
+      moteur thermique, il se trouve en amont de l'entrée du système
+      d'admission et empêche les particules de l'air d'atteindre le moteur.
+      Ne fonde PAS : un intervalle de remplacement, ni un critère de choix.
+      Licence : la valeur précédente du catalogue était CC-BY-SA-3.0 ; la
+      capture RAW porte license: null, license_status: unknown. Valeur alignée
+      sur les autres captures (revue interne).
 
   - slug: wikipedia_fr_dacia
     title: 'Wikipedia FR — Dacia (constructeur)'
@@ -478,16 +488,30 @@ sources:
     year: 2026
     raw_ref:
       repo: automecanik-raw
-      manifest_id: web_carglass_filtre_habitacle_20260612
+      manifest_id: src-auto-capture-7fc8b2af44089196674ecab181e7d88aa9ecf4f7a32d1bb1993b94eaeda4eed5
       expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/filtre-d-habitacle/selection-criteria.md'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-d-habitacle/carglass-fr-wl-filtre-d-habitacle-carglass-7fc8b2af.md'
     status: to_capture
-    license: third_party_extract
+    license: captured_for_internal_review
     notes: |
+      Page de conseil d'un réseau de réparation (capture RAW 2026-10-10,
+      sha256:8102bfc9…), même URL que l'extrait reformulé de 2026-06-12
+      (RAW PR #22), désormais archivée en intégralité.
       URL canonique : https://www.carglass.fr/faq/answers/5929/quand-changer-le-filtre-d-habitacle
-      Faits reformulés capturés 2026-06-12, fetch direct OK (intervalles,
-      symptômes saturation, facteurs). Cf. automecanik-raw PR #22.
-      STATUS to_capture jusqu'au merge de la PR #22 ; passe à active ensuite.
+      Passages retenus : filtre d'habitacle simple ou à charbon actif, ce
+      dernier retenant aussi pollution, particules et mauvaises odeurs ;
+      encrassement plus rapide en ville ; mauvaises odeurs persistantes et
+      ventilation de plus en plus bruyante = signes d'encrassement ;
+      remplacement préconisé tous les ans ou tous les 15 à 20 000 km (note de
+      la page : recommandation Bosch, tous les ans ou tous les 15 000 km).
+      Ne fonde PAS (affirmations de la fiche absentes de la capture) :
+      odeurs « à la mise en route », filtre « chargé d'humidité », buée
+      persistante, débit d'air faible, « jusqu'à 90 % des allergènes »,
+      rétention des gaz NOx / ozone.
+      Licence : la valeur précédente du catalogue (third_party_extract)
+      décrivait l'extrait reformulé ; la capture RAW porte license: null,
+      license_status: unknown. Valeur alignée sur les autres captures (revue
+      interne).
 
   # ════════════════════════════════════════════════════════════════════
   # Filtre à huile (pg_id 7) — web-research RUN_TARGETED_RAW_TO_WIKI 2026-06-20

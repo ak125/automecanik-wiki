@@ -303,6 +303,12 @@
             "type": "object",
             "additionalProperties": false,
             "required": ["confidence", "source_policy", "reviewed", "diagnostic_safe"],
+            "dependentRequired": {
+              "reviewed_by": ["reviewed_at"],
+              "reviewed_at": ["reviewed_by"]
+            },
+            "if": { "required": ["reviewed_by"] },
+            "then": { "properties": { "reviewed": { "const": true } } },
             "properties": {
               "confidence": {
                 "type": "string",
@@ -319,9 +325,20 @@
                 "enum": ["1_high", "2_medium_concordant", "manual_review"]
               },
               "reviewed": {
-                "description": "Validation humaine effectuée ? Défaut false (ADR-033 §D4 conservateur). Flip → true uniquement après revue manuelle.",
+                "description": "Statut de relecture : par un humain, ou, pour une relation hors sécurité, par la règle de preuve d'ADR-116 (ADR-033 D1 amendé). Défaut false (ADR-033 §D4 conservateur). Flip → true par revue manuelle ou par la règle d'ADR-116, posée par le seul décideur WIKI à la promotion (reviewed_by, reviewed_at) ; une proposition porte toujours false.",
                 "type": "boolean",
                 "default": false
+              },
+              "reviewed_by": {
+                "description": "Relecture par la règle de preuve d'ADR-116 (D3) : rule:ADR-116@<révision du décideur>. Écrit uniquement par apply_promotion, avec reviewed: true, pour une relation hors sécurité dont toutes les conditions d'ADR-116 D2 sont prouvées ; une proposition qui le porte est bloquée (REVIEW_AUTHORITY_CLAIMED). Absent des contrôles et des règles (claim_evidence).",
+                "type": "string",
+                "pattern": "^rule:ADR-116@[0-9a-f]{64}$"
+              },
+              "reviewed_at": {
+                "description": "Horodatage UTC de la relecture par la règle (ADR-116 D3), écrit avec reviewed_by et seulement avec lui.",
+                "type": "string",
+                "format": "date-time",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\+00:00$"
               },
               "diagnostic_safe": {
                 "description": "Cette relation est-elle autorisée à influencer le moteur diagnostic LIVE (__diag_*) ? Sépare preuve SEO (suffit pour wiki) vs preuve diagnostic (exige rigueur). Défaut false. Flip → true exclusivement après revue humaine + commit signé reviewer ≠ auteur (ADR-033 critère §9).",
@@ -471,12 +488,14 @@
   },
   "$defs": {
     "claim_evidence": {
-      "description": "Preuve d'un contrôle ou d'une règle : même objet que diagnostic_relations[].evidence, sans strength (propre au lien symptôme → cause) ni confidence_score_computed (calculé pour les relations seulement).",
+      "description": "Preuve d'un contrôle ou d'une règle : même objet que diagnostic_relations[].evidence, sans strength (propre au lien symptôme → cause), ni confidence_score_computed (calculé pour les relations seulement), ni reviewed_by / reviewed_at (la règle d'ADR-116 ne relit que des relations, D1).",
       "$ref": "#/properties/diagnostic_relations/items/properties/evidence",
       "not": {
         "anyOf": [
           { "required": ["strength"] },
-          { "required": ["confidence_score_computed"] }
+          { "required": ["confidence_score_computed"] },
+          { "required": ["reviewed_by"] },
+          { "required": ["reviewed_at"] }
         ]
       }
     }

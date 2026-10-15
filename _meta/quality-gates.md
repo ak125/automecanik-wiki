@@ -163,7 +163,7 @@ Conditions cumulatives pour le moteur legacy actuellement sélectionné :
 - score déterministe au moins 0.85, niveaux L1/L2 et deux types de sources distincts ;
 - couverture stricte et provenance vérifiables, aucune régression bloquante ;
 - aucune condition de sécurité ou valeur critique que le moteur ne sait pas vérifier ;
-- aucune relecture ni autorité diagnostic déclarée par la proposition elle-même (`evidence.reviewed`, `evidence.diagnostic_safe`, `diagnostic_not_applicable.reviewed` autres que false), quelle que soit la famille : motif `REVIEW_AUTHORITY_CLAIMED`. La correction attendue est de remettre ces valeurs à false. Leur bascule à true reste humaine ou couverte par une règle d'ADR explicite (ADR-033 D4, §5.bis) ;
+- aucune relecture ni autorité diagnostic déclarée par la proposition elle-même (`evidence.reviewed`, `evidence.diagnostic_safe`, `diagnostic_not_applicable.reviewed` autres que false, ou clé `evidence.reviewed_by` / `evidence.reviewed_at` présente, quelle que soit sa valeur), quelle que soit la famille : motif `REVIEW_AUTHORITY_CLAIMED`. La correction attendue est de remettre ces valeurs à false et de retirer le cachet. Leur bascule à true reste humaine ou couverte par une règle d'ADR explicite (ADR-033 D4, §5.bis ; pour `reviewed` des relations hors sécurité, ADR-116, ci-dessous) ;
 - empreintes des entrées et des moteurs identiques entre décision et écriture.
 
 Le seuil 0.85 conserve le plancher de qualité déjà documenté. Ce n'est ni une probabilité de vérité ni une calibration statistique démontrée. L'ancien défaut 1.01 désactivait toutes les promotions ; il est remplacé par 0.85. Le CLI permet seulement de renforcer ce seuil jusqu'à 1.0. Le moteur six dimensions reste un chantier distinct, sans bascule implicite.
@@ -204,6 +204,25 @@ Une condition dont le calcul échoue est fausse et son erreur est rapportée. Un
 Même toutes conditions prouvées, la fiche reste bloquée tant que la constante de code `SAFETY_AUTO_APPROVAL_ADR` (`promotion_decision.py`) est vide : le motif `SAFETY_HUMAN_REVIEW` porte alors `policy.status: not_ratified`. Elle ne se lève ni par variable d'environnement ni par option CLI, mais par une PR WIKI dédiée qui y inscrit l'ADR vault acceptée amendant ADR-091 §4 et ADR-093. Le fichier entre dans l'empreinte du moteur de décision : changer la constante invalide toute décision déjà rendue. Depuis ADR-114 (acceptée le 2026-10-15), la constante vaut `"ADR-114"` ; la remettre à vide referme la gate.
 
 `gap1_auto_review.py` reporte cette décision et y ajoute ses conditions sur les claims RAW extraits (pages captées, sources candidates, valeurs chiffrées, `raw_ref` du catalogue) ; il ne décide rien seul. Les entrées gouvernées absentes de son répertoire de travail (`_meta/source-catalog.yaml`, `_meta/numeric-plausibility.yaml`, que la revue n'y copie pas) y rendent `proof_sources_min` et `numeric_exactitude_verified` `UNAVAILABLE` : elles sont rapportées à part, « non évaluables dans ce contexte », et restent bloquantes ; son propre contrôle chiffré des claims RAW lit les plages du dépôt. Résidus V2 : détection de contradiction dans la prose (aujourd'hui déclarative), validation des plages chiffrées, ancrage d'une valeur du frontmatter ou d'un export à sa source.
+
+### Relecture des relations hors sécurité par la règle de preuve (ADR-116)
+
+Pour chaque entrée `diagnostic_relations[]` d'une fiche hors sécurité (pas `is_safety_proposal` ; un doute vaut sécurité), le décideur calcule les conditions d'ADR-116 D2. Il les calcule dans `evaluate_tier` (`relation_review`) et les compose dans la décision (`relation_review.relations[]`). Une relation est relue par la règle si toutes sont prouvées :
+
+- `fiche_eligible` : la fiche qui la porte est `ELIGIBLE` ;
+- `not_safety` : la fiche n'est pas une proposition de sécurité ;
+- `sources_raw_proven` : chaque source de la relation est `raw_proven` au sens de l'export diagnostic (`active` avec `raw_ref`) ;
+- `citations_anchored` : au moins une citation, toutes valides (`_citation_issues`) et ancrées dans l'archive RAW épinglée (`gate_citation_anchors`) ;
+- `proof_publishers_min` : au moins 3 éditeurs distincts de rôle `proof` parmi les sources des citations ancrées, comptés comme `proof_sources_min` de la Safety Auto-Gate ;
+- `source_policy_resolved` : `source_policy` posée et différente de `manual_review`, aucun `source_policy_violated` ni `schema_invalid` sur l'entrée ;
+- `numeric_verified` : le texte publié de la relation (fiche et export diagnostic) a au moins une chaîne lue et aucune violation chiffrée (`numeric_exactitude_verified`, attribuée par relation) ;
+- `no_review_claimed` : aucun motif `REVIEW_AUTHORITY_CLAIMED`.
+
+Une condition dont le calcul échoue est fausse et son erreur est rapportée. Une entrée gouvernée absente (catalogue, inventaire RAW) la rend fausse et `UNAVAILABLE`. Une relation non relue ne bloque jamais la fiche : aucune de ces conditions n'est un motif de blocage. La trace de chaque relation porte ses conditions, `blocking_conditions`, les éditeurs comptés et non comptés avec leur raison, et `policy.status` (`ratified` ou `not_ratified`).
+
+L'écriture est gardée par la constante de code `RELATION_REVIEW_ADR` (`promotion_decision.py`). Tant qu'elle est vide, le décideur est en report-only : il inscrit `would_review` dans sa trace et n'écrit rien dans la fiche. Une fois levée, seul `apply_promotion` écrit. Pour une relation prouvée, il écrit `reviewed: true`, `reviewed_by: rule:ADR-116@<révision du décideur>` et `reviewed_at` (UTC). Pour toute autre relation hors sécurité, il écrit `reviewed: false` sans cachet. La relecture n'est jamais héritée : la proposition porte `reviewed: false`, et la relecture est recalculée à chaque promotion. La constante ne se lève ni par variable d'environnement ni par option CLI, mais par une PR WIKI dédiée, recevable une fois les préconditions d'ADR-116 D4 fusionnées. Le fichier entre dans l'empreinte du moteur de décision. `diagnostic_safe` reste un flip humain ciblé (§5.bis).
+
+Une ancre ne casse pas en silence. `quality-gates.py --cross-repo` vérifie les ancres des citations de toutes les fiches du canon. `check-activation-guard.py` traite le changement du `raw_ref` d'une source déjà `active` comme une activation, soumise au flux gouverné qui exécute `--cross-repo`.
 
 La validation du WIKI n'autorise aucune modification du moteur diagnostic LIVE.
 

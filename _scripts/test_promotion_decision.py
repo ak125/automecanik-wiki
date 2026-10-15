@@ -772,7 +772,7 @@ def test_native_regression_resolver_target_is_guarded_without_baseline_override(
     target.write_text("---\nreview_status: approved\n---\naccepted predecessor\n")
     observed = []
     substance = _clean_substance(tmp_path)
-    monkeypatch.setattr(dec, 'evaluate_tier', lambda *a: substance)
+    monkeypatch.setattr(dec, 'evaluate_tier', lambda *a, **kw: substance)
     def compare(cand, baseline, root):
         observed.append(baseline)
         target.write_text("---\nreview_status: approved\n---\nconcurrent predecessor\n")
@@ -976,14 +976,22 @@ def _citation(text, quote, source="source_test"):
 
 def _cite(cand, citation):
     """Réécrit le candidat avec une relation diagnostic qui porte `citation`."""
+    return _cite_all(cand, [citation])
+
+
+def _cite_all(cand, citations, **overrides):
+    """Réécrit le candidat avec une relation diagnostic qui porte `citations` (ses sources :
+    celles des citations, dans l'ordre), `overrides` appliqués ; rend la relation écrite."""
     import yaml
     relation = {"symptom_slug": "voyant_huile", "system_slug": "filtration", "cause_slug": "filtre_colmate",
                 "relation_to_part": "possible_cause", "part_role": "Un filtre colmaté réduit le débit d'huile.",
                 "evidence": {"confidence": "medium", "source_policy": "1_high", "reviewed": False,
                              "diagnostic_safe": False, "strength": "parfois"},
-                "sources": [citation["source"]], "citations": [citation]}
+                "sources": list(dict.fromkeys(c["source"] for c in citations)),
+                "citations": list(citations), **overrides}
     cand.write_text("---\n" + yaml.safe_dump({**FM_OK, "diagnostic_relations": [relation]}, allow_unicode=True) +
                     "---\n## Fonctionnement\nUne explication sourcée.\n", encoding="utf-8")
+    return relation
 
 
 @pytest.mark.parametrize("anchor, code", [
@@ -3708,22 +3716,44 @@ def _evidence(**flags):
 _NOT_APPLICABLE_REASON = "Aucun lien avec le vocabulaire des symptômes."
 
 
+_STAMP = "rule:ADR-116@" + "0" * 64
+
+
 @pytest.mark.parametrize("fm_extra, claimed", [
     ({"diagnostic_relations": [{"symptom_slug": "voyant_huile",
                                 "evidence": _evidence(reviewed=True)}]},
-     {"reviewed_true": ["diagnostic_relations[0]"], "diagnostic_safe_true": []}),
+     {"reviewed_true": ["diagnostic_relations[0]"], "diagnostic_safe_true": [],
+      "review_stamp_present": []}),
     ({"diagnostic_relations": [{"symptom_slug": "voyant_huile", "evidence": _evidence()},
                                {"symptom_slug": "bruit_moteur",
                                 "evidence": _evidence(diagnostic_safe=True)}]},
-     {"reviewed_true": [], "diagnostic_safe_true": ["diagnostic_relations[1]"]}),
+     {"reviewed_true": [], "diagnostic_safe_true": ["diagnostic_relations[1]"],
+      "review_stamp_present": []}),
     ({"diagnostic": {"quick_checks": [{"cause_slug": "filtre_colmate",
                                        "evidence": _evidence(reviewed=True, diagnostic_safe=True)}]}},
      {"reviewed_true": ["diagnostic.quick_checks[0]"],
-      "diagnostic_safe_true": ["diagnostic.quick_checks[0]"]}),
+      "diagnostic_safe_true": ["diagnostic.quick_checks[0]"], "review_stamp_present": []}),
     ({"safety_rules": [{"rule_slug": "arret_immediat", "evidence": _evidence(reviewed=True)}]},
-     {"reviewed_true": ["safety_rules[0]"], "diagnostic_safe_true": []}),
+     {"reviewed_true": ["safety_rules[0]"], "diagnostic_safe_true": [],
+      "review_stamp_present": []}),
     ({"diagnostic_not_applicable": {"reason": _NOT_APPLICABLE_REASON, "reviewed": True}},
-     {"reviewed_true": ["diagnostic_not_applicable"], "diagnostic_safe_true": []}),
+     {"reviewed_true": ["diagnostic_not_applicable"], "diagnostic_safe_true": [],
+      "review_stamp_present": []}),
+    # ADR-116 D3/D4 (b) : le cachet de la règle n'est écrit que par `apply_promotion` ; sa
+    # seule présence, `reviewed` à false, vide ou nul, est une relecture déclarée.
+    ({"diagnostic_relations": [{"symptom_slug": "voyant_huile",
+                                "evidence": _evidence(reviewed_by=_STAMP)}]},
+     {"reviewed_true": [], "diagnostic_safe_true": [],
+      "review_stamp_present": ["diagnostic_relations[0]"]}),
+    ({"diagnostic_relations": [{"symptom_slug": "voyant_huile", "evidence": _evidence()},
+                               {"symptom_slug": "bruit_moteur",
+                                "evidence": _evidence(reviewed_at=None)}]},
+     {"reviewed_true": [], "diagnostic_safe_true": [],
+      "review_stamp_present": ["diagnostic_relations[1]"]}),
+    ({"safety_rules": [{"rule_slug": "arret_immediat",
+                        "evidence": _evidence(reviewed_by="", reviewed_at="")}]},
+     {"reviewed_true": [], "diagnostic_safe_true": [],
+      "review_stamp_present": ["safety_rules[0]"]}),
 ])
 def test_self_declared_review_blocks_a_non_safety_fiche(tmp_path, fm_extra, claimed):
     """Fiche non-sécurité, tout le reste PASS : la seule déclaration de relecture ou
@@ -3769,3 +3799,401 @@ def test_review_check_absent_input_is_never_a_pass():
     checks = dec._build_checks(False, [], [], "L1", 0.9, 0.8, "legacy", None, {"raw", "web"})
     check = next(c for c in checks if c["code"] == "REVIEW_AUTHORITY_CLAIMED")
     assert check["status"] == "fail" and check["evidence"] == {"evaluated": False}
+
+
+# --- ADR-116 : relecture des relations hors sécurité par la règle de preuve ----------------
+# Rôles éditoriaux du catalogue de la fixture ; les deux sources ajoutées à celle de
+# `_proof_candidate` portent chacune son archive RAW et son éditeur.
+_REVIEW_ROLES = {"oem_manual": "proof", "oem_workshop": "proof", "normative_standard": "proof",
+                 "tecdoc_official": "corroboration"}
+_REVIEW_SOURCES = {"source_atelier": ("oem_workshop", "Constructeur B",
+                                      "Un filtre colmaté allume le voyant de pression.\n"),
+                   "source_norme": ("normative_standard", "Organisme C",
+                                    "Filtre colmaté : le débit d'huile baisse.\n")}
+
+
+def _review_candidate(tmp_path, monkeypatch, *, publishers=None, **relation):
+    """Fiche hors sécurité dont la relation prouve les 8 conditions d'ADR-116 D2 : trois
+    sources `proof` actives de trois éditeurs (`publishers` : ceux des deux sources ajoutées,
+    remplacés), chacune citée et ancrée dans son archive RAW, plages chiffrées présentes.
+    `relation` : clés de la relation remplacées. Rend le module, le candidat, la racine RAW
+    et la relation écrite."""
+    import hashlib
+    import yaml
+    dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured", bind_provenance=False)
+    (tmp_path / "_meta" / "numeric-plausibility.yaml").write_text(
+        yaml.safe_dump(SAFETY_RANGES), encoding="utf-8")
+    catalog_path = tmp_path / "_meta" / "source-catalog.yaml"
+    catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
+    catalog["source_type_editorial_role"] = dict(_REVIEW_ROLES)
+    catalog["sources"][0]["publisher"] = "Constructeur A"
+    citations = [_citation(ARCHIVE_TEXT, "explication sourcée")]
+    inventory = raw / "manifests" / "source-inventory.csv"
+    for j, (slug, (kind, publisher, text)) in enumerate(_REVIEW_SOURCES.items()):
+        archive = raw / "sources" / f"{slug}.md"
+        archive.write_text(text, encoding="utf-8")
+        digest = "sha256:" + hashlib.sha256(archive.read_bytes()).hexdigest()
+        inventory.write_text(inventory.read_text() + f"src-{slug},sources/{slug}.md,{digest}\n")
+        catalog["sources"].append({
+            "slug": slug, "type": kind, "status": "active",
+            "publisher": publisher if publishers is None else publishers[j],
+            "raw_ref": {"repo": "automecanik-raw", "manifest_id": f"src-{slug}", "expected_sha256": digest}})
+        citations.append(_citation(text, text.rstrip("\n"), source=slug))
+    catalog_path.write_text(yaml.safe_dump(catalog, allow_unicode=True), encoding="utf-8")
+    return dec, cand, raw, _cite_all(cand, relation.pop("citations", citations), **relation)
+
+
+def _review_local(dec, cand, wiki_root, raw):
+    """Conditions locales d'ADR-116 D2 que l'évaluation calcule pour la fiche candidate."""
+    fm, body = dec._parse_markdown(cand)
+    return dec.evaluate_tier(fm, body, cand, wiki_root, threshold=0.80, gates=_gates(),
+                             compute_score=lambda *a: 0.99, raw_root=raw)["relation_review"]
+
+
+def _review_decision(dec, cand, wiki_root, raw, score=0.99):
+    return dec.canonical_promotion_decision(cand, wiki_root, raw_root=raw, gates=_gates(),
+                                            compute_score=lambda *a: score)
+
+
+def test_relation_review_lock_is_an_empty_code_constant(monkeypatch):
+    """ADR-116 D4 : report-only tant que la constante est vide ; ni variable d'environnement
+    ni option ne la renseigne. Les conditions sont celles de D2, dans l'ordre de l'ADR."""
+    monkeypatch.setenv("RELATION_REVIEW_ADR", "ADR-116")
+    dec = _load_decision()
+    assert dec.RELATION_REVIEW_ADR is None
+    assert dec.RELATION_REVIEW_CONDITIONS == (
+        "fiche_eligible", "not_safety", "sources_raw_proven", "citations_anchored",
+        "proof_publishers_min", "source_policy_resolved", "numeric_verified", "no_review_claimed")
+
+
+def test_relation_review_proven_relation_is_traced_and_nothing_is_written(tmp_path, monkeypatch):
+    """Verrou vide : la relation qui prouve les 8 conditions est rapportée `would_review`,
+    la fiche est promue, et la relation est écrite au canon telle que proposée."""
+    dec, cand, raw, relation = _review_candidate(tmp_path, monkeypatch)
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert decision["eligible"] is True, decision
+    trace = decision["relation_review"]
+    assert trace["evaluated"] is True
+    assert trace["policy"] == {"relation_review_adr": None, "status": "not_ratified"}
+    [traced] = trace["relations"]
+    assert traced["conditions"] == dict.fromkeys(dec.RELATION_REVIEW_CONDITIONS, True), traced
+    assert traced["blocking_conditions"] == [] and traced["would_review"] is True
+    assert traced["details"]["proof_publishers_min"]["distinct_publishers"] == 3
+    assert dec._relation_review_verdicts(decision) == {0: True}
+    out = dec.apply_promotion(cand, tmp_path, decision, raw_root=raw)
+    written, _body = dec._parse_markdown(out)
+    assert written["diagnostic_relations"] == [relation]
+
+
+_REVIEW_BROKEN_QUOTE = {"source": "source_test", "start": 0, "end": 4, "quote_sha256": "sha256:" + "0" * 64}
+
+
+@pytest.mark.parametrize("condition, mutation", [
+    # Source exportée sans preuve RAW : cataloguée, non active.
+    ("sources_raw_proven", {"extra_source": {"slug": "source_a_capturer", "type": "oem_manual",
+                                              "publisher": "Constructeur D", "status": "to_capture"}}),
+    # Une citation de plus, non ancrée, sur une source déjà ancrée : trois éditeurs restent.
+    ("citations_anchored", {"extra_citation": _REVIEW_BROKEN_QUOTE}),
+    ("proof_publishers_min", {"publishers": ("Constructeur A", "Organisme C")}),
+    ("proof_publishers_min", {"publishers": (" constructeur  a ", "Organisme C")}),
+    ("source_policy_resolved", {"source_policy": "manual_review"}),
+    ("numeric_verified", {"part_role": "Un filtre colmaté de 2 mm réduit le débit d'huile."}),
+    ("no_review_claimed", {"evidence": {"reviewed": True}}),
+    ("no_review_claimed", {"evidence": {"diagnostic_safe": True}}),
+    ("no_review_claimed", {"evidence": {"reviewed_by": _STAMP}}),
+])
+def test_relation_review_each_condition_blocks_alone(tmp_path, monkeypatch, condition, mutation):
+    """Chaque condition de D2 est isolée : la casser ne fait tomber qu'elle."""
+    import yaml
+    mutation = dict(mutation)
+    dec, cand, raw, relation = _review_candidate(tmp_path, monkeypatch,
+                                                 publishers=mutation.pop("publishers", None))
+    overrides = {}
+    if "extra_source" in mutation:
+        source = mutation.pop("extra_source")
+        catalog_path = tmp_path / "_meta" / "source-catalog.yaml"
+        catalog = yaml.safe_load(catalog_path.read_text(encoding="utf-8"))
+        catalog["sources"].append({**source, "raw_ref": {"repo": "automecanik-raw",
+                                                         "manifest_id": "src-" + source["slug"]}})
+        catalog_path.write_text(yaml.safe_dump(catalog, allow_unicode=True), encoding="utf-8")
+        overrides["sources"] = relation["sources"] + [source["slug"]]
+    if "extra_citation" in mutation:
+        overrides["citations"] = relation["citations"] + [mutation.pop("extra_citation")]
+    if "source_policy" in mutation:
+        overrides["evidence"] = {**relation["evidence"], "source_policy": mutation.pop("source_policy")}
+    if "evidence" in mutation:
+        overrides["evidence"] = {**relation["evidence"], **mutation.pop("evidence")}
+    overrides.update(mutation)
+    _cite_all(cand, overrides.pop("citations", relation["citations"]), **overrides)
+    [local] = _review_local(dec, cand, tmp_path, raw)["relations"]
+    conditions = local["conditions"]
+    assert [k for k, v in conditions.items() if v is not True] == [condition], local
+    assert set(conditions) == set(dec.RELATION_REVIEW_CONDITIONS[1:])
+
+
+def test_relation_review_publishers_are_counted_on_anchored_citations_only(tmp_path, monkeypatch):
+    """Une source dont la citation ne s'ancre pas n'apporte pas son éditeur : deux restent."""
+    dec, cand, raw, relation = _review_candidate(tmp_path, monkeypatch)
+    citations = [dict(c) for c in relation["citations"]]
+    citations[2]["quote_sha256"] = "sha256:" + "0" * 64
+    _cite_all(cand, citations)
+    [local] = _review_local(dec, cand, tmp_path, raw)["relations"]
+    assert [k for k, v in local["conditions"].items() if v is not True] == [
+        "citations_anchored", "proof_publishers_min"], local
+    assert local["details"]["citations_anchored"]["anchored"] == 2
+    assert local["details"]["proof_publishers_min"]["distinct_publishers"] == 2
+
+
+def test_relation_review_without_raw_root_anchors_are_unavailable(tmp_path, monkeypatch):
+    """Sans racine RAW, les ancres sont invérifiables : condition fausse, `UNAVAILABLE`, et
+    aucun éditeur n'est compté."""
+    dec, cand, _raw, _relation = _review_candidate(tmp_path, monkeypatch)
+    [local] = _review_local(dec, cand, tmp_path, None)["relations"]
+    assert [k for k, v in local["conditions"].items() if v is not True] == [
+        "citations_anchored", "proof_publishers_min"], local
+    assert local["details"]["citations_anchored"]["status"] == "UNAVAILABLE"
+    assert local["details"]["proof_publishers_min"]["distinct_publishers"] == 0
+
+
+def test_relation_review_fiche_eligible_is_the_fiche_status(tmp_path, monkeypatch):
+    """`fiche_eligible` est composée sur le statut de la fiche, jamais réévaluée : une fiche
+    non éligible ne relit aucune relation."""
+    dec, cand, raw, _relation = _review_candidate(tmp_path, monkeypatch)
+    decision = _review_decision(dec, cand, tmp_path, raw, score=0.10)
+    assert decision["eligible"] is False
+    [traced] = decision["relation_review"]["relations"]
+    assert traced["blocking_conditions"] == ["fiche_eligible"] and traced["would_review"] is False
+    assert dec._relation_review_verdicts(decision) == {0: False}
+
+
+def test_relation_review_unreviewed_relation_never_blocks_its_fiche(tmp_path, monkeypatch):
+    """D3 : une relation qui ne prouve pas D2 n'est pas relue et ne bloque pas sa fiche ;
+    verrou levé, elle est écrite `reviewed: false`, sans cachet."""
+    dec, cand, raw, relation = _review_candidate(
+        tmp_path, monkeypatch, publishers=("Constructeur A", "Organisme C"))
+    monkeypatch.setattr(dec, "RELATION_REVIEW_ADR", "ADR-116")
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert decision["eligible"] is True and decision["blocking_reasons"] == [], decision
+    [traced] = decision["relation_review"]["relations"]
+    assert traced["blocking_conditions"] == ["proof_publishers_min"] and traced["would_review"] is False
+    out = dec.apply_promotion(cand, tmp_path, decision, raw_root=raw)
+    written, _body = dec._parse_markdown(out)
+    assert written["diagnostic_relations"] == [relation]
+    assert "reviewed_by" not in written["diagnostic_relations"][0]["evidence"]
+
+
+def test_relation_review_writes_the_rule_stamp_once_the_lock_is_lifted(tmp_path, monkeypatch):
+    """Verrou levé (ADR-116 D3) : la relation prouvée est écrite `reviewed: true` avec le
+    cachet de la règle et de la révision du décideur, à l'horodatage de la promotion ; la
+    fiche écrite est celle que la vérification chiffrée a projetée, aux valeurs de promotion
+    près, et sa relation satisfait le schéma."""
+    import json
+    from jsonschema import Draft202012Validator
+    dec, cand, raw, relation = _review_candidate(tmp_path, monkeypatch)
+    monkeypatch.setattr(dec, "RELATION_REVIEW_ADR", "ADR-116")
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert decision["eligible"] is True, decision
+    assert decision["relation_review"]["policy"] == {"relation_review_adr": "ADR-116", "status": "ratified"}
+    revision = decision["inputs"]["decision_engine_revision"]
+    assert revision == dec._engine_revision(("promotion_decision.py",))
+    pfm, pbody = dec._parse_markdown(cand)
+    out = dec.apply_promotion(cand, tmp_path, decision, raw_root=raw)
+    written, _body = dec._parse_markdown(out)
+    evidence = written["diagnostic_relations"][0]["evidence"]
+    assert evidence == {**relation["evidence"], "reviewed": True,
+                        "reviewed_by": f"rule:ADR-116@{revision}", "reviewed_at": written["reviewed_at"]}
+    sha = written["reviewed_by"].split("@", 1)[1]
+    assert out.read_text(encoding="utf-8") == dec._render_fiche(dec._promoted_frontmatter(
+        pfm, decision["evaluation"], target_rel="proposals/filtre-a-huile.md", sha=sha,
+        now=written["reviewed_at"], relation_verdicts={0: True}, decider_revision=revision), pbody)
+    validator = Draft202012Validator(json.loads(
+        (SCRIPTS.parent / "_meta" / "schema" / "frontmatter.schema.json").read_text(encoding="utf-8")))
+
+    def relation_errors(fm):
+        return [e.message for e in validator.iter_errors(fm)
+                if list(e.absolute_path)[:1] == ["diagnostic_relations"]]
+
+    assert relation_errors(written) == []
+    forged = {**written, "diagnostic_relations": [{**written["diagnostic_relations"][0], "evidence": {
+        **evidence, "reviewed_by": "rule:ADR-116@abc"}}]}
+    assert relation_errors(forged), "le schéma doit refuser un cachet sans révision complète"
+
+
+@pytest.mark.parametrize("revision", [
+    "0" * 64, "f" * 64, ("25e" * 22)[:64], "5c1a" * 16, "2d6f" * 16, ("9e9" * 22)[:64],
+    ("1a2b3c4d5e6f" * 6)[:64], ("10d" * 22)[:64]])
+def test_relation_review_stamp_is_never_read_as_a_numeric_value(tmp_path, monkeypatch, revision):
+    """Le cachet, publié dans la fiche une fois le verrou levé, dépend de la révision du code :
+    il est lu comme tout texte publié, et aucune révision n'y fait lire une valeur chiffrée
+    (sinon `numeric_verified` tomberait au gré d'un changement de code)."""
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "RELATION_REVIEW_ADR", "ADR-116")
+    monkeypatch.setattr(dec, "_engine_revision", lambda filenames: revision)
+    target = _safety_wiki(tmp_path)
+    fm = {**SAFETY_FM, "diagnostic_relations": [_RELATION]}
+    with dec._promoted_fiche(fm, SAFETY_BODY, target, tmp_path, relation_verdicts={0: True}) as (_root, path):
+        assert f"reviewed_by: rule:ADR-116@{revision}" in path.read_text(encoding="utf-8")
+    result = dec._safety_numeric_exactitude(fm, SAFETY_BODY, target, tmp_path, relation_verdicts={0: True})
+    assert result["verified"] is True, result
+    [read] = result["relations"]
+    assert read["index"] == 0 and read["violations_total"] == 0 and read["strings_read"] > 0
+
+
+def test_relation_review_numeric_violations_are_attributed_per_relation(tmp_path):
+    """La vérification chiffrée rapporte chaque violation à la relation qui la publie, dans la
+    fiche comme dans l'export diagnostic : aucune n'est attribuée à sa voisine."""
+    dec = _load_decision()
+    result = _diagnostic_numeric(dec, tmp_path, _RELATION, {
+        **_RELATION, "part_role": "Une colonne usée de 2 mm au roulement durcit le braquage."})
+    clean, worn = result["relations"]
+    assert (clean["index"], clean["violations_total"], clean["sample"]) == (0, 0, [])
+    assert clean["strings_read"] > 0
+    assert worn["index"] == 1 and worn["sample"] == [
+        "fiche $.diagnostic_relations[1].part_role (littérale) numeric_source_not_captured: '2 mm'",
+        "diagnostic $.relations[1].part_role (littérale) numeric_source_not_captured: '2 mm'"], result
+
+
+def test_published_relation_index_never_guesses():
+    """Fiche : l'index du chemin ; export : le `relation_index` de la relation exportée,
+    jamais sa position ; absent ou non entier : erreur ; hors d'une relation : None."""
+    dec = _load_decision()
+    doc = {"relations": [{"relation_index": 3}, {"relation_index": "1"}, {"relation_index": True}, {}]}
+    assert dec._published_relation_index("fiche", "$.diagnostic_relations[2].part_role", None) == 2
+    assert dec._published_relation_index("fiche", "$.diagnostic_relations[12] (clé)", None) == 12
+    assert dec._published_relation_index("fiche", "$.diagnostic_relations[1x]", None) is None
+    assert dec._published_relation_index("fiche", "$.title", None) is None
+    assert dec._published_relation_index("diagnostic", "$.relations[0].part_role", doc) == 3
+    assert dec._published_relation_index("seo", "$.relations[0].part_role", doc) is None
+    for j in (1, 2, 3):
+        with pytest.raises(ValueError, match="relation_index_malformed"):
+            dec._published_relation_index("diagnostic", f"$.relations[{j}].part_role", doc)
+
+
+def test_relation_review_safety_fiche_reports_not_safety_only(tmp_path):
+    """D1 : les relations d'une fiche sécurité n'entrent pas ; seule `not_safety` est
+    rapportée, rien d'autre n'est calculé, aucune n'est relue."""
+    dec = _load_decision()
+    target = _safety_wiki(tmp_path)
+    fm = {**SAFETY_FM, "diagnostic_relations": [_RELATION, _RELATION]}
+    substance = dec.evaluate_tier(fm, SAFETY_BODY, target, tmp_path, threshold=0.80,
+                                  gates=_gates(), compute_score=lambda *a: 0.9)
+    assert substance["relation_review"] == {"relations": [
+        {"index": i, "conditions": {"not_safety": False}, "details": {"not_safety": {"is_safety": True}}}
+        for i in (0, 1)]}
+    decision = dec.decide_promotion({"substance": substance})
+    for traced in decision["relation_review"]["relations"]:
+        assert traced["would_review"] is False
+        assert set(dec.RELATION_REVIEW_CONDITIONS[1:]) <= set(traced["blocking_conditions"]), traced
+    assert dec._relation_review_verdicts(decision) == {}
+
+
+def test_relation_review_absent_or_failed_evaluation_is_never_a_pass(tmp_path, monkeypatch):
+    """Trace absente, en erreur ou condition manquante : jamais une relecture."""
+    dec = _load_decision()
+    policy = {"relation_review_adr": None, "status": "not_ratified"}
+    assert dec.decide_promotion({})["relation_review"] == {"evaluated": False, "policy": policy,
+                                                           "relations": []}
+    failed = dec.decide_promotion({"substance": {"relation_review": {"error": "boom"}}})
+    assert failed["relation_review"] == {"evaluated": False, "policy": policy, "relations": [],
+                                         "error": "boom"}
+    assert dec._relation_review_verdicts(failed) is None
+    assert dec._relation_review_verdicts({}) is None
+    partial = dec.decide_promotion({"substance": {"relation_review": {"relations": [
+        {"index": 0, "conditions": {"not_safety": True}}]}}})
+    [traced] = partial["relation_review"]["relations"]
+    assert traced["would_review"] is False
+    assert set(dec.RELATION_REVIEW_CONDITIONS[2:]) <= set(traced["blocking_conditions"]), traced
+
+    def raising(*a, **kw):
+        raise RuntimeError("boom")
+
+    monkeypatch.setattr(dec, "_relation_review_local", raising)
+    fm = {**FM_OK, "diagnostic_relations": [{"symptom_slug": "voyant_huile", "evidence": _evidence()}]}
+    substance = dec.evaluate_tier(fm, "body", tmp_path / "p.md", tmp_path, threshold=0.80,
+                                  gates=_gates(), compute_score=lambda *a: 0.9)
+    assert substance["relation_review"] == {"error": "RuntimeError: boom"}
+    assert substance["tier"] == "A", "une relecture non évaluée ne bloque pas la fiche"
+
+
+def test_relation_review_malformed_relations_fail_closed(tmp_path):
+    """Liste mal formée : non évaluée ; entrée non mapping : chaque condition fausse, erreur
+    rapportée."""
+    dec = _load_decision()
+    _safety_wiki(tmp_path)
+
+    def local(relations):
+        fm = {**FM_OK, "diagnostic_relations": relations}
+        return dec.evaluate_tier(fm, "body", tmp_path / "p.md", tmp_path, threshold=0.80,
+                                 gates=_gates(), compute_score=lambda *a: 0.9)["relation_review"]
+
+    assert local("pas une liste") == {"error": "diagnostic_relations_malformed: liste attendue"}
+    [entry] = local(["pas un mapping"])["relations"]
+    assert entry["conditions"] == {"not_safety": True,
+                                   **dict.fromkeys(dec.RELATION_REVIEW_CONDITIONS[2:], False)}
+    assert all("diagnostic_relations[0]_malformed" in entry["details"][k]["error"]
+               for k in dec.RELATION_REVIEW_CONDITIONS[2:])
+
+
+def test_relation_review_is_never_inherited(monkeypatch):
+    """Un cachet proposé n'est jamais repris : relation non prouvée, il est retiré ; prouvée,
+    il est remplacé par celui de la décision."""
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "RELATION_REVIEW_ADR", "ADR-116")
+    proposed = {**_RELATION, "evidence": {**_RELATION["evidence"], "reviewed": True,
+                                          "reviewed_by": "rule:ADR-116@" + "f" * 64,
+                                          "reviewed_at": "2020-01-01T00:00:00+00:00"}}
+    now = "2026-10-16T08:00:00+00:00"
+    [refused] = dec._reviewed_relations([proposed], {0: False}, "ab" * 32, now)
+    assert refused["evidence"] == {**_RELATION["evidence"], "reviewed": False}
+    [stamped] = dec._reviewed_relations([proposed], {0: True}, "ab" * 32, now)
+    assert stamped["evidence"] == {**_RELATION["evidence"], "reviewed": True,
+                                   "reviewed_by": "rule:ADR-116@" + "ab" * 32, "reviewed_at": now}
+    assert proposed["evidence"]["reviewed_by"] == "rule:ADR-116@" + "f" * 64, "entrée non modifiée"
+
+
+def test_relation_review_writes_only_relations_of_d1(monkeypatch):
+    """Entrée hors D1 (index sans verdict, non mapping, `evidence` non mapping) : écrite telle
+    que proposée ; liste mal formée ou cachet sans révision : erreur, jamais une écriture."""
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "RELATION_REVIEW_ADR", "ADR-116")
+    now = "2026-10-16T08:00:00+00:00"
+    relations = ["pas un mapping", {**_RELATION, "evidence": "texte"}, dict(_RELATION),
+                 {**_RELATION, "evidence": {**_RELATION["evidence"], "reviewed_by": _STAMP}}]
+    written = dec._reviewed_relations(relations, {0: True, 1: True, 2: False}, "ab" * 32, now)
+    assert written[:2] == relations[:2] and written[3] == relations[3]
+    assert written[2]["evidence"] == {**_RELATION["evidence"], "reviewed": False}
+    with pytest.raises(dec.PromotionInputError, match="diagnostic_relations_malformed"):
+        dec._reviewed_relations("pas une liste", {0: True}, "ab" * 32, now)
+    with pytest.raises(dec.PromotionInputError, match="relation_review_revision_missing"):
+        dec._reviewed_relations([dict(_RELATION)], {0: True}, None, now)
+    [unreviewed] = dec._reviewed_relations([dict(_RELATION)], {0: False}, None, now)
+    assert unreviewed["evidence"] == {**_RELATION["evidence"], "reviewed": False}
+
+
+def test_relation_review_empty_lock_writes_relations_as_proposed(monkeypatch):
+    """Verrou vide : verdicts fournis ou non, les relations sont écrites telles que proposées."""
+    dec = _load_decision()
+    fm = {**FM_OK, "diagnostic_relations": [dict(_RELATION)]}
+    kwargs = dict(target_rel="proposals/filtre-a-huile.md", sha="0" * 7, now="2026-10-16T08:00:00+00:00",
+                  relation_verdicts={0: True}, decider_revision="ab" * 32)
+    evaluation = {"gate_status": "pass", "confidence_score": 0.9}
+    assert dec._promoted_frontmatter(fm, evaluation, **kwargs)["diagnostic_relations"] == [_RELATION]
+    monkeypatch.setattr(dec, "RELATION_REVIEW_ADR", "ADR-116")
+    lifted = dec._promoted_frontmatter(fm, evaluation, **kwargs)["diagnostic_relations"]
+    assert lifted[0]["evidence"]["reviewed_by"] == "rule:ADR-116@" + "ab" * 32
+    assert fm["diagnostic_relations"] == [_RELATION], "frontmatter proposé non modifié"
+
+
+def test_relation_review_verdicts_cover_d1_relations_only():
+    """Verdicts écrits : relations dont `not_safety` est prouvée, à index entier ; le reste
+    n'est pas touché."""
+    dec = _load_decision()
+    decision = {"relation_review": {"evaluated": True, "relations": [
+        {"index": 0, "conditions": {"not_safety": True}, "would_review": True},
+        {"index": 1, "conditions": {"not_safety": False}, "would_review": False},
+        {"index": 2, "conditions": {"not_safety": True}, "would_review": False},
+        {"index": 3, "conditions": {"not_safety": True}, "would_review": "yes"},
+        {"index": "4", "conditions": {"not_safety": True}, "would_review": True},
+        {"index": 5, "conditions": {"not_safety": "true"}, "would_review": True},
+        "pas un mapping"]}}
+    assert dec._relation_review_verdicts(decision) == {0: True, 2: False, 3: False}

@@ -32,6 +32,8 @@ SCHEMA = json.loads((SCHEMA_DIR / "frontmatter.schema.json").read_text(encoding=
 VALIDATOR = Draft202012Validator(SCHEMA)
 
 QUOTE_SHA = "sha256:" + "0" * 64
+STAMP = "rule:ADR-116@" + "ab" * 32
+STAMPED_AT = "2026-10-16T08:00:00+00:00"
 EVIDENCE = {"confidence": "medium", "source_policy": "manual_review", "reviewed": False, "diagnostic_safe": False}
 
 BASE = {
@@ -104,6 +106,10 @@ VALID = {
     "not_applicable_with_empty_relations": _gamme(
         diagnostic_relations=[], diagnostic_not_applicable={"reason": "Aucun lien avec le vocabulaire.", "reviewed": False}),
     "safety_rules_in_their_fiche": {**copy.deepcopy(SAFETY_FICHE), "safety_rules": [RULE]},
+    # ADR-116 D3 : cachet de la règle, écrit par le seul décideur avec `reviewed: true`
+    "relation_reviewed_by_the_rule": _gamme(diagnostic_relations=[
+        {**RELATION, "evidence": {**RELATION["evidence"], "reviewed": True, "reviewed_by": STAMP,
+                                  "reviewed_at": STAMPED_AT}}]),
 }
 
 
@@ -143,6 +149,29 @@ INVALID = {
     "citation_extra_key": _gamme(diagnostic_relations=[_relation(citations=[{**RELATION["citations"][0], "excerpt": "texte"}])]),
     "citation_negative_start": _gamme(diagnostic_relations=[_relation(citations=[{**RELATION["citations"][0], "start": -1}])]),
     "cause_slug_uppercase": _gamme(diagnostic_relations=[_relation(cause_slug="Filtre")]),
+    # ADR-116 D3 : cachet complet, de la règle, sur `reviewed: true`, et sur une relation seulement
+    "stamp_without_reviewed_at": _gamme(diagnostic_relations=[_relation(
+        evidence={**EVIDENCE, "reviewed": True, "reviewed_by": STAMP})]),
+    "stamp_reviewed_at_alone": _gamme(diagnostic_relations=[_relation(
+        evidence={**EVIDENCE, "reviewed": True, "reviewed_at": STAMPED_AT})]),
+    "stamp_on_unreviewed_relation": _gamme(diagnostic_relations=[_relation(
+        evidence={**EVIDENCE, "reviewed_by": STAMP, "reviewed_at": STAMPED_AT})]),
+    "stamp_human_identity": _gamme(diagnostic_relations=[_relation(
+        evidence={**EVIDENCE, "reviewed": True, "reviewed_by": "fafa", "reviewed_at": STAMPED_AT})]),
+    "stamp_other_adr": _gamme(diagnostic_relations=[_relation(
+        evidence={**EVIDENCE, "reviewed": True, "reviewed_by": "rule:ADR-114@" + "ab" * 32,
+                  "reviewed_at": STAMPED_AT})]),
+    "stamp_short_revision": _gamme(diagnostic_relations=[_relation(
+        evidence={**EVIDENCE, "reviewed": True, "reviewed_by": "rule:ADR-116@abc", "reviewed_at": STAMPED_AT})]),
+    "stamp_time_not_utc": _gamme(diagnostic_relations=[_relation(
+        evidence={**EVIDENCE, "reviewed": True, "reviewed_by": STAMP,
+                  "reviewed_at": "2026-10-16T10:00:00+02:00"})]),
+    "stamp_on_quick_check": _gamme(diagnostic_relations=[RELATION], diagnostic={"quick_checks": [
+        {**QUICK_CHECK, "evidence": {**EVIDENCE, "reviewed": True, "reviewed_by": STAMP,
+                                     "reviewed_at": STAMPED_AT}}]}),
+    "stamp_on_safety_rule": {**copy.deepcopy(SAFETY_FICHE), "safety_rules": [
+        {**RULE, "evidence": {**EVIDENCE, "reviewed": True, "reviewed_by": STAMP,
+                              "reviewed_at": STAMPED_AT}}]},
 }
 
 
@@ -320,3 +349,69 @@ def test_missing_raw_inventory_is_infra_unavailable_not_a_pass(tmp_path, monkeyp
 def test_no_citation_needs_no_raw(tmp_path, monkeypatch):
     monkeypatch.setattr(qg, "RAW_INVENTORY", tmp_path / "absent" / "source-inventory.csv")
     assert qg.gate_citation_anchors({"diagnostic_relations": [_relation(citations=None)]}, PROVEN) == []
+
+
+# ---------- 5. Ancres du canon vérifiées par `--cross-repo` (ADR-116 D4 d) ----------
+# La promotion ne vérifie que la fiche promue : une archive ré-épinglée après coup casserait en
+# silence l'ancre d'une fiche du canon. `--cross-repo` les vérifie toutes.
+
+def _canon(tmp_path: Path, monkeypatch, rel: str, fm: dict | None, catalog: dict) -> Path:
+    import sys
+    import yaml
+    path = tmp_path / rel
+    path.parent.mkdir(parents=True, exist_ok=True)
+    head = "---\n" + yaml.safe_dump(fm, allow_unicode=True) + "---\n" if fm is not None else ""
+    path.write_text(head + "Corps.\n", encoding="utf-8")
+    monkeypatch.setattr(qg, "REPO_ROOT", tmp_path)
+    monkeypatch.setattr(qg, "load_source_catalog", lambda: catalog)
+    monkeypatch.setattr(sys, "argv", ["quality-gates.py", "--cross-repo"])
+    return path
+
+
+def _repin(catalog: dict, content: bytes) -> None:
+    """Nouvelle version de l'archive, inventaire et catalogue ré-épinglés ensemble."""
+    digest = "sha256:" + hashlib.sha256(content).hexdigest()
+    (qg.RAW_INVENTORY.parent.parent / "sources" / "doc.md").write_bytes(content)
+    qg.RAW_INVENTORY.write_text(
+        "path,manifest_id,layer,unstable_id,sha256,size_bytes,added_at\n"
+        f"sources/doc.md,m-doc,sources,,{digest},{len(content)},2026-10-16\n", encoding="utf-8")
+    catalog["src_a"]["raw_ref"]["expected_sha256"] = digest
+
+
+def test_cross_repo_verifies_the_anchors_of_canon_fiches(tmp_path, monkeypatch, capsys):
+    catalog = _raw(tmp_path, monkeypatch, ARCHIVE_TEXT.encode("utf-8"))
+    _canon(tmp_path, monkeypatch, "wiki/gamme/filtre-contrat.md",
+           _gamme(**_fm_citing(_citation(ARCHIVE_TEXT, QUOTE))), catalog)
+    assert qg.main() == 0
+    assert "ancres de 1 fiche(s) du canon vérifiées" in capsys.readouterr().out
+
+
+def test_cross_repo_refuses_a_repin_that_breaks_a_canon_anchor(tmp_path, monkeypatch, capsys):
+    """Ré-épingle cohérente côté RAW (inventaire + catalogue), extrait décalé : la fiche du
+    canon qui le cite casse, la ré-épingle est refusée tant qu'elle n'est pas corrigée."""
+    catalog = _raw(tmp_path, monkeypatch, ARCHIVE_TEXT.encode("utf-8"))
+    _canon(tmp_path, monkeypatch, "wiki/gamme/filtre-contrat.md",
+           _gamme(**_fm_citing(_citation(ARCHIVE_TEXT, QUOTE))), catalog)
+    _repin(catalog, ("Nouvelle préface.\n" + ARCHIVE_TEXT).encode("utf-8"))
+    assert qg.main() == 1
+    out = capsys.readouterr().out
+    assert ("FAIL citation-anchors: wiki/gamme/filtre-contrat.md: citation_quote_mismatch: "
+            "diagnostic_relations[0].citations[0]") in out, out
+
+
+def test_cross_repo_reads_only_the_canon(tmp_path, monkeypatch, capsys):
+    """Propositions et conteneurs méta (D19) : hors canon, non vérifiés ici (la promotion le fait)."""
+    catalog = _raw(tmp_path, monkeypatch, ARCHIVE_TEXT.encode("utf-8"))
+    broken = _gamme(**_fm_citing({**_citation(ARCHIVE_TEXT, QUOTE), "quote_sha256": QUOTE_SHA}))
+    _canon(tmp_path, monkeypatch, "proposals/filtre-contrat.md", broken, catalog)
+    _canon(tmp_path, monkeypatch, "wiki/_quality/brouillon.md", broken, catalog)
+    assert qg.main() == 0
+    assert "ancres de 0 fiche(s) du canon vérifiées" in capsys.readouterr().out
+
+
+def test_cross_repo_unreadable_canon_fiche_fails(tmp_path, monkeypatch, capsys):
+    catalog = _raw(tmp_path, monkeypatch, ARCHIVE_TEXT.encode("utf-8"))
+    _canon(tmp_path, monkeypatch, "wiki/gamme/sans-frontmatter.md", None, catalog)
+    assert qg.main() == 1
+    assert ("FAIL citation-anchors: wiki/gamme/sans-frontmatter.md: citation_anchors_unverifiable"
+            in capsys.readouterr().out)

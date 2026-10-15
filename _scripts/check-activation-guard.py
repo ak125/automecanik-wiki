@@ -12,6 +12,10 @@ AVANT la mutation. Ce guard fail-closed empêche le contournement de ce chemin p
 DIRECTE. Il ne nécessite AUCUN accès au repo RAW : il compare seulement l'état du catalog wiki
 entre une base git et le head.
 
+Ré-épingler une source déjà `active` (`raw_ref` changé) est une activation (ADR-116 D4 d) : la
+nouvelle archive devient la preuve, et les ancres des fiches qui la citent doivent être
+revérifiées par `--cross-repo` avant la mutation, sinon une ancre casserait en silence.
+
 Usage :
   check-activation-guard.py --base origin/main   # CI wiki (fetch-depth: 0)
   check-activation-guard.py --base HEAD          # pre-commit (HEAD vs working tree)
@@ -44,8 +48,9 @@ def _entries_by_slug(yaml_text: str) -> dict[str, dict]:
 
 def find_illicit_activations(base_entries: dict, head_entries: dict) -> list[str]:
     """Activations interdites par édition directe : une entrée `active` côté head qui, côté
-    base, était non-`active` (transition) ou absente (nouvelle active). Désactivation,
-    suppression, et to_capture inchangé/nouveau = autorisés (pas une création de preuve active)."""
+    base, était non-`active` (transition), absente (nouvelle active), ou `active` avec un autre
+    `raw_ref` (ré-épingle, ADR-116 D4 d). Désactivation, suppression, retrait du `raw_ref`, et
+    to_capture inchangé/nouveau = autorisés (pas une création de preuve active)."""
     illicit: list[str] = []
     for slug, head in head_entries.items():
         if _status(head) != "active":
@@ -55,6 +60,9 @@ def find_illicit_activations(base_entries: dict, head_entries: dict) -> list[str
             illicit.append(f"{slug}: nouvelle entrée `active` créée par édition directe")
         elif _status(base) != "active":
             illicit.append(f"{slug}: transition {_status(base)}→active par édition directe")
+        elif head.get("raw_ref") and head.get("raw_ref") != base.get("raw_ref"):
+            illicit.append(f"{slug}: raw_ref d'une entrée déjà `active` changé par édition directe "
+                           "(ré-épingle = activation, ADR-116 D4 d)")
     return illicit
 
 
@@ -93,7 +101,8 @@ def main() -> int:
         for msg in illicit:
             print(f"  - {msg}")
         print(
-            "\nUne transition to_capture→active (ou une nouvelle entrée active) crée une PREUVE\n"
+            "\nUne transition to_capture→active (ou une nouvelle entrée active, ou un raw_ref\n"
+            "changé sur une entrée active) crée une PREUVE\n"
             "active dont la validité exige le gate cross-repo (`quality-gates.py --cross-repo`,\n"
             "les 2 repos wiki+raw présents et frais) — non vérifiable par la CI wiki seule.\n"
             "Active UNIQUEMENT via le flux gouverné d'activation (qui exécute --cross-repo AVANT\n"

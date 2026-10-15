@@ -225,6 +225,40 @@ def _reasons_from_safety(substance: dict, bundle: dict) -> list[dict]:
                             })]
 
 
+def _relation_review_trace(substance: dict, status: str) -> dict:
+    """Relecture des relations hors sécurité (ADR-116), en trace seulement : jamais un motif
+    bloquant, une relation non relue ne bloque pas sa fiche (D3). Pour chaque relation : les
+    conditions de D2, `fiche_eligible` composée ici sur le statut de la fiche, les conditions
+    bloquantes, `would_review` et le détail de chaque calcul (D6). Une condition absente n'est
+    jamais un succès. Conditions locales absentes ou en erreur : `evaluated` faux, et
+    `apply_promotion` écrit les relations telles que proposées."""
+    policy = {"relation_review_adr": RELATION_REVIEW_ADR,
+              "status": "ratified" if RELATION_REVIEW_ADR else "not_ratified"}
+    local = (substance or {}).get("relation_review")
+    if not isinstance(local, dict) or "error" in local:
+        return {"evaluated": False, "policy": policy, "relations": [],
+                **({"error": local["error"]} if isinstance(local, dict) else {})}
+    relations = []
+    for relation in local.get("relations") or []:
+        conditions = {"fiche_eligible": status == STATUS_ELIGIBLE, **(relation.get("conditions") or {})}
+        blocking = [k for k in RELATION_REVIEW_CONDITIONS if conditions.get(k) is not True]
+        relations.append({"index": relation.get("index"), "conditions": conditions,
+                          "blocking_conditions": blocking, "would_review": not blocking,
+                          "details": relation.get("details") or {}})
+    return {"evaluated": True, "policy": policy, "relations": relations}
+
+
+def _relation_review_verdicts(decision: dict):
+    """Verdicts qu'`apply_promotion` écrit (ADR-116 D3) : index d'une relation de D1 (`not_safety`
+    prouvée) → `would_review`. Trace absente ou non évaluée : None, relations telles que proposées."""
+    trace = (decision or {}).get("relation_review")
+    if not isinstance(trace, dict) or trace.get("evaluated") is not True:
+        return None
+    return {r["index"]: r.get("would_review") is True for r in trace.get("relations") or []
+            if isinstance(r, dict) and isinstance(r.get("index"), int)
+            and (r.get("conditions") or {}).get("not_safety") is True}
+
+
 def decide_promotion(bundle: dict) -> dict:
     """PURE : compose un PromotionEvidenceBundle en PromotionDecision (0 I/O, 0 repo).
 
@@ -256,6 +290,7 @@ def decide_promotion(bundle: dict) -> dict:
         "promotion_status": status,
         "eligible": not reasons,
         "blocking_reasons": reasons,
+        "relation_review": _relation_review_trace(substance, status),
     }
 
 
@@ -532,8 +567,23 @@ SAFETY_AUTO_APPROVAL_ADR: str | None = "ADR-114"
 # Planchers des dimensions shadow A (preuve) et C (couverture), en points bruts.
 SAFETY_DIM_FLOORS = {"A": 22.0, "C": 15.0}
 # Éditeurs distincts exigés parmi les sources de rôle `proof` citées : la barre L3 d'ADR-093
-# (≥ 3 sources primaires distinctes, non-sécurité) ; une fiche sécurité ne passe pas plus bas.
+# (≥ 3 sources primaires distinctes, non-sécurité) ; une fiche sécurité ne passe pas plus bas,
+# une relation relue par la règle d'ADR-116 non plus (ADR-116 D2, `proof_publishers_min`).
 SAFETY_PROOF_PUBLISHERS_MIN = 3
+
+# --- Relecture des relations hors sécurité par la règle de preuve (ADR-116) ------
+# Même verrou que la Safety Auto-Gate : une constante de CODE, jamais une variable
+# d'environnement ni une option CLI. Vide : report-only, le décideur inscrit les conditions de
+# D2 dans sa trace (`would_review`) et `apply_promotion` n'écrit rien dans la fiche. La lever =
+# PR WIKI dédiée qui y inscrit "ADR-116", recevable une fois ses préconditions (a)-(e)
+# fusionnées (ADR-116 D4). Le fichier entre dans `decision_engine_revision` : changer la
+# constante invalide toute décision déjà rendue (STALE_DECISION). Refermer = la remettre à None
+# (ADR-116 §Retour arrière).
+RELATION_REVIEW_ADR: str | None = None
+# Conditions d'ADR-116 D2, toutes exigées pour chaque relation, dans l'ordre de l'ADR.
+RELATION_REVIEW_CONDITIONS = ("fiche_eligible", "not_safety", "sources_raw_proven",
+                              "citations_anchored", "proof_publishers_min",
+                              "source_policy_resolved", "numeric_verified", "no_review_claimed")
 # Les 5 contrôles qualité attendus, dans l'ordre de `_load_gates` (test de parité).
 CANONICAL_GATE_NAMES = ("source", "claim", "contradiction", "risk", "confidence")
 NUMERIC_RANGES_RELPATH = Path("_meta") / "numeric-plausibility.yaml"
@@ -1214,19 +1264,24 @@ def _published_strings(node, path: str = "$"):
 
 
 @contextlib.contextmanager
-def _promoted_fiche(fm: dict, body: str, target: Path, wiki_root: Path, evaluation=None):
+def _promoted_fiche(fm: dict, body: str, target: Path, wiki_root: Path, evaluation=None,
+                    relation_verdicts=None):
     """La fiche telle qu'`apply_promotion` l'écrirait (`_promoted_frontmatter`, `_render_fiche`),
     à son chemin canonique sous une racine temporaire : les exporteurs la lisent comme un
     fichier du canon. `evaluation` : l'évaluation que la décision portera (`gate_status`,
     `confidence_score`, `shadow_score`), écrite telle quelle dans `promotion_evidence` ; None
-    (appel direct, hors `evaluate_tier`) : valeurs neutres. SHA du commit et horodatages, connus
-    à l'application seulement, restent neutres et de la forme qu'elle écrit : le repli de
-    `_wiki_commit_sha` et un ISO-8601."""
+    (appel direct, hors `evaluate_tier`) : valeurs neutres. `relation_verdicts` : relecture des
+    relations (ADR-116 D3) projetée, avec la révision réelle du décideur, celle qu'écrira
+    l'application. SHA du commit et horodatages, connus à l'application seulement, restent
+    neutres et de la forme qu'elle écrit : le repli de `_wiki_commit_sha` et un ISO-8601."""
     root = Path(wiki_root)
     promoted = _promoted_frontmatter(
         fm, evaluation if evaluation is not None else {"gate_status": "pass", "confidence_score": 0.0},
         target_rel=str(Path(target).resolve().relative_to(root.resolve())),
-        sha=_COMMIT_SHA_FALLBACK, now="1970-01-01T00:00:00+00:00")
+        sha=_COMMIT_SHA_FALLBACK, now="1970-01-01T00:00:00+00:00",
+        relation_verdicts=relation_verdicts,
+        decider_revision=(None if relation_verdicts is None
+                          else _engine_revision(("promotion_decision.py",))))
     with tempfile.TemporaryDirectory(prefix="safety-projection-") as tmp:
         tmp_root = Path(tmp).resolve()
         path = _promotion_target_path(tmp_root, promoted)
@@ -1266,7 +1321,7 @@ def _diagnostic_projection(path: Path, tmp_root: Path, wiki_root: Path):
 
 
 def _safety_numeric_exactitude(fm: dict, body: str, target: Path, wiki_root: Path,
-                               evaluation=None) -> dict:
+                               evaluation=None, relation_verdicts=None) -> dict:
     """Chaque valeur chiffrée du texte PUBLIÉ doit être `numeric_verified`.
 
     Corps : chaque bloc de `visible_text_blocks`, dans chacune de ses formes (rendue, écrite,
@@ -1355,7 +1410,14 @@ def _safety_numeric_exactitude(fm: dict, body: str, target: Path, wiki_root: Pat
     condition entière est UNAVAILABLE (`SafetyInputUnavailable`), car sans elles un nombre nu
     dans une clause à grandeur dimensionnée n'est plus reconnu et aucun verdict n'est sûr ;
     catalogue de sources d'une fiche gamme à relations → `status: UNAVAILABLE` sauf violation
-    prouvée ailleurs. Jamais vérifié."""
+    prouvée ailleurs. Jamais vérifié.
+
+    Par relation (ADR-116 D2, `numeric_verified`) : chaque chaîne publiée lue dans
+    `diagnostic_relations[i]` de la fiche, ou dans la relation de l'export diagnostic dont
+    `relation_index` vaut i, est rapportée à la relation i avec ses violations (`relations`) :
+    le même contrôle, aucun second détecteur. L'export SEO ne publie pas les relations.
+    `relation_verdicts` : la relecture projetée (`_promoted_fiche`), qui fait lire le texte
+    qu'elle écrirait."""
     ranges_path = Path(wiki_root) / NUMERIC_RANGES_RELPATH
     if not ranges_path.is_file():
         raise SafetyInputUnavailable(f"{NUMERIC_RANGES_RELPATH.as_posix()} absent de l'arbre évalué")
@@ -1518,7 +1580,9 @@ def _safety_numeric_exactitude(fm: dict, body: str, target: Path, wiki_root: Pat
                                                               leading=leading_value)]
     strings_read = {"fiche": 0, "seo": 0, "diagnostic": 0}
     unavailable: list[str] = []
-    with _promoted_fiche(fm, body, target, wiki_root, evaluation) as (tmp_root, path):
+    relation_strings: dict[int, dict] = {}
+    with _promoted_fiche(fm, body, target, wiki_root, evaluation,
+                         relation_verdicts) as (tmp_root, path):
         # Frontmatter tel qu'un lecteur YAML du canon l'analyse : clés et valeurs non-texte
         # (dates, nombres) lues par `_published_strings`, aucune clé fusionnée par une conversion.
         fiche_doc = _parse_markdown(path)[0]
@@ -1538,25 +1602,56 @@ def _safety_numeric_exactitude(fm: dict, body: str, target: Path, wiki_root: Pat
             strings_read[origin] += 1
             readings = _string_readings(text, ccm)
             plain = set()
+            found_here: list[str] = []
             for form, reading_text in readings:
                 found = unsourced(reading_text)
-                violations += [f"{origin} {where} ({form}) {v}" for v in found]
+                found_here += [f"{origin} {where} ({form}) {v}" for v in found]
                 plain.update(found)
-            violations += skeleton_violations(readings, plain, f"{origin} {where}")
+            found_here += skeleton_violations(readings, plain, f"{origin} {where}")
             if (unit := leading_unit(readings)) is not None:
-                violations.append(f"{origin} {where} unmodelled_leading_unit: {unit!r}")
-            violations += [f"{origin} {where} unmodelled_{kind}: {marker!r}"
+                found_here.append(f"{origin} {where} unmodelled_leading_unit: {unit!r}")
+            found_here += [f"{origin} {where} unmodelled_{kind}: {marker!r}"
                            for kind, marker in _unmodelled_constructs(text, ccm, body=False,
                                                                       leading=leading_value)]
+            violations += found_here
+            if (index := _published_relation_index(origin, where, doc)) is not None:
+                read = relation_strings.setdefault(index, {"strings_read": 0, "violations": []})
+                read["strings_read"] += 1
+                read["violations"] += found_here
     result = {"verified": not violations and not unavailable, "violations_total": len(violations),
               "sample": violations[:8], "anchored_claims": anchored,
               "anchors_unmasked": anchors_unmasked, "strings_read": strings_read,
               "published": {"seo": seo_doc is not None, "diagnostic": diag_doc is not None},
               "projection_warnings": projection_warnings, "unavailable": unavailable,
-              "family": family or None, "ranges_loaded": bool(ranges)}
+              "family": family or None, "ranges_loaded": bool(ranges),
+              # Liste et non mapping : la décision fait l'aller-retour JSON, qui change une clé
+              # entière en texte.
+              "relations": [{"index": index, "strings_read": read["strings_read"],
+                             "violations_total": len(read["violations"]),
+                             "sample": read["violations"][:8]}
+                            for index, read in sorted(relation_strings.items())]}
     if unavailable and not violations:
         result.update(status="UNAVAILABLE", missing_input="; ".join(unavailable))
     return result
+
+
+_FICHE_RELATION_PATH = re.compile(r"^\$\.diagnostic_relations\[(\d+)\](?=[.\[ ]|$)")
+_EXPORT_RELATION_PATH = re.compile(r"^\$\.relations\[(\d+)\](?=[.\[ ]|$)")
+
+
+def _published_relation_index(origin: str, where: str, doc) -> int | None:
+    """Index dans `diagnostic_relations[]` de la relation qui publie la chaîne lue à `where`
+    (`_published_strings`), None hors d'une relation : dans la fiche, par son chemin ; dans
+    l'export diagnostic, par le `relation_index` de la relation exportée (`_export_relation`) ;
+    absent ou non entier : ValueError, jamais une chaîne rattachée à aucune relation."""
+    if origin == "fiche" and (m := _FICHE_RELATION_PATH.match(where)):
+        return int(m.group(1))
+    if origin == "diagnostic" and (m := _EXPORT_RELATION_PATH.match(where)):
+        index = doc["relations"][int(m.group(1))].get("relation_index")
+        if not isinstance(index, int) or isinstance(index, bool):
+            raise ValueError(f"relation_index_malformed: {where}")
+        return index
+    return None
 
 
 def _sourced_entries(fm: dict):
@@ -1577,12 +1672,16 @@ def _sourced_entries(fm: dict):
 
 
 def _claimed_review_authority(fm: dict) -> dict:
-    """Entrées où la proposition déclare elle-même une relecture (`reviewed`) ou l'autorité
-    diagnostic (`diagnostic_safe`). ADR-033 D4 : ces bascules sont humaines ou couvertes par
-    une règle d'ADR explicite, jamais portées par une proposition. Toute valeur autre que
-    false/absente compte. Lève ValueError sur une liste mal formée (`_sourced_entries`)."""
+    """Entrées où la proposition déclare elle-même une relecture (`reviewed`), l'autorité
+    diagnostic (`diagnostic_safe`) ou le cachet de la règle de relecture (`reviewed_by` /
+    `reviewed_at`). ADR-033 D4 : ces bascules sont humaines ou couvertes par une règle d'ADR
+    explicite, jamais portées par une proposition ; ADR-116 D3 : le cachet n'est écrit que par
+    `apply_promotion`, une proposition qui le porte s'attribue la règle. Toute valeur autre que
+    false/absente compte ; pour le cachet, la seule présence de la clé, quelle que soit sa
+    valeur. Lève ValueError sur une liste mal formée (`_sourced_entries`)."""
     reviewed: list[str] = []
     live: list[str] = []
+    stamped: list[str] = []
     for label, item in _sourced_entries(fm):
         evidence = item.get("evidence")
         if not isinstance(evidence, dict):
@@ -1591,16 +1690,19 @@ def _claimed_review_authority(fm: dict) -> dict:
             reviewed.append(label)
         if evidence.get("diagnostic_safe") not in (None, False):
             live.append(label)
+        if "reviewed_by" in evidence or "reviewed_at" in evidence:
+            stamped.append(label)
     not_applicable = fm.get("diagnostic_not_applicable")
     if isinstance(not_applicable, dict) and not_applicable.get("reviewed") not in (None, False):
         reviewed.append("diagnostic_not_applicable")
-    return {"reviewed_true": reviewed, "diagnostic_safe_true": live}
+    return {"reviewed_true": reviewed, "diagnostic_safe_true": live,
+            "review_stamp_present": stamped}
 
 
 def _review_authority_claimed(claims: dict) -> bool:
     """Vrai si une déclaration est trouvée ou si le contrôle n'a pas pu conclure (fail-closed)."""
     return bool(claims.get("error") or claims.get("reviewed_true")
-                or claims.get("diagnostic_safe_true"))
+                or claims.get("diagnostic_safe_true") or claims.get("review_stamp_present"))
 
 
 def _publisher_key(publisher, invisible) -> str:
@@ -1633,6 +1735,15 @@ def _safety_proof_publishers(fm: dict, target: Path, wiki_root: Path) -> tuple[b
     distincts = clés distinctes (`_publisher_key`) ; l'éditeur est le texte libre du catalogue."""
     ccm = _load_module("_coverage_proof_sources", "check-coverage-map.py")
     qg = _load_module("_quality_gates_proof_sources", "quality-gates.py")
+    roles = _editorial_roles(wiki_root)
+    catalog = ccm._load_catalog(Path(wiki_root))
+    cited = ccm.referenced_source_slugs(Path(target), Path(wiki_root)) | qg.cited_source_slugs(fm)
+    return _proof_publishers_min(cited, catalog, roles, ccm.invisible)
+
+
+def _editorial_roles(wiki_root: Path) -> dict:
+    """`source_type_editorial_role` du catalogue de l'arbre évalué. Catalogue absent :
+    `SafetyInputUnavailable` ; mapping absent ou vide : ValueError."""
     catalog_path = Path(wiki_root) / SOURCE_CATALOG_RELPATH
     if not catalog_path.is_file():
         raise SafetyInputUnavailable(f"{SOURCE_CATALOG_RELPATH.as_posix()} absent de l'arbre évalué")
@@ -1640,11 +1751,18 @@ def _safety_proof_publishers(fm: dict, target: Path, wiki_root: Path) -> tuple[b
     roles = data.get("source_type_editorial_role") if isinstance(data, dict) else None
     if not isinstance(roles, dict) or not roles:
         raise ValueError("source_type_editorial_role_malformed: mapping non vide attendu")
-    catalog = ccm._load_catalog(Path(wiki_root))
-    cited = ccm.referenced_source_slugs(Path(target), Path(wiki_root)) | qg.cited_source_slugs(fm)
+    return roles
+
+
+def _proof_publishers_min(slugs, catalog: dict, roles: dict, invisible) -> tuple[bool, dict]:
+    """Au moins `SAFETY_PROOF_PUBLISHERS_MIN` éditeurs distincts de rôle `proof` parmi `slugs` :
+    le calcul d'ADR-114 D3, partagé par la Safety Auto-Gate (sources citées par la fiche) et par
+    la relecture des relations d'ADR-116 D2 (sources des citations ancrées de la relation). Une
+    source ne compte qu'`active`, de rôle `proof`, avec un éditeur identifiable ; sinon sa raison
+    est rapportée. Éditeurs distincts = clés distinctes (`_publisher_key`)."""
     publishers: dict[str, list[str]] = {}
     not_counted: dict[str, str] = {}
-    for slug in sorted(cited):
+    for slug in sorted(slugs):
         entry = catalog.get(slug)
         if entry is None:
             not_counted[slug] = "absent_du_catalogue"
@@ -1656,7 +1774,7 @@ def _safety_proof_publishers(fm: dict, target: Path, wiki_root: Path) -> tuple[b
         if role != "proof":
             not_counted[slug] = f"type={entry.get('type')} role={role}"
             continue
-        key = _publisher_key(entry.get("publisher"), ccm.invisible)
+        key = _publisher_key(entry.get("publisher"), invisible)
         if not key:
             not_counted[slug] = "publisher_absent"
             continue
@@ -1738,6 +1856,162 @@ def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
     return {"conditions": conditions, "details": details}
 
 
+def _relation_review_local(fm: dict, body: str, target: Path, wiki_root: Path, raw_root,
+                           is_safety: bool, shadow, gate_results, score, review_claims) -> dict:
+    """Conditions d'ADR-116 D2 calculables sur la fiche, pour chaque `diagnostic_relations[i]`.
+    `fiche_eligible` est composée ensuite par `decide_promotion` (`_relation_review_trace`) sur
+    le statut de la fiche, jamais réévalué ici. Trace seulement : aucun motif bloquant.
+
+    Fiche sécurité : ses relations n'entrent pas (D1), `not_safety` seule est rapportée, rien
+    d'autre n'est calculé. Sinon, chaque condition réutilise le contrôle existant qui la définit
+    (`quality-gates`, calcul d'éditeurs d'ADR-114 D3, vérification chiffrée d'ADR-114 D4 sur le
+    texte publié), lié aux racines de la décision. Fail-closed : une condition dont le calcul
+    lève est FAUSSE et son erreur rapportée ; une entrée gouvernée absente la rend FAUSSE et
+    `UNAVAILABLE`. `shadow`, `gate_results`, `score` : ceux de l'évaluation en cours, que la
+    fiche promue portera ; `review_claims` : `_claimed_review_authority` de la même évaluation."""
+    relations = fm.get("diagnostic_relations")
+    if relations is None:
+        return {"relations": []}
+    if not isinstance(relations, list):
+        return {"error": "diagnostic_relations_malformed: liste attendue"}
+    if is_safety:
+        return {"relations": [{"index": i, "conditions": {"not_safety": False},
+                               "details": {"not_safety": {"is_safety": True}}}
+                              for i in range(len(relations))]}
+    shared: dict[str, tuple] = {}
+
+    def once(key, compute):
+        # Entrée commune aux relations de la fiche : calculée une fois, son erreur comprise
+        if key not in shared:
+            try:
+                shared[key] = (True, compute())
+            except Exception as exc:  # noqa: BLE001 — relevée par chaque condition qui la lit
+                shared[key] = (False, exc)
+        ok, value = shared[key]
+        if not ok:
+            raise value
+        return value
+
+    def catalog():
+        if not (Path(wiki_root) / SOURCE_CATALOG_RELPATH).is_file():
+            raise SafetyInputUnavailable(f"{SOURCE_CATALOG_RELPATH.as_posix()} absent de l'arbre évalué")
+        return _load_module("_coverage_relation_review", "check-coverage-map.py")._load_catalog(Path(wiki_root))
+
+    def exporter():
+        if str(SCRIPTS_DIR) not in sys.path:
+            sys.path.insert(0, str(SCRIPTS_DIR))
+        return _load_module("_diagnostic_export_relation_review", "build_exports_diagnostic.py")
+
+    def numeric():
+        # L'évaluation que la décision portera, et la relecture projetée pour chaque relation :
+        # la fiche lue porte le texte le plus long que l'application puisse écrire.
+        evaluation = {"gate_status": {n: r.status for n, r in gate_results},
+                      "confidence_score": round(score, 4), "shadow_score": shadow}
+        projected = {i: True for i, item in enumerate(relations) if isinstance(item, dict)}
+        return _safety_numeric_exactitude(fm, body, target, wiki_root, evaluation,
+                                          relation_verdicts=projected)
+
+    qg = _bound_quality_gates("_quality_gates_relation_review", wiki_root, raw_root)
+    ccm_invisible = _load_module("_coverage_relation_invisible", "check-coverage-map.py").invisible
+    out = []
+    for i, item in enumerate(relations):
+        label = f"diagnostic_relations[{i}]"
+        conditions: dict[str, bool] = {"not_safety": True}
+        details: dict[str, Any] = {"not_safety": {"is_safety": False}}
+
+        def record(name, compute):
+            try:
+                ok, detail = compute()
+            except SafetyInputUnavailable as exc:  # entrée absente de l'arbre évalué : infra
+                ok, detail = False, {"status": "UNAVAILABLE", "missing_input": str(exc)}
+            except Exception as exc:  # noqa: BLE001 — fail-closed, erreur rapportée
+                ok, detail = False, {"error": f"{type(exc).__name__}: {exc}"}
+            conditions[name] = ok is True
+            details[name] = detail
+
+        if not isinstance(item, dict):
+            for name in RELATION_REVIEW_CONDITIONS[2:]:
+                conditions[name] = False
+                details[name] = {"error": f"{label}_malformed: mapping attendu"}
+            out.append({"index": i, "conditions": conditions, "details": details})
+            continue
+
+        def sources_raw_proven(item=item):
+            # Définition des exports : la source exportée (`_export_source`) porte `raw_proven`
+            sources = item.get("sources")
+            if not isinstance(sources, list) or not sources:
+                return False, {"sources": 0}
+            diag, entries = exporter(), once("catalog", catalog)
+            not_proven: list[dict] = []
+            for slug in sources:
+                try:
+                    if not diag._export_source(slug, entries)["raw_proven"]:
+                        not_proven.append({"source": slug, "reason": "raw_ref_absent_ou_non_actif"})
+                except Exception as exc:  # noqa: BLE001 — slug inconnu : source non prouvée
+                    not_proven.append({"source": slug, "reason": str(getattr(exc, "message", exc))})
+            return not not_proven, {"sources": len(sources), "not_raw_proven": not_proven}
+
+        anchored_sources: list[str] = []
+
+        def citations_anchored(item=item, label=label):
+            citations = item.get("citations")
+            if not isinstance(citations, list) or not citations:
+                return False, {"citations": 0}
+            entries = once("catalog", catalog)
+            if raw_root is None or not qg.RAW_INVENTORY.is_file():
+                raise SafetyInputUnavailable(f"inventaire RAW absent ({qg.RAW_INVENTORY}) : ancres non vérifiables")
+            # Index réel dans le libellé : relation précédée de positions vides, ignorées par
+            # `_sourced_entries` de quality-gates, qui énumère la liste
+            issues = (qg._citation_issues(label, item, entries)
+                      + qg.gate_citation_anchors({"diagnostic_relations": [None] * i + [item]}, entries))
+            for citation in citations:
+                alone = {"sources": item.get("sources"), "citations": [citation]}
+                if (isinstance(citation, dict) and not qg._citation_issues(label, alone, entries)
+                        and not qg.gate_citation_anchors({"diagnostic_relations": [alone]}, entries)):
+                    anchored_sources.append(citation["source"])
+            return not issues, {"citations": len(citations), "anchored": len(anchored_sources),
+                                "issues": issues}
+
+        def proof_publishers_min():
+            entries = once("catalog", catalog)
+            roles = once("roles", lambda: _editorial_roles(wiki_root))
+            return _proof_publishers_min(set(anchored_sources), entries, roles, ccm_invisible)
+
+        def source_policy_resolved(item=item, label=label):
+            evidence = item.get("evidence")
+            policy = evidence.get("source_policy") if isinstance(evidence, dict) else None
+            issues = qg._evidence_and_sources_issues(label, item, once("catalog", catalog))
+            # Durcissement : une politique absente ou invalide (`schema_invalid`) n'est pas résolue
+            blocking = [x for x in issues if x.startswith(("source_policy_violated:", "schema_invalid:"))]
+            return (isinstance(policy, str) and policy != "manual_review" and not blocking), {
+                "source_policy": policy, "issues": issues}
+
+        def numeric_verified(i=i):
+            result = once("numeric", numeric)
+            read = next((r for r in result.get("relations") or [] if r.get("index") == i), None)
+            unavailable = result.get("unavailable") or []
+            detail = {"strings_read": (read or {}).get("strings_read", 0),
+                      "violations_total": (read or {}).get("violations_total", 0),
+                      "sample": (read or {}).get("sample", []), "unavailable": unavailable}
+            if unavailable and not detail["violations_total"]:
+                detail.update(status="UNAVAILABLE", missing_input="; ".join(unavailable))
+            return (read is not None and read["strings_read"] > 0
+                    and read["violations_total"] == 0 and not unavailable), detail
+
+        def no_review_claimed():
+            return (review_claims is not None and not _review_authority_claimed(review_claims)), {
+                "review_claims": review_claims if review_claims is not None else {"evaluated": False}}
+
+        record("sources_raw_proven", sources_raw_proven)
+        record("citations_anchored", citations_anchored)
+        record("proof_publishers_min", proof_publishers_min)
+        record("source_policy_resolved", source_policy_resolved)
+        record("numeric_verified", numeric_verified)
+        record("no_review_claimed", no_review_claimed)
+        out.append({"index": i, "conditions": conditions, "details": details})
+    return {"relations": out}
+
+
 def _build_checks(is_safety, numeric_block, gate_results, truth_level,
                   score, threshold, gate_engine, shadow, kinds,
                   safety_local=None, review_claims=None) -> list[dict]:
@@ -1797,10 +2071,13 @@ def _build_checks(is_safety, numeric_block, gate_results, truth_level,
 
 
 def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
-                  threshold: float, gates, compute_score) -> dict:
+                  threshold: float, gates, compute_score, *, raw_root=None) -> dict:
     """
     Décision déterministe TIER A (auto) vs TIER B (humain). Fail-closed :
     toute exception est capturée par l'appelant → TIER B.
+
+    `raw_root` : racine RAW de la décision, pour les ancres des citations des relations
+    (ADR-116 D2) ; None : ancres non vérifiables, `citations_anchored` UNAVAILABLE.
     """
     reasons: list[str] = []
 
@@ -1885,6 +2162,13 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
             reasons.insert(0, "safety: famille sécurité-critique → Safety Auto-Gate "
                               f"({why}) ; décision composée par SAFETY_HUMAN_REVIEW")
 
+    # Relecture des relations hors sécurité (ADR-116) : trace, jamais une raison de blocage.
+    try:
+        relation_review = _relation_review_local(fm, body, target, wiki_root, raw_root, is_safety,
+                                                 shadow, gate_results, score, review_claims)
+    except Exception as exc:  # noqa: BLE001 — fail-closed : relations non évaluées
+        relation_review = {"error": f"{type(exc).__name__}: {exc}"}
+
     tier = "A" if not reasons else "B"
     return {
         "tier": tier,
@@ -1899,6 +2183,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         "blocking_reasons": reasons,
         "shadow_score": shadow,
         "numeric_flags": numeric_flags,
+        "relation_review": relation_review,
     }
 
 
@@ -1937,11 +2222,19 @@ def _canon_already_approved(wiki_root: Path, fm: dict) -> bool:
     return existing_fm.get("review_status") == "approved"
 
 
-def _promoted_frontmatter(fm: dict, evaluation: dict, *, target_rel: str, sha: str, now: str) -> dict:
+def _promoted_frontmatter(fm: dict, evaluation: dict, *, target_rel: str, sha: str, now: str,
+                          relation_verdicts=None, decider_revision=None) -> dict:
     """Frontmatter qu'`apply_promotion` écrit au canon : le frontmatter proposé, plus les champs
     de promotion. Partagé avec la Safety Auto-Gate, qui projette la fiche telle qu'elle sera
-    publiée (`_promoted_fiche`)."""
+    publiée (`_promoted_fiche`).
+
+    Relecture des relations (ADR-116 D3), seulement si `RELATION_REVIEW_ADR` est inscrite et que
+    la décision l'a évaluée (`relation_verdicts` : index d'une relation de D1 → toutes ses
+    conditions prouvées) : `_reviewed_relations`. Verrou vide : relations telles que proposées."""
     new_fm = dict(fm)  # copie — aucune modification du contenu éditorial
+    if RELATION_REVIEW_ADR and relation_verdicts is not None:
+        new_fm["diagnostic_relations"] = _reviewed_relations(
+            fm.get("diagnostic_relations"), relation_verdicts, decider_revision, now)
     new_fm["review_status"] = "approved"
     new_fm["reviewed_by"] = f"{PROMOTER_ID}@{sha}"
     new_fm["reviewed_at"] = now
@@ -1967,6 +2260,31 @@ def _promoted_frontmatter(fm: dict, evaluation: dict, *, target_rel: str, sha: s
     provenance["promoted_at"] = now
     new_fm["provenance"] = provenance
     return new_fm
+
+
+def _reviewed_relations(relations, verdicts: dict, decider_revision, now: str) -> list:
+    """`diagnostic_relations[]` écrites au canon (ADR-116 D3). Relation de D1 (index présent
+    dans `verdicts`) : `evidence.reviewed` = son verdict ; vrai, avec `reviewed_by` (la règle et
+    la révision du décideur qui a rendu la décision) et `reviewed_at` ; faux, sans eux. La
+    relecture n'est jamais héritée : une valeur proposée de ces deux champs n'est pas reprise.
+    Entrée hors D1 : telle que proposée. Révision absente pour une relation relue :
+    PromotionInputError, jamais un cachet sans révision."""
+    if not isinstance(relations, list):
+        raise PromotionInputError("diagnostic_relations_malformed: liste attendue")
+    written = []
+    for i, item in enumerate(relations):
+        if i not in verdicts or not isinstance(item, dict) or not isinstance(item.get("evidence"), dict):
+            written.append(item)
+            continue
+        evidence = {k: v for k, v in item["evidence"].items() if k not in ("reviewed_by", "reviewed_at")}
+        evidence["reviewed"] = verdicts[i] is True
+        if evidence["reviewed"]:
+            if not decider_revision:
+                raise PromotionInputError("relation_review_revision_missing: cachet sans révision")
+            evidence["reviewed_by"] = f"rule:{RELATION_REVIEW_ADR}@{decider_revision}"
+            evidence["reviewed_at"] = now
+        written.append({**item, "evidence": evidence})
+    return written
 
 
 def _render_fiche(fm: dict, body: str) -> str:
@@ -2027,7 +2345,9 @@ def apply_promotion(target: Path, wiki_root: Path, decision: dict, *,
             raise PromotionInputError(f"refus écrasement canon déjà approved: {out_path}")
 
         new_fm = _promoted_frontmatter(fm, evaluation, target_rel=str(target.relative_to(wiki_root)),
-                                       sha=sha, now=now)
+                                       sha=sha, now=now,
+                                       relation_verdicts=_relation_review_verdicts(decision),
+                                       decider_revision=decision["inputs"]["decision_engine_revision"])
 
         out_path.parent.mkdir(parents=True, exist_ok=True)
         rendered = _render_fiche(new_fm, body)
@@ -2083,6 +2403,18 @@ def apply_promotion(target: Path, wiki_root: Path, decision: dict, *,
         os.close(lock_fd)  # releases flock on every failure and normal return
 
 
+def _bound_quality_gates(name: str, wiki_root: Path, raw_root):
+    """Instance de `quality-gates.py` liée aux racines de la décision : le catalogue de l'arbre
+    évalué et l'inventaire RAW capturés dans le manifeste, jamais le checkout d'installation du
+    module ni une valeur d'environnement sans rapport. `raw_root` None : inventaire non lié."""
+    qg = _load_module(name, "quality-gates.py")
+    qg.SOURCE_CATALOG = Path(wiki_root) / SOURCE_CATALOG_RELPATH
+    if raw_root is not None:
+        qg.RAW_INVENTORY = Path(raw_root) / "manifests" / "source-inventory.csv"
+        qg.RAW_CHECKSUMS = Path(raw_root) / "manifests" / "checksums.json"
+    return qg
+
+
 def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
                          threshold, gates, compute_score):
     """Runner I/O par défaut : appelle les évaluateurs RÉELS existants (1 exécution
@@ -2098,7 +2430,7 @@ def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
         threshold = AUTO_PROMOTE_THRESHOLD
 
     substance = evaluate_tier(fm, body, candidate_path, wiki_root,
-                                      threshold, gates, compute_score)
+                                      threshold, gates, compute_score, raw_root=raw_root)
 
     # coverage-strict (check-coverage-map)
     try:
@@ -2125,13 +2457,7 @@ def _run_real_evaluators(candidate_path, wiki_root, raw_root, baseline_path,
 
     # provenance raw_ref cross-repo (quality-gates) — RAW dispo depuis AUTOMECANIK_RAW_PATH
     try:
-        qg = _load_module("_quality_gates_prov", "quality-gates.py")
-        # Validate the same roots captured in the decision manifest, not the
-        # module's installation checkout or an unrelated environment default.
-        qg.SOURCE_CATALOG = wiki_root / "_meta" / "source-catalog.yaml"
-        if raw_root is not None:
-            qg.RAW_INVENTORY = Path(raw_root) / "manifests" / "source-inventory.csv"
-            qg.RAW_CHECKSUMS = Path(raw_root) / "manifests" / "checksums.json"
+        qg = _bound_quality_gates("_quality_gates_prov", wiki_root, raw_root)
         source_catalog = qg.load_source_catalog()
         _mids, _sha, _dups, raw_msg = qg.load_raw_inventory()
         raw_available = bool(_mids) or ("absent" not in (raw_msg or "").lower())

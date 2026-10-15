@@ -144,14 +144,15 @@ def test_evaluate_tier_emits_structured_checks(tmp_path):
     )
     assert "checks" in d
     by_code = {c["code"]: c for c in d["checks"]}
-    # une check par dimension (safety, numeric, 5 gates, truth, substance, source-diversity)
-    for code in ("SAFETY_HUMAN_REVIEW", "NUMERIC_HIGH_HARM", "GATE_RISK",
+    # une check par dimension (safety, numeric, review, 5 gates, truth, substance, source-diversity)
+    for code in ("SAFETY_HUMAN_REVIEW", "NUMERIC_HIGH_HARM", "REVIEW_AUTHORITY_CLAIMED", "GATE_RISK",
                  "TRUTH_LEVEL", "SUBSTANCE_SCORE", "SOURCE_DIVERSITY"):
         assert code in by_code, code
         assert by_code[code]["status"] in ("pass", "fail")
         assert by_code[code]["owner_stage"]
     assert by_code["GATE_RISK"]["status"] == "fail"
     assert by_code["SAFETY_HUMAN_REVIEW"]["status"] == "pass"  # FM_OK non-safety
+    assert by_code["REVIEW_AUTHORITY_CLAIMED"]["status"] == "pass"  # FM_OK ne déclare rien
 
 
 def test_decide_promotion_is_pure_and_deterministic(tmp_path):
@@ -3686,3 +3687,78 @@ def test_numeric_ranges_are_a_decision_input(tmp_path):
     manifest = dec.capture_input_manifest(cand, tmp_path, None, None)
     roles = {e["role"] for e in manifest["input_manifest"]}
     assert "numeric_ranges" in roles
+
+
+# --- Relecture et autorité diagnostic : jamais déclarées par la proposition elle-même ------
+# ADR-033 D4 : `reviewed` / `diagnostic_safe` passent à true par un flip humain ou une règle
+# d'ADR explicite, jamais automatiquement. Une proposition qui les déclare elle-même ne doit
+# pas être promue sans regard humain, quelle que soit sa famille.
+def _evidence(**flags):
+    return {"confidence": "medium", "source_policy": "2_medium_concordant",
+            "reviewed": False, "diagnostic_safe": False, **flags}
+
+
+_NOT_APPLICABLE_REASON = "Aucun lien avec le vocabulaire des symptômes."
+
+
+@pytest.mark.parametrize("fm_extra, claimed", [
+    ({"diagnostic_relations": [{"symptom_slug": "voyant_huile",
+                                "evidence": _evidence(reviewed=True)}]},
+     {"reviewed_true": ["diagnostic_relations[0]"], "diagnostic_safe_true": []}),
+    ({"diagnostic_relations": [{"symptom_slug": "voyant_huile", "evidence": _evidence()},
+                               {"symptom_slug": "bruit_moteur",
+                                "evidence": _evidence(diagnostic_safe=True)}]},
+     {"reviewed_true": [], "diagnostic_safe_true": ["diagnostic_relations[1]"]}),
+    ({"diagnostic": {"quick_checks": [{"cause_slug": "filtre_colmate",
+                                       "evidence": _evidence(reviewed=True, diagnostic_safe=True)}]}},
+     {"reviewed_true": ["diagnostic.quick_checks[0]"],
+      "diagnostic_safe_true": ["diagnostic.quick_checks[0]"]}),
+    ({"safety_rules": [{"rule_slug": "arret_immediat", "evidence": _evidence(reviewed=True)}]},
+     {"reviewed_true": ["safety_rules[0]"], "diagnostic_safe_true": []}),
+    ({"diagnostic_not_applicable": {"reason": _NOT_APPLICABLE_REASON, "reviewed": True}},
+     {"reviewed_true": ["diagnostic_not_applicable"], "diagnostic_safe_true": []}),
+])
+def test_self_declared_review_blocks_a_non_safety_fiche(tmp_path, fm_extra, claimed):
+    """Fiche non-sécurité, tout le reste PASS : la seule déclaration de relecture ou
+    d'autorité diagnostic suffit à la bloquer, avec les entrées en cause."""
+    pm = _load_promote()
+    dec = _load_decision()
+    substance = _substance(pm, fm={**FM_OK, **fm_extra}, tmp_path=tmp_path)
+    assert substance["tier"] == "B", substance
+    d = dec.decide_promotion({"substance": substance})
+    assert d["promotion_status"] == "BLOCKED"
+    assert [r["code"] for r in d["blocking_reasons"]] == ["REVIEW_AUTHORITY_CLAIMED"], d
+    assert d["blocking_reasons"][0]["evidence"] == claimed
+
+
+def test_unreviewed_claims_do_not_block(tmp_path):
+    """Témoin : les mêmes listes avec reviewed/diagnostic_safe à false restent éligibles."""
+    pm = _load_promote()
+    dec = _load_decision()
+    fm = {**FM_OK,
+          "diagnostic_relations": [{"symptom_slug": "voyant_huile", "evidence": _evidence()}],
+          "diagnostic": {"quick_checks": [{"cause_slug": "filtre_colmate", "evidence": _evidence()}]},
+          "diagnostic_not_applicable": {"reason": _NOT_APPLICABLE_REASON, "reviewed": False}}
+    substance = _substance(pm, fm=fm, tmp_path=tmp_path)
+    assert substance["tier"] == "A", substance
+    assert dec.decide_promotion({"substance": substance})["eligible"] is True
+
+
+def test_unreadable_review_claims_fail_closed(tmp_path):
+    """Liste mal formée : le contrôle ne peut pas conclure, il bloque et dit pourquoi."""
+    pm = _load_promote()
+    dec = _load_decision()
+    substance = _substance(pm, fm={**FM_OK, "diagnostic_relations": "pas une liste"},
+                           tmp_path=tmp_path)
+    assert substance["tier"] == "B"
+    d = dec.decide_promotion({"substance": substance})
+    reason = next(r for r in d["blocking_reasons"] if r["code"] == "REVIEW_AUTHORITY_CLAIMED")
+    assert "diagnostic_relations_malformed" in reason["evidence"]["error"]
+
+
+def test_review_check_absent_input_is_never_a_pass():
+    """Checks construits sans le résultat du contrôle : fail, jamais un succès par défaut."""
+    dec = _load_decision()
+    checks = dec._build_checks(False, [], [], "L1", 0.9, 0.8, "legacy", None, {"raw", "web"})
+    check = next(c for c in checks if c["code"] == "REVIEW_AUTHORITY_CLAIMED")
+    assert check["status"] == "fail" and check["evidence"] == {"evaluated": False}

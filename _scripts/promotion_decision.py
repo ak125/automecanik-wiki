@@ -1574,6 +1574,33 @@ def _sourced_entries(fm: dict):
                 yield f"{label}[{i}]", item
 
 
+def _claimed_review_authority(fm: dict) -> dict:
+    """Entrées où la proposition déclare elle-même une relecture (`reviewed`) ou l'autorité
+    diagnostic (`diagnostic_safe`). ADR-033 D4 : ces bascules sont humaines ou couvertes par
+    une règle d'ADR explicite, jamais portées par une proposition. Toute valeur autre que
+    false/absente compte. Lève ValueError sur une liste mal formée (`_sourced_entries`)."""
+    reviewed: list[str] = []
+    live: list[str] = []
+    for label, item in _sourced_entries(fm):
+        evidence = item.get("evidence")
+        if not isinstance(evidence, dict):
+            continue
+        if evidence.get("reviewed") not in (None, False):
+            reviewed.append(label)
+        if evidence.get("diagnostic_safe") not in (None, False):
+            live.append(label)
+    not_applicable = fm.get("diagnostic_not_applicable")
+    if isinstance(not_applicable, dict) and not_applicable.get("reviewed") not in (None, False):
+        reviewed.append("diagnostic_not_applicable")
+    return {"reviewed_true": reviewed, "diagnostic_safe_true": live}
+
+
+def _review_authority_claimed(claims: dict) -> bool:
+    """Vrai si une déclaration est trouvée ou si le contrôle n'a pas pu conclure (fail-closed)."""
+    return bool(claims.get("error") or claims.get("reviewed_true")
+                or claims.get("diagnostic_safe_true"))
+
+
 def _publisher_key(publisher, invisible) -> str:
     """Clé d'égalité de deux éditeurs : correspondance sans casse de compatibilité d'Unicode
     (NFKD(casefold(NFKD(casefold(NFD(x)))))), caractères invisibles retirés (`invisible`, le
@@ -1690,8 +1717,7 @@ def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
            lambda: (fm.get("no_disputed_claims") is True, {"value": fm.get("no_disputed_claims")}))
 
     def live_authority():
-        claimed = [label for label, item in _sourced_entries(fm)
-                   if isinstance(item.get("evidence"), dict) and item["evidence"].get("diagnostic_safe") is True]
+        claimed = _claimed_review_authority(fm)["diagnostic_safe_true"]
         return not claimed, {"diagnostic_safe_true": claimed}
 
     # `diagnostic_safe: true` = flip humain ciblé (quality-gates.md §diagnostic_safe), jamais auto.
@@ -1712,7 +1738,7 @@ def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
 
 def _build_checks(is_safety, numeric_block, gate_results, truth_level,
                   score, threshold, gate_engine, shadow, kinds,
-                  safety_local=None) -> list[dict]:
+                  safety_local=None, review_claims=None) -> list[dict]:
     """Reconstruit les CHECKS structurés à partir des valeurs DÉJÀ calculées par
     evaluate_tier (aucune ré-exécution). Chaque check = {code, status, owner_stage,
     evidence} — le substrat machine-readable que `decide_promotion` consomme sans
@@ -1726,6 +1752,12 @@ def _build_checks(is_safety, numeric_block, gate_results, truth_level,
          "evidence": {"is_safety": bool(is_safety), **(safety_local or {})}},
         {"code": "NUMERIC_HIGH_HARM", "status": "fail" if numeric_block else "pass",
          "owner_stage": "POLICY_NUMERIC", "evidence": {"block": list(numeric_block[:5])}},
+        # Absent ⇒ non évalué ⇒ fail (jamais un succès par défaut).
+        {"code": "REVIEW_AUTHORITY_CLAIMED",
+         "status": "pass" if review_claims is not None
+         and not _review_authority_claimed(review_claims) else "fail",
+         "owner_stage": "POLICY_REVIEW",
+         "evidence": review_claims if review_claims is not None else {"evaluated": False}},
     ]
     for name, r in gate_results:
         checks.append({
@@ -1831,6 +1863,16 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     if len(kinds) < MIN_DISTINCT_SOURCE_KINDS:
         reasons.append(f"source_refs kinds distincts={len(kinds)} (<{MIN_DISTINCT_SOURCE_KINDS})")
 
+    # Relecture / autorité diagnostic déclarées par la proposition : toutes familles (ADR-033 D4,
+    # ADR-112 D12). Correction attendue = remettre à false ; la bascule ne passe pas par ici.
+    try:
+        review_claims = _claimed_review_authority(fm)
+    except Exception as exc:  # noqa: BLE001 — fail-closed, erreur rapportée
+        review_claims = {"error": f"{type(exc).__name__}: {exc}"}
+    if _review_authority_claimed(review_claims):
+        reasons.append("review: relecture ou autorité diagnostic déclarée par la proposition "
+                       f"(bascule humaine ou règle d'ADR explicite, ADR-033 D4) : {review_claims}")
+
     safety_local = None
     if is_safety:
         safety_local = _safety_local_conditions(fm, body, target, wiki_root, shadow, gate_results, score)
@@ -1851,7 +1893,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         "gate_outcomes": [_serialize_gate_outcome(n, r) for n, r in gate_results],
         "checks": _build_checks(is_safety, numeric_flags["block"], gate_results,
                                 truth_level, score, threshold, gate_engine, shadow, kinds,
-                                safety_local),
+                                safety_local, review_claims),
         "blocking_reasons": reasons,
         "shadow_score": shadow,
         "numeric_flags": numeric_flags,

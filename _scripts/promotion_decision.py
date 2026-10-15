@@ -27,8 +27,13 @@ DEUX engine revisions inchangés) — le `--apply` n'est JAMAIS un 2ᵉ décideu
 """
 from __future__ import annotations
 
+import contextlib
 import hashlib
+import html
 import importlib.util
+import io
+import itertools
+import json
 import os
 import re
 import subprocess
@@ -36,6 +41,7 @@ import sys
 import stat
 import tempfile
 import unicodedata
+import urllib.parse
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -62,9 +68,19 @@ _APPLY_GUARD = "APPLY_GUARD"
 class PromotionInputError(Exception):
     """Erreur de cœur métier promotion (input invalide / config introuvable) —
     exception de DOMAINE click-free. Le CLI (`promote.py`) la traduit en
-    `click.ClickException` À SA FRONTIÈRE (jamais l'inverse : la bibliothèque ne
-    dépend pas de click). Sous-classe d'`Exception` ⇒ capturée telle quelle par les
-    handlers fail-closed existants (`except Exception`), 0 changement de comportement."""
+    `click.ClickException` À SA FRONTIÈRE (jamais l'inverse : la bibliothèque
+    n'importe pas click ; seuls les modules qu'elle charge à l'appel l'importent —
+    `gates/`, et les exporteurs `build_exports_seo.py` / `build_exports_diagnostic.py`
+    qu'exécute la Safety Auto-Gate). Sous-classe d'`Exception` ⇒ capturée telle quelle
+    par les handlers fail-closed existants (`except Exception`), 0 changement de
+    comportement."""
+
+
+class SafetyInputUnavailable(Exception):
+    """Entrée gouvernée absente de l'arbre évalué (ex. répertoire de travail de la revue
+    gap1, sans `_meta/`) : la condition de la Safety Auto-Gate qui la lit n'y est pas
+    évaluable. Défaut d'infrastructure, jamais un verdict sur le contenu (P0-2) : la
+    condition reste fausse (fail-closed) et son détail porte `status: UNAVAILABLE`."""
 
 
 def blocking_reason(code: str, owner_stage: str, detector_stage: str, evidence) -> dict:
@@ -192,12 +208,17 @@ def _reasons_from_safety(substance: dict, bundle: dict) -> list[dict]:
     blocking = [k for k, ok in conditions.items() if ok is not True]
     if not blocking and SAFETY_AUTO_APPROVAL_ADR:
         return []
+    details = evidence.get("details") or {}
     return [blocking_reason("SAFETY_HUMAN_REVIEW", check.get("owner_stage", "POLICY_SAFETY"),
                             _SUBSTANCE_DETECTOR, {
                                 "is_safety": True,
                                 "conditions": conditions,
                                 "blocking_conditions": blocking,
-                                "details": evidence.get("details") or {},
+                                # entrée gouvernée absente du contexte évalué : infra, pas contenu
+                                "unavailable_conditions": [
+                                    k for k in blocking if isinstance(details.get(k), dict)
+                                    and details[k].get("status") == "UNAVAILABLE"],
+                                "details": details,
                                 "policy": {"auto_approval_adr": SAFETY_AUTO_APPROVAL_ADR,
                                            "status": "ratified" if SAFETY_AUTO_APPROVAL_ADR
                                            else "not_ratified"},
@@ -316,8 +337,11 @@ _EVALUATION_ENGINE_FILES = (
     "promotion_decision.py", "quality-gates.py", "check-coverage-map.py",
     "compare-proposal-versions.py", "shadow_score.py", "compute-confidence-score.py",
     "editorial_sections.py", "requirements-scoring.txt", "gen_coverage_map.py",
-    # Safety Auto-Gate : classifieur, lock numérique, famille, et les 5 contrôles qualité.
-    "safety_families.py", "numeric_exactitude.py", "author_from_raw.py",
+    # Safety Auto-Gate : classifieur, lock numérique, famille, projections des exports SEO et
+    # diagnostic (texte publié depuis le frontmatter ; la seconde exécute la formule de
+    # confiance symptôme), et les 5 contrôles qualité.
+    "safety_families.py", "numeric_exactitude.py", "author_from_raw.py", "build_exports_seo.py",
+    "build_exports_diagnostic.py", "compute-symptom-confidence.py",
     "gates/__init__.py", "gates/_common.py", "gates/source_gate.py", "gates/claim_gate.py",
     "gates/contradiction_gate.py", "gates/risk_gate.py", "gates/confidence_gate.py",
 )
@@ -505,9 +529,13 @@ def _is_safety_proposal(fm: dict) -> bool:
 SAFETY_AUTO_APPROVAL_ADR: str | None = None
 # Planchers des dimensions shadow A (preuve) et C (couverture), en points bruts.
 SAFETY_DIM_FLOORS = {"A": 22.0, "C": 15.0}
+# Éditeurs distincts exigés parmi les sources de rôle `proof` citées : la barre L3 d'ADR-093
+# (≥ 3 sources primaires distinctes, non-sécurité) ; une fiche sécurité ne passe pas plus bas.
+SAFETY_PROOF_PUBLISHERS_MIN = 3
 # Les 5 contrôles qualité attendus, dans l'ordre de `_load_gates` (test de parité).
 CANONICAL_GATE_NAMES = ("source", "claim", "contradiction", "risk", "confidence")
 NUMERIC_RANGES_RELPATH = Path("_meta") / "numeric-plausibility.yaml"
+SOURCE_CATALOG_RELPATH = Path("_meta") / "source-catalog.yaml"
 
 
 def load_numeric_ranges(path) -> dict:
@@ -609,6 +637,9 @@ def _parse_markdown(path: Path, *, source_bytes: bytes | None = None) -> tuple[d
     return fm, parts[1]
 
 
+_COMMIT_SHA_FALLBACK = "0000000"
+
+
 def _wiki_commit_sha(wiki_root: Path) -> str:
     import subprocess
 
@@ -619,7 +650,7 @@ def _wiki_commit_sha(wiki_root: Path) -> str:
         )
         return out.stdout.strip()
     except Exception:
-        return "0000000"
+        return _COMMIT_SHA_FALLBACK
 
 
 # --- Shadow scoring 6-dim (ADR-088 §F : observabilité AVANT cutover) ----------
@@ -693,45 +724,837 @@ def _coverage_entries(wiki_root: Path, target: Path) -> list[dict]:
     return [e for e in (data.get("coverage_entries") or []) if isinstance(e, dict)]
 
 
-def _safety_numeric_exactitude(fm: dict, body: str, target: Path, wiki_root: Path) -> dict:
+# Suite d'échappements d'URL (`%C2%B7`, `%6d`, `%20`) : une chaîne publiée peut être affichée
+# décodée, symbole ou lettre d'unité compris (`N%C2%B7m`, `N%6D`). Une suite qui suit un nombre
+# (espaces compris) reste littérale : son `%` peut être un signe pour cent (`50%C3%A9`), que
+# `numeric_exactitude` lit comme tel.
+_PCT_ESCAPE_RUN = re.compile(r"(\d\s*)?((?:%[0-9A-Fa-f]{2})+)")
+_JSON_IDENTIFIER = re.compile(r"[A-Za-z_][A-Za-z0-9_]*")
+
+
+def _percent_decoded(text: str, *, keep_ascii: bool = False) -> str:
+    """`text`, suites d'échappements `%XX` décodées en UTF-8, sauf après un nombre ; un octet
+    qui ne forme pas un caractère valide reste échappé (`%XX`). `keep_ascii` : un échappement
+    de caractère ASCII, comme un octet invalide, reste tel qu'écrit (casse comprise), seuls les
+    caractères non ASCII valides sont décodés — affichage de type IRI, plus strict que RFC 3987
+    §3.2 : `%C3%A9` s'affiche `é` mais `%45` reste `%45`. Deux échappements gardés consécutifs
+    sont séparés par `·` : les chiffres hexadécimaux de l'un ne forment pas, avec le `%` de
+    l'autre, une valeur en pour cent que personne ne lit (`%20%28` → `%20·%28`, jamais `20%`)."""
+    def decode(m):
+        if m.group(1) is not None:
+            return m.group(0)
+        written = re.findall(r"%[0-9A-Fa-f]{2}", m.group(2))
+        decoded = bytes.fromhex(m.group(2).replace("%", "")).decode("utf-8", "surrogateescape")
+        out, at, kept = [], 0, False
+        for ch in decoded:
+            invalid = 0xDC80 <= ord(ch) <= 0xDCFF
+            keep = invalid or (keep_ascii and ord(ch) < 0x80)
+            if keep and kept:
+                out.append("·")
+            if keep_ascii and keep:
+                out.append(written[at])
+            else:
+                out.append(f"%{ord(ch) - 0xDC00:02X}" if invalid else ch)
+            kept = keep
+            at += len(ch.encode("utf-8", "surrogateescape"))
+        return "".join(out)
+    return _PCT_ESCAPE_RUN.sub(decode, text)
+
+
+# Propriété Unicode Bidi_Control (PropList.txt, Unicode 15.0) : marques, plongements, forçages et
+# isolats bidirectionnels. Ils font afficher un texte dans un autre ordre que celui où il est écrit
+# (`mN 52` forcé de droite à gauche s'affiche `25 Nm`) ; invisibles, `ccm._compat` les retire.
+_BIDI_CONTROLS = frozenset({0x061C, 0x200E, 0x200F, *range(0x202A, 0x202F), *range(0x2066, 0x206A)})
+# Monde fermé : ce qu'aucune lecture du contrôle (`visible_text_blocks`, `_string_readings`) ne
+# rend, une construction qu'un rendu affiche autrement que tout texte lu. Chacune est une
+# violation, quoi qu'elle affiche, au lieu d'un modèle de chaque moteur de rendu :
+# - formule (`$`, rendue par GitHub : `$25^\circ C$` s'affiche `25°C`) ;
+# - bloc de code que GitHub ou Obsidian rend autrement que son texte (`_RENDERED_FENCES` :
+#   formule, diagramme, carte, modèle 3D, recherche et vue « Bases » d'Obsidian), par le premier
+#   mot de son info ;
+# - HTML brut, balise ou commentaire (`_RAW_HTML` : direction, style, texte masqué) ;
+# - note (`_FOOTNOTE` : son renvoi affiche un numéro, sa définition s'affiche en fin de page),
+#   note en ligne d'Obsidian (`^[…]`) comprise, fermée ou non ;
+# - syntaxe d'Obsidian, lecteur que déclare le dépôt (README : « Markdown / Obsidian »), avec ses
+#   modules de base, activés ou non, sans module tiers (`.obsidian/community-plugins.json` vide),
+#   qui masque ou remplace son texte (`_OBSIDIAN`, `_OBSIDIAN_LINK`) : insertion `![[…]]` (contenu
+#   d'une autre note ou d'un fichier, affiché à sa place), lien à libellé, à titre ou à bloc
+#   (`[[note|25]]` n'affiche que `25`, `[[note#titre]]` affiche `note > titre`), lien écrit avec
+#   l'extension de sa note (`[[25.md]]`, qu'Obsidian peut afficher sans elle), blancs ECMAScript
+#   de fin compris (`_JS_TRIM`), commentaire `%%…%%` (masqué : `2%%x%%5 Nm` s'affiche `25 Nm`),
+#   identifiant de bloc `^id` en fin de ligne (masqué : `à 2 ^b5` affiche `à 2`, lu avec la ligne
+#   qui suit), relevé dans tout dernier mot de ligne dont un `^` précède un caractère, hors note
+#   (`[^…]`, `^[…]`), suivi au plus de blancs ECMAScript (U+FEFF compris), encadré : citation dont
+#   la première ligne que lit l'analyseur (lignes blanches sautées), blancs ECMAScript retirés,
+#   commence par `[!`, quel que soit le bloc qu'il en tire (son marqueur, alerte de GitHub
+#   comprise, s'affiche en icône et en titre : le type, s'il n'en a pas). Un lien simple,
+#   `[[note]]`, affiche son texte sans ses crochets, que la lecture sans balisage lit ; un
+#   surlignage `==…==`, la lecture squelette, qui retire ses signes ;
+# - code emoji (`_EMOJI_SHORTCODE`, que GitHub affiche en image hors du code : `:two:` affiche le
+#   chiffre 2 en touche), tout nom de cette forme sauf celle, qu'aucun code ne porte, des minutes
+#   d'une heure et de son décalage horaire (`10:00:00`, `2026-10-14T10:00:00+02:00`) ;
+# - ordre d'affichage : contrôle bidirectionnel (`_BIDI_CONTROLS`) ou caractère de classe
+#   bidirectionnelle R, AL ou AN. Sans eux ni HTML, l'algorithme bidirectionnel Unicode (UAX #9)
+#   affiche un paragraphe de gauche à droite dans l'ordre où il est écrit : direction du paragraphe
+#   gauche à droite (P2-P3), chiffres européens lus de gauche à droite (W7), niveau 0 partout ;
+# - caractère de contrôle (catégorie Cc), hors tabulation et fins de ligne : son affichage n'est
+#   pas défini (retiré, remplacé, ou effaçant le caractère précédent) ;
+# - caractère que la base Unicode de l'interpréteur ne définit pas (`_UNKNOWN_CATEGORIES` : non
+#   attribué, usage privé, demi-codet isolé) : sa classe bidirectionnelle, sa valeur numérique et
+#   son affichage lui sont inconnus — un caractère attribué après elle peut être un chiffre ou
+#   une lettre de droite à gauche pour un lecteur plus récent ;
+# - chiffre que la lecture ne lit pas tel qu'il s'affiche (`_misread_numeral`) : caractère de
+#   valeur numérique Unicode que les chiffres décimaux de sa décomposition de compatibilité
+#   n'écrivent pas (`❷`, `〇` : aucun chiffre ; `½`, décomposé `1⁄2`, lu `2`), barre de fraction
+#   (`1⁄2` affiché en fraction) — `numeric_exactitude.py` ne lit que les chiffres décimaux ;
+# - image (fichier du dépôt ou distante) : ce qu'elle affiche n'est pas du texte ;
+# - imbrication au-delà de la profondeur de l'analyseur (`maxNesting`) : il ne lit pas le contenu
+#   d'une citation ou d'un item de liste ouvert au dernier niveau (`_BLOCK_CONTAINERS`) — 20
+#   citations, 10 niveaux de liste —, que GitHub affiche ;
+# - numéro d'un item de liste ordonnée suivi d'une unité ou d'un chiffre : le numéro qu'affiche le
+#   navigateur (`start` de la liste, puis compté de 1 en 1) n'est dans aucune lecture, et se lit
+#   avec ce qui le suit (`25.` puis `Nm`, ou `24.` puis un second item `1. Nm`, affiché `25. Nm`),
+#   case à cocher en tête de paragraphe comprise (`[x]`, tout caractère entre crochets, suivie
+#   d'un blanc ou de la fin de ligne, affichée en case ; le rendu projeté n'en a pas) ; un premier
+#   bloc qui n'affiche rien (code, titre ou cellule vides, ou faits de caractères invisibles ou de
+#   glyphes blancs, lien sans libellé) n'a pas de ligne, et le numéro se lit avec le bloc suivant,
+#   quel qu'il soit.
+# Chaque propriété de caractère est celle de la base Unicode de l'interpréteur qui exécute le
+# contrôle (`unicodedata.unidata_version`) : le monde fermé vaut pour elle.
+_RENDERED_FENCES = frozenset({"math", "mermaid", "geojson", "topojson", "stl", "query", "base"})
+_BLOCK_CONTAINERS = frozenset({"blockquote_open", "list_item_open"})
+_ITEM_CONTENT = frozenset({"inline", "code_block", "fence", "html_block"})
+_TASK_MARKER = re.compile(r"\A\[[^\]\n]\](?=[ \t\n])")
+_RAW_HTML = re.compile(r"<[A-Za-z!?/][^\s<>]*")
+# Note `[^…]` ou `^[…]`, fermée ou non, chacune lue jusqu'au premier `]` ou à la fin de ligne :
+# un seul passage, linéaire
+_FOOTNOTE = re.compile(r"\[\^[^\]\n]*+\]?|\^\[[^\]\n]*+\]?")
+_OBSIDIAN = re.compile(r"!\[\[[^\]\n]*+(?:\]\])?|%%"
+                       r"|(?<!\S)(?=\S*?(?<!\[)\^[^\s\[])\S*+"
+                       r"(?=(?:[^\S\n\r\u2028\u2029]|\ufeff)*+(?:[\n\r\u2028\u2029]|\Z))")
+# Lien `[[…]]`, chacun lu jusqu'au premier `]` ou à la fin de ligne : un seul passage, linéaire
+_OBSIDIAN_LINK = re.compile(r"(?<!!)\[\[([^\]\n]*+)(\]\])?")
+_EMOJI_SHORTCODE = re.compile(r":(?![0-9]{1,2}(?:[+-][0-9]{2})?:)[A-Za-z0-9_+-]+:")
+_REORDERING_BIDI_CLASSES = frozenset({"R", "AL", "AN"})
+_UNKNOWN_CATEGORIES = frozenset({"Cn", "Co", "Cs"})
+
+
+def _misread_numeral(ch: str) -> bool:
+    """`ch` affiche une valeur que `numeric_exactitude` ne lit pas telle quelle : valeur numérique
+    Unicode que les chiffres décimaux de sa décomposition de compatibilité n'écrivent pas, ou
+    barre de fraction, seule ou dans cette décomposition."""
+    value = unicodedata.numeric(ch, None)
+    if value is None:
+        return ch == "\N{FRACTION SLASH}"
+    compat = unicodedata.normalize("NFKC", ch)
+    digits = "".join(str(unicodedata.decimal(c)) for c in compat if unicodedata.category(c) == "Nd")
+    return "\N{FRACTION SLASH}" in compat or not digits or int(digits) != value
+
+
+def _decodings(text: str) -> list[str]:
+    """`text` tel qu'écrit, entités HTML décodées, échappements d'URL tous décodés, et les deux
+    dans chaque ordre, dédoublonnés."""
+    unescaped, unquoted = html.unescape(text), urllib.parse.unquote(text)
+    return list(dict.fromkeys((text, unescaped, unquoted, urllib.parse.unquote(unescaped),
+                               html.unescape(unquoted))))
+
+
+def _unmodelled_constructs(text: str, ccm, *, body: bool, leading) -> list[tuple[str, str]]:
+    """(genre, marque) de chaque construction de `text` qu'aucune lecture ne modélise, dans
+    chacun de ses décodages (`_decodings`), dédoublonnés. Chaîne publiée, qu'un lecteur peut
+    servir sous toute forme : tout `$`, tout début de balise (`<` suivi d'une lettre, `!`, `?` ou
+    `/`, autolien compris) et tout code emoji, et, chaque décodage lu en Markdown, tout bloc rendu,
+    toute image, et tout item numéroté de la projection (`_projection_ordered_items`, numéroté
+    par son rang). `body` :
+    `text` est le corps, chacun de ses décodages lu par CommonMark — `$`, début de balise et code
+    emoji relevés dans son texte (entités décodées), et dans son code s'il n'est pas le corps tel
+    qu'écrit (un décodage peut fabriquer le délimiteur qui le rendrait inerte), balise ou
+    commentaire HTML là où l'analyseur les produit, bloc rendu par son info, image (sa
+    destination ; son texte alternatif lu comme le texte). Dans chaque lecture CommonMark, du corps
+    comme d'une chaîne : imbrication au-delà de la profondeur de l'analyseur, et item de liste
+    ordonnée dont le contenu commence par ce que `leading` en rapporte (unité ou chiffre en tête),
+    marqué du numéro affiché. Note, syntaxe d'Obsidian, ordre d'affichage, caractère de contrôle,
+    caractère inconnu et chiffre non lu : partout, dans chaque décodage."""
+    found: list[tuple[str, str]] = []
+    decodings = _decodings(text)
+    md = ccm.MarkdownIt("commonmark").enable("table")
+    deepest = md.options["maxNesting"] - 1
+
+    def callout(state, start, end, silent):
+        # Encadré : première ligne que l'analyseur lit dans une citation (lignes blanches sautées),
+        # blancs ECMAScript retirés, qui commence par `[!`, quel que soit le bloc qu'il en tire
+        # (paragraphe, titre, tableau, définition de lien) ; règle qui ne consomme rien
+        if state.tokens and state.tokens[-1].type == "blockquote_open":
+            first = state.src[state.bMarks[start] + state.tShift[start]:state.eMarks[start]]
+            if (line := _JS_TRIM.sub("", first)).startswith("[!"):
+                found.append(("callout", line[:40]))
+        return False
+
+    md.block.ruler.before("table", "callout", callout)
+
+    def mark(source):
+        m = _RAW_HTML.search(source)
+        return m.group(0) if m else source.strip()[:40]
+
+    def fences(tokens):
+        return [("rendered_fence", info) for t in tokens if t.type == "fence"
+                and (info := (t.info.split() or [""])[0].lower()) in _RENDERED_FENCES]
+
+    def image(token):
+        return "image", str(token.attrGet("src") or "")[:40]
+
+    def images(tokens):
+        return [found for t in tokens for found in
+                ([image(t)] if t.type == "image" else []) + images(t.children or [])]
+
+    def numbered(rank, source, task=True):
+        # Une case à cocher en tête de paragraphe (`[x]`) s'affiche en case : le numéro se lit
+        # avec ce qui suit ; un bloc de code n'en a pas, ni le rendu projeté
+        if source is None:
+            return
+        for text in dict.fromkeys((source, _TASK_MARKER.sub("", source)) if task else (source,)):
+            if (head := leading(text)) is not None:
+                found.append(("ordered_list_number", f"{rank}. {head}"))
+                return
+
+    def item_content(tokens, at):
+        # Premier contenu de l'item ouvert en `at`, avant sa fermeture : ce qu'affiche son numéro
+        for t in tokens[at + 1:]:
+            if t.type == "list_item_close" and t.level == tokens[at].level:
+                return None
+            if t.type in _ITEM_CONTENT:
+                return t
+        return None
+
+    def shown(source):
+        # Caractère affiché : ni blanc, ni invisible, ni glyphe blanc (`ccm._compat`)
+        return bool(ccm._compat(source).strip())
+
+    def shows_text(token):
+        # Un bloc qui n'affiche aucun caractère (code, titre ou cellule vides, ou faits de
+        # caractères invisibles ou de glyphes blancs, lien sans libellé) n'a pas de ligne : le
+        # navigateur aligne le numéro de l'item sur le bloc suivant
+        if token.type != "inline":
+            return shown(token.content)
+        return any(c.type in ("image", "html_inline")
+                   or (c.type in ("text", "code_inline") and shown(c.content))
+                   for c in token.children or [])
+
+    def structure(tokens):
+        # Conteneur ouvert au dernier niveau : l'analyseur n'en lit pas le contenu
+        found.extend(("nesting", t.type) for t in tokens
+                     if t.type in _BLOCK_CONTAINERS and t.level >= deepest)
+        found.extend(fences(tokens))
+        for at, t in enumerate(tokens):
+            if t.type != "ordered_list_open":
+                continue
+            rank = 1 if (start := t.attrGet("start")) is None else int(start)
+            for k in range(at + 1, len(tokens)):
+                if tokens[k].type == "ordered_list_close" and tokens[k].level == t.level:
+                    break
+                if tokens[k].type == "list_item_open" and tokens[k].level == t.level + 1:
+                    if (first := item_content(tokens, k)) is not None and not shows_text(first):
+                        found.append(("ordered_list_number", f"{rank}. (bloc vide)"))
+                    else:
+                        numbered(rank, first.content if first is not None else None,
+                                 task=first is None or first.type == "inline")
+                    rank += 1
+
+    def written(source):
+        if "$" in source:
+            found.append(("formula", "$"))
+        found.extend(("raw_html", m.group(0)) for m in _RAW_HTML.finditer(source))
+        found.extend(("emoji_shortcode", m.group(0)) for m in _EMOJI_SHORTCODE.finditer(source))
+
+    def inline(children, inert_code):
+        # Texte et caractère échappé ou en entité qui se suivent, relus joints, comme `text_join`
+        # les joint dans un paragraphe : il ne descend pas dans le texte alternatif d'une image
+        runs = itertools.groupby(children, key=lambda c: c.type in ("text", "text_special"))
+        for is_text, run in runs:
+            if is_text:
+                written("".join(c.content for c in run))
+                continue
+            for c in run:
+                if c.type == "code_inline" and not inert_code:
+                    written(c.content)
+                elif c.type == "html_inline":
+                    found.append(("raw_html", mark(c.content)))
+                elif c.type == "image":
+                    found.append(image(c))
+                    inline(c.children or [], inert_code)
+
+    for decoded in decodings:
+        if body:
+            inert_code = decoded == text
+            tokens = md.parse(decoded)
+            for t in tokens:
+                if t.type == "inline":
+                    inline(t.children or [], inert_code)
+                elif t.type == "html_block":
+                    found.append(("raw_html", mark(t.content)))
+                elif t.type in ("code_block", "fence") and not inert_code:
+                    written(t.content)
+            structure(tokens)
+        else:
+            written(decoded)
+            tokens = md.parse(decoded)
+            structure(tokens)
+            found += images(tokens)
+            for rank, source in _projection_ordered_items(decoded):
+                numbered(rank, source, task=False)
+    def rewritten_link(m):
+        # Lien fermé qu'Obsidian n'affiche pas tel qu'écrit, crochets retirés
+        target = m.group(1)
+        return m.group(2) is not None and (any(c in "|#^" for c in target)
+                                           or _JS_TRIM.sub("", target).lower().endswith(".md"))
+
+    for decoded in decodings:
+        found += [("footnote", m.group(0)) for m in _FOOTNOTE.finditer(decoded)]
+        marks = [(m.start(), m.group(0)) for m in _OBSIDIAN.finditer(decoded)]
+        marks += [(m.start(), m.group(0)) for m in _OBSIDIAN_LINK.finditer(decoded)
+                  if rewritten_link(m)]
+        found += [("obsidian", mark[:40]) for _, mark in sorted(marks)]
+        for ch in decoded:
+            category = unicodedata.category(ch)
+            if ord(ch) in _BIDI_CONTROLS or unicodedata.bidirectional(ch) in _REORDERING_BIDI_CLASSES:
+                found.append(("display_order", f"U+{ord(ch):04X}"))
+            elif category == "Cc" and ch not in "\t\n\r":
+                found.append(("control_character", f"U+{ord(ch):04X}"))
+            elif category in _UNKNOWN_CATEGORIES:
+                found.append(("unknown_character", f"U+{ord(ch):04X}"))
+            elif _misread_numeral(ch):
+                found.append(("numeral", f"U+{ord(ch):04X}"))
+    return list(dict.fromkeys(found))
+
+
+# Squelette : ce que lit un lecteur qui retire d'un texte tout sauf lettres, chiffres, espaces,
+# ponctuation de nombre et de clause (`.,;:`), symboles d'unité (`°%²·`) et signe `×` entre deux
+# nombres — après `&amp;` décodé, toute suite de la forme d'une entité (`&quot;`, `&nbsp_;`, `&x;`).
+# Modèle commun des lecteurs qui effacent le balisage sans séparateur : `stripHtml` du monorepo,
+# appliqué au rendu des blocs projetés (`&quot;` du `"` échappé, entités, balises retirés : `25"Nm`
+# s'y affiche `25Nm`). Le `×` d'une cote ou d'un filetage (`340×30`, `M8×1,25`) n'est pas du
+# balisage : `numeric_exactitude` y lit la référence précise et le contexte d'une valeur.
+_AMP_ENTITY = re.compile(r"&amp;", re.I)
+_ENTITY_LIKE = re.compile(r"&#?\w+;")
+_SKELETON_KEPT = frozenset(".,;:°%²·")
+# `×` qui n'est pas entre deux nombres (une espace au plus de chaque côté, espaces déjà réduits)
+_SKELETON_LONE_TIMES = re.compile(r"×(?! ?\d)|(?<!\d)(?<!\d )×")
+
+
+def _skeleton(text: str, ccm) -> str:
+    """`text` lu en squelette (`_ENTITY_LIKE` retiré après `&amp;` décodé, compatibilité Unicode,
+    puis tout caractère hors lettres, chiffres, espaces et `_SKELETON_KEPT` retiré, et tout `×`
+    qui n'est pas entre deux nombres), espaces réduits."""
+    while (decoded := _AMP_ENTITY.sub("&", text)) != text:
+        text = decoded
+    text = ccm._compat(_ENTITY_LIKE.sub("", text))
+    kept = " ".join("".join(ch for ch in text if ch.isalnum() or ch.isspace()
+                            or ch in _SKELETON_KEPT or ch == "×").split())
+    return " ".join(_SKELETON_LONE_TIMES.sub("", kept).split())
+
+
+# `renderProjectionMarkdown` (monorepo, `backend/src/modules/seo-projection/
+# projection-markdown.renderer.ts`, au commit d3b0060e6d), qui rend les blocs projetés (`content_md`)
+# des pages R3 : ses expressions, telles quelles (ses deux titres en une, `###?`, qui affiche le
+# même texte), aux classes JavaScript près, écrites en clair —
+# `\s` et `trim` (blancs et fins de ligne ECMAScript, U+FEFF compris, U+0085 et U+001C-U+001F
+# exclus), `.` (tout sauf une fin de ligne : U+2028 et U+2029 en sont), `\d` (chiffres ASCII).
+_JS_SPACE = "[\t\n\x0b\x0c\r \xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]"
+_JS_DOT = "[^\n\r\u2028\u2029]"
+# `trim` d'ECMAScript : ses blancs retirés en tête et en fin
+_JS_TRIM = re.compile(rf"\A{_JS_SPACE}+|{_JS_SPACE}+\Z")
+_PROJECTION_CODE = re.compile(r"`([^`]*)`")
+_PROJECTION_LINK = re.compile(r"\[([^\]]*)\]\(([^)]*)\)")
+_PROJECTION_STRONG = re.compile(rf"\*\*(?!{_JS_SPACE})([^*]+)(?<!{_JS_SPACE})\*\*")
+_PROJECTION_EM = re.compile(rf"\*(?!{_JS_SPACE})([^*]+)(?<!{_JS_SPACE})\*")
+_PROJECTION_HEADING = re.compile(rf"###?{_JS_SPACE}+({_JS_DOT}+?){_JS_SPACE}*\Z")
+_PROJECTION_ITEMS = (re.compile(rf"[-*]{_JS_SPACE}+({_JS_DOT}*)\Z"),
+                     re.compile(rf"[0-9]+\.{_JS_SPACE}+({_JS_DOT}*)\Z"))
+_PROJECTION_BLANK = re.compile(rf"{_JS_SPACE}*\Z")
+
+
+def _projection_inline(text: str) -> str:
+    """Texte qu'affiche `renderInline` : de gauche à droite, à chaque position, code (son
+    contenu), lien (son libellé rendu ; la destination n'est qu'un `href`, jamais affichée),
+    `**…**` puis `*…*` (leur contenu rendu) ; tout autre caractère affiché tel qu'écrit — le HTML
+    compris, que le rendu échappe."""
+    out, at = [], 0
+    while at < len(text):
+        if m := _PROJECTION_CODE.match(text, at):
+            out.append(m.group(1))
+        elif m := (_PROJECTION_LINK.match(text, at) or _PROJECTION_STRONG.match(text, at)
+                   or _PROJECTION_EM.match(text, at)):
+            out.append(_projection_inline(m.group(1)))
+        else:
+            out.append(text[at])
+            at += 1
+            continue
+        at = m.end()
+    return "".join(out)
+
+
+def _projection_parse(md: str):
+    """(rang, source) de chaque bloc (`<h3>`, `<h4>`, `<li>`, `<p>`) que `renderProjectionMarkdown`
+    rend pour `md`, source avant sa grammaire inline : lignes coupées à `\\r\\n`, `\\r` et `\\n`
+    seulement, ligne blanche sautée, titre `### ` puis `## `, items consécutifs d'une liste, et
+    paragraphe — lignes consécutives jusqu'à une ligne blanche ou un début de bloc, jointes par une
+    espace. Rang : celui d'un item de liste numérotée dans sa suite d'items, à partir de 1 — le
+    numéro qu'affiche le navigateur, la liste rendue sans `start` ; None pour tout autre bloc."""
+    lines = re.sub(r"\r\n?", "\n", md).split("\n")
+    starts = (_PROJECTION_HEADING, *_PROJECTION_ITEMS)
+    at = 0
+    while at < len(lines):
+        if _PROJECTION_BLANK.match(lines[at]):
+            at += 1
+        elif m := _PROJECTION_HEADING.match(lines[at]):
+            yield None, m.group(1)
+            at += 1
+        elif item := next((r for r in _PROJECTION_ITEMS if r.match(lines[at])), None):
+            rank = 1
+            while at < len(lines) and (m := item.match(lines[at])):
+                yield (rank if item is _PROJECTION_ITEMS[1] else None), m.group(1)
+                rank += 1
+                at += 1
+        else:
+            start = at
+            while (at < len(lines) and not _PROJECTION_BLANK.match(lines[at])
+                   and not any(r.match(lines[at]) for r in starts)):
+                at += 1
+            yield None, " ".join(lines[start:at])
+
+
+def _projection_blocks(md: str) -> list[str]:
+    """Texte de chaque bloc que `renderProjectionMarkdown` affiche pour `md` (`_projection_parse`)."""
+    return [_projection_inline(source) for _rank, source in _projection_parse(md)]
+
+
+def _projection_ordered_items(md: str) -> list[tuple[int, str]]:
+    """(numéro affiché, source) de chaque item de liste numérotée que `renderProjectionMarkdown`
+    rend pour `md` (`_projection_parse`)."""
+    return [(rank, source) for rank, source in _projection_parse(md) if rank is not None]
+
+
+def _string_readings(text: str, ccm) -> list[tuple[str, str]]:
+    """Lectures d'une chaîne publiée, dédoublonnées. Telle qu'écrite (`littérale`) ; chaque forme
+    de `check-coverage-map.visible_text_blocks` lue comme un corps Markdown (`rendue` : emphase,
+    entités et balises résolues ; `écrite` : HTML, titres et destinations de lien ; `sans
+    balisage` : balisage ignoré, lien réduit à son libellé quelle que soit sa destination) ;
+    telle que l'affiche le rendu des blocs projetés, `renderProjectionMarkdown` (`projection`,
+    `_projection_blocks` : HTML affiché tel qu'écrit, et sa grammaire inline appliquée jusque dans
+    ce HTML), ses blocs séparés, puis joints sans séparateur comme les joint `stripHtml` sur ce
+    rendu (`projection jointe` : `25` / `1. Nm` y affiche `25Nm`) ; balisage ET structure de
+    blocs ignorés (`sans structure` : `markup_blind_text` de la chaîne entière), lignes jointes
+    comme les joint un lecteur qui la sert en texte, HTML retiré, là où CommonMark sépare code
+    indenté, bloc HTML et paragraphe. Chaque lecture part de la chaîne affichée en IRI
+    (`_percent_decoded(keep_ascii=True)` : `%C3%A9` lu `é`, `%45` lu tel qu'écrit), puis,
+    suffixée `décodée`, de la chaîne aux échappements tous décodés ; les échappements qu'une
+    lecture révèle (entité décodée : `N&#37;6D` lu `N%6D`) y sont lus de même, comme dans le
+    corps."""
+    forms: list[tuple[str, str]] = []
+    for suffix, keep_ascii in (("", True), (" décodée", False)):
+        base = _percent_decoded(text, keep_ascii=keep_ascii)
+        blocks = ccm.visible_text_blocks(base)
+        readings = [("littérale", " ".join(unicodedata.normalize("NFC", base).split()))]
+        readings += [(form, " ; ".join(b["text"] for b in blocks if b["form"] == form))
+                     for form in ("rendue", "écrite", "sans balisage")]
+        projected = _projection_blocks(base)
+        readings.append(("projection", ccm._compat(" ; ".join(projected))))
+        readings.append(("projection jointe", ccm._compat("".join(projected))))
+        readings.append(("sans structure", ccm.markup_blind_text(base)))
+        for form, reading in readings:
+            if (revealed := _percent_decoded(reading, keep_ascii=keep_ascii)) != reading:
+                reading = ccm._compat(revealed)
+            if reading and reading not in {r for _, r in forms}:
+                forms.append((form + suffix, reading))
+    return forms
+
+
+def _scalar_text(value):
+    """Texte publié d'une clé ou valeur scalaire : la chaîne elle-même, sinon son texte (date YAML,
+    octets décodés) ; None pour un nombre, un booléen ou un nul, qui ne portent pas d'unité."""
+    if value is None or isinstance(value, (bool, int, float)):
+        return None
+    if isinstance(value, (bytes, bytearray)):
+        return bytes(value).decode("utf-8", "replace")
+    return value if isinstance(value, str) else str(value)
+
+
+def _encodable(text: str) -> str:
+    """`text`, chaque demi-codet isolé écrit en échappement (`\\udcff`) : la sortie UTF-8 de
+    `promote.py`, en json comme en texte, ne peut pas l'encoder tel quel. En json, l'échappement
+    est celui du demi-codet, que `json.loads` relit tel quel, sauf un demi-codet haut suivi d'un
+    demi-codet bas : JSON ne les distingue pas du caractère que la paire code, relu à leur place
+    (deux clés qui ne diffèrent que par là se confondent à la relecture)."""
+    return text.encode("utf-8", "backslashreplace").decode("utf-8")
+
+
+def _published_strings(node, path: str = "$"):
+    """(chemin, chaîne) pour chaque chaîne d'un document publié (frontmatter de la fiche,
+    document exporté), valeurs ET clés, quel que soit le champ : ni liste de champs, ni typage
+    par schéma. Clé ou valeur scalaire autre qu'une chaîne : lue par son texte (`_scalar_text` :
+    date, octets) ; un nombre, un booléen ou un nul ne sont pas lus (aucune unité), sauf en clé,
+    où le chemin les nomme."""
+    if isinstance(node, dict):
+        for key, value in node.items():
+            key_text = _scalar_text(key)
+            name = key_text if key_text is not None else str(key)
+            child = (f"{path}.{name}" if _JSON_IDENTIFIER.fullmatch(name)
+                     else f"{path}[{_encodable(json.dumps(name, ensure_ascii=False))}]")
+            if key_text is not None:
+                yield f"{child} (clé)", key_text
+            yield from _published_strings(value, child)
+    elif isinstance(node, (list, tuple, set, frozenset)):
+        items = sorted(node, key=repr) if isinstance(node, (set, frozenset)) else node
+        for i, value in enumerate(items):
+            yield from _published_strings(value, f"{path}[{i}]")
+    elif _scalar_text(node) is not None:
+        yield path, _scalar_text(node)
+
+
+@contextlib.contextmanager
+def _promoted_fiche(fm: dict, body: str, target: Path, wiki_root: Path, evaluation=None):
+    """La fiche telle qu'`apply_promotion` l'écrirait (`_promoted_frontmatter`, `_render_fiche`),
+    à son chemin canonique sous une racine temporaire : les exporteurs la lisent comme un
+    fichier du canon. `evaluation` : l'évaluation que la décision portera (`gate_status`,
+    `confidence_score`, `shadow_score`), écrite telle quelle dans `promotion_evidence` ; None
+    (appel direct, hors `evaluate_tier`) : valeurs neutres. SHA du commit et horodatages, connus
+    à l'application seulement, restent neutres et de la forme qu'elle écrit : le repli de
+    `_wiki_commit_sha` et un ISO-8601."""
+    root = Path(wiki_root)
+    promoted = _promoted_frontmatter(
+        fm, evaluation if evaluation is not None else {"gate_status": "pass", "confidence_score": 0.0},
+        target_rel=str(Path(target).resolve().relative_to(root.resolve())),
+        sha=_COMMIT_SHA_FALLBACK, now="1970-01-01T00:00:00+00:00")
+    with tempfile.TemporaryDirectory(prefix="safety-projection-") as tmp:
+        tmp_root = Path(tmp).resolve()
+        path = _promotion_target_path(tmp_root, promoted)
+        path.parent.mkdir(parents=True)
+        path.write_text(_render_fiche(promoted, body), encoding="utf-8")
+        yield tmp_root, path
+
+
+def _seo_projection(path: Path, tmp_root: Path):
+    """Document que `build_exports_seo.build_export` publie pour la fiche (None : non publiée),
+    et les avertissements que l'exporteur écrit sur stderr, rapportés et non imprimés."""
+    seo = _load_module("_seo_export_projection", "build_exports_seo.py")
+    stderr = io.StringIO()
+    with contextlib.redirect_stderr(stderr):
+        doc = seo.build_export(path, tmp_root, seo._COMMIT_SHA_PLACEHOLDER, seo._GENERATED_AT_PLACEHOLDER)
+    return doc, [line for line in stderr.getvalue().splitlines() if line.strip()]
+
+
+def _diagnostic_projection(path: Path, tmp_root: Path, wiki_root: Path):
+    """Document que `build_exports_diagnostic` publie pour la fiche (None : non publiée), par
+    les étapes de son `_plan` pour un fichier : fiches de `wiki/gamme/` seulement, éligibilité
+    de l'exporteur, catalogue de sources de l'arbre évalué. Catalogue absent :
+    `SafetyInputUnavailable` ; catalogue ou relation invalides : l'exporteur lève."""
+    if path.parent != (tmp_root / "wiki" / "gamme").resolve():
+        return None  # `_plan` ne lit que wiki/gamme/*.md
+    if str(SCRIPTS_DIR) not in sys.path:
+        sys.path.insert(0, str(SCRIPTS_DIR))
+    diag = _load_module("_diagnostic_export_projection", "build_exports_diagnostic.py")
+    fm, _body = diag._parse_markdown(path, source_bytes=diag._read_source(path))
+    if not diag.is_eligible(fm):
+        return None
+    catalog_path = Path(wiki_root) / diag.CATALOG_REL
+    if not catalog_path.is_file():
+        raise SafetyInputUnavailable(f"{diag.CATALOG_REL} absent de l'arbre évalué")
+    catalog = diag._load_catalog(Path(wiki_root), source_bytes=diag._read_source(catalog_path))
+    return diag.build_gamme_export(fm, path, tmp_root, catalog, "0" * 40, "0" * 40)
+
+
+def _safety_numeric_exactitude(fm: dict, body: str, target: Path, wiki_root: Path,
+                               evaluation=None) -> dict:
     """Chaque valeur chiffrée du texte PUBLIÉ doit être `numeric_verified`.
 
-    Un extrait ancré (`text_anchor` de la coverage-map, localisé dans sa section) porte le
-    statut et l'identité de sa source ; tout le reste du texte rendu — prose non ancrée,
-    titres, code, HTML, alt d'image — est non sourcé (`pending_capture`). Classification
-    déléguée à `numeric_exactitude` : aucune règle numérique n'est redéfinie ici."""
+    Corps : chaque bloc de `visible_text_blocks`, dans chacune de ses formes (rendue, écrite,
+    sans balisage). Un extrait ancré (`text_anchor` de la coverage-map, localisé dans le premier
+    bloc ancrable de sa section qui le contient) porte le statut et l'identité de sa source ; il
+    est lu, puis retiré, dans ce bloc et dans chaque bloc qui en dérive (`origin`), là où il se
+    lit dans la forme du bloc (`form_text`). Un extrait dont la borne coupe une valeur (nombre
+    coupé, ou séparé de son unité ou de sa marque d'approximation : le bloc et l'extrait lus à
+    part par `numeric_exactitude`, tels qu'écrits, à la compatibilité près ou en squelette, ne
+    portent plus les mêmes valeurs), ou absent d'un bloc dérivé, n'y est pas retiré : sa valeur reste non sourcée, et il est rapporté
+    (`anchors_unmasked`). Tout le reste est non sourcé (`pending_capture`), échappements d'URL
+    lus comme dans une chaîne du frontmatter : affichés en IRI (`_percent_decoded(keep_ascii=
+    True)`), puis, si la lecture en diffère, tous décodés, classés à part (`corps (<forme>
+    décodée)`) ; chaque forme est classée avec ses propres extraits ancrés, et chaque violation
+    est préfixée `corps (<forme>)`.
+
+    Fiche et exports : la fiche telle qu'`apply_promotion` l'écrirait (`_promoted_fiche`, avec
+    l'évaluation que portera la décision) est publiée elle-même — un lecteur du canon peut en
+    servir n'importe quel champ — et passe par les exporteurs eux-mêmes (`_seo_projection`,
+    `_diagnostic_projection`), qui peuvent y ajouter du texte venu d'ailleurs (l'export
+    diagnostic : le catalogue de sources). Chaque chaîne de son frontmatter tel qu'analysé et de
+    chaque document exporté tel que sérialisé, valeurs ET clés, quel que soit le champ, est lue
+    telle qu'écrite, telle que rendue, telle que projetée (blocs séparés, puis joints) et sans
+    structure de blocs (`_string_readings`), sans ancre (`pending_capture`) : ni liste de champs,
+    ni connaissance des lecteurs ; un champ ajouté à la fiche ou à un export entre dans le
+    contrôle sans autre modification.
+
+    Squelette : chaque lecture du corps et de chaque chaîne est lue aussi en squelette
+    (`_skeleton` : entités et tout caractère hors lettres, chiffres, espaces, ponctuation de
+    nombre et de clause, symboles d'unité et signe `×` entre deux nombres retirés), comme la lit
+    un lecteur qui efface le balisage sans séparateur (`25"Nm`, `25&Amp;quot;Nm`, `25 &x; Nm`,
+    `25 ␣ Nm` s'y lisent `25Nm` ou `25 Nm`, `25"°C` s'y lit `25°C`) ; sa violation est
+    rapportée, suffixée `squelette`, si aucune lecture ordinaire du même texte ne la porte déjà,
+    espaces non comptés. Chaque extrait ancré est lu aussi en squelette, sous le statut et
+    l'identité de sa source (`corps (<forme> squelette)`) : une marque, une touche ou un
+    guillemet entre un nombre et son unité, ou entre deux de ses chiffres, n'y cache pas la
+    valeur affichée. Le squelette retire aussi un tiret ou une barre oblique entre deux
+    chiffres : un extrait ancré qui en écrit un y est classé sur les chiffres joints (`10-20 Nm`
+    lu `1020 Nm`, hors plage), ce qui est son coût.
+
+    Monde fermé : ce qu'aucune de ces lectures ne modélise (`_unmodelled_constructs` : formule,
+    bloc rendu autrement que son texte, HTML brut, note, code emoji, ordre d'affichage,
+    caractère de contrôle, caractère que la base Unicode de l'interpréteur ne définit pas,
+    chiffre que la lecture ne lit pas tel qu'il s'affiche, fraction comprise, image, imbrication
+    au-delà de la profondeur de l'analyseur, numéro d'un item de liste ordonnée suivi d'une
+    unité ou d'un chiffre, ou d'un premier bloc qui n'affiche rien — `25.` puis `Nm`, ou `2.`
+    puis `5 Nm`, affiché `2. 5 Nm`), dans le corps ou dans une chaîne publiée, tel qu'écrit, en
+    entité HTML ou échappé en URL, est une violation (`unmodelled_<genre>`), quoi qu'il affiche
+    (`$25^\\circ C$` s'affiche `25°C`, `mN 52` forcé de droite à gauche s'affiche `25 Nm`) : le
+    contrôle ne modélise pas chaque moteur de rendu, il refuse ce qu'il ne lit pas. Sans ordre
+    d'affichage modifié ni HTML, chaque texte s'affiche dans l'ordre où il est écrit. Une chaîne
+    publiée dont une lecture, ou son squelette, commence par une unité, symbole ou en lettres,
+    est une violation aussi (`unmodelled_leading_unit`) : les surfaces R3 joignent sans
+    séparateur les champs d'une même section, et un nombre qui finit le champ précédent s'y
+    lirait avec elle, y compris par un début d'entité que la chaîne achève (`25&nbsp` puis
+    `;mm`) ; un mot qui commence par une unité (`barre`, `Inchangé`) en est le coût, comme tout
+    item de liste ordonnée qui commence par un chiffre, par un tel mot (`1. Inchangé`, lu
+    `1. Inch`) ou par un bloc vide.
+
+    Résidus (non détectés ; liste complète et coûts : `_meta/quality-gates.md`) : un nombre sans
+    unité adjacente — écrit seul dans un champ (nombre YAML ou JSON, ou chaîne) dont l'unité est
+    dans sa clé ou dans un champ voisin qui ne commence pas par elle, ou, en fin de champ, suivi
+    d'une partie de son unité dont le champ voisin porte le reste (`25 N` puis `m`), ou dans le
+    corps séparé de son unité par du texte ou de la structure (unité avant le nombre, unité en
+    en-tête de colonne, en amorce de liste ou après deux-points), ou nu dans une clause dont la
+    grandeur n'a pas de plage pour la famille de la fiche ; une unité ou un chiffre écrit en
+    lettres qui leur ressemblent (`Νm`, nu grec ; `2Ƽ Nm`, lettre latine ton cinq), ou un
+    chiffre décimal d'une autre écriture, lu à sa valeur quel que soit le chiffre latin auquel
+    il ressemble ; un caractère que le squelette garde entre un nombre et son unité —
+    ponctuation de nombre ou de clause (`20.Nm`, `20; Nm`, `⒛ Nm`), point médian ou signe degré
+    qui n'écrit pas une unité (`20·Nm`, `20°Nm`) ; une valeur en pictogramme ou en mots ; une
+    unité prolongée par un caractère (`25 mm2`, comptée `25 mm`) ; un nombre dont les groupes de
+    chiffres sont séparés par un séparateur de milliers, une barre oblique ou tout caractère
+    visible que le squelette garde ou change en espace (lettre, `·`, `×`, `˙` : `1 200 Nm` lu
+    `200 Nm`, `1/2 Nm` lu `2 Nm`, `1ʼ200 Nm`, `1·200 Nm` et `1˙200 Nm` lus `200 Nm`), extrait
+    ancré compris ; une valeur dont les chiffres sont ceux d'une suite d'échappements d'un
+    caractère non ASCII (`%E2%80%89 bar`), lue décodée, mais affichée telle qu'écrite hors d'un
+    lien.
+    Un extrait ancré est classé sur son propre texte : le contexte de sa phrase hors de
+    l'ancre n'entre pas dans sa clause. Les valeurs que seule l'application
+    connaît (SHA, horodatages) sont lues sur des valeurs neutres (`_promoted_fiche`), le
+    catalogue de sources tel qu'il est à la décision.
+
+    Classification déléguée à `numeric_exactitude` : aucune règle numérique n'est redéfinie
+    ici. Entrée gouvernée absente : plages chiffrées (`_meta/numeric-plausibility.yaml`) → la
+    condition entière est UNAVAILABLE (`SafetyInputUnavailable`), car sans elles un nombre nu
+    dans une clause à grandeur dimensionnée n'est plus reconnu et aucun verdict n'est sûr ;
+    catalogue de sources d'une fiche gamme à relations → `status: UNAVAILABLE` sauf violation
+    prouvée ailleurs. Jamais vérifié."""
+    ranges_path = Path(wiki_root) / NUMERIC_RANGES_RELPATH
+    if not ranges_path.is_file():
+        raise SafetyInputUnavailable(f"{NUMERIC_RANGES_RELPATH.as_posix()} absent de l'arbre évalué")
     sys.path.insert(0, str(SCRIPTS_DIR))
     import author_from_raw as _author
     import numeric_exactitude as _ne
     ccm = _load_module("_coverage_visible_text", "check-coverage-map.py")
     blocks = [dict(b) for b in ccm.visible_text_blocks(body)]
-    claims: list[dict] = []
+
+    def masked(text, m):
+        # `;` borne la clause : le texte voisin ne s'attache pas à la valeur retirée
+        return text[:m.start()] + " ; " + text[m.end():]
+
+    def numbers(text):
+        # Ce que `numeric_exactitude` lit d'un texte : nombres, et valeurs avec unité et marque
+        # d'approximation
+        return (sorted(_ne._BARE_NUM_RE.findall(text)),
+                sorted((v.value, v.unit, v.approximate) for v in _ne.extract_values(text)))
+
+    def splits_a_value(text, m):
+        # L'extrait et le reste lus à part ne portent pas les nombres et valeurs du texte entier,
+        # tel qu'écrit, à la compatibilité près ou en squelette : la borne coupe un nombre ou le
+        # sépare de son unité ou de sa marque d'approximation
+        for read in (lambda t: t, ccm._compat, lambda t: _skeleton(t, ccm)):
+            whole, part, rest = (numbers(read(t)) for t in (text, m.group(0), masked(text, m)))
+            if whole != tuple(sorted(a + b) for a, b in zip(part, rest)):
+                return True
+        return False
+
+    claims: dict[str, list[dict]] = {"rendue": [], "écrite": [], "sans balisage": []}
+    anchored = 0
+    anchors_unmasked: list[dict] = []
     for entry in _coverage_entries(wiki_root, target):
         anchor = entry.get("text_anchor")
         if not isinstance(anchor, str) or not anchor.strip():
             continue
+        source = {"source_status": entry.get("source_status"), "source_id": entry.get("source_slug")}
         needle = re.compile(re.escape(" ".join(unicodedata.normalize("NFC", anchor).split())),
                             re.IGNORECASE)
-        for block in blocks:
+        for k, block in enumerate(blocks):
             if not block["anchorable"] or entry.get("section") not in block["sections"]:
                 continue
             m = needle.search(block["text"])
-            if m:
-                claims.append({"text": m.group(0), "source_status": entry.get("source_status"),
-                               "source_id": entry.get("source_slug")})
-                # `;` borne la clause : le texte voisin ne s'attache pas à la valeur retirée
-                block["text"] = block["text"][:m.start()] + " ; " + block["text"][m.end():]
+            if not m:
+                continue
+            if splits_a_value(block["text"], m):
+                anchors_unmasked.append({"anchor": anchor, "form": block["form"], "reason": "value_split"})
                 break
-    anchored = len(claims)
-    residual = " ; ".join(b["text"] for b in blocks if b["text"].strip())
-    if residual:
-        claims.append({"text": residual, "source_status": "pending_capture", "source_id": None})
+            anchored += 1
+            claims[block["form"]].append({"text": m.group(0), **source})
+            block["text"] = masked(block["text"], m)
+            for derived in blocks:
+                if derived["origin"] != k:
+                    continue
+                dm = re.compile(re.escape(ccm.form_text(anchor, derived["form"])),
+                                re.IGNORECASE).search(derived["text"])
+                if dm is None or splits_a_value(derived["text"], dm):
+                    anchors_unmasked.append({"anchor": anchor, "form": derived["form"],
+                                             "reason": "absent" if dm is None else "value_split"})
+                    continue
+                claims[derived["form"]].append({"text": dm.group(0), **source})
+                derived["text"] = masked(derived["text"], dm)
+            break
+
+    def residual(text, keep_ascii):
+        # Échappements d'URL lus comme dans une chaîne du frontmatter (`_string_readings`)
+        decoded = _percent_decoded(text, keep_ascii=keep_ascii)
+        return text if decoded == text else ccm._compat(decoded)
+
+    def reading(form):
+        # Le reste de chaque bloc affiché en IRI, puis, s'il en diffère, aux échappements décodés
+        shown = [(residual(b["text"], True), residual(b["text"], False))
+                 for b in blocks if b["form"] == form and b["text"].strip()]
+        return " ; ".join(s for s, _ in shown), " ; ".join(d for s, d in shown if d != s)
+
     family = _author._family_of(str(fm.get("slug") or Path(target).stem), fm) or ""
-    ranges = load_numeric_ranges(Path(wiki_root) / NUMERIC_RANGES_RELPATH)
-    violations = _ne.gate_numeric_value_exactitude(claims, family=family, ranges=ranges)
-    return {"verified": not violations, "violations_total": len(violations),
-            "sample": violations[:8], "anchored_claims": anchored,
-            "family": family or None, "ranges_loaded": bool(ranges)}
+    ranges = load_numeric_ranges(ranges_path)
+
+    def unsourced(text):
+        claim = {"text": text, "source_status": "pending_capture", "source_id": None}
+        return _ne.gate_numeric_value_exactitude([claim], family=family, ranges=ranges)
+
+    def skeleton_violations(readings, plain, label):
+        # Chaque lecture en squelette, dédoublonnée ; violation rapportée si aucune lecture
+        # ordinaire ne porte déjà la même, espaces non comptés (`25 Nm` lu `25Nm`)
+        known = {"".join(v.split()) for v in plain}
+        skeletons: dict[str, str] = {}
+        for form, text in readings:
+            skeletons.setdefault(_skeleton(text, ccm), form)
+        return [f"{label} ({form} squelette) {v}" for text, form in skeletons.items() if text
+                for v in unsourced(text) if "".join(v.split()) not in known]
+
+    def values_read(text):
+        # (position, unité) de chaque valeur que `numeric_exactitude` lit dans `text` : unité
+        # symbole, ou unité écrite en lettres accolée au nombre (règle (a))
+        return sorted([(v.start, v.unit) for v in _ne.extract_values(text)]
+                      + [(m.start(), re.sub(r"^[\d.,\s]+", "", m.group(0)))
+                         for m in _ne._SPELLED_UNIT_RE.finditer(text)])
+
+    def leading_unit(readings):
+        # Unité, symbole ou en lettres, en tête d'une lecture ou de son squelette : un nombre qui
+        # finit le texte affiché juste avant (champ voisin d'une section R3, que `stripHtml` joint
+        # sans séparateur) s'y lirait avec elle (`… sous 3` puis `mm d'épaisseur …` : `3mm`). Le
+        # squelette est lu après un nombre, puis après un nombre suivi de `&` ou de `&amp` : le
+        # champ précédent peut finir par un début d'entité que celui-ci achève (`25&nbsp` puis
+        # `;mm`, `25&` puis `x;Nm`), retirée par le squelette du texte joint.
+        for _form, text in readings:
+            pairs = [("1" + text, text)] + [(_skeleton(end + text, ccm), _skeleton(text, ccm))
+                                            for end in ("1", "1&", "1&amp")]
+            for joined, alone in pairs:
+                units = [unit for _, unit in values_read(alone)]
+                for _, unit in values_read(joined):
+                    if unit not in units:
+                        return unit
+                    units.remove(unit)
+        return None
+
+    def leading_value(text):
+        # Unité, ou chiffre, en tête d'une lecture de `text` ou de son squelette (espaces réduits,
+        # aucun en tête) : affiché juste après le numéro d'un item de liste ordonnée, il se lit avec
+        # lui (`25.` puis `Nm`)
+        readings = _string_readings(text, ccm)
+        if (unit := leading_unit(readings)) is not None:
+            return unit
+        for _form, reading_text in readings:
+            for head in (reading_text, _skeleton(reading_text, ccm)):
+                if m := re.match(r"(\d+)", head):
+                    return m.group(1)
+        return None
+
+    violations: list[str] = []
+    plain: set[str] = set()
+    body_readings: list[tuple[str, str]] = []
+    anchored_claims = {form: list(form_claims) for form, form_claims in claims.items()}
+    for form, form_claims in claims.items():
+        shown, decoded = reading(form)
+        if shown:
+            form_claims.append({"text": shown, "source_status": "pending_capture", "source_id": None})
+            body_readings.append((form, shown))
+        found = _ne.gate_numeric_value_exactitude(form_claims, family=family, ranges=ranges)
+        violations += [f"corps ({form}) {v}" for v in found]
+        plain.update(found)
+        if decoded:
+            found = unsourced(decoded)
+            violations += [f"corps ({form} décodée) {v}" for v in found]
+            plain.update(found)
+            body_readings.append((f"{form} décodée", decoded))
+    violations += skeleton_violations(body_readings, plain, "corps")
+    # Extraits ancrés lus en squelette, chacun avec le statut et l'identité de sa source : une
+    # marque ou un caractère retiré entre un nombre et son unité y laisse lire la valeur affichée
+    known = {"".join(v.split()) for v in plain}
+    for form, form_claims in anchored_claims.items():
+        skeletons = [{**claim, "text": _skeleton(claim["text"], ccm)} for claim in form_claims]
+        for v in _ne.gate_numeric_value_exactitude(skeletons, family=family, ranges=ranges):
+            if "".join(v.split()) not in known:
+                known.add("".join(v.split()))
+                violations.append(f"corps ({form} squelette) {v}")
+    violations += [f"corps unmodelled_{kind}: {marker!r}"
+                   for kind, marker in _unmodelled_constructs(body, ccm, body=True,
+                                                              leading=leading_value)]
+    strings_read = {"fiche": 0, "seo": 0, "diagnostic": 0}
+    unavailable: list[str] = []
+    with _promoted_fiche(fm, body, target, wiki_root, evaluation) as (tmp_root, path):
+        # Frontmatter tel qu'un lecteur YAML du canon l'analyse : clés et valeurs non-texte
+        # (dates, nombres) lues par `_published_strings`, aucune clé fusionnée par une conversion.
+        fiche_doc = _parse_markdown(path)[0]
+        seo_doc, projection_warnings = _seo_projection(path, tmp_root)
+        try:
+            diag_doc = _diagnostic_projection(path, tmp_root, wiki_root)
+        except SafetyInputUnavailable as exc:
+            diag_doc = None
+            unavailable.append(str(exc))
+    for origin, doc in (("fiche", fiche_doc),
+                        # Aller-retour JSON : les chaînes de l'export tel qu'écrit ; non sérialisable = en échec.
+                        ("seo", None if seo_doc is None else json.loads(json.dumps(seo_doc, ensure_ascii=False))),
+                        ("diagnostic", None if diag_doc is None else json.loads(json.dumps(diag_doc, ensure_ascii=False)))):
+        if doc is None:
+            continue
+        for where, text in _published_strings(doc):
+            strings_read[origin] += 1
+            readings = _string_readings(text, ccm)
+            plain = set()
+            for form, reading_text in readings:
+                found = unsourced(reading_text)
+                violations += [f"{origin} {where} ({form}) {v}" for v in found]
+                plain.update(found)
+            violations += skeleton_violations(readings, plain, f"{origin} {where}")
+            if (unit := leading_unit(readings)) is not None:
+                violations.append(f"{origin} {where} unmodelled_leading_unit: {unit!r}")
+            violations += [f"{origin} {where} unmodelled_{kind}: {marker!r}"
+                           for kind, marker in _unmodelled_constructs(text, ccm, body=False,
+                                                                      leading=leading_value)]
+    result = {"verified": not violations and not unavailable, "violations_total": len(violations),
+              "sample": violations[:8], "anchored_claims": anchored,
+              "anchors_unmasked": anchors_unmasked, "strings_read": strings_read,
+              "published": {"seo": seo_doc is not None, "diagnostic": diag_doc is not None},
+              "projection_warnings": projection_warnings, "unavailable": unavailable,
+              "family": family or None, "ranges_loaded": bool(ranges)}
+    if unavailable and not violations:
+        result.update(status="UNAVAILABLE", missing_input="; ".join(unavailable))
+    return result
 
 
 def _sourced_entries(fm: dict):
@@ -778,18 +1601,84 @@ def _review_authority_claimed(claims: dict) -> bool:
                 or claims.get("diagnostic_safe_true"))
 
 
+def _publisher_key(publisher, invisible) -> str:
+    """Clé d'égalité de deux éditeurs : correspondance sans casse de compatibilité d'Unicode
+    (NFKD(casefold(NFKD(casefold(NFD(x)))))), caractères invisibles retirés (`invisible`, le
+    prédicat de `check-coverage-map` : format, sélecteur de variation, remplisseur hangûl…),
+    espaces réduits. Forme NFC/NFD, ß/SS, pleine chasse, espaces insécables ou sans chasse et
+    caractères invisibles ne font pas deux éditeurs. Vide — aucun éditeur identifiable — quand
+    l'éditeur n'est pas un texte, ne contient aucun caractère alphanumérique visible, ou contient
+    un caractère que la base Unicode de l'interpréteur ne définit pas (`_UNKNOWN_CATEGORIES` : non
+    attribué, usage privé, demi-codet isolé), dont ni l'affichage ni l'égalité ne sont connus."""
+    if not isinstance(publisher, str) or any(
+            unicodedata.category(ch) in _UNKNOWN_CATEGORIES for ch in publisher):
+        return ""
+    folded = unicodedata.normalize("NFKD", unicodedata.normalize(
+        "NFKD", unicodedata.normalize("NFD", publisher).casefold()).casefold())
+    key = " ".join("".join(ch for ch in folded if not invisible(ch)).split())
+    return key if any(ch.isalnum() for ch in key) else ""
+
+
+def _safety_proof_publishers(fm: dict, target: Path, wiki_root: Path) -> tuple[bool, dict]:
+    """Au moins `SAFETY_PROOF_PUBLISHERS_MIN` éditeurs distincts parmi les sources citées par la
+    fiche dont le type a le rôle `proof` (`source_type_editorial_role` du catalogue de l'arbre
+    évalué).
+
+    Citées = mêmes slugs que ceux dont l'évaluateur de provenance vérifie l'archive RAW (entrées
+    de la coverage-map, `citations[]`) ; une source ne compte qu'`active`. Leur capture RAW est
+    prouvée par `provenance_pass`, composée ensuite, et n'est pas recalculée ici. Éditeur absent,
+    rôle autre que `proof` : la source ne compte pas, et la raison est rapportée. Éditeurs
+    distincts = clés distinctes (`_publisher_key`) ; l'éditeur est le texte libre du catalogue."""
+    ccm = _load_module("_coverage_proof_sources", "check-coverage-map.py")
+    qg = _load_module("_quality_gates_proof_sources", "quality-gates.py")
+    catalog_path = Path(wiki_root) / SOURCE_CATALOG_RELPATH
+    if not catalog_path.is_file():
+        raise SafetyInputUnavailable(f"{SOURCE_CATALOG_RELPATH.as_posix()} absent de l'arbre évalué")
+    data = yaml.safe_load(catalog_path.read_text(encoding="utf-8")) or {}
+    roles = data.get("source_type_editorial_role") if isinstance(data, dict) else None
+    if not isinstance(roles, dict) or not roles:
+        raise ValueError("source_type_editorial_role_malformed: mapping non vide attendu")
+    catalog = ccm._load_catalog(Path(wiki_root))
+    cited = ccm.referenced_source_slugs(Path(target), Path(wiki_root)) | qg.cited_source_slugs(fm)
+    publishers: dict[str, list[str]] = {}
+    not_counted: dict[str, str] = {}
+    for slug in sorted(cited):
+        entry = catalog.get(slug)
+        if entry is None:
+            not_counted[slug] = "absent_du_catalogue"
+            continue
+        if entry.get("status") != "active":
+            not_counted[slug] = f"status={entry.get('status')}"
+            continue
+        role = roles.get(entry.get("type"))
+        if role != "proof":
+            not_counted[slug] = f"type={entry.get('type')} role={role}"
+            continue
+        key = _publisher_key(entry.get("publisher"), ccm.invisible)
+        if not key:
+            not_counted[slug] = "publisher_absent"
+            continue
+        publishers.setdefault(key, []).append(slug)
+    return len(publishers) >= SAFETY_PROOF_PUBLISHERS_MIN, {
+        "distinct_publishers": len(publishers), "min": SAFETY_PROOF_PUBLISHERS_MIN,
+        "publishers": publishers, "not_counted": not_counted}
+
+
 def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
-                             shadow, gate_results) -> dict:
+                             shadow, gate_results, score) -> dict:
     """Conditions de la Safety Auto-Gate calculables sur la fiche elle-même. Couverture,
     régression et provenance sont composées ensuite par `decide_promotion` (mêmes résultats
-    que pour toute fiche, jamais réévalués ici). Fail-closed : une condition dont le calcul
-    lève est FAUSSE et son erreur est rapportée."""
+    que pour toute fiche, jamais réévalués ici). `shadow`, `gate_results`, `score` : ceux de
+    l'évaluation en cours, que la fiche promue portera. Fail-closed : une condition dont le
+    calcul lève est FAUSSE et son erreur est rapportée."""
     conditions: dict[str, bool] = {}
     details: dict[str, Any] = {}
 
     def record(name, compute):
         try:
             ok, detail = compute()
+        except SafetyInputUnavailable as exc:  # entrée absente de l'arbre évalué : infra, pas contenu
+            ok, detail = False, {"status": "UNAVAILABLE", "missing_input": str(exc)}
         except Exception as exc:  # noqa: BLE001 — fail-closed, erreur rapportée
             ok, detail = False, {"error": f"{type(exc).__name__}: {exc}"}
         conditions[name] = ok is True
@@ -812,9 +1701,14 @@ def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
         return (names == CANONICAL_GATE_NAMES and not failing), {"gates": list(names), "failing": failing}
 
     record("no_quality_gate_fail", quality_gates)
+    record("proof_sources_min", lambda: _safety_proof_publishers(fm, target, wiki_root))
 
     def numeric():
-        result = _safety_numeric_exactitude(fm, body, target, wiki_root)
+        # L'évaluation telle que la décision la portera (`_evaluation_passthrough`) et
+        # qu'`apply_promotion` l'écrira au canon (`_promoted_frontmatter`).
+        evaluation = {"gate_status": {n: r.status for n, r in gate_results},
+                      "confidence_score": round(score, 4), "shadow_score": shadow}
+        result = _safety_numeric_exactitude(fm, body, target, wiki_root, evaluation)
         return result["verified"], result
 
     record("numeric_exactitude_verified", numeric)
@@ -981,7 +1875,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
 
     safety_local = None
     if is_safety:
-        safety_local = _safety_local_conditions(fm, body, target, wiki_root, shadow, gate_results)
+        safety_local = _safety_local_conditions(fm, body, target, wiki_root, shadow, gate_results, score)
         failed = [k for k, ok in safety_local["conditions"].items() if not ok]
         if failed or not SAFETY_AUTO_APPROVAL_ADR:
             why = (f"conditions non prouvées : {', '.join(failed)}" if failed else
@@ -1041,6 +1935,47 @@ def _canon_already_approved(wiki_root: Path, fm: dict) -> bool:
     return existing_fm.get("review_status") == "approved"
 
 
+def _promoted_frontmatter(fm: dict, evaluation: dict, *, target_rel: str, sha: str, now: str) -> dict:
+    """Frontmatter qu'`apply_promotion` écrit au canon : le frontmatter proposé, plus les champs
+    de promotion. Partagé avec la Safety Auto-Gate, qui projette la fiche telle qu'elle sera
+    publiée (`_promoted_fiche`)."""
+    new_fm = dict(fm)  # copie — aucune modification du contenu éditorial
+    new_fm["review_status"] = "approved"
+    new_fm["reviewed_by"] = f"{PROMOTER_ID}@{sha}"
+    new_fm["reviewed_at"] = now
+    new_fm["auto_promoted"] = True
+    new_fm["validation_mode"] = "automatic"
+    new_fm["promotion_tier"] = "A"
+    new_fm["promotion_evidence"] = {
+        "gate_status": evaluation["gate_status"],
+        "confidence_score": evaluation["confidence_score"],
+        "promoter": f"{PROMOTER_ID}@{sha}",
+        "promoted_at": now,
+    }
+    # SHADOW (ADR-088 §F) : trace le tier 6-dim si calculé, pour rendre les 3 critères
+    # de cutover mesurables sur le chemin réel. .get → rétro-compat (decision sans shadow).
+    shadow = evaluation.get("shadow_score")
+    if shadow is not None:
+        new_fm["promotion_evidence"]["shadow_score"] = shadow
+    exportable = dict(new_fm.get("exportable") or {})
+    exportable["seo"] = True
+    new_fm["exportable"] = exportable
+    provenance = dict(new_fm.get("provenance") or {})
+    provenance["promoted_from"] = target_rel
+    provenance["promoted_at"] = now
+    new_fm["provenance"] = provenance
+    return new_fm
+
+
+def _render_fiche(fm: dict, body: str) -> str:
+    """Contenu du fichier canon : frontmatter YAML puis corps inchangé."""
+    return (
+        f"{FRONTMATTER_SEPARATOR}\n"
+        f"{yaml.safe_dump(fm, allow_unicode=True, sort_keys=False)}"
+        f"{FRONTMATTER_SEPARATOR}\n{body}"
+    )
+
+
 def apply_promotion(target: Path, wiki_root: Path, decision: dict, *,
                     raw_root=None, baseline_path=None) -> Path:
     """Déplace la proposal vers le canon wiki approved (TIER A uniquement). 0 enrichissement.
@@ -1089,38 +2024,11 @@ def apply_promotion(target: Path, wiki_root: Path, decision: dict, *,
         if _canon_already_approved(wiki_root, fm):
             raise PromotionInputError(f"refus écrasement canon déjà approved: {out_path}")
 
-        new_fm = dict(fm)  # copie — aucune modification du contenu éditorial
-        new_fm["review_status"] = "approved"
-        new_fm["reviewed_by"] = f"{PROMOTER_ID}@{sha}"
-        new_fm["reviewed_at"] = now
-        new_fm["auto_promoted"] = True
-        new_fm["validation_mode"] = "automatic"
-        new_fm["promotion_tier"] = "A"
-        new_fm["promotion_evidence"] = {
-            "gate_status": evaluation["gate_status"],
-            "confidence_score": evaluation["confidence_score"],
-            "promoter": f"{PROMOTER_ID}@{sha}",
-            "promoted_at": now,
-        }
-        # SHADOW (ADR-088 §F) : trace le tier 6-dim si calculé, pour rendre les 3 critères
-        # de cutover mesurables sur le chemin réel. .get → rétro-compat (decision sans shadow).
-        shadow = evaluation.get("shadow_score")
-        if shadow is not None:
-            new_fm["promotion_evidence"]["shadow_score"] = shadow
-        exportable = dict(new_fm.get("exportable") or {})
-        exportable["seo"] = True
-        new_fm["exportable"] = exportable
-        provenance = dict(new_fm.get("provenance") or {})
-        provenance["promoted_from"] = str(target.relative_to(wiki_root))
-        provenance["promoted_at"] = now
-        new_fm["provenance"] = provenance
+        new_fm = _promoted_frontmatter(fm, evaluation, target_rel=str(target.relative_to(wiki_root)),
+                                       sha=sha, now=now)
 
         out_path.parent.mkdir(parents=True, exist_ok=True)
-        rendered = (
-            f"{FRONTMATTER_SEPARATOR}\n"
-            f"{yaml.safe_dump(new_fm, allow_unicode=True, sort_keys=False)}"
-            f"{FRONTMATTER_SEPARATOR}\n{body}"
-        )
+        rendered = _render_fiche(new_fm, body)
         # Same-directory staging gives readers either the complete previous file
         # or the complete new file. No partial canonical document is published.
         fd, temporary = tempfile.mkstemp(prefix=f".{out_path.stem}-", suffix=".tmp",

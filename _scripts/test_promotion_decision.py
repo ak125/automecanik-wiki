@@ -3576,9 +3576,16 @@ _ALL_PASS = {"coverage": {"status": "PASS", "evidence": {}},
              "provenance": {"status": "PASS", "evidence": {}}}
 
 
-def test_safety_all_conditions_proven_but_policy_unratified_blocks_once(tmp_path, monkeypatch):
+def test_safety_policy_is_lifted_by_adr_114_and_nothing_else():
+    """ADR-114 D5 : le verrou se lève par cette constante de code, et par elle seule."""
     dec = _load_decision()
-    assert dec.SAFETY_AUTO_APPROVAL_ADR is None  # flip = PR dédiée après l'ADR vault
+    assert dec.SAFETY_AUTO_APPROVAL_ADR == "ADR-114"
+
+
+def test_safety_all_conditions_proven_but_policy_unratified_blocks_once(tmp_path, monkeypatch):
+    """Retour arrière d'ADR-114 : constante remise à vide → la fiche sécurité redevient bloquée."""
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "SAFETY_AUTO_APPROVAL_ADR", None)
     d = dec.decide_promotion(_safety_bundle(dec, tmp_path, monkeypatch, **_ALL_PASS))
     assert d["eligible"] is False and d["promotion_status"] == "BLOCKED"
     assert [r["code"] for r in d["blocking_reasons"]] == ["SAFETY_HUMAN_REVIEW"]

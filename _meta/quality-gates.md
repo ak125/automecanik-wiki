@@ -163,6 +163,7 @@ Conditions cumulatives pour le moteur legacy actuellement sélectionné :
 - score déterministe au moins 0.85, niveaux L1/L2 et deux types de sources distincts ;
 - couverture stricte et provenance vérifiables, aucune régression bloquante ;
 - aucune condition de sécurité ou valeur critique que le moteur ne sait pas vérifier ;
+- aucune relecture ni autorité diagnostic déclarée par la proposition elle-même (`evidence.reviewed`, `evidence.diagnostic_safe`, `diagnostic_not_applicable.reviewed` autres que false), quelle que soit la famille : motif `REVIEW_AUTHORITY_CLAIMED`. La correction attendue est de remettre ces valeurs à false. Leur bascule à true reste humaine ou couverte par une règle d'ADR explicite (ADR-033 D4, §5.bis) ;
 - empreintes des entrées et des moteurs identiques entre décision et écriture.
 
 Le seuil 0.85 conserve le plancher de qualité déjà documenté. Ce n'est ni une probabilité de vérité ni une calibration statistique démontrée. L'ancien défaut 1.01 désactivait toutes les promotions ; il est remplacé par 0.85. Le CLI permet seulement de renforcer ce seuil jusqu'à 1.0. Le moteur six dimensions reste un chantier distinct, sans bascule implicite.

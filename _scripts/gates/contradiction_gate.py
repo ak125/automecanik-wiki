@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """
 contradiction_gate — Wrapper "logical consistency" : combine
-  gate_diagnostic_relations + gate_legacy_symptoms_block.
+  gate_diagnostic_relations + gate_diagnostic_not_applicable + gate_quick_checks
+  + gate_safety_rules + gate_legacy_symptoms_block.
 
-Détecte les incohérences logiques entre diagnostic_relations[] (canon ADR-033)
-et les anti-patterns legacy (diagnostic.symptoms[] interdit).
+Détecte les incohérences logiques entre diagnostic_relations[] (canon ADR-033),
+la déclaration « aucune relation » (ADR-113), les quick_checks et safety_rules
+(ADR-112) et les anti-patterns legacy (diagnostic.symptoms[] interdit).
 """
 from __future__ import annotations
 
@@ -37,13 +39,29 @@ def run_contradiction_gate(target: Path) -> GateResult:
         )
     )
 
-    # gate_diagnostic_relations requires source_catalog
+    violations.extend(
+        violations_from_legacy_strings(
+            "diagnostic_not_applicable", legacy.gate_diagnostic_not_applicable(fm)
+        )
+    )
+
+    # gate_diagnostic_relations, gate_quick_checks, gate_safety_rules require source_catalog
     try:
         source_catalog = legacy.load_source_catalog()
         violations.extend(
             violations_from_legacy_strings(
                 "diagnostic_relations",
                 legacy.gate_diagnostic_relations(fm, source_catalog),
+            )
+        )
+        violations.extend(
+            violations_from_legacy_strings(
+                "quick_checks", legacy.gate_quick_checks(fm, source_catalog)
+            )
+        )
+        violations.extend(
+            violations_from_legacy_strings(
+                "safety_rules", legacy.gate_safety_rules(fm, target, source_catalog)
             )
         )
     except Exception as exc:

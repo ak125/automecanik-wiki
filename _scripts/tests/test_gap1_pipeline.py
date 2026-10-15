@@ -187,48 +187,101 @@ def test_safety_family_detected() -> None:
 import gap1_auto_review as AR  # noqa: E402
 
 
-def _score(a, c, floors=None):
-    return {"dims": {"A": a, "C": c, "D": 15, "E": 10, "F": 1}, "tier": "B", "floors_failed": floors or []}
-
-
 def _cov(valid=27, pending_capped=27, candidates=33):
     return {"valid_entries": valid, "entries_page_pending_capped": pending_capped,
             "candidate_sources": candidates}
 
 
+def _decision(status="BLOCKED", reasons=()):
+    return {"promotion_status": status, "eligible": status == "ELIGIBLE", "blocking_reasons": list(reasons)}
+
+
+def _safety_reason(blocking=(), adr=None):
+    return {"code": "SAFETY_HUMAN_REVIEW", "evidence": {
+        "is_safety": True, "blocking_conditions": list(blocking),
+        "policy": {"auto_approval_adr": adr, "status": "ratified" if adr else "not_ratified"}}}
+
+
+POLICY_ONLY = _decision(reasons=[_safety_reason()])
+ELIGIBLE = _decision("ELIGIBLE")
+
+
 def test_no_human_verdict_ever() -> None:
     # comportemental : sur toute la matrice d'entrées, aucun verdict ne doit contenir "human"
     seen = set()
+    decisions = (None, ELIGIBLE, POLICY_ONLY, _decision(reasons=[_safety_reason(["dim_A_floor"])]),
+                 _decision("UNKNOWN_FAIL_CLOSED", [{"code": "PROVENANCE_GATE_UNAVAILABLE"}]))
     for safety in (True, False):
-        for a, c in ((0, 0), (18, 16.7), (30, 20)):
-            for cov in (_cov(), _cov(27, 0, 0), _cov(0, 0, 0)):
-                for amended in (False, True):
-                    fl = [] if a >= 22 else ["A"]
-                    seen.add(AR.compute_verdict(safety, _score(a, c, fl), cov, amended)["verdict"])
-    assert seen, "au moins un verdict"
+        for cov in (_cov(), _cov(27, 0, 0), _cov(0, 0, 0)):
+            for pdz in decisions:
+                seen.add(AR.compute_verdict(safety, cov, promotion_decision=pdz)["verdict"])
+    assert seen >= {"safety_auto_blocked", "blocked_by_current_safety_policy", "safety_auto_approved",
+                    "auto_promote_eligible", "auto_blocked"}, seen
     assert not any("human" in v for v in seen), f"aucun verdict humain attendu, vu: {seen}"
 
 
 def test_safety_blocked_technical_when_page_pending() -> None:
-    # disque réel : dim A 18, 27 pages pending, 33 sources candidates → blocage TECHNIQUE (pas humain)
-    v = AR.compute_verdict(True, _score(18.0, 16.7, ["A"]), _cov(), adr091_amended=False)
+    # disque réel : 27 pages pending, 33 sources candidates, plancher A KO côté canonique → TECHNIQUE
+    pdz = _decision(reasons=[_safety_reason(["dim_A_floor"])])
+    v = AR.compute_verdict(True, _cov(), promotion_decision=pdz)
     assert v["verdict"] == "safety_auto_blocked"
-    assert "dim_A_floor" in v["gate"]["blocking"]
-    assert "page_level_all_captured" in v["gate"]["blocking"]
+    assert {"dim_A_floor", "page_level_all_captured", "no_pending_source_validation"} <= set(
+        v["gate"]["blocking"])
 
 
-def test_safety_gate_pass_but_adr091_holds() -> None:
-    # planchers OK + pages captured + 0 source pending, mais conditions gate encore à câbler → buildout
+def test_safety_all_proven_but_policy_unratified_holds() -> None:
     ok = _cov(valid=27, pending_capped=0, candidates=0)
-    v = AR.compute_verdict(True, _score(30.0, 20.0, []), ok, adr091_amended=False)
-    assert v["verdict"] == "safety_blocked_pending_gate_buildout"  # jamais auto-approuvé tant que gate incomplète
+    v = AR.compute_verdict(True, ok, numeric_exactitude_verified=True, source_catalog_raw_refs_ok=True,
+                           promotion_decision=POLICY_ONLY)
+    assert v["verdict"] == "blocked_by_current_safety_policy"
+    assert v["gate"]["blocking"] == [] and v["gate"]["policy_only"] is True
+    assert v["gate"]["canonical"]["policy"]["status"] == "not_ratified"
+
+
+def test_safety_auto_approved_only_on_canonical_eligible_and_raw_claims_proven() -> None:
+    ok = _cov(valid=27, pending_capped=0, candidates=0)
+    v = AR.compute_verdict(True, ok, numeric_exactitude_verified=True, source_catalog_raw_refs_ok=True,
+                           promotion_decision=ELIGIBLE)
+    assert v["verdict"] == "safety_auto_approved"
+    # canonique ELIGIBLE mais un claim RAW non prouvé → bloqué (union, jamais l'un sans l'autre)
+    v2 = AR.compute_verdict(True, ok, numeric_exactitude_verified=False, promotion_decision=ELIGIBLE)
+    assert v2["verdict"] == "safety_auto_blocked"
+    assert v2["gate"]["blocking"] == ["numeric_exactitude_verified"]
+
+
+def test_safety_without_or_with_unexplained_canonical_decision_is_blocked() -> None:
+    ok = _cov(valid=27, pending_capped=0, candidates=0)
+    v = AR.compute_verdict(True, ok, promotion_decision=None)
+    assert v["verdict"] == "safety_auto_blocked"
+    assert "canonical_decision_available" in v["gate"]["blocking"]
+    malformed = {"promotion_status": "BLOCKED", "eligible": False, "blocking_reasons": []}
+    v2 = AR.compute_verdict(True, ok, promotion_decision=malformed)
+    assert v2["gate"]["blocking"] == ["canonical_decision_eligible"]
+    unreported = _decision(reasons=[{"code": "SAFETY_HUMAN_REVIEW", "evidence": {"is_safety": True}}])
+    v3 = AR.compute_verdict(True, ok, promotion_decision=unreported)
+    assert v3["gate"]["blocking"] == ["canonical_safety_conditions_reported"]
+
+
+def test_safety_other_canonical_codes_block_alongside_safety_conditions() -> None:
+    ok = _cov(valid=27, pending_capped=0, candidates=0)
+    pdz = _decision("UNKNOWN_FAIL_CLOSED", [_safety_reason(["provenance_pass"]),
+                                            {"code": "PROVENANCE_GATE_UNAVAILABLE"}])
+    v = AR.compute_verdict(True, ok, promotion_decision=pdz)
+    assert v["verdict"] == "safety_auto_blocked"
+    assert v["gate"]["blocking"] == ["provenance_pass", "PROVENANCE_GATE_UNAVAILABLE"]
 
 
 def test_non_safety_auto_promote_eligible() -> None:
-    v = AR.compute_verdict(False, _score(30.0, 20.0, []), _cov(0, 0, 0), adr091_amended=False)
-    # tier B (pas S/A) → auto_blocked ; on vérifie surtout l'absence de tout état humain
-    assert v["verdict"] in ("auto_promote_eligible", "auto_blocked")
+    v = AR.compute_verdict(False, _cov(0, 0, 0), promotion_decision=ELIGIBLE)
+    assert v["verdict"] == "auto_promote_eligible"
     assert "human" not in v["verdict"]
+
+
+def test_gap1_has_no_policy_override_of_its_own() -> None:
+    """La politique sécurité n'a qu'une source : la constante canonique. Aucune option CLI."""
+    import inspect
+    assert "adr091" not in inspect.getsource(AR).lower()
+    assert "SAFETY_AUTO_APPROVAL_ADR" in inspect.getsource(AR)
 
 
 # ---- A4 : gap1 = REPORTER — embarque la décision canonique, ne décide plus la promotion --------
@@ -252,18 +305,18 @@ def test_compute_verdict_nonsafety_delegates_to_canonical_decision() -> None:
     """A4 : la promotion NON-sécurité vient de la décision canonique EMBARQUÉE, jamais
     d'un tier/floor local. eligible=True ⇒ auto_promote_eligible ; sinon auto_blocked."""
     elig = {"promotion_status": "ELIGIBLE", "eligible": True, "blocking_reasons": []}
-    v = AR.compute_verdict(False, _score(0, 0, ["A"]), _cov(), promotion_decision=elig)
-    assert v["verdict"] == "auto_promote_eligible"  # planchers score KO mais décision canonique ELIGIBLE
+    v = AR.compute_verdict(False, _cov(), promotion_decision=elig)
+    assert v["verdict"] == "auto_promote_eligible"  # pages pending côté RAW, mais décision canonique ELIGIBLE
     blocked = {"promotion_status": "BLOCKED", "eligible": False,
                "blocking_reasons": [{"code": "COVERAGE_STRICT_FAIL"}]}
-    v2 = AR.compute_verdict(False, _score(30, 20, []), _cov(), promotion_decision=blocked)
+    v2 = AR.compute_verdict(False, _cov(), promotion_decision=blocked)
     assert v2["verdict"] == "auto_blocked"
     assert "COVERAGE_STRICT_FAIL" in v2["reason"]
 
 
 def test_compute_verdict_nonsafety_no_decision_is_failclosed() -> None:
     """Aucune décision canonique fournie ⇒ auto_blocked (fail-closed), jamais eligible."""
-    v = AR.compute_verdict(False, _score(30, 20, []), _cov(), promotion_decision=None)
+    v = AR.compute_verdict(False, _cov(), promotion_decision=None)
     assert v["verdict"] == "auto_blocked"
 
 
@@ -518,26 +571,23 @@ def _cov_ok():
 
 
 def test_numeric_false_blocks_safety_verdict() -> None:
-    # tout le reste passerait, mais valeur numérique non vérifiée → BLOQUE (raison technique)
-    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(),
-                           adr091_amended=True, numeric_exactitude_verified=False)
+    # tout le reste passerait, mais valeur numérique RAW non vérifiée → BLOQUE (raison technique)
+    v = AR.compute_verdict(True, _cov_ok(), numeric_exactitude_verified=False, promotion_decision=ELIGIBLE)
     assert v["verdict"] == "safety_auto_blocked"
     assert "numeric_exactitude_verified" in v["gate"]["blocking"]
 
 
 def test_numeric_true_included_but_not_blocking() -> None:
-    # valeur vérifiée → check présent et NON bloquant ; verdict reste buildout (not_yet_wired non vide)
-    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(),
-                           adr091_amended=True, numeric_exactitude_verified=True)
-    assert v["gate"]["computable"]["numeric_exactitude_verified"] is True
+    v = AR.compute_verdict(True, _cov_ok(), numeric_exactitude_verified=True, promotion_decision=POLICY_ONLY)
+    assert v["gate"]["raw_claims"]["numeric_exactitude_verified"] is True
     assert "numeric_exactitude_verified" not in v["gate"]["blocking"]
-    assert v["verdict"] == "safety_blocked_pending_gate_buildout"  # jamais auto-approuvé (gate incomplète)
+    assert v["verdict"] == "blocked_by_current_safety_policy"  # jamais auto-approuvé sans la politique
 
 
-def test_numeric_none_is_backward_compatible() -> None:
-    # défaut None = check non évalué → absent des computables (compat tests/verdicts existants)
-    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(), adr091_amended=True)
-    assert "numeric_exactitude_verified" not in v["gate"]["computable"]
+def test_numeric_none_is_not_evaluated() -> None:
+    # défaut None = check non évalué → absent des conditions RAW
+    v = AR.compute_verdict(True, _cov_ok(), promotion_decision=POLICY_ONLY)
+    assert "numeric_exactitude_verified" not in v["gate"]["raw_claims"]
 
 
 def test_resolve_status_requires_valid_section() -> None:
@@ -557,26 +607,23 @@ def test_resolve_status_requires_valid_section() -> None:
 # ---- 12. Gate raw_ref cross-repo (Plan P2) câblé dans la Safety Auto-Gate (point 4 owner) --------
 def test_raw_ref_gate_false_blocks_safety_verdict() -> None:
     # échec FK/hash du gate source-catalog/raw-ref → BLOQUE le verdict sécurité (raison technique)
-    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(), adr091_amended=True,
-                           numeric_exactitude_verified=True, source_catalog_raw_refs_ok=False)
+    v = AR.compute_verdict(True, _cov_ok(), numeric_exactitude_verified=True,
+                           source_catalog_raw_refs_ok=False, promotion_decision=ELIGIBLE)
     assert v["verdict"] == "safety_auto_blocked"
     assert "source_catalog_raw_refs_ok" in v["gate"]["blocking"]
 
 
-def test_raw_ref_gate_true_included_but_backstop_still_blocks() -> None:
-    # gate PASS → check présent, NON bloquant ; MAIS NOT_YET_WIRED (no_quality_gate_fail) tient le backstop
-    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(), adr091_amended=True,
-                           numeric_exactitude_verified=True, source_catalog_raw_refs_ok=True)
-    assert v["gate"]["computable"]["source_catalog_raw_refs_ok"] is True
+def test_raw_ref_gate_true_included_and_policy_still_holds() -> None:
+    v = AR.compute_verdict(True, _cov_ok(), numeric_exactitude_verified=True,
+                           source_catalog_raw_refs_ok=True, promotion_decision=POLICY_ONLY)
+    assert v["gate"]["raw_claims"]["source_catalog_raw_refs_ok"] is True
     assert "source_catalog_raw_refs_ok" not in v["gate"]["blocking"]
-    assert "no_quality_gate_fail" in v["gate"]["not_yet_wired"], "backstop intact (non retiré)"
-    assert v["verdict"] == "safety_blocked_pending_gate_buildout", "jamais auto-approuvé (gate incomplète)"
+    assert v["verdict"] == "blocked_by_current_safety_policy", "jamais auto-approuvé sans la politique"
 
 
-def test_raw_ref_gate_none_is_backward_compatible() -> None:
-    # défaut None = check non évalué → absent des computables (compat verdicts existants)
-    v = AR.compute_verdict(True, _score(30.0, 20.0, []), _cov_ok(), adr091_amended=True)
-    assert "source_catalog_raw_refs_ok" not in v["gate"]["computable"]
+def test_raw_ref_gate_none_is_not_evaluated() -> None:
+    v = AR.compute_verdict(True, _cov_ok(), promotion_decision=POLICY_ONLY)
+    assert "source_catalog_raw_refs_ok" not in v["gate"]["raw_claims"]
 
 
 def test_raw_ref_gate_helper_flags_unreferenceable_source() -> None:

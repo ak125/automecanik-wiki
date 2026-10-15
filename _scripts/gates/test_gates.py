@@ -9,6 +9,7 @@ Garde-fous architecturaux :
 """
 from __future__ import annotations
 
+import ast
 import importlib
 import re
 from pathlib import Path
@@ -119,6 +120,9 @@ def test_legacy_gates_module_loads() -> None:
         "gate_safety_unsourced",
         "gate_maintenance_advice",
         "gate_diagnostic_relations",
+        "gate_diagnostic_not_applicable",
+        "gate_quick_checks",
+        "gate_safety_rules",
         "gate_legacy_symptoms_block",
         "gate_path_anti_patterns",
         "gate_symptom_unstructured",
@@ -145,6 +149,26 @@ def test_no_new_atomic_gate_defined_in_wrappers() -> None:
             f"line {text[:match.start()].count(chr(10)) + 1}. "
             "Wrappers must COMPOSE existing gates, not invent new ones."
         )
+
+
+def test_wrappers_cover_every_gate_of_run_gates() -> None:
+    """Anti-dérive : chaque `gate_*` appelé par `run_gates` (la suite `--all-local` de la CI)
+    est composé par au moins un wrapper. Sans ce test, un gate ajouté à `run_gates` reste
+    absent de la décision canonique, qui n'exécute que les 5 wrappers."""
+    tree = ast.parse((GATES_DIR.parent / "quality-gates.py").read_text(encoding="utf-8"))
+    run_gates = next(n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name == "run_gates")
+    in_run_gates = {
+        n.func.id for n in ast.walk(run_gates)
+        if isinstance(n, ast.Call) and isinstance(n.func, ast.Name) and n.func.id.startswith("gate_")
+    }
+    assert in_run_gates, "run_gates doit appeler des gates"
+    in_wrappers: set[str] = set()
+    for wrapper in GATES_DIR.glob("*_gate.py"):
+        for n in ast.walk(ast.parse(wrapper.read_text(encoding="utf-8"))):
+            if isinstance(n, ast.Call) and isinstance(n.func, ast.Attribute) and n.func.attr.startswith("gate_"):
+                in_wrappers.add(n.func.attr)
+    missing = sorted(in_run_gates - in_wrappers)
+    assert not missing, f"gates de run_gates absents des wrappers : {missing}"
 
 
 def test_source_gate_does_not_enforce_cross_repo_raw_refs() -> None:
@@ -263,3 +287,18 @@ def test_risk_gate_clean_body_passes(tmp_path: Path) -> None:
     # Status may be pass; we only assert no exception
     assert result.gate_name == "risk"
     assert result.target_file == str(f)
+
+
+def test_contradiction_gate_runs_adr112_adr113_gates(tmp_path: Path) -> None:
+    """Les gates ADR-112/113 tournent réellement dans le wrapper : une déclaration
+    « aucune relation » accompagnée de relations échoue."""
+    from gates.contradiction_gate import run_contradiction_gate
+
+    fm = _make_minimal_valid_fm()
+    closing = fm.rindex("---\n")
+    extra = "diagnostic_not_applicable:\n  reason: test\ndiagnostic_relations:\n  - cause_slug: x\n"
+    f = tmp_path / "test-slug.md"
+    f.write_text(fm[:closing] + extra + fm[closing:] + "body\n")
+    result = run_contradiction_gate(f)
+    assert result.status == "fail"
+    assert any(v.gate_id == "diagnostic_not_applicable" for v in result.violations)

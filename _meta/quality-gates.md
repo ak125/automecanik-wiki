@@ -169,7 +169,27 @@ Le seuil 0.85 conserve le plancher de qualité déjà documenté. Ce n'est ni un
 
 Résultats : `ELIGIBLE` autorise l'exécuteur ; `BLOCKED` et `UNKNOWN_FAIL_CLOSED` maintiennent la proposition avec des motifs structurés. Correction des preuves puis nouvelle évaluation automatique. Aucun échec ne crée une attente humaine obligatoire. Les identifiants historiques tels que `SAFETY_HUMAN_REVIEW` restent compatibles avec les consommateurs existants ; leur résultat est un blocage technique, pas une tâche humaine.
 
-Le Safety Auto-Gate de `gap1_auto_review.py` reste partiellement câblé : il ne prouve pas une qualification complète du contenu sécurité. Ces fiches restent bloquées tant que les preuves et contrôles automatiques nécessaires manquent. La validation du WIKI n'autorise aucune modification du moteur diagnostic LIVE.
+### Safety Auto-Gate (familles sécurité-critiques)
+
+Une fiche d'une famille sécurité-critique (`safety_families.py`) est jugée par le même décideur. `SAFETY_HUMAN_REVIEW` y porte la Safety Auto-Gate : la fiche n'est éligible que si **toutes** les conditions suivantes sont prouvées.
+
+| Condition                                                         | Preuve exigée                                                                                                                                                                              |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `dim_A_floor`, `dim_C_floor`                                      | dimensions shadow A (preuve) ≥ 22 et C (couverture) ≥ 15 ; tier shadow indéterminable = échec                                                                                              |
+| `no_quality_gate_fail`                                            | les cinq contrôles source/claim/contradiction/risk/confidence exécutés et PASS                                                                                                             |
+| `numeric_exactitude_verified`                                     | chaque valeur chiffrée du texte rendu (prose, titres, code, HTML, alt d'image) est `numeric_verified` (`numeric_exactitude.py`) ; une valeur hors ancre de la coverage-map est non sourcée |
+| `no_disputed_claims`                                              | déclaration explicite `no_disputed_claims: true` dans le frontmatter                                                                                                                       |
+| `diagnostic_live_authority_not_claimed`                           | aucun `evidence.diagnostic_safe: true` (flip humain ciblé, §5.bis)                                                                                                                         |
+| `no_manual_review_policy`                                         | aucun `source_policy: manual_review`, ni dans les preuves ni dans la coverage-map                                                                                                          |
+| `coverage_strict_pass`, `regression_gate_pass`, `provenance_pass` | couverture stricte PASS (un WARN bloque ici), régression NEW/NEUTRAL/IMPROVED, provenance PASS ; un résultat absent n'est jamais un succès                                                 |
+
+Une condition dont le calcul échoue est fausse et son erreur est rapportée. Seule une plage `validated` de `_meta/numeric-plausibility.yaml`, corroborée par deux sources captées distinctes, rend une valeur dimensionnée vérifiable : tant que les plages restent `proposed`, toute fiche sécurité portant une valeur avec unité reste bloquée.
+
+Même toutes conditions prouvées, la fiche reste bloquée tant que la constante de code `SAFETY_AUTO_APPROVAL_ADR` (`promotion_decision.py`) est vide : le motif `SAFETY_HUMAN_REVIEW` porte alors `policy.status: not_ratified`. Elle ne se lève ni par variable d'environnement ni par option CLI, mais par une PR WIKI dédiée qui y inscrit l'ADR vault acceptée amendant ADR-091 §4 et ADR-093. Le fichier entre dans l'empreinte du moteur de décision : changer la constante invalide toute décision déjà rendue.
+
+`gap1_auto_review.py` reporte cette décision et y ajoute ses conditions sur les claims RAW extraits (pages captées, sources candidates, valeurs chiffrées, `raw_ref` du catalogue) ; il ne décide rien seul. Résidus V2 : détection de contradiction dans la prose (aujourd'hui déclarative), valeurs chiffrées du frontmatter, validation des plages chiffrées.
+
+La validation du WIKI n'autorise aucune modification du moteur diagnostic LIVE.
 
 ```bash
 python3 _scripts/promote.py --wiki-root /chemin/wiki --raw-root /chemin/raw --all --dry-run

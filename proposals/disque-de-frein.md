@@ -10,42 +10,47 @@ aliases:
 - disque de frein ventilé
 lang: fr
 created_at: '2026-06-02'
-updated_at: '2026-06-20'
+updated_at: '2026-10-11'
 truth_level: L2
 source_refs:
 - kind: raw
-  path: sources/web-research/disque-de-frein/faq-symptoms.md
-  captured_at: '2026-06-20'
+  path: sources/auto-captures/disque-de-frein/aftermarket-zf-com-wl-disque-de-frein-zf-broutement-c38b7a9a.md
+  cid: sha256:46ef0642d8ac7f34b2930913a45db75b785acbcbc7b230ce3cbf0150ac81757a
+  captured_at: '2026-10-10'
+  confidence: high
 - kind: raw
-  path: sources/web-research/disque-de-frein/selection-criteria.md
-  captured_at: '2026-06-20'
-- kind: raw
-  path: sources/web-research/disque-de-frein/compatibility-technical.md
-  captured_at: '2026-06-20'
-- kind: raw
-  path: sources/web-research/disque-de-frein/common-mistakes.md
-  captured_at: '2026-06-20'
-- kind: raw
-  path: sources/web-research/disque-de-frein/price-quality-brands.md
-  captured_at: '2026-06-20'
+  path: sources/auto-captures/disque-de-frein/fr-wikipedia-org-wl-disque-de-frein-wikipedia-fr-88f2cfa4.md
+  cid: sha256:7359136cb80c9e21948e7c393fc5a78c960d0a749ff8c08e4c16b92f1a76a296
+  captured_at: '2026-10-10'
+  confidence: low
+- kind: external_url
+  url: https://aftermarket.zf.com/us/aftermarket-portal/for-workshops/useful-tips/brakes/brake-judder/
+  captured_at: '2026-10-10'
+- kind: external_url
+  url: https://fr.wikipedia.org/wiki/Frein_%C3%A0_disque
+  captured_at: '2026-10-10'
 provenance:
   ingested_by: skill:wiki-proposal-writer
   promoted_from: null
 review_status: proposed
 reviewed_by: null
 reviewed_at: null
-review_notes: "Reconstruite 2026-06-20 depuis le scrape web-research RUN_TARGETED_RAW_TO_WIKI\
-  \ disque-de-frein (83 faits, 64 sources primaires/OE : Brembo, ATE, Textar, Ferodo,\
-  \ TRW/ZF, Bosch, Delphi, Zimmermann, Hella, MAT Foundry). REMPLACE l'ancienne fiche\
-  \ générée depuis recycled/rag-knowledge (RAG-recyclée, thin, cross_check NEITHER).\
-  \ Axe châssis respecté : seuils (DTV, faux-rond, MIN TH) dépendent de la référence\
-  \ disque + du châssis, JAMAIS du code moteur. diagnostic_relations[] laissé vide :\
-  \ les symptômes (broutement, bruit, tirage) mappent vers brake_vibration_pedal /\
-  \ brake_noise_grinding / brake_pulling_side, à ajouter après confirmation system_slug\
-  \ via exports/diag-canon-slugs.json (pas d'invention de slug). Valeurs spécifiques\
-  \ véhicule (couple Nm, cotes exactes) volontairement non généralisées (anti number-swapping)."
+review_notes: "Réécrite 2026-10-11 : chaque affirmation repose sur l'une de deux pages\
+  \ archivées dans RAW (sources/auto-captures/disque-de-frein/, PR RAW #69) — une\
+  \ page d'atelier d'équipementier sur le broutement, rédigée en anglais et reformulée\
+  \ en français dans la fiche (la capture RAW reste dans sa langue d'origine), et un\
+  \ article d'encyclopédie en français sur le frein à disque, en corroboration\
+  \ seulement (confiance plafonnée à low). Les deux références external_url désignent les\
+  \ mêmes pages que les références raw (même document, pas une source indépendante).\
+  \ Retirés faute de preuve archivée ou par règle de sécurité : noms de marques et\
+  \ d'équipementiers, prix, cotes et tolérances chiffrées (variation d'épaisseur,\
+  \ voile, faux-rond, épaisseur minimale gravée), températures, fréquences,\
+  \ homologation des disques de rechange, couples de serrage, couronne ABS, VIN,\
+  \ revêtements anticorrosion, relation brake_noise_metallic et source bosch_fad_2020.\
+  \ Aucune valeur chiffrée n'est publiée. diagnostic_relations[] : deux hypothèses\
+  \ (brake_vibration_pedal, brake_noise_grinding), reviewed=false, diagnostic_safe=false."
 no_disputed_claims: true
-confidence_score: 0.48
+confidence_score: 0.65
 exportable:
   rag: false
   seo: false
@@ -57,9 +62,10 @@ diagnostic_relations:
 - symptom_slug: brake_vibration_pedal
   system_slug: freinage
   relation_to_part: possible_cause
-  part_role: 'vibrations et broutement ressentis au volant et à la pédale au freinage
-    — disque voilé (faux-rond), variation d''épaisseur du disque (DTV) ou surchauffe
-    créant des points chauds ; cause fréquente = moyeu mal nettoyé au montage'
+  part_role: "hypothèse — broutement : vibrations au volant et pulsation de la pédale au\
+    \ freinage ; selon la page d'atelier, la cause principale du broutement à\
+    \ froid est la variation d'épaisseur du disque, souvent due à un faux-rond\
+    \ de montage (moyeu sale, voilé ou trop graissé)"
   evidence:
     confidence: medium
     source_policy: 1_high
@@ -67,20 +73,20 @@ diagnostic_relations:
     diagnostic_safe: false
   sources:
   - oem_zf_trw_brake_judder
-  - bosch_fad_2020
-- symptom_slug: brake_noise_metallic
+- symptom_slug: brake_noise_grinding
   system_slug: freinage
   relation_to_part: possible_cause
-  part_role: 'bruits, sifflement ou grincement aigu au freinage — disque trop mince,
-    non-planéité (tolérance 0,1 mm) ou défaut de montage des plaquettes/anti-bruit'
+  part_role: "hypothèse indirecte — selon la page d'atelier, le broutement au freinage\
+    \ est en général accompagné d'un bruit sourd ; la page ne rattache ce bruit au\
+    \ disque qu'à travers le broutement (variation d'épaisseur, dépôt de matière,\
+    \ zones durcies)"
   evidence:
-    confidence: medium
+    confidence: low
     source_policy: 1_high
     reviewed: false
     diagnostic_safe: false
   sources:
-  - tecdoc_15_02_01_brake_noise
-  - bosch_fad_2020
+  - oem_zf_trw_brake_judder
 entity_data:
   pg_id: 82
   family: freinage
@@ -96,150 +102,103 @@ entity_data:
   kw_top: []
   references: []
   maintenance:
-    educational_advice: "Contrôler l'épaisseur du disque à chaque changement de plaquettes\
-      \ et vérifier le voile si des vibrations apparaissent ; remplacer dès que l'épaisseur\
-      \ atteint la cote MIN TH gravée sur le disque, toujours par paire sur l'essieu."
+    educational_advice: "Remplacer disques et plaquettes par essieu complet ; au montage,\
+      \ veiller à un moyeu propre, plan et sans excès de graisse ; en cas de broutement,\
+      \ faire rechercher la cause pas à pas plutôt que de changer seulement les disques\
+      \ et les plaquettes."
     related_pages:
     - plaquette-de-frein
   decision_brief:
-    function_oneliner: "Le disque de frein transforme l'énergie cinétique du véhicule\
-      \ en chaleur par friction avec les plaquettes, pour ralentir de façon stable\
-      \ et répétable sur chaque essieu."
+    function_oneliner: "Le disque de frein, fixé sur le moyeu de la roue, est serré\
+      \ par les plaquettes : le frottement crée le couple de freinage et transforme\
+      \ l'énergie cinétique du véhicule en chaleur, qui doit être évacuée."
     selection_criteria_top:
-    - "Compatibilité dimensionnelle OE exacte (diamètre, épaisseur neuve/mini, hauteur de bol, PCD, trous, alésage central)."
-    - "Type de structure (ventilé/plein) et de surface (lisse/percé/rainuré) conformes au montage d'origine."
-    - "Épaisseur mini MIN TH gravée + homologation ECE R90 + remplacement par paire d'essieu."
-    compatibility_summary: "Pièce châssis : apparier la référence/les cotes au véhicule (VIN/type), jamais le code moteur."
+    - "Plaquettes et disques se remplacent par essieu complet, pour des raisons de sécurité."
+    - "Les tolérances dépendent du véhicule : bien plus faibles sur les suspensions modernes à bras multiples."
+    - "Au montage : moyeu propre, plan et sans excès de graisse."
+    compatibility_summary: "Choisir le disque à partir du véhicule : les tolérances\
+      \ et les effets d'un défaut varient beaucoup d'un type de véhicule à l'autre."
     source_kind: web_research_oe
     cross_check_status: SOURCED_OE
 ---
 
+## Définition
+
+Le disque de frein est l'élément du frein à disque contre lequel frottent les plaquettes. Dans ce système, le disque, fixé sur le moyeu de la roue, est serré par des plaquettes qui viennent frotter de chaque côté. Les plaquettes sont maintenues dans un étrier (frein fixe) ou une chape (frein coulissant), fixés au véhicule.
+
+Le frein à disque transforme l'énergie cinétique du véhicule en chaleur, qui doit être évacuée le plus rapidement possible.
+
 ## Rôle technique
 
-Le disque de frein transforme l'énergie cinétique du véhicule en **chaleur par friction** avec les plaquettes, afin de ralentir le véhicule de façon stable et répétable sur chaque essieu. C'est une pièce de **châssis** : son choix dépend de la compatibilité dimensionnelle et dynamique avec le montage d'origine — jamais du code moteur.
-
-## En bref (facettes décisionnelles)
-
-- **Fonction** : convertir le mouvement en chaleur, dissipée par la masse et la ventilation du disque.
-- **Critères de choix prioritaires** : compatibilité dimensionnelle OE exacte · structure ventilé/plein et surface lisse/percé · épaisseur mini `MIN TH` gravée · homologation **ECE R90** · remplacement **par paire d'essieu**.
-- **Compatibilité** : pièce châssis — apparier la **référence et les cotes au véhicule** (VIN/type), pas au code moteur.
-- _Matière sourcée OE/équipementier (Brembo, ATE, Textar, Ferodo, TRW/ZF, Bosch, Delphi, Zimmermann, Hella). Chaque seuil chiffré ci-dessous dépend de la référence disque + du châssis._
+Un ou plusieurs pistons, en général soumis à une pression hydraulique sur les véhicules de tourisme, poussent les plaquettes contre le disque. La force de frottement entre les plaquettes et le disque crée le couple de freinage, mais aussi de la chaleur. Cette chaleur doit être évacuée le plus rapidement possible pour éviter une déformation du disque.
 
 ## Fonctionnement
 
-À chaque freinage, les plaquettes serrent le disque et la friction convertit l'énergie cinétique en chaleur, qui doit être évacuée pour éviter le *fading*. Deux structures principales :
+Une chaleur trop élevée, ou mal évacuée, expose le disque à deux défauts :
 
-- **Disque ventilé** (canaux internes) : évacue mieux la chaleur et limite le fading ; équipe généralement l'essieu le plus sollicité ([Textar](https://textar.com/usa/brake-disc-range/)).
-- **Disque plein** : adapté aux charges thermiques plus faibles (souvent l'essieu arrière) ([Textar](https://textar.com/usa/brake-disc-range/)).
+- **Disque voilé** — le disque se déforme.
+- **Disque glacé** — son état de surface est altéré par une chaleur excessive : il prend une couleur légèrement bleutée et le mordant au freinage diminue.
 
-La **surface percée** (perforée) reprend le design OE des sportives : elle empêche l'eau de former un coussin entre disque et plaquette → freinage plus réactif sous la pluie ([Ferodo](https://www.ferodo.com/products/light-vehicles/brake-discs/perforated-discs.html)). À réserver aux véhicules qui en étaient équipés d'origine.
+Deux conceptions de disque répondent à des contraintes particulières :
+
+- **Disque ventilé** — il est formé de deux disques légèrement séparés par des entretoises : l'air circule entre eux et refroidit le disque de l'intérieur.
+- **Disque perforé** — de petits trous à sa surface rompent le film d'eau qui se forme entre le disque et la plaquette sous la pluie. En contrepartie, la puissance de freinage diminue un peu par temps sec, car la surface de friction est légèrement réduite, et ces disques sont relativement fragiles.
+
+La fonte est de loin le matériau le plus utilisé pour les disques : elle rouille facilement et elle est assez lourde, mais elle est très économique et efficace à l'emploi.
 
 ## Symptômes & diagnostic
 
-> Axe châssis : les seuils (DTV, faux-rond) dépendent de la **référence disque** et du **châssis**, pas du code moteur.
+> Un symptôme seul ne désigne pas le disque de frein : le broutement a souvent plusieurs causes. La recherche de la cause relève de l'outil de diagnostic, pas de cette fiche.
 
-**Vibrations au volant / pédale au freinage (voile, broutement, « judder »)** — vibration ressentie dans le volant et la pédale à certaines vitesses/pressions ([Ferodo](https://www.ferodo.com/support/light-vehicles/technical-tips/Brake-Judder.html)). Trois causes réelles (le disque n'est pas forcément « voilé ») :
-- **faux-rond** (runout) moyeu/disque,
-- **surchauffe** créant des points chauds (taches bleues),
-- **variation d'épaisseur du disque (DTV)** ([Ferodo](https://www.ferodo.com/support/light-vehicles/technical-tips/Brake-Judder.html)).
+**Broutement au freinage** — le broutement désigne des vibrations de rotation du volant qui apparaissent au freinage, en général accompagnées d'un bruit sourd. Selon leur cause, on distingue le broutement thermique, qui apparaît en décélérant depuis une vitesse élevée, et le broutement à froid, qui peut apparaître à toute vitesse.
 
-Seuils chiffrés (différenciation OE) : la **DTV ne doit pas dépasser 0,015 mm (15 µm)**, abaissée à **0,008 mm sur châssis sensibles** ; le **faux-rond après montage ≤ 0,07 mm** (0,04 mm sensibles) ([Textar](https://textar.com/en/dont-be-victim-of-dtv-problems-solutions-prevention/)). Les disques **TRW/ZF** sortent d'usine à ≤ 10 µm de variation d'épaisseur et ≤ 30 µm de faux-rond ([ZF](https://press.zf.com/press/en/releases/release_87619.html)). Effet de levier clé : une **particule de rouille de 0,05 mm** sur le moyeu peut générer **> 0,1 mm de faux-rond** sur la piste — d'où le broutement après pose sur moyeu sale ([Delphi](https://www.delphiautoparts.com/resource-center/article/how-to-prevent-brake-judder)).
+**Broutement thermique** — il se manifeste par un bruit sourd, dont l'intensité peut varier pendant la décélération, par des vibrations dans le volant et par une pulsation dans la pédale de frein. Son intensité dépend de la force de freinage exercée sur la pédale. Il se reconnaît en général à des taches disposées en cercle sur les faces de friction du disque. Les pics de température locaux au freinage provoquent un dépôt de matière de la plaquette sur le disque, ou une modification durable de la structure du matériau du disque. La matière déposée part en général lors des freinages normaux. Les zones dont la structure a changé sont plus dures que le reste du disque et ne s'enlèvent que par usinage. Pour écarter tout risque, le mieux est de remplacer le disque.
 
-**Bruits au freinage** — classement par fréquence : **broutement < 300 Hz**, **sifflement 300–5000 Hz**, **crissement aigu > 5 kHz** ([Ferodo](https://www.ferodo.com/support/light-vehicles/technical-tips/Brake-Noise.html)). Un sifflement vient souvent d'un piston d'étrier collant, d'une **non-planéité du disque (tolérance 0,1 mm)**, de plaquettes/anti-bruit mal montés ou d'un **disque trop mince** ; les axes de guidage d'étrier mal lubrifiés se grippent (usure conique + bruit) — **l'entretien de l'étrier fait partie du remplacement du disque** ([Ferodo](https://www.ferodo.com/support/light-vehicles/technical-tips/Brake-Noise.html)).
+**Broutement à froid** — il survient lors des freinages normaux et se reconnaît à une pulsation dans la pédale de frein, à des à-coups de couple dans le volant ou à des vibrations des éléments d'essieu et de châssis. À la différence du broutement thermique, il peut survenir presque à chaque freinage, quelle que soit la température. Sa cause principale est la variation d'épaisseur du disque. Des pièces de roulement défectueuses et un balourd des roues peuvent aussi en accentuer l'effet.
 
-## Quand remplacer le disque ?
+**D'où vient la variation d'épaisseur du disque ?**
 
-Remplacer dès qu'un de ces critères est atteint ([Brembo](https://www.bremboparts.com/america/en/support/maintenance/indications-and-bedding-in-90374)) :
-- épaisseur **≤ MIN TH** (valeur gravée en mm sur le diamètre extérieur ou le bol ; mesurer en **≥ 4 points**, retenir la plus basse — au point le plus mince entre canaux pour un ventilé) ([Brembo MIN TH](https://www.bremboparts.com/europe/en/support/maintenance/minimum-brake-disc-thickness-212337)) ;
-- **rayures/sillons circulaires profonds** ou **fissures radiales** ;
-- **taches sombres / points bleus** (surchauffe) ;
-- **déformation** de la piste.
+- Un faux-rond dû à un mauvais montage met la plaquette en contact local avec le disque à chaque tour de roue, même sans freiner : le disque perd de la matière à cet endroit, ce qui finit par provoquer le broutement.
+- Des plaquettes ou des pistons légèrement grippés, qui laissent la plaquette frotter en partie sur le disque, sont souvent en cause.
+- Autres causes : un montage incorrect (saleté, corrosion, serrage excessif à la clé à chocs), les conditions d'utilisation, le style de conduite et les conditions de circulation.
+- De longs trajets sur autoroute avec des freinages très légers peuvent créer une variation d'épaisseur ; sur la plupart des disques, quelques freinages plus appuyés permettent de la résorber.
 
-Sous le MIN TH : moindre dissipation thermique, **fissures thermiques**, déformation, course pédale allongée, risque de **vapor-lock (fluide > 200 °C)** et de fading ([Brembo MIN TH](https://www.bremboparts.com/europe/en/support/maintenance/minimum-brake-disc-thickness-212337)). Au-delà de **650 °C**, la fonte se transforme en cémentite (usure inégale) ([Delphi](https://www.delphiautoparts.com/resource-center/article/how-to-prevent-brake-judder)).
+**Rechercher la cause pas à pas** — le broutement a le plus souvent plusieurs causes, ce qui rend difficile d'en isoler une seule. Il faut donc procéder par étapes :
 
-**Toujours par paire d'essieu** : remplacer les deux disques d'un même essieu ensemble (même si un seul est sous le minimum), avec **plaquettes neuves** et un montage identique des deux côtés (équilibre de freinage, anti-tirage) ([Brembo](https://www.bremboparts.com/europe/en/support/car-fitting/instructions-for-replacement-of-brake-disc-278446), [Hella](https://www.hella.com/techworld/en/ti/testing-the-minimum-thickness-of-a-brake-disc/)).
+- déterminer d'abord si le broutement vient de l'essieu avant ou de l'essieu arrière ;
+- contrôler ensuite les éléments de freinage, de la pédale au servofrein, au maître-cylindre, aux conduites et aux flexibles de frein, jusqu'aux freins de roue ;
+- contrôler aussi l'équilibrage des roues, leur voile, leur faux-rond et l'état de la bande de roulement des pneus ;
+- vérifier enfin la géométrie des trains, les suspensions de roue et les éléments de direction, puis les régler ou les réparer si nécessaire.
 
 ## Critères de choix selon le véhicule
 
-Pièce **châssis** : la sélection repose sur la compatibilité dimensionnelle exacte et la conformité au montage d'origine.
+- **Par essieu complet** — pour des raisons de sécurité, afin d'éviter un freinage inégal, les plaquettes et les disques de frein se remplacent toujours par essieu complet.
+- **Des tolérances propres au véhicule** — les suspensions modernes à bras multiples offrent plus de confort et une meilleure dynamique de conduite, mais n'admettent que des tolérances bien plus faibles sur chaque composant : la tolérance de voile latéral y a été réduite de plus de moitié par rapport aux anciens trains avant à triangles. Cette fiche ne donne aucune cote ni tolérance chiffrée : elles dépendent du véhicule.
+- **Des véhicules plus exigeants** — les véhicules sont de plus en plus puissants, donc plus rapides, et de plus en plus lourds avec la multiplication des équipements de sécurité et de confort : leurs systèmes de freinage doivent être de plus en plus résistants. Certains véhicules sont plus sujets au broutement en raison de la forte sollicitation de leur système de freinage.
+- **Même défaut, effets différents** — les effets d'une variation d'épaisseur du disque varient beaucoup d'un type de véhicule à l'autre, selon la capacité d'amortissement des pièces d'essieu, de direction et de châssis.
 
-1. **Référence OE / compatibilité exacte** — apparier 7 paramètres : diamètre extérieur, épaisseur neuve, épaisseur mini, hauteur (déport du bol), **PCD**, nombre de trous, alésage central ([ATE](https://www.ate.co.za/assets/documents/public/Brake%20disc%20DIAMETER%20listing-2-3.pdf), [wheel-size](https://www.wheel-size.com/articles/pcd-pitch-circle-diameter/)). Valider par VIN/type.
-2. **Structure ventilé vs plein** — selon la charge thermique de l'essieu ([Textar](https://textar.com/usa/brake-disc-range/)).
-3. **Surface lisse vs percé/rainuré** — réserver le percé aux applications qui en avaient d'origine ([Ferodo](https://www.ferodo.com/products/light-vehicles/brake-discs/perforated-discs.html)).
-4. **Diamètre & épaisseur neuve** — à apparier à l'origine (ex. Zimmermann AV 340×30 mm, 5×112, ventilé percé — [AUTODOC](https://www.autodoc.de/info/zimmermann-bremsscheiben)).
-5. **Épaisseur mini MIN TH** — cote gravée ; sous cette valeur → remplacement ([Brembo](https://www.bremboparts.com/europe/en/support/maintenance/minimum-brake-disc-thickness-212337)).
-6. **PCD / nombre de trous / alésage central** — identiques à l'origine pour le montage ([ATE](https://www.ate.co.za/assets/documents/public/Brake%20disc%20DIAMETER%20listing-2-3.pdf)).
-7. **Couronne ABS** — sur applications concernées, anneau ABS de type OE requis ([Bosch](https://www.amazon.com/Bosch-BD1083-Brake-Discs-Certified/dp/B00BHINZDI)).
-8. **Traitement anticorrosion** — vernis UV base eau Brembo, **Coat Z** Zimmermann, **COAT+** Ferodo, Geomet aftermarket ([Brembo Prime](https://www.bremboparts.com/europe/en/products/prime/brake-discs), [Zimmermann](https://www.zimmermann-bremsentechnik.eu/info/faq.html?language=en)).
-9. **Homologation ECE R90** — obligatoire depuis **nov. 2016** pour les disques de rechange des modèles nouvellement immatriculés ; marquage E-mark + n° + code pays ([ATE](https://www.ate-brakes.com/products/disc-brakes/ece-r90-for-brake-discs/)). Matière **haute teneur en carbone (HC)** = freinage plus silencieux ([Brembo](https://www.bremboparts.com/europe/en/products/prime/brake-discs)).
-10. **Remplacement par paire d'essieu** + plaquettes neuves ([Hella](https://www.hella.com/techworld/en/ti/testing-the-minimum-thickness-of-a-brake-disc/)).
-11. **Tolérances de montage** — voile latéral **< 0,05 mm** (jusqu'à 0,10 mm sur anciens), **DTV ≤ ~12-15 µm** ([ZF/TRW](https://aftermarket.zf.com/us/aftermarket-portal/for-workshops/useful-tips/brakes/brake-judder/)).
-12. **Couple de serrage & propreté du moyeu** — couple prescrit dans l'ordre correct, moyeu propre sans rouille ni lubrifiant, contrôle du voile après pose ([Zimmermann](https://www.zimmermann-bremsentechnik.eu/info/faq.html?language=en)). _Le couple en Nm est spécifique au véhicule — se référer à la fiche véhicule._
+## Montage & erreurs fréquentes
 
-## Compatibilité technique avancée (ABS, ventilation, VIN)
-
-Au-delà des cotes, trois spécificités des disques modernes conditionnent la compatibilité — toujours sur l'axe châssis, jamais le code moteur :
-
-- **Couronne ABS intégrée — du même type que l'origine, impérativement.** Sur beaucoup de modèles français (ex. **Peugeot 308 arrière**), le disque arrière intègre le roulement de roue **et** la couronne ABS en un seul ensemble ([Hella](https://www.hella.com/techworld/sg/ti/brake-discs-with-wheel-bearing-and-impulse-ring/), [Textar](https://textar.com/en/brake-disc-range/)). Deux technologies **non interchangeables** : couronne **dentée** (capteur passif inductif) ou **bague magnétique multipôles** (capteur actif Hall, lit jusqu'à très basse vitesse). Un disque à la bonne géométrie OE mais au **mauvais type de couronne** provoque une **panne ABS** post-montage ([Apec](https://apecautomotive.co.uk/techmate-guides/abs-sensors/)). La bague magnétique attire la limaille : couronne propre, segments intacts, orientation selon la notice, remplacement **par paire** ([TRW/ZF](https://www.trwaftermarket.com/en/magnetic/)).
-- **Ventilation directionnelle → référence gauche ≠ droite.** Les disques ventilés à **ailettes courbes orientées** existent en deux références G/D (le sens des ailettes pompe l'air selon la rotation) ; la ventilation **à plots (Brembo PVT)** est non directionnelle → une seule référence pour les deux côtés ([Brembo](https://www.bremboparts.com/europe/fr/support/comment-choisir-le-bon-produit/disques-de-frein-avec-ventilation-%C3%A0-ailettes-et-%C3%A0-plots-les-diff%C3%A9rences-204921)).
-- **Le VIN n'encode pas le diamètre du disque.** Il renseigne moteur/année/finition, qui _corrèlent_ avec la taille de frein, mais un même modèle reçoit **plusieurs diamètres** selon le pack de freinage ou des révisions en cours d'année. Méthode fiable : VIN → **référence OE constructeur** puis cross-référence TecDoc, ou **mesurer le disque existant** — jamais déduire la taille du seul VIN ([stat.vin](https://stat.vin/blog/how-to-check-rotor-size-by-vin-number)).
-- **Monobloc vs composite.** Un disque **composite deux pièces** (piste fonte + bol aluminium, OE sur certaines premium, −15 à −20 % de masse) ne se substitue pas librement à un monobloc fonte sans validation de fitment ([Textar](https://textar.com/en/brake-disc-range/)).
-
-## Marques & équipementiers
-
-- **Premium / OE** : Brembo (gamme Prime, matière HC), ATE, Textar, Ferodo, TRW (groupe ZF), Bosch (dont **iDisc** revêtu, ~90 % de poussières en moins et anticorrosion — utile sur VE), Zimmermann (Coat Z).
-- **Fonte / fonderie** : MAT Foundry (corrosion fonte).
-- Privilégier une référence **homologuée ECE R90** quelle que soit la marque.
-
-## Prix & niveaux de qualité
-
-> Ordres de grandeur marché FR — **indicatifs** (par disque, sources secondaires : TTC/HT et « par disque vs paire » pas toujours explicites), pas des prix de vente.
-
-- **Tiers de qualité.** Peloton OE/première monte resserré : ATE, Textar, Brembo, TRW, Bosch, Zimmermann (notes utilisateurs AutoDoc 2025 de 8,60 à 8,99 — [AutoDoc](https://club.auto-doc.fr/review/parts/disques-de-frein)). Bosch revendique ~1 400 références couvrant 99 % du parc, fonte HC depuis 1983 ([Bosch](https://www.actu-automobile.com/2017/03/16/disques-et-plaquettes-de-frein-bosch-pour-un-freinage-maitrise/)).
-- **Fourchettes indicatives (par disque, FR).** Plein nu ~10-20 € · rainuré ~20-30 € · percé ~25-30 € · ventilé ~25-45 € · paire avant ~40-150 € selon Ø ([Vroomly](https://www.vroomly.com/blog/quel-est-le-prix-dun-changement-de-disque-de-frein/)) ; Brembo ~80 € en moyenne, amplitude ~26-322 € ([AutoDoc](https://club.auto-doc.fr/magazin/disques-de-frein-les-meilleures-marques)). Repère coût total : un freinage avant complet (disques + plaquettes + pose) ~440 € en moyenne FR 2025 ([idGarages](https://www.idgarages.com/fr-fr/a-propos/barometre-entretien-auto-2025)).
-- **Le vrai différenciateur = le revêtement anticorrosion, pas la marque seule.** Delphi annonce **720 h en brouillard salin contre ~24 h** pour un disque nu (revendication équipementier Delphi, Geomet sur tout le disque — [Delphi](https://www.delphiautoparts.com/fr-fr/centre-de-documentation/article/disques-de-frein-peints.-ils-ne-sont-pas-tous-pareils-!)). Côté OE : Zimmermann **Coat Z** (pose immédiate sans retrait — [Zimmermann](https://www.otto-zimmermann.de/en/products/coat-z-coated-brake-discs/)), Hella zinc lamellaire sans chrome ([Hella](https://www.hella.com/techworld/us/ti/coated-brake-disc/)), Brembo Prime UV homologué ECE R90 ([Brembo Prime](https://www.bremboparts.com/europe/fr/produits/prime/disques-frein)). Un disque **nu** n'offre aucune protection (oxydation accélérée l'hiver, sel).
-- **Durée de vie (ordre de grandeur).** ~60 000-120 000 km, l'avant (60-70 % de l'effort) s'usant plus vite que l'arrière ; usage intensif dès ~40 000 km — mais le critère reste le **MIN TH** gravé, pas le kilométrage ([ATE](https://ate-freinage.fr/blog/duree-vie-disque-frein/)).
-- **Sport (percé/rainuré) = coût caché.** Percé (Brembo Xtra, mordant initial, look) et rainuré (Brembo Max, dissipation, racing) sont homologués route mais **plus agressifs sur l'usure des plaquettes** qu'un disque nu ([Brembo](https://www.bremboparts.com/europe/fr/support/comment-choisir-le-bon-produit/disque-brembo-max-ou-disque-brembo-xtra-quelle-est-la-meilleure-solution-pour-ma-voiture-93372)).
-
-## Entretien & corrosion
-
-- **Rodage d'un disque neuf** : nettoyer la portée du moyeu, vérifier le faux-rond (≤ 0,10 mm voiture, mesuré à 5 mm du bord), puis rouler **~200 km** en freinages doux, **sans freinage brusque > 3 s**, pour transférer un film de friction homogène ([Brembo](https://www.bremboparts.com/europe/en/support/car-fitting/instructions-for-replacement-of-brake-disc-278446)).
-- **Surfacer/rectifier** : déconseillé en pratique — la DTV vient le plus souvent d'un **moyeu mal nettoyé** et réapparaît si la cause n'est pas traitée ([Textar](https://textar.com/en/dont-be-victim-of-dtv-problems-solutions-prevention/)) ; un disque sous MIN TH ne peut pas être rectifié.
-- **Corrosion** : la rouille de surface part en roulant et ne justifie pas un remplacement ; une corrosion sévère provoque usure inégale, vibrations/bruit et peut allonger les distances d'arrêt ([MAT Foundry](https://www.matfoundrygroup.com/blog/why-brake-disc-rust-happens-and-how-to-prevent-it)).
-
-## Erreurs fréquentes (achat & montage)
-
-> Axe châssis : la vérité est la **référence pièce + sa dynamique** (Ø, épaisseur, ventilé/plein, MIN TH, voile, couronne ABS), jamais le code moteur.
-
-**À l'achat**
-- **Se tromper de géométrie** : un disque **ventilé** et un **plein** ne sont pas interchangeables sans changer l'étrier/le support ([PowerStop](https://www.powerstop.com/resources/solid-vented-rotors-which-type/)).
-- **Oublier l'homologation ECE R90** (obligatoire depuis nov. 2016) ou **la couronne ABS intégrée** (cf. compatibilité avancée — [Hella Pagid](https://www.hella-pagid.com/hellapagid/assets/media/Brake_Disc_ABS_PAGID_EN.pdf)).
-
-**Au montage**
-- **Ne pas nettoyer le moyeu** : un point de rouille crée un micro-décalage amplifié vers l'extérieur → **voile** ; décaper jusqu'au métal brillant ([ATE](https://ate-freinage.fr/blog/disque-voile/)).
-- **Garder des plaquettes usées sur un disque neuf** : transfert inégal → bruit, vibration, **DTV** dès le premier jour ([Brembo](https://www.bremboparts.com/europe/fr/support/montage-auto/instructions-de-remplacement-du-disque-de-frein-278446)).
-- **Mal gérer le revêtement** : disque protégé à l'**huile** → dégraisser au nettoyant frein ; disque à **revêtement intégré** (Textar PRO, Coat-Z, ATE) → **ne PAS dégraisser** (il disparaît aux premiers freinages) ([Textar](https://textar.com/usa/brake-disc-range/)).
-- **Graisser le contact moyeu/disque** : interdit (fausse le placage, favorise le voile thermique) — aucune graisse sur la piste de friction ([TRW/ZF](https://www.trwaftermarket.com/en/passenger-cars-and-lcv/disc-brake-systems/brake-discs/)).
-- **Serrer de travers ou au pistolet** : pré-serrage **en étoile** puis serrage final **au couple constructeur à la clé dynamométrique** — un couple inégal déforme le disque ([ATE](https://ate-freinage.fr/blog/montage-disque-frein/)).
-- **Laisser pendre l'étrier par le flexible** : toujours le **soutenir au châssis** ([Brembo](https://www.bremboparts.com/europe/fr/support/montage-auto/instructions-de-remplacement-du-disque-de-frein-278446)).
-
-**Après montage**
-- **Sauter le rodage** : ~200-300 km en freinages doux et courts (< 3 s, **sans déclencher l'ABS**) pour établir la couche de transfert ([Brembo](https://www.bremboparts.com/europe/fr/support/entretien/indications-et-rodage-90374)).
+- **Moyeu propre et plan** — les surfaces d'appui et les portées doivent être propres et en parfait état. Un réglet posé sur la face d'appui du moyeu permet de la contrôler vite et simplement : si un jour de lumière apparaît, le moyeu doit être remplacé sans attendre. Le disque ne peut être monté sereinement que si la surface du moyeu est plane.
+- **Le moyeu peut causer le voile** — le moyeu peut lui aussi être responsable d'un voile excessif du disque ; il se mesure, et en cas d'écart trop important, le moyeu ou le roulement de roue doit être examiné et remplacé si nécessaire.
+- **Conséquences d'un moyeu voilé ou sale** — disque voilé, broutement, disque chargé d'un seul côté, répartition inégale de la température, usure accrue des rotules et des roulements de roue, risque de desserrage des boulons de roue.
+- **Pas d'excès de graisse** — si, après le remplacement des disques, on applique trop de graisse sur le moyeu nettoyé, le disque ne repose pas bien à plat sur la bride : un léger voile apparaît et s'accentue avec le temps, jusqu'à ce que le conducteur en ressente les symptômes.
+- **Contrôle du voile** — le voile du disque se contrôle frein monté, au comparateur, sur plusieurs tours de roue. Placer le disque sur le moyeu, par rapport aux trous de fixation, de façon à obtenir la valeur mesurée la plus faible ; si nécessaire, échanger ou combiner les pièces en cause (moyeu, disque, roulement).
+- **Idée reçue** — il est faux qu'un disque doive avoir un léger voile pour que les plaquettes s'en écartent après le freinage.
+- **Erreur fréquente** — souvent, seuls les disques et les plaquettes sont remplacés, alors que mesurer les composants, et les remplacer si besoin, permettrait dans une large mesure de localiser et de supprimer le défaut.
 
 ## FAQ
 
-**Le volant tremble au freinage, mon disque est-il voilé ?** Pas nécessairement : le broutement vient surtout d'un **faux-rond**, d'une **surchauffe** ou d'une **DTV** (variation d'épaisseur), souvent causée par un moyeu mal nettoyé au montage ([Ferodo](https://www.ferodo.com/support/light-vehicles/technical-tips/Brake-Judder.html), [Textar](https://textar.com/en/dont-be-victim-of-dtv-problems-solutions-prevention/)).
+**Le volant tremble au freinage : le disque est-il voilé ?** Pas forcément. Le broutement a le plus souvent plusieurs causes : variation d'épaisseur du disque, dépôt de matière ou zones durcies dues à des pics de température au freinage, faux-rond dû au montage, pièces de roulement défectueuses, balourd des roues. Il faut rechercher la cause pas à pas.
 
-**Faut-il changer les deux disques de l'essieu ?** Oui, toujours par paire, avec plaquettes neuves ([Brembo](https://www.bremboparts.com/europe/en/support/car-fitting/instructions-for-replacement-of-brake-disc-278446)).
+**Faut-il changer les deux disques d'un même essieu ?** Oui. Pour des raisons de sécurité, les plaquettes et les disques de frein se remplacent toujours par essieu complet.
 
-**La rouille sur mes disques est-elle grave ?** La rouille de surface part en roulant ; seule une corrosion sévère impose un contrôle ([MAT Foundry](https://www.matfoundrygroup.com/blog/why-brake-disc-rust-happens-and-how-to-prevent-it)).
+**Un disque doit-il avoir un léger voile pour que les plaquettes se dégagent ?** Non. C'est une idée reçue répandue, mais fausse.
 
-**Combien de temps dure un disque ?** Ordre de grandeur **~48 000 à 112 000 km**, contrôle conseillé vers 100 000 km et inspection plaquettes+disques chaque année ; SUV/véhicules lourds usent plus vite ([Autodoc](https://www.autodoc.co.uk/info/how-long-should-brake-pads-and-discs-last-in-the-uk-in-miles)) — _ordre de grandeur, dépend du véhicule et de la conduite._
+**Changer disques et plaquettes suffit-il à supprimer le broutement ?** Pas toujours. Souvent, seuls les disques et les plaquettes sont remplacés, alors que mesurer les composants, et les remplacer si besoin, permettrait de localiser et de supprimer le défaut.
 
-## Conformité de la pièce de rechange
-
-En Europe, les disques de rechange relèvent d'**ECE R90 (R90-02)** : obligatoire pour les voitures immatriculées après **nov. 2016** ; marquage code **E** ([ECE R90](https://en.wikipedia.org/wiki/ECE_Regulation_90)).
+**À quoi sert un disque perforé ?** Ses petits trous rompent le film d'eau qui se forme entre le disque et la plaquette sous la pluie. En contrepartie, il freine un peu moins par temps sec et il est relativement fragile.
 
 ## Provenance & qualité
 
-Fiche **reconstruite le 2026-06-20** depuis le scrape web-research (`automecanik-raw/sources/web-research/disque-de-frein/`, 83 faits / 64 sources primaires/OE). **Remplace** l'ancienne fiche dérivée de `recycled/rag-knowledge` (RAG-recyclée, non sourcée). Chaque affirmation porte sa source OE/équipementier. Les valeurs spécifiques véhicule (couple Nm, cotes exactes) ne sont **pas** généralisées (anti number-swapping). `review_status: proposed` — revue humaine requise avant promotion vers `wiki/gamme/`. Les 5 champs scrapés sont désormais intégrés (faq-symptoms, selection-criteria, compatibility-technical, common-mistakes, price-quality-brands), chacun sourcé OE/équipementier. Les valeurs de prix et durée de vie sont données en **ordres de grandeur** (sources secondaires) ; le chiffre 720 h vs 24 h brouillard salin est une **revendication équipementier** (Delphi), pas un test indépendant.
+Fiche **réécrite le 2026-10-11**. Chaque affirmation repose sur l'une de deux pages archivées dans RAW : une page d'atelier d'un équipementier consacrée au broutement, rédigée en anglais et reformulée ici en français, et un article d'encyclopédie en ligne sur le frein à disque, qui ne sert que de corroboration (confiance faible). Ont été **retirés**, faute de preuve archivée ou par règle de sécurité : les noms de marques et d'équipementiers, les prix, les cotes et tolérances chiffrées (variation d'épaisseur, voile, faux-rond, épaisseur minimale gravée), les températures et fréquences, l'homologation des disques de rechange, les couples de serrage, la compatibilité couronne ABS et VIN, les revêtements anticorrosion, et la relation `brake_noise_metallic`. Aucune valeur chiffrée n'est publiée. `review_status: proposed`, exports désactivés ; relations diagnostic à l'état d'hypothèses, `reviewed: false`, `diagnostic_safe: false`.

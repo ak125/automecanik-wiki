@@ -10,52 +10,89 @@ aliases:
 - garnitures de frein
 lang: fr
 created_at: '2026-04-28'
-updated_at: '2026-05-02'
+updated_at: '2026-10-11'
 truth_level: L2
 source_refs:
 - kind: raw
-  path: recycled/rag-knowledge/gammes/plaquette-de-frein.md
-  captured_at: '2026-04-28'
+  path: sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md
+  cid: sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37
+  captured_at: '2026-10-10'
+  confidence: high
 - kind: raw
-  path: sources/web-research/plaquette-de-frein/
-  captured_at: '2026-06-15'
+  path: sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md
+  cid: sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8
+  captured_at: '2026-10-10'
+  confidence: high
+- kind: raw
+  path: sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md
+  cid: sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e
+  captured_at: '2026-10-10'
+  confidence: high
+- kind: raw
+  path: sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md
+  cid: sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738
+  captured_at: '2026-10-10'
+  confidence: high
+- kind: raw
+  path: sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md
+  cid: sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd
+  captured_at: '2026-10-10'
+  confidence: high
+- kind: raw
+  path: sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md
+  cid: sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933
+  captured_at: '2026-10-10'
+  confidence: low
+- kind: external_url
+  url: https://aftermarket.zf.com/fr/portail-aftermarket/pour-les-ateliers/conseils-utiles/freins/installation-correcte-des-plaquettes-de-frein/
+  captured_at: '2026-10-10'
+- kind: external_url
+  url: https://www.bremboparts.com/europe/fr/support/approfondissements/technologie-et-fonction-des-%C3%A9triers-de-frein-324333
+  captured_at: '2026-10-10'
+- kind: external_url
+  url: https://www.bremboparts.com/europe/fr/support/comment-choisir-le-bon-produit/pi%C3%A8ces-de-rechange-comment-diff%C3%A9rencier-pi%C3%A8ces-d-origine-et-pi%C3%A8ces-%C3%A9quivalentes-en-10-points-219855
+  captured_at: '2026-10-10'
+- kind: external_url
+  url: https://www.bremboparts.com/europe/fr/support/montage-auto/instructions-pour-remplacer-les-disques-et-les-plaquettes-kit-ev-280501
+  captured_at: '2026-10-10'
+- kind: external_url
+  url: https://www.delphiautoparts.com/fra/fr/article/ce-quil-faut-savoir-sur-les-temoins-dusure-des-plaquettes-de-frein
+  captured_at: '2026-10-10'
+- kind: external_url
+  url: https://fr.wikipedia.org/wiki/Plaquette_de_frein
+  captured_at: '2026-10-10'
+  confidence: low
 provenance:
-  ingested_by: human:@fafa
+  ingested_by: skill:wiki-proposal-writer
   promoted_from: null
 review_status: proposed
 reviewed_by: null
 reviewed_at: null
-review_notes: |
-  Pilote ADR-033 Phase 1 — enrichi 2026-04-29 avec diagnostic_relations[]
-  + entity_data.maintenance. Bumped schema_version 1.0.0 → 2.0.0
-  (ADR-033 + ADR-032).
-
-  2026-04-30 : symptom_slug alignés sur slugs DB existants
-  (brake_noise_metallic, brake_vibration_pedal — drift batch 20260308 EN
-  legacy, utilisable mais NOUVEAUX slugs DB seront FR canon — voir
-  feedback_french_only_for_content.md). 2 entrées retirées faute de slug
-  DB (distance_freinage_allongee, voyant_freinage_allume).
-
-  2026-05-02 (Phase 4 plan deja-verifier-existant) :
-  - Sections H2 alignées sur ordre canon _templates/new-gamme.md
-    (Définition / Fonction / Symptômes d'usure / Critères de choix /
-    Compatibilité véhicule / Intentions SEO observées /
-    Questions fréquentes / Sources et provenance / Points à vérifier)
-  - aliases EN retirés (règle FR exclusif feedback_french_only_for_content.md) :
-    "brake pad", "brake pads" supprimés
-  - target_classes étendu KB_Knowledge → KB_Knowledge + KB_Catalog (gamme catalog)
-  - diagnostic_relations[] : 2 nouvelles entrées seront ajoutées
-    POST-merge PR monorepo #269 (distance_freinage_allongee +
-    voyant_freinage_allume créés en DB par cette PR)
-  - Section "Conseil pédagogique d'entretien" intégrée dans
-    "Critères de choix" (canon ne prévoit pas section dédiée)
-  - FAQ étendue de 3 → 5 questions
-
-  À reviewer humainement avant promotion vers wiki/gammes/.
-
-  Tous les diagnostic_relations[].evidence ont reviewed=false +
-  diagnostic_safe=false (défaut conservateur ADR-033 §D4).
+review_notes: "Révisée 2026-10-11 : chaque affirmation repose sur l'une de six pages\
+  \ archivées dans RAW (sources/auto-captures/plaquette-de-frein/, PR RAW #69) :\
+  \ cinq pages d'équipementiers de freinage (montage des plaquettes, technologie\
+  \ des étriers, pièces d'origine et équivalentes, procédure de remplacement,\
+  \ témoins d'usure) et l'article Wikipédia, utilisé seulement en corroboration\
+  \ (plafond low). Les six références external_url désignent les mêmes pages que\
+  \ les références raw (même document, pas une source indépendante). Retirés faute\
+  \ de preuve archivée : anciennes références recycled et web-research, épaisseur\
+  \ minimale chiffrée, distance de rodage, contrôle avant un long trajet, causes de\
+  \ grincement par contamination de la garniture, relation de vibration dans la\
+  \ pédale (voile de disque), conversion de l'énergie cinétique en chaleur et\
+  \ familles de matériaux de friction (attestées par Wikipédia seul), hiérarchie de\
+  \ marques. Aucune valeur de couple, de pression, de cote, de température ni de\
+  \ distance n'est publiée. Les pages disque-de-frein, etrier-de-frein et\
+  \ kit-de-frein-arriere n'existent pas encore dans wiki/ : aucun lien n'y pointe,\
+  \ les relations restent dans entity_data. diagnostic_relations[] : une relation\
+  \ (grincement aigu au freinage) en confiance moyenne, 2_medium_concordant,\
+  \ reviewed=false, diagnostic_safe=false. L'allumage du témoin d'usure au tableau\
+  \ de bord (plaquettes à témoin électronique) est décrit dans le corps mais n'est\
+  \ pas modélisé en relation : le référentiel diagnostic n'a aucun slug de ce type\
+  \ en freinage, et aucun slug n'est inventé. Licence de l'article Wikipédia : le\
+  \ catalogue indiquait CC-BY-SA-3.0, la capture RAW porte license null\
+  \ (license_status unknown) ; à trancher par le propriétaire."
 no_disputed_claims: true
+confidence_score: 0.89
 exportable:
   rag: false
   seo: false
@@ -67,31 +104,19 @@ diagnostic_relations:
 - symptom_slug: brake_noise_metallic
   system_slug: freinage
   relation_to_part: possible_cause
-  part_role: 'grincement aigu / bruit métallique au freinage — plaquette usée à
-    la limite ou contaminée (huile, gravillons), ou mal montée'
+  part_role: "plaquette en fin d'usure, dont l'indicateur mécanique ou les languettes\
+    \ métalliques émettent un son strident au contact du disque (signal voulu) ;\
+    \ plaquette ou accessoires mal montés, ou plaquette directionnelle du mauvais\
+    \ côté, causes de bruit au freinage"
   evidence:
     confidence: medium
     source_policy: 2_medium_concordant
     reviewed: false
     diagnostic_safe: false
-    confidence_score_computed: 1.0
   sources:
-  - bosch_fad_2020
-  - oem_renault_clio_iii_workshop
-- symptom_slug: brake_vibration_pedal
-  system_slug: freinage
-  relation_to_part: symptom_amplifier
-  part_role: 'vibration dans la pédale de frein — plaquette dont la friction
-    inégale aggrave un voile de disque préexistant'
-  evidence:
-    confidence: medium
-    source_policy: 2_medium_concordant
-    reviewed: false
-    diagnostic_safe: false
-    confidence_score_computed: 0.6
-  sources:
-  - bosch_fad_2020
-  - tecdoc_15_02_01_brake_noise
+  - zf_installation_plaquettes
+  - delphi_temoins_usure
+  - bremboparts_oe_vs_equivalent
 entity_data:
   pg_id: 402
   family: freinage
@@ -106,12 +131,6 @@ entity_data:
   - etrier-de-frein
   - kit-de-frein-arriere
   kw_top: []
-  maintenance:
-    educational_advice: Vérifier l'épaisseur minimum 3 mm avant un long trajet ; remplacer
-      toujours par paire sur le même train.
-    related_pages:
-    - disque-de-frein
-    - etrier-de-frein
   related_gammes:
   - disque-de-frein
   - etrier-de-frein
@@ -121,156 +140,171 @@ entity_data:
   - remplacement_piece
   - entretien_preventif
   - diagnostic_avant_achat
+  maintenance:
+    educational_advice: "Contrôler les plaquettes à intervalles réguliers et les\
+      \ remplacer par essieu à la limite d'usure ou quand le témoin d'usure s'allume,\
+      \ en suivant les prescriptions du constructeur du véhicule."
+    related_pages:
+    - disque-de-frein
+    - etrier-de-frein
   editorial:
     function:
       content_md: >-
-        La plaquette est la garniture de friction que l'étrier presse contre le disque pour convertir
-        l'énergie cinétique en chaleur et ralentir la roue de façon progressive et répétable ; sa géométrie
-        dépend de l'architecture d'étrier (flottant à pistons d'un seul côté, ou fixe à pistons opposés).
-      source_ids: [oem:bremboparts-etriers, web:mister-auto-etriers]
+        Dans l'étrier, la pression hydraulique venue du maître-cylindre agit sur les pistons, qui
+        poussent les plaquettes contre le disque pour ralentir ou arrêter le véhicule. Après le
+        freinage, des ressorts ramènent les plaquettes en position de repos et les maintiennent contre
+        leurs pistons.
+      source_ids: [oem:bremboparts_technologie_etriers]
+      truth_level: sourced
+    variants:
+      content_md: >-
+        L'étrier flottant a ses pistons d'un seul côté : ils poussent une plaquette, et l'autre est
+        poussée par le corps de l'étrier, qui glisse sur des guides. C'est le type le plus répandu sur
+        les véhicules d'entrée et de milieu de gamme et sur les utilitaires légers. L'étrier fixe porte
+        des pistons opposés ; on le trouve sur les véhicules sportifs de milieu à haut de gamme.
+      source_ids: [oem:bremboparts_technologie_etriers]
       truth_level: sourced
     failure_symptoms:
       content_md: >-
-        Une plaquette usée se signale par un grincement aigu (témoin acoustique, ou support métallique au contact
-        du disque), un allongement de la distance de freinage, parfois des vibrations à la pédale (souvent liées au
-        disque) et un témoin au tableau de bord ; le remplacement s'impose autour de 3 mm de garniture restante.
-      source_ids: [web:autodoc-usure, web:mister-auto-symptomes]
+        Un symptôme seul ne désigne pas la plaquette. En fin d'usure, les languettes métalliques et les
+        indicateurs d'usure mécaniques émettent un son strident au contact du disque ; sur les
+        plaquettes à témoin électronique, le témoin s'allume au tableau de bord. Une plaquette ou des
+        accessoires mal montés causent dans la plupart des cas des bruits de freinage ou une
+        performance réduite des freins.
+      source_ids: [oem:delphi_temoins_usure, oem:zf_installation_plaquettes]
       truth_level: sourced
     selection_criteria:
       content_md: >-
-        Le choix croise une correspondance véhicule/essieu stricte (référence d'origine, dimensions, type d'étrier,
-        type de témoin d'usure) et un compromis matériau selon l'usage (organique NAO, semi-métallique, fritté,
-        céramique). Le remplacement se fait par paire sur l'essieu, avec contrôle du disque et rodage d'environ 200 km.
-      source_ids: [oem:zf-installation, web:mister-auto-choisir, web:tour-dhorizon]
+        Le choix part du véhicule : la plaquette doit être adaptée à sa marque et à son modèle, et les
+        prescriptions du constructeur priment sur toute autre indication. Il existe de nombreux
+        matériaux de friction, adaptés à chaque véhicule et à chaque style de conduite. Le type
+        d'indicateur d'usure, mécanique ou électrique, dépend de la conception du système de freinage.
+      source_ids: [oem:bremboparts_remplacement_kit, oem:zf_installation_plaquettes, oem:bremboparts_oe_vs_equivalent, oem:delphi_temoins_usure]
       truth_level: sourced
     quality_tiers:
       content_md: >-
-        Le marché se structure en première monte / qualité d'origine (OES), aftermarket premium équivalent OE, puis
-        gammes économiques. Au catalogue, les équipementiers d'origine de référence du freinage sont Bosch, Brembo et
-        ATE (Continental) en tête, puis Textar, TRW, Delphi, Ferodo et Valeo ; le prix tient à la composition, aux
-        tolérances dimensionnelles et aux procédés (revêtement anticorrosion, traitement thermique, cales antibruit).
-      source_ids: [db:pieces-marque-oes, oem:bremboparts-10-points, web:jurid-oe]
+        Les pièces d'origine portent le logo « OE supplier ». Une page d'équipementier cite comme marques
+        de qualité un traitement thermique de surface qui limite la perte d'efficacité à chaud, un shim
+        antibruit multicouche et des essais sur bancs puis sur route. Cette fiche ne classe pas les
+        marques.
+      source_ids: [oem:bremboparts_oe_vs_equivalent]
       truth_level: sourced
     standards_norms:
       content_md: >-
-        En Europe, toute plaquette de rechange doit être homologuée ECE R90 : ses performances doivent rester
-        équivalentes à la pièce d'origine dans une tolérance de l'ordre de plus ou moins 15 %. R90 est un plancher de
-        sécurité, pas un gage d'excellence — il n'évalue ni le bruit, ni l'usure du disque, ni la tenue dans le temps.
-      source_ids: [oem:bremboparts-r90, web:carmino-r90]
-      truth_level: sourced
-    replacement_guidance:
-      content_md: >-
-        Au montage : remplacer par paire sur l'essieu, ne jamais graisser la surface de friction (graisse uniquement
-        sur les points de contact mécaniques), repousser le piston avec précaution en surveillant le bocal, nettoyer
-        et lubrifier les coulisseaux de l'étrier flottant, ne pas suspendre l'étrier par le flexible, puis réamorcer la pédale.
-      source_ids: [web:oscaro-erreurs, oem:zf-installation, web:oovango-erreurs]
+        En Europe, l'homologation ECE R90 est obligatoire pour commercialiser des disques et des
+        plaquettes de frein.
+      source_ids: [oem:bremboparts_oe_vs_equivalent]
       truth_level: sourced
     maintenance_interval:
       content_md: >-
-        La durée de vie varie fortement selon l'usage — ordre de grandeur 25 000 à 80 000 km — la conduite urbaine
-        usant plus vite que les longs trajets. Plutôt qu'un kilométrage fixe, contrôler visuellement l'épaisseur et
-        suivre le carnet d'entretien ; remplacer disques et plaquettes ensemble quand le disque est hors limites.
-      source_ids: [web:vroomly-duree-vie, web:bymycar-disques]
+        Les plaquettes s'usent et doivent être contrôlées à intervalles réguliers. La vitesse d'usure
+        dépend des conditions de la route, du style de conduite, de la vitesse, de la charge et du type
+        de plaquettes et de disques. Cette fiche ne donne ni durée ni kilométrage valables pour tous
+        les véhicules.
+      source_ids: [oem:bremboparts_remplacement_kit, oem:delphi_temoins_usure]
+      truth_level: sourced
+    replacement_guidance:
+      content_md: >-
+        Composants de sécurité, les plaquettes ne doivent être remplacées que par un personnel
+        compétent. Elles se remplacent par essieu, et à chaque remplacement des disques. Le matériau de
+        friction se monte tourné vers le disque ; il ne doit pas toucher de graisse. Les témoins
+        d'usure, conçus pour rompre, se remplacent avec les plaquettes.
+      source_ids: [oem:bremboparts_remplacement_kit, oem:delphi_temoins_usure]
       truth_level: sourced
     faq:
       content_md: >-
-        Quand changer ? sous environ 3 mm de garniture (minimum contrôle technique de l'ordre de 2 mm) ou au
-        déclenchement d'un témoin. Un léger sifflement de plaquettes neuves est normal pendant le rodage ; un
-        crissement persistant au-delà signale un montage incorrect ou une pièce inadaptée. On peut traiter un seul essieu, jamais une seule roue.
-      source_ids: [web:autodoc-quand-changer, web:oscaro-rodage, web:vroomly-bruit]
+        Quand remplacer les plaquettes ? À la limite d'usure, quand le témoin d'usure s'allume, ou en
+        cas d'usure différenciée, de fissures ou de profondes rayures. Faut-il changer les deux côtés ?
+        Oui, les plaquettes se remplacent par essieu. Faut-il changer le témoin d'usure ? Oui, il est
+        conçu pour rompre et se remplace avec les plaquettes.
+      source_ids: [oem:bremboparts_remplacement_kit, oem:delphi_temoins_usure]
       truth_level: sourced
-confidence_score: 0.42
 ---
-
-# Plaquette de frein
-
-> 📥 **Pilote ADR-033 Phase 1** — fiche enrichie `diagnostic_relations[]` + `entity_data.maintenance` (ADR-032). Sections H2 ordre canon Phase 4 plan deja-verifier-existant.
 
 ## Définition
 
-La plaquette de frein est la garniture de friction pressée par l'étrier hydraulique contre le disque de frein pour ralentir le véhicule de manière progressive et répétable. Pièce d'usure standard, remplacée par paire sur chaque train (avant ou arrière).
+La plaquette de frein est l'élément de friction du frein à disque : l'étrier la presse contre le disque pour ralentir ou arrêter le véhicule. Elle associe une plaque arrière et un matériau de friction, monté tourné vers le disque.
 
-## Fonction
+Les plaquettes sont des composants de sécurité du système de freinage.
 
-Au freinage, la pression hydraulique dans l'étrier pousse les plaquettes contre le disque. La friction transforme l'énergie cinétique en chaleur, ralentissant la roue. Les plaquettes s'usent progressivement à l'usage normal — une garniture neuve fait typiquement entre 6 et 12 mm selon le modèle ; en dessous de 3 mm, le remplacement devient nécessaire.
+## Rôle technique
 
-## Symptômes d'usure
+Dans l'étrier, la pression hydraulique venue du maître-cylindre agit sur les pistons, qui poussent les plaquettes contre le disque. L'étrier transforme ainsi l'énergie hydraulique en force mécanique. Les pistons sont faits d'une matière isolante qui limite la chaleur transmise de la plaquette au liquide de frein. Après le freinage, des ressorts ramènent les plaquettes en position de repos et les maintiennent contre leurs pistons.
 
-> Cette pièce **peut contribuer** à certains symptômes du système de freinage, sans en être systématiquement la cause unique. Le modèle diagnostic complet (causes probabilistes, vérifications) vit dans la DB `__diag_symptom` et l'outil diagnostic — pas ici.
+Deux types d'étriers actionnent les plaquettes :
 
-- 🔊 **Grincement aigu au freinage** *(possible cause, slug DB `brake_noise_metallic`)* — usure à la limite, contamination de la garniture (huile, gravillons), ou mauvaise mise en place [^1][^2]
-- 🛑 **Vibration dans la pédale de frein** *(symptom amplifier, slug DB `brake_vibration_pedal`)* — peut s'ajouter à un voile de disque préexistant, plaquette à friction inégale [^1][^3]
+- **Étrier flottant** — les pistons sont d'un seul côté : ils poussent une plaquette, et l'autre est poussée par le corps de l'étrier, qui glisse sur des guides. C'est le type le plus répandu sur les véhicules d'entrée et de milieu de gamme et sur les utilitaires légers.
+- **Étrier fixe** — son corps porte des pistons opposés qui actionnent les plaquettes. On le trouve sur les véhicules sportifs de milieu à haut de gamme.
 
-> **Note Phase 4** : 2 manifestations supplémentaires liées à la plaquette (`distance_freinage_allongee`, `voyant_freinage_allume`) seront ajoutées en `diagnostic_relations[]` **POST-merge PR monorepo #269** qui crée les 2 slugs FR canon manquants en DB. Voir `review_notes` pour la trace.
+Une plaquette peut être livrée avec plusieurs accessoires :
 
-## Critères de choix
+- **Shim** — élément d'amortissement fixé sur la plaque arrière de la plaquette.
+- **Rainure** — elle permet d'évacuer rapidement l'eau, la saleté et la poussière.
+- **Tôle de guidage** — elle maintient la plaquette en position, évite les cliquetis et la ramène en position initiale quand le frein est relâché.
+- **Ressort de piston** — il maintient la plaquette en position, côté piston.
+- **Indicateur d'usure** — il signale que la plaquette est usée (voir la section suivante).
 
-Pour un véhicule de plus de 1500 kg ou un usage urbain intensif, privilégier des plaquettes haute résistance thermique homologuées **ECE R90** (norme européenne minimale pour pièces de remplacement, garantissant performance équivalente aux pièces d'origine).
+## Symptômes & diagnostic
 
-Le couple plaquette/disque doit être cohérent — éviter de mélanger une plaquette céramique haute performance avec un disque ventilé d'origine bas de gamme, sous peine de dégradation accélérée du disque.
+> Un symptôme seul ne désigne pas la plaquette de frein. La recherche de la cause relève de l'outil de diagnostic, pas de cette fiche.
 
-> **Conseil entretien** : vérifier l'épaisseur minimum 3 mm avant un long trajet ; remplacer toujours par paire sur le même train (avant ensemble OU arrière ensemble, jamais une seule plaquette).
+**Signal de fin d'usure** — les languettes métalliques des systèmes de freinage plus anciens émettent un son strident en frottant contre le disque, quand les plaquettes ont atteint leur usure maximale. L'indicateur d'usure mécanique émet lui aussi un signal sonore au contact du disque quand les plaquettes sont usées. C'est un signal voulu, qui demande de remplacer les plaquettes.
 
-## Compatibilité véhicule
+**Témoin d'usure électronique** — une boucle de fil traversée par un faible courant est mise à nu par l'usure de la plaquette ; au contact du disque, le circuit s'ouvre et le témoin s'allume au tableau de bord. Les témoins à deux niveaux estiment en plus la durée de vie restante de la plaquette.
 
-Pour vérifier la compatibilité plaquette ↔ véhicule, utiliser le sélecteur sur le site (sélection marque/modèle/année/motorisation) ou interroger la base `__seo_pg_aliases` (référence : `pg_id: 402`).
+**Montage incorrect** — une plaquette ou des accessoires mal montés causent dans la plupart des cas des bruits de freinage ou une performance réduite des freins. Une plaquette directionnelle montée du mauvais côté augmente le bruit au freinage et l'usure des plaquettes, et réduit les performances du freinage.
 
-Pièces complémentaires fréquemment associées au remplacement :
+Pour situer un bruit au freinage parmi les signes d'alerte du véhicule, voir [[signs]].
 
-- [[disque-de-frein]] — à inspecter systématiquement lors du changement de plaquettes
-- [[etrier-de-frein]] — vérifier la liberté du piston, l'état des soufflets
-- [[kit-de-frein-arriere]] — pour les véhicules à freinage arrière à disques
+## Critères de choix selon le véhicule
 
-## Intentions SEO observées
+- **Pièce prévue pour le véhicule** — avant le remplacement, s'assurer que la plaquette est adaptée à la marque et au modèle du véhicule. Les prescriptions du constructeur du véhicule priment sur toute autre indication.
+- **Matériau de friction** — il existe de nombreux matériaux de friction, adaptés à chaque véhicule et à chaque style de conduite.
+- **Type d'indicateur d'usure** — mécanique ou électrique. Le nombre de capteurs et leur position varient selon la conception du système de freinage ; les plus courants sont intégrés au matériau de la plaquette et ne sont pas amovibles, d'autres sont montés sur la plaquette.
+- **Par essieu** — les plaquettes se remplacent par essieu, et à chaque remplacement des disques, les plaquettes sont remplacées aussi.
+- **Homologation** — en Europe, l'homologation ECE R90 est obligatoire pour commercialiser disques et plaquettes.
 
-`entity_data.intents` : `diagnostic`, `achat`, `entretien`, `remplacement` (4 intents → fiche transverse).
+## Montage & erreurs fréquentes
 
-`vlevel: V2` (top intent : entretien + diagnostic, volume de recherche élevé).
+Les plaquettes ne doivent être remplacées que par un personnel compétent : un travail mal exécuté risque de rendre le système de freinage totalement inefficace.
 
-`kw_top` : à compléter Phase 5 via DB `__seo_keywords` queries scopées sur la famille `freinage` + intents listés.
+- **Sens de montage** — si une flèche figure sur le shim ou la plaque arrière, elle doit coïncider avec le sens de sortie du disque. Sur les plaquettes asymétriques, la flèche est orientée dans le sens de rotation du disque en marche avant.
+- **Côté piston** — avec les étriers à griffe et flottants, la plaquette dotée d'une échancrure en quart-de-rond ou d'un ressort de piston riveté se place côté piston. Les indicateurs d'usure équipent normalement deux des quatre plaquettes d'un jeu, côté piston des plaquettes symétriques, car c'est là que l'usure la plus importante est à craindre.
+- **Tôles de guidage** — pour beaucoup d'entre elles, la position de montage ne peut pas être déduite de leur forme : il faut se reporter à la documentation correspondante.
+- **Étrier flottant** — vérifier le coulissement du corps de l'étrier sur ses tiges de guidage.
+- **Graisses** — éviter tout contact de graisse ou de lubrifiant avec les surfaces de freinage du disque et des plaquettes, qui risquerait de rendre le freinage inefficace.
+- **Serrage** — respecter le couple de serrage conseillé par le constructeur du véhicule ; cette fiche n'en donne aucune valeur.
+- **Après le montage** — actionner la pédale de frein jusqu'à ce que sa course se stabilise, et contrôler le niveau du liquide de frein.
+- **Rodage** — les premiers freinages peuvent être moins efficaces. Ne pas freiner avec une force excessive ni de façon continue pour accélérer le rodage, et toujours respecter les instructions de rodage du constructeur du véhicule : un mauvais rodage risque de compromettre l'efficacité du freinage.
+- **Nettoyage** — ne pas nettoyer les composants du frein à l'air comprimé ni à la brosse dure : les poussières soulevées peuvent être nocives à l'inhalation.
 
-## Questions fréquentes
+## Entretien & bonnes pratiques
 
-### Quand changer les plaquettes de frein ?
+- **Contrôle** — les plaquettes s'usent : elles doivent être contrôlées à intervalles réguliers. Cette fiche ne donne ni durée ni kilométrage valables pour tous les véhicules.
+- **Vitesse d'usure** — le temps qu'une plaquette met à s'user varie beaucoup : il dépend des conditions de la route, du style de conduite, de la vitesse, de la charge du véhicule et du type de plaquettes et de disques.
+- **Quand remplacer** — il faut impérativement remplacer les plaquettes quand le matériau de friction atteint sa limite d'usure ou quand le témoin de l'indicateur d'usure s'allume. Elles se remplacent aussi, par essieu, en cas d'usure différenciée, de fissures ou de profondes rayures.
+- **Témoins d'usure** — conçus pour rompre, ils se remplacent chaque fois que des plaquettes neuves sont posées. Il est conseillé de les inspecter régulièrement entre deux changements de plaquettes : la chaleur des freins peut endommager leur câblage et leurs clips, et ils peuvent être abîmés lors d'autres interventions, comme la pose de disques neufs.
 
-Quand l'épaisseur de la garniture descend sous 3 mm, ou plus tôt si un capteur d'usure déclenche l'alerte tableau de bord [^1].
+## Marques & qualité
 
-### Faut-il changer les disques en même temps que les plaquettes ?
+Les pièces d'origine (première monte) se reconnaissent au logo « OE supplier » qu'elles portent.
 
-Pas systématiquement. Inspecter les disques : épaisseur minimum gravée sur le moyeu, état de surface, voile au comparateur. Remplacement disque + plaquette si disque usé ou voilé [^1][^3].
+Une page d'équipementier de première monte cite plusieurs marques de qualité d'une plaquette : un traitement thermique de surface (scorching) qui élimine les gaz et limite la perte d'efficacité aux températures élevées (fading), un shim antibruit multicouche en caoutchouc, acier et caoutchouc, un matériau de friction qui assure le confort et l'absence de bruit gênant, et des essais sur bancs statiques et dynamiques, puis sur route. La qualité des garnitures fait partie des facteurs décisifs d'une réponse rapide et précise du freinage.
 
-### Combien de temps durent des plaquettes neuves ?
+Cette fiche ne classe pas les marques : la page source est la présentation d'un équipementier. Dans tous les cas, la plaquette doit d'abord être celle prévue pour le véhicule.
 
-Très variable selon usage : 30 000 à 80 000 km en moyenne. Conduite urbaine intensive ou véhicule lourd → durée réduite [^1].
+## FAQ
 
-### Qu'est-ce que l'homologation ECE R90 ?
+**Quand faut-il remplacer les plaquettes de frein ?** Quand le matériau de friction atteint sa limite d'usure, quand le témoin de l'indicateur d'usure s'allume, ou en cas d'usure différenciée, de fissures ou de profondes rayures. Elles doivent être contrôlées à intervalles réguliers.
 
-Norme européenne minimale pour pièces de remplacement de freinage. Garantit que la plaquette de remplacement offre une performance équivalente à la pièce d'origine constructeur. Obligatoire pour la sécurité — privilégier toujours des plaquettes ECE R90.
+**Faut-il changer les plaquettes des deux côtés ?** Oui. Les plaquettes se remplacent par essieu, et à chaque remplacement des disques.
 
-### Peut-on monter des plaquettes asymétriquement (avant seul, arrière seul) ?
+**Pourquoi une plaquette usée fait-elle un son strident ?** Sur beaucoup de systèmes, c'est le signal de fin d'usure : une languette métallique ou un indicateur d'usure mécanique frotte contre le disque. Un montage incorrect peut aussi causer des bruits de freinage ; la recherche de la cause relève de l'outil de diagnostic.
 
-Oui — les plaquettes avant s'usent généralement plus vite que les arrière. Mais TOUJOURS remplacer **par paire sur le même train** : avant ensemble OU arrière ensemble. Jamais une seule plaquette d'un côté pour éviter le déséquilibre de freinage.
+**Faut-il remplacer le témoin d'usure avec les plaquettes ?** Oui. Les témoins d'usure étant conçus pour rompre, ils se remplacent chaque fois que des plaquettes neuves sont posées.
 
-## Sources et provenance
+**Pourquoi le freinage semble-t-il moins efficace juste après le remplacement ?** Lors des premiers freinages, l'efficacité du frein peut être inférieure. Il ne faut pas freiner fort ni de façon continue pour forcer le rodage, et il faut suivre les instructions de rodage du constructeur du véhicule.
 
-Voir `source_refs` dans le frontmatter pour la provenance recyclée (origine `automecanik-rag/knowledge/gammes/plaquette-de-frein.md`).
+## Provenance & qualité
 
-Sources canoniques utilisées dans `diagnostic_relations[].sources` (toutes en `status: to_capture` actuellement — voir `_quality/sources-brief.md` + Phase 7 plan parent) :
-
-[^1]: `bosch_fad_2020` — Bosch FAD 2020 Brochure Réparation Freinage, p.27 et p.31. Source `type: brochure`, `confidence: medium`. License `proprietary-manufacturer` — capture en citations YAML uniquement (Phase 7, preset `manuel-constructeur-pdf` à livrer).
-[^2]: `oem_renault_clio_iii_workshop` — Manuel d'atelier Renault Clio III, section freinage. Source `type: oem_workshop`, à corroborer pour atteindre `confidence: high`. License `proprietary-manufacturer` — citation seule (Phase 7).
-[^3]: `tecdoc_15_02_01_brake_noise` — TecDoc fiche 15.02.01 — Diagnostic sonore au freinage. Source `type: tecdoc_official`. License `proprietary-manufacturer` (sous licence partenariat TecDoc) — citation seule (Phase 7).
-
-## Points à vérifier
-
-- [ ] Vérifier `entity_data.pg_id: 402` aligné DB `__seo_pg_aliases` Supabase
-- [ ] Confirmer `vlevel: V2` (vérifier `r7-curation-method.md` vault)
-- [ ] Compléter `aliases` si autres variantes commerciales (FR uniquement — règle `feedback_french_only_for_content.md`)
-- [x] **2026-04-30** : `diagnostic_relations[]` aligné sur slugs DB existants (`brake_noise_metallic`, `brake_vibration_pedal` — legacy EN drift batch 20260308, utilisable)
-- [ ] **POST-PR monorepo #269 merged** : ajouter 2 entrées `diagnostic_relations[]` pour `distance_freinage_allongee` + `voyant_freinage_allume` (slugs FR canon créés par cette PR)
-- [ ] Capturer 3 sources `to_capture` (cf. `_quality/sources-brief.md` + Phase 7) : `bosch_fad_2020`, `oem_renault_clio_iii_workshop`, `tecdoc_15_02_01_brake_noise`
-- [ ] Compléter `entity_data.kw_top` via DB `__seo_keywords` (scope famille `freinage` + intents)
-- [ ] Construire `_coverage/plaquette-de-frein.coverage.yaml` (Phase 5 plan parent)
-- [ ] Décider promotion → `wiki/gammes/plaquette-de-frein.md` (commit message obligatoire `promotion-from-proposals: plaquette-de-frein`)
-- [ ] Si promotion : `review_status: approved`, `reviewed_by: <email>`, `reviewed_at: <ISO date-time>`
-- [ ] Flip humain ciblé `evidence[*].diagnostic_safe: true` reste interdit tant que les sources ne sont pas corroborées par OEM (commit signé reviewer ≠ auteur, ADR-033 §D4)
+Fiche **révisée le 2026-10-11**. Chaque affirmation repose sur l'une de six pages archivées dans RAW : cinq pages techniques d'équipementiers de freinage (montage des plaquettes, technologie des étriers, pièces d'origine et équivalentes, procédure de remplacement, témoins d'usure) et un article encyclopédique, utilisé seulement en corroboration. Ont été **retirés**, faute de preuve archivée : l'épaisseur minimale chiffrée, la distance de rodage, les causes de bruit par contamination de la garniture, le lien avec un disque voilé, les familles de matériaux de friction et toute hiérarchie de marques. Aucune valeur de couple, de pression, de cote ni de distance n'est publiée : ces valeurs dépendent du véhicule et relèvent de sa documentation. `review_status: proposed`, exports désactivés ; relation diagnostic en confiance moyenne, `reviewed: false`, `diagnostic_safe: false`.

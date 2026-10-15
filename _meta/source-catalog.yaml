@@ -138,21 +138,29 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: oem_zf_trw_brake_judder
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/oem-zf-trw-brake-judder-dtv.md'
-    status: to_capture
+      manifest_id: src-auto-capture-c38b7a9aba872406f01d1e9d420d9e1542f3ad9cc7fbc95c9d412b60a811993b
+      expected_sha256: 'sha256:46ef0642d8ac7f34b2930913a45db75b785acbcbc7b230ce3cbf0150ac81757a'
+    archived_at: 'automecanik-raw/sources/auto-captures/disque-de-frein/aftermarket-zf-com-wl-disque-de-frein-zf-broutement-c38b7a9a.md'
+    status: active
     license: captured_for_internal_review
     notes: |
-      Guidance atelier OE équipementier (ZF/TRW) sur le broutement (brake judder) :
-      seuils DTV (12-15 µm), voile latéral (< 0,05 mm), faux-rond moyeu (30 µm),
-      méthode au comparateur. Corrobore le symptôme brake_vibration_pedal
-      (variation d'épaisseur / faux-rond disque ou moyeu).
-      Provenance web-research : automecanik-raw/sources/web-research/disque-de-frein/
-      source-index.json (url zf.com .../for-workshops/.../brake-judder, level:
-      primary « OE primaire »). STATUS to_capture (2026-06-27) : capture standalone
-      du document OE à matérialiser ; les relations qui la citent gardent
-      diagnostic_safe: false jusqu'à archivage + revue humaine.
+      Page d'atelier équipementier « Brake Judder » (capture RAW 2026-10-10,
+      sha256:46ef0642…), rédigée en ANGLAIS : la fiche disque-de-frein en porte
+      une reformulation en français, la capture RAW reste dans sa langue d'origine.
+      Passages retenus : définition du broutement (vibrations de rotation du volant
+      au freinage, en général avec un bruit sourd) ; broutement thermique (dépôt de
+      matière de la plaquette sur le disque, zones durcies du disque) et broutement
+      à froid (pulsation de la pédale, cause principale = variation d'épaisseur du
+      disque) ; origines de la variation d'épaisseur (faux-rond dû au montage,
+      plaquettes ou pistons légèrement grippés, saleté, corrosion, serrage excessif,
+      longs trajets à freinages très légers) ; recherche pas à pas (essieu, chaîne
+      de freinage, roues, trains roulants) ; remplacement plaquettes et disques par
+      essieu complet « pour des raisons de sécurité » ; moyeu propre, plan, sans
+      excès de graisse ; idée reçue du « léger voile nécessaire » contredite.
+      Ne fonde PAS : de valeur publiable (les tolérances chiffrées de la page sont
+      volontairement non reprises dans une fiche sécurité), de règle d'usure ou
+      d'épaisseur minimale, de périodicité, ni aucune promesse produit (passages
+      marque et catalogue ignorés).
 
   - slug: oem_filter_maintenance_general
     title: 'Constructeurs OEM — recommandations entretien filtres'
@@ -188,15 +196,24 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: wikipedia_fr_frein_a_disque
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/wikipedia-fr-frein-a-disque.md'
-    status: to_capture
-    license: CC-BY-SA-3.0
+      manifest_id: src-auto-capture-88f2cfa406b96ea6fd9ed40f1ebec6045bc0b7d42a0934146fb6786397f13ef7
+      expected_sha256: 'sha256:7359136cb80c9e21948e7c393fc5a78c960d0a749ff8c08e4c16b92f1a76a296'
+    archived_at: 'automecanik-raw/sources/auto-captures/disque-de-frein/fr-wikipedia-org-wl-disque-de-frein-wikipedia-fr-88f2cfa4.md'
+    status: active
+    license: captured_for_internal_review
     notes: |
-      URL canonique : https://fr.wikipedia.org/wiki/Frein_à_disque
-      Capture intégrale autorisée (CC-BY-SA-3.0). Action humaine Phase 3 via
-      extension Obsidian Web Clipper preset wikipedia-vehicle ou generic-article.
+      Article d'encyclopédie en français (capture RAW 2026-10-10, sha256:7359136c…).
+      Licence déclarée auparavant à ce catalogue : CC-BY-SA-3.0 ; la capture RAW
+      ne porte pas de licence (license: null, license_status: unknown).
+      wiki_externe = corroboration seulement, confiance plafonnée à low : ne prouve
+      seule aucune affirmation. Passages retenus : « Principe et fonctionnement »
+      (disque fixé sur le moyeu, plaquettes de chaque côté, étrier ou chape, énergie
+      cinétique transformée en chaleur à évacuer) ; « Disques » (fonte = matériau
+      de loin le plus utilisé) ; « Dissipation de la chaleur » (disque voilé ou
+      glacé si la chaleur est trop élevée ou mal évacuée, disques ventilés) ;
+      « Évacuation de l'eau » (disques perforés : rôle et inconvénients).
+      Ne fonde PAS : l'historique, les applications moto, avion et train, les
+      émissions de particules, ni les modèles de véhicules cités en légende.
 
   - slug: wikipedia_fr_plaquette_de_frein
     title: 'Wikipedia FR — Plaquette de frein'
@@ -205,14 +222,24 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: wikipedia_fr_plaquette_de_frein
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/wikipedia-fr-plaquette-de-frein.md'
-    status: to_capture
-    license: CC-BY-SA-3.0
+      manifest_id: src-auto-capture-f3c3e816b59fe565eb03ac2ad027a5e1a9496ab6df1139e51571539b548c984a
+      expected_sha256: 'sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md'
+    status: active
+    license: captured_for_internal_review
     notes: |
+      Article encyclopédique (capture RAW 2026-10-10, sha256:9f3297f6…),
       URL canonique : https://fr.wikipedia.org/wiki/Plaquette_de_frein
-      Capture intégrale autorisée. Action humaine Phase 3.
+      Rôle : corroboration seulement (wiki_externe, plafond low) ; ne prouve
+      aucune affirmation de la fiche à lui seul.
+      Passages retenus : la plaquette est l'élément qui entre en friction avec
+      la surface en rotation ; en pinçant le disque, elle transforme l'énergie
+      cinétique en chaleur. Ne fonde PAS : les familles de matériaux de friction
+      (attestées par cette seule source, donc absentes de la fiche), une durée
+      de vie, une épaisseur limite, ni aucune règle de choix.
+      Licence : la valeur précédente du catalogue était CC-BY-SA-3.0 ; la
+      capture RAW porte license: null, license_status: unknown. Valeur alignée
+      sur les autres captures (revue interne) en attendant la décision owner.
 
   - slug: wikipedia_fr_filtre_a_air
     title: "Wikipedia FR — Filtre à air"
@@ -221,14 +248,24 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: wikipedia_fr_filtre_a_air
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/wikipedia-fr-filtre-a-air.md'
-    status: to_capture
-    license: CC-BY-SA-3.0
+      manifest_id: src-auto-capture-b930673714a9bfa7e2b38b4f9a3f3674e3731143ce0763f4efcd162b4dce04b1
+      expected_sha256: 'sha256:cceaf6c9c03dfb9e86c50e868f37d9dd7351243c041f8b6d7a634ad7cbbb6573'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/fr-wikipedia-org-wl-filtre-a-air-wikipedia-fr-b9306737.md'
+    status: active
+    license: captured_for_internal_review
     notes: |
+      Article encyclopédique (capture RAW 2026-10-10, sha256:cceaf6c9…),
       URL canonique : https://fr.wikipedia.org/wiki/Filtre_à_air
-      Capture intégrale autorisée. Action humaine Phase 3.
+      Rôle : corroboration seulement (wiki_externe, plafond low) ; ne prouve
+      aucune affirmation de la fiche à lui seul.
+      Passages retenus : le filtre à air est constitué d'une ou de plusieurs
+      couches de matériau poreux, fibreux ou granulaire ; dans un véhicule à
+      moteur thermique, il se trouve en amont de l'entrée du système
+      d'admission et empêche les particules de l'air d'atteindre le moteur.
+      Ne fonde PAS : un intervalle de remplacement, ni un critère de choix.
+      Licence : la valeur précédente du catalogue était CC-BY-SA-3.0 ; la
+      capture RAW porte license: null, license_status: unknown. Valeur alignée
+      sur les autres captures (revue interne).
 
   - slug: wikipedia_fr_dacia
     title: 'Wikipedia FR — Dacia (constructeur)'
@@ -237,14 +274,30 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: wikipedia_fr_dacia
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/wikipedia-brand/wikipedia-fr-dacia.md'
-    status: to_capture
-    license: CC-BY-SA-3.0
+      manifest_id: src-auto-capture-e3d3d4e674121ceb9948ff1f2d4a1f831070bcd951ec917995cbbcca9dde43d5
+      expected_sha256: 'sha256:5c560f87ab0025e803985ebe0e465c01f9dea19c903db4c7cb1c3dcd83eaa41d'
+    archived_at: 'automecanik-raw/sources/auto-captures/divers/fr-wikipedia-org-wl-dacia-wikipedia-fr-e3d3d4e6.md'
+    status: active
+    license: captured_for_internal_review
     notes: |
+      Article encyclopédique (capture RAW 2026-10-10, sha256:5c560f87…),
       URL canonique : https://fr.wikipedia.org/wiki/Dacia
-      Capture via preset wikipedia-brand (PR2 livré). Action humaine Phase 3.
+      Rôle : corroboration seulement (wiki_externe, plafond low) ; ne prouve
+      aucune affirmation de la fiche à lui seul.
+      Passages retenus : création de l'UAP (Pitești) le 16 septembre 1966,
+      devenue Automobile Dacia SA en 1990 ; contrat définitif du 2 juillet
+      1999 par lequel Renault acquiert les huit sociétés du groupe Dacia ;
+      Dacia 1100 (Renault 8) puis Dacia 1300 (Renault 12) assemblées dès
+      1968-1969 ; Logan lancée en septembre 2004 ; Sandero, Duster, Lodgy,
+      Dokker, Jogger, Spring et Bigster avec leurs dates et plateformes ;
+      usines de Pitești, Tanger, Casablanca et Shiyan ; siège à Mioveni.
+      Ne fonde PAS : un prix, une part de marché chiffrée, une pièce
+      d'usure ou un intervalle d'entretien. L'article se contredit sur
+      l'année de fondation (1966 dans l'infobox, « fondée en 1968 » dans une
+      section) : la fiche retient 1966 (création de l'UAP) et le signale.
+      Licence : la valeur précédente du catalogue était CC-BY-SA-3.0 ; la
+      capture RAW porte license: null, license_status: unknown. Valeur alignée
+      sur les autres captures (revue interne).
 
   - slug: wikipedia_fr_citroen_c3
     title: "Wikipedia FR — Citroën C3"
@@ -374,21 +427,38 @@ sources:
   # ─── Brochures marketing constructeurs (publiques) ───────────────────────
 
   - slug: dacia_corporate_factsheet_2024
-    title: 'Dacia — Fiche corporate marketing 2024'
-    type: brochure
+    title: "Dacia — site constructeur dacia.fr (page d'accueil)"
+    type: marketing
     publisher: Dacia
-    year: 2024
+    year: 2026
     raw_ref:
       repo: automecanik-raw
-      manifest_id: dacia_corporate_factsheet_2024
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-clips/generic-article/dacia_corporate_factsheet_2024.md'
-    status: to_capture
-    license: proprietary_manufacturer
+      manifest_id: src-auto-capture-464e5258f3087fd636a302c7c69da6a0f9edba0a99ad6a40746e318008109841
+      expected_sha256: 'sha256:c67d0c659b36310fa5a5f2f4ae04932316b71e7e96d020977b6623f85122c4c7'
+    archived_at: 'automecanik-raw/sources/auto-captures/divers/dacia-fr-wl-dacia-site-constructeur-464e5258.md'
+    status: active
+    license: captured_for_internal_review
     notes: |
-      URL canonique : https://www.dacia.fr (page d'accueil corporate)
-      Capture intégrale autorisée si robots.txt permet — vérifier avant.
-      Référence pour fiche constructeur dacia.md.
+      Page d'accueil du site constructeur (capture RAW 2026-10-10,
+      sha256:c67d0c65…), capturée pour cette entrée par l'élément
+      wl-dacia-site-constructeur de la liste de capture RAW.
+      URL canonique : https://www.dacia.fr
+      Le slug est historique : la source n'est pas une fiche corporate 2024
+      mais la page d'accueil telle que capturée en 2026 ; titre, type
+      (marketing, même plafond medium que brochure) et année corrigés.
+      Rôle : corroboration seulement (plafond medium) ; ne prouve aucune
+      donnée technique.
+      Passages retenus : gamme présentée (Spring électrique, Sandero, Sandero
+      Stepway, Jogger, Duster, Bigster) ; version d'entrée du Bigster
+      « mild hybrid-G 140 » ; mention légale « RENAULT, en tant
+      qu'importateur DACIA en France ».
+      Ne fonde PAS : les prix et offres de la page (exclus du WIKI), la
+      motorisation de chaque modèle (badges « full hybrid » non rattachables
+      sans ambiguïté), ni le modèle « STRIKER » (cité sans description).
+      Licence : la valeur précédente du catalogue était
+      proprietary_manufacturer ; la capture RAW porte license: null,
+      license_status: unknown. Valeur alignée sur les autres captures
+      (revue interne).
 
   - slug: renault_rappel_constructeur
     title: 'Renault — Site rappels constructeur officiels'
@@ -451,16 +521,30 @@ sources:
     year: 2026
     raw_ref:
       repo: automecanik-raw
-      manifest_id: web_carglass_filtre_habitacle_20260612
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/filtre-d-habitacle/selection-criteria.md'
-    status: to_capture
-    license: third_party_extract
+      manifest_id: src-auto-capture-7fc8b2af44089196674ecab181e7d88aa9ecf4f7a32d1bb1993b94eaeda4eed5
+      expected_sha256: 'sha256:8102bfc929c52e13adee852fd832041a7f4717b6e774032c014ee21333dbd3ce'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-d-habitacle/carglass-fr-wl-filtre-d-habitacle-carglass-7fc8b2af.md'
+    status: active
+    license: captured_for_internal_review
     notes: |
+      Page de conseil d'un réseau de réparation (capture RAW 2026-10-10,
+      sha256:8102bfc9…), même URL que l'extrait reformulé de 2026-06-12
+      (RAW PR #22), désormais archivée en intégralité.
       URL canonique : https://www.carglass.fr/faq/answers/5929/quand-changer-le-filtre-d-habitacle
-      Faits reformulés capturés 2026-06-12, fetch direct OK (intervalles,
-      symptômes saturation, facteurs). Cf. automecanik-raw PR #22.
-      STATUS to_capture jusqu'au merge de la PR #22 ; passe à active ensuite.
+      Passages retenus : filtre d'habitacle simple ou à charbon actif, ce
+      dernier retenant aussi pollution, particules et mauvaises odeurs ;
+      encrassement plus rapide en ville ; mauvaises odeurs persistantes et
+      ventilation de plus en plus bruyante = signes d'encrassement ;
+      remplacement préconisé tous les ans ou tous les 15 à 20 000 km (note de
+      la page : recommandation Bosch, tous les ans ou tous les 15 000 km).
+      Ne fonde PAS (affirmations de la fiche absentes de la capture) :
+      odeurs « à la mise en route », filtre « chargé d'humidité », buée
+      persistante, débit d'air faible, « jusqu'à 90 % des allergènes »,
+      rétention des gaz NOx / ozone.
+      Licence : la valeur précédente du catalogue (third_party_extract)
+      décrivait l'extrait reformulé ; la capture RAW porte license: null,
+      license_status: unknown. Valeur alignée sur les autres captures (revue
+      interne).
 
   # ════════════════════════════════════════════════════════════════════
   # Filtre à huile (pg_id 7) — web-research RUN_TARGETED_RAW_TO_WIKI 2026-06-20
@@ -599,16 +683,22 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: bremboparts_technologie_etriers
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
-    status: to_capture
+      manifest_id: src-auto-capture-c18ae54948c09ff83213e12e16dd1e85f115ffa97a3008589282516428a2ef04
+      expected_sha256: 'sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md'
+    status: active
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage (première monte). Page support officielle sur la
-      différence étriers fixes / flottants. Extraite dans le proposal plaquette-de-frein
-      (## Définition). STATUS to_capture : page référencée par URL
-      (bremboparts.com/.../technologie-et-fonction-des-etriers-de-frein-324333), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:05d748bc…).
+      Passages retenus : l'étrier transforme l'énergie hydraulique en force
+      mécanique (pression du maître-cylindre sur les pistons, qui poussent les
+      plaquettes contre les disques) ; étrier flottant (pistons d'un seul côté,
+      corps coulissant sur des guides, le plus répandu en entrée et milieu de
+      gamme et sur les utilitaires légers) ; étrier fixe (pistons opposés,
+      véhicules sportifs) ; ressorts qui ramènent les plaquettes au repos ;
+      qualité des garnitures parmi les facteurs décisifs. Ne fonde PAS : les
+      valeurs de pression et de température de la page, une comparaison
+      d'usure entre types d'étriers, ni une hiérarchie de marques.
 
   - slug: bremboparts_remplacement_kit
     title: 'Brembo — Instructions pour remplacer disques et plaquettes (Kit EV)'
@@ -617,16 +707,25 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: bremboparts_remplacement_kit
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
-    status: to_capture
+      manifest_id: src-auto-capture-51e9790a643ad2b22c26188aa409d0ed1fb456b2f396c94be62016c9f4c82d6b
+      expected_sha256: 'sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md'
+    status: active
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage. Procédure de remplacement (conversion d'énergie,
-      rodage ~200 km). Extraite dans le proposal plaquette-de-frein (## Fonction,
-      ## Critères de choix). STATUS to_capture : page référencée par URL
-      (bremboparts.com/.../instructions-pour-remplacer-les-disques-et-les-plaquettes-kit-ev-280501), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:ac179373…).
+      Passages retenus (« Importantes normes générales » et suivants) :
+      composant de sécurité, remplacement par un personnel compétent ;
+      contrôle à intervalles réguliers ; remplacement à l'épaisseur limite ou
+      quand le témoin d'usure s'allume ; remplacement par essieu, et des
+      plaquettes à chaque remplacement des disques ; pièce adaptée à la marque
+      et au modèle ; matériau de friction tourné vers le disque, flèche dans le
+      sens de rotation en marche avant ; pas de contact avec les graisses ;
+      coulissement de l'étrier flottant ; pédale jusqu'à une course stable et
+      niveau de liquide ; rodage selon les instructions du constructeur ; pas
+      d'air comprimé ni de brosse dure (poussières nocives). Ne fonde PAS : les
+      cotes, distances et durées chiffrées de la page (non reprises), ni les
+      passages sur l'oscillation des disques.
 
   - slug: bremboparts_oe_vs_equivalent
     title: 'Brembo — Différencier pièces d''origine et pièces équivalentes en 10 points'
@@ -635,16 +734,22 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: bremboparts_oe_vs_equivalent
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
-    status: to_capture
+      manifest_id: src-auto-capture-ebb13203d391b157d95a3d1bb3f54fa2ec3c7e55efc05f8fbfd9f3215bf961f6
+      expected_sha256: 'sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md'
+    status: active
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage. Dix critères distinguant une pièce d'origine d'une
-      équivalente. Extraite dans le proposal plaquette-de-frein (## Critères de choix).
-      STATUS to_capture : page référencée par URL
-      (bremboparts.com/.../pieces-de-rechange-comment-differencier-...-en-10-points-219855), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:87deee38…).
+      Passages retenus : mention « OE supplier » des pièces d'origine ; matériaux
+      de friction adaptés au véhicule et au style de conduite ; traitement
+      thermique de surface (scorching) contre la perte d'efficacité à chaud ;
+      shim antibruit multicouche ; confort et absence de bruit attendus du
+      matériau ; essais sur bancs puis sur route ; homologation ECE R90
+      obligatoire en Europe ; plaquettes directionnelles montées du mauvais côté
+      (plus de bruit, plus d'usure, performances réduites). Ne fonde PAS : une
+      hiérarchie de marques (page promotionnelle d'un équipementier), ni les
+      chiffres promotionnels de la page (non repris).
 
   - slug: zf_installation_plaquettes
     title: 'ZF Aftermarket (TRW) — Installation correcte des plaquettes de frein'
@@ -653,16 +758,23 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: zf_installation_plaquettes
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
-    status: to_capture
+      manifest_id: src-auto-capture-565c00d21e16973beeb12521b32d694df35f2dcb58bc20afc4ebbf1362b13d57
+      expected_sha256: 'sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md'
+    status: active
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage. Conseil atelier : sens de montage (côté piston),
-      types de témoins d'usure (acoustique/mécanique). Extraite dans le proposal
-      plaquette-de-frein (## Critères de choix). STATUS to_capture : page référencée
-      par URL (aftermarket.zf.com/.../installation-correcte-des-plaquettes-de-frein/), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:6f4636a4…).
+      Passages retenus : montage incorrect, cause de bruits de freinage ou d'une
+      performance réduite ; rôle du shim, de la rainure, de la tôle de guidage,
+      de l'indicateur d'usure mécanique (signal sonore au contact du disque) et
+      du ressort de piston ; primauté des prescriptions du constructeur ; flèche
+      dans le sens de sortie du disque ; repères côté piston ; indicateur
+      d'usure généralement sur deux plaquettes du jeu, côté piston, là où
+      l'usure la plus importante est à craindre ; position des tôles de guidage
+      à vérifier dans la documentation. Ne fonde PAS : le passage sur la masse
+      d'amortissement, ni les références produit citées en exemple (non
+      reprises).
 
   - slug: delphi_temoins_usure
     title: 'Delphi Technologies — Ce qu''il faut savoir sur les témoins d''usure des plaquettes'
@@ -671,13 +783,20 @@ sources:
     year: null
     raw_ref:
       repo: automecanik-raw
-      manifest_id: delphi_temoins_usure
-      expected_sha256: null
-    archived_at: 'automecanik-raw/sources/web-research/plaquette-de-frein/source-index.json'
-    status: to_capture
+      manifest_id: src-auto-capture-a57fe2c9a006f4f2b06a68b52282ee1964b1923dea6a3c8f58f0178fb9d134eb
+      expected_sha256: 'sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd'
+    archived_at: 'automecanik-raw/sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md'
+    status: active
     license: captured_for_internal_review
     notes: |
-      Équipementier OE freinage. Fonctionnement des témoins d'usure (capteur filaire
-      → témoin lumineux). Extraite dans le proposal plaquette-de-frein (## Critères de
-      choix). STATUS to_capture : page référencée par URL
-      (delphiautoparts.com/.../ce-quil-faut-savoir-sur-les-temoins-dusure-...), archive à matérialiser.
+      Page équipementier (capture RAW 2026-10-10, sha256:76b90102…).
+      Passages retenus : facteurs de la vitesse d'usure (route, style de
+      conduite, vitesse, charge, type de plaquettes et de disques) ; languettes
+      métalliques (son strident au contact du disque) ; témoin électronique
+      (boucle de fil, circuit ouvert, voyant au tableau de bord) ; témoins à deux
+      niveaux ; nombre de capteurs selon la conception du système ; témoins
+      intégrés ou montés sur la plaquette ; témoins conçus pour rompre, à
+      remplacer avec les plaquettes ; dommages possibles par la chaleur ou lors
+      d'autres interventions. Ne fonde PAS : un intervalle de remplacement
+      chiffré, ni la cause d'un voyant de frein allumé (relève de l'outil de
+      diagnostic).

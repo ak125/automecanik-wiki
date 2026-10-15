@@ -5,8 +5,8 @@
   "gamme_slug": "filtre-d-habitacle",
   "wiki_path": "wiki/gamme/filtre-d-habitacle.md",
   "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
-  "source_catalog_commit": "6bc00e7e38e0d0e1d64ea5c170617695bc77bf58",
-  "content_hash": "sha256:843da8d7e04e3a907a968fe39b7d8bd98280c9b2c2f2048c8c577bfb7d827959",
+  "source_catalog_commit": "2953c1e878ef82db62c33614b3ca55000fab14f7",
+  "content_hash": "sha256:9da4754697a052b521610c6d4a31d1a3fd56fd5d0560e882cd440c1ae6c09a9e",
   "relations": [
     {
       "relation_index": 0,
@@ -30,7 +30,7 @@
           "status": "to_capture",
           "raw_ref": {
             "repo": "automecanik-raw",
-            "manifest_id": "web_carglass_filtre_habitacle_20260612",
+            "manifest_id": "src-auto-capture-7fc8b2af44089196674ecab181e7d88aa9ecf4f7a32d1bb1993b94eaeda4eed5",
             "expected_sha256": null
           },
           "raw_proven": false

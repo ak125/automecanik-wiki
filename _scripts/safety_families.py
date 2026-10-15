@@ -6,10 +6,15 @@ Source UNIQUE consommée par :
   - ``quality-gates.py::gate_safety_unsourced`` — relations diagnostiques non sourcées en famille sécurité.
 
 Les deux modules l'importent en LAZY (les scripts ``_scripts/`` sont chargés par chemin de fichier —
-pas d'import module-top sur un sibling). Patterns alignés sur
-``auto_review_wiki_proposal.detect_safety_category`` (monorepo) → classification identique des 2 côtés.
+pas d'import module-top sur un sibling). Le classifieur monorepo
+``auto_review_wiki_proposal.detect_safety_category`` garde ses propres familles : la classification
+n'est PAS identique des deux côtés.
 
 Familles : freinage, direction, distribution, electricite-safety, airbag, suspension.
+Motifs de slug : ces familles, plus l'union L0 d'ADR-093 (transmission, roulement/moyeu de roue,
+visserie de roue ; circuit de frein et direction assistée tombent sous freinage et direction).
+L'union L0 est un minimum (ADR-093 L0 b) : ajouter un motif rend le contrôle plus strict ; retirer
+un motif qui la couvre la contredit.
 Classif robuste (``entity_data.family`` souvent ABSENT des proposals) : family + tokens slug/alias/title.
 Fail-closed : doute / erreur → True (sécurité → revue humaine).
 """
@@ -24,10 +29,16 @@ SAFETY_FAMILY_LABELS = {
 SAFETY_SLUG_PATTERNS = {
     "freinage": re.compile(
         r"(?i)(\bfrein|plaquette|disque-de-frein|etrier|ma[iî]tre-cylindre|"
-        r"\babs\b|liquide-de-frein|flexible-de-frein|capteur-d-usure)"
+        r"\babs\b|liquide-de-frein|flexible-de-frein|capteur-d-usure|"
+        r"servo-?frein|cylindre[- ]de[- ]roue)"
     ),
     "direction": re.compile(
-        r"(?i)(\bdirection|cremaillere|rotule|biellette|colonne-de-direction|\btransmission\b)"
+        r"(?i)(\bdirection|cremaillere|rotule|biellette|colonne-de-direction)"
+    ),
+    "transmission": re.compile(r"(?i)(\btransmission\b|cardan|homocin[eé]tique)"),
+    "roulement-moyeu-de-roue": re.compile(r"(?i)(roulement[- ]de[- ]roue|\bmoyeu)"),
+    "visserie-de-roue": re.compile(
+        r"(?i)\b(vis|[eé]crous?|goujons?|boulons?|fixations?|antivols?)[- ]de[- ]roues?\b"
     ),
     "airbag": re.compile(r"(?i)\bairbag"),
     "suspension": re.compile(

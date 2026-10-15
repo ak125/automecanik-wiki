@@ -526,7 +526,9 @@ def _is_safety_proposal(fm: dict) -> bool:
 # d'environnement ni une option CLI : la lever = PR WIKI dédiée qui y inscrit l'ADR vault
 # ACCEPTÉE amendant ADR-091 §4 / ADR-093. Le fichier entre dans `decision_engine_revision` :
 # changer la constante invalide toute décision déjà rendue (STALE_DECISION).
-SAFETY_AUTO_APPROVAL_ADR: str | None = None
+# Levée par ADR-114 (vault, acceptée le 2026-10-15, D5). Refermer = la remettre à None
+# (ADR-114 §Retour arrière).
+SAFETY_AUTO_APPROVAL_ADR: str | None = "ADR-114"
 # Planchers des dimensions shadow A (preuve) et C (couverture), en points bruts.
 SAFETY_DIM_FLOORS = {"A": 22.0, "C": 15.0}
 # Éditeurs distincts exigés parmi les sources de rôle `proof` citées : la barre L3 d'ADR-093

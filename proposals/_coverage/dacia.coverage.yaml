@@ -10,7 +10,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-uap-creation-1966-pitesti
     section: "## Identité"
@@ -19,7 +19,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-automobile-dacia-sa-1990
     section: "## Identité"
@@ -28,7 +28,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-acquisition-renault-2-juillet-1999
     section: "## Identité"
@@ -37,7 +37,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-marque-renault-group
     section: "## Identité"
@@ -46,7 +46,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-positionnement-modeles-accessibles
     section: "## Identité"
@@ -55,7 +55,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-44-pays-2022
     section: "## Identité"
@@ -64,7 +64,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-rebadge-renault-hors-marches
     section: "## Identité"
@@ -73,7 +73,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   # --- dacia_corporate_factsheet_2024 (page d'accueil dacia.fr, 2026-10-10) — source to_capture, plafond medium ---
   - claim_id: dacia-renault-importateur-france
@@ -83,7 +83,7 @@ coverage_entries:
     evidence_type: manufacturer_homepage
     confidence: medium
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   # --- wikipedia_fr_dacia (article encyclopédique) — source to_capture, corroboration seulement (plafond low) ---
   - claim_id: dacia-dix-millions-vehicules-2022
@@ -93,7 +93,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-premieres-renault-sous-licence
     section: "## Modèles principaux"
@@ -102,7 +102,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-1100-copie-renault-8-1968
     section: "## Modèles principaux"
@@ -111,7 +111,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-1100-pieces-produites-en-france
     section: "## Modèles principaux"
@@ -120,7 +120,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-1300-identique-renault-12-1969
     section: "## Modèles principaux"
@@ -129,7 +129,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-1300-production-1969-2006
     section: "## Modèles principaux"
@@ -138,7 +138,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-1300-part-avant-logan
     section: "## Modèles principaux"
@@ -147,7 +147,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-logan-lancement-2004-france-2005
     section: "## Modèles principaux"
@@ -156,7 +156,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-logan-mcv-2007-sept-places
     section: "## Modèles principaux"
@@ -165,7 +165,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-sandero-bresil-2007-europe-2008
     section: "## Modèles principaux"
@@ -174,7 +174,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-duster-lancement-2010
     section: "## Modèles principaux"
@@ -183,7 +183,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-lodgy-dokker-2012
     section: "## Modèles principaux"
@@ -192,7 +192,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-spring-premier-electrique-2021
     section: "## Modèles principaux"
@@ -201,7 +201,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-gamme-logan-iii
     section: "## Modèles principaux"
@@ -210,7 +210,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-gamme-sandero-iii-stepway
     section: "## Modèles principaux"
@@ -219,7 +219,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-gamme-duster-iii
     section: "## Modèles principaux"
@@ -228,7 +228,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-gamme-spring
     section: "## Modèles principaux"
@@ -237,7 +237,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-gamme-jogger
     section: "## Modèles principaux"
@@ -246,7 +246,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-gamme-bigster
     section: "## Modèles principaux"
@@ -255,7 +255,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   # --- dacia_corporate_factsheet_2024 (page d'accueil dacia.fr, 2026-10-10) — source to_capture, plafond medium ---
   - claim_id: dacia-gamme-site-dacia-fr-2026
@@ -265,7 +265,7 @@ coverage_entries:
     evidence_type: manufacturer_homepage
     confidence: medium
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   # --- wikipedia_fr_dacia (article encyclopédique) — source to_capture, corroboration seulement (plafond low) ---
   - claim_id: dacia-ventes-cumulees-mars-2022
@@ -275,7 +275,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-sandero-plateforme-logan
     section: "## Spécificités techniques"
@@ -284,7 +284,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-duster-chassis-logan
     section: "## Spécificités techniques"
@@ -293,7 +293,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-plateforme-clio-v
     section: "## Spécificités techniques"
@@ -302,7 +302,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-jogger-plateforme-motorisations
     section: "## Spécificités techniques"
@@ -311,7 +311,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-bigster-chassis-duster-iii
     section: "## Spécificités techniques"
@@ -320,7 +320,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-duster-iii-deux-ou-quatre-roues-motrices
     section: "## Spécificités techniques"
@@ -329,7 +329,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-spring-k-ze-shiyan
     section: "## Spécificités techniques"
@@ -338,7 +338,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-spring-hors-roumanie-maroc
     section: "## Spécificités techniques"
@@ -347,7 +347,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-quatre-usines
     section: "## Spécificités techniques"
@@ -356,7 +356,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-easy-r-electromecanique
     section: "## Spécificités techniques"
@@ -365,7 +365,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-easy-r-2015-pieces-reduites
     section: "## Spécificités techniques"
@@ -374,7 +374,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   # --- dacia_corporate_factsheet_2024 (page d'accueil dacia.fr, 2026-10-10) — source to_capture, plafond medium ---
   - claim_id: dacia-versions-entree-motorisations-2026
@@ -384,7 +384,7 @@ coverage_entries:
     evidence_type: manufacturer_homepage
     confidence: medium
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-spring-electrique-site
     section: "## Spécificités techniques"
@@ -393,7 +393,7 @@ coverage_entries:
     evidence_type: manufacturer_homepage
     confidence: medium
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   # --- wikipedia_fr_dacia (article encyclopédique) — source to_capture, corroboration seulement (plafond low) ---
   - claim_id: dacia-faq-uap-1966
@@ -403,7 +403,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-faq-premiere-voiture-1968
     section: "## FAQ"
@@ -412,7 +412,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-faq-renault-licence
     section: "## FAQ"
@@ -421,7 +421,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-faq-rachat-renault-1999
     section: "## FAQ"
@@ -430,7 +430,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   # --- dacia_corporate_factsheet_2024 (page d'accueil dacia.fr, 2026-10-10) — source to_capture, plafond medium ---
   - claim_id: dacia-faq-renault-importateur
@@ -440,7 +440,7 @@ coverage_entries:
     evidence_type: manufacturer_homepage
     confidence: medium
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   # --- wikipedia_fr_dacia (article encyclopédique) — source to_capture, corroboration seulement (plafond low) ---
   - claim_id: dacia-faq-usines
@@ -450,7 +450,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-faq-plateforme-clio-v
     section: "## FAQ"
@@ -459,7 +459,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-faq-bigster-chassis
     section: "## FAQ"
@@ -468,7 +468,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: dacia-faq-spring-k-ze
     section: "## FAQ"
@@ -477,7 +477,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: manual_review
-    source_status: pending_capture
+    source_status: captured
 
 notes: |
   Coverage map dacia — réécrite 2026-10-11 avec la fiche.

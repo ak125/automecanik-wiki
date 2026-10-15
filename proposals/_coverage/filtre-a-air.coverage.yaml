@@ -27,7 +27,7 @@ coverage_entries:
     evidence_type: wikipedia_factual
     confidence: low
     source_policy: 2_medium_concordant
-    source_status: pending_capture
+    source_status: captured
 
   - claim_id: filtre-air-intervalle-30000km
     section: "## Critères de choix"

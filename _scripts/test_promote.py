@@ -875,3 +875,57 @@ def test_batch_candidates_exclude_navigation_metadata_but_explicit_target_stays_
     (proposals / 'actual.md').write_text('candidate')
     assert mod._candidate_files(tmp_path, None, None) == [proposals / 'actual.md']
     assert mod._candidate_files(tmp_path, 'proposals/_index.md', None) == [proposals / '_index.md']
+
+
+@pytest.mark.parametrize('output_format', ['json', 'text'])
+def test_cli_report_writes_a_lone_surrogate_of_the_author_escaped(tmp_path, output_format):
+    """Demi-codet isolé dans une chaîne de l'auteur recopiée dans le rapport (ici `reason`) : la
+    sortie UTF-8 l'écrit en échappement, en json comme en texte, au lieu d'échouer à l'encodage."""
+    from click.testing import CliRunner
+    mod = _load_promote()
+    proposals = tmp_path / 'proposals'
+    proposals.mkdir()
+    (proposals / 'filtre.md').write_text(
+        '---\nentity_type: gamme\nslug: filtre\nreview_status: "in_review\\uD835"\n---\nFixture.\n')
+    result = CliRunner().invoke(mod.main, ['--wiki-root', str(tmp_path), '--target',
+                                           'proposals/filtre.md', '--dry-run',
+                                           '--format', output_format])
+    assert result.exit_code == 0, result.output
+    if output_format == 'json':
+        row = json.loads(result.output)['report'][0]
+        assert row['promotion_status'] == 'SKIP'
+        assert row['reason'] == 'review_status=in_review\ud835 non promouvable'
+    else:
+        assert ('[SKIP] filtre.md tier=- eligible=False '
+                'review_status=in_review\\ud835 non promouvable\n') in result.output
+
+
+def test_cli_json_report_keeps_apart_a_lone_surrogate_and_its_escape_written_as_text(
+        tmp_path, monkeypatch):
+    """Deux clés que seul l'échappement distingue (un demi-codet isolé, et son échappement écrit
+    en texte) restent deux clés du rapport json, chacune relue telle qu'écrite."""
+    from click.testing import CliRunner
+    mod = _load_promote()
+    proposals = tmp_path / 'proposals'
+    proposals.mkdir()
+    (proposals / 'filtre.md').write_text(
+        '---\nentity_type: gamme\nslug: filtre\nreview_status: in_review\n---\nFixture.\n')
+    publishers = {'organisme \ud835c': ['preuve_manuel'], 'organisme \\ud835c': ['preuve_norme']}
+    evidence = {'is_safety': True, 'details': {'proof_sources_min': {'publishers': publishers}}}
+    monkeypatch.setattr(mod, 'canonical_promotion_decision', lambda *a, **k: {
+        'promotion_status': 'BLOCKED', 'eligible': False,
+        'evaluation': {'tier': 'B', 'checks': [{'code': 'SAFETY_HUMAN_REVIEW', 'status': 'fail',
+                                                'evidence': evidence}]}})
+    result = CliRunner().invoke(mod.main, ['--wiki-root', str(tmp_path), '--target',
+                                           'proposals/filtre.md', '--dry-run', '--format', 'json'])
+    assert result.exit_code == 0, result.output
+    check = json.loads(result.output)['report'][0]['evaluation']['checks'][0]
+    assert check['evidence']['details']['proof_sources_min']['publishers'] == publishers
+
+
+def test_cli_json_report_reads_back_a_high_low_surrogate_pair_as_its_character():
+    """Limite de JSON, documentée (`_encodable`) : un demi-codet haut suivi d'un demi-codet bas
+    s'écrit comme l'échappement du caractère que la paire code, et se relit comme lui."""
+    mod = _load_promote()
+    written = mod._encodable(json.dumps({'a\ud835\udc00': 1}, ensure_ascii=False))
+    assert json.loads(written) == {'a\U0001d400': 1}

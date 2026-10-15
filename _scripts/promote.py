@@ -5,7 +5,8 @@ promote — Promotion WIKI auto-tiered (ADR-083, amende ADR-033 ; réf. ADR-059)
 **Adapter CLI** (click) au-dessus de la bibliothèque canonique `promotion_decision`.
 Frontière stricte : CLI → bibliothèque, JAMAIS bibliothèque → CLI. Le cœur métier
 (evaluate_tier, gates composition, apply_promotion, résolveurs baseline) vit dans
-`promotion_decision.py` (click-free) ; ce module l'importe et l'expose au shell.
+`promotion_decision.py` (n'importe pas click : seuls `gates/` et les exporteurs qu'elle
+charge à l'appel l'importent) ; ce module l'importe et l'expose au shell.
 
 Décide la promotion d'une proposal validée vers le canon wiki
 (`review_status: approved` + `exportable.seo: true`) via une PORTE DÉTERMINISTE
@@ -58,7 +59,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 
 # Frontière : le CLI IMPORTE la bibliothèque canonique (jamais l'inverse). Tout le
 # cœur métier (constantes gouvernées ADR-083, evaluate_tier, apply_promotion,
-# résolveurs baseline, décision canonique) vit dans promotion_decision (click-free).
+# résolveurs baseline, décision canonique) vit dans promotion_decision (qui n'importe pas click).
 from promotion_decision import (  # noqa: E402 — import après sys.path (adapter CLI → library)
     AUTO_PROMOTE_THRESHOLD,
     AUTO_PROMOTE_TRUTH_LEVELS,  # noqa: F401 — ré-exporté (contrat test_promote)
@@ -66,6 +67,7 @@ from promotion_decision import (  # noqa: E402 — import après sys.path (adapt
     PROMOTABLE_INPUT_STATUSES,
     _canon_already_approved,
     _compute_shadow,  # noqa: F401 — ré-exporté (contrat test_promote)
+    _encodable,
     _load_confidence_fn,
     _load_gates,
     _parse_markdown,
@@ -113,7 +115,7 @@ def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: b
         do_apply = False
 
     # Frontière CLI : une erreur de cœur métier (PromotionInputError) est traduite ICI
-    # en click.ClickException — la bibliothèque ne dépend jamais de click.
+    # en click.ClickException — la bibliothèque n'importe jamais click.
     try:
         gates = _load_gates()
         compute_score = _load_confidence_fn()
@@ -192,20 +194,24 @@ def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: b
     unknown = sum(1 for r in report if r.get("promotion_status") == "UNKNOWN_FAIL_CLOSED")
     apply_failures = sum(1 for r in report if r.get("apply_error") or r.get("apply_refused")
                          or (do_apply and r.get("promotion_status") in {"BLOCKED", "UNKNOWN_FAIL_CLOSED"}))
+    # Sortie UTF-8 : un demi-codet isolé (chaîne de l'auteur ou du catalogue recopiée dans le
+    # rapport) y est écrit en échappement (`_encodable`) ; en json, c'est l'échappement JSON du
+    # demi-codet, que `json.loads` relit tel quel — sauf une paire haut + bas, relue comme le
+    # caractère qu'elle code.
     if output_format == "json":
-        click.echo(json.dumps({"threshold": threshold, "apply": do_apply,
-                               "apply_failures": apply_failures,
-                               "tier_A": auto, "tier_B": human,
-                               "eligible": eligible, "blocked": blocked,
-                               "unknown_fail_closed": unknown, "report": report},
-                              ensure_ascii=False, indent=2))
+        click.echo(_encodable(json.dumps({"threshold": threshold, "apply": do_apply,
+                                          "apply_failures": apply_failures,
+                                          "tier_A": auto, "tier_B": human,
+                                          "eligible": eligible, "blocked": blocked,
+                                          "unknown_fail_closed": unknown, "report": report},
+                                         ensure_ascii=False, indent=2)))
     else:
         for r in report:
             codes = [x.get("code") for x in (r.get("blocking_reasons") or []) if isinstance(x, dict)]
             details = r.get("apply_error") or r.get("apply_refused") or codes or r.get("reason", "")
-            click.echo(f"[{r.get('promotion_status', r.get('tier'))}] {Path(r['file']).name} "
-                       f"tier={r.get('substance_tier', '-')} eligible={r.get('eligible')} "
-                       f"{details}")
+            click.echo(_encodable(f"[{r.get('promotion_status', r.get('tier'))}] "
+                                  f"{Path(r['file']).name} tier={r.get('substance_tier', '-')} "
+                                  f"eligible={r.get('eligible')} {details}"))
         click.echo(f"\néligibles={eligible}  bloqués={blocked}  unknown={unknown}  "
                    f"(TIER A legacy={auto})  seuil={threshold}  apply={do_apply}  erreurs_apply={apply_failures}")
     sys.exit(1 if do_apply and apply_failures else 0)

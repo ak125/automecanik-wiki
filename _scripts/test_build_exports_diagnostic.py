@@ -7,6 +7,7 @@ builder comme la CI : `main` via CliRunner. Exécution :
 from __future__ import annotations
 
 import json
+import re
 import shutil
 import subprocess
 from pathlib import Path
@@ -153,6 +154,30 @@ def test_index_hashes_the_written_bytes(wiki: Path):
     data = (wiki / "exports" / "diagnostic" / entry["path"]).read_bytes()
     assert entry["sha256"] == builder._sha256_prefixed(data)
     assert entry["relation_count"] == 1
+
+
+def test_index_carries_no_fiche_text(wiki: Path):
+    """L'index ne publie que constantes, chemins, empreintes et compteurs, jamais un texte de
+    fiche : la Safety Auto-Gate lit le document par gamme, pas l'index."""
+    _write_fiche(wiki, "colonne", relations=[
+        _relation(["oem_doc", "brochure_doc"], part_role="Jeu de 2 mm au braquage.")])
+    _commit_all(wiki, "colonne")
+    assert _run(wiki).exit_code == 0
+
+    def strings(node):
+        if isinstance(node, dict):
+            for key, value in node.items():
+                yield key
+                yield from strings(value)
+        elif isinstance(node, list):
+            for item in node:
+                yield from strings(item)
+        elif isinstance(node, str):
+            yield node
+
+    shape = re.compile(r"[a-z_]+|sha256|\d+\.\d+\.\d+|[0-9a-f]{40}|sha256:[0-9a-f]{64}|gamme/[a-z0-9-]+\.json")
+    assert [s for s in strings(_read(wiki, "_index.json")) if not shape.fullmatch(s)] == []
+    assert _read(wiki, "gamme/colonne.json")["relations"][0]["part_role"] == "Jeu de 2 mm au braquage."
 
 
 def test_json_format_success_report(wiki: Path):

@@ -1,20 +1,20 @@
 {
   "_comment": "Registry canonique des entités métier. Évite doublons / aliases conflictuels. Mis à jour à chaque promotion vers wiki/.",
   "_schema_version": "1.0",
-  "_updated_at": "2026-04-29",
+  "_updated_at": "2026-10-16",
   "gammes": {
     "plaquette-de-frein": {
       "id": "gamme:plaquette-de-frein",
       "title": "Plaquette de frein",
       "status": "draft",
-      "review_status": "proposed",
+      "review_status": "approved",
       "aliases": [
         "plaquettes de frein",
         "brake pad",
         "brake pads",
         "garniture de frein"
       ],
-      "origin": "proposals/plaquette-de-frein.md",
+      "origin": "wiki/gamme/plaquette-de-frein.md",
       "lineage_id": null
     }
   },

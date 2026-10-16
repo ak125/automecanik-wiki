@@ -29,7 +29,8 @@ Gates ADR-112 / ADR-113 (amendements d'ADR-033) :
     quick_check_cause_unlinked               — diagnostic.quick_checks[].cause_slug absent des cause_slug de la fiche
     safety_rules_path_invalid                — safety_rules hors wiki/diagnostic/regles-securite.md
     safety_rule_slug_duplicate               — rule_slug déclaré deux fois
-    (cross-repo, à la promotion : gate_citation_anchors — span + empreinte contre l'archive RAW épinglée)
+    (cross-repo, à la promotion : gate_citation_anchors — span + empreinte contre l'archive RAW épinglée ;
+     `--cross-repo` : le même gate sur toutes les fiches du canon, ADR-116 D4 d)
 
 Usage:
     quality-gates.py <file>...
@@ -1040,6 +1041,31 @@ def gather_files(args) -> list[Path]:
     return [p for p in (Path(f).resolve() for f in args.files) if not _is_meta_path(p)]
 
 
+def gate_canon_citation_anchors(source_catalog: dict[str, dict]) -> tuple[list[str], int]:
+    """Cross-repo (ADR-116 D4 d) : `gate_citation_anchors` sur chaque fiche du canon
+    (`wiki/**`, mêmes exclusions D19 que `gather_files`), contre le catalogue courant.
+
+    La promotion ne vérifie les ancres que de la fiche qu'elle promeut : une archive ré-épinglée
+    (`raw_ref` changé, soumis au garde d'activation) casserait ensuite en silence l'ancre d'une
+    fiche déjà promue. `--cross-repo`, exécuté par le flux gouverné d'activation, la refuse.
+    Fiche sans frontmatter lisible : ses citations sont invérifiables, FAIL, jamais ignorée.
+    Retourne (échecs préfixés par le chemin de la fiche, nombre de fiches citant une source)."""
+    failures: list[str] = []
+    citing = 0
+    wiki = REPO_ROOT / "wiki"
+    fiches = sorted(p for p in wiki.rglob("*.md") if not _is_meta_path(p)) if wiki.exists() else []
+    for path in fiches:
+        rel = path.relative_to(REPO_ROOT).as_posix()
+        fm, _ = parse_fm(path.read_text(encoding="utf-8"))
+        if not fm:
+            failures.append(f"{rel}: citation_anchors_unverifiable: frontmatter illisible")
+            continue
+        if cited_source_slugs(fm):
+            citing += 1
+        failures += [f"{rel}: {issue}" for issue in gate_citation_anchors(fm, source_catalog)]
+    return failures, citing
+
+
 def _run_cross_repo_gate(source_catalog: dict[str, dict], *, warn_as_fail: bool) -> int:
     """`--cross-repo` — SEUL chemin autorisé à enforcer le gate cross-repo raw_ref.
 
@@ -1060,10 +1086,14 @@ def _run_cross_repo_gate(source_catalog: dict[str, dict], *, warn_as_fail: bool)
         print(f"FAIL source-catalog: {f}")
     for w in warnings:
         print(f"WARN source-catalog: {w}")
+    anchor_failures, citing = gate_canon_citation_anchors(source_catalog)
+    for f in anchor_failures:
+        print(f"FAIL citation-anchors: {f}")
+    failures = failures + anchor_failures
     n_active = sum(1 for e in source_catalog.values() if e.get("status", "active") == "active")
     print(
         f"\ncross-repo source-catalog gate — {len(failures)} FAIL — {len(warnings)} WARN "
-        f"({n_active} entrées active vérifiées)"
+        f"({n_active} entrées active vérifiées, ancres de {citing} fiche(s) du canon vérifiées)"
     )
     if failures or (warn_as_fail and warnings):
         return 1
@@ -1083,7 +1113,7 @@ def main() -> int:
     )
     ap.add_argument(
         "--cross-repo", action="store_true",
-        help="UNIQUEMENT le gate cross-repo source-catalog raw_ref ; exige un checkout automecanik-raw. Seul chemin autorisé à l'enforcer.",
+        help="UNIQUEMENT les gates cross-repo : source-catalog raw_ref et ancres des citations des fiches du canon ; exige un checkout automecanik-raw. Seul chemin autorisé à les enforcer.",
     )
     ap.add_argument("--warn-as-fail", action="store_true", help="Treat WARN as FAIL")
     args = ap.parse_args()

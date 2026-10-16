@@ -3,6 +3,15 @@
 > Versionnage du schema canonique frontmatter + exports + entity-data.
 > Bump majeur (X.0) = breaking change. Bump mineur (X.Y) = ajout rétrocompatible. Bump patch (X.Y.Z) = clarification.
 
+## \[1.3.0\] — 2026-10-16
+
+ADR-116 (relations hors sécurité relues par une règle de preuve), mise en œuvre report-only. Ajout rétrocompatible : les deux champs sont optionnels, aucune fiche existante ne change, et le décideur n'en écrit aucun tant que `RELATION_REVIEW_ADR` est vide (ADR-116 D4).
+
+- `diagnostic_relations[].evidence` : `reviewed_by` (`rule:ADR-116@<révision du décideur>`, 64 hex) et `reviewed_at` (horodatage UTC `…+00:00`), présents ensemble ou absents ensemble ; `reviewed_by` exige `reviewed: true`. Description de `reviewed` alignée sur ADR-033 D1 amendé.
+- `claim_evidence` (`diagnostic.quick_checks[]`, `safety_rules[]`) : `reviewed_by` / `reviewed_at` refusés, la règle ne relit que des relations (ADR-116 D1).
+- `_scripts/promotion_decision.py` : conditions d'ADR-116 D2 calculées par relation (`evaluate_tier` → `relation_review`), trace `would_review` dans la décision (`relation_review`), écriture D3 gardée par la constante `RELATION_REVIEW_ADR` (vide). La garde `REVIEW_AUTHORITY_CLAIMED` refuse aussi une proposition qui porte `reviewed_by` ou `reviewed_at` (`review_stamp_present`).
+- `_scripts/quality-gates.py --cross-repo` vérifie les ancres des citations de toutes les fiches du canon ; `_scripts/check-activation-guard.py` traite le changement du `raw_ref` d'une source déjà `active` comme une activation (ADR-116 D4, précondition d).
+
 ## \[1.2.0\] — 2026-10-05
 
 Amendements d'ADR-033 portés par ADR-112 (base diagnostic experte, D13 phase 0) et ADR-113 (couverture des relations). Ajout rétrocompatible : tous les champs sont optionnels, aucune fiche existante ne change.

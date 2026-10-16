@@ -21,11 +21,17 @@ guard = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(guard)
 
 
-def _e(slug: str, status: str | None = None) -> dict:
+def _e(slug: str, status: str | None = None, raw_ref: dict | None = None) -> dict:
     e = {"slug": slug}
     if status is not None:
         e["status"] = status
+    if raw_ref is not None:
+        e["raw_ref"] = raw_ref
     return e
+
+
+def _ref(sha: str, manifest_id: str = "m-doc") -> dict:
+    return {"repo": "automecanik-raw", "manifest_id": manifest_id, "expected_sha256": "sha256:" + sha * 64}
 
 
 def test_to_capture_to_active_flagged():
@@ -44,6 +50,53 @@ def test_new_active_entry_flagged():
 def test_active_unchanged_not_flagged():
     base = {"s": _e("s", "active")}
     head = {"s": _e("s", "active")}
+    assert guard.find_illicit_activations(base, head) == []
+
+
+# Ré-épingle d'une source déjà active (ADR-116 D4 d) : la nouvelle archive devient la preuve,
+# les ancres qui la citent doivent passer `--cross-repo` avant la mutation.
+def test_active_raw_ref_repin_flagged():
+    base = {"s": _e("s", "active", _ref("a"))}
+    head = {"s": _e("s", "active", _ref("b"))}
+    illicit = guard.find_illicit_activations(base, head)
+    assert len(illicit) == 1 and "raw_ref" in illicit[0] and "ADR-116" in illicit[0], illicit
+
+
+def test_active_raw_ref_other_manifest_flagged():
+    base = {"s": _e("s", "active", _ref("a"))}
+    head = {"s": _e("s", "active", _ref("a", manifest_id="m-autre"))}
+    assert guard.find_illicit_activations(base, head)
+
+
+def test_active_raw_ref_added_flagged():
+    # active sans raw_ref (non prouvée) → raw_ref posé : création de preuve
+    base = {"s": _e("s", "active")}
+    head = {"s": _e("s", "active", _ref("a"))}
+    assert guard.find_illicit_activations(base, head)
+
+
+def test_active_raw_ref_missing_status_defaults_active_flagged():
+    base = {"s": _e("s", raw_ref=_ref("a"))}
+    head = {"s": _e("s", raw_ref=_ref("b"))}
+    assert guard.find_illicit_activations(base, head)
+
+
+def test_active_raw_ref_unchanged_not_flagged():
+    base = {"s": _e("s", "active", _ref("a"))}
+    head = {"s": _e("s", "active", _ref("a"))}
+    assert guard.find_illicit_activations(base, head) == []
+
+
+def test_active_raw_ref_removed_not_flagged():
+    # retrait de la preuve = comme une désactivation : aucune preuve active créée
+    base = {"s": _e("s", "active", _ref("a"))}
+    head = {"s": _e("s", "active")}
+    assert guard.find_illicit_activations(base, head) == []
+
+
+def test_to_capture_raw_ref_change_not_flagged():
+    base = {"s": _e("s", "to_capture", _ref("a"))}
+    head = {"s": _e("s", "to_capture", _ref("b"))}
     assert guard.find_illicit_activations(base, head) == []
 
 

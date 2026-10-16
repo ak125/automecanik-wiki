@@ -5,8 +5,8 @@
   "gamme_slug": "filtre-d-habitacle",
   "wiki_path": "wiki/gamme/filtre-d-habitacle.md",
   "source_wiki_commit": "a47833486352626442939dd04b5a6fd3674cb0a7",
-  "source_catalog_commit": "2953c1e878ef82db62c33614b3ca55000fab14f7",
-  "content_hash": "sha256:9da4754697a052b521610c6d4a31d1a3fd56fd5d0560e882cd440c1ae6c09a9e",
+  "source_catalog_commit": "cc0ec9c71a233fe25b67739d343816cb664979a9",
+  "content_hash": "sha256:978eb261f39374b225be806e4477c6d0fe02641643d6fcfd8ad5b2b27c98929d",
   "relations": [
     {
       "relation_index": 0,
@@ -27,13 +27,13 @@
           "slug": "web_carglass_filtre_habitacle_20260612",
           "catalog_slug": "web_carglass_filtre_habitacle_20260612",
           "type": "blog_pro",
-          "status": "to_capture",
+          "status": "active",
           "raw_ref": {
             "repo": "automecanik-raw",
             "manifest_id": "src-auto-capture-7fc8b2af44089196674ecab181e7d88aa9ecf4f7a32d1bb1993b94eaeda4eed5",
-            "expected_sha256": null
+            "expected_sha256": "sha256:8102bfc929c52e13adee852fd832041a7f4717b6e774032c014ee21333dbd3ce"
           },
-          "raw_proven": false
+          "raw_proven": true
         }
       ]
     }

@@ -224,6 +224,28 @@
       "minimum": 0,
       "maximum": 1
     },
+    "content_export": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "consumer",
+        "sections"
+      ],
+      "properties": {
+        "consumer": {
+          "const": "fafa"
+        },
+        "sections": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
     "exportable": {
       "description": "Gates d'export par audience. Tous false par défaut. Activation par les contrôles applicables ; le promoteur automatique active seo pour les fiches éligibles.",
       "type": "object",
@@ -561,6 +583,44 @@
           "entity_type": { "const": "diagnostic" },
           "id": { "const": "diagnostic:regles-securite" },
           "slug": { "const": "regles-securite" }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "exportable": {
+            "properties": {
+              "content": {
+                "const": true
+              }
+            },
+            "required": [
+              "content"
+            ]
+          }
+        },
+        "required": [
+          "exportable"
+        ]
+      },
+      "then": {
+        "required": [
+          "content_export",
+          "no_disputed_claims",
+          "reviewed_by",
+          "reviewed_at"
+        ],
+        "properties": {
+          "entity_type": {
+            "const": "gamme"
+          },
+          "review_status": {
+            "const": "approved"
+          },
+          "no_disputed_claims": {
+            "const": true
+          }
         }
       }
     }

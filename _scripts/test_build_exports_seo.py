@@ -835,7 +835,11 @@ def _invoke_fixture_builder(tmp_path, monkeypatch, extra_args=()):
     # mutations are necessary to exercise output reconciliation.
     monkeypatch.setattr(builder, '_assert_full_clone', lambda root: None)
     monkeypatch.setattr(builder, '_wiki_file_commit_meta', lambda root, src: ('a' * 40, '2026-09-12T00:00:00Z'))
-    return CliRunner().invoke(builder.main, ['--wiki-root', str(tmp_path), *extra_args])
+    # CI supports Click >=8.1: keep JSON stdout separate from diagnostic stderr.
+    # Click 8.2 removed mix_stderr and always separates these result streams.
+    import inspect
+    options = {'mix_stderr': False} if 'mix_stderr' in inspect.signature(CliRunner).parameters else {}
+    return CliRunner(**options).invoke(builder.main, ['--wiki-root', str(tmp_path), *extra_args])
 
 
 @pytest.mark.parametrize('single', [False, True])
@@ -847,7 +851,7 @@ def test_cli_refuses_retained_export_after_approval_loss(tmp_path, monkeypatch, 
     args = ['--entity-id', 'gamme:fixture-old'] if single else []
     result = _invoke_fixture_builder(tmp_path, monkeypatch, args)
     assert result.exit_code != 0
-    assert 'UNRECONCILED' in result.output
+    assert 'UNRECONCILED' in result.stderr
     assert old.read_text() == 'historical export evidence'
 
 
@@ -858,7 +862,7 @@ def test_cli_refuses_orphan_export_before_writing_other_candidates(tmp_path, mon
     old.write_text('preserved withdrawal evidence')
     result = _invoke_fixture_builder(tmp_path, monkeypatch)
     assert result.exit_code != 0
-    assert 'UNRECONCILED' in result.output
+    assert 'UNRECONCILED' in result.stderr
     assert old.read_text() == 'preserved withdrawal evidence'
     assert not (old.parent / 'fixture-new.json').exists()
 
@@ -869,7 +873,7 @@ def test_cli_dry_run_reports_unreconciled_export_without_writing(tmp_path, monke
     old.write_text('preserved')
     result = _invoke_fixture_builder(tmp_path, monkeypatch, ['--dry-run'])
     assert result.exit_code != 0
-    assert 'UNRECONCILED' in result.output
+    assert 'UNRECONCILED' in result.stderr
     assert old.read_text() == 'preserved'
 
 

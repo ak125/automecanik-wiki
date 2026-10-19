@@ -1,0 +1,316 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "export_kind",
+    "consumer",
+    "wiki_path",
+    "source_wiki_commit",
+    "source_catalog_commit",
+    "source_file_sha256",
+    "sections",
+    "decision",
+    "content_hash"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "export_kind": {
+      "const": "content_gamme"
+    },
+    "consumer": {
+      "const": "fafa"
+    },
+    "wiki_path": {
+      "type": "string",
+      "pattern": "^wiki/gamme/[a-z0-9-]+\\.md$"
+    },
+    "source_wiki_commit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "source_catalog_commit": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{40}$"
+    },
+    "source_file_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/Section"
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "promotion_status",
+        "input_manifest",
+        "evaluation_engine_revision",
+        "decision_engine_revision",
+        "content_engine_revision"
+      ],
+      "properties": {
+        "promotion_status": {
+          "const": "ELIGIBLE"
+        },
+        "input_manifest": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "role",
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "role": {
+                "type": "string",
+                "minLength": 1
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "evaluation_engine_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "decision_engine_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "content_engine_revision": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://automecanik.com/schema/exports-content.schema.json",
+  "$defs": {
+    "Section": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "section",
+        "content_md",
+        "source_ids",
+        "truth_level",
+        "sha256"
+      ],
+      "properties": {
+        "section": {
+          "type": "string",
+          "minLength": 1
+        },
+        "content_md": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "truth_level": {
+          "enum": [
+            "db_owned",
+            "sourced",
+            "inferred",
+            "editorial"
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "Reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "doc_id",
+        "export_path",
+        "export_sha256",
+        "wiki_path",
+        "source_wiki_commit",
+        "section",
+        "section_sha256",
+        "excerpt"
+      ],
+      "properties": {
+        "doc_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "export_path": {
+          "type": "string",
+          "pattern": "^exports/content/gamme/[a-z0-9-]+\\.json$"
+        },
+        "export_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "wiki_path": {
+          "type": "string",
+          "pattern": "^wiki/gamme/[a-z0-9-]+\\.md$"
+        },
+        "source_wiki_commit": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "section": {
+          "type": "string",
+          "minLength": 1
+        },
+        "section_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "excerpt": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "AdmissionRequest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "request_id",
+        "consumer",
+        "references"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "consumer": {
+          "const": "fafa"
+        },
+        "references": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "$ref": "#/$defs/Reference"
+          }
+        }
+      }
+    },
+    "AdmissionResponse": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "schema_version",
+        "request_id",
+        "consumer",
+        "authority_revision",
+        "results"
+      ],
+      "properties": {
+        "schema_version": {
+          "const": "1.0.0"
+        },
+        "request_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "consumer": {
+          "const": "fafa"
+        },
+        "authority_revision": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[a-f0-9]{40}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "results": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 100,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "reference",
+              "status",
+              "code"
+            ],
+            "properties": {
+              "reference": {
+                "$ref": "#/$defs/Reference"
+              },
+              "status": {
+                "enum": [
+                  "ADMITTED",
+                  "DENIED",
+                  "UNAVAILABLE"
+                ]
+              },
+              "code": {
+                "enum": [
+                  "ADMITTED",
+                  "AUDIENCE_NOT_ALLOWED",
+                  "SOURCE_NOT_APPROVED",
+                  "CANONICAL_DECISION_BLOCKED",
+                  "REFERENCE_MISMATCH",
+                  "SECTION_NOT_FOUND",
+                  "STALE_EXPORT",
+                  "UNRECONCILED_EXPORT",
+                  "AUTHORITY_INPUT_CHANGED",
+                  "AUTHORITY_UNAVAILABLE",
+                  "AUTHORITY_ACCESS_DENIED",
+                  "AUTHORITY_NOT_CURRENT"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

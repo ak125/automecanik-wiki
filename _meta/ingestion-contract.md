@@ -134,3 +134,9 @@ Esquisse à finaliser dans les 5 templates `_meta/templates/<type>.md` :
 - Plan rev 6 — *verifier-dans-existant-si-starry-feigenbaum* §3, §6
 - ADR-022 — R8 RAG Control Plane (DB-only scope, dormant)
 - ADR-029 — RAG v2.1 state machine 7 étapes (paths à amender)
+
+## Export content pour Fafa
+
+`exportable.content: true` requires `content_export: {consumer: fafa, sections: [...]}`, an approved gamme without disputed claims and a current eligible native decision. No retroactive activation.
+Section names come from `entity-data/gamme.schema.json`; each selected whole text must match an existing verified coverage anchor for its source IDs. Unknown or unproven sections are rejected, never silently omitted.
+`exports-content.schema.json` owns the export and request/response protocol. The producer checks audience, content and current versions; Fafa never reads RAW. Source admission does not approve editorial content, rendering or publication.

@@ -3585,10 +3585,10 @@ _ALL_PASS = {"coverage": {"status": "PASS", "evidence": {}},
              "provenance": {"status": "PASS", "evidence": {}}}
 
 
-def test_safety_policy_is_lifted_by_adr_114_and_nothing_else():
-    """ADR-114 D5 : le verrou se lève par cette constante de code, et par elle seule."""
+def test_safety_policy_is_closed_by_adr_114_rollback():
+    """ADR-114 §Retour arrière : la constante est remise à vide, la gate est refermée."""
     dec = _load_decision()
-    assert dec.SAFETY_AUTO_APPROVAL_ADR == "ADR-114"
+    assert dec.SAFETY_AUTO_APPROVAL_ADR is None
 
 
 def test_safety_all_conditions_proven_but_policy_unratified_blocks_once(tmp_path, monkeypatch):

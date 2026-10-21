@@ -808,7 +808,7 @@ sources:
     year: null
     license: captured_for_internal_review
     archived_at: automecanik-raw/sources/auto-captures/vanne-egr/hella-com-wl-vanne-egr-hella-techworld-20261021-f554b26e.md
-    status: to_capture
+    status: active
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-f554b26e16d46573237101658c4b28a414f7c8b92f2d48417cf3db1ffa42f08a
@@ -827,7 +827,7 @@ sources:
     year: null
     license: captured_for_internal_review
     archived_at: automecanik-raw/sources/auto-captures/thermostat/hella-com-wl-thermostat-hella-20261021-65248188.md
-    status: to_capture
+    status: active
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-65248188708728828e2906a82b74260bdcb527c0027768f6022ee88aefa93fad
@@ -846,7 +846,7 @@ sources:
     year: null
     license: captured_for_internal_review
     archived_at: automecanik-raw/sources/auto-captures/support-moteur/aftermarket-zf-com-wl-support-moteur-zf-20261021-9f6d624a.md
-    status: to_capture
+    status: active
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-9f6d624a71823311c09c3ff308b0c2ea7b93a1e3f20ee557fcaabcc8489c9521
@@ -865,7 +865,7 @@ sources:
     year: null
     license: captured_for_internal_review
     archived_at: automecanik-raw/sources/auto-captures/courroie-d-accessoire/hella-com-wl-hella-poulie-20261021-bd0c1873.md
-    status: to_capture
+    status: active
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-bd0c18734ceb758f98f0ee4fc521810360b1d03f649989bc1f4a4afaad91e13e
@@ -880,7 +880,7 @@ sources:
     year: null
     license: captured_for_internal_review
     archived_at: automecanik-raw/sources/auto-captures/disque-de-frein/hella-com-wl-hella-disques-20261021-eb410e50.md
-    status: to_capture
+    status: active
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-eb410e50c4627a7fd181b73a851145d99bc0f04c7106f3c38192ac2e509c0285
@@ -895,7 +895,7 @@ sources:
     year: null
     license: captured_for_internal_review
     archived_at: automecanik-raw/sources/auto-captures/disque-de-frein/asia-bremboparts-com-wl-brembo-epaisseur-20261021-119a1c97.md
-    status: to_capture
+    status: active
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-119a1c97b316a62a9b718b27262ad8e4c57103d43725c58002f6f84dea6f43ec
@@ -910,7 +910,7 @@ sources:
     year: null
     license: captured_for_internal_review
     archived_at: automecanik-raw/sources/auto-captures/divers/dacia-fr-wl-dacia-histoire-20261021-6e686270.md
-    status: to_capture
+    status: active
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-6e6862706beb285ac482547f430d699a5d4f49e3371ca000fbdc341ac1525574

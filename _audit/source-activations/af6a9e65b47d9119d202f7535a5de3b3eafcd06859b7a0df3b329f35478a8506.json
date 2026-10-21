@@ -1,0 +1,256 @@
+{
+  "payload": {
+    "version": 1,
+    "wiki_base": "3c648f36ac9b4d5c6b16bfcdd473754051b05258",
+    "raw_repo": "ak125/automecanik-raw",
+    "raw_sha": "324189b90ebefdbfd67762625caecab8265d85b2",
+    "input_digest": "af6a9e65b47d9119d202f7535a5de3b3eafcd06859b7a0df3b329f35478a8506",
+    "transitions": {
+      "hella_techworld_egr_20261021": {
+        "before": {
+          "slug": "hella_techworld_egr_20261021",
+          "title": "Recirculation des gaz d\u2019\u00e9chappement \u2014 structure et diagnostic",
+          "publisher": "HELLA TECH WORLD",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/vanne-egr/hella-com-wl-vanne-egr-hella-techworld-20261021-f554b26e.md",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-f554b26e16d46573237101658c4b28a414f7c8b92f2d48417cf3db1ffa42f08a",
+            "expected_sha256": "sha256:c5677fb24a31ddd751268b856812e5920d908cb501d8790499b03277f88e3907"
+          },
+          "notes": "Archive existante et v\u00e9rifi\u00e9e, pas approbation \u00e9ditoriale. Capture level 2, license_status unknown. Confiance medium ; examen humain restant. Le type du catalogue d\u00e9crit le contenu lu, le type de capture h\u00e9rit\u00e9 de la politique du domaine reste intact. Une seconde preuve ind\u00e9pendante, les droits d\u2019usage, les crit\u00e8res de choix et les sympt\u00f4mes contextualis\u00e9s restent \u00e0 qualifier. Aucune relation diagnostic DB ni compatibilit\u00e9 pr\u00e9cise ajout\u00e9e."
+        },
+        "after": {
+          "slug": "hella_techworld_egr_20261021",
+          "title": "Recirculation des gaz d\u2019\u00e9chappement \u2014 structure et diagnostic",
+          "publisher": "HELLA TECH WORLD",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/vanne-egr/hella-com-wl-vanne-egr-hella-techworld-20261021-f554b26e.md",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-f554b26e16d46573237101658c4b28a414f7c8b92f2d48417cf3db1ffa42f08a",
+            "expected_sha256": "sha256:c5677fb24a31ddd751268b856812e5920d908cb501d8790499b03277f88e3907"
+          },
+          "notes": "Archive existante et v\u00e9rifi\u00e9e, pas approbation \u00e9ditoriale. Capture level 2, license_status unknown. Confiance medium ; examen humain restant. Le type du catalogue d\u00e9crit le contenu lu, le type de capture h\u00e9rit\u00e9 de la politique du domaine reste intact. Une seconde preuve ind\u00e9pendante, les droits d\u2019usage, les crit\u00e8res de choix et les sympt\u00f4mes contextualis\u00e9s restent \u00e0 qualifier. Aucune relation diagnostic DB ni compatibilit\u00e9 pr\u00e9cise ajout\u00e9e."
+        }
+      },
+      "hella_techworld_refroidissement_20261021": {
+        "before": {
+          "slug": "hella_techworld_refroidissement_20261021",
+          "title": "Refroidissement moteur \u2014 structure et fonctionnement",
+          "publisher": "HELLA TECH WORLD",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/thermostat/hella-com-wl-thermostat-hella-20261021-65248188.md",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-65248188708728828e2906a82b74260bdcb527c0027768f6022ee88aefa93fad",
+            "expected_sha256": "sha256:b3bd187cda7333c5fe2b58c28ba2d4c6bb42650763bb20ddc7e9859b946c3fd3"
+          },
+          "notes": "Archive existante et v\u00e9rifi\u00e9e, pas approbation \u00e9ditoriale. Capture level 2, license_status unknown. Confiance medium ; examen humain restant. Le type du catalogue d\u00e9crit le contenu lu, le type de capture h\u00e9rit\u00e9 de la politique du domaine reste intact. La capture d\u00e9crit le fonctionnement, pas une liste de sympt\u00f4mes propres au thermostat. Diagnostic, choix selon v\u00e9hicule, entretien, FAQ et seconde preuve ind\u00e9pendante restent \u00e0 documenter. Aucun seuil num\u00e9rique ajout\u00e9."
+        },
+        "after": {
+          "slug": "hella_techworld_refroidissement_20261021",
+          "title": "Refroidissement moteur \u2014 structure et fonctionnement",
+          "publisher": "HELLA TECH WORLD",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/thermostat/hella-com-wl-thermostat-hella-20261021-65248188.md",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-65248188708728828e2906a82b74260bdcb527c0027768f6022ee88aefa93fad",
+            "expected_sha256": "sha256:b3bd187cda7333c5fe2b58c28ba2d4c6bb42650763bb20ddc7e9859b946c3fd3"
+          },
+          "notes": "Archive existante et v\u00e9rifi\u00e9e, pas approbation \u00e9ditoriale. Capture level 2, license_status unknown. Confiance medium ; examen humain restant. Le type du catalogue d\u00e9crit le contenu lu, le type de capture h\u00e9rit\u00e9 de la politique du domaine reste intact. La capture d\u00e9crit le fonctionnement, pas une liste de sympt\u00f4mes propres au thermostat. Diagnostic, choix selon v\u00e9hicule, entretien, FAQ et seconde preuve ind\u00e9pendante restent \u00e0 documenter. Aucun seuil num\u00e9rique ajout\u00e9."
+        }
+      },
+      "zf_supports_moteur_presentation_20261021": {
+        "before": {
+          "slug": "zf_supports_moteur_presentation_20261021",
+          "title": "Driveline Components \u2014 fonctions et types de supports",
+          "publisher": "ZF Aftermarket (LEMF\u00d6RDER)",
+          "type": "brochure",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/support-moteur/aftermarket-zf-com-wl-support-moteur-zf-20261021-9f6d624a.md",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-9f6d624a71823311c09c3ff308b0c2ea7b93a1e3f20ee557fcaabcc8489c9521",
+            "expected_sha256": "sha256:57c884bc6e09b7eddde754b1cace92a5160dcf960d928c5685cd9b6cfc96233c"
+          },
+          "notes": "Archive existante et v\u00e9rifi\u00e9e, pas approbation \u00e9ditoriale. Capture level 2, license_status unknown. Confiance medium ; examen humain restant. Le type du catalogue d\u00e9crit le contenu lu, le type de capture h\u00e9rit\u00e9 de la politique du domaine reste intact. La page ZF est une pr\u00e9sentation produit : corroboration descriptive seulement, aucune preuve de diagnostic ou de compatibilit\u00e9. Sympt\u00f4mes, choix, entretien, FAQ et preuves d\u2019atelier ind\u00e9pendantes restent \u00e0 obtenir."
+        },
+        "after": {
+          "slug": "zf_supports_moteur_presentation_20261021",
+          "title": "Driveline Components \u2014 fonctions et types de supports",
+          "publisher": "ZF Aftermarket (LEMF\u00d6RDER)",
+          "type": "brochure",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/support-moteur/aftermarket-zf-com-wl-support-moteur-zf-20261021-9f6d624a.md",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-9f6d624a71823311c09c3ff308b0c2ea7b93a1e3f20ee557fcaabcc8489c9521",
+            "expected_sha256": "sha256:57c884bc6e09b7eddde754b1cace92a5160dcf960d928c5685cd9b6cfc96233c"
+          },
+          "notes": "Archive existante et v\u00e9rifi\u00e9e, pas approbation \u00e9ditoriale. Capture level 2, license_status unknown. Confiance medium ; examen humain restant. Le type du catalogue d\u00e9crit le contenu lu, le type de capture h\u00e9rit\u00e9 de la politique du domaine reste intact. La page ZF est une pr\u00e9sentation produit : corroboration descriptive seulement, aucune preuve de diagnostic ou de compatibilit\u00e9. Sympt\u00f4mes, choix, entretien, FAQ et preuves d\u2019atelier ind\u00e9pendantes restent \u00e0 obtenir."
+        }
+      },
+      "hella_poulie_alternateur_20261021": {
+        "before": {
+          "slug": "hella_poulie_alternateur_20261021",
+          "title": "Fonctionnement et pose de la poulie roue libre d\u2019alternateur",
+          "publisher": "HELLA TECH WORLD",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/courroie-d-accessoire/hella-com-wl-hella-poulie-20261021-bd0c1873.md",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-bd0c18734ceb758f98f0ee4fc521810360b1d03f649989bc1f4a4afaad91e13e",
+            "expected_sha256": "sha256:fb485f82f9e87e17c47146ee141771b483d3d0c41f98382301696b3c157b59ac"
+          },
+          "notes": "Passage technique primaire archive. Capture level 2, droits unknown ; aucune approbation globale. Confiance medium. Aucun chiffre de montage repris."
+        },
+        "after": {
+          "slug": "hella_poulie_alternateur_20261021",
+          "title": "Fonctionnement et pose de la poulie roue libre d\u2019alternateur",
+          "publisher": "HELLA TECH WORLD",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/courroie-d-accessoire/hella-com-wl-hella-poulie-20261021-bd0c1873.md",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-bd0c18734ceb758f98f0ee4fc521810360b1d03f649989bc1f4a4afaad91e13e",
+            "expected_sha256": "sha256:fb485f82f9e87e17c47146ee141771b483d3d0c41f98382301696b3c157b59ac"
+          },
+          "notes": "Passage technique primaire archive. Capture level 2, droits unknown ; aucune approbation globale. Confiance medium. Aucun chiffre de montage repris."
+        }
+      },
+      "hella_disques_frein_20261021": {
+        "before": {
+          "slug": "hella_disques_frein_20261021",
+          "title": "Remplacer les disques, plaquettes et \u00e9triers de frein",
+          "publisher": "HELLA TECH WORLD",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/disque-de-frein/hella-com-wl-hella-disques-20261021-eb410e50.md",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-eb410e50c4627a7fd181b73a851145d99bc0f04c7106f3c38192ac2e509c0285",
+            "expected_sha256": "sha256:665683c3441e6f45ae07ef85e393f48277fb5a7981ec94a5495539c55a51f7ca"
+          },
+          "notes": "Passage technique primaire archive. Capture level 2, droits unknown ; aucune approbation globale. Confiance medium. Aucun chiffre de montage repris."
+        },
+        "after": {
+          "slug": "hella_disques_frein_20261021",
+          "title": "Remplacer les disques, plaquettes et \u00e9triers de frein",
+          "publisher": "HELLA TECH WORLD",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/disque-de-frein/hella-com-wl-hella-disques-20261021-eb410e50.md",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-eb410e50c4627a7fd181b73a851145d99bc0f04c7106f3c38192ac2e509c0285",
+            "expected_sha256": "sha256:665683c3441e6f45ae07ef85e393f48277fb5a7981ec94a5495539c55a51f7ca"
+          },
+          "notes": "Passage technique primaire archive. Capture level 2, droits unknown ; aucune approbation globale. Confiance medium. Aucun chiffre de montage repris."
+        }
+      },
+      "brembo_epaisseur_disque_20261021": {
+        "before": {
+          "slug": "brembo_epaisseur_disque_20261021",
+          "title": "L\u2019\u00e9paisseur minimale du disque de frein",
+          "publisher": "Brembo",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/disque-de-frein/asia-bremboparts-com-wl-brembo-epaisseur-20261021-119a1c97.md",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-119a1c97b316a62a9b718b27262ad8e4c57103d43725c58002f6f84dea6f43ec",
+            "expected_sha256": "sha256:04d85d5782f1cf454f0d8e58eddf3b7665f697c83f57639f3a53533c52212c1b"
+          },
+          "notes": "Passage technique primaire archive. Capture level 2, droits unknown ; aucune approbation globale. Confiance medium. Aucun chiffre de montage repris."
+        },
+        "after": {
+          "slug": "brembo_epaisseur_disque_20261021",
+          "title": "L\u2019\u00e9paisseur minimale du disque de frein",
+          "publisher": "Brembo",
+          "type": "oem_workshop",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/disque-de-frein/asia-bremboparts-com-wl-brembo-epaisseur-20261021-119a1c97.md",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-119a1c97b316a62a9b718b27262ad8e4c57103d43725c58002f6f84dea6f43ec",
+            "expected_sha256": "sha256:04d85d5782f1cf454f0d8e58eddf3b7665f697c83f57639f3a53533c52212c1b"
+          },
+          "notes": "Passage technique primaire archive. Capture level 2, droits unknown ; aucune approbation globale. Confiance medium. Aucun chiffre de montage repris."
+        }
+      },
+      "dacia_histoire_officielle_20261021": {
+        "before": {
+          "slug": "dacia_histoire_officielle_20261021",
+          "title": "Histoire de la marque Dacia",
+          "publisher": "Dacia",
+          "type": "brochure",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/divers/dacia-fr-wl-dacia-histoire-20261021-6e686270.md",
+          "status": "to_capture",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-6e6862706beb285ac482547f430d699a5d4f49e3371ca000fbdc341ac1525574",
+            "expected_sha256": "sha256:bab11f800ca9099cbcdb25a14c6d27152a998716c46b134e9b1d698c22a468a9"
+          },
+          "notes": "Histoire de marque officielle : corroboration factuelle medium, pas documentation technique. Capture level 2 et droits unknown conserves. Ne prouve aucune compatibilite ni politique entretien."
+        },
+        "after": {
+          "slug": "dacia_histoire_officielle_20261021",
+          "title": "Histoire de la marque Dacia",
+          "publisher": "Dacia",
+          "type": "brochure",
+          "year": null,
+          "license": "captured_for_internal_review",
+          "archived_at": "automecanik-raw/sources/auto-captures/divers/dacia-fr-wl-dacia-histoire-20261021-6e686270.md",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-6e6862706beb285ac482547f430d699a5d4f49e3371ca000fbdc341ac1525574",
+            "expected_sha256": "sha256:bab11f800ca9099cbcdb25a14c6d27152a998716c46b134e9b1d698c22a468a9"
+          },
+          "notes": "Histoire de marque officielle : corroboration factuelle medium, pas documentation technique. Capture level 2 et droits unknown conserves. Ne prouve aucune compatibilite ni politique entretien."
+        }
+      }
+    },
+    "gate": [
+      "quality-gates.py",
+      "--cross-repo"
+    ],
+    "gate_output": "\ncross-repo source-catalog gate \u2014 0 FAIL \u2014 0 WARN (22 entr\u00e9es active v\u00e9rifi\u00e9es, ancres de 0 fiche(s) du canon v\u00e9rifi\u00e9es)\n",
+    "gate_returncode": 0
+  },
+  "signature": "-----BEGIN SSH SIGNATURE-----\nU1NIU0lHAAAAAQAAADMAAAALc3NoLWVkMjU1MTkAAAAg1J3PpmfFNKkLMCe3v5SJVhp1/C\nfco3n+Y3b8cojimR0AAAAhc291cmNlLWFjdGl2YXRpb25AYXV0b21lY2FuaWsuY29tAAAA\nAAAAAAZzaGE1MTIAAABTAAAAC3NzaC1lZDI1NTE5AAAAQB7iCoo8UiT3C46vQ479NPAD03\nZfkJj5oPZ4kvQl1LZuJ2Wq39yAIGPE4jp6B9x3gKyFyMM/pDdb+puz0oQ2qws=\n-----END SSH SIGNATURE-----\n"
+}

@@ -918,3 +918,144 @@ sources:
     notes: 'Histoire de marque officielle : corroboration factuelle medium, pas documentation
       technique. Capture level 2 et droits unknown conserves. Ne prouve aucune compatibilite
       ni politique entretien.'
+
+  # ════════════════════════════════════════════════════════════════════
+  # Filtre à air (pg_id 8) — relation « filtre colmaté → perte de puissance »
+  # (perte_puissance_filtration, ADR-116 : trois éditeurs de preuve distincts).
+  # Captures RAW du 2026-10-21 : RAW #72 (Delphi, MAHLE, HELLA) ; Garrett en PR
+  # séparée après RAW #73 (allowlist). to_capture tant que les captures ne sont
+  # pas sur main du RAW ; l'activation reste un acte owner (reçu signé).
+  # ════════════════════════════════════════════════════════════════════
+
+  - slug: delphi_filtre_air_debitmetre_20261022
+    title: 'Delphi Technologies — Protéger le débitmètre d''air (MAF) par un filtre à air propre'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Delphi Technologies'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-7dcb9723b96f69562f4d7bb4ac99470ff16b7170e2602793bb907259b7d2fbd5
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/delphiautoparts-com-wl-filtre-a-air-delphi-maf-20261022-7dcb9723.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Article technique d'équipementier, rubrique Technical Center (capture RAW
+      2026-10-21, sha256:00e8b895…, RAW #72).
+      URL canonique : https://www.delphiautoparts.com/resource-center/article/protect-your-maf-sensor-with-a-clean-air-filter
+      Type oem_manual : celui de l'autre page Delphi du catalogue.
+      Passages retenus : sous « Symptoms of a dirty filter », « A visual
+      inspection of the filter will show if it is dirty, but there are other
+      signs when the engine is running that tells you if it needs to be
+      replaced. », puis une liste d'un signe par ligne, dont `Loss of power`
+      (entre `Poor fuel economy` et `Engine misfire`) ; un filtre colmaté, de
+      mauvaise qualité ou sale peut endommager le débitmètre (MAF) si des
+      contaminants le contournent ; remplacement une fois dépassé le
+      kilométrage recommandé par le manuel du propriétaire, éventuellement
+      plus souvent en cas de conduite fréquente sur routes de terre ou de
+      gravier.
+      Ne fonde PAS : un ordre de fréquence des signes, un seuil de colmatage,
+      un intervalle chiffré, ni que la perte de puissance vienne du seul
+      filtre. `Loss of power` est une ligne séparée de la phrase qui
+      l'introduit : la citation la reprend telle quelle, et son ancrage est
+      vérifié par la porte de citation.
+      Licence : la capture RAW porte license: null, license_status: unknown ;
+      valeur alignée sur les autres captures (revue interne).
+
+  - slug: mahle_turbo_perte_puissance_20261022
+    title: 'MAHLE Aftermarket — Pourquoi un turbocompresseur perd de la puissance'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'MAHLE Aftermarket'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-2c6bceb4c85fa0bd682cd307164254e64abb3cbbb0d08d08a54bb60980b0ec12
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/workshop-heroes-mahle-com-wl-filtre-a-air-mahle-turbo-202610-2c6bceb4.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Article atelier d'équipementier, portail Workshop Heroes (capture RAW
+      2026-10-21, sha256:2c31e83d…, RAW #72).
+      URL canonique : https://workshop-heroes.mahle.com/en/article/turbochargers-lose-power
+      Type oem_manual : celui de l'autre page MAHLE du catalogue, dont la note
+      relève que la prose §9.1 pourrait classer ce genre de page en brochure.
+      Passages retenus : « A clogged air filter will also prevent a
+      turbocharger from performing to its maximum potential: if the
+      turbocharger cannot breathe freely, it cannot build up the full boost
+      pressure! » ; action requise : remplacer le filtre à air régulièrement,
+      pour éviter des dommages au compresseur par des corps étrangers. Le lien
+      avec la perte de puissance passe par la pression de suralimentation
+      (titre et introduction de la page).
+      Portée : moteurs suralimentés seulement.
+      Ne fonde PAS : la relation sur un moteur atmosphérique, un intervalle de
+      remplacement, ni un ordre parmi les autres causes de la page
+      (compresseur, circuit d'air de suralimentation, turbine, échappement,
+      pilotage, calibrage).
+      Licence : la capture RAW porte license: null, license_status: unknown ;
+      valeur alignée sur les autres captures (revue interne).
+
+  - slug: hella_techworld_filtres_air_gamme_20261022
+    title: 'HELLA TECH WORLD — Filtres à air (page de gamme)'
+    type: marketing                             # → max confidence: medium, corroboration
+    publisher: HELLA TECH WORLD
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-67bfbd42706c28974049131d0fc3b78e8580f244e19cdd14b63146cbbc620e0a
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/hella-com-wl-filtre-a-air-hella-20261022-67bfbd42.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Page de gamme d'équipementier (capture RAW 2026-10-21, sha256:08ae8ce5…,
+      RAW #72).
+      URL canonique : https://www.hella.com/techworld/en/car-parts/filters/air-filters/
+      Type marketing (corroboration) : la page est une présentation commerciale
+      (« Premium Quality », recherche de pièces, revendeur, offre de services)
+      avec une courte partie « How does it work? » et « Why and when to
+      replace? ». Les autres pages HELLA TECH WORLD du catalogue sont des pages
+      techniques typées oem_workshop ; l'éditeur ne rend pas cette page-ci
+      probante.
+      Passages retenus (partie technique seulement) : « Reduced Engine Output:
+      A dirty or clogged filter reduces air intake, leading to poor
+      combustion, sluggish performance, and increased fuel consumption. » ;
+      filtre placé avant le débitmètre (MAF).
+      Ne fonde PAS : à elle seule, aucune affirmation de la fiche ; aucun
+      argument promotionnel de la page.
+      Licence : la capture RAW porte license: null, license_status: unknown ;
+      valeur alignée sur les autres captures (revue interne).
+
+  - slug: garrett_diagnostic_turbo_20261022
+    title: 'Garrett Motion — Diagnostic d''un turbocompresseur avant remplacement'
+    type: oem_workshop                          # → max confidence: high
+    publisher: 'Garrett Motion'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-66489c27e97091d8c4c3c1a4d8f1f7ea43dd0beff87ded017f102ed81e500d57
+      expected_sha256: null
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/garrettmotion-com-wl-filtre-a-air-garrett-turbo-20261022-66489c27.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Page de diagnostic d'un fabricant de turbocompresseurs (capture RAW
+      2026-10-21, sha256:18149bcc… ; domaine ouvert par RAW #73, capture en PR
+      séparée). Éditeur nouveau au catalogue.
+      URL canonique : https://www.garrettmotion.com/turbo-replacement/turbo-diagnostics/
+      Type oem_workshop : fiche technique de diagnostic, comme les pages
+      techniques HELLA TECH WORLD et Brembo du catalogue.
+      Passages retenus : « A lack of power, noisy performance or excessive
+      smoke or oil consumption could result from a faulty fuel injection
+      system, restricted or blocked air filters, a damaged exhaust system or a
+      lubrication problem. » ; sous « EXCESSIVE SMOKE OR OIL CONSUMPTION » :
+      « Check that air filters are not restricted or blocked ».
+      Portée : moteurs suralimentés seulement. La phrase énumère plusieurs
+      symptômes et plusieurs causes : elle fonde une cause possible, pas une
+      cause unique.
+      Ne fonde PAS : que la perte de puissance vienne du filtre plutôt que
+      d'une autre cause de la liste. Sous « LACK OF POWER », la ligne « Check
+      that filter, hoses and pipes are clean and in good condition » ne dit
+      pas de quel filtre il s'agit : elle n'est pas retenue.
+      Licence : la capture RAW porte license: null, license_status: unknown ;
+      valeur alignée sur les autres captures (revue interne).

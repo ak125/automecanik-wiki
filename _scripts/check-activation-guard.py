@@ -9,7 +9,9 @@ seule NE PEUT PAS vérifier (aucun credential cross-repo secretless vers le repo
 
 Le seul chemin autorisé pour activer est le flux GOUVERNÉ d'activation qui exécute `--cross-repo`
 AVANT la mutation. Ce guard fail-closed empêche le contournement de ce chemin par ÉDITION
-DIRECTE. Il ne nécessite AUCUN accès au repo RAW : il compare seulement l'état du catalog wiki
+DIRECTE sans reçu signé. Le reçu lie les octets contrôlés et les transitions exactes,
+avec une clé de confiance déjà présente dans la base Git. Aucun accès RAW en CI.
+Le garde compare l'état du catalog wiki
 entre une base git et le head.
 
 Ré-épingler une source déjà `active` (`raw_ref` changé) est une activation (ADR-116 D4 d) : la
@@ -100,6 +102,16 @@ def main() -> int:
     illicit = find_illicit_activations(base, head)
 
     if illicit:
+        # A receipt is trusted only with a key already present in the Git base.
+        # No RAW credential or caller-supplied PASS is accepted in this guard.
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            from activation_receipt import verify_activation
+            slugs = verify_activation(REPO_ROOT, args.base)
+            print(f"PASS activation-guard: reçu signé vérifié pour {len(slugs)} activation(s), base={args.base}")
+            return 0
+        except (ValueError, KeyError, TypeError, OSError, subprocess.SubprocessError) as error:
+            print(f"Activation receipt rejected: {error}")
         print("FAIL activation-guard: activation d'une source interdite par édition directe :")
         for msg in illicit:
             print(f"  - {msg}")

@@ -18,6 +18,14 @@ Ré-épingler une source déjà `active` (`raw_ref` changé) est une activation 
 nouvelle archive devient la preuve, et les ancres des fiches qui la citent doivent être
 revérifiées par `--cross-repo` avant la mutation, sinon une ancre casserait en silence.
 
+Requalifier une source déjà `active` (`type` ou `publisher` changé) est aussi une activation : le
+`type` donne le rôle (`proof` ou `corroboration`) et le plafond de confiance, le `publisher`
+l'éditeur compté pour l'indépendance des preuves (ADR-114 D3, ADR-116 D2). Le reçu signé portait
+l'ancienne ligne ; sans ce contrôle, une brochure deviendrait une preuve, ou un éditeur scindé
+compterait deux fois, sans signature. Chemin gouverné : repasser la source en `to_capture`
+(libre), puis l'activer par le flux gouverné. Les champs d'autorité (`AUTHORITY_FIELDS`) et leur
+comparaison (`requalified_fields`) sont ceux du reçu : une seule définition de l'activation.
+
 Usage :
   check-activation-guard.py --base origin/main   # CI wiki, pull_request (fetch-depth: 0)
   check-activation-guard.py --base <before-sha>  # CI wiki, push main (github.event.before)
@@ -31,6 +39,9 @@ import sys
 from pathlib import Path
 
 import yaml
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from activation_receipt import requalified_fields, verify_activation  # noqa: E402
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 CATALOG_REL = "_meta/source-catalog.yaml"
@@ -51,8 +62,9 @@ def _entries_by_slug(yaml_text: str) -> dict[str, dict]:
 
 def find_illicit_activations(base_entries: dict, head_entries: dict) -> list[str]:
     """Activations interdites par édition directe : une entrée `active` côté head qui, côté
-    base, était non-`active` (transition), absente (nouvelle active), ou `active` avec un autre
-    `raw_ref` (ré-épingle, ADR-116 D4 d). Désactivation, suppression, retrait du `raw_ref`, et
+    base, était non-`active` (transition), absente (nouvelle active), ou `active` avec un champ
+    d'autorité posé ou changé (`raw_ref` : ré-épingle, ADR-116 D4 d ; `type`, `publisher` :
+    requalification). Désactivation, suppression, retrait d'un champ d'autorité, et
     to_capture inchangé/nouveau = autorisés (pas une création de preuve active)."""
     illicit: list[str] = []
     for slug, head in head_entries.items():
@@ -63,9 +75,10 @@ def find_illicit_activations(base_entries: dict, head_entries: dict) -> list[str
             illicit.append(f"{slug}: nouvelle entrée `active` créée par édition directe")
         elif _status(base) != "active":
             illicit.append(f"{slug}: transition {_status(base)}→active par édition directe")
-        elif head.get("raw_ref") and head.get("raw_ref") != base.get("raw_ref"):
-            illicit.append(f"{slug}: raw_ref d'une entrée déjà `active` changé par édition directe "
-                           "(ré-épingle = activation, ADR-116 D4 d)")
+        elif changed := requalified_fields(base, head):
+            illicit.append(f"{slug}: {', '.join(changed)} d'une entrée déjà `active` changé par "
+                           "édition directe (ré-épingle ou requalification = activation, "
+                           "ADR-116 D4 d, ADR-114 D3)")
     return illicit
 
 
@@ -105,8 +118,6 @@ def main() -> int:
         # A receipt is trusted only with a key already present in the Git base.
         # No RAW credential or caller-supplied PASS is accepted in this guard.
         try:
-            sys.path.insert(0, str(Path(__file__).resolve().parent))
-            from activation_receipt import verify_activation
             slugs = verify_activation(REPO_ROOT, args.base)
             print(f"PASS activation-guard: reçu signé vérifié pour {len(slugs)} activation(s), base={args.base}")
             return 0
@@ -116,12 +127,13 @@ def main() -> int:
         for msg in illicit:
             print(f"  - {msg}")
         print(
-            "\nUne transition to_capture→active (ou une nouvelle entrée active, ou un raw_ref\n"
-            "changé sur une entrée active) crée une PREUVE\n"
+            "\nUne transition to_capture→active (ou une nouvelle entrée active, ou un raw_ref,\n"
+            "un type ou un publisher changé sur une entrée active) crée une PREUVE\n"
             "active dont la validité exige le gate cross-repo (`quality-gates.py --cross-repo`,\n"
             "les 2 repos wiki+raw présents et frais) — non vérifiable par la CI wiki seule.\n"
             "Active UNIQUEMENT via le flux gouverné d'activation (qui exécute --cross-repo AVANT\n"
-            "la mutation). Ce guard same-repo ne nécessite aucun accès au repo RAW."
+            "la mutation) ; pour requalifier, repasser d'abord la source en to_capture.\n"
+            "Ce guard same-repo ne nécessite aucun accès au repo RAW."
         )
         return 1
 

@@ -24,14 +24,16 @@ _spec = importlib.util.spec_from_file_location(
 )
 guard = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(guard)
+import activation_receipt  # noqa: E402 — importable via le chemin posé par le guard
 
 
-def _e(slug: str, status: str | None = None, raw_ref: dict | None = None) -> dict:
+def _e(slug: str, status: str | None = None, raw_ref: dict | None = None, **fields) -> dict:
     e = {"slug": slug}
     if status is not None:
         e["status"] = status
     if raw_ref is not None:
         e["raw_ref"] = raw_ref
+    e.update(fields)
     return e
 
 
@@ -97,6 +99,95 @@ def test_active_raw_ref_removed_not_flagged():
     base = {"s": _e("s", "active", _ref("a"))}
     head = {"s": _e("s", "active")}
     assert guard.find_illicit_activations(base, head) == []
+
+
+# Requalification d'une source déjà active : le `type` donne le rôle (`proof`/`corroboration`) et
+# le plafond de confiance, le `publisher` l'éditeur compté pour l'indépendance (ADR-114 D3).
+def _proof(slug: str = "s", **fields) -> dict:
+    return {**_e(slug, "active", _ref("a"), type="oem_workshop", publisher="Éditeur A"), **fields}
+
+
+@pytest.mark.parametrize("field, value", [
+    ("type", "oem_manual"),            # preuve → autre preuve
+    ("publisher", "Éditeur B"),        # éditeur scindé : compterait comme un éditeur de plus
+    ("publisher", "éditeur a"),        # même clé normalisée : changement de texte quand même signé
+])
+def test_active_authority_field_change_flagged(field, value):
+    base = {"s": _proof()}
+    head = {"s": _proof(**{field: value})}
+    illicit = guard.find_illicit_activations(base, head)
+    assert len(illicit) == 1 and field in illicit[0] and "requalification" in illicit[0], illicit
+
+
+def test_corroboration_retyped_as_proof_flagged():
+    base = {"s": _proof(type="brochure")}
+    head = {"s": _proof(type="oem_workshop")}
+    assert guard.find_illicit_activations(base, head)
+
+
+def test_publisher_set_on_active_entry_flagged():
+    # éditeur absent = non compté (publisher_absent) → éditeur posé : création d'une preuve comptée
+    base = {"s": _e("s", "active", _ref("a"), type="oem_workshop")}
+    head = {"s": _proof()}
+    assert guard.find_illicit_activations(base, head)
+
+
+def test_type_and_raw_ref_changed_together_reported_once():
+    base = {"s": _proof()}
+    head = {"s": _proof(type="normative_standard", raw_ref=_ref("b"))}
+    illicit = guard.find_illicit_activations(base, head)
+    assert len(illicit) == 1 and "raw_ref" in illicit[0] and "type" in illicit[0], illicit
+
+
+def test_publisher_removed_not_flagged():
+    # retrait = l'éditeur n'est plus compté : aucune preuve créée, comme le retrait du raw_ref
+    base = {"s": _proof()}
+    head = {"s": {k: v for k, v in _proof().items() if k != "publisher"}}
+    assert guard.find_illicit_activations(base, head) == []
+
+
+def test_descriptive_fields_change_not_flagged():
+    base = {"s": _proof(title="Titre", notes="n", license="third_party_extract", year=2020)}
+    head = {"s": _proof(title="Titre corrigé", notes="n2", license="captured_for_internal_review", year=2021)}
+    assert guard.find_illicit_activations(base, head) == []
+
+
+def test_requalification_with_demotion_not_flagged():
+    # chemin gouverné : repasser en to_capture (libre), puis activer par le flux signé
+    base = {"s": _proof(type="brochure")}
+    head = {"s": _proof(status="to_capture", type="oem_workshop", publisher="Éditeur B")}
+    assert guard.find_illicit_activations(base, head) == []
+
+
+def test_to_capture_requalification_not_flagged():
+    base = {"s": _proof(status="to_capture", type="brochure")}
+    head = {"s": _proof(status="to_capture", type="oem_workshop")}
+    assert guard.find_illicit_activations(base, head) == []
+
+
+# Une seule définition de l'activation : le guard signale exactement les slugs que le reçu doit
+# couvrir (`activation_receipt.transitions`). Une divergence ferait passer un reçu qui ne couvre
+# pas tout ce que le guard signale, ou exigerait un reçu impossible à émettre.
+_MATRIX = [
+    ({}, {"s": _proof()}),
+    ({"s": _proof(status="to_capture")}, {"s": _proof()}),
+    ({"s": _proof()}, {"s": _proof()}),
+    ({"s": _proof()}, {"s": _proof(raw_ref=_ref("b"))}),
+    ({"s": _proof()}, {"s": _proof(type="brochure")}),
+    ({"s": _proof(type="brochure")}, {"s": _proof()}),
+    ({"s": _proof()}, {"s": _proof(publisher="Éditeur B")}),
+    ({"s": _proof()}, {"s": {k: v for k, v in _proof().items() if k != "publisher"}}),
+    ({"s": _proof()}, {"s": _proof(status="to_capture", type="brochure")}),
+    ({"s": _proof()}, {"s": _proof(title="autre")}),
+    ({"s": _proof()}, {}),
+    ({"s": _proof(), "t": _proof("t", type="brochure")}, {"s": _proof(), "t": _proof("t")}),
+]
+
+
+@pytest.mark.parametrize("base, head", _MATRIX)
+def test_guard_and_receipt_agree_on_activations(base, head):
+    flagged = {m.split(":", 1)[0] for m in guard.find_illicit_activations(base, head)}
+    assert flagged == set(activation_receipt.transitions(base, head))
 
 
 def test_to_capture_raw_ref_change_not_flagged():
@@ -174,6 +265,12 @@ def _main(monkeypatch: pytest.MonkeyPatch, base: str) -> int:
 def test_main_flags_activation_pushed_between_two_commits(repo, monkeypatch):
     before = _commit_catalog(repo, [_e("s", "to_capture")])
     _commit_catalog(repo, [_e("s", "active")])
+    assert _main(monkeypatch, before) == 1
+
+
+def test_main_flags_requalification_pushed_between_two_commits(repo, monkeypatch):
+    before = _commit_catalog(repo, [_proof(type="brochure")])
+    _commit_catalog(repo, [_proof()])
     assert _main(monkeypatch, before) == 1
 
 

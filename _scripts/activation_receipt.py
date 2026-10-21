@@ -21,6 +21,9 @@ RECEIPTS = '_audit/source-activations'
 PRINCIPAL = 'source-activation'
 NAMESPACE = 'source-activation@automecanik.com'
 GATE = ['quality-gates.py', '--cross-repo']
+# Fields that give an active source its authority: the RAW proof (raw_ref), the role and
+# confidence ceiling (type) and the identity counted for proof independence (publisher).
+AUTHORITY_FIELDS = ('raw_ref', 'type', 'publisher')
 
 
 def canonical(value):
@@ -46,12 +49,18 @@ def entries(text):
     return result
 
 
+def requalified_fields(before, after):
+    """Authority fields set or changed on a row; removing one creates no authority."""
+    return [field for field in AUTHORITY_FIELDS
+            if after.get(field) and after.get(field) != before.get(field)]
+
+
 def transitions(before, after):
     return {slug: {'before': before.get(slug), 'after': row}
             for slug, row in after.items()
             if row.get('status', 'active') == 'active' and
             (slug not in before or before[slug].get('status', 'active') != 'active' or
-             (row.get('raw_ref') and row.get('raw_ref') != before[slug].get('raw_ref')))}
+             requalified_fields(before[slug], row))}
 
 
 def input_files(root):

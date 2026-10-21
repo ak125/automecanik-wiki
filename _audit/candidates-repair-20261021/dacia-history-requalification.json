@@ -1,0 +1,77 @@
+{
+  "before_sha256": "99b103a814f7e17bb61878fb0fd9b59f40a8bef67bd24a74db316f3023d10725",
+  "previous_evidence": [
+    {
+      "claim_id": "dacia-uap-creation-1966-pitesti",
+      "section": "## Identité",
+      "text_anchor": "l'usine UAP (Uzina de Autoturisme Pitești), créée le 16 septembre 1966 à Pitești",
+      "source_slug": "wikipedia_fr_dacia",
+      "evidence_type": "wikipedia_factual",
+      "confidence": "low",
+      "source_policy": "manual_review",
+      "source_status": "captured"
+    },
+    {
+      "claim_id": "dacia-acquisition-renault-2-juillet-1999",
+      "section": "## Identité",
+      "text_anchor": "Par un contrat définitif signé le 2 juillet 1999, Renault a acquis les huit sociétés du groupe Dacia",
+      "source_slug": "wikipedia_fr_dacia",
+      "evidence_type": "wikipedia_factual",
+      "confidence": "low",
+      "source_policy": "manual_review",
+      "source_status": "captured"
+    },
+    {
+      "claim_id": "dacia-logan-lancement-2004-france-2005",
+      "section": "## Modèles principaux",
+      "text_anchor": "La Logan est lancée en septembre 2004 et commercialisée en France à partir du 9 juin 2005",
+      "source_slug": "wikipedia_fr_dacia",
+      "evidence_type": "wikipedia_factual",
+      "confidence": "low",
+      "source_policy": "manual_review",
+      "source_status": "captured"
+    },
+    {
+      "claim_id": "dacia-faq-uap-1966",
+      "section": "## FAQ",
+      "text_anchor": "L'usine UAP de Pitești, à l'origine de Dacia, a été créée le 16 septembre 1966",
+      "source_slug": "wikipedia_fr_dacia",
+      "evidence_type": "wikipedia_factual",
+      "confidence": "low",
+      "source_policy": "manual_review",
+      "source_status": "captured"
+    },
+    {
+      "claim_id": "dacia-faq-rachat-renault-1999",
+      "section": "## FAQ",
+      "text_anchor": "Renault a racheté Dacia le 2 juillet 1999, et la marque appartient depuis à Renault Group",
+      "source_slug": "wikipedia_fr_dacia",
+      "evidence_type": "wikipedia_factual",
+      "confidence": "low",
+      "source_policy": "manual_review",
+      "source_status": "captured"
+    }
+  ],
+  "replacements": [
+    [
+      "La marque trouve son origine dans l'usine UAP (Uzina de Autoturisme Pitești), créée le 16 septembre 1966 à Pitești et devenue Automobile Dacia SA en 1990.",
+      "L’histoire de la marque commence en Roumanie en 1966."
+    ],
+    [
+      "Par un contrat définitif signé le 2 juillet 1999, Renault a acquis les huit sociétés du groupe Dacia. Dacia est depuis une marque de Renault Group.",
+      "Renault rachète Dacia en 1999."
+    ],
+    [
+      "La Logan est lancée en septembre 2004 et commercialisée en France à partir du 9 juin 2005.",
+      "La Logan est lancée en 2004 et arrive en Europe occidentale en 2005."
+    ],
+    [
+      "L'usine UAP de Pitești, à l'origine de Dacia, a été créée le 16 septembre 1966.",
+      "L’histoire de la marque commence en Roumanie en 1966."
+    ],
+    [
+      "Renault a racheté Dacia le 2 juillet 1999, et la marque appartient depuis à Renault Group.",
+      "Renault rachète Dacia en 1999."
+    ]
+  ]
+}

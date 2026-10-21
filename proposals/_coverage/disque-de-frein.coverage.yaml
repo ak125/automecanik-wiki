@@ -1,6 +1,6 @@
 fiche: disque-de-frein
 schema_version: 1.0.0
-generated_at: '2026-10-11'
+generated_at: '2026-10-21'
 coverage_entries:
   # --- Page d'atelier d'équipementier « Brake Judder » (oem_workshop, EN) — to_capture ---
   # Capture RAW : sources/auto-captures/disque-de-frein/aftermarket-zf-com-wl-disque-de-frein-zf-broutement-c38b7a9a.md
@@ -646,3 +646,60 @@ coverage_entries:
     confidence: low
     source_policy: manual_review
     source_status: captured
+
+  - claim_id: disque-entretien-1-brembo-epaisseur-disque-20261021
+    section: '## Entretien et limite d’usure'
+    text_anchor: 'Le disque s’use lui aussi : l’usure des plaquettes ne suffit donc
+      pas à évaluer l’état du freinage. La documentation technique pré'
+    source_slug: brembo_epaisseur_disque_20261021
+    evidence_type: technical_article_paraphrase
+    confidence: medium
+    source_policy: manual_review
+    source_status: captured
+  - claim_id: disque-entretien-2-hella-disques-frein-20261021
+    section: '## Entretien et limite d’usure'
+    text_anchor: La mesure s’effectue en plusieurs points de la piste ; la plus faible
+      épaisseur mesurée est comparée à la limite MIN TH indiquée s
+    source_slug: hella_disques_frein_20261021
+    evidence_type: technical_article_paraphrase
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: captured
+  - claim_id: disque-entretien-2-brembo-epaisseur-disque-20261021
+    section: '## Entretien et limite d’usure'
+    text_anchor: La mesure s’effectue en plusieurs points de la piste ; la plus faible
+      épaisseur mesurée est comparée à la limite MIN TH indiquée s
+    source_slug: brembo_epaisseur_disque_20261021
+    evidence_type: technical_article_paraphrase
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: captured
+  - claim_id: disque-entretien-3-hella-disques-frein-20261021
+    section: '## Entretien et limite d’usure'
+    text_anchor: Les deux documents demandent le remplacement des disques par paire
+      sur le même essieu.
+    source_slug: hella_disques_frein_20261021
+    evidence_type: technical_article_paraphrase
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: captured
+  - claim_id: disque-entretien-3-brembo-epaisseur-disque-20261021
+    section: '## Entretien et limite d’usure'
+    text_anchor: Les deux documents demandent le remplacement des disques par paire
+      sur le même essieu.
+    source_slug: brembo_epaisseur_disque_20261021
+    evidence_type: technical_article_paraphrase
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: captured
+  - claim_id: disque-personnel-qualifie
+    section: '## Entretien et limite d’usure'
+    text_anchor: Le guide de réparation réserve les interventions à un personnel qualifié
+    source_slug: hella_disques_frein_20261021
+    evidence_type: technical_article_paraphrase
+    confidence: medium
+    source_policy: manual_review
+    source_status: captured
+
+notes: ' Lot 2 : preuves concordantes HELLA/Brembo sur MIN TH et remplacement par
+  paire ; le reste ne change pas de statut.'

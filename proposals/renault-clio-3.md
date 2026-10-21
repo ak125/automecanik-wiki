@@ -5,22 +5,22 @@ entity_type: vehicle
 slug: renault-clio-3
 title: Renault Clio 3
 aliases:
-  - Renault Clio III
-  - Clio III
-  - Clio 3
-  - clio-iii
-  - clio iii
+- Renault Clio III
+- Clio III
+- Clio 3
+- clio-iii
+- clio iii
 lang: fr
 created_at: '2026-04-29'
-updated_at: '2026-05-02'
+updated_at: '2026-10-21'
 truth_level: L3
 source_refs:
-  - kind: raw
-    path: recycled/rag-knowledge/vehicles/renault-clio-3.md
-    captured_at: '2026-04-29'
-  - kind: raw
-    path: recycled/rag-knowledge/vehicles/renault-clio-iii.md
-    captured_at: '2026-04-29'
+- kind: raw
+  path: recycled/rag-knowledge/vehicles/renault-clio-3.md
+  captured_at: '2026-04-29'
+- kind: raw
+  path: recycled/rag-knowledge/vehicles/renault-clio-iii.md
+  captured_at: '2026-04-29'
 provenance:
   ingested_by: skill:recycle-from-rag@v0.1
   promoted_from: null
@@ -29,98 +29,95 @@ parents: []
 review_status: proposed
 reviewed_by: null
 reviewed_at: null
-review_notes: |
-  Phase F batch ADR-031. Recyclé depuis automecanik-rag par recycle-from-rag.py.
-  Source body original sha256=e1d1c690e54224b47d8f597a195f0ace65314b59a053d2cdd975352db42af462.
-
-  Fusion 2026-05-02 (Phase 1 plan deja-verifier-existant) : doublon
-  renault-clio-iii.md arbitré vers ce slug arabe (canon dict romain/arabe —
-  PR #122 + vault #37). Blocs uniques caradisiac absorbés.
-
-  Phase 4 plan deja-verifier-existant 2026-05-02 :
-  - Sections H2 alignées sur ordre canon _templates/new-vehicle.md
-    (Présentation / Motorisations / Pièces compatibles (top gammes) /
-    Particularités d'entretien / Questions fréquentes / Sources et provenance /
-    Points à vérifier)
-  - Titre "Fiche véhicule - Renault Clio 3" → "Renault Clio 3" (FR canon,
-    pas de préfixe technique redondant)
-  - target_classes [] → [KB_Knowledge, KB_Catalog]
-  - entity_data complété : generation, years, motorizations[] structuré YAML,
-    vlevel V2, low_profile_canary false (best-seller pas canary)
-  - Wikilinks gammes ajoutés ([[plaquette-de-frein]], [[disque-de-frein]],
-    [[filtre-a-air]], etc.) dans "Pièces compatibles (top gammes)"
-  - Section "Véhicules proches" intégrée dans "Présentation"
-  - Sections existantes (Top pièces, Symptômes par pièce, Rappels constructeur,
-    Coûts d'entretien, Conseils saisonniers) consolidées dans
-    "Particularités d'entretien"
-
-  À reviewer humainement avant promotion vers wiki/vehicles/.
+review_notes: "Phase F batch ADR-031. Recyclé depuis automecanik-rag par recycle-from-rag.py.\n\
+  Source body original sha256=e1d1c690e54224b47d8f597a195f0ace65314b59a053d2cdd975352db42af462.\n\
+  \nFusion 2026-05-02 (Phase 1 plan deja-verifier-existant) : doublon\nrenault-clio-iii.md\
+  \ arbitré vers ce slug arabe (canon dict romain/arabe —\nPR #122 + vault #37). Blocs\
+  \ uniques caradisiac absorbés.\n\nPhase 4 plan deja-verifier-existant 2026-05-02\
+  \ :\n- Sections H2 alignées sur ordre canon _templates/new-vehicle.md\n  (Présentation\
+  \ / Motorisations / Pièces compatibles (top gammes) /\n  Particularités d'entretien\
+  \ / Questions fréquentes / Sources et provenance /\n  Points à vérifier)\n- Titre\
+  \ \"Fiche véhicule - Renault Clio 3\" → \"Renault Clio 3\" (FR canon,\n  pas de\
+  \ préfixe technique redondant)\n- target_classes [] → [KB_Knowledge, KB_Catalog]\n\
+  - entity_data complété : generation, years, motorizations[] structuré YAML,\n  vlevel\
+  \ V2, low_profile_canary false (best-seller pas canary)\n- Wikilinks gammes ajoutés\
+  \ ([[plaquette-de-frein]], [[disque-de-frein]],\n  [[filtre-a-air]], etc.) dans\
+  \ \"Pièces compatibles (top gammes)\"\n- Section \"Véhicules proches\" intégrée\
+  \ dans \"Présentation\"\n- Sections existantes (Top pièces, Symptômes par pièce,\
+  \ Rappels constructeur,\n  Coûts d'entretien, Conseils saisonniers) consolidées\
+  \ dans\n  \"Particularités d'entretien\"\n\nÀ reviewer humainement avant promotion\
+  \ vers wiki/vehicles/.\n\n2026-10-21 : associations de sources hors sujet retirees\
+  \ de la coverage map. Affirmations NON VALIDEES : clio-3-1-5-dci-vanne-egr-encrassement,\
+  \ clio-3-turbo-borgwarner-kp35-150000km. Le corps historique reste a qualifier,\
+  \ aucune promotion autorisee par cette correction. Lot 2 : les affirmations des\
+  \ 15 associations hors sujet sont maintenant retirees du corps (detail dans removed-body-claims.json).\
+  \ Les autres affirmations historiques ne sont pas validees par cette correction."
 no_disputed_claims: true
 exportable:
   rag: false
   seo: false
   support: false
 target_classes:
-  - KB_Knowledge
-  - KB_Catalog
+- KB_Knowledge
+- KB_Catalog
 entity_data:
   make: renault
   model: clio-3
   generation: iii
   years:
-    - 2005
-    - 2014
+  - 2005
+  - 2014
   type_id: null
   motorizations:
-    - code: D4F
-      fuel: essence
-      power_hp: 75
-      displacement_cc: 1149
-      note: 1.2 16V atmosphérique
-    - code: D4F
-      fuel: essence
-      power_hp: 100
-      displacement_cc: 1149
-      note: 1.2 TCe turbo
-    - code: K4J
-      fuel: essence
-      power_hp: 98
-      displacement_cc: 1390
-      note: 1.4 16V
-    - code: K4M
-      fuel: essence
-      power_hp: 110
-      displacement_cc: 1598
-      note: 1.6 16V
-    - code: F4R
-      fuel: essence
-      power_hp: 197
-      displacement_cc: 1998
-      note: 2.0 RS Phase 1
-    - code: F4R
-      fuel: essence
-      power_hp: 200
-      displacement_cc: 1998
-      note: 2.0 RS Phase 2
-    - code: K9K
-      fuel: diesel
-      power_hp: 65
-      displacement_cc: 1461
-      note: 1.5 dCi bridé
-    - code: K9K
-      fuel: diesel
-      power_hp: 86
-      displacement_cc: 1461
-      note: 1.5 dCi standard
-    - code: K9K
-      fuel: diesel
-      power_hp: 106
-      displacement_cc: 1461
-      note: 1.5 dCi haut de gamme
+  - code: D4F
+    fuel: essence
+    power_hp: 75
+    displacement_cc: 1149
+    note: 1.2 16V atmosphérique
+  - code: D4F
+    fuel: essence
+    power_hp: 100
+    displacement_cc: 1149
+    note: 1.2 TCe turbo
+  - code: K4J
+    fuel: essence
+    power_hp: 98
+    displacement_cc: 1390
+    note: 1.4 16V
+  - code: K4M
+    fuel: essence
+    power_hp: 110
+    displacement_cc: 1598
+    note: 1.6 16V
+  - code: F4R
+    fuel: essence
+    power_hp: 197
+    displacement_cc: 1998
+    note: 2.0 RS Phase 1
+  - code: F4R
+    fuel: essence
+    power_hp: 200
+    displacement_cc: 1998
+    note: 2.0 RS Phase 2
+  - code: K9K
+    fuel: diesel
+    power_hp: 65
+    displacement_cc: 1461
+    note: 1.5 dCi bridé
+  - code: K9K
+    fuel: diesel
+    power_hp: 86
+    displacement_cc: 1461
+    note: 1.5 dCi standard
+  - code: K9K
+    fuel: diesel
+    power_hp: 106
+    displacement_cc: 1461
+    note: 1.5 dCi haut de gamme
   vlevel: V2
   low_profile_canary: false
-content_hash: sha256:555e766a1ff25028619b6dcccfa7540b5c400eceb92b1d4b371f4113c83030d7
-confidence_score: 0.32
+content_hash: sha256:92b1c1ac2e577ac8132502d79674604eefccd0460dd6094aae425b67bffd6d78
+confidence_score: 0.33
 ---
 
 # Renault Clio 3
@@ -130,31 +127,6 @@ confidence_score: 0.32
 ## Présentation
 
 La **Renault Clio 3** (génération III, codes carrosserie BR/CR) est une citadine du segment B produite de **2005 à 2014**. Elle a remplacé la Clio II et fut elle-même remplacée par la Clio IV. Disponible en 3 portes, 5 portes et Estate (break, lancé 2008).
-
-### Caractéristiques techniques détaillées (millésime 2009 — référence 1.5 dCi 86 ch)
-
-| Caractéristique | Valeur |
-|---|---|
-| Longueur | 4,02 m |
-| Largeur | 2,02 m |
-| Hauteur | 1,49 m |
-| Empattement | 2,57 m |
-| Poids à vide (1.5 dCi) | 1 090 kg |
-| Volume coffre | 288 L (1 038 L sièges rabattus) |
-| Volume coffre Estate | 439 L (1 380 L sièges rabattus) |
-| Réservoir | 55 L essence / 50 L diesel |
-| Places | 5 |
-| Cylindrée (1.5 dCi) | 1 461 cm³ |
-| Couple (1.5 dCi 86 ch) | 200 Nm à 1 900 tr/min |
-| Boîte de vitesse | Mécanique 5 rapports |
-| Transmission | Traction |
-| Vitesse max (1.5 dCi 86 ch) | 176 km/h |
-| 0 à 100 km/h (1.5 dCi 86 ch) | 12,7 s |
-| Consommation mixte (1.5 dCi 86 ch) | 3,7 L/100 km |
-| Émissions CO2 (1.5 dCi 86 ch) | 98 g/km |
-| Pneumatiques (référence) | 185/60 R15 |
-| Diamètre de braquage | 11 m |
-| Norme Euro | EU4 |
 
 ### Véhicules proches (plate-forme partagée / pièces partagées)
 
@@ -264,9 +236,7 @@ Indicateur de fréquence des demandes catalogue (nombre de références distinct
 
 #### Moteur 1.5 dCi (K9K)
 
-- **Vanne EGR** : encrassement fréquent (perte de puissance, fumées noires, voyant moteur)
 - **Injecteurs Delphi** : fuite de carburant (rappel constructeur 2005-2010)
-- **Turbo BorgWarner KP35** : usure prématurée si vidanges non respectées (sifflement après 150 000 km)
 
 #### Électricité
 

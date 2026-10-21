@@ -1,0 +1,56 @@
+{
+  "reason": "Liens type→famille inferes et kilometrages non prouves par auto_type ; aucune archive de carnet constructeur. La mention sourced etait trop forte. Retrait des propositions exploitables, conservation historique.",
+  "before_sha256": "78e322aaf8e36fea0a1d455a27294b321fcf507cc2292ab53c0651e37dd46b7c",
+  "removed_entity_data": {
+    "known_issues_by_engine": {
+      "engine_family:k9k": {
+        "axis_key_type": "engine_family",
+        "content_md": "Moteur 1.5 dCi (famille K9K, Renault-Nissan) : vanne EGR sujette à l'encrassement (perte de puissance, fumées noires), injecteurs sensibles (fuite de retour), turbo dont les paliers s'usent prématurément si les intervalles de vidange ne sont pas respectés.",
+        "source_ids": [
+          "db:kg_engine_families",
+          "db:auto_type"
+        ],
+        "truth_level": "sourced",
+        "validation_notes": [
+          "Pannes K9K confirmées par kg_engine_families (curé interne) ; lien type→famille inféré (auto_type sans code moteur). À valider avant promotion."
+        ]
+      },
+      "engine_family:f4r": {
+        "axis_key_type": "engine_family",
+        "content_md": "Moteur essence 2.0 16V (famille F4R) : bobines d'allumage et joints spi (fuite d'huile) à surveiller.",
+        "source_ids": [
+          "db:kg_engine_families"
+        ],
+        "truth_level": "sourced",
+        "validation_notes": [
+          "Pannes F4R depuis kg_engine_families ; lien type→famille inféré."
+        ]
+      }
+    },
+    "maintenance_by_engine": {
+      "fuel:diesel": {
+        "axis_key_type": "fuel",
+        "content_md": "Diesel : vidange + filtre à huile tous les 15 000 à 20 000 km ou 1 an ; filtre à gasoil environ 60 000 km ; contrôler la distribution selon la motorisation.",
+        "source_ids": [
+          "db:auto_type"
+        ],
+        "truth_level": "sourced",
+        "validation_notes": [
+          "Axe carburant DB-fiable ; valeurs km à confirmer (carnet constructeur)."
+        ]
+      },
+      "fuel:essence": {
+        "axis_key_type": "fuel",
+        "content_md": "Essence : vidange + filtre à huile tous les 15 000 à 20 000 km ou 1 an selon préconisation ; filtre à air environ 30 000 km.",
+        "source_ids": [
+          "db:auto_type"
+        ],
+        "truth_level": "sourced",
+        "validation_notes": [
+          "Axe carburant DB-fiable ; valeurs km à confirmer."
+        ]
+      }
+    }
+  },
+  "removed_body": "\n\n### 1.5 dCi (famille K9K)\n\nVanne EGR sujette à l'encrassement (perte de puissance, fumées noires), injecteurs sensibles (fuite de retour), turbo dont les paliers s'usent prématurément si les vidanges sont espacées.\n\n### 2.0 16V essence (famille F4R)\n\nBobines d'allumage et joints spi (fuite d'huile) à surveiller.\n\n> Source : `kg_engine_families` (connaissance interne curée). Lien type→famille **inféré** (auto_type ne porte pas le code moteur).\n\n## Particularités d'entretien\n\n- **Diesel** : vidange + filtre à huile 15 000–20 000 km ou 1 an ; filtre à gasoil ~60 000 km.\n- **Essence** : vidange + filtre à huile 15 000–20 000 km ou 1 an ; filtre à air ~30 000 km.\n\n"
+}

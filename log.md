@@ -117,3 +117,21 @@
 - **Branche** : `fix/build-exports-seo-exportable-audience-gate`
 - **Décision** : fix(exports-seo): gate SEO export sur exportable.seo (mapping audience), pas truthy
 - **Sortie** : PR #70 | commits 4b700c3
+
+## 2026-10-21 — Réparation candidate de provenance éditoriale
+
+- EGR, thermostat et support moteur : source publique capturée en RAW isolé, texte hors sujet et dimensions recyclées remplacés par des passages limités à la preuve.
+- Six véhicules : associations de sources hors sujet retirées de la couverture ; les affirmations restent à qualifier.
+- Aucun changement du décideur, des seuils, des exports ou des fiches canoniques. Aucun apply.
+- Rapport : `_audit/candidates-repair-20261021/`.
+
+## 2026-10-21 — Réparation candidate, lot 2
+
+- Quinze affirmations sans preuve pertinente retirées de six fiches véhicules.
+- Courroie : corps RAG remplacé par un passage technique HELLA archivé ; couverture créée.
+- Disques : captures HELLA et Brembo liées aux passages d’entretien effectivement étayés.
+- Seuils, décideur, statuts d’approbation, canon et exports inchangés.
+
+### 2026-10-21 — second lot candidat, sans promotion
+
+15 affirmations mal attribuees retirees des six vehicules ; courroie reecrite et couverture valide ; disque enrichi Hella/Brembo (3 editeurs) ; Scenic sans blocs moteur non prouves ; Dacia historique rapproche de la source officielle. 13 schemas valides ; 13 refus conserves ; aucune regle de promotion modifiee. Details : _audit/candidates-repair-20261021/lot2-native-dry-run.json.

@@ -1,0 +1,152 @@
+[
+  {
+    "candidate": "citroen-c3",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "COVERAGE_STRICT_FAIL",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE",
+      "TRUTH_LEVEL"
+    ],
+    "change": "invalid_attributions_removed_review_notes_added",
+    "next_action": "Remplacer les attributions retirées par des preuves spécifiques au modèle et à la motorisation, examiner les autres affirmations et capturer les références manquantes. Le texte historique reste non validé."
+  },
+  {
+    "candidate": "courroie-d-accessoire",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "COVERAGE_STRICT_FAIL",
+      "SAFETY_HUMAN_REVIEW",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE"
+    ],
+    "change": "assessed_no_content_edit",
+    "next_action": "Aucune coverage map : acquérir une documentation atelier sur entraînement auxiliaire ; distinguer symptômes et critères de choix ; conserver les exigences sécurité."
+  },
+  {
+    "candidate": "dacia",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "SUBSTANCE_SCORE",
+      "TRUTH_LEVEL"
+    ],
+    "change": "assessed_no_content_edit",
+    "next_action": "Archives présentes mais corroboration seulement ; identité et assertions techniques encore L3. Acquérir les preuves constructeur adaptées avant changement de niveau."
+  },
+  {
+    "candidate": "disque-de-frein",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "SAFETY_HUMAN_REVIEW",
+      "SUBSTANCE_SCORE"
+    ],
+    "change": "assessed_no_content_edit",
+    "next_action": "Conserver la réécriture déjà réalisée le 11 octobre ; compléter les preuves indépendantes de sécurité et les claims actuellement appuyés par Wikipedia ; aucune validation humaine inventée."
+  },
+  {
+    "candidate": "ford-focus-3",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "COVERAGE_STRICT_FAIL",
+      "GATE_RISK",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE",
+      "TRUTH_LEVEL"
+    ],
+    "change": "invalid_attributions_removed_review_notes_added",
+    "next_action": "Remplacer les attributions retirées par des preuves spécifiques au modèle et à la motorisation, examiner les autres affirmations et capturer les références manquantes. Le texte historique reste non validé."
+  },
+  {
+    "candidate": "peugeot-206",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "COVERAGE_STRICT_FAIL",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE",
+      "TRUTH_LEVEL"
+    ],
+    "change": "invalid_attributions_removed_review_notes_added",
+    "next_action": "Remplacer les attributions retirées par des preuves spécifiques au modèle et à la motorisation, examiner les autres affirmations et capturer les références manquantes. Le texte historique reste non validé."
+  },
+  {
+    "candidate": "renault-clio-3",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "COVERAGE_STRICT_FAIL",
+      "NUMERIC_HIGH_HARM",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE",
+      "TRUTH_LEVEL"
+    ],
+    "change": "invalid_attributions_removed_review_notes_added",
+    "next_action": "Remplacer les attributions retirées par des preuves spécifiques au modèle et à la motorisation, examiner les autres affirmations et capturer les références manquantes. Le texte historique reste non validé."
+  },
+  {
+    "candidate": "renault-megane-3",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "COVERAGE_STRICT_FAIL",
+      "GATE_RISK",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE",
+      "TRUTH_LEVEL"
+    ],
+    "change": "invalid_attributions_removed_review_notes_added",
+    "next_action": "Remplacer les attributions retirées par des preuves spécifiques au modèle et à la motorisation, examiner les autres affirmations et capturer les références manquantes. Le texte historique reste non validé."
+  },
+  {
+    "candidate": "renault-scenic-ii",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "COVERAGE_STRICT_FAIL",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE"
+    ],
+    "change": "assessed_no_content_edit",
+    "next_action": "Aucune coverage map. Repartir des besoins éditoriaux puis des preuves spécifiques à la génération et à la motorisation ; aucune matrice de compatibilité déduite."
+  },
+  {
+    "candidate": "support-moteur",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "GATE_CONFIDENCE",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE"
+    ],
+    "change": "rewritten_from_captured_source",
+    "next_action": "Obtenir une documentation atelier indépendante : la page produit ZF est descriptive seulement. Relations diagnostic à qualifier, droits à vérifier."
+  },
+  {
+    "candidate": "thermostat",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE"
+    ],
+    "change": "rewritten_from_captured_source",
+    "next_action": "Obtenir une preuve indépendante et une documentation ciblée sur les symptômes, le choix et l’entretien ; vérifier les droits."
+  },
+  {
+    "candidate": "vanne-egr",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "GATE_CONFIDENCE",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE"
+    ],
+    "change": "rewritten_from_captured_source",
+    "next_action": "Relier les éventuels symptômes à des identifiants du référentiel diagnostic existant ; revue des droits ; preuve indépendante et critères de choix sourcés."
+  },
+  {
+    "candidate": "volkswagen-golf-6",
+    "status": "BLOCKED",
+    "blocking_reasons": [
+      "COVERAGE_STRICT_FAIL",
+      "SOURCE_DIVERSITY",
+      "SUBSTANCE_SCORE",
+      "TRUTH_LEVEL"
+    ],
+    "change": "invalid_attributions_removed_review_notes_added",
+    "next_action": "Remplacer les attributions retirées par des preuves spécifiques au modèle et à la motorisation, examiner les autres affirmations et capturer les références manquantes. Le texte historique reste non validé."
+  }
+]

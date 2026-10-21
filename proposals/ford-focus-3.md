@@ -5,20 +5,20 @@ entity_type: vehicle
 slug: ford-focus-3
 title: Ford Focus 3
 aliases:
-  - Focus 3
-  - Focus III
-  - Ford Focus III
-  - Focus C346
-  - Focus ST Mk3
-  - Focus RS Mk3
+- Focus 3
+- Focus III
+- Ford Focus III
+- Focus C346
+- Focus ST Mk3
+- Focus RS Mk3
 lang: fr
 created_at: '2026-04-29'
-updated_at: '2026-05-02'
+updated_at: '2026-10-21'
 truth_level: L3
 source_refs:
-  - kind: raw
-    path: recycled/rag-knowledge/vehicles/ford-focus-3.md
-    captured_at: '2026-04-29'
+- kind: raw
+  path: recycled/rag-knowledge/vehicles/ford-focus-3.md
+  captured_at: '2026-04-29'
 provenance:
   ingested_by: skill:recycle-from-rag@v0.1
   promoted_from: null
@@ -27,106 +27,105 @@ parents: []
 review_status: proposed
 reviewed_by: null
 reviewed_at: null
-review_notes: |
-  Phase F batch ADR-031. Recyclé depuis automecanik-rag par
-  recycle-from-rag.py. Source body sha256=
-  89e64f2b6d0c635377ab946775e05f488e6fa6e8b520323f4df0db1e9fe189a4.
-
-  Phase 4 plan deja-verifier-existant 2026-05-02 :
-  - Sections H2 alignées sur ordre canon _templates/new-vehicle.md
-  - Titre "Fiche vehicule - Ford Focus 3" → "Ford Focus 3" (FR canon)
-  - aliases [] → [Focus 3, Focus III, Ford Focus III, Focus C346,
-    Focus ST Mk3, Focus RS Mk3]
-  - target_classes [] → [KB_Knowledge, KB_Catalog]
-  - entity_data complété : generation iii, years [2011, 2018],
-    motorizations[] structuré YAML, vlevel V3, low_profile_canary false
-  - Wikilinks gammes ajoutés (plaquette-de-frein, filtre-a-air, etc.)
-  - Section "Spécificités par version" ajoutée (ST/RS) — manquante en source
-  - Section "Estate (break)" développée — mentionnée mais pas détaillée en source
-  - FAQ 5 questions ajoutée
-
-  À reviewer humainement avant promotion vers wiki/vehicles/.
+review_notes: "Phase F batch ADR-031. Recyclé depuis automecanik-rag par\nrecycle-from-rag.py.\
+  \ Source body sha256=\n89e64f2b6d0c635377ab946775e05f488e6fa6e8b520323f4df0db1e9fe189a4.\n\
+  \nPhase 4 plan deja-verifier-existant 2026-05-02 :\n- Sections H2 alignées sur ordre\
+  \ canon _templates/new-vehicle.md\n- Titre \"Fiche vehicule - Ford Focus 3\" → \"\
+  Ford Focus 3\" (FR canon)\n- aliases [] → [Focus 3, Focus III, Ford Focus III, Focus\
+  \ C346,\n  Focus ST Mk3, Focus RS Mk3]\n- target_classes [] → [KB_Knowledge, KB_Catalog]\n\
+  - entity_data complété : generation iii, years [2011, 2018],\n  motorizations[]\
+  \ structuré YAML, vlevel V3, low_profile_canary false\n- Wikilinks gammes ajoutés\
+  \ (plaquette-de-frein, filtre-a-air, etc.)\n- Section \"Spécificités par version\"\
+  \ ajoutée (ST/RS) — manquante en source\n- Section \"Estate (break)\" développée\
+  \ — mentionnée mais pas détaillée en source\n- FAQ 5 questions ajoutée\n\nÀ reviewer\
+  \ humainement avant promotion vers wiki/vehicles/.\n\n2026-10-21 : associations\
+  \ de sources hors sujet retirees de la coverage map. Affirmations NON VALIDEES :\
+  \ focus-3-1-0-ecoboost-durite-rappel, focus-3-powershift-dct-usure, focus-3-vidange-powershift-50000km.\
+  \ Le corps historique reste a qualifier, aucune promotion autorisee par cette correction.\
+  \ Lot 2 : les affirmations des 15 associations hors sujet sont maintenant retirees\
+  \ du corps (detail dans removed-body-claims.json). Les autres affirmations historiques\
+  \ ne sont pas validees par cette correction."
 no_disputed_claims: true
 exportable:
   rag: false
   seo: false
   support: false
 target_classes:
-  - KB_Knowledge
-  - KB_Catalog
+- KB_Knowledge
+- KB_Catalog
 entity_data:
   make: ford
   model: focus-3
   generation: iii
   years:
-    - 2011
-    - 2018
+  - 2011
+  - 2018
   type_id: null
   motorizations:
-    - code: M1DA
-      fuel: essence
-      power_hp: 100
-      displacement_cc: 999
-      note: 1.0 EcoBoost 3-cylindres turbo
-    - code: M2DA
-      fuel: essence
-      power_hp: 125
-      displacement_cc: 999
-      note: 1.0 EcoBoost 3-cylindres turbo
-    - code: PNDA
-      fuel: essence
-      power_hp: 105
-      displacement_cc: 1596
-      note: 1.6 Ti-VCT atmosphérique
-    - code: JTDA
-      fuel: essence
-      power_hp: 150
-      displacement_cc: 1596
-      note: 1.6 EcoBoost turbo
-    - code: R9DA
-      fuel: essence
-      power_hp: 250
-      displacement_cc: 1999
-      note: 2.0 EcoBoost ST Mk3
-    - code: R9MH
-      fuel: essence
-      power_hp: 350
-      displacement_cc: 2261
-      note: 2.3 EcoBoost RS Mk3 (transmission 4WD AWD)
-    - code: XWDA
-      fuel: diesel
-      power_hp: 95
-      displacement_cc: 1499
-      note: 1.5 TDCi (post 2014)
-    - code: XWDA
-      fuel: diesel
-      power_hp: 120
-      displacement_cc: 1499
-      note: 1.5 TDCi (post 2014)
-    - code: T1DA
-      fuel: diesel
-      power_hp: 95
-      displacement_cc: 1560
-      note: 1.6 TDCi
-    - code: T1DA
-      fuel: diesel
-      power_hp: 115
-      displacement_cc: 1560
-      note: 1.6 TDCi
-    - code: UFDB
-      fuel: diesel
-      power_hp: 140
-      displacement_cc: 1997
-      note: 2.0 TDCi
-    - code: UFDB
-      fuel: diesel
-      power_hp: 163
-      displacement_cc: 1997
-      note: 2.0 TDCi haut de gamme
+  - code: M1DA
+    fuel: essence
+    power_hp: 100
+    displacement_cc: 999
+    note: 1.0 EcoBoost 3-cylindres turbo
+  - code: M2DA
+    fuel: essence
+    power_hp: 125
+    displacement_cc: 999
+    note: 1.0 EcoBoost 3-cylindres turbo
+  - code: PNDA
+    fuel: essence
+    power_hp: 105
+    displacement_cc: 1596
+    note: 1.6 Ti-VCT atmosphérique
+  - code: JTDA
+    fuel: essence
+    power_hp: 150
+    displacement_cc: 1596
+    note: 1.6 EcoBoost turbo
+  - code: R9DA
+    fuel: essence
+    power_hp: 250
+    displacement_cc: 1999
+    note: 2.0 EcoBoost ST Mk3
+  - code: R9MH
+    fuel: essence
+    power_hp: 350
+    displacement_cc: 2261
+    note: 2.3 EcoBoost RS Mk3 (transmission 4WD AWD)
+  - code: XWDA
+    fuel: diesel
+    power_hp: 95
+    displacement_cc: 1499
+    note: 1.5 TDCi (post 2014)
+  - code: XWDA
+    fuel: diesel
+    power_hp: 120
+    displacement_cc: 1499
+    note: 1.5 TDCi (post 2014)
+  - code: T1DA
+    fuel: diesel
+    power_hp: 95
+    displacement_cc: 1560
+    note: 1.6 TDCi
+  - code: T1DA
+    fuel: diesel
+    power_hp: 115
+    displacement_cc: 1560
+    note: 1.6 TDCi
+  - code: UFDB
+    fuel: diesel
+    power_hp: 140
+    displacement_cc: 1997
+    note: 2.0 TDCi
+  - code: UFDB
+    fuel: diesel
+    power_hp: 163
+    displacement_cc: 1997
+    note: 2.0 TDCi haut de gamme
   vlevel: V3
   low_profile_canary: false
-content_hash: sha256:21574f9ce771e8f73f4323e6a3e5cb05736290cf55a66a559b5c21ad4be02440
-confidence_score: 0.29
+content_hash: sha256:0d2fdee42df7ccc6071f847ce3bee1a807443eef1490a1ae4e4b8eaeadeef6d6
+confidence_score: 0.30
 ---
 
 # Ford Focus 3
@@ -193,13 +192,11 @@ La **Ford Focus 3** (génération III, code C346) est une compacte du segment C 
 
 #### Moteur 1.0 EcoBoost
 
-- **Durite liquide refroidissement** : fuite, **rappel constructeur** (durite plastique sous turbo, remplacement gratuit selon série)
 - **Surchauffe** : liée aux fuites durites (joint culasse à risque si non traité)
 - **Joint de culasse** : sur versions affectées par surchauffe
 
 #### Boîte Powershift (DCT 6 rapports double-embrayage à sec)
 
-- **Embrayages** : usure prématurée (boîte conçue pour conduite mixte, dégrade vite en urbain pur)
 - **À-coups** : en ville, basse vitesse — symptomatique
 - **Solution** : mise à jour logiciel (TCM update) + remplacement embrayages (~1 500-2 500 €)
 
@@ -221,7 +218,6 @@ La **Ford Focus 3** (génération III, code C346) est une compacte du segment C 
 
 1. **Huile moteur** : 5W-20 (EcoBoost spécifique norme Ford WSS-M2C948-B), 5W-30 (autres)
 2. **Liquide refroidissement** : organique Ford WSS-M97B44-D (rouge, ne pas mélanger)
-3. **Boîte Powershift** : vidange recommandée 50 000 km, OBLIGATOIRE pour limiter usure embrayages
 
 ### Spécificités par version
 
@@ -238,7 +234,6 @@ La **Ford Focus 3** (génération III, code C346) est une compacte du segment C 
 - 2.3 EcoBoost (R9MH), 0-100 km/h en 4,7 s
 - **Transmission 4WD AWD** (Ford Performance AWD)
 - Mode **Drift** (couple arrière maximal pour glissades contrôlées)
-- Freinage Brembo 350 mm avant
 - Chassis ultra-rigidifié + amortisseurs adaptatifs
 - Modes de conduite (Normal/Sport/Track/Drift)
 

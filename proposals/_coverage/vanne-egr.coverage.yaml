@@ -1,0 +1,34 @@
+fiche: vanne-egr
+schema_version: 1.0.0
+generated_at: '2026-10-21'
+coverage_entries:
+- claim_id: vanne-egr-source-1
+  section: '## Définition'
+  text_anchor: La vanne EGR règle le passage d’une partie des gaz d’échappement vers l’admission. Ce recyclage
+    contribue à réduire la formation d
+  source_slug: hella_techworld_egr_20261021
+  evidence_type: technical_article_paraphrase
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+- claim_id: vanne-egr-source-2
+  section: '## Fonctionnement'
+  text_anchor: Dans un système EGR externe, une conduite relie l’échappement à l’admission. La vanne en
+    commande le passage. Selon la conception,
+  source_slug: hella_techworld_egr_20261021
+  evidence_type: technical_article_paraphrase
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+- claim_id: vanne-egr-source-4
+  section: '## Conseil pédagogique d’entretien'
+  text_anchor: 'Le contrôle doit porter sur le système et ses raccordements. Les valeurs et les branchements
+    de contrôle dépendent du véhicule : l'
+  source_slug: hella_techworld_egr_20261021
+  evidence_type: technical_article_paraphrase
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+notes: manual_review = examen restant, aucune revue effectuée. Une seconde preuve indépendante, les droits
+  d’usage, les critères de choix et les symptômes contextualisés restent à qualifier. Aucune relation
+  diagnostic DB ni compatibilité précise ajoutée.

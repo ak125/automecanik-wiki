@@ -10,7 +10,7 @@ aliases:
 - disque de frein ventilé
 lang: fr
 created_at: '2026-06-02'
-updated_at: '2026-10-11'
+updated_at: '2026-10-21'
 truth_level: L2
 source_refs:
 - kind: raw
@@ -29,26 +29,38 @@ source_refs:
 - kind: external_url
   url: https://fr.wikipedia.org/wiki/Frein_%C3%A0_disque
   captured_at: '2026-10-10'
+- kind: raw
+  path: sources/auto-captures/disque-de-frein/hella-com-wl-hella-disques-20261021-eb410e50.md
+  cid: sha256:665683c3441e6f45ae07ef85e393f48277fb5a7981ec94a5495539c55a51f7ca
+  captured_at: '2026-10-20'
+  confidence: medium
+- kind: raw
+  path: sources/auto-captures/disque-de-frein/asia-bremboparts-com-wl-brembo-epaisseur-20261021-119a1c97.md
+  cid: sha256:04d85d5782f1cf454f0d8e58eddf3b7665f697c83f57639f3a53533c52212c1b
+  captured_at: '2026-10-20'
+  confidence: medium
 provenance:
   ingested_by: skill:wiki-proposal-writer
   promoted_from: null
 review_status: proposed
 reviewed_by: null
 reviewed_at: null
-review_notes: "Réécrite 2026-10-11 : chaque affirmation repose sur l'une de deux pages\
-  \ archivées dans RAW (sources/auto-captures/disque-de-frein/, PR RAW #69) — une\
-  \ page d'atelier d'équipementier sur le broutement, rédigée en anglais et reformulée\
-  \ en français dans la fiche (la capture RAW reste dans sa langue d'origine), et un\
-  \ article d'encyclopédie en français sur le frein à disque, en corroboration\
-  \ seulement (confiance plafonnée à low). Les deux références external_url désignent les\
-  \ mêmes pages que les références raw (même document, pas une source indépendante).\
-  \ Retirés faute de preuve archivée ou par règle de sécurité : noms de marques et\
-  \ d'équipementiers, prix, cotes et tolérances chiffrées (variation d'épaisseur,\
-  \ voile, faux-rond, épaisseur minimale gravée), températures, fréquences,\
-  \ homologation des disques de rechange, couples de serrage, couronne ABS, VIN,\
-  \ revêtements anticorrosion, relation brake_noise_metallic et source bosch_fad_2020.\
-  \ Aucune valeur chiffrée n'est publiée. diagnostic_relations[] : deux hypothèses\
-  \ (brake_vibration_pedal, brake_noise_grinding), reviewed=false, diagnostic_safe=false."
+review_notes: 'Réécrite 2026-10-11 : chaque affirmation repose sur l''une de deux
+  pages archivées dans RAW (sources/auto-captures/disque-de-frein/, PR RAW #69) —
+  une page d''atelier d''équipementier sur le broutement, rédigée en anglais et reformulée
+  en français dans la fiche (la capture RAW reste dans sa langue d''origine), et un
+  article d''encyclopédie en français sur le frein à disque, en corroboration seulement
+  (confiance plafonnée à low). Les deux références external_url désignent les mêmes
+  pages que les références raw (même document, pas une source indépendante). Retirés
+  faute de preuve archivée ou par règle de sécurité : noms de marques et d''équipementiers,
+  prix, cotes et tolérances chiffrées (variation d''épaisseur, voile, faux-rond, épaisseur
+  minimale gravée), températures, fréquences, homologation des disques de rechange,
+  couples de serrage, couronne ABS, VIN, revêtements anticorrosion, relation brake_noise_metallic
+  et source bosch_fad_2020. Aucune valeur chiffrée n''est publiée. diagnostic_relations[]
+  : deux hypothèses (brake_vibration_pedal, brake_noise_grinding), reviewed=false,
+  diagnostic_safe=false. Complément 2026-10-21 : deux sources primaires indépendantes
+  archivées pour MIN TH et remplacement par paire. Les anciennes entrées manual_review
+  ne sont pas levées. Droits des captures unknown.'
 no_disputed_claims: true
 confidence_score: 0.65
 exportable:
@@ -62,10 +74,10 @@ diagnostic_relations:
 - symptom_slug: brake_vibration_pedal
   system_slug: freinage
   relation_to_part: possible_cause
-  part_role: "hypothèse — broutement : vibrations au volant et pulsation de la pédale au\
-    \ freinage ; selon la page d'atelier, la cause principale du broutement à\
-    \ froid est la variation d'épaisseur du disque, souvent due à un faux-rond\
-    \ de montage (moyeu sale, voilé ou trop graissé)"
+  part_role: 'hypothèse — broutement : vibrations au volant et pulsation de la pédale
+    au freinage ; selon la page d''atelier, la cause principale du broutement à froid
+    est la variation d''épaisseur du disque, souvent due à un faux-rond de montage
+    (moyeu sale, voilé ou trop graissé)'
   evidence:
     confidence: medium
     source_policy: 1_high
@@ -76,10 +88,9 @@ diagnostic_relations:
 - symptom_slug: brake_noise_grinding
   system_slug: freinage
   relation_to_part: possible_cause
-  part_role: "hypothèse indirecte — selon la page d'atelier, le broutement au freinage\
-    \ est en général accompagné d'un bruit sourd ; la page ne rattache ce bruit au\
-    \ disque qu'à travers le broutement (variation d'épaisseur, dépôt de matière,\
-    \ zones durcies)"
+  part_role: hypothèse indirecte — selon la page d'atelier, le broutement au freinage
+    est en général accompagné d'un bruit sourd ; la page ne rattache ce bruit au disque
+    qu'à travers le broutement (variation d'épaisseur, dépôt de matière, zones durcies)
   evidence:
     confidence: low
     source_policy: 1_high
@@ -102,24 +113,27 @@ entity_data:
   kw_top: []
   references: []
   maintenance:
-    educational_advice: "Remplacer disques et plaquettes par essieu complet ; au montage,\
-      \ veiller à un moyeu propre, plan et sans excès de graisse ; en cas de broutement,\
-      \ faire rechercher la cause pas à pas plutôt que de changer seulement les disques\
-      \ et les plaquettes."
+    educational_advice: Remplacer disques et plaquettes par essieu complet ; au montage,
+      veiller à un moyeu propre, plan et sans excès de graisse ; en cas de broutement,
+      faire rechercher la cause pas à pas plutôt que de changer seulement les disques
+      et les plaquettes.
     related_pages:
     - plaquette-de-frein
   decision_brief:
-    function_oneliner: "Le disque de frein, fixé sur le moyeu de la roue, est serré\
-      \ par les plaquettes : le frottement crée le couple de freinage et transforme\
-      \ l'énergie cinétique du véhicule en chaleur, qui doit être évacuée."
+    function_oneliner: 'Le disque de frein, fixé sur le moyeu de la roue, est serré
+      par les plaquettes : le frottement crée le couple de freinage et transforme
+      l''énergie cinétique du véhicule en chaleur, qui doit être évacuée.'
     selection_criteria_top:
-    - "Plaquettes et disques se remplacent par essieu complet, pour des raisons de sécurité."
-    - "Les tolérances dépendent du véhicule : bien plus faibles sur les suspensions modernes à bras multiples."
-    - "Au montage : moyeu propre, plan et sans excès de graisse."
-    compatibility_summary: "Choisir le disque à partir du véhicule : les tolérances\
-      \ et les effets d'un défaut varient beaucoup d'un type de véhicule à l'autre."
+    - Plaquettes et disques se remplacent par essieu complet, pour des raisons de
+      sécurité.
+    - 'Les tolérances dépendent du véhicule : bien plus faibles sur les suspensions
+      modernes à bras multiples.'
+    - 'Au montage : moyeu propre, plan et sans excès de graisse.'
+    compatibility_summary: 'Choisir le disque à partir du véhicule : les tolérances
+      et les effets d''un défaut varient beaucoup d''un type de véhicule à l''autre.'
     source_kind: web_research_oe
     cross_check_status: SOURCED_OE
+content_hash: sha256:8b97f26fbe48c3281e9ca7c3f33ecd4ac380c0adeb3e498d355bdc44402f5698
 ---
 
 ## Définition
@@ -199,6 +213,16 @@ La fonte est de loin le matériau le plus utilisé pour les disques : elle rouil
 
 **À quoi sert un disque perforé ?** Ses petits trous rompent le film d'eau qui se forme entre le disque et la plaquette sous la pluie. En contrepartie, il freine un peu moins par temps sec et il est relativement fragile.
 
+## Entretien et limite d’usure
+
+Le disque s’use lui aussi : l’usure des plaquettes ne suffit donc pas à évaluer l’état du freinage. La documentation technique précise que l’amincissement du disque réduit sa résistance mécanique et sa capacité à dissiper la chaleur.
+
+La mesure s’effectue en plusieurs points de la piste ; la plus faible épaisseur mesurée est comparée à la limite MIN TH indiquée sur le disque. Si elle est inférieure à cette limite, le disque doit être remplacé. Cette règle est décrite par deux équipementiers indépendants ; aucune valeur universelle en millimètres n’est déduite.
+
+Les deux documents demandent le remplacement des disques par paire sur le même essieu. Le guide de réparation réserve les interventions à un personnel qualifié, avec les consignes de sécurité et de maintenance du constructeur et les instructions propres au produit.
+
 ## Provenance & qualité
 
 Fiche **réécrite le 2026-10-11**. Chaque affirmation repose sur l'une de deux pages archivées dans RAW : une page d'atelier d'un équipementier consacrée au broutement, rédigée en anglais et reformulée ici en français, et un article d'encyclopédie en ligne sur le frein à disque, qui ne sert que de corroboration (confiance faible). Ont été **retirés**, faute de preuve archivée ou par règle de sécurité : les noms de marques et d'équipementiers, les prix, les cotes et tolérances chiffrées (variation d'épaisseur, voile, faux-rond, épaisseur minimale gravée), les températures et fréquences, l'homologation des disques de rechange, les couples de serrage, la compatibilité couronne ABS et VIN, les revêtements anticorrosion, et la relation `brake_noise_metallic`. Aucune valeur chiffrée n'est publiée. `review_status: proposed`, exports désactivés ; relations diagnostic à l'état d'hypothèses, `reviewed: false`, `diagnostic_safe: false`.
+
+Complément du 2026-10-21 : trois passages d’entretien ajoutés à partir des deux nouvelles captures de documentation technique. Les réserves et contrôles des passages historiques restent applicables.

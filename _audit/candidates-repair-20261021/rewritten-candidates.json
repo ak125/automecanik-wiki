@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "vanne-egr",
+    "source": {
+      "slug": "hella_techworld_egr_20261021",
+      "title": "Recirculation des gaz d’échappement — structure et diagnostic",
+      "publisher": "HELLA TECH WORLD",
+      "type": "oem_workshop",
+      "year": null,
+      "license": "captured_for_internal_review",
+      "archived_at": "automecanik-raw/sources/auto-captures/vanne-egr/hella-com-wl-vanne-egr-hella-techworld-20261021-f554b26e.md",
+      "status": "active",
+      "raw_ref": {
+        "repo": "automecanik-raw",
+        "manifest_id": "src-auto-capture-f554b26e16d46573237101658c4b28a414f7c8b92f2d48417cf3db1ffa42f08a",
+        "expected_sha256": "sha256:c5677fb24a31ddd751268b856812e5920d908cb501d8790499b03277f88e3907"
+      },
+      "notes": "Archive existante et vérifiée, pas approbation éditoriale. Capture level 2, license_status unknown. Confiance medium ; examen humain restant. Le type du catalogue décrit le contenu lu, le type de capture hérité de la politique du domaine reste intact. Une seconde preuve indépendante, les droits d’usage, les critères de choix et les symptômes contextualisés restent à qualifier. Aucune relation diagnostic DB ni compatibilité précise ajoutée."
+    },
+    "removed_legacy_dimensions": true
+  },
+  {
+    "slug": "thermostat",
+    "source": {
+      "slug": "hella_techworld_refroidissement_20261021",
+      "title": "Refroidissement moteur — structure et fonctionnement",
+      "publisher": "HELLA TECH WORLD",
+      "type": "oem_workshop",
+      "year": null,
+      "license": "captured_for_internal_review",
+      "archived_at": "automecanik-raw/sources/auto-captures/thermostat/hella-com-wl-thermostat-hella-20261021-65248188.md",
+      "status": "active",
+      "raw_ref": {
+        "repo": "automecanik-raw",
+        "manifest_id": "src-auto-capture-65248188708728828e2906a82b74260bdcb527c0027768f6022ee88aefa93fad",
+        "expected_sha256": "sha256:b3bd187cda7333c5fe2b58c28ba2d4c6bb42650763bb20ddc7e9859b946c3fd3"
+      },
+      "notes": "Archive existante et vérifiée, pas approbation éditoriale. Capture level 2, license_status unknown. Confiance medium ; examen humain restant. Le type du catalogue décrit le contenu lu, le type de capture hérité de la politique du domaine reste intact. La capture décrit le fonctionnement, pas une liste de symptômes propres au thermostat. Diagnostic, choix selon véhicule, entretien, FAQ et seconde preuve indépendante restent à documenter. Aucun seuil numérique ajouté."
+    },
+    "removed_legacy_dimensions": true
+  },
+  {
+    "slug": "support-moteur",
+    "source": {
+      "slug": "zf_supports_moteur_presentation_20261021",
+      "title": "Driveline Components — fonctions et types de supports",
+      "publisher": "ZF Aftermarket (LEMFÖRDER)",
+      "type": "brochure",
+      "year": null,
+      "license": "captured_for_internal_review",
+      "archived_at": "automecanik-raw/sources/auto-captures/support-moteur/aftermarket-zf-com-wl-support-moteur-zf-20261021-9f6d624a.md",
+      "status": "active",
+      "raw_ref": {
+        "repo": "automecanik-raw",
+        "manifest_id": "src-auto-capture-9f6d624a71823311c09c3ff308b0c2ea7b93a1e3f20ee557fcaabcc8489c9521",
+        "expected_sha256": "sha256:57c884bc6e09b7eddde754b1cace92a5160dcf960d928c5685cd9b6cfc96233c"
+      },
+      "notes": "Archive existante et vérifiée, pas approbation éditoriale. Capture level 2, license_status unknown. Confiance medium ; examen humain restant. Le type du catalogue décrit le contenu lu, le type de capture hérité de la politique du domaine reste intact. La page ZF est une présentation produit : corroboration descriptive seulement, aucune preuve de diagnostic ou de compatibilité. Symptômes, choix, entretien, FAQ et preuves d’atelier indépendantes restent à obtenir."
+    },
+    "removed_legacy_dimensions": true
+  }
+]

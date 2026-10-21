@@ -1,0 +1,113 @@
+[
+  {
+    "slug": "citroen-c3",
+    "before_sha256": "feb3c83a2cca048ed08c28c61a5b9259e1dcce4fe3fcc34ccbc0699d62a29502",
+    "removed": [
+      {
+        "claim_id": "c3-puretech-eb2dt-courroie-etirement",
+        "removed_text": "- **Courroie de distribution** : étirement prématuré, contrôle fréquent recommandé",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      },
+      {
+        "claim_id": "c3-ep6-chaine-distribution-bruit-demarrage",
+        "removed_text": "- **Chaîne distribution** : étirement (bruit démarrage à froid)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      }
+    ]
+  },
+  {
+    "slug": "ford-focus-3",
+    "before_sha256": "277d8ed86ac7fef8aa5f28c90a78a745c8378b9256eccf42883a02c9addf1a1a",
+    "removed": [
+      {
+        "claim_id": "focus-3-1-0-ecoboost-durite-rappel",
+        "removed_text": "- **Durite liquide refroidissement** : fuite, **rappel constructeur** (durite plastique sous turbo, remplacement gratuit selon série)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      },
+      {
+        "claim_id": "focus-3-powershift-dct-usure",
+        "removed_text": "- **Embrayages** : usure prématurée (boîte conçue pour conduite mixte, dégrade vite en urbain pur)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      },
+      {
+        "claim_id": "focus-3-vidange-powershift-50000km",
+        "removed_text": "3. **Boîte Powershift** : vidange recommandée 50 000 km, OBLIGATOIRE pour limiter usure embrayages",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      }
+    ]
+  },
+  {
+    "slug": "peugeot-206",
+    "before_sha256": "4c17a1b2a6d9965c32987ac1f9f3ba9ef7902a6b785ecf02dce406bd12fe9d6a",
+    "removed": [
+      {
+        "claim_id": "206-1-4-hdi-vanne-egr-colmatage",
+        "removed_text": "- **Vanne EGR** : colmatage fréquent (perte de puissance, fumée noire)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      },
+      {
+        "claim_id": "206-bsi-dysfonctionnements",
+        "removed_text": "- **BSI (Boîtier de Servitude Intelligent)** : dysfonctionnements (essuie-glaces, centralisation, ventilation)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      }
+    ]
+  },
+  {
+    "slug": "renault-clio-3",
+    "before_sha256": "e98b326493f823f5a26535eb6f10578d2fadc8a977e82abdf4f8e1356105f961",
+    "removed": [
+      {
+        "claim_id": "clio-3-1-5-dci-vanne-egr-encrassement",
+        "removed_text": "- **Vanne EGR** : encrassement fréquent (perte de puissance, fumées noires, voyant moteur)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      },
+      {
+        "claim_id": "clio-3-turbo-borgwarner-kp35-150000km",
+        "removed_text": "- **Turbo BorgWarner KP35** : usure prématurée si vidanges non respectées (sifflement après 150 000 km)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      }
+    ]
+  },
+  {
+    "slug": "renault-megane-3",
+    "before_sha256": "4054e570015f9d7b6ab7716f301646b6c7fdddf94511efc716fc217335a109dd",
+    "removed": [
+      {
+        "claim_id": "megane-3-1-5-dci-injecteurs-defaillance",
+        "removed_text": "- **Injecteurs** : défaillance fréquente (claquement, fumée)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      },
+      {
+        "claim_id": "megane-3-2-0-dci-pompe-hp-copeaux",
+        "removed_text": "- **Pompe haute pression (HP)** : copeaux métalliques possibles (point sensible — vidange régulière obligatoire)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      },
+      {
+        "claim_id": "megane-3-edc-vidange-60000km",
+        "removed_text": "4. **Boîte EDC** : vidange huile 60 000 km strictement obligatoire (sinon usure embrayages accélérée)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      }
+    ]
+  },
+  {
+    "slug": "volkswagen-golf-6",
+    "before_sha256": "a8a8efca4e76f2534e1b94c2ca93093e2d5daa64bd537cbb0db9ec0f6b468f0f",
+    "removed": [
+      {
+        "claim_id": "golf-6-1-4-tsi-chaine-etirement-premature",
+        "removed_text": "- **Chaîne distribution** : étirement prématuré (symptôme : bruit type claquement au démarrage à froid)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      },
+      {
+        "claim_id": "golf-6-2-0-tdi-fap-regenerations",
+        "removed_text": "- **FAP (Filtre à Particules)** : régénérations fréquentes en ville (trajets courts dégradent le FAP)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      },
+      {
+        "claim_id": "golf-6-dsg-vidange-60000km-mecatronique",
+        "removed_text": "- **Vidange huile** : tous les 60 000 km **strictement obligatoire** (sinon usure mécatronique accélérée)",
+        "reason": "Source attribuee hors sujet; preuve absente, pas de reformulation en fait."
+      }
+    ]
+  }
+]

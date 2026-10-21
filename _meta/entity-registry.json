@@ -7,14 +7,14 @@
       "id": "gamme:plaquette-de-frein",
       "title": "Plaquette de frein",
       "status": "draft",
-      "review_status": "proposed",
+      "review_status": "approved",
       "aliases": [
         "plaquettes de frein",
         "brake pad",
         "brake pads",
         "garniture de frein"
       ],
-      "origin": "proposals/plaquette-de-frein.md",
+      "origin": "wiki/gamme/plaquette-de-frein.md",
       "lineage_id": null
     }
   },

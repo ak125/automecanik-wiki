@@ -1,0 +1,91 @@
+{
+  "scope": "6 propositions, preuves et assertions orphelines ; aucun contrôle modifié",
+  "changes": [
+    {
+      "file": "proposals/support-moteur.md",
+      "removed": "Il porte la charge statique du moteur, limite ses mouvements et réduit la transmission des vibrations et des bruits à la carrosserie.",
+      "replacement": "Il porte la charge statique du moteur et limite ses mouvements.",
+      "reason": "Conserver la définition mécanique attestée. La fonction acoustique ZF est descriptive, pas une preuve diagnostique. Elle reste en audit tant que son exposition peut être confondue avec une relation diagnostic non qualifiée ; aucun synonyme pour contourner le contrôle."
+    },
+    {
+      "file": "proposals/vanne-egr.md",
+      "removed": "## Défauts du système et limites du diagnostic\n\nDes dépôts issus de la suie et du brouillard d’huile peuvent réduire le passage dans la vanne. Une fuite du circuit de dépression ou un défaut de commande peut également perturber son fonctionnement. Ces causes possibles ne suffisent pas à identifier une panne sur un véhicule précis. [^source]\n\n",
+      "replacement": "",
+      "reason": "Retrait du bloc diagnostique complet, conservé en audit : aucune relation structurée qualifiée ne porte ces causes. La preuve HELLA reste archivée, aucune relation ni validation humaine inventée."
+    },
+    {
+      "file": "proposals/_coverage/vanne-egr.coverage.yaml",
+      "removed_entry": {
+        "claim_id": "vanne-egr-source-3",
+        "section": "## Défauts du système et limites du diagnostic",
+        "text_anchor": "Des dépôts issus de la suie et du brouillard d’huile peuvent réduire le passage dans la vanne. Une fuite du circuit de dépression ",
+        "source_slug": "hella_techworld_egr_20261021",
+        "evidence_type": "technical_article_paraphrase",
+        "confidence": "medium",
+        "source_policy": "manual_review",
+        "source_status": "captured"
+      },
+      "reason": "Affirmation retirée du corps ; ne pas conserver une preuve orpheline."
+    },
+    {
+      "file": "proposals/renault-clio-3.md",
+      "removed": "### Caractéristiques techniques détaillées (millésime 2009 — référence 1.5 dCi 86 ch)\n\n| Caractéristique | Valeur |\n|---|---|\n| Longueur | 4,02 m |\n| Largeur | 2,02 m |\n| Hauteur | 1,49 m |\n| Empattement | 2,57 m |\n| Poids à vide (1.5 dCi) | 1 090 kg |\n| Volume coffre | 288 L (1 038 L sièges rabattus) |\n| Volume coffre Estate | 439 L (1 380 L sièges rabattus) |\n| Réservoir | 55 L essence / 50 L diesel |\n| Places | 5 |\n| Cylindrée (1.5 dCi) | 1 461 cm³ |\n| Couple (1.5 dCi 86 ch) | 200 Nm à 1 900 tr/min |\n| Boîte de vitesse | Mécanique 5 rapports |\n| Transmission | Traction |\n| Vitesse max (1.5 dCi 86 ch) | 176 km/h |\n| 0 à 100 km/h (1.5 dCi 86 ch) | 12,7 s |\n| Consommation mixte (1.5 dCi 86 ch) | 3,7 L/100 km |\n| Émissions CO2 (1.5 dCi 86 ch) | 98 g/km |\n| Pneumatiques (référence) | 185/60 R15 |\n| Diamètre de braquage | 11 m |\n| Norme Euro | EU4 |\n\n",
+      "replacement": "",
+      "reason": "Tableau de 20 valeurs attribué à une fiche Caradisiac non capturée, sans preuve de la version exacte. Tout le tableau est conservé en audit, pas seulement le couple signalé. Réintégration après preuve constructeur liée à la variante."
+    },
+    {
+      "file": "proposals/_coverage/renault-clio-3.coverage.yaml",
+      "removed_entry": {
+        "claim_id": "clio-3-caracteristiques-techniques-2009",
+        "section": "## Présentation",
+        "text_anchor": "4,02 m",
+        "source_slug": "caradisiac_fiche_renault_clio_3_2009",
+        "evidence_type": "caradisiac_spec_table",
+        "confidence": "medium",
+        "source_policy": "2_medium_concordant",
+        "source_status": "pending_capture"
+      },
+      "reason": "Affirmation retirée du corps ; ne pas conserver une preuve orpheline."
+    },
+    {
+      "file": "proposals/ford-focus-3.md",
+      "removed": "- Freinage Brembo 350 mm avant\n",
+      "replacement": "",
+      "reason": "Spécification de freinage de la variante RS sans archive constructeur correspondante. Aucune substitution de marque ni de dimension."
+    },
+    {
+      "file": "proposals/renault-megane-3.md",
+      "removed": "- **Freinage Brembo 4 pistons** avant (340 mm)\n",
+      "replacement": "",
+      "reason": "Spécification de freinage de la variante RS sans archive constructeur correspondante. Aucune substitution de marque ni de dimension."
+    },
+    {
+      "file": "proposals/_coverage/dacia.coverage.yaml",
+      "removed_entry": {
+        "claim_id": "dacia-automobile-dacia-sa-1990",
+        "section": "## Identité",
+        "text_anchor": "devenue Automobile Dacia SA en 1990",
+        "source_slug": "wikipedia_fr_dacia",
+        "evidence_type": "wikipedia_factual",
+        "confidence": "low",
+        "source_policy": "manual_review",
+        "source_status": "captured"
+      },
+      "reason": "Affirmation retirée du corps ; ne pas conserver une preuve orpheline."
+    },
+    {
+      "file": "proposals/_coverage/dacia.coverage.yaml",
+      "removed_entry": {
+        "claim_id": "dacia-marque-renault-group",
+        "section": "## Identité",
+        "text_anchor": "Dacia est depuis une marque de Renault Group",
+        "source_slug": "wikipedia_fr_dacia",
+        "evidence_type": "wikipedia_factual",
+        "confidence": "low",
+        "source_policy": "manual_review",
+        "source_status": "captured"
+      },
+      "reason": "Affirmation retirée du corps ; ne pas conserver une preuve orpheline."
+    }
+  ]
+}

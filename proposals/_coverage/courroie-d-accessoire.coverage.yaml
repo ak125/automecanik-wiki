@@ -1,0 +1,33 @@
+fiche: courroie-d-accessoire
+schema_version: 1.0.0
+generated_at: '2026-10-21'
+coverage_entries:
+- claim_id: courroie-hella-1
+  section: '## Définition'
+  text_anchor: La courroie transmet le mouvement du moteur au système d’entraînement
+    des accessoires. La documentation HELLA étudiée décrit le ca
+  source_slug: hella_poulie_alternateur_20261021
+  evidence_type: technical_article_paraphrase
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+- claim_id: courroie-hella-2
+  section: '## Fonctionnement'
+  text_anchor: La rotation du vilebrequin n’est pas uniforme pendant le cycle de combustion.
+    L’inertie de l’alternateur soumet alors la transmiss
+  source_slug: hella_poulie_alternateur_20261021
+  evidence_type: technical_article_paraphrase
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+- claim_id: courroie-hella-3
+  section: '## Limites pour le choix et le montage'
+  text_anchor: La poulie à roue libre transmet l’entraînement dans un sens de rotation.
+    Ce principe ne suffit pas à choisir une référence de cour
+  source_slug: hella_poulie_alternateur_20261021
+  evidence_type: technical_article_paraphrase
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+notes: 'Preuve unique medium : manual_review conserve. Aucun intervalle ni compatibilite
+  technique infere.'

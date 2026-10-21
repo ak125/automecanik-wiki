@@ -1,0 +1,33 @@
+fiche: support-moteur
+schema_version: 1.0.0
+generated_at: '2026-10-21'
+coverage_entries:
+- claim_id: support-moteur-source-1
+  section: '## Définition'
+  text_anchor: Le support moteur relie le moteur à la structure du véhicule.
+  source_slug: zf_supports_moteur_presentation_20261021
+  evidence_type: manufacturer_product_description
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+- claim_id: support-moteur-source-2
+  section: '## Fonctionnement'
+  text_anchor: Un support conventionnel utilise une liaison élastique associant du caoutchouc à du métal
+    ou à du plastique. Un support hydrauliqu
+  source_slug: zf_supports_moteur_presentation_20261021
+  evidence_type: manufacturer_product_description
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+- claim_id: support-moteur-source-3
+  section: '## Distinction avec le support de boîte'
+  text_anchor: Le support de boîte relie la transmission à la carrosserie. La fonction générale de ces
+    liaisons n’établit aucune interchangeabili
+  source_slug: zf_supports_moteur_presentation_20261021
+  evidence_type: manufacturer_product_description
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+notes: 'manual_review = examen restant, aucune revue effectuée. La page ZF est une présentation produit
+  : corroboration descriptive seulement, aucune preuve de diagnostic ou de compatibilité. Symptômes, choix,
+  entretien, FAQ et preuves d’atelier indépendantes restent à obtenir.'

@@ -1,0 +1,3548 @@
+{
+  "threshold": 0.85,
+  "apply": false,
+  "apply_failures": 0,
+  "tier_A": 1,
+  "tier_B": 13,
+  "eligible": 1,
+  "blocked": 13,
+  "unknown_fail_closed": 0,
+  "report": [
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/citroen-c3.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "COVERAGE_STRICT_FAIL",
+          "owner_stage": "COVERAGE",
+          "detector_stage": "COVERAGE_MAP",
+          "evidence": {
+            "fails": [
+              "proof_unavailable:claim_id=c3-3-generations-i-ii-iii:source_slug=wikipedia_fr_citroen_c3:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=c3-i-fc-2002-2009-pluriel:source_slug=wikipedia_fr_citroen_c3:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=c3-bsi-dysfonctionnements:source_slug=wikipedia_fr_citroen_c3:source_pending,page_not_archived,archive_hash_missing_or_invalid"
+            ],
+            "warns": []
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.28,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        },
+        {
+          "code": "TRUTH_LEVEL",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "truth_level": "L3"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.28,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.28,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.0,
+              "required": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "filled": [],
+              "missing_or_insufficient": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Présentation",
+                "Motorisations",
+                "Pièces compatibles (top gammes)",
+                "Particularités d'entretien",
+                "Questions fréquentes",
+                "Sources et provenance",
+                "Points à vérifier"
+              ],
+              "matched_headings": {
+                "Identité": [],
+                "Spécificités": [],
+                "Pièces fréquentes": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.0
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.21428571428571427,
+              "resolved": 3,
+              "total": 14,
+              "contribution": 0.042857
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 22,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "B": 0.0,
+            "A": 9.0,
+            "E": 10.0,
+            "F": 2.5
+          },
+          "shadow_applicable": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "B<15",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc",
+            "B:aucun_engineBlock",
+            "A:page_unproven=3 (confidence capped at medium)"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/citroen-c3.md",
+            "sha256": "c8e98f55c948572b46eb6969281c4947ecea2e930cdbf194b70219439cf1c3ad"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/vehicle/citroen-c3.md",
+            "sha256": null
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-air.md",
+            "sha256": "3217ce282740ae50f5caadef5b78b9a8fd994680890bf09a926d632440eb8671"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-carburant.md",
+            "sha256": "cf85c2a5e56c6a64483a5119319991398b5dfdcf81260a1e67cc753f9d9f0208"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-huile.md",
+            "sha256": "773367f7531a2c35118530fad506092d8567879ecc0e01f4eb9edf098d8e8561"
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/citroen-c3.coverage.yaml",
+            "sha256": "64440b80cd7c08101208390e49edcd2ad4a2217e2213512739bf722174804671"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.28
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/courroie-d-accessoire.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "SAFETY_HUMAN_REVIEW",
+          "owner_stage": "POLICY_SAFETY",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "is_safety": true,
+            "conditions": {
+              "dim_A_floor": false,
+              "dim_C_floor": false,
+              "no_quality_gate_fail": true,
+              "proof_sources_min": false,
+              "numeric_exactitude_verified": true,
+              "no_disputed_claims": true,
+              "diagnostic_live_authority_not_claimed": true,
+              "no_manual_review_policy": false,
+              "coverage_strict_pass": true,
+              "regression_gate_pass": true,
+              "provenance_pass": true
+            },
+            "blocking_conditions": [
+              "dim_A_floor",
+              "dim_C_floor",
+              "proof_sources_min",
+              "no_manual_review_policy"
+            ],
+            "unavailable_conditions": [],
+            "details": {
+              "dim_A_floor": {
+                "value": 18.0,
+                "floor": 22.0,
+                "shadow_error": null
+              },
+              "dim_C_floor": {
+                "value": 0.0,
+                "floor": 15.0,
+                "shadow_error": null
+              },
+              "no_quality_gate_fail": {
+                "gates": [
+                  "source",
+                  "claim",
+                  "contradiction",
+                  "risk",
+                  "confidence"
+                ],
+                "failing": []
+              },
+              "proof_sources_min": {
+                "distinct_publishers": 1,
+                "min": 3,
+                "publishers": {
+                  "hella tech world": [
+                    "hella_poulie_alternateur_20261021"
+                  ]
+                },
+                "not_counted": {}
+              },
+              "numeric_exactitude_verified": {
+                "verified": true,
+                "violations_total": 0,
+                "sample": [],
+                "anchored_claims": 3,
+                "anchors_unmasked": [],
+                "strings_read": {
+                  "fiche": 126,
+                  "seo": 56,
+                  "diagnostic": 0
+                },
+                "published": {
+                  "seo": true,
+                  "diagnostic": false
+                },
+                "projection_warnings": [],
+                "unavailable": [],
+                "family": null,
+                "ranges_loaded": true,
+                "relations": []
+              },
+              "no_disputed_claims": {
+                "value": true
+              },
+              "diagnostic_live_authority_not_claimed": {
+                "diagnostic_safe_true": []
+              },
+              "no_manual_review_policy": {
+                "manual_review": [
+                  "coverage_entries[courroie-hella-1]",
+                  "coverage_entries[courroie-hella-2]",
+                  "coverage_entries[courroie-hella-3]"
+                ]
+              }
+            },
+            "policy": {
+              "auto_approval_adr": "ADR-114",
+              "status": "ratified"
+            }
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.36,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.36,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.36,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.4,
+              "required": [
+                "Définition",
+                "Fonctionnement",
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "filled": [
+                "Définition",
+                "Fonctionnement"
+              ],
+              "missing_or_insufficient": [
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Définition",
+                "Fonctionnement",
+                "Limites pour le choix et le montage"
+              ],
+              "matched_headings": {
+                "Définition": [
+                  "Définition"
+                ],
+                "Fonctionnement": [
+                  "Fonctionnement"
+                ],
+                "Symptômes d'usure": [],
+                "Choix selon véhicule": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.12
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.0,
+              "resolved": 0,
+              "total": 0,
+              "contribution": 0.0
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 31,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "A": 18.0,
+            "E": 6.0,
+            "F": 1.0
+          },
+          "shadow_applicable": [
+            "A",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/courroie-d-accessoire.md",
+            "sha256": "684bcd9c5630a27973bac316c05ff24fe1a3a308dbcef202eea3e063eecf6ddd"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/gamme/courroie-d-accessoire.md",
+            "sha256": null
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/courroie-d-accessoire.coverage.yaml",
+            "sha256": "e01931d7a5481ccbb2db8adc38c3122dce4cfd8b870d9e21ce18e51d1ae76af9"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/courroie-d-accessoire/hella-com-wl-hella-poulie-20261021-bd0c1873.md",
+            "sha256": "fb485f82f9e87e17c47146ee141771b483d3d0c41f98382301696b3c157b59ac"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.36
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/dacia.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "COVERAGE_STRICT_FAIL",
+          "owner_stage": "COVERAGE",
+          "detector_stage": "COVERAGE_MAP",
+          "evidence": {
+            "fails": [
+              "entry[2].text_anchor absent de la prose de '## Identité' (claim_id=dacia-automobile-dacia-sa-1990)",
+              "entry[4].text_anchor absent de la prose de '## Identité' (claim_id=dacia-marque-renault-group)"
+            ],
+            "warns": []
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.59,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        },
+        {
+          "code": "TRUTH_LEVEL",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "truth_level": "L3"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.59,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.59,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.48,
+              "reference_count": 5,
+              "default_confidence": "medium",
+              "contribution": 0.192
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 1.0,
+              "required": [
+                "Identité",
+                "Modèles principaux",
+                "Spécificités techniques",
+                "FAQ"
+              ],
+              "filled": [
+                "Identité",
+                "Modèles principaux",
+                "Spécificités techniques",
+                "FAQ"
+              ],
+              "missing_or_insufficient": [],
+              "observed_headings": [
+                "Identité",
+                "Modèles principaux",
+                "Spécificités techniques",
+                "FAQ"
+              ],
+              "matched_headings": {
+                "Identité": [
+                  "Identité"
+                ],
+                "Modèles principaux": [
+                  "Modèles principaux"
+                ],
+                "Spécificités techniques": [
+                  "Spécificités techniques"
+                ],
+                "FAQ": [
+                  "FAQ"
+                ]
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.3
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.0,
+              "resolved": 0,
+              "total": 0,
+              "contribution": 0.0
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 1.0,
+              "distinct_kind_count": 2,
+              "measures_publisher_independence": false,
+              "contribution": 0.1
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 30,
+          "shadow_dims": {
+            "A": 10.7,
+            "C": 0.0,
+            "E": 8.0,
+            "F": 1.0
+          },
+          "shadow_applicable": [
+            "A",
+            "C",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "C<15"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "C:aucun_bloc"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/dacia.md",
+            "sha256": "87f28a49536267393af3dd04999dfc7ae77e125ea3a757ea718360d1a2fbdb04"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/constructeur/dacia.md",
+            "sha256": null
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/dacia.coverage.yaml",
+            "sha256": "72cac95eeb9a265ccfe78b97f5e3ba21db5e7a74a10284c8d3d9b5db937d8aa7"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/divers/dacia-fr-wl-dacia-histoire-20261021-6e686270.md",
+            "sha256": "bab11f800ca9099cbcdb25a14c6d27152a998716c46b134e9b1d698c22a468a9"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/divers/dacia-fr-wl-dacia-site-constructeur-464e5258.md",
+            "sha256": "c67d0c659b36310fa5a5f2f4ae04932316b71e7e96d020977b6623f85122c4c7"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/divers/fr-wikipedia-org-wl-dacia-wikipedia-fr-e3d3d4e6.md",
+            "sha256": "5c560f87ab0025e803985ebe0e465c01f9dea19c903db4c7cb1c3dcd83eaa41d"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.59
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/disque-de-frein.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "C",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "SAFETY_HUMAN_REVIEW",
+          "owner_stage": "POLICY_SAFETY",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "is_safety": true,
+            "conditions": {
+              "dim_A_floor": true,
+              "dim_C_floor": false,
+              "no_quality_gate_fail": true,
+              "proof_sources_min": true,
+              "numeric_exactitude_verified": true,
+              "no_disputed_claims": true,
+              "diagnostic_live_authority_not_claimed": true,
+              "no_manual_review_policy": false,
+              "coverage_strict_pass": true,
+              "regression_gate_pass": true,
+              "provenance_pass": true
+            },
+            "blocking_conditions": [
+              "dim_C_floor",
+              "no_manual_review_policy"
+            ],
+            "unavailable_conditions": [],
+            "details": {
+              "dim_A_floor": {
+                "value": 24.4,
+                "floor": 22.0,
+                "shadow_error": null
+              },
+              "dim_C_floor": {
+                "value": 0.0,
+                "floor": 15.0,
+                "shadow_error": null
+              },
+              "no_quality_gate_fail": {
+                "gates": [
+                  "source",
+                  "claim",
+                  "contradiction",
+                  "risk",
+                  "confidence"
+                ],
+                "failing": []
+              },
+              "proof_sources_min": {
+                "distinct_publishers": 3,
+                "min": 3,
+                "publishers": {
+                  "brembo": [
+                    "brembo_epaisseur_disque_20261021"
+                  ],
+                  "hella tech world": [
+                    "hella_disques_frein_20261021"
+                  ],
+                  "zf aftermarket (trw)": [
+                    "oem_zf_trw_brake_judder"
+                  ]
+                },
+                "not_counted": {
+                  "wikipedia_fr_frein_a_disque": "type=wiki_externe role=corroboration"
+                }
+              },
+              "numeric_exactitude_verified": {
+                "verified": true,
+                "violations_total": 0,
+                "sample": [],
+                "anchored_claims": 75,
+                "anchors_unmasked": [],
+                "strings_read": {
+                  "fiche": 220,
+                  "seo": 119,
+                  "diagnostic": 89
+                },
+                "published": {
+                  "seo": true,
+                  "diagnostic": true
+                },
+                "projection_warnings": [],
+                "unavailable": [],
+                "family": "freinage",
+                "ranges_loaded": true,
+                "relations": [
+                  {
+                    "index": 0,
+                    "strings_read": 53,
+                    "violations_total": 0,
+                    "sample": []
+                  },
+                  {
+                    "index": 1,
+                    "strings_read": 53,
+                    "violations_total": 0,
+                    "sample": []
+                  }
+                ]
+              },
+              "no_disputed_claims": {
+                "value": true
+              },
+              "diagnostic_live_authority_not_claimed": {
+                "diagnostic_safe_true": []
+              },
+              "no_manual_review_policy": {
+                "manual_review": [
+                  "coverage_entries[disque-definition-moyeu-plaquettes]",
+                  "coverage_entries[disque-definition-etrier-chape]",
+                  "coverage_entries[disque-energie-cinetique-chaleur]",
+                  "coverage_entries[disque-pistons-pression-hydraulique]",
+                  "coverage_entries[disque-couple-freinage-chaleur]",
+                  "coverage_entries[disque-chaleur-evite-deformation]",
+                  "coverage_entries[disque-chaleur-voile]",
+                  "coverage_entries[disque-chaleur-glace]",
+                  "coverage_entries[disque-ventile-entretoises]",
+                  "coverage_entries[disque-perfore-film-eau]",
+                  "coverage_entries[disque-perfore-inconvenients]",
+                  "coverage_entries[disque-fonte-materiau]",
+                  "coverage_entries[disque-faq-perfore]",
+                  "coverage_entries[disque-perfore-fragilite]",
+                  "coverage_entries[disque-fonte-proprietes]",
+                  "coverage_entries[disque-chaleur-deux-defauts]",
+                  "coverage_entries[disque-faq-perfore-film-eau]",
+                  "coverage_entries[disque-entretien-1-brembo-epaisseur-disque-20261021]",
+                  "coverage_entries[disque-personnel-qualifie]"
+                ]
+              }
+            },
+            "policy": {
+              "auto_approval_adr": "ADR-114",
+              "status": "ratified"
+            }
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.65,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": [
+          {
+            "index": 0,
+            "conditions": {
+              "fiche_eligible": false,
+              "not_safety": false
+            },
+            "blocking_conditions": [
+              "fiche_eligible",
+              "not_safety",
+              "sources_raw_proven",
+              "citations_anchored",
+              "proof_publishers_min",
+              "source_policy_resolved",
+              "numeric_verified",
+              "no_review_claimed"
+            ],
+            "would_review": false,
+            "details": {
+              "not_safety": {
+                "is_safety": true
+              }
+            }
+          },
+          {
+            "index": 1,
+            "conditions": {
+              "fiche_eligible": false,
+              "not_safety": false
+            },
+            "blocking_conditions": [
+              "fiche_eligible",
+              "not_safety",
+              "sources_raw_proven",
+              "citations_anchored",
+              "proof_publishers_min",
+              "source_policy_resolved",
+              "numeric_verified",
+              "no_review_claimed"
+            ],
+            "would_review": false,
+            "details": {
+              "not_safety": {
+                "is_safety": true
+              }
+            }
+          }
+        ]
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.65,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.65,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6166666666666667,
+              "reference_count": 6,
+              "default_confidence": "medium",
+              "contribution": 0.246667
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 1.0,
+              "required": [
+                "Définition",
+                "Fonctionnement",
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "filled": [
+                "Définition",
+                "Fonctionnement",
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "missing_or_insufficient": [],
+              "observed_headings": [
+                "Définition",
+                "Rôle technique",
+                "Fonctionnement",
+                "Symptômes & diagnostic",
+                "Critères de choix selon le véhicule",
+                "Montage & erreurs fréquentes",
+                "FAQ",
+                "Entretien et limite d’usure",
+                "Provenance & qualité"
+              ],
+              "matched_headings": {
+                "Définition": [
+                  "Définition"
+                ],
+                "Fonctionnement": [
+                  "Rôle technique",
+                  "Fonctionnement"
+                ],
+                "Symptômes d'usure": [
+                  "Symptômes & diagnostic"
+                ],
+                "Choix selon véhicule": [
+                  "Critères de choix selon le véhicule"
+                ],
+                "FAQ": [
+                  "FAQ"
+                ]
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.3
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.0,
+              "resolved": 0,
+              "total": 0,
+              "contribution": 0.0
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 1.0,
+              "distinct_kind_count": 2,
+              "measures_publisher_independence": false,
+              "contribution": 0.1
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "C",
+          "shadow_total": 44,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "A": 24.4,
+            "E": 10.0,
+            "F": 1.0
+          },
+          "shadow_applicable": [
+            "A",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/disque-de-frein.md",
+            "sha256": "9216a9b8ea192a7f622a60c65d39196e823893c01d3441d3fa4ca8f6c7bc0b6e"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/gamme/disque-de-frein.md",
+            "sha256": null
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/disque-de-frein.coverage.yaml",
+            "sha256": "236bd3f13f5cf92db0879bc180093ccfcb3235a3c642fe64d667aca75e6fbe68"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/disque-de-frein/aftermarket-zf-com-wl-disque-de-frein-zf-broutement-c38b7a9a.md",
+            "sha256": "46ef0642d8ac7f34b2930913a45db75b785acbcbc7b230ce3cbf0150ac81757a"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/disque-de-frein/asia-bremboparts-com-wl-brembo-epaisseur-20261021-119a1c97.md",
+            "sha256": "04d85d5782f1cf454f0d8e58eddf3b7665f697c83f57639f3a53533c52212c1b"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/disque-de-frein/fr-wikipedia-org-wl-disque-de-frein-wikipedia-fr-88f2cfa4.md",
+            "sha256": "7359136cb80c9e21948e7c393fc5a78c960d0a749ff8c08e4c16b92f1a76a296"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/disque-de-frein/hella-com-wl-hella-disques-20261021-eb410e50.md",
+            "sha256": "665683c3441e6f45ae07ef85e393f48277fb5a7981ec94a5495539c55a51f7ca"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.65
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/ford-focus-3.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "COVERAGE_STRICT_FAIL",
+          "owner_stage": "COVERAGE",
+          "detector_stage": "COVERAGE_MAP",
+          "evidence": {
+            "fails": [
+              "proof_unavailable:claim_id=focus-3-c346-2011-2018:source_slug=wikipedia_fr_ford_focus:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=focus-3-rs-mk3-350ch-4wd-drift:source_slug=wikipedia_fr_ford_focus:source_pending,page_not_archived,archive_hash_missing_or_invalid"
+            ],
+            "warns": []
+          }
+        },
+        {
+          "code": "GATE_RISK",
+          "owner_stage": "QUALITY",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "name": "risk",
+            "status": "fail",
+            "violations": [
+              {
+                "gate_id": "pollution",
+                "message": "pollution_detected: matched /\\bBrembo\\b/ → 'Brembo'"
+              }
+            ]
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.29,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        },
+        {
+          "code": "TRUTH_LEVEL",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "truth_level": "L3"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.29,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.29,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.0,
+              "required": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "filled": [],
+              "missing_or_insufficient": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Présentation",
+                "Motorisations",
+                "Pièces compatibles (top gammes)",
+                "Particularités d'entretien",
+                "Questions fréquentes",
+                "Sources et provenance",
+                "Points à vérifier"
+              ],
+              "matched_headings": {
+                "Identité": [],
+                "Spécificités": [],
+                "Pièces fréquentes": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.0
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.23076923076923078,
+              "resolved": 3,
+              "total": 13,
+              "contribution": 0.046154
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "fail",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 22,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "B": 0.0,
+            "A": 9.0,
+            "E": 10.0,
+            "F": 2.5
+          },
+          "shadow_applicable": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "B<15",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc",
+            "B:aucun_engineBlock",
+            "A:page_unproven=2 (confidence capped at medium)"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/ford-focus-3.md",
+            "sha256": "4332d5a786547d95d5607d3f1cfa01466d63e9e28b1d3e22470d58798a345760"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/vehicle/ford-focus-3.md",
+            "sha256": null
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-air.md",
+            "sha256": "3217ce282740ae50f5caadef5b78b9a8fd994680890bf09a926d632440eb8671"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-carburant.md",
+            "sha256": "cf85c2a5e56c6a64483a5119319991398b5dfdcf81260a1e67cc753f9d9f0208"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-huile.md",
+            "sha256": "773367f7531a2c35118530fad506092d8567879ecc0e01f4eb9edf098d8e8561"
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/ford-focus-3.coverage.yaml",
+            "sha256": "9b9fd3906f24de29ec5e5dc6b41af5d3e0a70cfe5e0214d6045a942d67a449cb"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.29
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/peugeot-206.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "COVERAGE_STRICT_FAIL",
+          "owner_stage": "COVERAGE",
+          "detector_stage": "COVERAGE_MAP",
+          "evidence": {
+            "fails": [
+              "proof_unavailable:claim_id=206-1998-2013-9m-unites:source_slug=wikipedia_fr_peugeot_206:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=206-3-phases-1-2-plus:source_slug=wikipedia_fr_peugeot_206:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=206-rc-177ch-rfk-ew10j4s:source_slug=wikipedia_fr_peugeot_206:source_pending,page_not_archived,archive_hash_missing_or_invalid"
+            ],
+            "warns": []
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.29,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        },
+        {
+          "code": "TRUTH_LEVEL",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "truth_level": "L3"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.29,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.29,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.0,
+              "required": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "filled": [],
+              "missing_or_insufficient": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Présentation",
+                "Motorisations",
+                "Pièces compatibles (top gammes)",
+                "Particularités d'entretien",
+                "Questions fréquentes",
+                "Sources et provenance",
+                "Points à vérifier"
+              ],
+              "matched_headings": {
+                "Identité": [],
+                "Spécificités": [],
+                "Pièces fréquentes": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.0
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.25,
+              "resolved": 3,
+              "total": 12,
+              "contribution": 0.05
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 22,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "B": 0.0,
+            "A": 9.0,
+            "E": 10.0,
+            "F": 2.5
+          },
+          "shadow_applicable": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "B<15",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc",
+            "B:aucun_engineBlock",
+            "A:page_unproven=3 (confidence capped at medium)"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/peugeot-206.md",
+            "sha256": "baf8b56dd186dd84328f352fff1316eb3ae8d678c72a243fae5ca726c5ee6122"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/vehicle/peugeot-206.md",
+            "sha256": null
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-air.md",
+            "sha256": "3217ce282740ae50f5caadef5b78b9a8fd994680890bf09a926d632440eb8671"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-carburant.md",
+            "sha256": "cf85c2a5e56c6a64483a5119319991398b5dfdcf81260a1e67cc753f9d9f0208"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-huile.md",
+            "sha256": "773367f7531a2c35118530fad506092d8567879ecc0e01f4eb9edf098d8e8561"
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/peugeot-206.coverage.yaml",
+            "sha256": "b1686d0586899f8b722732409f72029b528c8c5b33a76a70f46978a56eba5072"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.29
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/plaquette-de-frein.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "S",
+      "promotion_status": "ELIGIBLE",
+      "eligible": true,
+      "blocking_reasons": [],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": [
+          {
+            "index": 0,
+            "conditions": {
+              "fiche_eligible": true,
+              "not_safety": false
+            },
+            "blocking_conditions": [
+              "not_safety",
+              "sources_raw_proven",
+              "citations_anchored",
+              "proof_publishers_min",
+              "source_policy_resolved",
+              "numeric_verified",
+              "no_review_claimed"
+            ],
+            "would_review": false,
+            "details": {
+              "not_safety": {
+                "is_safety": true
+              }
+            }
+          }
+        ]
+      },
+      "evaluation": {
+        "tier": "A",
+        "confidence_score": 0.89,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.89,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.7166666666666667,
+              "reference_count": 12,
+              "default_confidence": "medium",
+              "contribution": 0.286667
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 1.0,
+              "required": [
+                "Définition",
+                "Fonctionnement",
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "filled": [
+                "Définition",
+                "Fonctionnement",
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "missing_or_insufficient": [],
+              "observed_headings": [
+                "Définition",
+                "Rôle technique",
+                "Symptômes & diagnostic",
+                "Critères de choix selon le véhicule",
+                "Montage & erreurs fréquentes",
+                "Entretien & bonnes pratiques",
+                "Marques & qualité",
+                "FAQ",
+                "Provenance & qualité"
+              ],
+              "matched_headings": {
+                "Définition": [
+                  "Définition"
+                ],
+                "Fonctionnement": [
+                  "Rôle technique"
+                ],
+                "Symptômes d'usure": [
+                  "Symptômes & diagnostic"
+                ],
+                "Choix selon véhicule": [
+                  "Critères de choix selon le véhicule"
+                ],
+                "FAQ": [
+                  "FAQ"
+                ]
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.3
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 1.0,
+              "resolved": 1,
+              "total": 1,
+              "contribution": 0.2
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 1.0,
+              "distinct_kind_count": 2,
+              "measures_publisher_independence": false,
+              "contribution": 0.1
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "S",
+          "shadow_total": 95,
+          "shadow_dims": {
+            "D": 15.0,
+            "C": 20.0,
+            "A": 29.6,
+            "E": 10.0,
+            "F": 1.0
+          },
+          "shadow_applicable": [
+            "A",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/plaquette-de-frein.md",
+            "sha256": "f87e0a9892fc097b5c5bebb78ec4b1df7ed17dc697c6f7c3bdaeb5fef72debb4"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/gamme/plaquette-de-frein.md",
+            "sha256": null
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/diagnostic/signs.md",
+            "sha256": "40be85576307102821ef2529dab9b5d13c04339dd63da8a3c78dfd9e34b06c53"
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/plaquette-de-frein.coverage.yaml",
+            "sha256": "e9cb1fb347ff5006c0ebff3e80d8ed6a7b3dfb7957fa00e1d37cc4127fb00e7e"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+            "sha256": "6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+            "sha256": "05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+            "sha256": "87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+            "sha256": "ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+            "sha256": "76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md",
+            "sha256": "9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "A",
+      "confidence_score": 0.89
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/renault-clio-3.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "COVERAGE_STRICT_FAIL",
+          "owner_stage": "COVERAGE",
+          "detector_stage": "COVERAGE_MAP",
+          "evidence": {
+            "fails": [
+              "proof_unavailable:claim_id=clio-3-iii-br-cr-2005-2014:source_slug=wikipedia_fr_renault_clio_iii:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=clio-3-caracteristiques-techniques-2009:source_slug=caradisiac_fiche_renault_clio_3_2009:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=clio-3-rappel-injecteurs-delphi-k9k:source_slug=renault_rappel_constructeur:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=clio-3-rappel-platine-fusibles:source_slug=renault_rappel_constructeur:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=clio-3-vehicules-proches-modus-twingo-sandero:source_slug=wikipedia_fr_renault_clio_iii:source_pending,page_not_archived,archive_hash_missing_or_invalid"
+            ],
+            "warns": []
+          }
+        },
+        {
+          "code": "NUMERIC_HIGH_HARM",
+          "owner_stage": "POLICY_NUMERIC",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "block": [
+              "200 Nm"
+            ]
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.32,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        },
+        {
+          "code": "TRUTH_LEVEL",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "truth_level": "L3"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.32,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.32,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 2,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.0,
+              "required": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "filled": [],
+              "missing_or_insufficient": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Présentation",
+                "Motorisations",
+                "Pièces compatibles (top gammes)",
+                "Particularités d'entretien",
+                "Questions fréquentes",
+                "Sources et provenance",
+                "Points à vérifier"
+              ],
+              "matched_headings": {
+                "Identité": [],
+                "Spécificités": [],
+                "Pièces fréquentes": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.0
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.3888888888888889,
+              "resolved": 7,
+              "total": 18,
+              "contribution": 0.077778
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 27,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "B": 0.0,
+            "A": 14.4,
+            "E": 10.0,
+            "F": 2.5
+          },
+          "shadow_applicable": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "B<15",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc",
+            "B:aucun_engineBlock",
+            "A:page_unproven=5 (confidence capped at medium)"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/renault-clio-3.md",
+            "sha256": "992eca8a75c10bef372b9eccd4f0ac1749e6cf7cb272c1f759091bfc51202ede"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/vehicle/renault-clio-3.md",
+            "sha256": null
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-air.md",
+            "sha256": "3217ce282740ae50f5caadef5b78b9a8fd994680890bf09a926d632440eb8671"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-carburant.md",
+            "sha256": "cf85c2a5e56c6a64483a5119319991398b5dfdcf81260a1e67cc753f9d9f0208"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-huile.md",
+            "sha256": "773367f7531a2c35118530fad506092d8567879ecc0e01f4eb9edf098d8e8561"
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/renault-clio-3.coverage.yaml",
+            "sha256": "a27025e36dd3d6a0bdf3e481b24de6c889c3043b3393ffc05ef2ca0663728491"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.32
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/renault-megane-3.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "COVERAGE_STRICT_FAIL",
+          "owner_stage": "COVERAGE",
+          "detector_stage": "COVERAGE_MAP",
+          "evidence": {
+            "fails": [
+              "proof_unavailable:claim_id=megane-3-iii-2008-2016:source_slug=wikipedia_fr_renault_megane_iii:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=megane-3-rs-trophy-265ch-record-nurburgring:source_slug=wikipedia_fr_renault_megane_iii:source_pending,page_not_archived,archive_hash_missing_or_invalid"
+            ],
+            "warns": []
+          }
+        },
+        {
+          "code": "GATE_RISK",
+          "owner_stage": "QUALITY",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "name": "risk",
+            "status": "fail",
+            "violations": [
+              {
+                "gate_id": "pollution",
+                "message": "pollution_detected: matched /\\bBrembo\\b/ → 'Brembo'"
+              }
+            ]
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.29,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        },
+        {
+          "code": "TRUTH_LEVEL",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "truth_level": "L3"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.29,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.29,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.0,
+              "required": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "filled": [],
+              "missing_or_insufficient": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Présentation",
+                "Motorisations",
+                "Pièces compatibles (top gammes)",
+                "Particularités d'entretien",
+                "Questions fréquentes",
+                "Sources et provenance",
+                "Points à vérifier"
+              ],
+              "matched_headings": {
+                "Identité": [],
+                "Spécificités": [],
+                "Pièces fréquentes": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.0
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.23076923076923078,
+              "resolved": 3,
+              "total": 13,
+              "contribution": 0.046154
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "fail",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 22,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "B": 0.0,
+            "A": 9.0,
+            "E": 10.0,
+            "F": 2.5
+          },
+          "shadow_applicable": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "B<15",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc",
+            "B:aucun_engineBlock",
+            "A:page_unproven=2 (confidence capped at medium)"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/renault-megane-3.md",
+            "sha256": "ed006091d1b41798d9fa8c8a74d184fcbfd147cc4c5f742774304cc133c804fd"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/vehicle/renault-megane-3.md",
+            "sha256": null
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-air.md",
+            "sha256": "3217ce282740ae50f5caadef5b78b9a8fd994680890bf09a926d632440eb8671"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-carburant.md",
+            "sha256": "cf85c2a5e56c6a64483a5119319991398b5dfdcf81260a1e67cc753f9d9f0208"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-huile.md",
+            "sha256": "773367f7531a2c35118530fad506092d8567879ecc0e01f4eb9edf098d8e8561"
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/renault-megane-3.coverage.yaml",
+            "sha256": "1775efdee68ce7df99309312823cafc2a0c68ea050a7adc12d0b6b6bb1379c5a"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.29
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/renault-scenic-ii.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "COVERAGE_STRICT_FAIL",
+          "owner_stage": "COVERAGE",
+          "detector_stage": "COVERAGE_MAP",
+          "evidence": {
+            "fails": [
+              "proof_coverage_missing: no claim-to-source evidence available for promotion"
+            ],
+            "warns": [
+              "coverage_map_absente: aucune proposals/_coverage/renault-scenic-ii.coverage.yaml (la fiche a 5 sections H2 sourçables → dim A du score = 0)"
+            ]
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.24,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.24,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.24,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.0,
+              "required": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "filled": [],
+              "missing_or_insufficient": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Présentation",
+                "Motorisations",
+                "État des preuves d’entretien",
+                "Sources et provenance",
+                "Points à vérifier"
+              ],
+              "matched_headings": {
+                "Identité": [],
+                "Spécificités": [],
+                "Pièces fréquentes": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.0
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.0,
+              "resolved": 0,
+              "total": 0,
+              "contribution": 0.0
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 11,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "B": 0.0,
+            "A": 0.0,
+            "E": 10.0,
+            "F": 1.0
+          },
+          "shadow_applicable": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "B<15",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc",
+            "B:aucun_engineBlock",
+            "A:no_coverage_map(dégradé)"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/renault-scenic-ii.md",
+            "sha256": "c78b4cdd4146096cd4d0bb0ee3c07fe5d5f2227f3182abd0d4e3ebe8eb6ed173"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/vehicle/renault-scenic-ii.md",
+            "sha256": null
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/renault-scenic-ii.coverage.yaml",
+            "sha256": null
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.24
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/support-moteur.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "GATE_CONFIDENCE",
+          "owner_stage": "QUALITY",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "name": "confidence",
+            "status": "fail",
+            "violations": [
+              {
+                "gate_id": "symptom_unstructured",
+                "message": "symptom_unstructured: implicit symptom(s) ['bruits', 'vibrations'] in body not mirrored in diagnostic_relations[]"
+              }
+            ]
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.36,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.36,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.36,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.4,
+              "required": [
+                "Définition",
+                "Fonctionnement",
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "filled": [
+                "Définition",
+                "Fonctionnement"
+              ],
+              "missing_or_insufficient": [
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Définition",
+                "Fonctionnement",
+                "Distinction avec le support de boîte"
+              ],
+              "matched_headings": {
+                "Définition": [
+                  "Définition"
+                ],
+                "Fonctionnement": [
+                  "Fonctionnement"
+                ],
+                "Symptômes d'usure": [],
+                "Choix selon véhicule": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.12
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.0,
+              "resolved": 0,
+              "total": 0,
+              "contribution": 0.0
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "fail"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 31,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "A": 18.0,
+            "E": 6.0,
+            "F": 1.0
+          },
+          "shadow_applicable": [
+            "A",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/support-moteur.md",
+            "sha256": "e71897bf0dbdf2e70697bc1264effd0fa7ed99880e0dfbf5d6b110a0a187de30"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/gamme/support-moteur.md",
+            "sha256": null
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/support-moteur.coverage.yaml",
+            "sha256": "44e22f36e1f117130118fa372f024b60f0d476e87e9c60563bfda247556ecf1b"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/support-moteur/aftermarket-zf-com-wl-support-moteur-zf-20261021-9f6d624a.md",
+            "sha256": "57c884bc6e09b7eddde754b1cace92a5160dcf960d928c5685cd9b6cfc96233c"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.36
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/thermostat.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.36,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.36,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.36,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.4,
+              "required": [
+                "Définition",
+                "Fonctionnement",
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "filled": [
+                "Définition",
+                "Fonctionnement"
+              ],
+              "missing_or_insufficient": [
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Définition",
+                "Fonctionnement",
+                "Place dans le circuit"
+              ],
+              "matched_headings": {
+                "Définition": [
+                  "Définition"
+                ],
+                "Fonctionnement": [
+                  "Fonctionnement"
+                ],
+                "Symptômes d'usure": [],
+                "Choix selon véhicule": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.12
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.0,
+              "resolved": 0,
+              "total": 0,
+              "contribution": 0.0
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 31,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "A": 18.0,
+            "E": 6.0,
+            "F": 1.0
+          },
+          "shadow_applicable": [
+            "A",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/thermostat.md",
+            "sha256": "651be725c26c43516f1d40f1a26252bf30b8e0bfdb915e57574691603f739215"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/gamme/thermostat.md",
+            "sha256": null
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/thermostat.coverage.yaml",
+            "sha256": "ae8d65f5dbdb7006ca0decbd32da125001ec175235083c5dfbfdb6cfc0f16702"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/thermostat/hella-com-wl-thermostat-hella-20261021-65248188.md",
+            "sha256": "b3bd187cda7333c5fe2b58c28ba2d4c6bb42650763bb20ddc7e9859b946c3fd3"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.36
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/vanne-egr.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "GATE_CONFIDENCE",
+          "owner_stage": "QUALITY",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "name": "confidence",
+            "status": "fail",
+            "violations": [
+              {
+                "gate_id": "symptom_unstructured",
+                "message": "symptom_unstructured: implicit symptom(s) ['fuite'] in body not mirrored in diagnostic_relations[]"
+              }
+            ]
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.36,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.36,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.36,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.4,
+              "required": [
+                "Définition",
+                "Fonctionnement",
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "filled": [
+                "Définition",
+                "Fonctionnement"
+              ],
+              "missing_or_insufficient": [
+                "Symptômes d'usure",
+                "Choix selon véhicule",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Définition",
+                "Fonctionnement",
+                "Défauts du système et limites du diagnostic",
+                "Conseil pédagogique d’entretien"
+              ],
+              "matched_headings": {
+                "Définition": [
+                  "Définition"
+                ],
+                "Fonctionnement": [
+                  "Fonctionnement"
+                ],
+                "Symptômes d'usure": [],
+                "Choix selon véhicule": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.12
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.0,
+              "resolved": 0,
+              "total": 0,
+              "contribution": 0.0
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "fail"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 34,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "A": 18.0,
+            "E": 8.0,
+            "F": 1.0
+          },
+          "shadow_applicable": [
+            "A",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/vanne-egr.md",
+            "sha256": "f166bacd922b9613373530b20ecf3086d0a98818cbfecb813948a7259db46106"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/gamme/vanne-egr.md",
+            "sha256": null
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/vanne-egr.coverage.yaml",
+            "sha256": "6145b42e3af46be864075eaf66fc1d7b8fd98cad04aac9f052c32eed5020d5c5"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_archive",
+            "path": "sources/auto-captures/vanne-egr/hella-com-wl-vanne-egr-hella-techworld-20261021-f554b26e.md",
+            "sha256": "c5677fb24a31ddd751268b856812e5920d908cb501d8790499b03277f88e3907"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.36
+    },
+    {
+      "file": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/volkswagen-golf-6.md",
+      "schema_version": "promotion-decision/v1",
+      "substance_tier": "D",
+      "promotion_status": "BLOCKED",
+      "eligible": false,
+      "blocking_reasons": [
+        {
+          "code": "COVERAGE_STRICT_FAIL",
+          "owner_stage": "COVERAGE",
+          "detector_stage": "COVERAGE_MAP",
+          "evidence": {
+            "fails": [
+              "proof_unavailable:claim_id=golf-6-vi-5k-2008-2012:source_slug=wikipedia_fr_volkswagen_golf_vi:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=golf-6-plate-forme-pq35-vag:source_slug=wikipedia_fr_volkswagen_golf_vi:source_pending,page_not_archived,archive_hash_missing_or_invalid",
+              "proof_unavailable:claim_id=golf-6-r-mk6-270ch-4motion-haldex:source_slug=wikipedia_fr_volkswagen_golf_vi:source_pending,page_not_archived,archive_hash_missing_or_invalid"
+            ],
+            "warns": []
+          }
+        },
+        {
+          "code": "SOURCE_DIVERSITY",
+          "owner_stage": "SOURCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "distinct_kinds": 1
+          }
+        },
+        {
+          "code": "SUBSTANCE_SCORE",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "score": 0.27,
+            "threshold": 0.85,
+            "engine": "legacy"
+          }
+        },
+        {
+          "code": "TRUTH_LEVEL",
+          "owner_stage": "SUBSTANCE",
+          "detector_stage": "PROMOTE_EVALUATE_TIER",
+          "evidence": {
+            "truth_level": "L3"
+          }
+        }
+      ],
+      "relation_review": {
+        "evaluated": true,
+        "policy": {
+          "relation_review_adr": null,
+          "status": "not_ratified"
+        },
+        "relations": []
+      },
+      "evaluation": {
+        "tier": "B",
+        "confidence_score": 0.27,
+        "score_details": {
+          "schema_version": "1.0.0",
+          "scope": "formula_only_not_promotion",
+          "engine": "legacy",
+          "score": 0.27,
+          "components": {
+            "source_confidence": {
+              "weight": 0.4,
+              "value": 0.6,
+              "reference_count": 1,
+              "default_confidence": "medium",
+              "contribution": 0.24
+            },
+            "sections": {
+              "weight": 0.3,
+              "value": 0.0,
+              "required": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "filled": [],
+              "missing_or_insufficient": [
+                "Identité",
+                "Spécificités",
+                "Pièces fréquentes",
+                "FAQ"
+              ],
+              "observed_headings": [
+                "Présentation",
+                "Motorisations",
+                "Pièces compatibles (top gammes)",
+                "Particularités d'entretien",
+                "Questions fréquentes",
+                "Sources et provenance",
+                "Points à vérifier"
+              ],
+              "matched_headings": {
+                "Identité": [],
+                "Spécificités": [],
+                "Pièces fréquentes": [],
+                "FAQ": []
+              },
+              "matcher": "commonmark_exact_aliases_v1",
+              "parser": "markdown-it-py@3.0.0",
+              "minimum_prose_chars": 20,
+              "contribution": 0.0
+            },
+            "internal_links": {
+              "weight": 0.2,
+              "value": 0.16666666666666666,
+              "resolved": 3,
+              "total": 18,
+              "contribution": 0.033333
+            },
+            "source_kind_diversity": {
+              "weight": 0.1,
+              "value": 0.0,
+              "distinct_kind_count": 1,
+              "measures_publisher_independence": false,
+              "contribution": 0.0
+            }
+          }
+        },
+        "gate_engine": "legacy",
+        "gate_status": {
+          "source": "pass",
+          "claim": "pass",
+          "contradiction": "pass",
+          "risk": "pass",
+          "confidence": "pass"
+        },
+        "shadow_score": {
+          "shadow_tier": "D",
+          "shadow_total": 22,
+          "shadow_dims": {
+            "D": 0.0,
+            "C": 0.0,
+            "B": 0.0,
+            "A": 9.0,
+            "E": 10.0,
+            "F": 2.5
+          },
+          "shadow_applicable": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F"
+          ],
+          "shadow_floors_failed": [
+            "A<22",
+            "B<15",
+            "C<15",
+            "D<10"
+          ],
+          "shadow_blocked": [],
+          "shadow_notes": [
+            "reality-check SKIPPÉ (manifest status=stale)",
+            "D:aucune_related_gamme",
+            "C:aucun_bloc",
+            "B:aucun_engineBlock",
+            "A:page_unproven=3 (confidence capped at medium)"
+          ],
+          "manifest_status": "stale",
+          "scorer": "shadow_score.score@6dim-v0"
+        }
+      },
+      "inputs": {
+        "schema_version": "promotion-decision/v1",
+        "input_manifest": [
+          {
+            "role": "candidate",
+            "path": "proposals/volkswagen-golf-6.md",
+            "sha256": "eb31c46ac6813a4c0c6c4a501de70516e25b13c6ca54db26ed9eb6947c33105f"
+          },
+          {
+            "role": "canon_target",
+            "path": "wiki/vehicle/volkswagen-golf-6.md",
+            "sha256": null
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-air.md",
+            "sha256": "3217ce282740ae50f5caadef5b78b9a8fd994680890bf09a926d632440eb8671"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-carburant.md",
+            "sha256": "cf85c2a5e56c6a64483a5119319991398b5dfdcf81260a1e67cc753f9d9f0208"
+          },
+          {
+            "role": "canonical_link_target",
+            "path": "wiki/gamme/filtre-a-huile.md",
+            "sha256": "773367f7531a2c35118530fad506092d8567879ecc0e01f4eb9edf098d8e8561"
+          },
+          {
+            "role": "coverage_map",
+            "path": "proposals/_coverage/volkswagen-golf-6.coverage.yaml",
+            "sha256": "79303bb97fd4cd6981a559651a82783d1bc7f7b22a7686370bdae96d5bd62998"
+          },
+          {
+            "role": "coverage_schema",
+            "path": "_meta/schema/coverage-map.schema.json",
+            "sha256": "b1d4e60efd19643c0978001cca6736b6bb61d86e3ecfd337c966ac882aeeca5d"
+          },
+          {
+            "role": "numeric_ranges",
+            "path": "_meta/numeric-plausibility.yaml",
+            "sha256": "cbafc74bbce876429fdb2cdf9b04bae3a7569a875bbad6f98749fde5bbfc2933"
+          },
+          {
+            "role": "raw_checksums",
+            "path": "manifests/checksums.json",
+            "sha256": "70b7a965c8fe282b32404fb7381d3e49b710a45af44a7948fdb9ba205a2c791c"
+          },
+          {
+            "role": "raw_inventory",
+            "path": "manifests/source-inventory.csv",
+            "sha256": "fdb6b9472bb595b1b80bb8509c9b03304923ef764fc75ebe18de62e405dba867"
+          },
+          {
+            "role": "reality_manifest",
+            "path": "_meta/reality-manifest.json",
+            "sha256": "8d38fe921b908d1dbf1b67f6f50c97ab2ee31c714a1aa2367a84dc5a7bbe1c7f"
+          },
+          {
+            "role": "source_catalog",
+            "path": "_meta/source-catalog.yaml",
+            "sha256": "f4717fc8281d4c8fa0ae4af5a3ea418451c099e9931b7c3886f91ff06429fc78"
+          }
+        ],
+        "wiki_revision": "9f63fc4-dirty",
+        "raw_revision": "8a4ddbb-dirty",
+        "evaluation_engine_revision": "4b8293f4c973f5daedf9ea1f19e0c7e3e9ccfb76330cdd8db0197f603b096982",
+        "decision_engine_revision": "0df2a70ae763631f2e28d4488bef6861e49e8c04a17bcf658ced4efa43d65357"
+      },
+      "tier": "B",
+      "confidence_score": 0.27
+    }
+  ]
+}

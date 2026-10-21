@@ -1,0 +1,35 @@
+fiche: thermostat
+schema_version: 1.0.0
+generated_at: '2026-10-21'
+coverage_entries:
+- claim_id: thermostat-source-1
+  section: '## Définition'
+  text_anchor: Le thermostat régule la circulation du liquide de refroidissement en
+    fonction de la température. Il participe à la mise en tempéra
+  source_slug: hella_techworld_refroidissement_20261021
+  evidence_type: technical_article_paraphrase
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+- claim_id: thermostat-source-2
+  section: '## Fonctionnement'
+  text_anchor: Pendant la mise en température, le circuit court permet au liquide
+    de revenir au moteur sans passer par le radiateur. Le thermosta
+  source_slug: hella_techworld_refroidissement_20261021
+  evidence_type: technical_article_paraphrase
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+- claim_id: thermostat-source-3
+  section: '## Place dans le circuit'
+  text_anchor: Le thermostat appartient à un ensemble comprenant notamment la pompe
+    à eau, le radiateur, le vase d’expansion, les conduites et le
+  source_slug: hella_techworld_refroidissement_20261021
+  evidence_type: technical_article_paraphrase
+  confidence: medium
+  source_policy: manual_review
+  source_status: captured
+notes: manual_review = examen restant, aucune revue effectuée. La capture décrit le
+  fonctionnement, pas une liste de symptômes propres au thermostat. Diagnostic, choix
+  selon véhicule, entretien, FAQ et seconde preuve indépendante restent à documenter.
+  Aucun seuil numérique ajouté.

@@ -11,7 +11,7 @@ aliases:
 - Grand Scénic II
 lang: fr
 created_at: '2026-06-14'
-updated_at: '2026-06-14'
+updated_at: '2026-10-21'
 truth_level: L2
 source_refs:
 - kind: manual
@@ -29,7 +29,9 @@ review_notes: 'Proposal R8 construite Internal-DB-first (ADR-086 §1 surface R8)
   motorisations réelles depuis auto_type (modele_id 140088), pannes par moteur depuis
   kg_engine_families (curé interne). known_issues_by_engine / maintenance_by_engine
   = clés normalisées (engine_family:/fuel:). À reviewer humainement avant promotion
-  vers wiki/vehicle/.'
+  vers wiki/vehicle/. Réparation 2026-10-21 : champs et texte de défauts par famille
+  inférée et intervalles non sourcés retirés ; historique conservé dans _audit/candidates-repair-20261021/scenic-unproven-fields.json
+  et Git. Aucune preuve DB nouvelle ni promotion.'
 no_disputed_claims: true
 exportable:
   rag: false
@@ -70,51 +72,9 @@ entity_data:
   - code: 2.0 16V TURBO
     fuel: essence
     power_hp: 163
-  known_issues_by_engine:
-    engine_family:k9k:
-      axis_key_type: engine_family
-      content_md: 'Moteur 1.5 dCi (famille K9K, Renault-Nissan) : vanne EGR sujette
-        à l''encrassement (perte de puissance, fumées noires), injecteurs sensibles
-        (fuite de retour), turbo dont les paliers s''usent prématurément si les intervalles
-        de vidange ne sont pas respectés.'
-      source_ids:
-      - db:kg_engine_families
-      - db:auto_type
-      truth_level: sourced
-      validation_notes:
-      - Pannes K9K confirmées par kg_engine_families (curé interne) ; lien type→famille
-        inféré (auto_type sans code moteur). À valider avant promotion.
-    engine_family:f4r:
-      axis_key_type: engine_family
-      content_md: 'Moteur essence 2.0 16V (famille F4R) : bobines d''allumage et joints
-        spi (fuite d''huile) à surveiller.'
-      source_ids:
-      - db:kg_engine_families
-      truth_level: sourced
-      validation_notes:
-      - Pannes F4R depuis kg_engine_families ; lien type→famille inféré.
-  maintenance_by_engine:
-    fuel:diesel:
-      axis_key_type: fuel
-      content_md: 'Diesel : vidange + filtre à huile tous les 15 000 à 20 000 km ou
-        1 an ; filtre à gasoil environ 60 000 km ; contrôler la distribution selon
-        la motorisation.'
-      source_ids:
-      - db:auto_type
-      truth_level: sourced
-      validation_notes:
-      - Axe carburant DB-fiable ; valeurs km à confirmer (carnet constructeur).
-    fuel:essence:
-      axis_key_type: fuel
-      content_md: 'Essence : vidange + filtre à huile tous les 15 000 à 20 000 km
-        ou 1 an selon préconisation ; filtre à air environ 30 000 km.'
-      source_ids:
-      - db:auto_type
-      truth_level: sourced
-      validation_notes:
-      - Axe carburant DB-fiable ; valeurs km à confirmer.
   low_profile_canary: false
 confidence_score: 0.24
+content_hash: sha256:afe9630c515f616ffc7bec8852b6ec8b3356db1ed0fc602116347a126fa7b341
 ---
 
 # Renault Scénic II
@@ -140,22 +100,9 @@ Le **Renault Scénic II** (génération II) est un monospace compact produit de 
 
 > Source : `auto_type` (DB, modèle-génération `140088`).
 
-## Problèmes connus par motorisation
+## État des preuves d’entretien
 
-### 1.5 dCi (famille K9K)
-
-Vanne EGR sujette à l'encrassement (perte de puissance, fumées noires), injecteurs sensibles (fuite de retour), turbo dont les paliers s'usent prématurément si les vidanges sont espacées.
-
-### 2.0 16V essence (famille F4R)
-
-Bobines d'allumage et joints spi (fuite d'huile) à surveiller.
-
-> Source : `kg_engine_families` (connaissance interne curée). Lien type→famille **inféré** (auto_type ne porte pas le code moteur).
-
-## Particularités d'entretien
-
-- **Diesel** : vidange + filtre à huile 15 000–20 000 km ou 1 an ; filtre à gasoil ~60 000 km.
-- **Essence** : vidange + filtre à huile 15 000–20 000 km ou 1 an ; filtre à air ~30 000 km.
+Les liens entre ces motorisations et les familles moteur n’ont pas été établis par une preuve archivée. Aucun défaut ni intervalle d’entretien propre à cette génération n’est donc retenu ici. La liste de motorisations ci-dessus reste candidate jusqu’à vérification de sa provenance.
 
 ## Sources et provenance
 
@@ -165,7 +112,7 @@ Bobines d'allumage et joints spi (fuite d'huile) à surveiller.
 ## Points à vérifier
 
 - [ ] Confirmer `vlevel` (omis — classification V-Level non figée pour ce modèle).
-- [ ] Valider humainement les `known_issues_by_engine` (lien type→famille inféré) avant promotion.
+- [ ] Établir et archiver le lien exact entre les types véhicule et les familles moteur avant de réintroduire des défauts contextualisés.
 - [ ] Confirmer les valeurs km d'entretien (carnet constructeur).
 - [ ] Enrichir les familles moteur non curées (F9Q 1.9 dCi, M9R 2.0 dCi, K4J/K4M essence) — chantier sourcing.
 - [ ] Décider promotion → `wiki/vehicle/renault-scenic-ii.md` (porte ADR-083).

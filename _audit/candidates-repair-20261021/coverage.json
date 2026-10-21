@@ -1,0 +1,160 @@
+{
+  "scope_requested": "Lanceur, horaire automatique, mission audit et réparation des 13 candidats bloqués sans affaiblir les contrôles",
+  "scope_actually_scanned": "Simulation native des 14 candidats; examen éditorial ciblé des trois réécritures et de 15 associations dans six fiches véhicule. Etat de l’audit et timer contrôlés en lecture seule.",
+  "files_read_count": 30,
+  "files_read_count_method": "Fichiers de contenu relus intégralement par ce collecteur de preuves ; ne signifie pas audit sémantique exhaustif de chaque phrase.",
+  "files": [
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/citroen-c3.md",
+      "sha256": "feb3c83a2cca048ed08c28c61a5b9259e1dcce4fe3fcc34ccbc0699d62a29502"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/courroie-d-accessoire.md",
+      "sha256": "d9cb92994c20d867841b6d5dbcd0b5bec66bdb9431c5a9ce9d28e44f37d4014a"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/dacia.md",
+      "sha256": "99b103a814f7e17bb61878fb0fd9b59f40a8bef67bd24a74db316f3023d10725"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/disque-de-frein.md",
+      "sha256": "94918d7af3f45141aa97509c6a980d099ed92866285a195f96adef8903956046"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/ford-focus-3.md",
+      "sha256": "277d8ed86ac7fef8aa5f28c90a78a745c8378b9256eccf42883a02c9addf1a1a"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/peugeot-206.md",
+      "sha256": "4c17a1b2a6d9965c32987ac1f9f3ba9ef7902a6b785ecf02dce406bd12fe9d6a"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/plaquette-de-frein.md",
+      "sha256": "f87e0a9892fc097b5c5bebb78ec4b1df7ed17dc697c6f7c3bdaeb5fef72debb4"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/renault-clio-3.md",
+      "sha256": "e98b326493f823f5a26535eb6f10578d2fadc8a977e82abdf4f8e1356105f961"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/renault-megane-3.md",
+      "sha256": "4054e570015f9d7b6ab7716f301646b6c7fdddf94511efc716fc217335a109dd"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/renault-scenic-ii.md",
+      "sha256": "78e322aaf8e36fea0a1d455a27294b321fcf507cc2292ab53c0651e37dd46b7c"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/support-moteur.md",
+      "sha256": "e71897bf0dbdf2e70697bc1264effd0fa7ed99880e0dfbf5d6b110a0a187de30"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/thermostat.md",
+      "sha256": "651be725c26c43516f1d40f1a26252bf30b8e0bfdb915e57574691603f739215"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/vanne-egr.md",
+      "sha256": "f166bacd922b9613373530b20ecf3086d0a98818cbfecb813948a7259db46106"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/volkswagen-golf-6.md",
+      "sha256": "a8a8efca4e76f2534e1b94c2ca93093e2d5daa64bd537cbb0db9ec0f6b468f0f"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/citroen-c3.coverage.yaml",
+      "sha256": "9849dbc55f0388d79229bbb60b94932052e6dd046ef69f59ecadb7aeb49bd9ac"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/dacia.coverage.yaml",
+      "sha256": "dbc9f0741adcd6349f64765e2180850720437eed4eec93d3b9b4daa39c963722"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/disque-de-frein.coverage.yaml",
+      "sha256": "9d7f4d1733ce03c959594623105e7cb0f38a12cea9574853c894dd9f48b9fdb8"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/ford-focus-3.coverage.yaml",
+      "sha256": "e8d4fe4208ce501bc39fe3f7cbdbdfc7c3ed2963c411fa96156d8d76a53bf126"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/peugeot-206.coverage.yaml",
+      "sha256": "575c80afcad16cf96d6a26f463f219ebef19ce88673912e72f07e6c6e27e6424"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/plaquette-de-frein.coverage.yaml",
+      "sha256": "e9cb1fb347ff5006c0ebff3e80d8ed6a7b3dfb7957fa00e1d37cc4127fb00e7e"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/renault-clio-3.coverage.yaml",
+      "sha256": "7a8e68eeb88efcf16d19e236718a17e21dbd227b9892626419ae0ae1a66f3856"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/renault-megane-3.coverage.yaml",
+      "sha256": "3b94edf1da59ce5412772d91a80c2befc1f5fbc5e08456550d6abba1382834d7"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/support-moteur.coverage.yaml",
+      "sha256": "44e22f36e1f117130118fa372f024b60f0d476e87e9c60563bfda247556ecf1b"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/thermostat.coverage.yaml",
+      "sha256": "ae8d65f5dbdb7006ca0decbd32da125001ec175235083c5dfbfdb6cfc0f16702"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/vanne-egr.coverage.yaml",
+      "sha256": "6145b42e3af46be864075eaf66fc1d7b8fd98cad04aac9f052c32eed5020d5c5"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/proposals/_coverage/volkswagen-golf-6.coverage.yaml",
+      "sha256": "58c2bc2ea6905a202bf3c7773c1726f5f20d6b88a15983a579c868c813ec8e2e"
+    },
+    {
+      "path": "/home/deploy/worktrees/wiki-candidates-repair-20261021/_meta/source-catalog.yaml",
+      "sha256": "80c39c56d1d26266906a254f6b719969021a20dead962a2cfdf0bca87fcc8c6c"
+    },
+    {
+      "path": "/home/deploy/worktrees/raw-candidates-repair-20261021/sources/auto-captures/support-moteur/aftermarket-zf-com-wl-support-moteur-zf-20261021-9f6d624a.md",
+      "sha256": "57c884bc6e09b7eddde754b1cace92a5160dcf960d928c5685cd9b6cfc96233c"
+    },
+    {
+      "path": "/home/deploy/worktrees/raw-candidates-repair-20261021/sources/auto-captures/thermostat/hella-com-wl-thermostat-hella-20261021-65248188.md",
+      "sha256": "b3bd187cda7333c5fe2b58c28ba2d4c6bb42650763bb20ddc7e9859b946c3fd3"
+    },
+    {
+      "path": "/home/deploy/worktrees/raw-candidates-repair-20261021/sources/auto-captures/vanne-egr/hella-com-wl-vanne-egr-hella-techworld-20261021-f554b26e.md",
+      "sha256": "c5677fb24a31ddd751268b856812e5920d908cb501d8790499b03277f88e3907"
+    }
+  ],
+  "excluded_paths": [
+    "application code and DB",
+    "PROD runtime",
+    "other worktrees",
+    "existing immutable RAW sources"
+  ],
+  "unscanned_zones": [
+    "Exhaustivité sémantique de toutes les fiches",
+    "Droits de republication des trois nouvelles sources",
+    "Rattachements réels du référentiel diagnostic"
+  ],
+  "corrections_applied": [
+    "Trois propositions réécrites dans un worktree isolé",
+    "15 associations trompeuses retirées de six coverage maps, assertions non validées explicitement listées",
+    "Trois archives RAW ajoutées avec manifests natifs"
+  ],
+  "validation_executed": [
+    "9 frontmatter schemas",
+    "9 confidence calculations",
+    "RAW gates A B C D F G H I J",
+    "RAW manifests check",
+    "Secret scanner before each capture",
+    "Native final dry-run 14 proposals, no apply",
+    "4861 existing inventory rows unchanged"
+  ],
+  "remaining_unknowns": [
+    "13 candidats encore non éligibles",
+    "Intégration des branches non réalisée",
+    "Prochain passage automatique 21 octobre 08:00 non encore exécuté",
+    "Audit applicatif reste source_has_tracked_changes (27 fichiers)"
+  ],
+  "final_status": "PARTIAL_COVERAGE"
+}

@@ -800,3 +800,121 @@ sources:
       d'autres interventions. Ne fonde PAS : un intervalle de remplacement
       chiffré, ni la cause d'un voyant de frein allumé (relève de l'outil de
       diagnostic).
+
+  - slug: hella_techworld_egr_20261021
+    title: Recirculation des gaz d’échappement — structure et diagnostic
+    publisher: HELLA TECH WORLD
+    type: oem_workshop
+    year: null
+    license: captured_for_internal_review
+    archived_at: automecanik-raw/sources/auto-captures/vanne-egr/hella-com-wl-vanne-egr-hella-techworld-20261021-f554b26e.md
+    status: to_capture
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-f554b26e16d46573237101658c4b28a414f7c8b92f2d48417cf3db1ffa42f08a
+      expected_sha256: sha256:c5677fb24a31ddd751268b856812e5920d908cb501d8790499b03277f88e3907
+    notes: Archive existante et vérifiée, pas approbation éditoriale. Capture level
+      2, license_status unknown. Confiance medium ; examen humain restant. Le type du
+      catalogue décrit le contenu lu, le type de capture hérité de la politique du domaine
+      reste intact. Une seconde preuve indépendante, les droits d’usage, les critères
+      de choix et les symptômes contextualisés restent à qualifier. Aucune relation
+      diagnostic DB ni compatibilité précise ajoutée.
+
+  - slug: hella_techworld_refroidissement_20261021
+    title: Refroidissement moteur — structure et fonctionnement
+    publisher: HELLA TECH WORLD
+    type: oem_workshop
+    year: null
+    license: captured_for_internal_review
+    archived_at: automecanik-raw/sources/auto-captures/thermostat/hella-com-wl-thermostat-hella-20261021-65248188.md
+    status: to_capture
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-65248188708728828e2906a82b74260bdcb527c0027768f6022ee88aefa93fad
+      expected_sha256: sha256:b3bd187cda7333c5fe2b58c28ba2d4c6bb42650763bb20ddc7e9859b946c3fd3
+    notes: Archive existante et vérifiée, pas approbation éditoriale. Capture level
+      2, license_status unknown. Confiance medium ; examen humain restant. Le type du
+      catalogue décrit le contenu lu, le type de capture hérité de la politique du domaine
+      reste intact. La capture décrit le fonctionnement, pas une liste de symptômes
+      propres au thermostat. Diagnostic, choix selon véhicule, entretien, FAQ et seconde
+      preuve indépendante restent à documenter. Aucun seuil numérique ajouté.
+
+  - slug: zf_supports_moteur_presentation_20261021
+    title: Driveline Components — fonctions et types de supports
+    publisher: ZF Aftermarket (LEMFÖRDER)
+    type: brochure
+    year: null
+    license: captured_for_internal_review
+    archived_at: automecanik-raw/sources/auto-captures/support-moteur/aftermarket-zf-com-wl-support-moteur-zf-20261021-9f6d624a.md
+    status: to_capture
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-9f6d624a71823311c09c3ff308b0c2ea7b93a1e3f20ee557fcaabcc8489c9521
+      expected_sha256: sha256:57c884bc6e09b7eddde754b1cace92a5160dcf960d928c5685cd9b6cfc96233c
+    notes: 'Archive existante et vérifiée, pas approbation éditoriale. Capture level
+      2, license_status unknown. Confiance medium ; examen humain restant. Le type du
+      catalogue décrit le contenu lu, le type de capture hérité de la politique du domaine
+      reste intact. La page ZF est une présentation produit : corroboration descriptive
+      seulement, aucune preuve de diagnostic ou de compatibilité. Symptômes, choix,
+      entretien, FAQ et preuves d’atelier indépendantes restent à obtenir.'
+
+  - slug: hella_poulie_alternateur_20261021
+    title: Fonctionnement et pose de la poulie roue libre d’alternateur
+    publisher: HELLA TECH WORLD
+    type: oem_workshop
+    year: null
+    license: captured_for_internal_review
+    archived_at: automecanik-raw/sources/auto-captures/courroie-d-accessoire/hella-com-wl-hella-poulie-20261021-bd0c1873.md
+    status: to_capture
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-bd0c18734ceb758f98f0ee4fc521810360b1d03f649989bc1f4a4afaad91e13e
+      expected_sha256: sha256:fb485f82f9e87e17c47146ee141771b483d3d0c41f98382301696b3c157b59ac
+    notes: Passage technique primaire archive. Capture level 2, droits unknown ; aucune
+      approbation globale. Confiance medium. Aucun chiffre de montage repris.
+
+  - slug: hella_disques_frein_20261021
+    title: Remplacer les disques, plaquettes et étriers de frein
+    publisher: HELLA TECH WORLD
+    type: oem_workshop
+    year: null
+    license: captured_for_internal_review
+    archived_at: automecanik-raw/sources/auto-captures/disque-de-frein/hella-com-wl-hella-disques-20261021-eb410e50.md
+    status: to_capture
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-eb410e50c4627a7fd181b73a851145d99bc0f04c7106f3c38192ac2e509c0285
+      expected_sha256: sha256:665683c3441e6f45ae07ef85e393f48277fb5a7981ec94a5495539c55a51f7ca
+    notes: Passage technique primaire archive. Capture level 2, droits unknown ; aucune
+      approbation globale. Confiance medium. Aucun chiffre de montage repris.
+
+  - slug: brembo_epaisseur_disque_20261021
+    title: L’épaisseur minimale du disque de frein
+    publisher: Brembo
+    type: oem_workshop
+    year: null
+    license: captured_for_internal_review
+    archived_at: automecanik-raw/sources/auto-captures/disque-de-frein/asia-bremboparts-com-wl-brembo-epaisseur-20261021-119a1c97.md
+    status: to_capture
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-119a1c97b316a62a9b718b27262ad8e4c57103d43725c58002f6f84dea6f43ec
+      expected_sha256: sha256:04d85d5782f1cf454f0d8e58eddf3b7665f697c83f57639f3a53533c52212c1b
+    notes: Passage technique primaire archive. Capture level 2, droits unknown ; aucune
+      approbation globale. Confiance medium. Aucun chiffre de montage repris.
+
+  - slug: dacia_histoire_officielle_20261021
+    title: Histoire de la marque Dacia
+    publisher: Dacia
+    type: brochure
+    year: null
+    license: captured_for_internal_review
+    archived_at: automecanik-raw/sources/auto-captures/divers/dacia-fr-wl-dacia-histoire-20261021-6e686270.md
+    status: to_capture
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-6e6862706beb285ac482547f430d699a5d4f49e3371ca000fbdc341ac1525574
+      expected_sha256: sha256:bab11f800ca9099cbcdb25a14c6d27152a998716c46b134e9b1d698c22a468a9
+    notes: 'Histoire de marque officielle : corroboration factuelle medium, pas documentation
+      technique. Capture level 2 et droits unknown conserves. Ne prouve aucune compatibilite
+      ni politique entretien.'

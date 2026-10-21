@@ -115,6 +115,32 @@ def test_other_source_not_covered_by_receipt_is_rejected(tree):
         ar.verify_activation(root, base)
 
 
+def test_receipt_must_cover_requalification_of_active_source(tree):
+    # A signed activation of `s` does not carry a retype of the already-active `p`.
+    root, _, key, path = tree
+    path.unlink()
+    catalog = yaml.safe_load(cmd(root, 'git', 'show', 'HEAD:' + ar.CATALOG))
+    catalog['sources'].append({'slug': 'p', 'status': 'active', 'type': 'brochure', 'publisher': 'A',
+                               'raw_ref': {'repo': 'automecanik-raw', 'manifest_id': 'p',
+                                           'expected_sha256': 'sha256:' + 'c'*64}})
+    (root / ar.CATALOG).write_text(yaml.safe_dump(catalog))
+    cmd(root, 'git', 'commit', '-qam', 'active corroboration')
+    base = cmd(root, 'git', 'rev-parse', 'HEAD')
+    catalog['sources'][0]['status'] = 'active'
+    catalog['sources'][1]['type'] = 'oem_workshop'
+    (root / ar.CATALOG).write_text(yaml.safe_dump(catalog))
+    payload = ar.make_payload(root, base, 'b'*40, 'PASS cross-repo\n')
+    assert sorted(payload['transitions']) == ['p', 's']
+    assert payload['transitions']['p']['before']['type'] == 'brochure'
+    partial = {**payload, 'transitions': {'s': payload['transitions']['s']}}
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(ar.sign_payload(partial, key)))
+    with pytest.raises(ValueError):
+        ar.verify_activation(root, base)
+    path.write_text(json.dumps(ar.sign_payload(payload, key)))
+    assert ar.verify_activation(root, base) == ['p', 's']
+
+
 def test_nonexistent_and_later_bases_rejected(tree):
     root, base, _, _ = tree
     with pytest.raises(ValueError):

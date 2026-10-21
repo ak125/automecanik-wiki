@@ -64,38 +64,37 @@ source_refs:
   confidence: low
 provenance:
   ingested_by: skill:wiki-proposal-writer
-  promoted_from: null
-review_status: proposed
-reviewed_by: null
-reviewed_at: null
-review_notes: "Révisée 2026-10-11 : chaque affirmation repose sur l'une de six pages\
-  \ archivées dans RAW (sources/auto-captures/plaquette-de-frein/, PR RAW #69) :\
-  \ cinq pages d'équipementiers de freinage (montage des plaquettes, technologie\
-  \ des étriers, pièces d'origine et équivalentes, procédure de remplacement,\
-  \ témoins d'usure) et l'article Wikipédia, utilisé seulement en corroboration\
-  \ (plafond low). Les six références external_url désignent les mêmes pages que\
-  \ les références raw (même document, pas une source indépendante). Retirés faute\
-  \ de preuve archivée : anciennes références recycled et web-research, épaisseur\
-  \ minimale chiffrée, distance de rodage, contrôle avant un long trajet, causes de\
-  \ grincement par contamination de la garniture, relation de vibration dans la\
-  \ pédale (voile de disque), conversion de l'énergie cinétique en chaleur et\
-  \ familles de matériaux de friction (attestées par Wikipédia seul), hiérarchie de\
-  \ marques. Aucune valeur de couple, de pression, de cote, de température ni de\
-  \ distance n'est publiée. Les pages disque-de-frein, etrier-de-frein et\
-  \ kit-de-frein-arriere n'existent pas encore dans wiki/ : aucun lien n'y pointe,\
-  \ les relations restent dans entity_data. diagnostic_relations[] : une relation\
-  \ (grincement aigu au freinage) en confiance moyenne, 2_medium_concordant,\
-  \ reviewed=false, diagnostic_safe=false. L'allumage du témoin d'usure au tableau\
-  \ de bord (plaquettes à témoin électronique) est décrit dans le corps mais n'est\
-  \ pas modélisé en relation : le référentiel diagnostic n'a aucun slug de ce type\
-  \ en freinage, et aucun slug n'est inventé. Licence de l'article Wikipédia : le\
-  \ catalogue indiquait CC-BY-SA-3.0, la capture RAW porte license null\
-  \ (license_status unknown) ; à trancher par le propriétaire."
+  promoted_from: proposals/plaquette-de-frein.md
+  promoted_at: '2026-10-21T06:01:13+00:00'
+review_status: approved
+reviewed_by: skill:promoter@9f63fc4
+reviewed_at: '2026-10-21T06:01:13+00:00'
+review_notes: 'Révisée 2026-10-11 : chaque affirmation repose sur l''une de six pages
+  archivées dans RAW (sources/auto-captures/plaquette-de-frein/, PR RAW #69) : cinq
+  pages d''équipementiers de freinage (montage des plaquettes, technologie des étriers,
+  pièces d''origine et équivalentes, procédure de remplacement, témoins d''usure)
+  et l''article Wikipédia, utilisé seulement en corroboration (plafond low). Les six
+  références external_url désignent les mêmes pages que les références raw (même document,
+  pas une source indépendante). Retirés faute de preuve archivée : anciennes références
+  recycled et web-research, épaisseur minimale chiffrée, distance de rodage, contrôle
+  avant un long trajet, causes de grincement par contamination de la garniture, relation
+  de vibration dans la pédale (voile de disque), conversion de l''énergie cinétique
+  en chaleur et familles de matériaux de friction (attestées par Wikipédia seul),
+  hiérarchie de marques. Aucune valeur de couple, de pression, de cote, de température
+  ni de distance n''est publiée. Les pages disque-de-frein, etrier-de-frein et kit-de-frein-arriere
+  n''existent pas encore dans wiki/ : aucun lien n''y pointe, les relations restent
+  dans entity_data. diagnostic_relations[] : une relation (grincement aigu au freinage)
+  en confiance moyenne, 2_medium_concordant, reviewed=false, diagnostic_safe=false.
+  L''allumage du témoin d''usure au tableau de bord (plaquettes à témoin électronique)
+  est décrit dans le corps mais n''est pas modélisé en relation : le référentiel diagnostic
+  n''a aucun slug de ce type en freinage, et aucun slug n''est inventé. Licence de
+  l''article Wikipédia : le catalogue indiquait CC-BY-SA-3.0, la capture RAW porte
+  license null (license_status unknown) ; à trancher par le propriétaire.'
 no_disputed_claims: true
 confidence_score: 0.89
 exportable:
   rag: false
-  seo: false
+  seo: true
   support: false
 target_classes:
 - KB_Knowledge
@@ -104,10 +103,10 @@ diagnostic_relations:
 - symptom_slug: brake_noise_metallic
   system_slug: freinage
   relation_to_part: possible_cause
-  part_role: "plaquette en fin d'usure, dont l'indicateur mécanique ou les languettes\
-    \ métalliques émettent un son strident au contact du disque (signal voulu) ;\
-    \ plaquette ou accessoires mal montés, ou plaquette directionnelle du mauvais\
-    \ côté, causes de bruit au freinage"
+  part_role: plaquette en fin d'usure, dont l'indicateur mécanique ou les languettes
+    métalliques émettent un son strident au contact du disque (signal voulu) ; plaquette
+    ou accessoires mal montés, ou plaquette directionnelle du mauvais côté, causes
+    de bruit au freinage
   evidence:
     confidence: medium
     source_policy: 2_medium_concordant
@@ -141,84 +140,131 @@ entity_data:
   - entretien_preventif
   - diagnostic_avant_achat
   maintenance:
-    educational_advice: "Contrôler les plaquettes à intervalles réguliers et les\
-      \ remplacer par essieu à la limite d'usure ou quand le témoin d'usure s'allume,\
-      \ en suivant les prescriptions du constructeur du véhicule."
+    educational_advice: Contrôler les plaquettes à intervalles réguliers et les remplacer
+      par essieu à la limite d'usure ou quand le témoin d'usure s'allume, en suivant
+      les prescriptions du constructeur du véhicule.
     related_pages:
     - disque-de-frein
     - etrier-de-frein
   editorial:
     function:
-      content_md: >-
-        Dans l'étrier, la pression hydraulique venue du maître-cylindre agit sur les pistons, qui
-        poussent les plaquettes contre le disque pour ralentir ou arrêter le véhicule. Après le
-        freinage, des ressorts ramènent les plaquettes en position de repos et les maintiennent contre
-        leurs pistons.
-      source_ids: [oem:bremboparts_technologie_etriers]
+      content_md: Dans l'étrier, la pression hydraulique venue du maître-cylindre
+        agit sur les pistons, qui poussent les plaquettes contre le disque pour ralentir
+        ou arrêter le véhicule. Après le freinage, des ressorts ramènent les plaquettes
+        en position de repos et les maintiennent contre leurs pistons.
+      source_ids:
+      - oem:bremboparts_technologie_etriers
       truth_level: sourced
     variants:
-      content_md: >-
-        L'étrier flottant a ses pistons d'un seul côté : ils poussent une plaquette, et l'autre est
-        poussée par le corps de l'étrier, qui glisse sur des guides. C'est le type le plus répandu sur
-        les véhicules d'entrée et de milieu de gamme et sur les utilitaires légers. L'étrier fixe porte
-        des pistons opposés ; on le trouve sur les véhicules sportifs de milieu à haut de gamme.
-      source_ids: [oem:bremboparts_technologie_etriers]
+      content_md: 'L''étrier flottant a ses pistons d''un seul côté : ils poussent
+        une plaquette, et l''autre est poussée par le corps de l''étrier, qui glisse
+        sur des guides. C''est le type le plus répandu sur les véhicules d''entrée
+        et de milieu de gamme et sur les utilitaires légers. L''étrier fixe porte
+        des pistons opposés ; on le trouve sur les véhicules sportifs de milieu à
+        haut de gamme.'
+      source_ids:
+      - oem:bremboparts_technologie_etriers
       truth_level: sourced
     failure_symptoms:
-      content_md: >-
-        Un symptôme seul ne désigne pas la plaquette. En fin d'usure, les languettes métalliques et les
-        indicateurs d'usure mécaniques émettent un son strident au contact du disque ; sur les
-        plaquettes à témoin électronique, le témoin s'allume au tableau de bord. Une plaquette ou des
-        accessoires mal montés causent dans la plupart des cas des bruits de freinage ou une
-        performance réduite des freins.
-      source_ids: [oem:delphi_temoins_usure, oem:zf_installation_plaquettes]
+      content_md: Un symptôme seul ne désigne pas la plaquette. En fin d'usure, les
+        languettes métalliques et les indicateurs d'usure mécaniques émettent un son
+        strident au contact du disque ; sur les plaquettes à témoin électronique,
+        le témoin s'allume au tableau de bord. Une plaquette ou des accessoires mal
+        montés causent dans la plupart des cas des bruits de freinage ou une performance
+        réduite des freins.
+      source_ids:
+      - oem:delphi_temoins_usure
+      - oem:zf_installation_plaquettes
       truth_level: sourced
     selection_criteria:
-      content_md: >-
-        Le choix part du véhicule : la plaquette doit être adaptée à sa marque et à son modèle, et les
-        prescriptions du constructeur priment sur toute autre indication. Il existe de nombreux
-        matériaux de friction, adaptés à chaque véhicule et à chaque style de conduite. Le type
-        d'indicateur d'usure, mécanique ou électrique, dépend de la conception du système de freinage.
-      source_ids: [oem:bremboparts_remplacement_kit, oem:zf_installation_plaquettes, oem:bremboparts_oe_vs_equivalent, oem:delphi_temoins_usure]
+      content_md: 'Le choix part du véhicule : la plaquette doit être adaptée à sa
+        marque et à son modèle, et les prescriptions du constructeur priment sur toute
+        autre indication. Il existe de nombreux matériaux de friction, adaptés à chaque
+        véhicule et à chaque style de conduite. Le type d''indicateur d''usure, mécanique
+        ou électrique, dépend de la conception du système de freinage.'
+      source_ids:
+      - oem:bremboparts_remplacement_kit
+      - oem:zf_installation_plaquettes
+      - oem:bremboparts_oe_vs_equivalent
+      - oem:delphi_temoins_usure
       truth_level: sourced
     quality_tiers:
-      content_md: >-
-        Les pièces d'origine portent le logo « OE supplier ». Une page d'équipementier cite comme marques
-        de qualité un traitement thermique de surface qui limite la perte d'efficacité à chaud, un shim
-        antibruit multicouche et des essais sur bancs puis sur route. Cette fiche ne classe pas les
-        marques.
-      source_ids: [oem:bremboparts_oe_vs_equivalent]
+      content_md: Les pièces d'origine portent le logo « OE supplier ». Une page d'équipementier
+        cite comme marques de qualité un traitement thermique de surface qui limite
+        la perte d'efficacité à chaud, un shim antibruit multicouche et des essais
+        sur bancs puis sur route. Cette fiche ne classe pas les marques.
+      source_ids:
+      - oem:bremboparts_oe_vs_equivalent
       truth_level: sourced
     standards_norms:
-      content_md: >-
-        En Europe, l'homologation ECE R90 est obligatoire pour commercialiser des disques et des
-        plaquettes de frein.
-      source_ids: [oem:bremboparts_oe_vs_equivalent]
+      content_md: En Europe, l'homologation ECE R90 est obligatoire pour commercialiser
+        des disques et des plaquettes de frein.
+      source_ids:
+      - oem:bremboparts_oe_vs_equivalent
       truth_level: sourced
     maintenance_interval:
-      content_md: >-
-        Les plaquettes s'usent et doivent être contrôlées à intervalles réguliers. La vitesse d'usure
-        dépend des conditions de la route, du style de conduite, de la vitesse, de la charge et du type
-        de plaquettes et de disques. Cette fiche ne donne ni durée ni kilométrage valables pour tous
-        les véhicules.
-      source_ids: [oem:bremboparts_remplacement_kit, oem:delphi_temoins_usure]
+      content_md: Les plaquettes s'usent et doivent être contrôlées à intervalles
+        réguliers. La vitesse d'usure dépend des conditions de la route, du style
+        de conduite, de la vitesse, de la charge et du type de plaquettes et de disques.
+        Cette fiche ne donne ni durée ni kilométrage valables pour tous les véhicules.
+      source_ids:
+      - oem:bremboparts_remplacement_kit
+      - oem:delphi_temoins_usure
       truth_level: sourced
     replacement_guidance:
-      content_md: >-
-        Composants de sécurité, les plaquettes ne doivent être remplacées que par un personnel
-        compétent. Elles se remplacent par essieu, et à chaque remplacement des disques. Le matériau de
-        friction se monte tourné vers le disque ; il ne doit pas toucher de graisse. Les témoins
-        d'usure, conçus pour rompre, se remplacent avec les plaquettes.
-      source_ids: [oem:bremboparts_remplacement_kit, oem:delphi_temoins_usure]
+      content_md: Composants de sécurité, les plaquettes ne doivent être remplacées
+        que par un personnel compétent. Elles se remplacent par essieu, et à chaque
+        remplacement des disques. Le matériau de friction se monte tourné vers le
+        disque ; il ne doit pas toucher de graisse. Les témoins d'usure, conçus pour
+        rompre, se remplacent avec les plaquettes.
+      source_ids:
+      - oem:bremboparts_remplacement_kit
+      - oem:delphi_temoins_usure
       truth_level: sourced
     faq:
-      content_md: >-
-        Quand remplacer les plaquettes ? À la limite d'usure, quand le témoin d'usure s'allume, ou en
-        cas d'usure différenciée, de fissures ou de profondes rayures. Faut-il changer les deux côtés ?
-        Oui, les plaquettes se remplacent par essieu. Faut-il changer le témoin d'usure ? Oui, il est
-        conçu pour rompre et se remplace avec les plaquettes.
-      source_ids: [oem:bremboparts_remplacement_kit, oem:delphi_temoins_usure]
+      content_md: Quand remplacer les plaquettes ? À la limite d'usure, quand le témoin
+        d'usure s'allume, ou en cas d'usure différenciée, de fissures ou de profondes
+        rayures. Faut-il changer les deux côtés ? Oui, les plaquettes se remplacent
+        par essieu. Faut-il changer le témoin d'usure ? Oui, il est conçu pour rompre
+        et se remplace avec les plaquettes.
+      source_ids:
+      - oem:bremboparts_remplacement_kit
+      - oem:delphi_temoins_usure
       truth_level: sourced
+auto_promoted: true
+validation_mode: automatic
+promotion_tier: A
+promotion_evidence:
+  gate_status:
+    source: pass
+    claim: pass
+    contradiction: pass
+    risk: pass
+    confidence: pass
+  confidence_score: 0.89
+  promoter: skill:promoter@9f63fc4
+  promoted_at: '2026-10-21T06:01:13+00:00'
+  shadow_score:
+    shadow_tier: S
+    shadow_total: 95
+    shadow_dims:
+      F: 1.0
+      E: 10.0
+      C: 20.0
+      D: 15.0
+      A: 29.6
+    shadow_applicable:
+    - A
+    - C
+    - D
+    - E
+    - F
+    shadow_floors_failed: []
+    shadow_blocked: []
+    shadow_notes:
+    - reality-check SKIPPÉ (manifest status=stale)
+    manifest_status: stale
+    scorer: shadow_score.score@6dim-v0
 ---
 
 ## Définition

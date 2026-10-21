@@ -5,11 +5,13 @@ L'état dangereux n'est pas « un commit existe » — c'est précisément qu'un
 `_meta/source-catalog.yaml` passe à `active`. Une transition `to_capture → active` (ou une
 nouvelle entrée `active`) crée une PREUVE active dont la validité exige le gate cross-repo
 (`quality-gates.py --cross-repo`, les 2 repos wiki+raw présents et frais) — ce que la CI wiki
-seule NE PEUT PAS vérifier (aucun credential cross-repo secretless entre 2 repos privés).
+seule NE PEUT PAS vérifier (aucun credential cross-repo secretless vers le repo RAW, privé).
 
 Le seul chemin autorisé pour activer est le flux GOUVERNÉ d'activation qui exécute `--cross-repo`
 AVANT la mutation. Ce guard fail-closed empêche le contournement de ce chemin par ÉDITION
-DIRECTE. Il ne nécessite AUCUN accès au repo RAW : il compare seulement l'état du catalog wiki
+DIRECTE sans reçu signé. Le reçu lie les octets contrôlés et les transitions exactes,
+avec une clé de confiance déjà présente dans la base Git. Aucun accès RAW en CI.
+Le garde compare l'état du catalog wiki
 entre une base git et le head.
 
 Ré-épingler une source déjà `active` (`raw_ref` changé) est une activation (ADR-116 D4 d) : la
@@ -17,7 +19,8 @@ nouvelle archive devient la preuve, et les ancres des fiches qui la citent doive
 revérifiées par `--cross-repo` avant la mutation, sinon une ancre casserait en silence.
 
 Usage :
-  check-activation-guard.py --base origin/main   # CI wiki (fetch-depth: 0)
+  check-activation-guard.py --base origin/main   # CI wiki, pull_request (fetch-depth: 0)
+  check-activation-guard.py --base <before-sha>  # CI wiki, push main (github.event.before)
   check-activation-guard.py --base HEAD          # pre-commit (HEAD vs working tree)
 """
 from __future__ import annotations
@@ -72,7 +75,9 @@ def _git(args: list[str]) -> subprocess.CompletedProcess:
 
 def _load_base_entries(base: str) -> dict[str, dict]:
     # Ref invalide = CI/hook mal configuré → fail-loud (jamais un skip silencieux).
-    if _git(["rev-parse", "--verify", "--quiet", base]).returncode != 0:
+    # `^{commit}` : sans lui, `rev-parse --verify` accepte tout SHA complet bien formé
+    # (y compris le SHA nul d'un push) sans vérifier que l'objet existe.
+    if _git(["rev-parse", "--verify", "--quiet", f"{base}^{{commit}}"]).returncode != 0:
         print(
             f"FAIL activation-guard: base_ref_introuvable: '{base}' — CI/hook mal configuré "
             "(fetch-depth insuffisant ?). Fail-loud, pas de skip silencieux."
@@ -97,6 +102,16 @@ def main() -> int:
     illicit = find_illicit_activations(base, head)
 
     if illicit:
+        # A receipt is trusted only with a key already present in the Git base.
+        # No RAW credential or caller-supplied PASS is accepted in this guard.
+        try:
+            sys.path.insert(0, str(Path(__file__).resolve().parent))
+            from activation_receipt import verify_activation
+            slugs = verify_activation(REPO_ROOT, args.base)
+            print(f"PASS activation-guard: reçu signé vérifié pour {len(slugs)} activation(s), base={args.base}")
+            return 0
+        except (ValueError, KeyError, TypeError, OSError, subprocess.SubprocessError) as error:
+            print(f"Activation receipt rejected: {error}")
         print("FAIL activation-guard: activation d'une source interdite par édition directe :")
         for msg in illicit:
             print(f"  - {msg}")

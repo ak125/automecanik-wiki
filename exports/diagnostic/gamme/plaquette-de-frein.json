@@ -1,0 +1,65 @@
+{
+  "schema_version": "2.0.0",
+  "builder_version": "2.0.0",
+  "export_kind": "diagnostic_gamme",
+  "gamme_slug": "plaquette-de-frein",
+  "wiki_path": "wiki/gamme/plaquette-de-frein.md",
+  "source_wiki_commit": "35d057b554d2e58f406a6efc034eb18141303848",
+  "source_catalog_commit": "9e64ba393befff0c32cc9f05f48ca667564ed199",
+  "content_hash": "sha256:18ad18dc57c8e5e5e6c415b9bec419f1b761c5c164d242ba5933fe0d457e3aee",
+  "relations": [
+    {
+      "relation_index": 0,
+      "relation_sha256": "sha256:4bfccbf3aaf3b7baaa403373cc42fbc686b0cbaf2dc748d91d9e4c4ec4f08835",
+      "symptom_slug": "brake_noise_metallic",
+      "system_slug": "freinage",
+      "relation_to_part": "possible_cause",
+      "part_role": "plaquette en fin d'usure, dont l'indicateur mécanique ou les languettes métalliques émettent un son strident au contact du disque (signal voulu) ; plaquette ou accessoires mal montés, ou plaquette directionnelle du mauvais côté, causes de bruit au freinage",
+      "evidence": {
+        "confidence": "medium",
+        "source_policy": "2_medium_concordant",
+        "reviewed": false,
+        "diagnostic_safe": false
+      },
+      "confidence_score_computed": 0.6,
+      "sources": [
+        {
+          "slug": "zf_installation_plaquettes",
+          "catalog_slug": "zf_installation_plaquettes",
+          "type": "oem_manual",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-565c00d21e16973beeb12521b32d694df35f2dcb58bc20afc4ebbf1362b13d57",
+            "expected_sha256": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37"
+          },
+          "raw_proven": true
+        },
+        {
+          "slug": "delphi_temoins_usure",
+          "catalog_slug": "delphi_temoins_usure",
+          "type": "oem_manual",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-a57fe2c9a006f4f2b06a68b52282ee1964b1923dea6a3c8f58f0178fb9d134eb",
+            "expected_sha256": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd"
+          },
+          "raw_proven": true
+        },
+        {
+          "slug": "bremboparts_oe_vs_equivalent",
+          "catalog_slug": "bremboparts_oe_vs_equivalent",
+          "type": "oem_manual",
+          "status": "active",
+          "raw_ref": {
+            "repo": "automecanik-raw",
+            "manifest_id": "src-auto-capture-ebb13203d391b157d95a3d1bb3f54fa2ec3c7e55efc05f8fbfd9f3215bf961f6",
+            "expected_sha256": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e"
+          },
+          "raw_proven": true
+        }
+      ]
+    }
+  ]
+}

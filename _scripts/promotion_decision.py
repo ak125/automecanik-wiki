@@ -62,6 +62,7 @@ _SUBSTANCE_DETECTOR = "PROMOTE_EVALUATE_TIER"
 _COVERAGE_DETECTOR = "COVERAGE_MAP"
 _REGRESSION_DETECTOR = "REGRESSION"
 _PROVENANCE_DETECTOR = "PROVENANCE_GATE"
+_REVISION_DETECTOR = "CANON_REVISION"
 _APPLY_GUARD = "APPLY_GUARD"
 
 
@@ -259,12 +260,80 @@ def _relation_review_verdicts(decision: dict):
             and (r.get("conditions") or {}).get("not_safety") is True}
 
 
+def _canon_revision_trace(bundle: dict, status: str):
+    """Révision du canon (ADR-117 D7), seulement si la proposition déclare `revision_of` : la
+    déclaration, la version remplacée, les conditions de D1 à D3, les conditions bloquantes et
+    leurs codes de refus, le verdict et le delta de régression, `would_revise` et l'état de la
+    politique. `fiche_eligible` (statut de la fiche avant ces motifs) et `regression_pass` (porte
+    de régression existante, le canon remplacé pour base) sont composées ici. Une condition
+    absente ou en erreur n'est jamais un succès. Aucune révision déclarée : None."""
+    local = bundle.get("canon_revision")
+    if local is None:
+        return None
+    if not isinstance(local, dict):
+        local = {"error": "canon_revision_malformed"}
+    regression = bundle.get("regression") or {}
+    verdict = str(regression.get("verdict", "")).upper()
+    computed = local.get("conditions") or {}
+    conditions = {k: computed.get(k) is True for k in CANON_REVISION_CONDITIONS}
+    conditions["fiche_eligible"] = status == STATUS_ELIGIBLE
+    conditions["regression_pass"] = (verdict in _REVISION_REGRESSION_PASS_VERDICTS
+                                     and computed.get("baseline_is_canon") is True)
+    details = dict(local.get("details") or {})
+    details["regression_pass"] = {"verdict": verdict or None,
+                                  "baseline_is_canon": computed.get("baseline_is_canon") is True}
+    blocking = [k for k in CANON_REVISION_CONDITIONS if conditions[k] is not True]
+    return {
+        "evaluated": "error" not in local,
+        "revision_of": local.get("revision_of"),
+        "replaced": local.get("replaced"),
+        "policy": {"canon_revision_adr": CANON_REVISION_ADR,
+                   "status": "ratified" if CANON_REVISION_ADR else "not_ratified"},
+        "conditions": conditions,
+        "blocking_conditions": blocking,
+        "refusal_codes": [CANON_REVISION_REFUSALS[k] for k in blocking if k in CANON_REVISION_REFUSALS],
+        "would_revise": not blocking,
+        "regression": {"verdict": verdict or None, **(regression.get("evidence") or {})},
+        "details": details,
+        **({"error": local["error"]} if "error" in local else {}),
+    }
+
+
+def _reasons_from_canon_revision(trace) -> list[dict]:
+    """Motifs d'une révision déclarée (ADR-117 D1 à D3, D5) : un par code de refus, et
+    `CANON_REVISION_NOT_RATIFIED` tant que `CANON_REVISION_ADR` est vide, même toutes conditions
+    prouvées. Aucune révision déclarée : aucun motif."""
+    if trace is None:
+        return []
+    reasons = [blocking_reason(CANON_REVISION_REFUSALS[k], "POLICY_REVISION", _REVISION_DETECTOR, {
+                   "condition": k, "revision_of": trace["revision_of"],
+                   "detail": trace["details"].get(k)})
+               for k in trace["blocking_conditions"] if k in CANON_REVISION_REFUSALS]
+    if not CANON_REVISION_ADR:
+        reasons.append(blocking_reason("CANON_REVISION_NOT_RATIFIED", "POLICY_REVISION",
+                                       _REVISION_DETECTOR, {
+                                           "revision_of": trace["revision_of"],
+                                           "would_revise": trace["would_revise"],
+                                           "policy": trace["policy"]}))
+    return reasons
+
+
+def _status_of(reasons: list[dict]) -> str:
+    definitive = [r for r in reasons if not r["code"].endswith("_UNAVAILABLE")]
+    if not reasons:
+        return STATUS_ELIGIBLE
+    if definitive:
+        return STATUS_BLOCKED
+    return STATUS_UNKNOWN_FAIL_CLOSED  # seulement des évaluateurs indisponibles
+
+
 def decide_promotion(bundle: dict) -> dict:
     """PURE : compose un PromotionEvidenceBundle en PromotionDecision (0 I/O, 0 repo).
 
     Déterministe : même bundle ⇒ même décision. Fail-closed préservant les dimensions
     (P0-2) : un évaluateur UNAVAILABLE ⇒ status UNKNOWN_FAIL_CLOSED, jamais un faux
-    TIER B, `substance_tier` toujours exposé.
+    TIER B, `substance_tier` toujours exposé. Une révision déclarée (ADR-117) ajoute ses motifs
+    à ceux de la fiche et sa trace à la décision (`canon_revision`).
     """
     bundle = bundle or {}
     substance = bundle.get("substance") or {}
@@ -273,18 +342,13 @@ def decide_promotion(bundle: dict) -> dict:
     reasons += _reasons_from_coverage(bundle.get("coverage"))
     reasons += _reasons_from_regression(bundle.get("regression"))
     reasons += _reasons_from_provenance(bundle.get("provenance"))
+    revision = _canon_revision_trace(bundle, _status_of(reasons))
+    reasons += _reasons_from_canon_revision(revision)
 
     reasons.sort(key=_reason_sort_key)
+    status = _status_of(reasons)
 
-    definitive = [r for r in reasons if not r["code"].endswith("_UNAVAILABLE")]
-    if not reasons:
-        status = STATUS_ELIGIBLE
-    elif definitive:
-        status = STATUS_BLOCKED
-    else:
-        status = STATUS_UNKNOWN_FAIL_CLOSED  # seulement des évaluateurs indisponibles
-
-    return {
+    decision = {
         "schema_version": SCHEMA_VERSION,
         "substance_tier": _substance_tier(substance),
         "promotion_status": status,
@@ -292,6 +356,9 @@ def decide_promotion(bundle: dict) -> dict:
         "blocking_reasons": reasons,
         "relation_review": _relation_review_trace(substance, status),
     }
+    if revision is not None:
+        decision["canon_revision"] = revision
+    return decision
 
 
 # --- Normalizers (PURS) : sortie brute d'un évaluateur → sous-résultat du bundle -
@@ -585,6 +652,39 @@ RELATION_REVIEW_ADR: str | None = None
 RELATION_REVIEW_CONDITIONS = ("fiche_eligible", "not_safety", "sources_raw_proven",
                               "citations_anchored", "proof_publishers_min",
                               "source_policy_resolved", "numeric_verified", "no_review_claimed")
+# Préfixe du cachet qu'`apply_promotion` écrit sur une relation relue (ADR-116 D3), seule
+# autorité de relecture qu'une révision peut remplacer (ADR-117 D1).
+RELATION_REVIEW_STAMP_PREFIX = "rule:ADR-116@"
+
+# --- Révision en place du canon écrit par le promoteur (ADR-117) -------------------
+# Même verrou que les deux précédents : une constante de CODE, jamais une variable
+# d'environnement ni une option CLI. Vide : report-only, le décideur calcule D1 à D3 pour toute
+# proposition qui déclare `revision_of` et inscrit `would_revise` dans sa trace ; la décision
+# reste BLOCKED (`CANON_REVISION_NOT_RATIFIED`) et `apply_promotion` refuse l'écrasement (L4
+# d'ADR-093). La lever = PR WIKI dédiée qui y inscrit "ADR-117", recevable une fois ses
+# préconditions (a)-(e) fusionnées (ADR-117 D5). Le fichier entre dans
+# `decision_engine_revision` : changer la constante invalide toute décision déjà rendue
+# (STALE_DECISION). Refermer = la remettre à None (ADR-117 §Retour arrière).
+CANON_REVISION_ADR: str | None = None
+# Conditions d'ADR-117 D1 à D3, toutes exigées, dans l'ordre de l'ADR.
+CANON_REVISION_CONDITIONS = ("promoter_canon", "not_safety", "no_human_authority",
+                             "target_approved", "base_current", "fiche_eligible",
+                             "regression_pass", "exportable_unchanged", "safety_rules_unchanged")
+# Code de refus de chaque condition. `fiche_eligible` n'en a pas : la décision porte déjà les
+# motifs qui la rendent non éligible.
+CANON_REVISION_REFUSALS = {
+    "promoter_canon": "REVISION_NOT_PROMOTER_CANON",
+    "not_safety": "REVISION_SAFETY",
+    "no_human_authority": "REVISION_HUMAN_AUTHORITY_PRESENT",
+    "target_approved": "REVISION_TARGET_MISSING",
+    "base_current": "REVISION_BASE_STALE",
+    "regression_pass": "REVISION_REGRESSION",
+    "exportable_unchanged": "REVISION_EXPORTABLE_CHANGED",
+    "safety_rules_unchanged": "REVISION_SAFETY_RULES_CHANGED",
+}
+# Base de régression d'une révision : le canon remplacé. NEW (base absente) ne passe pas (D3).
+_REVISION_REGRESSION_PASS_VERDICTS = {"NEUTRAL", "IMPROVED"}
+_SHA256_HEX_RE = re.compile(r"^[0-9a-f]{64}$")
 # Les 5 contrôles qualité attendus, dans l'ordre de `_load_gates` (test de parité).
 CANONICAL_GATE_NAMES = ("source", "claim", "contradiction", "risk", "confidence")
 NUMERIC_RANGES_RELPATH = Path("_meta") / "numeric-plausibility.yaml"
@@ -2223,16 +2323,160 @@ def _canon_already_approved(wiki_root: Path, fm: dict) -> bool:
     return existing_fm.get("review_status") == "approved"
 
 
+def _declares_revision(fm) -> bool:
+    """Vrai si la proposition déclare une révision du canon (ADR-117 D2). La clé suffit : une
+    valeur mal formée est refusée par les conditions, jamais lue comme une première promotion."""
+    return isinstance(fm, dict) and "revision_of" in fm
+
+
+def _foreign_review_authority(canon_fm: dict) -> list[str]:
+    """Entrées du canon dont l'autorité de relecture n'a pas été écrite par le décideur (ADR-117
+    D1) : tout `diagnostic_safe`, `diagnostic_not_applicable.reviewed`, et toute relecture ou tout
+    cachet autre qu'une relation `reviewed: true` au cachet `rule:ADR-116@<révision>` (ADR-116
+    D3). Lève ValueError sur une liste mal formée (`_sourced_entries`)."""
+    claims = _claimed_review_authority(canon_fm)
+    entries = dict(_sourced_entries(canon_fm))
+    foreign = list(claims["diagnostic_safe_true"])
+    for label in dict.fromkeys(claims["reviewed_true"] + claims["review_stamp_present"]):
+        evidence = (entries.get(label) or {}).get("evidence")
+        if not isinstance(evidence, dict):
+            evidence = {}
+        stamp = evidence.get("reviewed_by")
+        if not (label.startswith("diagnostic_relations[") and evidence.get("reviewed") is True
+                and isinstance(stamp, str) and stamp.startswith(RELATION_REVIEW_STAMP_PREFIX)
+                and len(stamp) > len(RELATION_REVIEW_STAMP_PREFIX)):
+            foreign.append(label)
+    return foreign
+
+
+def _canon_revision_local(candidate_path, wiki_root: Path, manifest: dict, baseline_path):
+    """Conditions d'ADR-117 lues sur le canon et la proposition : D1 (`promoter_canon`,
+    `not_safety`, `no_human_authority`), D2 (`target_approved`, `base_current`) et les invariants
+    de D3 (`exportable_unchanged`, `safety_rules_unchanged`), plus `baseline_is_canon` pour la
+    régression. Proposition sans `revision_of` : None, rien ne change (D2). Le canon est lu une
+    fois : empreinte et frontmatter viennent des mêmes octets, comparés à l'empreinte
+    `canon_target` du manifeste. Une condition dont le calcul échoue est fausse et son erreur est
+    rapportée ; un doute de classification vaut sécurité."""
+    wiki_root = Path(wiki_root)
+    fm, _ = _parse_markdown(Path(candidate_path))
+    if not _declares_revision(fm):
+        return None
+    declared = fm.get("revision_of")
+    declared_path = declared.get("path") if isinstance(declared, dict) else None
+    declared_sha = declared.get("sha256") if isinstance(declared, dict) else None
+    conditions = {k: False for k in CANON_REVISION_CONDITIONS if k in CANON_REVISION_REFUSALS}
+    conditions["baseline_is_canon"] = False
+    details: dict = {}
+    target = _promotion_target_path(wiki_root, fm)
+    target_rel = target.relative_to(wiki_root.resolve()).as_posix()
+    manifest_sha = [e.get("sha256") for e in (manifest or {}).get("input_manifest") or []
+                    if e.get("role") == "canon_target"]
+    canon_fm = canon_sha = canon_error = None
+    try:
+        if target.is_file():
+            canon_bytes = target.read_bytes()
+            canon_sha = hashlib.sha256(canon_bytes).hexdigest()
+            canon_fm, _ = _parse_markdown(target, source_bytes=canon_bytes)
+        else:
+            canon_error = "canon absent"
+    except Exception as exc:  # fail-closed : canon illisible
+        canon_error = f"canon illisible: {exc}"
+
+    conditions["target_approved"] = (declared_path == target_rel and canon_fm is not None
+                                     and canon_fm.get("review_status") == "approved")
+    details["target_approved"] = {"declared_path": declared_path, "target": target_rel,
+                                  "review_status": (canon_fm or {}).get("review_status"),
+                                  **({"error": canon_error} if canon_error else {})}
+    conditions["base_current"] = (isinstance(declared_sha, str)
+                                  and bool(_SHA256_HEX_RE.match(declared_sha))
+                                  and declared_sha == canon_sha and manifest_sha == [canon_sha])
+    details["base_current"] = {"declared_sha256": declared_sha, "canon_sha256": canon_sha,
+                               "manifest_sha256": manifest_sha}
+    if baseline_path is None or Path(baseline_path).resolve() == target:
+        conditions["baseline_is_canon"] = True
+    if canon_fm is None:
+        for k in ("promoter_canon", "not_safety", "no_human_authority",
+                  "exportable_unchanged", "safety_rules_unchanged"):
+            details[k] = {"error": canon_error}
+        replaced = None
+    else:
+        reviewed_by = canon_fm.get("reviewed_by")
+        evidence = canon_fm.get("promotion_evidence")
+        conditions["promoter_canon"] = (
+            isinstance(reviewed_by, str) and reviewed_by.startswith(f"{PROMOTER_ID}@")
+            and len(reviewed_by) > len(PROMOTER_ID) + 1
+            and isinstance(evidence, dict) and evidence.get("promoter") == reviewed_by
+            and canon_fm.get("auto_promoted") is True and canon_fm.get("promotion_tier") == "A")
+        details["promoter_canon"] = {
+            "reviewed_by": reviewed_by,
+            "promoter": evidence.get("promoter") if isinstance(evidence, dict) else None,
+            "auto_promoted": canon_fm.get("auto_promoted"),
+            "promotion_tier": canon_fm.get("promotion_tier")}
+        canon_safety, proposal_safety = _is_safety_proposal(canon_fm), _is_safety_proposal(fm)
+        conditions["not_safety"] = not canon_safety and not proposal_safety
+        details["not_safety"] = {"canon": canon_safety, "proposal": proposal_safety}
+        try:
+            foreign = _foreign_review_authority(canon_fm)
+            conditions["no_human_authority"] = not foreign
+            details["no_human_authority"] = {"foreign_authority": foreign}
+        except Exception as exc:  # fail-closed : erreur = autorité présente
+            details["no_human_authority"] = {"error": str(exc)}
+        conditions["exportable_unchanged"] = fm.get("exportable") == canon_fm.get("exportable")
+        details["exportable_unchanged"] = {"proposal": fm.get("exportable"),
+                                           "canon": canon_fm.get("exportable")}
+        conditions["safety_rules_unchanged"] = fm.get("safety_rules") == canon_fm.get("safety_rules")
+        details["safety_rules_unchanged"] = {"proposal_count": len(fm.get("safety_rules") or []),
+                                             "canon_count": len(canon_fm.get("safety_rules") or [])}
+        replaced = {"path": target_rel, "sha256": canon_sha, "reviewed_by": reviewed_by}
+    return {"revision_of": declared, "replaced": replaced, "conditions": conditions,
+            "details": details}
+
+
+def _admitted_revision(decision: dict):
+    """Trace de la révision qu'`apply_promotion` peut écrire (ADR-117 D4/D5) : verrou levé et
+    `would_revise` vrai. Sinon None : l'anti-écrasement (L4) s'applique."""
+    trace = (decision or {}).get("canon_revision")
+    if (not CANON_REVISION_ADR or not isinstance(trace, dict) or trace.get("evaluated") is not True
+            or trace.get("would_revise") is not True):
+        return None
+    return trace
+
+
+def _verify_revision_base(wiki_root: Path, revision: dict) -> Path:
+    """Canon que la révision remplace, relu au moment de l'écriture : son empreinte doit être
+    celle que la révision déclare (ADR-117 D2). Différente ou illisible : `REVISION_BASE_STALE`,
+    rien n'est écrit. Retourne le chemin résolu, jamais hors `wiki/`."""
+    declared = revision.get("revision_of") if isinstance(revision.get("revision_of"), dict) else {}
+    canon_root = (Path(wiki_root) / "wiki").resolve()
+    path = (Path(wiki_root) / str(declared.get("path"))).resolve()
+    if canon_root not in path.parents:
+        raise PromotionInputError(f"refus révision hors wiki/: {path}")
+    try:
+        current = hashlib.sha256(path.read_bytes()).hexdigest()
+    except OSError as exc:
+        raise PromotionInputError(f"REVISION_BASE_STALE: canon illisible: {exc}") from exc
+    if current != declared.get("sha256"):
+        raise PromotionInputError(f"REVISION_BASE_STALE: canon {path} sha256={current}, "
+                                  f"révision écrite sur {declared.get('sha256')}")
+    return path
+
+
 def _promoted_frontmatter(fm: dict, evaluation: dict, *, target_rel: str, sha: str, now: str,
-                          relation_verdicts=None, decider_revision=None) -> dict:
+                          relation_verdicts=None, decider_revision=None, revision=None) -> dict:
     """Frontmatter qu'`apply_promotion` écrit au canon : le frontmatter proposé, plus les champs
     de promotion. Partagé avec la Safety Auto-Gate, qui projette la fiche telle qu'elle sera
     publiée (`_promoted_fiche`).
 
     Relecture des relations (ADR-116 D3), seulement si `RELATION_REVIEW_ADR` est inscrite et que
     la décision l'a évaluée (`relation_verdicts` : index d'une relation de D1 → toutes ses
-    conditions prouvées) : `_reviewed_relations`. Verrou vide : relations telles que proposées."""
+    conditions prouvées) : `_reviewed_relations`. Verrou vide : relations telles que proposées.
+
+    Révision admise (ADR-117 D4, trace `_admitted_revision`) : mêmes champs, sauf `exportable`
+    conservé tel que proposé (égal au canon, D3) ; `promotion_evidence.revision_of` trace le
+    canon remplacé ; la déclaration `revision_of` n'est pas recopiée."""
     new_fm = dict(fm)  # copie — aucune modification du contenu éditorial
+    if revision is not None:
+        new_fm.pop("revision_of", None)
     if RELATION_REVIEW_ADR and relation_verdicts is not None:
         new_fm["diagnostic_relations"] = _reviewed_relations(
             fm.get("diagnostic_relations"), relation_verdicts, decider_revision, now)
@@ -2253,9 +2497,12 @@ def _promoted_frontmatter(fm: dict, evaluation: dict, *, target_rel: str, sha: s
     shadow = evaluation.get("shadow_score")
     if shadow is not None:
         new_fm["promotion_evidence"]["shadow_score"] = shadow
-    exportable = dict(new_fm.get("exportable") or {})
-    exportable["seo"] = True
-    new_fm["exportable"] = exportable
+    if revision is not None:
+        new_fm["promotion_evidence"]["revision_of"] = dict(revision["replaced"])
+    else:
+        exportable = dict(new_fm.get("exportable") or {})
+        exportable["seo"] = True
+        new_fm["exportable"] = exportable
     provenance = dict(new_fm.get("provenance") or {})
     provenance["promoted_from"] = target_rel
     provenance["promoted_at"] = now
@@ -2324,6 +2571,10 @@ def apply_promotion(target: Path, wiki_root: Path, decision: dict, *,
         # The executor accepts the full canonical decision, never caller-cached
         # frontmatter/body or a bare score. Parse the exact bytes matched to its input.
         target, wiki_root = Path(target), Path(wiki_root)
+        # Révision du canon (ADR-117 D4/D5) : admise seulement verrou levé et `would_revise`
+        # vrai ; l'empreinte du canon est revérifiée sous le verrou, avant et après le staging.
+        revision = _admitted_revision(decision)
+        revised_path = _verify_revision_base(wiki_root, revision) if revision is not None else None
         ok, refusal = authorize_apply(decision, target, wiki_root,
                                       raw_root=raw_root, baseline_path=baseline_path)
         if not ok:
@@ -2341,14 +2592,18 @@ def apply_promotion(target: Path, wiki_root: Path, decision: dict, *,
         now = datetime.now(timezone.utc).isoformat(timespec="seconds")
         sha = _wiki_commit_sha(wiki_root)
         out_path = _promotion_target_path(wiki_root, fm)
-        # defense-in-depth : ne JAMAIS écraser une fiche canon déjà approved (idempotence / TOCTOU)
-        if _canon_already_approved(wiki_root, fm):
+        # defense-in-depth : ne JAMAIS écraser une fiche canon déjà approved (idempotence / TOCTOU),
+        # sauf la révision admise de ce canon précis (ADR-117)
+        if revision is None and _canon_already_approved(wiki_root, fm):
             raise PromotionInputError(f"refus écrasement canon déjà approved: {out_path}")
+        if revision is not None and revised_path != out_path:
+            raise PromotionInputError(f"refus révision: canon déclaré {revised_path} ≠ cible {out_path}")
 
         new_fm = _promoted_frontmatter(fm, evaluation, target_rel=str(target.relative_to(wiki_root)),
                                        sha=sha, now=now,
                                        relation_verdicts=_relation_review_verdicts(decision),
-                                       decider_revision=decision["inputs"]["decision_engine_revision"])
+                                       decider_revision=decision["inputs"]["decision_engine_revision"],
+                                       revision=revision)
 
         out_path.parent.mkdir(parents=True, exist_ok=True)
         rendered = _render_fiche(new_fm, body)
@@ -2363,6 +2618,8 @@ def apply_promotion(target: Path, wiki_root: Path, decision: dict, *,
                 stream.write(rendered)
                 stream.flush()
                 os.fsync(stream.fileno())
+            if revision is not None:
+                _verify_revision_base(wiki_root, revision)
             ok, refusal = authorize_apply(decision, target, wiki_root,
                                           raw_root=raw_root, baseline_path=baseline_path)
             if not ok:
@@ -2543,6 +2800,11 @@ def canonical_promotion_decision(candidate_path, wiki_root, *, raw_root=None,
 
     bundle = assemble_bundle(substance, coverage_raw=cov_raw, regression_raw=reg_raw,
                              provenance_raw=prov_raw, raw_available=raw_avail)
+    try:
+        bundle["canon_revision"] = _canon_revision_local(candidate_path, wiki_root,
+                                                         manifest_after, baseline_path)
+    except Exception as exc:  # fail-closed : révision déclarée non évaluable
+        bundle["canon_revision"] = {"error": f"canon_revision_error: {exc}"}
     decision = decide_promotion(bundle)
     decision["evaluation"] = _evaluation_passthrough(substance)
     decision["inputs"] = manifest_after

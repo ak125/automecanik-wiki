@@ -579,9 +579,19 @@ def gate_slug_collision(fm: dict, registry: dict, current_path: Path) -> list[st
         )
         if existing_path:
             existing_full = REPO_ROOT / existing_path
-            if existing_full.resolve() != current_path.resolve():
+            if (existing_full.resolve() != current_path.resolve()
+                    and not _declared_revision_pair(fm, existing_path, current_path)):
                 return [f"slug_collision: slug '{slug}' already in registry as {existing_path}"]
     return []
+
+
+def _declared_revision_pair(fm: dict, existing_path: str, current_path: Path) -> bool:
+    """Seule paire admise sous un même slug (ADR-117 D5 b) : une proposition sous `proposals/`
+    dont `revision_of.path` est le canon enregistré `wiki/<entity_type>/<slug>.md`."""
+    declared = fm.get("revision_of")
+    canon = f"wiki/{fm.get('entity_type')}/{fm.get('slug')}.md"
+    return (isinstance(declared, dict) and declared.get("path") == canon == existing_path
+            and (REPO_ROOT / "proposals").resolve() in current_path.resolve().parents)
 
 
 def gate_pollution(body: str) -> list[str]:

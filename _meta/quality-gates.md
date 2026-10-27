@@ -224,6 +224,26 @@ L'écriture est gardée par la constante de code `RELATION_REVIEW_ADR` (`promoti
 
 Une ancre ne casse pas en silence. `quality-gates.py --cross-repo` vérifie les ancres des citations de toutes les fiches du canon. `check-activation-guard.py` traite le changement du `raw_ref` d'une source déjà `active` comme une activation, soumise au flux gouverné qui exécute `--cross-repo`.
 
+### Révision d'une fiche du canon écrite par le promoteur (ADR-117)
+
+Une proposition révise une fiche approuvée du canon seulement si elle le déclare : `revision_of: {path, sha256}`. `path` est le chemin du canon, égal à la cible de la proposition (même `entity_type`, même `slug`) ; `sha256` est l'empreinte du fichier du canon sur lequel la révision a été écrite. Sans `revision_of`, rien ne change : `promote.py` saute la proposition et `apply_promotion` refuse l'écrasement (L4). Avec, `promote.py` la transmet au décideur, seul chemin de décision. Le décideur calcule les conditions d'ADR-117 D1 à D3 dans `canonical_promotion_decision` et les compose dans la décision (`canon_revision`). Une révision est admise si toutes sont prouvées :
+
+- `promoter_canon` : le canon a été écrit par le promoteur (`reviewed_by` de forme `skill:promoter@<révision>`, égal à `promotion_evidence.promoter`, `auto_promoted: true`, `promotion_tier: A`) — sinon `REVISION_NOT_PROMOTER_CANON` ;
+- `not_safety` : ni le canon ni la proposition n'est une fiche sécurité ; un doute vaut sécurité — sinon `REVISION_SAFETY` ;
+- `no_human_authority` : le canon ne porte aucune autorité de relecture, sauf une relation `reviewed: true` au cachet `rule:ADR-116@<révision>`. Ni `diagnostic_safe`, ni `diagnostic_not_applicable.reviewed`, ni aucune autre relecture ou aucun autre cachet — sinon `REVISION_HUMAN_AUTHORITY_PRESENT` ;
+- `target_approved` : `revision_of.path` est la cible de la proposition, et une fiche `approved` s'y trouve — sinon `REVISION_TARGET_MISSING` ;
+- `base_current` : `revision_of.sha256` est l'empreinte du canon évalué, celle que le manifeste d'entrées inscrit (`canon_target`) — sinon `REVISION_BASE_STALE` ;
+- `fiche_eligible` : la proposition est `ELIGIBLE`, toutes les portes d'une promotion comprises (seuil 0.85, `REVIEW_AUTHORITY_CLAIMED`). Ses motifs propres la bloquent déjà ; cette condition n'a pas de code ;
+- `regression_pass` : la porte de régression existante, avec le canon remplacé pour base, rend `NEUTRAL` ou `IMPROVED`. `NEW`, `REGRESSED` et `UNAVAILABLE` refusent, comme une autre base que le canon — `REVISION_REGRESSION` ;
+- `exportable_unchanged` : `exportable` identique à celui du canon — sinon `REVISION_EXPORTABLE_CHANGED` ;
+- `safety_rules_unchanged` : `safety_rules[]` identique à celui du canon — sinon `REVISION_SAFETY_RULES_CHANGED`.
+
+Une condition dont le calcul échoue est fausse et son erreur est rapportée ; un canon absent ou illisible les rend toutes fausses. Chaque condition fausse ajoute son code de refus aux motifs de la décision. La trace porte la déclaration, la version remplacée (`replaced` : chemin, empreinte, `reviewed_by`), les conditions, `blocking_conditions`, les codes de refus, le verdict de régression, `would_revise` et `policy.status` (`ratified` ou `not_ratified`).
+
+L'écriture est gardée par la constante de code `CANON_REVISION_ADR` (`promotion_decision.py`). Tant qu'elle est vide, le décideur est en report-only : il inscrit `would_revise` dans sa trace, la décision reste `BLOCKED` (`CANON_REVISION_NOT_RATIFIED`) et `apply_promotion` refuse l'écrasement. Une fois levée, seul `apply_promotion` écrit, sous son verrou. Il revérifie l'empreinte du canon avant et après la mise en place (`REVISION_BASE_STALE`) et n'écrit que le canon déclaré, sous `wiki/`. Les relations sont relues de nouveau par la règle d'ADR-116 ; un cachet n'est jamais hérité. La constante ne se lève ni par variable d'environnement ni par option CLI, mais par une PR WIKI dédiée, recevable une fois les préconditions d'ADR-117 D5 fusionnées, mesure du corpus comprise. Le fichier entre dans l'empreinte du moteur de décision.
+
+Sous un slug enregistré, `check-slug-uniqueness.mjs` et `gate_slug_collision` (`quality-gates.py`) n'admettent qu'une paire : le canon, et une proposition de `proposals/` dont `revision_of.path` le désigne. Le schéma admet `revision_of` dans une proposition (`draft`, `proposed` ou `in_review`) qui garde l'`exportable` du canon, jamais dans une fiche `approved`.
+
 La validation du WIKI n'autorise aucune modification du moteur diagnostic LIVE.
 
 ```bash
@@ -245,7 +265,7 @@ reviewed_at: <date UTC>
 promotion_evidence: <gates, score, moteur, date>
 ```
 
-Le corps n'est pas réécrit. La provenance et les preuves sont conservées. Le comportement export SEO déjà existant du promoteur reste inchangé ; il ne prouve pas une publication. Les anciens marqueurs humains sont historiques et ne constituent plus une condition pour une nouvelle décision WIKI.
+Le corps n'est pas réécrit. La provenance et les preuves sont conservées. Une révision (ADR-117, §7) écrit les mêmes champs, avec trois différences : `exportable` reste celui du canon, sans passage forcé de `exportable.seo` à true ; `promotion_evidence.revision_of` porte `path`, `sha256` et `reviewed_by` de la version remplacée, que l'historique Git conserve ; `revision_of` n'est pas recopié au premier niveau. Le comportement export SEO déjà existant du promoteur reste inchangé ; il ne prouve pas une publication. Les anciens marqueurs humains sont historiques et ne constituent plus une condition pour une nouvelle décision WIKI.
 
 ______________________________________________________________________
 
@@ -293,6 +313,8 @@ Si une fiche promue dans `wiki/<entity_type>/` est ensuite identifiée probléma
 1. **CI re-run** : `wiki-quality-gates.yml` ré-évalue depuis `proposals/`.
 
 Idempotent et traçable sans réécrire l'histoire Git.
+
+§10 reste la voie d'une fiche défectueuse, sécurité comprise (ADR-114). L'amélioration d'une fiche écrite par le promoteur passe par une révision (ADR-117, §7), qui garde son chemin et son slug ; une fiche dont la révision est refusée se rétrograde par §10.
 
 ______________________________________________________________________
 

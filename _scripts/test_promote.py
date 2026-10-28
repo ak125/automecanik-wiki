@@ -287,6 +287,38 @@ def test_apply_refuses_overwrite_of_approved_canon(tmp_path):
                             {"gate_status": {}, "confidence_score": 0.9})
 
 
+@pytest.mark.parametrize("declared", [False, True])
+def test_cli_routes_only_a_declared_revision_past_the_approved_canon(tmp_path, monkeypatch, declared):
+    """ADR-117 D2 : sans `revision_of`, le canon approuvé saute la proposition ; avec, elle va au
+    décideur, qui la juge, et sous la constante vide (D5) rien n'est écrit."""
+    import hashlib
+    import yaml
+    mod, source, _, _, invoke = _cli_snapshot_fixture(tmp_path, monkeypatch)
+    _write_canon(tmp_path, "filtre-a-huile", "approved")
+    canon = tmp_path / "wiki/gamme/filtre-a-huile.md"
+    before = canon.read_bytes()
+    if declared:
+        fm = {**FM_OK, "revision_of": {"path": "wiki/gamme/filtre-a-huile.md",
+                                        "sha256": hashlib.sha256(before).hexdigest()}}
+        source.write_text("---\n" + yaml.safe_dump(fm) + "---\nREVISED BODY")
+    result = invoke()
+    entry, = json.loads(result.stdout)["report"]
+    if declared:
+        assert result.exit_code == 1, result.output
+        assert entry["promotion_status"] == "BLOCKED"
+        assert entry["canon_revision"]["revision_of"] == fm["revision_of"]
+        assert entry["canon_revision"]["policy"]["status"] == "not_ratified"
+        assert "CANON_REVISION_NOT_RATIFIED" in [r["code"] for r in entry["blocking_reasons"]]
+        assert "apply_refused" in entry
+    else:
+        assert result.exit_code == 0, result.output
+        assert entry["promotion_status"] == "SKIP"
+        assert "canon déjà approved" in entry["reason"]
+        assert "canon_revision" not in entry
+    assert canon.read_bytes() == before
+    assert source.exists()
+
+
 # --- Move-semantics (la promotion DÉPLACE, ne copie pas) -----------------------
 def test_apply_deletes_source_proposal_after_promotion(tmp_path):
     """La proposal source est supprimée après écriture du canon (slug-uniqueness)."""

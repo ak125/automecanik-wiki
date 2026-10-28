@@ -4197,3 +4197,439 @@ def test_relation_review_verdicts_cover_d1_relations_only():
         {"index": 5, "conditions": {"not_safety": "true"}, "would_review": True},
         "pas un mapping"]}}
     assert dec._relation_review_verdicts(decision) == {0: True, 2: False, 3: False}
+
+
+# --- ADR-117 : révision en place du canon écrit par le promoteur -----------------------------
+_REVISION_CANON = "wiki/gamme/filtre-a-huile.md"
+
+
+def _revision_candidate(tmp_path, monkeypatch, *, canon=None, declare=None, body=None,
+                        review=False, **proposal):
+    """Canon écrit par l'exécuteur à partir de la fiche de `_proof_candidate` (de
+    `_review_candidate` si `review` : sa relation relue par la règle d'ADR-116, verrou refermé
+    ensuite), puis la proposition qui déclare le réviser (ADR-117 D2) : le frontmatter proposé
+    d'origine, l'`exportable` du canon et `revision_of` sur l'empreinte du canon. `canon` modifie
+    le frontmatter du canon avant la déclaration ; `declare` remplace des clés de `revision_of` ;
+    `body` remplace le corps proposé ; `proposal` remplace des clés de la proposition (None la
+    retire). Rend le module, la proposition, la racine RAW et le canon."""
+    import hashlib
+    if review:
+        dec, cand, raw, _relation = _review_candidate(tmp_path, monkeypatch)
+        monkeypatch.setattr(dec, "RELATION_REVIEW_ADR", "ADR-116")
+    else:
+        dec, cand, raw = _proof_candidate(tmp_path, monkeypatch, "captured", bind_provenance=False)
+    text = cand.read_text(encoding="utf-8")
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert decision["eligible"] is True, decision
+    path = dec.apply_promotion(cand, tmp_path, decision, raw_root=raw)
+    monkeypatch.setattr(dec, "RELATION_REVIEW_ADR", None)
+    cfm, cbody = dec._parse_markdown(path)
+    if canon is not None:
+        canon(cfm)
+        path.write_text(dec._render_fiche(cfm, cbody), encoding="utf-8")
+    cand.write_text(text, encoding="utf-8")
+    fm, pbody = dec._parse_markdown(cand)
+    fm["exportable"] = cfm.get("exportable")
+    fm["revision_of"] = {"path": _REVISION_CANON,
+                         "sha256": hashlib.sha256(path.read_bytes()).hexdigest(), **(declare or {})}
+    for key, value in proposal.items():
+        if value is None:
+            fm.pop(key, None)
+        else:
+            fm[key] = value
+    cand.write_text(dec._render_fiche(fm, pbody if body is None else body), encoding="utf-8")
+    return dec, cand, raw, path
+
+
+def _codes_of(decision):
+    return [r["code"] for r in decision["blocking_reasons"]]
+
+
+def _canon_relation(**evidence):
+    """Modification du canon : une relation diagnostic dont `evidence` porte `evidence`."""
+    relation = {"symptom_slug": "voyant_huile", "system_slug": "filtration",
+                "relation_to_part": "possible_cause", "part_role": "Un filtre colmaté réduit le débit d'huile.",
+                "evidence": {"confidence": "medium", "source_policy": "1_high", "reviewed": False,
+                             "diagnostic_safe": False, **evidence},
+                "sources": ["source_test"]}
+    return lambda fm: fm.update(diagnostic_relations=[relation])
+
+
+def test_canon_revision_lock_is_an_empty_code_constant(monkeypatch):
+    """ADR-117 D5 : report-only tant que la constante est vide ; ni variable d'environnement ni
+    option ne la renseigne. Les conditions sont celles de D1 à D3, dans l'ordre de l'ADR, chacune
+    avec son code de refus sauf `fiche_eligible`, dont la décision porte déjà les motifs."""
+    monkeypatch.setenv("CANON_REVISION_ADR", "ADR-117")
+    dec = _load_decision()
+    assert dec.CANON_REVISION_ADR is None
+    assert dec.CANON_REVISION_CONDITIONS == (
+        "promoter_canon", "not_safety", "no_human_authority", "target_approved", "base_current",
+        "fiche_eligible", "regression_pass", "exportable_unchanged", "safety_rules_unchanged")
+    assert dec.CANON_REVISION_REFUSALS == {
+        "promoter_canon": "REVISION_NOT_PROMOTER_CANON", "not_safety": "REVISION_SAFETY",
+        "no_human_authority": "REVISION_HUMAN_AUTHORITY_PRESENT",
+        "target_approved": "REVISION_TARGET_MISSING", "base_current": "REVISION_BASE_STALE",
+        "regression_pass": "REVISION_REGRESSION", "exportable_unchanged": "REVISION_EXPORTABLE_CHANGED",
+        "safety_rules_unchanged": "REVISION_SAFETY_RULES_CHANGED"}
+
+
+def test_canon_revision_without_declaration_changes_nothing(tmp_path, monkeypatch):
+    """Sans `revision_of`, rien ne change (ADR-117 D2) : aucune trace, et la proposition dont
+    le canon est approved reste refusée par l'anti-écrasement, même verrou levé."""
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch, revision_of=None)
+    before = canon.read_bytes()
+    monkeypatch.setattr(dec, "CANON_REVISION_ADR", "ADR-117")
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert "canon_revision" not in decision
+    assert decision["eligible"] is True, decision
+    with pytest.raises(dec.PromotionInputError, match="refus écrasement canon déjà approved"):
+        dec.apply_promotion(cand, tmp_path, decision, raw_root=raw)
+    assert canon.read_bytes() == before and cand.exists()
+
+
+def test_canon_revision_report_only_traces_would_revise_and_blocks(tmp_path, monkeypatch):
+    """Verrou vide (ADR-117 D5) : la révision qui prouve D1 à D3 est rapportée `would_revise`
+    avec la déclaration et la version remplacée (D7) ; la décision reste BLOCKED par le seul
+    `CANON_REVISION_NOT_RATIFIED`."""
+    import hashlib
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    sha = hashlib.sha256(canon.read_bytes()).hexdigest()
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert decision["promotion_status"] == "BLOCKED" and decision["eligible"] is False
+    assert _codes_of(decision) == ["CANON_REVISION_NOT_RATIFIED"]
+    trace = decision["canon_revision"]
+    assert trace["evaluated"] is True
+    assert trace["policy"] == {"canon_revision_adr": None, "status": "not_ratified"}
+    assert trace["conditions"] == dict.fromkeys(dec.CANON_REVISION_CONDITIONS, True), trace
+    assert trace["blocking_conditions"] == [] and trace["refusal_codes"] == []
+    assert trace["would_revise"] is True
+    assert trace["revision_of"] == {"path": _REVISION_CANON, "sha256": sha}
+    assert trace["replaced"] == {"path": _REVISION_CANON, "sha256": sha,
+                                 "reviewed_by": dec._parse_markdown(canon)[0]["reviewed_by"]}
+    assert trace["regression"]["verdict"] == "NEUTRAL"
+    assert trace["details"]["regression_pass"] == {"verdict": "NEUTRAL", "baseline_is_canon": True}
+    [reason] = decision["blocking_reasons"]
+    assert reason["evidence"]["would_revise"] is True
+
+
+def test_canon_revision_empty_lock_writes_nothing(tmp_path, monkeypatch):
+    """Verrou vide : aucune écriture (ADR-117 D5). La décision rendue est refusée à
+    l'application ; une décision forgée éligible n'est pas une révision admise et retombe sur
+    l'anti-écrasement. Le canon garde ses octets, la proposition reste."""
+    import copy
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    before = canon.read_bytes()
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    with pytest.raises(dec.PromotionInputError, match="APPLY_NOT_ELIGIBLE"):
+        dec.apply_promotion(cand, tmp_path, decision, raw_root=raw)
+    forged = {**copy.deepcopy(decision), "eligible": True, "promotion_status": "ELIGIBLE",
+              "blocking_reasons": []}
+    assert dec._admitted_revision(forged) is None
+    with pytest.raises(dec.PromotionInputError, match="refus écrasement canon déjà approved"):
+        dec.apply_promotion(cand, tmp_path, forged, raw_root=raw)
+    assert canon.read_bytes() == before and cand.exists()
+
+
+@pytest.mark.parametrize("code, condition, options", [
+    ("REVISION_NOT_PROMOTER_CANON", "promoter_canon", {"canon": lambda fm: fm.update(auto_promoted=False)}),
+    ("REVISION_NOT_PROMOTER_CANON", "promoter_canon", {"canon": lambda fm: fm.update(promotion_tier="B")}),
+    ("REVISION_NOT_PROMOTER_CANON", "promoter_canon", {"canon": lambda fm: fm.update(reviewed_by="human:relecteur")}),
+    ("REVISION_NOT_PROMOTER_CANON", "promoter_canon", {"canon": lambda fm: (
+        fm.update(reviewed_by="skill:promoter@"), fm["promotion_evidence"].update(promoter="skill:promoter@"))}),
+    ("REVISION_NOT_PROMOTER_CANON", "promoter_canon", {"canon": lambda fm: fm["promotion_evidence"].update(
+        promoter="skill:promoter@fffffff")}),
+    ("REVISION_SAFETY", "not_safety", {"canon": lambda fm: fm.update(entity_data={"family": "freinage"})}),
+    ("REVISION_SAFETY", "not_safety", {"entity_data": {"family": "freinage"}}),
+    ("REVISION_HUMAN_AUTHORITY_PRESENT", "no_human_authority", {"canon": _canon_relation(
+        reviewed=True, reviewed_by="human:relecteur")}),
+    ("REVISION_HUMAN_AUTHORITY_PRESENT", "no_human_authority", {"canon": _canon_relation(diagnostic_safe=True)}),
+    ("REVISION_HUMAN_AUTHORITY_PRESENT", "no_human_authority", {"canon": _canon_relation(
+        reviewed=True, reviewed_by="rule:ADR-116@")}),
+    ("REVISION_HUMAN_AUTHORITY_PRESENT", "no_human_authority", {"canon": _canon_relation(
+        reviewed_by="rule:ADR-116@" + "ab" * 32)}),
+    ("REVISION_HUMAN_AUTHORITY_PRESENT", "no_human_authority", {"canon": lambda fm: fm.update(
+        diagnostic_not_applicable={"reviewed": True})}),
+    # Le cachet de la règle ne couvre que les relations (ADR-116 D3).
+    ("REVISION_HUMAN_AUTHORITY_PRESENT", "no_human_authority", {"canon": lambda fm: fm.update(safety_rules=[{
+        **_RULE_MANUAL, "evidence": {**_RULE_MANUAL["evidence"], "reviewed": True,
+                                     "reviewed_by": "rule:ADR-116@" + "ab" * 32}}])}),
+    ("REVISION_TARGET_MISSING", "target_approved", {"declare": {"path": "wiki/gamme/filtre-a-air.md"}}),
+    ("REVISION_TARGET_MISSING", "target_approved", {"canon": lambda fm: fm.update(review_status="in_review")}),
+    ("REVISION_BASE_STALE", "base_current", {"declare": {"sha256": "0" * 64}}),
+    ("REVISION_BASE_STALE", "base_current", {"declare": {"sha256": None}}),
+    ("REVISION_REGRESSION", "regression_pass", {"body": "x\n"}),
+    ("REVISION_EXPORTABLE_CHANGED", "exportable_unchanged", {"exportable": {"seo": False, "rag": False}}),
+    ("REVISION_EXPORTABLE_CHANGED", "exportable_unchanged", {"exportable": {"seo": True, "rag": True}}),
+    ("REVISION_SAFETY_RULES_CHANGED", "safety_rules_unchanged", {"safety_rules": [_RULE_MANUAL]}),
+    ("REVISION_SAFETY_RULES_CHANGED", "safety_rules_unchanged", {"canon": lambda fm: fm.update(
+        safety_rules=[_RULE_MANUAL])}),
+])
+def test_canon_revision_refusal_codes(tmp_path, monkeypatch, code, condition, options):
+    """Chaque condition de D1 à D3 a son code de refus (ADR-117) : la condition fausse est
+    rapportée bloquante avec son code, `would_revise` est faux, et la décision reste BLOCKED,
+    verrou vide comme verrou levé."""
+    dec, cand, raw, _canon = _revision_candidate(tmp_path, monkeypatch, **options)
+    for lock in (None, "ADR-117"):
+        monkeypatch.setattr(dec, "CANON_REVISION_ADR", lock)
+        decision = _review_decision(dec, cand, tmp_path, raw)
+        trace = decision["canon_revision"]
+        assert trace["conditions"][condition] is False, trace
+        assert condition in trace["blocking_conditions"] and code in trace["refusal_codes"]
+        assert trace["would_revise"] is False
+        assert decision["eligible"] is False and decision["promotion_status"] == "BLOCKED"
+        assert code in _codes_of(decision), decision["blocking_reasons"]
+        reason = next(r for r in decision["blocking_reasons"] if r["code"] == code)
+        assert reason["evidence"]["condition"] == condition
+        assert ("CANON_REVISION_NOT_RATIFIED" in _codes_of(decision)) is (lock is None)
+
+
+def test_canon_revision_of_an_absent_canon_is_refused(tmp_path, monkeypatch):
+    """Canon déclaré absent : aucune version remplacée, et toute condition lue sur le canon est
+    fausse, son erreur rapportée (fail-closed)."""
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    canon.unlink()
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    trace = decision["canon_revision"]
+    assert trace["replaced"] is None and trace["would_revise"] is False
+    assert trace["details"]["target_approved"]["error"] == "canon absent"
+    for code in ("REVISION_NOT_PROMOTER_CANON", "REVISION_SAFETY", "REVISION_HUMAN_AUTHORITY_PRESENT",
+                 "REVISION_TARGET_MISSING", "REVISION_BASE_STALE", "REVISION_REGRESSION",
+                 "REVISION_EXPORTABLE_CHANGED", "REVISION_SAFETY_RULES_CHANGED"):
+        assert code in _codes_of(decision), code
+
+
+def test_canon_revision_base_is_the_evaluated_canon(tmp_path, monkeypatch):
+    """L'empreinte déclarée doit être celle du canon que l'évaluation a lu (manifeste,
+    `canon_target`) : un canon remplacé pendant l'évaluation par la version que la proposition
+    déclare ne rend pas la base courante."""
+    import hashlib
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    evaluated = canon.read_bytes()
+    declared = evaluated + b"\nVersion suivante.\n"
+    fm, body = dec._parse_markdown(cand)
+    fm["revision_of"]["sha256"] = hashlib.sha256(declared).hexdigest()
+    cand.write_text(dec._render_fiche(fm, body), encoding="utf-8")
+    local = dec._canon_revision_local
+
+    def swapped(*args):
+        canon.write_bytes(declared)
+        return local(*args)
+
+    monkeypatch.setattr(dec, "_canon_revision_local", swapped)
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    details = decision["canon_revision"]["details"]["base_current"]
+    assert details["declared_sha256"] == details["canon_sha256"]
+    assert details["manifest_sha256"] == [hashlib.sha256(evaluated).hexdigest()]
+    assert "REVISION_BASE_STALE" in _codes_of(decision)
+
+
+def test_canon_revision_regression_baseline_must_be_the_canon(tmp_path, monkeypatch):
+    """La régression d'une révision se mesure contre le canon remplacé (ADR-117 D3) : une autre
+    base, même d'un verdict passant, refuse `REVISION_REGRESSION`."""
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    other = tmp_path / "baseline.md"
+    other.write_bytes(canon.read_bytes())
+    decision = dec.canonical_promotion_decision(cand, tmp_path, raw_root=raw, baseline_path=other,
+                                                gates=_gates(), compute_score=lambda *a: 0.99)
+    trace = decision["canon_revision"]
+    assert trace["details"]["regression_pass"]["baseline_is_canon"] is False
+    assert "REVISION_REGRESSION" in _codes_of(decision)
+
+
+def test_canon_revision_evaluation_error_fails_closed(tmp_path, monkeypatch):
+    """Une condition dont le calcul échoue est fausse, son erreur rapportée ; une révision
+    déclarée non évaluable n'est jamais admise et rien n'est écrit, même verrou levé."""
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    before = canon.read_bytes()
+    monkeypatch.setattr(dec, "CANON_REVISION_ADR", "ADR-117")
+
+    def unreadable(fm):
+        raise ValueError("autorité illisible")
+
+    monkeypatch.setattr(dec, "_foreign_review_authority", unreadable)
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert "REVISION_HUMAN_AUTHORITY_PRESENT" in _codes_of(decision)
+    assert decision["canon_revision"]["details"]["no_human_authority"] == {"error": "autorité illisible"}
+
+    def broken(*args):
+        raise RuntimeError("canon illisible")
+
+    monkeypatch.setattr(dec, "_canon_revision_local", broken)
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    trace = decision["canon_revision"]
+    assert trace["evaluated"] is False and trace["would_revise"] is False
+    assert trace["error"] == "canon_revision_error: canon illisible"
+    assert decision["eligible"] is False and dec._admitted_revision(decision) is None
+    with pytest.raises(dec.PromotionInputError):
+        dec.apply_promotion(cand, tmp_path, decision, raw_root=raw)
+    assert canon.read_bytes() == before and cand.exists()
+
+
+def test_canon_revision_writes_in_place_once_the_lock_is_lifted(tmp_path, monkeypatch):
+    """Verrou levé (ADR-117 D4) : `apply_promotion` remplace le canon par la révision, garde son
+    `exportable`, inscrit la version remplacée dans `promotion_evidence.revision_of` sans
+    recopier la déclaration, et supprime la proposition. La fiche écrite est celle que
+    `_promoted_frontmatter` projette, et sa trace satisfait le schéma."""
+    import hashlib
+    import json
+    from jsonschema import Draft202012Validator
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    replaced = {"path": _REVISION_CANON, "sha256": hashlib.sha256(canon.read_bytes()).hexdigest(),
+                "reviewed_by": dec._parse_markdown(canon)[0]["reviewed_by"]}
+    monkeypatch.setattr(dec, "CANON_REVISION_ADR", "ADR-117")
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert decision["eligible"] is True, decision
+    assert decision["canon_revision"]["policy"] == {"canon_revision_adr": "ADR-117", "status": "ratified"}
+    pfm, pbody = dec._parse_markdown(cand)
+    out = dec.apply_promotion(cand, tmp_path, decision, raw_root=raw)
+    assert out == canon and not cand.exists()
+    written, _body = dec._parse_markdown(out)
+    assert "revision_of" not in written
+    assert written["promotion_evidence"]["revision_of"] == replaced
+    assert written["exportable"] == pfm["exportable"] and written["review_status"] == "approved"
+    sha = written["reviewed_by"].split("@", 1)[1]
+    assert out.read_text(encoding="utf-8") == dec._render_fiche(dec._promoted_frontmatter(
+        pfm, decision["evaluation"], target_rel="proposals/filtre-a-huile.md", sha=sha,
+        now=written["reviewed_at"], relation_verdicts=dec._relation_review_verdicts(decision),
+        decider_revision=decision["inputs"]["decision_engine_revision"],
+        revision=decision["canon_revision"]), pbody)
+    validator = Draft202012Validator(json.loads(
+        (SCRIPTS.parent / "_meta" / "schema" / "frontmatter.schema.json").read_text(encoding="utf-8")))
+
+    def trace_errors(fm):
+        return [e.message for e in validator.iter_errors(fm)
+                if list(e.absolute_path)[:2] == ["promotion_evidence", "revision_of"]]
+
+    assert trace_errors(written) == []
+    evidence = written["promotion_evidence"]
+    assert trace_errors({**written, "promotion_evidence": {**evidence, "revision_of": {
+        **replaced, "sha256": "abc"}}}), "le schéma doit refuser une empreinte incomplète"
+    assert trace_errors({**written, "promotion_evidence": {**evidence, "revision_of": {
+        k: v for k, v in replaced.items() if k != "reviewed_by"}}}), "la trace exige `reviewed_by`"
+
+
+@pytest.mark.parametrize("relation_lock", [None, "ADR-116"])
+def test_canon_revision_does_not_inherit_the_rule_stamp(tmp_path, monkeypatch, relation_lock):
+    """Canon dont la relation porte le cachet de la règle d'ADR-116, seule autorité qu'une
+    révision peut remplacer (ADR-117 D1) : la révision est admise, et le cachet n'est pas
+    hérité. La relation est écrite telle que proposée si le verrou d'ADR-116 est vide, relue de
+    nouveau par la règle sinon."""
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch, review=True)
+    [old] = dec._parse_markdown(canon)[0]["diagnostic_relations"]
+    assert old["evidence"]["reviewed_by"].startswith("rule:ADR-116@")
+    [proposed] = dec._parse_markdown(cand)[0]["diagnostic_relations"]
+    monkeypatch.setattr(dec, "RELATION_REVIEW_ADR", relation_lock)
+    monkeypatch.setattr(dec, "CANON_REVISION_ADR", "ADR-117")
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert decision["canon_revision"]["details"]["no_human_authority"] == {"foreign_authority": []}
+    assert decision["eligible"] is True, decision
+    written, _body = dec._parse_markdown(dec.apply_promotion(cand, tmp_path, decision, raw_root=raw))
+    [relation] = written["diagnostic_relations"]
+    if relation_lock is None:
+        assert relation == proposed and "reviewed_by" not in relation["evidence"]
+    else:
+        assert relation["evidence"]["reviewed_by"] == (
+            f"rule:ADR-116@{decision['inputs']['decision_engine_revision']}")
+        assert relation["evidence"]["reviewed_at"] == written["reviewed_at"]
+
+
+@pytest.mark.parametrize("moment", ["before_apply", "during_staging"])
+def test_canon_revision_stale_base_at_apply_writes_nothing(tmp_path, monkeypatch, moment):
+    """Le canon change entre la décision et l'écriture : son empreinte, relue sous le verrou
+    avant puis après le staging, refuse `REVISION_BASE_STALE` (ADR-117 D2). Le canon garde les
+    octets de l'autre écriture, la proposition reste, aucun fichier temporaire ne subsiste."""
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    monkeypatch.setattr(dec, "CANON_REVISION_ADR", "ADR-117")
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert decision["eligible"] is True, decision
+    other = canon.read_text(encoding="utf-8") + "\nÉcriture concurrente.\n"
+    if moment == "before_apply":
+        canon.write_text(other, encoding="utf-8")
+    else:
+        render = dec._render_fiche
+
+        def racing(fm, body):
+            canon.write_text(other, encoding="utf-8")
+            return render(fm, body)
+
+        monkeypatch.setattr(dec, "_render_fiche", racing)
+    with pytest.raises(dec.PromotionInputError, match="REVISION_BASE_STALE"):
+        dec.apply_promotion(cand, tmp_path, decision, raw_root=raw)
+    assert canon.read_text(encoding="utf-8") == other and cand.exists()
+    assert list(canon.parent.glob(".*.tmp")) == []
+
+
+@pytest.mark.parametrize("declared, message", [
+    ("../outside.md", "refus révision hors wiki/"),
+    ("proposals/filtre-a-huile.md", "refus révision hors wiki/"),
+    ("wiki/gamme/autre-filtre.md", "refus révision: canon déclaré"),
+])
+def test_canon_revision_apply_writes_only_the_declared_canon(tmp_path, monkeypatch, declared, message):
+    """Défense en profondeur, verrou levé : une décision forgée dont la déclaration vise un
+    fichier hors `wiki/`, ou un autre canon que la cible de la proposition, n'écrit rien."""
+    import copy
+    import hashlib
+    dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    before = canon.read_bytes()
+    monkeypatch.setattr(dec, "CANON_REVISION_ADR", "ADR-117")
+    decision = _review_decision(dec, cand, tmp_path, raw)
+    assert decision["eligible"] is True, decision
+    victim = (tmp_path / declared).resolve()
+    if not victim.exists():
+        victim.write_text("---\nreview_status: approved\n---\nAutre fiche.\n", encoding="utf-8")
+    victim_bytes = victim.read_bytes()
+    forged = copy.deepcopy(decision)
+    forged["canon_revision"]["revision_of"] = {"path": declared,
+                                               "sha256": hashlib.sha256(victim_bytes).hexdigest()}
+    with pytest.raises(dec.PromotionInputError, match=message):
+        dec.apply_promotion(cand, tmp_path, forged, raw_root=raw)
+    assert canon.read_bytes() == before and victim.read_bytes() == victim_bytes and cand.exists()
+
+
+def test_canon_revision_frontmatter_keeps_exportable_and_records_the_replaced_version():
+    """ADR-117 D4 : la révision garde l'`exportable` proposé (égal à celui du canon), sans le
+    forçage de la première promotion, inscrit la version remplacée et ne recopie pas
+    `revision_of` ; le frontmatter proposé n'est pas modifié."""
+    dec = _load_decision()
+    fm = {**FM_OK, "revision_of": {"path": _REVISION_CANON, "sha256": "ab" * 32}}
+    replaced = {"path": _REVISION_CANON, "sha256": "ab" * 32, "reviewed_by": "skill:promoter@0000000"}
+    kwargs = dict(target_rel="proposals/filtre-a-huile.md", sha="0" * 7, now="2026-10-27T08:00:00+00:00")
+    evaluation = {"gate_status": "pass", "confidence_score": 0.9}
+    revised = dec._promoted_frontmatter(fm, evaluation, revision={"replaced": replaced}, **kwargs)
+    assert revised["exportable"] == FM_OK["exportable"]
+    assert revised["promotion_evidence"]["revision_of"] == replaced
+    assert "revision_of" not in revised
+    first = dec._promoted_frontmatter(FM_OK, evaluation, **kwargs)
+    assert first["exportable"]["seo"] is True and "revision_of" not in first["promotion_evidence"]
+    assert fm["revision_of"] == {"path": _REVISION_CANON, "sha256": "ab" * 32}
+
+
+_REVISION_DECLARED = {"path": _REVISION_CANON, "sha256": "ab" * 32}
+
+
+@pytest.mark.parametrize("change, valid", [
+    ({"revision_of": _REVISION_DECLARED}, True),
+    ({}, False),
+    ({"revision_of": _REVISION_DECLARED, "review_status": "approved",
+      "reviewed_by": "skill:promoter@0000000", "reviewed_at": "2026-10-27T08:00:00+00:00"}, False),
+    ({"revision_of": _REVISION_DECLARED, "no_disputed_claims": False}, False),
+    ({"revision_of": {"path": _REVISION_CANON}}, False),
+    ({"revision_of": {**_REVISION_DECLARED, "reviewed_by": "skill:promoter@0000000"}}, False),
+    ({"revision_of": {**_REVISION_DECLARED, "path": "proposals/filtre-a-huile.md"}}, False),
+    ({"revision_of": {**_REVISION_DECLARED, "sha256": "AB" * 32}}, False),
+], ids=["declared", "undeclared", "approved", "disputed", "no_sha", "extra_key", "outside_wiki",
+        "uppercase_sha"])
+def test_canon_revision_schema_admits_an_exportable_proposal_only_when_declared(change, valid):
+    """Schéma (ADR-117 D5 c) : une proposition qui garde l'`exportable` du canon n'est valide
+    qu'en déclarant `revision_of` (chemin d'un canon de `wiki/`, empreinte hexadécimale, rien
+    d'autre), hors `approved` et sans lever `no_disputed_claims`."""
+    import json
+    from jsonschema import Draft202012Validator
+    dec = _load_decision()
+    fm, _body = dec._parse_markdown(SCRIPTS / "tests" / "fixtures" / "valid-non-safety-filtre.md")
+    fm = {**fm, "review_status": "in_review", "exportable": {"rag": False, "seo": True, "support": False},
+          **change}
+    validator = Draft202012Validator(json.loads(
+        (SCRIPTS.parent / "_meta" / "schema" / "frontmatter.schema.json").read_text(encoding="utf-8")))
+    errors = [e.message for e in validator.iter_errors(fm)]
+    assert (errors == []) is valid, errors

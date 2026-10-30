@@ -922,9 +922,10 @@ sources:
   # ════════════════════════════════════════════════════════════════════
   # Filtre à air (pg_id 8) — relation « filtre colmaté → perte de puissance »
   # (perte_puissance_filtration, ADR-116 : trois éditeurs de preuve distincts).
-  # Captures RAW du 2026-10-21 : RAW #72 (Delphi, MAHLE, HELLA) ; Garrett en PR
-  # séparée après RAW #73 (allowlist). to_capture tant que les captures ne sont
-  # pas sur main du RAW ; l'activation reste un acte owner (reçu signé).
+  # Captures RAW du 2026-10-21, sur main du RAW : RAW #72 (Delphi, MAHLE, HELLA)
+  # et RAW #76 (Garrett, domaine ouvert par RAW #73). expected_sha256 reprend
+  # l'empreinte de la ligne d'inventaire RAW. to_capture jusqu'à l'activation,
+  # qui reste un acte owner (reçu signé).
   # ════════════════════════════════════════════════════════════════════
 
   - slug: delphi_filtre_air_debitmetre_20261022
@@ -935,7 +936,7 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-7dcb9723b96f69562f4d7bb4ac99470ff16b7170e2602793bb907259b7d2fbd5
-      expected_sha256: null
+      expected_sha256: 'sha256:00e8b895ce2f192c631b2620e0c258eb8ebb626116388b9637f790b931079e0d'
     archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/delphiautoparts-com-wl-filtre-a-air-delphi-maf-20261022-7dcb9723.md'
     status: to_capture
     license: captured_for_internal_review
@@ -970,7 +971,7 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-2c6bceb4c85fa0bd682cd307164254e64abb3cbbb0d08d08a54bb60980b0ec12
-      expected_sha256: null
+      expected_sha256: 'sha256:2c31e83dc90db805841b51f74d5249389eed95f13bdbf00bef4f6f6d0f7548f6'
     archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/workshop-heroes-mahle-com-wl-filtre-a-air-mahle-turbo-202610-2c6bceb4.md'
     status: to_capture
     license: captured_for_internal_review
@@ -1003,7 +1004,7 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-67bfbd42706c28974049131d0fc3b78e8580f244e19cdd14b63146cbbc620e0a
-      expected_sha256: null
+      expected_sha256: 'sha256:08ae8ce52750d10f3d8ff1a7ce42251d6bbb6203ea8d46a23d913f9227728669'
     archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/hella-com-wl-filtre-a-air-hella-20261022-67bfbd42.md'
     status: to_capture
     license: captured_for_internal_review
@@ -1034,14 +1035,14 @@ sources:
     raw_ref:
       repo: automecanik-raw
       manifest_id: src-auto-capture-66489c27e97091d8c4c3c1a4d8f1f7ea43dd0beff87ded017f102ed81e500d57
-      expected_sha256: null
+      expected_sha256: 'sha256:18149bcc337dc670a516e25de5aea6ef89db6bc004542ccba2b60ab4086240a3'
     archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-air/garrettmotion-com-wl-filtre-a-air-garrett-turbo-20261022-66489c27.md'
     status: to_capture
     license: captured_for_internal_review
     notes: |
       Page de diagnostic d'un fabricant de turbocompresseurs (capture RAW
-      2026-10-21, sha256:18149bcc… ; domaine ouvert par RAW #73, capture en PR
-      séparée). Éditeur nouveau au catalogue.
+      2026-10-21, sha256:18149bcc… ; domaine ouvert par RAW #73, capture
+      fusionnée par RAW #76). Éditeur nouveau au catalogue.
       URL canonique : https://www.garrettmotion.com/turbo-replacement/turbo-diagnostics/
       Type oem_workshop : fiche technique de diagnostic, comme les pages
       techniques HELLA TECH WORLD et Brembo du catalogue.

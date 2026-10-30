@@ -196,7 +196,28 @@
         "shadow_score": {
           "description": "Résultat d'observation du scorer six dimensions, ou erreur tracée ; ne remplace pas les contrôles de promotion.",
           "type": "object"
+        },
+        "revision_of": {
+          "description": "Canon remplacé par une révision (ADR-117 D4) : chemin, empreinte et `reviewed_by` de la version remplacée. Écrit par `apply_promotion` seul.",
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "reviewed_by"],
+          "properties": {
+            "path": { "type": "string", "pattern": "^wiki/(gamme|vehicle|constructeur|diagnostic)/[a-z0-9][a-z0-9-]{0,78}[a-z0-9]\\.md$" },
+            "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+            "reviewed_by": { "type": "string" }
+          }
         }
+      }
+    },
+    "revision_of": {
+      "description": "Déclaration d'une révision du canon écrit par le promoteur (ADR-117 D2) : la fiche remplacée et son empreinte au moment de la rédaction. Portée par une proposition seule, jamais recopiée au canon.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": { "type": "string", "pattern": "^wiki/(gamme|vehicle|constructeur|diagnostic)/[a-z0-9][a-z0-9-]{0,78}[a-z0-9]\\.md$" },
+        "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
       }
     },
     "reviewed_at": {
@@ -549,10 +570,36 @@
       },
       "then": {
         "properties": {
-          "review_status": { "const": "approved" },
           "no_disputed_claims": { "const": true }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "exportable": {
+            "anyOf": [
+              { "properties": { "rag": { "const": true } } },
+              { "properties": { "seo": { "const": true } } },
+              { "properties": { "support": { "const": true } } }
+            ]
+          }
+        },
+        "not": { "required": ["revision_of"] }
+      },
+      "then": {
+        "properties": {
+          "review_status": { "const": "approved" }
         },
         "required": ["reviewed_by", "reviewed_at"]
+      }
+    },
+    {
+      "if": { "required": ["revision_of"] },
+      "then": {
+        "properties": {
+          "review_status": { "enum": ["draft", "proposed", "in_review"] }
+        }
       }
     },
     {
@@ -607,20 +654,33 @@
       "then": {
         "required": [
           "content_export",
-          "no_disputed_claims",
-          "reviewed_by",
-          "reviewed_at"
+          "no_disputed_claims"
         ],
         "properties": {
           "entity_type": {
             "const": "gamme"
           },
-          "review_status": {
-            "const": "approved"
-          },
           "no_disputed_claims": {
             "const": true
           }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "exportable": {
+            "properties": { "content": { "const": true } },
+            "required": ["content"]
+          }
+        },
+        "required": ["exportable"],
+        "not": { "required": ["revision_of"] }
+      },
+      "then": {
+        "required": ["reviewed_by", "reviewed_at"],
+        "properties": {
+          "review_status": { "const": "approved" }
         }
       }
     }

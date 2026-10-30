@@ -1,0 +1,213 @@
+{
+  "entity_id": "gamme:plaquette-de-frein",
+  "entity_type": "gamme",
+  "schema_version": "1.1.0",
+  "projection_contract_version": "1.0.0",
+  "source_wiki_commit": "35d057b554d2e58f406a6efc034eb18141303848",
+  "wiki_path": "wiki/gamme/plaquette-de-frein.md",
+  "content_hash": "sha256:64642c141f7ac36e6fad8bf1a7c8836568c70e17bda6329e92cdcada3aa62f01",
+  "generated_at": "2026-10-21T08:01:30+02:00",
+  "builder_version": "1.1.0",
+  "facts": [
+    {
+      "key": "pg_id",
+      "value": 402,
+      "source_id": "db:pieces_gamme"
+    },
+    {
+      "key": "family",
+      "value": "freinage",
+      "source_id": "db:pieces_gamme"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-0",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-1",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-2",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-3",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-4",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-5",
+      "type": "manual",
+      "url": null
+    },
+    {
+      "id": "src-6",
+      "type": "manual",
+      "url": "https://aftermarket.zf.com/fr/portail-aftermarket/pour-les-ateliers/conseils-utiles/freins/installation-correcte-des-plaquettes-de-frein/"
+    },
+    {
+      "id": "src-7",
+      "type": "manual",
+      "url": "https://www.bremboparts.com/europe/fr/support/approfondissements/technologie-et-fonction-des-%C3%A9triers-de-frein-324333"
+    },
+    {
+      "id": "src-8",
+      "type": "manual",
+      "url": "https://www.bremboparts.com/europe/fr/support/comment-choisir-le-bon-produit/pi%C3%A8ces-de-rechange-comment-diff%C3%A9rencier-pi%C3%A8ces-d-origine-et-pi%C3%A8ces-%C3%A9quivalentes-en-10-points-219855"
+    },
+    {
+      "id": "src-9",
+      "type": "manual",
+      "url": "https://www.bremboparts.com/europe/fr/support/montage-auto/instructions-pour-remplacer-les-disques-et-les-plaquettes-kit-ev-280501"
+    },
+    {
+      "id": "src-10",
+      "type": "manual",
+      "url": "https://www.delphiautoparts.com/fra/fr/article/ce-quil-faut-savoir-sur-les-temoins-dusure-des-plaquettes-de-frein"
+    },
+    {
+      "id": "src-11",
+      "type": "manual",
+      "url": "https://fr.wikipedia.org/wiki/Plaquette_de_frein"
+    }
+  ],
+  "blocks": [
+    {
+      "role": "R3_CONSEILS",
+      "section": "maintenance",
+      "content_md": "Contrôler les plaquettes à intervalles réguliers et les remplacer par essieu à la limite d'usure ou quand le témoin d'usure s'allume, en suivant les prescriptions du constructeur du véhicule.",
+      "source_ids": [
+        "raw:sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md"
+      ],
+      "truth_level": "editorial",
+      "usefulness_target": "achat"
+    },
+    {
+      "role": "R4_REFERENCE",
+      "section": "related",
+      "content_md": "Pièces de la même famille d'entretien : disque-de-frein, etrier-de-frein, kit-de-frein-arriere.",
+      "source_ids": [
+        "db:pieces_gamme"
+      ],
+      "truth_level": "db_owned",
+      "usefulness_target": "maillage"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "function",
+      "content_md": "Dans l'étrier, la pression hydraulique venue du maître-cylindre agit sur les pistons, qui poussent les plaquettes contre le disque pour ralentir ou arrêter le véhicule. Après le freinage, des ressorts ramènent les plaquettes en position de repos et les maintiennent contre leurs pistons.",
+      "source_ids": [
+        "oem:bremboparts_technologie_etriers"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "function"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "failure_symptoms",
+      "content_md": "Un symptôme seul ne désigne pas la plaquette. En fin d'usure, les languettes métalliques et les indicateurs d'usure mécaniques émettent un son strident au contact du disque ; sur les plaquettes à témoin électronique, le témoin s'allume au tableau de bord. Une plaquette ou des accessoires mal montés causent dans la plupart des cas des bruits de freinage ou une performance réduite des freins.",
+      "source_ids": [
+        "oem:delphi_temoins_usure",
+        "oem:zf_installation_plaquettes"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "failure_symptoms"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "maintenance_interval",
+      "content_md": "Les plaquettes s'usent et doivent être contrôlées à intervalles réguliers. La vitesse d'usure dépend des conditions de la route, du style de conduite, de la vitesse, de la charge et du type de plaquettes et de disques. Cette fiche ne donne ni durée ni kilométrage valables pour tous les véhicules.",
+      "source_ids": [
+        "oem:bremboparts_remplacement_kit",
+        "oem:delphi_temoins_usure"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "maintenance_interval"
+    },
+    {
+      "role": "R4_REFERENCE",
+      "section": "variants",
+      "content_md": "L'étrier flottant a ses pistons d'un seul côté : ils poussent une plaquette, et l'autre est poussée par le corps de l'étrier, qui glisse sur des guides. C'est le type le plus répandu sur les véhicules d'entrée et de milieu de gamme et sur les utilitaires légers. L'étrier fixe porte des pistons opposés ; on le trouve sur les véhicules sportifs de milieu à haut de gamme.",
+      "source_ids": [
+        "oem:bremboparts_technologie_etriers"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "variants"
+    },
+    {
+      "role": "R6_GUIDE_ACHAT",
+      "section": "selection_criteria",
+      "content_md": "Le choix part du véhicule : la plaquette doit être adaptée à sa marque et à son modèle, et les prescriptions du constructeur priment sur toute autre indication. Il existe de nombreux matériaux de friction, adaptés à chaque véhicule et à chaque style de conduite. Le type d'indicateur d'usure, mécanique ou électrique, dépend de la conception du système de freinage.",
+      "source_ids": [
+        "oem:bremboparts_remplacement_kit",
+        "oem:zf_installation_plaquettes",
+        "oem:bremboparts_oe_vs_equivalent",
+        "oem:delphi_temoins_usure"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "selection_criteria"
+    },
+    {
+      "role": "R6_GUIDE_ACHAT",
+      "section": "quality_tiers",
+      "content_md": "Les pièces d'origine portent le logo « OE supplier ». Une page d'équipementier cite comme marques de qualité un traitement thermique de surface qui limite la perte d'efficacité à chaud, un shim antibruit multicouche et des essais sur bancs puis sur route. Cette fiche ne classe pas les marques.",
+      "source_ids": [
+        "oem:bremboparts_oe_vs_equivalent"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "quality_tiers"
+    },
+    {
+      "role": "R4_REFERENCE",
+      "section": "standards_norms",
+      "content_md": "En Europe, l'homologation ECE R90 est obligatoire pour commercialiser des disques et des plaquettes de frein.",
+      "source_ids": [
+        "oem:bremboparts_oe_vs_equivalent"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "standards_norms"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "replacement_guidance",
+      "content_md": "Composants de sécurité, les plaquettes ne doivent être remplacées que par un personnel compétent. Elles se remplacent par essieu, et à chaque remplacement des disques. Le matériau de friction se monte tourné vers le disque ; il ne doit pas toucher de graisse. Les témoins d'usure, conçus pour rompre, se remplacent avec les plaquettes.",
+      "source_ids": [
+        "oem:bremboparts_remplacement_kit",
+        "oem:delphi_temoins_usure"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "replacement_guidance"
+    },
+    {
+      "role": "R3_CONSEILS",
+      "section": "faq",
+      "content_md": "Quand remplacer les plaquettes ? À la limite d'usure, quand le témoin d'usure s'allume, ou en cas d'usure différenciée, de fissures ou de profondes rayures. Faut-il changer les deux côtés ? Oui, les plaquettes se remplacent par essieu. Faut-il changer le témoin d'usure ? Oui, il est conçu pour rompre et se remplace avec les plaquettes.",
+      "source_ids": [
+        "oem:bremboparts_remplacement_kit",
+        "oem:delphi_temoins_usure"
+      ],
+      "truth_level": "sourced",
+      "usefulness_target": "faq"
+    }
+  ],
+  "roles_allowed": [
+    "R3_CONSEILS",
+    "R4_REFERENCE",
+    "R6_GUIDE_ACHAT"
+  ],
+  "consumers_allowed": [
+    "seo",
+    "rag"
+  ]
+}

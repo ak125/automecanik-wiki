@@ -66,6 +66,7 @@ from promotion_decision import (  # noqa: E402 — import après sys.path (adapt
     PromotionInputError,
     PROMOTABLE_INPUT_STATUSES,
     _canon_already_approved,
+    _declares_revision,
     _compute_shadow,  # noqa: F401 — ré-exporté (contrat test_promote)
     _encodable,
     _load_confidence_fn,
@@ -151,7 +152,9 @@ def main(wiki_root: Path, target: str | None, entity_id: str | None, scan_all: b
                                "eligible": False,
                                "reason": f"review_status={fm.get('review_status')} non promouvable"})
                 continue
-            if _canon_already_approved(wiki_root, fm):
+            # Une révision déclarée du canon (ADR-117 D2) va au décideur, qui la juge ; sinon
+            # l'anti-écrasement (L4) saute la fiche.
+            if not _declares_revision(fm) and _canon_already_approved(wiki_root, fm):
                 report.append({"file": str(f), "tier": "skip", "promotion_status": "SKIP",
                                "eligible": False,
                                "reason": "canon déjà approved — pas d'écrasement (idempotent)"})

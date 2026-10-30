@@ -72,3 +72,29 @@ def test_source_catalog_loads(source_catalog):
     assert "bosch_fad_2020" in source_catalog
     assert "oem_renault_clio_iii_workshop" in source_catalog
     assert source_catalog["bosch_fad_2020"]["type"] == "brochure"
+
+
+_CANON = "wiki/gamme/filtre-a-huile.md"
+
+
+@pytest.mark.parametrize("current, revision_of, origin, collides", [
+    ("proposals/filtre-a-huile.md", {"path": _CANON, "sha256": "0" * 64}, _CANON, False),
+    ("proposals/filtre-a-huile.md", None, _CANON, True),
+    ("proposals/filtre-a-huile.md", {"path": "wiki/gamme/autre.md"}, _CANON, True),
+    ("proposals/filtre-a-huile.md", {"path": _CANON}, "proposals/ancienne.md", True),
+    ("staging/filtre-a-huile.md", {"path": _CANON}, _CANON, True),
+    (_CANON, None, _CANON, False),
+])
+def test_slug_collision_admits_only_the_declared_revision_pair(
+        tmp_path, monkeypatch, current, revision_of, origin, collides):
+    """ADR-117 D5 b : sous un slug enregistré, seule une proposition de `proposals/` qui déclare
+    `revision_of.path` = le canon enregistré échappe à la collision."""
+    monkeypatch.setattr(qg, "REPO_ROOT", tmp_path)
+    fm = {"entity_type": "gamme", "slug": "filtre-a-huile"}
+    if revision_of is not None:
+        fm["revision_of"] = revision_of
+    registry = {"gammes": {"filtre-a-huile": {"origin": origin}}}
+    failures = qg.gate_slug_collision(fm, registry, tmp_path / current)
+    assert bool(failures) is collides, failures
+    if collides:
+        assert failures[0].startswith("slug_collision:")

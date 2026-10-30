@@ -665,7 +665,8 @@ RELATION_REVIEW_STAMP_PREFIX = "rule:ADR-116@"
 # préconditions (a)-(e) fusionnées (ADR-117 D5). Le fichier entre dans
 # `decision_engine_revision` : changer la constante invalide toute décision déjà rendue
 # (STALE_DECISION). Refermer = la remettre à None (ADR-117 §Retour arrière).
-CANON_REVISION_ADR: str | None = None
+# Levée par ADR-117 (vault, acceptée le 2026-10-22, D5).
+CANON_REVISION_ADR: str | None = "ADR-117"
 # Conditions d'ADR-117 D1 à D3, toutes exigées, dans l'ordre de l'ADR.
 CANON_REVISION_CONDITIONS = ("promoter_canon", "not_safety", "no_human_authority",
                              "target_approved", "base_current", "fiche_eligible",

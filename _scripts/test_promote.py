@@ -287,13 +287,18 @@ def test_apply_refuses_overwrite_of_approved_canon(tmp_path):
                             {"gate_status": {}, "confidence_score": 0.9})
 
 
-@pytest.mark.parametrize("declared", [False, True])
-def test_cli_routes_only_a_declared_revision_past_the_approved_canon(tmp_path, monkeypatch, declared):
+@pytest.mark.parametrize("declared,lock", [(False, "ADR-117"), (True, None), (True, "ADR-117")])
+def test_cli_routes_only_a_declared_revision_past_the_approved_canon(tmp_path, monkeypatch,
+                                                                     declared, lock):
     """ADR-117 D2 : sans `revision_of`, le canon approuvé saute la proposition ; avec, elle va au
-    décideur, qui la juge, et sous la constante vide (D5) rien n'est écrit."""
+    décideur, qui la juge. Constante vide (D5, retour arrière) : rien n'est écrit. Constante
+    levée : le canon de ce test n'a pas été écrit par le promoteur, la révision est refusée et
+    rien n'est écrit non plus."""
     import hashlib
     import yaml
+    import promotion_decision as core
     mod, source, _, _, invoke = _cli_snapshot_fixture(tmp_path, monkeypatch)
+    monkeypatch.setattr(core, "CANON_REVISION_ADR", lock)
     _write_canon(tmp_path, "filtre-a-huile", "approved")
     canon = tmp_path / "wiki/gamme/filtre-a-huile.md"
     before = canon.read_bytes()
@@ -304,12 +309,18 @@ def test_cli_routes_only_a_declared_revision_past_the_approved_canon(tmp_path, m
     result = invoke()
     entry, = json.loads(result.stdout)["report"]
     if declared:
+        codes = [r["code"] for r in entry["blocking_reasons"]]
         assert result.exit_code == 1, result.output
         assert entry["promotion_status"] == "BLOCKED"
         assert entry["canon_revision"]["revision_of"] == fm["revision_of"]
-        assert entry["canon_revision"]["policy"]["status"] == "not_ratified"
-        assert "CANON_REVISION_NOT_RATIFIED" in [r["code"] for r in entry["blocking_reasons"]]
         assert "apply_refused" in entry
+        if lock is None:
+            assert entry["canon_revision"]["policy"]["status"] == "not_ratified"
+            assert "CANON_REVISION_NOT_RATIFIED" in codes
+        else:
+            assert entry["canon_revision"]["policy"]["status"] == "ratified"
+            assert "CANON_REVISION_NOT_RATIFIED" not in codes
+            assert "REVISION_NOT_PROMOTER_CANON" in codes
     else:
         assert result.exit_code == 0, result.output
         assert entry["promotion_status"] == "SKIP"

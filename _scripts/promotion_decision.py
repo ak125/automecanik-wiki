@@ -249,6 +249,17 @@ def _relation_review_trace(substance: dict, status: str) -> dict:
     return {"evaluated": True, "policy": policy, "relations": relations}
 
 
+def _semantic_review_trace(substance: dict) -> dict:
+    """Auto-review de sens (ADR-119 D8) dans la décision : clé, état, exécutions avec leur verdict,
+    écarts confirmés par classe, candidats écartés et part non tranchée. `blocking` : condition
+    de la Safety Auto-Gate (fiche sécurité), sinon trace seulement. Absente : `evaluated` faux,
+    jamais un succès."""
+    local = (substance or {}).get("semantic_review")
+    if not isinstance(local, dict):
+        return {"evaluated": False, "pass": False}
+    return {"evaluated": True, **local}
+
+
 def _relation_review_verdicts(decision: dict):
     """Verdicts qu'`apply_promotion` écrit (ADR-116 D3) : index d'une relation de D1 (`not_safety`
     prouvée) → `would_review`. Trace absente ou non évaluée : None, relations telles que proposées."""
@@ -355,6 +366,7 @@ def decide_promotion(bundle: dict) -> dict:
         "eligible": not reasons,
         "blocking_reasons": reasons,
         "relation_review": _relation_review_trace(substance, status),
+        "semantic_review": _semantic_review_trace(substance),
     }
     if revision is not None:
         decision["canon_revision"] = revision
@@ -446,6 +458,8 @@ _EVALUATION_ENGINE_FILES = (
     "build_exports_diagnostic.py", "compute-symptom-confidence.py",
     "gates/__init__.py", "gates/_common.py", "gates/source_gate.py", "gates/claim_gate.py",
     "gates/contradiction_gate.py", "gates/risk_gate.py", "gates/confidence_gate.py",
+    # Auto-review de sens (ADR-119) : clé, découpage et verdict recalculé des exécutions.
+    "semantic_review.py",
 )
 
 
@@ -555,6 +569,24 @@ def capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path) -
             paths = {}
         for path in sorted(set(paths.values())):
             add("raw_archive", path)
+    # Auto-review de sens (ADR-119 D3) : schéma, toutes les exécutions déposées pour le slug
+    # (une exécution ajoutée ou retirée change le verdict) et les captures citées. Référence de
+    # capture malformée : le décideur la rejette, le manifeste n'en invente pas.
+    review = _load_module("_semantic_review_snapshot", "semantic_review.py")
+    add("semantic_review_schema", wiki_root / review.RUN_SCHEMA_RELPATH)
+    try:
+        review_dir = wiki_root / review.REVIEW_DIR / review._check_slug(fm.get("slug"))
+    except ValueError:
+        review_dir = None
+    if review_dir is not None and review_dir.is_dir():
+        for path in sorted(p for p in review_dir.rglob("*") if p.is_file()):
+            add("semantic_review_run", path)
+    try:
+        captures = review.cited_captures(fm)
+    except ValueError:
+        captures = []
+    for capture in captures:
+        add("semantic_review_capture", raw_root / capture["path"])
 
     entries.sort(key=lambda e: (e["role"], e["path"]))
     return {
@@ -605,7 +637,7 @@ WIKI_ENTITY_DIRS = {"gamme", "vehicle", "constructeur", "diagnostic"}
 # Classification déléguée au SINGLE SOURCE `safety_families.is_safety_proposal`
 # (ADR fix #5) — partagé avec `quality-gates.gate_safety_unsourced`. Import paresseux
 # (même pattern que `_load_gates` / `_compute_shadow` : modules chargés par chemin).
-# Fail-closed : une fiche sécurité reste 100% revue humaine, même substance forte.
+# Fail-closed : une fiche sécurité ne passe que par la Safety Auto-Gate, même substance forte.
 _safety_families_mod = None
 
 
@@ -619,18 +651,20 @@ def _is_safety_proposal(fm: dict) -> bool:
             _safety_families_mod = _sf
         return _safety_families_mod.is_safety_proposal(fm)
     except Exception:
-        return True  # fail-closed : doute → sécurité → revue humaine
+        return True  # fail-closed : doute → sécurité → Safety Auto-Gate
 
 
 # --- Safety Auto-Gate (quality-gates.md §7) -------------------------------------
 # Une fiche sécurité n'est éligible que si TOUTES ses conditions sont prouvées ET que la
 # politique est levée. La politique est une constante de CODE, jamais une variable
-# d'environnement ni une option CLI : la lever = PR WIKI dédiée qui y inscrit l'ADR vault
-# ACCEPTÉE amendant ADR-091 §4 / ADR-093. Le fichier entre dans `decision_engine_revision` :
+# d'environnement ni une option CLI. Le fichier entre dans `decision_engine_revision` :
 # changer la constante invalide toute décision déjà rendue (STALE_DECISION).
 # Levée par ADR-114 (vault, acceptée le 2026-10-15, D5), refermée le 2026-10-22 (ADR-114
 # §Retour arrière) : la relecture a posteriori de la première fiche promue a relevé des défauts
-# de sens. La relever à nouveau = PR WIKI dédiée qui y réinscrit l'ADR.
+# de sens. ADR-119 (vault, acceptée le 2026-10-30) remplace toute relecture humaine par
+# l'auto-review de sens, familles de sécurité comprises : condition `semantic_auto_review_pass`
+# (D3). La relever = PR WIKI dédiée qui y inscrit "ADR-119", recevable une fois ses
+# préconditions (d) à (f) remplies (ADR-119 D4).
 SAFETY_AUTO_APPROVAL_ADR: str | None = None
 # Planchers des dimensions shadow A (preuve) et C (couverture), en points bruts.
 SAFETY_DIM_FLOORS = {"A": 22.0, "C": 15.0}
@@ -1885,13 +1919,34 @@ def _proof_publishers_min(slugs, catalog: dict, roles: dict, invisible) -> tuple
         "publishers": publishers, "not_counted": not_counted}
 
 
+def _semantic_review_local(fm: dict, body: str, wiki_root: Path, raw_root) -> dict:
+    """Auto-review de sens de la fiche (ADR-119 D3, D8) : état des exécutions versionnées pour la
+    clé de son texte publié (`semantic_review.review_status`). Ne lève jamais : entrée absente du
+    contexte évalué → UNAVAILABLE (infra, pas contenu) ; référence de capture ou slug invalide →
+    INVALID_INPUT ; autre erreur → EVALUATOR_ERROR. `pass` n'est vrai que sur PASS."""
+    try:
+        review = _load_module("_semantic_review", "semantic_review.py")
+    except Exception as exc:  # noqa: BLE001 — fail-closed, erreur rapportée
+        return {"pass": False, "status": "EVALUATOR_ERROR", "error": f"{type(exc).__name__}: {exc}"}
+    try:
+        return review.review_status(wiki_root, fm.get("slug"), _published_frontmatter(fm), body,
+                                    _effective_raw_root(raw_root, wiki_root))
+    except review.ReviewInputUnavailable as exc:
+        return {"pass": False, "status": "UNAVAILABLE", "missing_input": str(exc)}
+    except ValueError as exc:
+        return {"pass": False, "status": "INVALID_INPUT", "error": str(exc)}
+    except Exception as exc:  # noqa: BLE001 — fail-closed, erreur rapportée
+        return {"pass": False, "status": "EVALUATOR_ERROR", "error": f"{type(exc).__name__}: {exc}"}
+
+
 def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
-                             shadow, gate_results, score) -> dict:
+                             shadow, gate_results, score, semantic_review=None) -> dict:
     """Conditions de la Safety Auto-Gate calculables sur la fiche elle-même. Couverture,
     régression et provenance sont composées ensuite par `decide_promotion` (mêmes résultats
     que pour toute fiche, jamais réévalués ici). `shadow`, `gate_results`, `score` : ceux de
-    l'évaluation en cours, que la fiche promue portera. Fail-closed : une condition dont le
-    calcul lève est FAUSSE et son erreur est rapportée."""
+    l'évaluation en cours, que la fiche promue portera ; `semantic_review` : l'état de
+    l'auto-review de sens qu'elle trace (`_semantic_review_local`), absent ⇒ condition fausse.
+    Fail-closed : une condition dont le calcul lève est FAUSSE et son erreur est rapportée."""
     conditions: dict[str, bool] = {}
     details: dict[str, Any] = {}
 
@@ -1933,7 +1988,8 @@ def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
         return result["verified"], result
 
     record("numeric_exactitude_verified", numeric)
-    # Déclaration explicite exigée ; la détection de contradiction dans la prose est un résidu V2.
+    # Déclaration explicite exigée ; la contradiction dans la prose relève de l'auto-review de sens
+    # (ADR-119 D2, condition `semantic_auto_review_pass`).
     record("no_disputed_claims",
            lambda: (fm.get("no_disputed_claims") is True, {"value": fm.get("no_disputed_claims")}))
 
@@ -1954,6 +2010,14 @@ def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
 
     # `manual_review` = « fiche bloquée jusqu'à revue humaine » (schéma) : jamais levé par code.
     record("no_manual_review_policy", manual_review)
+
+    def semantic_auto_review():
+        if not isinstance(semantic_review, dict):
+            return False, {"status": "ABSENT", "evaluated": False}
+        return semantic_review.get("pass") is True, semantic_review
+
+    # ADR-119 D3 : une exécution PASS sur la clé courante, aucun FAIL sur cette clé.
+    record("semantic_auto_review_pass", semantic_auto_review)
     return {"conditions": conditions, "details": details}
 
 
@@ -2182,9 +2246,9 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     """
     reasons: list[str] = []
 
-    # INVARIANT SÉCURITÉ (fail-closed, prioritaire) : famille sécurité-critique →
-    # JAMAIS auto-promue, quels que soient la substance et le moteur de gate. Force
-    # TIER B (revue humaine ≠ auteur). Miroir de auto_review_wiki_proposal (monorepo).
+    # INVARIANT SÉCURITÉ (fail-closed, prioritaire) : famille sécurité-critique → éligible
+    # seulement par la Safety Auto-Gate (conditions prouvées, auto-review de sens comprise, et
+    # politique levée), quels que soient la substance et le moteur de gate ; sinon TIER B.
     # Raison prose insérée en tête plus bas, une fois ses conditions locales calculées.
     is_safety = _is_safety_proposal(fm)
 
@@ -2253,9 +2317,14 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         reasons.append("review: relecture ou autorité diagnostic déclarée par la proposition "
                        f"(bascule humaine ou règle d'ADR explicite, ADR-033 D4) : {review_claims}")
 
+    # Auto-review de sens (ADR-119 D3) : condition de la Safety Auto-Gate pour une fiche sécurité,
+    # trace seulement pour les autres.
+    semantic_review = _semantic_review_local(fm, body, wiki_root, raw_root)
+
     safety_local = None
     if is_safety:
-        safety_local = _safety_local_conditions(fm, body, target, wiki_root, shadow, gate_results, score)
+        safety_local = _safety_local_conditions(fm, body, target, wiki_root, shadow, gate_results,
+                                                score, semantic_review=semantic_review)
         failed = [k for k, ok in safety_local["conditions"].items() if not ok]
         if failed or not SAFETY_AUTO_APPROVAL_ADR:
             why = (f"conditions non prouvées : {', '.join(failed)}" if failed else
@@ -2285,6 +2354,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         "shadow_score": shadow,
         "numeric_flags": numeric_flags,
         "relation_review": relation_review,
+        "semantic_review": {"blocking": bool(is_safety), **semantic_review},
     }
 
 
@@ -2508,6 +2578,37 @@ def _promoted_frontmatter(fm: dict, evaluation: dict, *, target_rel: str, sha: s
     provenance["promoted_at"] = now
     new_fm["provenance"] = provenance
     return new_fm
+
+
+# Cachets qu'`_promoted_frontmatter` écrit au canon, retirés du texte relu par l'auto-review de
+# sens (ADR-119 D2) : proposition et canon promu partagent ainsi la même clé de relecture. Champ
+# écrit en entier, sous-clés écrites dans un champ éditorial, cachets de relecture d'une relation.
+_PROMOTION_STAMP_FIELDS = ("review_status", "reviewed_by", "reviewed_at", "auto_promoted",
+                           "validation_mode", "promotion_tier", "promotion_evidence", "revision_of")
+_PROMOTION_STAMP_SUBKEYS = {"exportable": ("seo",), "provenance": ("promoted_from", "promoted_at")}
+_RELATION_STAMP_KEYS = ("reviewed", "reviewed_by", "reviewed_at")
+
+
+def _published_frontmatter(fm: dict) -> dict:
+    """Frontmatter publié relu par l'auto-review de sens : celui de la fiche sans les cachets de
+    promotion. Un champ éditorial vidé par le retrait est retiré, comme s'il n'avait pas été
+    proposé."""
+    published = {k: v for k, v in fm.items() if k not in _PROMOTION_STAMP_FIELDS}
+    for field, subkeys in _PROMOTION_STAMP_SUBKEYS.items():
+        if isinstance(published.get(field), dict):
+            kept = {k: v for k, v in published[field].items() if k not in subkeys}
+            if kept:
+                published[field] = kept
+            else:
+                del published[field]
+    relations = published.get("diagnostic_relations")
+    if isinstance(relations, list):
+        published["diagnostic_relations"] = [
+            {**item, "evidence": {k: v for k, v in item["evidence"].items()
+                                  if k not in _RELATION_STAMP_KEYS}}
+            if isinstance(item, dict) and isinstance(item.get("evidence"), dict) else item
+            for item in relations]
+    return published
 
 
 def _reviewed_relations(relations, verdicts: dict, decider_revision, now: str) -> list:

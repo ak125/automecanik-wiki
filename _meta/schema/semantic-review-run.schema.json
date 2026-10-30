@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/semantic-review-run.schema.json",
+  "title": "Relecture de sens d'une fiche WIKI — ADR-119 D2",
+  "description": "Une exécution de l'auto-review de sens, versionnée sous _audit/semantic-review/<slug>/<clé>/<sha256 du fichier>.json et écrite par `semantic_review.py record`. Elle consigne les segments relus, les passes de détection, les écarts candidats et leurs réfutations. Elle ne porte aucun verdict : le décideur le recalcule (`semantic_review.evaluate_run`). Protocole : _meta/semantic-review.md.",
+  "type": "object",
+  "required": ["schema_version", "key", "key_inputs", "models", "segments", "passes", "candidates"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"const": "semantic-review/v1"},
+    "key": {
+      "description": "sha256 du JSON canonique de key_inputs.",
+      "$ref": "#/$defs/sha256"
+    },
+    "key_inputs": {
+      "type": "object",
+      "required": ["text_sha256", "captures", "protocol_revision"],
+      "additionalProperties": false,
+      "properties": {
+        "text_sha256": {
+          "description": "sha256 du texte publié de la fiche (frontmatter publié, puis corps).",
+          "$ref": "#/$defs/sha256"
+        },
+        "captures": {
+          "description": "Captures RAW citées par la fiche (source_refs de kind raw), triées.",
+          "type": "array",
+          "items": {"$ref": "#/$defs/capture_ref"}
+        },
+        "protocol_revision": {
+          "description": "sha256 du JSON canonique de semantic_review.PROTOCOL.",
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "models": {
+      "description": "Identifiants des modèles des passes et des réfutateurs.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/text"}
+    },
+    "error": {
+      "description": "Erreur d'exécution consignée par l'exécuteur : la relecture se relance.",
+      "$ref": "#/$defs/text"
+    },
+    "segments": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/segment"}
+    },
+    "passes": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/pass"}
+    },
+    "candidates": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/candidate"}
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "cid": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "text": {"type": "string", "minLength": 1},
+    "capture_ref": {
+      "type": "object",
+      "required": ["path", "cid"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"$ref": "#/$defs/text"},
+        "cid": {"$ref": "#/$defs/cid"}
+      }
+    },
+    "segment": {
+      "description": "Un segment du découpage déterministe, avec ses affirmations ou la mention explicite qu'il n'en porte aucune.",
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["id", "sha256", "claims"],
+          "additionalProperties": false,
+          "properties": {
+            "id": {"$ref": "#/$defs/text"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "claims": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/claim"}}
+          }
+        },
+        {
+          "type": "object",
+          "required": ["id", "sha256", "no_claims"],
+          "additionalProperties": false,
+          "properties": {
+            "id": {"$ref": "#/$defs/text"},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "no_claims": {"const": true}
+          }
+        }
+      ]
+    },
+    "claim": {
+      "type": "object",
+      "required": ["id", "text", "kind"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/text"},
+        "text": {"$ref": "#/$defs/text"},
+        "kind": {
+          "description": "omission : une condition, une précaution ou une cause qu'une capture citée rattache au même sujet et que la fiche laisse de côté.",
+          "enum": ["affirmation", "omission"]
+        }
+      }
+    },
+    "pass": {
+      "description": "Une passe de détection, dans un contexte séparé et sans partage de sortie.",
+      "type": "object",
+      "required": ["pass_id", "model", "covered_segments"],
+      "additionalProperties": false,
+      "properties": {
+        "pass_id": {"$ref": "#/$defs/text"},
+        "model": {"$ref": "#/$defs/text"},
+        "covered_segments": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}}
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "required": ["id", "class", "segment_id", "statement", "raised_by", "refutations"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"$ref": "#/$defs/text"},
+        "class": {"enum": ["valeur", "securite", "sens", "formulation"]},
+        "segment_id": {"$ref": "#/$defs/text"},
+        "claim_ids": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+        "statement": {"$ref": "#/$defs/text"},
+        "raised_by": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"$ref": "#/$defs/text"}},
+        "refutations": {"type": "array", "items": {"$ref": "#/$defs/refutation"}}
+      }
+    },
+    "refutation": {
+      "type": "object",
+      "required": ["refuter_id", "model", "verdict", "passage"],
+      "additionalProperties": false,
+      "properties": {
+        "refuter_id": {"$ref": "#/$defs/text"},
+        "model": {"$ref": "#/$defs/text"},
+        "verdict": {
+          "description": "refuted : le candidat n'est pas un écart ; upheld : la capture confirme l'écart ; undecidable : aucune capture ne tranche.",
+          "enum": ["refuted", "upheld", "undecidable"]
+        },
+        "passage": {
+          "description": "Passage d'une capture citée, recopié à l'identique : le décideur le cherche dans la capture.",
+          "oneOf": [{"type": "null"}, {"$ref": "#/$defs/passage"}]
+        }
+      }
+    },
+    "passage": {
+      "type": "object",
+      "required": ["path", "cid", "quote"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"$ref": "#/$defs/text"},
+        "cid": {"$ref": "#/$defs/cid"},
+        "quote": {"$ref": "#/$defs/text"}
+      }
+    }
+  }
+}

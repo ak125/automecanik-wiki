@@ -4255,13 +4255,14 @@ def _canon_relation(**evidence):
     return lambda fm: fm.update(diagnostic_relations=[relation])
 
 
-def test_canon_revision_lock_is_an_empty_code_constant(monkeypatch):
-    """ADR-117 D5 : report-only tant que la constante est vide ; ni variable d'environnement ni
-    option ne la renseigne. Les conditions sont celles de D1 à D3, dans l'ordre de l'ADR, chacune
-    avec son code de refus sauf `fiche_eligible`, dont la décision porte déjà les motifs."""
-    monkeypatch.setenv("CANON_REVISION_ADR", "ADR-117")
+def test_canon_revision_lock_is_lifted_by_adr_117_and_nothing_else(monkeypatch):
+    """ADR-117 D5 : le verrou se lève par cette constante de code, et par elle seule ; une
+    variable d'environnement vide ne le referme pas. Les conditions sont celles de D1 à D3, dans
+    l'ordre de l'ADR, chacune avec son code de refus sauf `fiche_eligible`, dont la décision porte
+    déjà les motifs."""
+    monkeypatch.setenv("CANON_REVISION_ADR", "")
     dec = _load_decision()
-    assert dec.CANON_REVISION_ADR is None
+    assert dec.CANON_REVISION_ADR == "ADR-117"
     assert dec.CANON_REVISION_CONDITIONS == (
         "promoter_canon", "not_safety", "no_human_authority", "target_approved", "base_current",
         "fiche_eligible", "regression_pass", "exportable_unchanged", "safety_rules_unchanged")
@@ -4288,11 +4289,12 @@ def test_canon_revision_without_declaration_changes_nothing(tmp_path, monkeypatc
 
 
 def test_canon_revision_report_only_traces_would_revise_and_blocks(tmp_path, monkeypatch):
-    """Verrou vide (ADR-117 D5) : la révision qui prouve D1 à D3 est rapportée `would_revise`
-    avec la déclaration et la version remplacée (D7) ; la décision reste BLOCKED par le seul
-    `CANON_REVISION_NOT_RATIFIED`."""
+    """Retour arrière d'ADR-117 : constante remise à vide → report-only (D5). La révision qui
+    prouve D1 à D3 est rapportée `would_revise` avec la déclaration et la version remplacée
+    (D7) ; la décision reste BLOCKED par le seul `CANON_REVISION_NOT_RATIFIED`."""
     import hashlib
     dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    monkeypatch.setattr(dec, "CANON_REVISION_ADR", None)
     sha = hashlib.sha256(canon.read_bytes()).hexdigest()
     decision = _review_decision(dec, cand, tmp_path, raw)
     assert decision["promotion_status"] == "BLOCKED" and decision["eligible"] is False
@@ -4313,11 +4315,12 @@ def test_canon_revision_report_only_traces_would_revise_and_blocks(tmp_path, mon
 
 
 def test_canon_revision_empty_lock_writes_nothing(tmp_path, monkeypatch):
-    """Verrou vide : aucune écriture (ADR-117 D5). La décision rendue est refusée à
-    l'application ; une décision forgée éligible n'est pas une révision admise et retombe sur
-    l'anti-écrasement. Le canon garde ses octets, la proposition reste."""
+    """Retour arrière d'ADR-117 : verrou vide, aucune écriture (D5). La décision rendue est
+    refusée à l'application ; une décision forgée éligible n'est pas une révision admise et
+    retombe sur l'anti-écrasement. Le canon garde ses octets, la proposition reste."""
     import copy
     dec, cand, raw, canon = _revision_candidate(tmp_path, monkeypatch)
+    monkeypatch.setattr(dec, "CANON_REVISION_ADR", None)
     before = canon.read_bytes()
     decision = _review_decision(dec, cand, tmp_path, raw)
     with pytest.raises(dec.PromotionInputError, match="APPLY_NOT_ELIGIBLE"):

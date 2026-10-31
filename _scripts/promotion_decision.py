@@ -2179,7 +2179,7 @@ def _relation_review_local(fm: dict, body: str, target: Path, wiki_root: Path, r
 
 def _build_checks(is_safety, numeric_block, gate_results, truth_level,
                   score, threshold, gate_engine, shadow, kinds,
-                  safety_local=None, review_claims=None) -> list[dict]:
+                  safety_local=None, review_claims=None, no_disputed_claims=None) -> list[dict]:
     """Reconstruit les CHECKS structurés à partir des valeurs DÉJÀ calculées par
     evaluate_tier (aucune ré-exécution). Chaque check = {code, status, owner_stage,
     evidence} — le substrat machine-readable que `decide_promotion` consomme sans
@@ -2199,6 +2199,10 @@ def _build_checks(is_safety, numeric_block, gate_results, truth_level,
          and not _review_authority_claimed(review_claims) else "fail",
          "owner_stage": "POLICY_REVIEW",
          "evidence": review_claims if review_claims is not None else {"evaluated": False}},
+        # Toutes familles (ADR-088 amendé par ADR-119) : seule la déclaration `true` passe.
+        {"code": "NO_DISPUTED_CLAIMS",
+         "status": "pass" if no_disputed_claims is True else "fail",
+         "owner_stage": "SOURCE", "evidence": {"value": no_disputed_claims}},
     ]
     for name, r in gate_results:
         checks.append({
@@ -2317,6 +2321,14 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         reasons.append("review: relecture ou autorité diagnostic déclarée par la proposition "
                        f"(bascule humaine ou règle d'ADR explicite, ADR-033 D4) : {review_claims}")
 
+    # Divergence entre sources : toutes familles (ADR-088 amendé par ADR-119). Plafonne au TIER B
+    # sans rejeter, jusqu'à ce qu'une source captée tranche ou que l'affirmation disparaisse.
+    # Déclaration explicite exigée, comme pour l'export de contenu.
+    disputed = fm.get("no_disputed_claims")
+    if disputed is not True:
+        reasons.append(f"disputed_claims: no_disputed_claims={disputed!r} "
+                       "(déclaration explicite true exigée, ADR-088 amendé par ADR-119)")
+
     # Auto-review de sens (ADR-119 D3) : condition de la Safety Auto-Gate pour une fiche sécurité,
     # trace seulement pour les autres.
     semantic_review = _semantic_review_local(fm, body, wiki_root, raw_root)
@@ -2349,7 +2361,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         "gate_outcomes": [_serialize_gate_outcome(n, r) for n, r in gate_results],
         "checks": _build_checks(is_safety, numeric_flags["block"], gate_results,
                                 truth_level, score, threshold, gate_engine, shadow, kinds,
-                                safety_local, review_claims),
+                                safety_local, review_claims, disputed),
         "blocking_reasons": reasons,
         "shadow_score": shadow,
         "numeric_flags": numeric_flags,

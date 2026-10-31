@@ -230,8 +230,10 @@ def _canonical_promotion(fiche_path: Path, wiki_root: Path, raw_root: Path) -> d
     l'objet, ne re-décide/re-score/route pas. `wiki_root = workdir` (contexte shadow :
     fiche pas encore dans le wiki ⇒ coverage/provenance UNAVAILABLE = honnête, route capture ;
     sans `_meta/source-catalog.yaml` ni `_meta/numeric-plausibility.yaml` dans le workdir,
-    `proof_sources_min` et `numeric_exactitude_verified` sont UNAVAILABLE ; le contrôle chiffré
-    propre à gap1 lit, lui, les plages du dépôt).
+    `proof_sources_min` et `numeric_exactitude_verified` sont UNAVAILABLE ; sans
+    `_meta/schema/semantic-review-run.schema.json` ni historique git, `semantic_auto_review_pass`
+    l'est aussi pour une fiche qui cite une capture RAW ; le contrôle chiffré propre à gap1 lit,
+    lui, les plages du dépôt).
     Fail-closed : toute erreur → décision UNKNOWN_FAIL_CLOSED typée (jamais skip silencieux)."""
     try:
         return promo_decision.canonical_promotion_decision(fiche_path, wiki_root, raw_root=raw_root)

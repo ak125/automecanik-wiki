@@ -779,7 +779,7 @@ def test_native_regression_resolver_target_is_guarded_without_baseline_override(
         return {"verdict": "NEUTRAL"}
     real_load = dec._load_module
     def module(name, filename):
-        if filename == 'compute-confidence-score.py':
+        if filename in ('compute-confidence-score.py', 'semantic_review.py'):
             return real_load(name, filename)
         if filename == 'compare-proposal-versions.py':
             return SimpleNamespace(compare=compare)
@@ -1106,12 +1106,18 @@ def _safety_wiki(tmp_path, *, entries=(), body=SAFETY_BODY, sources=SAFETY_PROOF
     return target
 
 
+# État d'auto-review de sens rendu par `_semantic_review_local` quand une exécution PASS existe
+# (ADR-119 D3) ; les tests de `semantic_review.py` couvrent son calcul.
+SEMANTIC_REVIEW_PASS = {"pass": True, "status": "PASS", "key": "0" * 64}
+
+
 def _local(dec, tmp_path, *, fm=SAFETY_FM, body=SAFETY_BODY, shadow=SAFETY_SHADOW,
-           gate_results=None, score=0.9, entries=(), **wiki):
+           gate_results=None, score=0.9, entries=(), semantic_review=SEMANTIC_REVIEW_PASS, **wiki):
     target = _safety_wiki(tmp_path, entries=entries, body=body, **wiki)
     if gate_results is None:
         gate_results = [(n, _gate_result("pass")) for n in dec.CANONICAL_GATE_NAMES]
-    return dec._safety_local_conditions(fm, body, target, tmp_path, shadow, gate_results, score)
+    return dec._safety_local_conditions(fm, body, target, tmp_path, shadow, gate_results, score,
+                                        semantic_review=semantic_review)
 
 
 def test_safety_canonical_gate_names_are_the_loaded_gates():
@@ -1193,6 +1199,12 @@ _RULE_MANUAL = {"rule": "contrôle visuel", "evidence": {
         {"slug": "preuve_norme", "type": "normative_standard"},)}),
     # Cataloguée mais non citée par la fiche : ne compte pas.
     ("proof_sources_min", {"cited": ["preuve_atelier", "preuve_manuel"]}),
+    # Auto-review de sens (ADR-119 D3) : absente, non PASS, ou `pass` non booléen.
+    ("semantic_auto_review_pass", {"semantic_review": None}),
+    *[("semantic_auto_review_pass", {"semantic_review": {"pass": False, "status": status}})
+      for status in ("ABSENT", "STALE", "INCOMPLETE", "ERROR", "UNREADABLE", "HISTORY_GAP",
+                     "FAIL", "NO_CAPTURE", "UNAVAILABLE", "INVALID_INPUT", "EVALUATOR_ERROR")],
+    ("semantic_auto_review_pass", {"semantic_review": {"pass": "true", "status": "PASS"}}),
 ])
 def test_safety_each_local_condition_blocks_alone(tmp_path, condition, overrides):
     """Chaque condition est isolée : la casser ne fait tomber qu'elle."""
@@ -3462,7 +3474,8 @@ def test_safety_local_conditions_absent_catalog_are_unavailable(tmp_path):
     (tmp_path / "_meta" / "source-catalog.yaml").unlink()
     fm = {**SAFETY_FM, "diagnostic_relations": [_RELATION]}
     local = dec._safety_local_conditions(fm, SAFETY_BODY, target, tmp_path, SAFETY_SHADOW,
-                                         [(n, _gate_result("pass")) for n in dec.CANONICAL_GATE_NAMES], 0.9)
+                                         [(n, _gate_result("pass")) for n in dec.CANONICAL_GATE_NAMES], 0.9,
+                                         semantic_review=SEMANTIC_REVIEW_PASS)
     assert [k for k, v in local["conditions"].items() if v is not True] == [
         "proof_sources_min", "numeric_exactitude_verified"], local
     assert local["details"]["proof_sources_min"] == {"status": "UNAVAILABLE",
@@ -3572,8 +3585,10 @@ def test_frontmatter_schema_is_not_a_decision_input(tmp_path, monkeypatch):
 
 
 def _safety_bundle(dec, tmp_path, monkeypatch, **bundle):
-    """Substance réelle via evaluate_tier ; seul le tier shadow est fixé (planchers OK)."""
+    """Substance réelle via evaluate_tier ; seuls le tier shadow (planchers OK) et l'état de
+    l'auto-review de sens (PASS) sont fixés."""
     monkeypatch.setattr(dec, "_compute_shadow", lambda *a: SAFETY_SHADOW)
+    monkeypatch.setattr(dec, "_semantic_review_local", lambda *a, **kw: dict(SEMANTIC_REVIEW_PASS))
     target = _safety_wiki(tmp_path)
     substance = dec.evaluate_tier(SAFETY_FM, SAFETY_BODY, target, tmp_path, threshold=0.80,
                                   gates=_gates(), compute_score=lambda *a: 0.99)
@@ -3610,6 +3625,81 @@ def test_safety_policy_ratified_and_all_conditions_proven_is_eligible(tmp_path, 
     assert bundle["substance"]["tier"] == "A"
     d = dec.decide_promotion(bundle)
     assert d["eligible"] is True and d["promotion_status"] == "ELIGIBLE"
+
+
+def _semantic_review_wiki(dec, tmp_path, review: str):
+    """Mini wiki de `_safety_wiki` versionné dans un dépôt git, fiche citant une capture RAW
+    épinglée, et l'auto-review de sens `review` déposée : `absent`, `pass`, ou `fail_then_pass`
+    (un FAIL puis un PASS sur la même clé)."""
+    import hashlib
+    import shutil
+    import subprocess
+    sr = _load("_semantic_review_test", "semantic_review.py")
+    wiki, raw = tmp_path / "wiki", tmp_path / "raw"
+    capture = raw / "sources" / "colonne.md"
+    capture.parent.mkdir(parents=True)
+    capture.write_text("La colonne transmet la rotation du volant au boîtier.\n", encoding="utf-8")
+    cid = "sha256:" + hashlib.sha256(capture.read_bytes()).hexdigest()
+    fm = {**SAFETY_FM, "source_refs": [{"kind": "raw", "path": "sources/colonne.md", "cid": cid},
+                                       {"kind": "web"}]}
+    target = _safety_wiki(wiki)
+    (wiki / sr.RUN_SCHEMA_RELPATH).parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(SCRIPTS.parent / sr.RUN_SCHEMA_RELPATH, wiki / sr.RUN_SCHEMA_RELPATH)
+
+    def commit(message):
+        for args in (("add", "-A"), ("commit", "-q", "-m", message)):
+            subprocess.run(["git", "-c", "user.name=test", "-c", "user.email=test@example.invalid",
+                            "-c", "commit.gpgsign=false", "-c", "core.hooksPath=/dev/null", *args],
+                           cwd=wiki, check=True, capture_output=True)
+
+    def record(candidates):
+        published = dec._published_frontmatter(fm)
+        packet = sr.build_packet(published, SAFETY_BODY, raw)
+        ids = [s["id"] for s in packet["segments"]]
+        sr.record_run(wiki, fm["slug"], published, SAFETY_BODY, {
+            "schema_version": sr.SCHEMA_VERSION, "key": packet["key"], "key_inputs": packet["key_inputs"],
+            "models": ["model-a"],
+            "segments": [{"id": sid, "sha256": s["sha256"], "no_claims": True}
+                         for sid, s in zip(ids, packet["segments"])],
+            "passes": [{"pass_id": p, "model": "model-a", "covered_segments": ids} for p in ("p1", "p2")],
+            "candidates": candidates})
+        commit("run")
+
+    subprocess.run(["git", "init", "-q"], cwd=wiki, check=True, capture_output=True)
+    commit("init")
+    if review == "fail_then_pass":
+        record([{"id": "c1", "class": "securite", "segment_id": "body:2", "raised_by": ["p1"],
+                 "statement": "La fiche omet une précaution de la capture.",
+                 "refutations": [{"refuter_id": f"r{i}", "model": "model-a", "verdict": "upheld",
+                                  "passage": {"path": "sources/colonne.md", "cid": cid,
+                                              "quote": "rotation du volant"}} for i in range(3)]}])
+    if review in ("pass", "fail_then_pass"):
+        record([])
+    return fm, target, wiki, raw
+
+
+@pytest.mark.parametrize("policy", [None, "ADR-TEST"])
+@pytest.mark.parametrize("review", ["absent", "pass", "fail_then_pass"])
+def test_safety_fiche_otherwise_proven_turns_on_its_versioned_semantic_review(
+        tmp_path, monkeypatch, policy, review):
+    """ADR-119 D4 (d) : branchement réel, quelle que soit la constante. Fiche sécurité aux autres
+    conditions toutes prouvées : seule l'auto-review versionnée décide de son éligibilité, et un
+    FAIL sur la clé n'est jamais racheté par un PASS."""
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "SAFETY_AUTO_APPROVAL_ADR", policy)
+    monkeypatch.setattr(dec, "_compute_shadow", lambda *a: SAFETY_SHADOW)
+    fm, target, wiki, raw = _semantic_review_wiki(dec, tmp_path, review)
+    substance = dec.evaluate_tier(fm, SAFETY_BODY, target, wiki, threshold=0.80, gates=_gates(),
+                                  compute_score=lambda *a: 0.99, raw_root=raw)
+    d = dec.decide_promotion({"substance": substance, **_ALL_PASS})
+    passed = review == "pass"
+    assert d["semantic_review"]["pass"] is passed, d["semantic_review"]
+    assert d["eligible"] is (passed and policy is not None)
+    if d["eligible"]:
+        return
+    assert [r["code"] for r in d["blocking_reasons"]] == ["SAFETY_HUMAN_REVIEW"]
+    blocking = d["blocking_reasons"][0]["evidence"]["blocking_conditions"]
+    assert blocking == ([] if passed else ["semantic_auto_review_pass"])
 
 
 @pytest.mark.parametrize("missing, condition", [
@@ -3656,6 +3746,7 @@ def test_safety_absent_catalog_is_reported_unavailable_by_the_decision(tmp_path,
     bloquante : l'appelant distingue une entrée absente d'un contenu en échec."""
     dec = _load_decision()
     monkeypatch.setattr(dec, "_compute_shadow", lambda *a: SAFETY_SHADOW)
+    monkeypatch.setattr(dec, "_semantic_review_local", lambda *a, **kw: dict(SEMANTIC_REVIEW_PASS))
     target = _safety_wiki(tmp_path)
     (tmp_path / "_meta" / "source-catalog.yaml").unlink()
     fm = {**SAFETY_FM, "diagnostic_relations": [_RELATION]}

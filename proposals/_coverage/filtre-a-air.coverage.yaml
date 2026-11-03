@@ -1,25 +1,7 @@
 fiche: filtre-a-air
 schema_version: 1.0.0
-generated_at: '2026-05-02'
+generated_at: '2026-10-30'
 coverage_entries:
-  - claim_id: filtre-air-perte-puissance
-    section: "## Symptômes d'usure"
-    text_anchor: "filtre colmaté réduisant le débit d'admission, dégradant la combustion"
-    source_slug: oem_filter_maintenance_general
-    evidence_type: oem_workshop_excerpt
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
-
-  - claim_id: filtre-air-perte-puissance-corroboration
-    section: "## Symptômes d'usure"
-    text_anchor: "perte de puissance moteur progressive"
-    source_slug: bosch_fad_2020
-    evidence_type: brochure_marketing
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
-
   - claim_id: filtre-air-definition
     section: "## Définition"
     text_anchor: "élément poreux situé sur le circuit d'admission moteur"
@@ -29,34 +11,120 @@ coverage_entries:
     source_policy: 2_medium_concordant
     source_status: captured
 
-  - claim_id: filtre-air-intervalle-30000km
-    section: "## Critères de choix"
-    text_anchor: "remplacement typique tous les 30 000 km"
-    source_slug: oem_filter_maintenance_general
+  - claim_id: filtre-air-fonction-debitmetre
+    section: "## Fonction"
+    text_anchor: "un débitmètre d'air placé en aval du filtre mesure l'air admis"
+    source_slug: delphi_filtre_air_debitmetre_20261022
     evidence_type: oem_workshop_excerpt
-    confidence: medium
-    source_policy: 2_medium_concordant
-    source_status: pending_capture
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
 
-  - claim_id: filtre-air-types-cellulose-coton
-    section: "## Critères de choix"
-    text_anchor: "filtres à porosité progressive (cellulose imprégnée + grille support)"
-    source_slug: bosch_fad_2020
+  - claim_id: filtre-air-fonction-colmatage
+    section: "## Fonction"
+    text_anchor: "le filtre se colmate et restreint le passage de l'air"
+    source_slug: hella_techworld_filtres_air_gamme_20261022
     evidence_type: brochure_marketing
     confidence: medium
     source_policy: 2_medium_concordant
-    source_status: pending_capture
+    source_status: captured
+
+  - claim_id: filtre-air-perte-puissance
+    section: "## Symptômes d'usure"
+    text_anchor: "la perte de puissance figure parmi les signes, moteur tournant, d'un filtre sale à remplacer"
+    source_slug: delphi_filtre_air_debitmetre_20261022
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
+  - claim_id: filtre-air-perte-puissance-turbo
+    section: "## Symptômes d'usure"
+    text_anchor: "un filtre colmaté empêche le turbo d'atteindre la pleine pression de suralimentation"
+    source_slug: mahle_turbo_perte_puissance_20261022
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
+  - claim_id: filtre-air-perte-puissance-avant-turbo
+    section: "## Symptômes d'usure"
+    text_anchor: "un filtre à air restreint ou bouché fait partie des causes à écarter"
+    source_slug: garrett_diagnostic_turbo_20261022
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
+  - claim_id: filtre-air-reference-oe
+    section: "## Choix selon véhicule"
+    text_anchor: "la référence d'origine (OE) figure en général sur la pièce elle-même ou dans les documents du véhicule"
+    source_slug: hella_techworld_filtres_air_gamme_20261022
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: captured
+
+  - claim_id: filtre-air-remplacement-carnet
+    section: "## Choix selon véhicule"
+    text_anchor: "remplacer le filtre au kilométrage préconisé dans le carnet d'entretien du véhicule"
+    source_slug: delphi_filtre_air_debitmetre_20261022
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
+  - claim_id: filtre-air-remplacement-carnet-corroboration
+    section: "## Choix selon véhicule"
+    text_anchor: "et plus souvent dans ces conditions sévères"
+    source_slug: hella_techworld_filtres_air_gamme_20261022
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: captured
+
+  - claim_id: filtre-air-revetement-huile
+    section: "## Choix selon véhicule"
+    text_anchor: "le débitmètre d'air placé en aval du filtre est sensible à la moindre trace de saleté, d'huile ou de poussière"
+    source_slug: delphi_filtre_air_debitmetre_20261022
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
+  - claim_id: filtre-air-faq-signes
+    section: "### Quels sont les symptômes d'un filtre à air encrassé ?"
+    text_anchor: "la source cite notamment la consommation de carburant en hausse et la perte de puissance"
+    source_slug: delphi_filtre_air_debitmetre_20261022
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
+  - claim_id: filtre-air-faq-usure-moteur
+    section: "### Est-il dangereux de rouler avec un filtre à air encrassé ?"
+    text_anchor: "poussière et débris peuvent endommager des pièces internes du moteur, comme les parois des cylindres"
+    source_slug: hella_techworld_filtres_air_gamme_20261022
+    evidence_type: brochure_marketing
+    confidence: medium
+    source_policy: 2_medium_concordant
+    source_status: captured
+
+  - claim_id: filtre-air-faq-compresseur
+    section: "### Est-il dangereux de rouler avec un filtre à air encrassé ?"
+    text_anchor: "remplacer régulièrement le filtre aide à éviter des dommages coûteux au compresseur"
+    source_slug: mahle_turbo_perte_puissance_20261022
+    evidence_type: oem_workshop_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
 
 notes: |
-  Coverage map filtre-a-air — Phase 5.
-  5 claims couverts par 3 sources distinctes (2 medium + 1 low).
-  Source mix : oem_filter_maintenance_general (×2), bosch_fad_2020 (×2),
-  wikipedia_fr_filtre_a_air (×1).
-
-  Note : diagnostic_relations[].symptom_slug = perte_puissance_filtration
-  (id=55 DB existant) — pas de PR DB nécessaire pour cette fiche
-  (vs plaquette-de-frein qui dépend de PR monorepo #269 pour 2 nouveaux slugs).
-
-  Confidence_score impact prévu :
-  - mean(source_confidence) = (0.6×4 + 0.3×1) / 5 = 0.54
-  - 0.40 × 0.54 + 0.30 + 0.20 + 0.10 = 0.83 (medium tier).
+  Coverage map filtre-a-air — révision 2026-10-30 (proposition ADR-117).
+  Chaque entrée relie une phrase de la proposition à une capture RAW active.
+  Sources : Delphi Technologies et MAHLE Aftermarket (oem_manual), Garrett Motion
+  (oem_workshop), HELLA TECH WORLD (marketing, corroboration seule), Wikipedia FR
+  (wiki_externe, définition seule).
+  Les deux sources de la version 2026-05-02 (oem_filter_maintenance_general,
+  bosch_fad_2020) n'ont jamais été capturées : leurs entrées sont retirées avec les
+  phrases qu'elles couvraient (intervalle chiffré, types de média filtrant).

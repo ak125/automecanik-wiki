@@ -64,6 +64,15 @@ repos:
         pass_filenames: false
         files: ^(wiki|proposals)/.*\.md$
 
+      # Preuve d'ADR-117 D5 b : sous un slug, seule la paire canon + proposition qui le déclare
+      # dans `revision_of` est admise ; toute autre collision échoue.
+      - id: check-slug-uniqueness-test
+        name: test check-slug-uniqueness (ADR-117 D5 b)
+        entry: node --test _scripts/tests/check-slug-uniqueness.test.mjs
+        language: system
+        pass_filenames: false
+        files: ^_scripts/(check-slug-uniqueness\.mjs|tests/check-slug-uniqueness\.test\.mjs)$
+
       - id: check-extension-whitelist
         name: check extension whitelist
         entry: node _scripts/check-extension-whitelist.mjs

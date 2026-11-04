@@ -90,6 +90,7 @@ FM_OK = {
     "review_status": "in_review",
     "source_refs": [{"kind": "raw"}, {"kind": "web"}],
     "exportable": {"seo": False, "rag": False},
+    "no_disputed_claims": True,
 }
 
 

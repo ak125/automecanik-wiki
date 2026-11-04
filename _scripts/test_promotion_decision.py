@@ -43,6 +43,7 @@ FM_OK = {
     "review_status": "in_review",
     "source_refs": [{"kind": "raw"}, {"kind": "web"}],
     "exportable": {"seo": False, "rag": False},
+    "no_disputed_claims": True,
 }
 
 
@@ -144,15 +145,18 @@ def test_evaluate_tier_emits_structured_checks(tmp_path):
     )
     assert "checks" in d
     by_code = {c["code"]: c for c in d["checks"]}
-    # une check par dimension (safety, numeric, review, 5 gates, truth, substance, source-diversity)
-    for code in ("SAFETY_HUMAN_REVIEW", "NUMERIC_HIGH_HARM", "REVIEW_AUTHORITY_CLAIMED", "GATE_RISK",
-                 "TRUTH_LEVEL", "SUBSTANCE_SCORE", "SOURCE_DIVERSITY"):
+    # une check par dimension (safety, numeric, review, divergence, 5 gates, truth, substance,
+    # source-diversity)
+    for code in ("SAFETY_HUMAN_REVIEW", "NUMERIC_HIGH_HARM", "REVIEW_AUTHORITY_CLAIMED",
+                 "NO_DISPUTED_CLAIMS", "GATE_RISK", "TRUTH_LEVEL", "SUBSTANCE_SCORE",
+                 "SOURCE_DIVERSITY"):
         assert code in by_code, code
         assert by_code[code]["status"] in ("pass", "fail")
         assert by_code[code]["owner_stage"]
     assert by_code["GATE_RISK"]["status"] == "fail"
     assert by_code["SAFETY_HUMAN_REVIEW"]["status"] == "pass"  # FM_OK non-safety
     assert by_code["REVIEW_AUTHORITY_CLAIMED"]["status"] == "pass"  # FM_OK ne déclare rien
+    assert by_code["NO_DISPUTED_CLAIMS"]["status"] == "pass"  # FM_OK déclare true
 
 
 def test_decide_promotion_is_pure_and_deterministic(tmp_path):
@@ -1154,7 +1158,8 @@ _RULE_MANUAL = {"rule": "contrôle visuel", "evidence": {
     ("no_quality_gate_fail", {"gate_results": "contradiction_missing"}),
     ("numeric_exactitude_verified",
      {"body": "## Rôle technique\n\nSerrer la colonne à 25 Nm.\n"}),
-    ("no_disputed_claims", {"fm": {**FM_OK, "slug": "colonne-de-direction"}}),
+    ("no_disputed_claims",
+     {"fm": {k: v for k, v in SAFETY_FM.items() if k != "no_disputed_claims"}}),
     ("no_disputed_claims", {"fm": {**SAFETY_FM, "no_disputed_claims": "yes"}}),
     ("diagnostic_live_authority_not_claimed",
      {"fm": {**SAFETY_FM, "diagnostic_relations": [_RELATION_SAFE]}}),
@@ -3890,6 +3895,47 @@ def test_review_check_absent_input_is_never_a_pass():
     checks = dec._build_checks(False, [], [], "L1", 0.9, 0.8, "legacy", None, {"raw", "web"})
     check = next(c for c in checks if c["code"] == "REVIEW_AUTHORITY_CLAIMED")
     assert check["status"] == "fail" and check["evidence"] == {"evaluated": False}
+
+
+# --- ADR-088 amendé par ADR-119 : `no_disputed_claims` lu pour toute fiche ------------------
+
+_FM_NO_DISPUTE_FIELD = {k: v for k, v in FM_OK.items() if k != "no_disputed_claims"}
+
+
+@pytest.mark.parametrize("fm, value", [
+    ({**FM_OK, "no_disputed_claims": False}, False),
+    (_FM_NO_DISPUTE_FIELD, None),
+    ({**FM_OK, "no_disputed_claims": "true"}, "true"),
+])
+def test_disputed_claims_cap_a_non_safety_fiche_at_tier_b(tmp_path, fm, value):
+    """Fiche non-sécurité, tout le reste PASS : sans déclaration `true`, elle reste en
+    proposition, bloquée par ce seul motif ; elle n'est pas rejetée."""
+    pm = _load_promote()
+    dec = _load_decision()
+    substance = _substance(pm, fm=fm, tmp_path=tmp_path)
+    assert substance["tier"] == "B", substance
+    d = dec.decide_promotion({"substance": substance})
+    assert d["promotion_status"] == "BLOCKED"
+    assert [r["code"] for r in d["blocking_reasons"]] == ["NO_DISPUTED_CLAIMS"], d
+    assert d["blocking_reasons"][0]["owner_stage"] == "SOURCE"
+    assert d["blocking_reasons"][0]["evidence"] == {"value": value}
+
+
+def test_declared_no_disputed_claims_keeps_a_non_safety_fiche_eligible(tmp_path):
+    """Témoin : la même fiche qui déclare `no_disputed_claims: true` reste éligible."""
+    pm = _load_promote()
+    dec = _load_decision()
+    substance = _substance(pm, fm={**FM_OK, "no_disputed_claims": True}, tmp_path=tmp_path)
+    assert substance["tier"] == "A", substance
+    assert dec.decide_promotion({"substance": substance})["eligible"] is True
+
+
+def test_disputed_claims_check_absent_input_is_never_a_pass():
+    """Checks construits sans la valeur du champ : fail, jamais un succès par défaut."""
+    dec = _load_decision()
+    checks = dec._build_checks(False, [], [], "L1", 0.9, 0.8, "legacy", None, {"raw", "web"})
+    check = next(c for c in checks if c["code"] == "NO_DISPUTED_CLAIMS")
+    assert check["status"] == "fail" and check["evidence"] == {"value": None}
 
 
 # --- ADR-116 : relecture des relations hors sécurité par la règle de preuve ----------------

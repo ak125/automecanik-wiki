@@ -131,7 +131,16 @@ coverage_entries:
   source_status: captured
 - claim_id: filtre-huile-faq-temoin-filtre-inadapte
   section: '## Symptômes & diagnostic'
-  text_anchor: sa résistance à l'écoulement peut être trop élevée
+  text_anchor: dont la résistance à l'écoulement peut être trop élevée
+  source_slug: filtron_oem_voyant_pression_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-temoin-persistant-arret
+  section: '## Symptômes & diagnostic'
+  text_anchor: il faut couper immédiatement le moteur, contrôler le niveau d'huile et compléter
+    si nécessaire
   source_slug: filtron_oem_voyant_pression_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -179,9 +188,18 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: captured
+- claim_id: filtre-huile-fragilisation-media
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: un élément filtrant ne retient plus de saleté, même s'il n'est pas encore colmaté
+  source_slug: mahle_oem_conception_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
 - claim_id: filtre-huile-visse-chaque-vidange
   section: '## Entretien & bonnes pratiques'
-  text_anchor: un filtre vissé se remplace à chaque remplacement de l'huile moteur
+  text_anchor: le remplacement d'un filtre vissé est toujours effectué lors de la vidange
+    de l'huile moteur
   source_slug: filtron_oem_remplacement_filtre_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -336,7 +354,7 @@ coverage_entries:
   source_status: pending_capture
 - claim_id: filtre-huile-repose-pas-outil-depose
   section: '### Repose'
-  text_anchor: MAHLE déconseille de serrer avec l'outil de dépose
+  text_anchor: Ne jamais serrer le filtre avec l'outil de dépose
   source_slug: mahle_oem_joint_filtre_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -440,13 +458,13 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
-notes: 'Révision 2 du 2026-11-15 (mandat T), régénérée après la revue sémantique FAIL (clé
-  85e143d6), la qualification et la contestation Codex (clé d86cec54). Chaque ancre est reprise
-  du nouveau texte de la proposition.
+notes: 'Révision 3 du 2026-11-15 (mandat T), régénérée après la revue sémantique FAIL de la
+  clé 8f23743c (révision 2 : revue FAIL clé 85e143d6, qualification et contestation Codex
+  clé d86cec54). Chaque ancre est reprise du nouveau texte de la proposition.
 
 
-  53 claims : 24 captured (sources actives Filtron clapets, MAHLE conception, notice Clio
-  5 phase 1), 29 pending_capture (Filtron remplacement, Filtron témoin, MAHLE joints, notice
+  55 claims : 25 captured (sources actives Filtron clapets, MAHLE conception, notice Clio
+  5 phase 1), 30 pending_capture (Filtron remplacement, Filtron témoin, MAHLE joints, notice
   Twingo 3 phase 2, sources to_capture depuis automecanik-raw PR #78). Passage en captured
   = activation owner de la source, puis relecture du claim contre sa capture.
 

@@ -1,0 +1,294 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/technical-qualification-run.schema.json",
+  "title": "Qualification technique d'une fiche WIKI (département 11) ou sa contestation — ADR-131 (proposed)",
+  "description": "Un artefact versionné sous _audit/technical-qualification/<slug>/<clé>/<sha256 du fichier>.json. Rôle `qualification` : le 11 qualifie chaque affirmation du texte publié (affirmation, source, portée, limite, verdict) selon _meta/skills/qualification-technique/SKILL.md. Rôle `contestation` : un relecteur d'une autre famille de modèles conteste une qualification identifiée par son empreinte. L'artefact ne porte aucun verdict de fiche : le décideur unique (promotion_decision.py, ADR-114 D2) le recalcule. Candidat non câblé : aucun code ne lit encore ce schéma comme condition. v2 (skill 0.3.0) : corroboration par un second domaine d'autorité, calculée hors du modèle (key_inputs.capture_domains, claim.corroboration), questions de reprise (retake_questions) ; les artefacts v1 restent valides et ne sont pas réécrits.",
+  "type": "object",
+  "required": ["schema_version", "role", "key", "key_inputs", "subject", "freshness", "reviewer", "producer", "segments"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"description": "v1 : skill 0.1.0 et 0.2.0. v2 : skill 0.3.0 et suivants (corroboration).", "enum": ["technical-qualification/v1", "technical-qualification/v2"]},
+    "role": {"enum": ["qualification", "contestation"]},
+    "key": {
+      "description": "sha256 du JSON canonique de key_inputs. Un FAIL n'est remplacé par aucun PASS sur la même clé.",
+      "$ref": "#/$defs/sha256_hex"
+    },
+    "key_inputs": {
+      "type": "object",
+      "required": ["text_sha256", "captures", "skill_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "text_sha256": {"description": "Empreinte du texte publié (semantic_review.published_text).", "$ref": "#/$defs/sha256_hex"},
+        "captures": {
+          "description": "Captures RAW citées par la fiche (semantic_review.cited_captures), triées.",
+          "type": "array",
+          "items": {"$ref": "#/$defs/capture_ref"}
+        },
+        "skill_sha256": {"description": "Empreinte des octets de SKILL.md au moment de l'exécution : une révision du skill change la clé.", "$ref": "#/$defs/sha256_hex"},
+        "domain_definition": {"description": "v2 : définition du domaine d'autorité appliquée (ADR-131 D9). publisher_class : classe d'éditeur du catalogue ; source_type : type du catalogue ; host : hôte de source_url.", "enum": ["publisher_class", "source_type", "host"]},
+        "domain_basis": {"description": "v2 : d'où viennent les métadonnées de domaine (fichier et empreinte), quand elles ne sont pas toutes dans _meta/source-catalog.yaml.", "type": "string", "minLength": 1},
+        "capture_domains": {
+          "description": "v2 : domaine de chaque capture citée, calculé hors du modèle (_scripts/technical_qualification.py). domain null : la capture ne compte pour aucun domaine (fail-closed).",
+          "type": "array",
+          "items": {"$ref": "#/$defs/capture_domain"}
+        }
+      }
+    },
+    "subject": {
+      "description": "Ce qui a été relu.",
+      "type": "object",
+      "required": ["repo", "path", "commit", "slug"],
+      "additionalProperties": false,
+      "properties": {
+        "repo": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "commit": {"description": "Commit du dépôt WIKI lu, ou null pour un paquet d'étalonnage construit hors d'une fiche.", "oneOf": [{"$ref": "#/$defs/git_sha"}, {"type": "null"}]},
+        "slug": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"}
+      }
+    },
+    "freshness": {
+      "description": "Preuve de fraîcheur exigée de chaque relecteur (ADR-131, point g) : lecture depuis origin, ou garde check-repo-freshness.sh passée.",
+      "type": "object",
+      "required": ["read_from", "ref", "commit", "checked_at"],
+      "additionalProperties": false,
+      "properties": {
+        "read_from": {"enum": ["origin", "freshness_guard"]},
+        "ref": {"type": "string", "minLength": 1},
+        "commit": {"$ref": "#/$defs/git_sha"},
+        "raw_commit": {"description": "Commit RAW d'où les captures ont été lues.", "$ref": "#/$defs/git_sha"},
+        "checked_at": {"$ref": "#/$defs/utc"},
+        "guard_exit": {"description": "Code de sortie de check-repo-freshness.sh quand read_from = freshness_guard.", "type": "integer"}
+      }
+    },
+    "reviewer": {
+      "description": "Le relecteur. `provider` désigne la famille de modèles ; l'indépendance (ADR-131, point e) se calcule sur ce champ.",
+      "type": "object",
+      "required": ["model", "provider"],
+      "additionalProperties": false,
+      "properties": {
+        "model": {"type": "string", "minLength": 1},
+        "provider": {"enum": ["anthropic", "openai"]},
+        "cli_version": {"type": "string"}
+      }
+    },
+    "producer": {
+      "description": "Le producteur du texte relu, tel qu'il est déclaré. Une famille inconnue rend fausse la condition d'indépendance : elle ne se suppose pas.",
+      "type": "object",
+      "required": ["declared", "provider", "basis"],
+      "additionalProperties": false,
+      "properties": {
+        "declared": {"description": "Valeur lue (par ex. provenance.ingested_by), ou null.", "type": ["string", "null"]},
+        "provider": {"enum": ["anthropic", "openai", "unknown"]},
+        "basis": {"description": "Où la famille est déclarée (fichier et ligne), ou pourquoi elle est inconnue.", "type": "string", "minLength": 1}
+      }
+    },
+    "contests": {
+      "description": "Rôle contestation seulement : l'artefact de qualification contesté.",
+      "type": "object",
+      "required": ["artifact_sha256", "reviewer_model", "reviewer_provider"],
+      "additionalProperties": false,
+      "properties": {
+        "artifact_sha256": {"$ref": "#/$defs/sha256_hex"},
+        "reviewer_model": {"type": "string", "minLength": 1},
+        "reviewer_provider": {"enum": ["anthropic", "openai"]}
+      }
+    },
+    "segments": {
+      "description": "Qualification : chaque segment du paquet, dans l'ordre, sans omission. Contestation : les positions du contestataire sur les affirmations qualifiées, par segment.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/segment"}
+    },
+    "missed": {
+      "description": "Contestation seulement : affirmations que la qualification n'a pas relevées.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/missed"}
+    },
+    "retake_questions": {
+      "description": "v2, qualification seulement : une question de reprise ciblée par affirmation complete non confirmée par deux domaines (ADR-131 D10). La reprise passe par RUN_TARGETED_RAW_TO_WIKI, puis nouvelle fiche, nouvelle clé, nouvelle qualification.",
+      "type": "array",
+      "items": {"$ref": "#/$defs/retake_question"}
+    },
+    "error": {
+      "description": "Exécution incomplète : appel en échec, délai dépassé ou réponse hors contrat. Une erreur ne vaut ni PASS ni FAIL ; la qualification se relance sur la même clé.",
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"role": {"const": "contestation"}}},
+      "then": {"required": ["contests", "missed"]},
+      "else": {"not": {"anyOf": [{"required": ["contests"]}, {"required": ["missed"]}]}}
+    },
+    {
+      "if": {"properties": {"schema_version": {"const": "technical-qualification/v2"}}, "required": ["schema_version"]},
+      "then": {"properties": {"key_inputs": {"required": ["domain_definition", "capture_domains"]}, "segments": {"items": {"$ref": "#/$defs/segment_v2"}}}},
+      "else": {"not": {"anyOf": [
+        {"required": ["retake_questions"]},
+        {"required": ["key_inputs"], "properties": {"key_inputs": {"anyOf": [{"required": ["domain_definition"]}, {"required": ["capture_domains"]}, {"required": ["domain_basis"]}]}}},
+        {"required": ["segments"], "properties": {"segments": {"contains": {"required": ["claims"], "properties": {"claims": {"contains": {"anyOf": [{"required": ["corroboration"]}, {"required": ["retake_question"]}]}}}}}}},
+        {"required": ["segments"], "properties": {"segments": {"contains": {"required": ["positions"], "properties": {"positions": {"contains": {"required": ["checks"]}}}}}}}
+      ]}}
+    },
+    {
+      "if": {"properties": {"schema_version": {"const": "technical-qualification/v2"}, "role": {"const": "qualification"}}, "required": ["schema_version", "role"]},
+      "then": {"required": ["retake_questions"]}
+    },
+    {
+      "if": {"properties": {"role": {"const": "contestation"}}, "required": ["role"]},
+      "then": {"not": {"required": ["retake_questions"]}}
+    }
+  ],
+  "$defs": {
+    "sha256_hex": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "git_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "utc": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$"},
+    "capture_ref": {
+      "type": "object",
+      "required": ["path", "cid"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "cid": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}
+      }
+    },
+    "passage": {
+      "description": "Passage recopié à l'identique depuis une capture citée.",
+      "type": "object",
+      "required": ["path", "cid", "quote"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "cid": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "quote": {"type": "string", "minLength": 1}
+      }
+    },
+    "depth_reason": {
+      "description": "Motif d'une profondeur complète. Les quatre premiers sont le plancher déterministe ; `escalated` est une montée décidée par le relecteur ; `doubt` est un doute, qui vaut profondeur complète.",
+      "enum": ["safety_family", "numeric_value", "procedure", "diagnostic_relation", "escalated", "doubt"]
+    },
+    "segment": {
+      "type": "object",
+      "required": ["id", "depth_floor", "depth"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^(fm:.+|body:[1-9][0-9]*)$"},
+        "sha256": {"$ref": "#/$defs/sha256_hex"},
+        "depth_floor": {"description": "Plancher déterministe calculé hors du modèle (ADR-131, point d).", "enum": ["complete", "allegee"]},
+        "depth": {"description": "Profondeur appliquée : jamais inférieure au plancher.", "enum": ["complete", "allegee"]},
+        "depth_reasons": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/depth_reason"}},
+        "no_claims": {"const": true},
+        "claims": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/claim"}},
+        "positions": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/position"}}
+      },
+      "oneOf": [
+        {"required": ["no_claims"], "not": {"anyOf": [{"required": ["claims"]}, {"required": ["positions"]}]}},
+        {"required": ["claims"], "not": {"anyOf": [{"required": ["no_claims"]}, {"required": ["positions"]}]}},
+        {"required": ["positions"], "not": {"anyOf": [{"required": ["no_claims"]}, {"required": ["claims"]}]}}
+      ]
+    },
+    "claim": {
+      "description": "Une affirmation qualifiée : affirmation, source, portée, limite, verdict (méthode du 11 du 2026-11-07).",
+      "type": "object",
+      "required": ["id", "text", "verdict", "sources", "portee", "limite"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^c[0-9]+$"},
+        "text": {"type": "string", "minLength": 1},
+        "verdict": {
+          "description": "conserver : la source porte l'affirmation dans sa portée ; preciser : portée ou condition à borner ; reformuler : fond juste, forme fautive ; retirer : non portée, contredite ou dangereuse.",
+          "enum": ["conserver", "preciser", "reformuler", "retirer"]
+        },
+        "sources": {"description": "Passages qui portent ou contredisent l'affirmation. Vide seulement si aucune capture ne la porte.", "type": "array", "items": {"$ref": "#/$defs/passage"}},
+        "portee": {"description": "Ce que la source couvre : véhicule, moteur, produit, conditions.", "type": "string", "minLength": 1},
+        "limite": {"description": "Ce que la source ne couvre pas, cas d'aide professionnelle compris.", "type": "string", "minLength": 1},
+        "proposed_wording": {"description": "Formulation proposée quand le verdict est preciser ou reformuler. Une proposition, jamais une source.", "type": ["string", "null"]},
+        "corroboration": {"$ref": "#/$defs/corroboration"},
+        "retake_question": {"description": "v2 : question de reprise proposée par le relecteur pour une affirmation complete non confirmée.", "type": ["string", "null"]}
+      }
+    },
+    "position": {
+      "description": "Contestation d'une affirmation qualifiée.",
+      "type": "object",
+      "required": ["claim_id", "position", "statement", "passage"],
+      "additionalProperties": false,
+      "properties": {
+        "claim_id": {"type": "string", "pattern": "^c[0-9]+$"},
+        "position": {"description": "agree : la qualification tient ; contest : verdict, source, portée ou limite faux ; undecidable : aucune capture ne tranche.", "enum": ["agree", "contest", "undecidable"]},
+        "verdict": {"description": "Verdict que le contestataire retiendrait, si position = contest.", "enum": ["conserver", "preciser", "reformuler", "retirer"]},
+        "statement": {"type": "string", "minLength": 1},
+        "passage": {"oneOf": [{"$ref": "#/$defs/passage"}, {"type": "null"}]},
+        "checks": {
+          "description": "v2 : vérification par le contestataire de la concordance et de l'indépendance des captures citées.",
+          "type": "object",
+          "required": ["concordance", "independence"],
+          "additionalProperties": false,
+          "properties": {
+            "concordance": {"enum": ["holds", "fails", "undecidable"]},
+            "independence": {"enum": ["holds", "fails", "undecidable"]}
+          }
+        }
+      }
+    },
+    "missed": {
+      "type": "object",
+      "required": ["segment_id", "text", "verdict", "statement", "passage"],
+      "additionalProperties": false,
+      "properties": {
+        "segment_id": {"type": "string", "pattern": "^(fm:.+|body:[1-9][0-9]*)$"},
+        "text": {"type": "string", "minLength": 1},
+        "verdict": {"enum": ["conserver", "preciser", "reformuler", "retirer"]},
+        "statement": {"type": "string", "minLength": 1},
+        "passage": {"oneOf": [{"$ref": "#/$defs/passage"}, {"type": "null"}]}
+      }
+    },
+    "capture_domain": {
+      "type": "object",
+      "required": ["cid", "publisher", "domain", "editorial_role"],
+      "additionalProperties": false,
+      "properties": {
+        "cid": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+        "publisher": {"description": "Éditeur déclaré au catalogue : deux captures du même éditeur relèvent du même domaine.", "type": ["string", "null"]},
+        "domain": {"type": ["string", "null"], "minLength": 1},
+        "editorial_role": {"description": "source_type_editorial_role du catalogue ; unknown si la capture n'y est pas.", "enum": ["proof", "corroboration", "unknown"]}
+      }
+    },
+    "corroboration": {
+      "description": "v2 : corroboration d'une affirmation. domains, captures et proof sont recalculés hors du modèle depuis les passages cités ; concordance et discordance_on sont lus par le modèle et contestés par l'autre famille.",
+      "type": "object",
+      "required": ["domains", "captures", "proof", "concordance", "discordance_on", "declassed_from", "declassed_by"],
+      "additionalProperties": false,
+      "properties": {
+        "domains": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "captures": {"type": "array", "uniqueItems": true, "items": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"}},
+        "proof": {"description": "Au moins une capture citée a le rôle proof.", "type": "boolean"},
+        "concordance": {"description": "concordant : les domaines portent la même valeur et la même portée ; discordant : un écart ; single_source : un seul domaine ; no_source : aucun passage ; undetermined : concordance non établie.", "enum": ["concordant", "discordant", "single_source", "no_source", "undetermined"]},
+        "discordance_on": {"description": "Ce que l'écart touche, si discordant : value, procedure ou safety imposent retirer en profondeur complete.", "enum": ["value", "procedure", "safety", "other", null]},
+        "declassed_from": {"description": "Verdict d'avant le déclassement dû à la seule corroboration, ou null.", "enum": ["conserver", "preciser", "reformuler", null]},
+        "declassed_by": {"description": "model : le relecteur a appliqué la règle ; control : le contrôle déterministe l'a appliquée.", "enum": ["model", "control", null]}
+      }
+    },
+    "retake_question": {
+      "type": "object",
+      "required": ["segment_id", "claim_id", "reason", "domains_present", "question", "question_source"],
+      "additionalProperties": false,
+      "properties": {
+        "segment_id": {"type": "string", "pattern": "^(fm:.+|body:[1-9][0-9]*)$"},
+        "claim_id": {"type": "string", "pattern": "^c[0-9]+$"},
+        "reason": {"enum": ["single_domain", "no_capture", "discordant"]},
+        "domains_present": {"type": "array", "items": {"type": "string", "minLength": 1}},
+        "question": {"type": "string", "minLength": 1},
+        "question_source": {"description": "model : question du relecteur ; template : gabarit du contrôle, faute de question.", "enum": ["model", "template"]}
+      }
+    },
+    "segment_v2": {
+      "description": "v2 : chaque affirmation porte sa corroboration ; en profondeur complete, conserver exige une preuve et deux domaines concordants (ADR-131 D9).",
+      "properties": {"claims": {"items": {"required": ["corroboration"]}}},
+      "if": {"properties": {"depth": {"const": "complete"}}, "required": ["depth"]},
+      "then": {"properties": {"claims": {"items": {
+        "if": {"properties": {"verdict": {"const": "conserver"}}, "required": ["verdict"]},
+        "then": {"properties": {"corroboration": {"properties": {"proof": {"const": true}, "domains": {"minItems": 2}, "concordance": {"const": "concordant"}}}}}
+      }}}}
+    }
+  }
+}

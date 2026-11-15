@@ -1,0 +1,2936 @@
+{
+  "candidates": [
+    {
+      "claim_ids": [
+        "p0-5",
+        "p0-7"
+      ],
+      "class": "securite",
+      "id": "c1",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Le véhicule doit être sur sol horizontal, moteur arrêté et froid (par exemple : avant le premier démarrage de la journée)."
+          },
+          "refuter_id": "r0",
+          "verdict": "upheld"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Turn off the engine and check if the oil level in the engine is within the manufacturer's recommended range. Top up the oil to the required level."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Le véhicule doit être sur sol horizontal, moteur arrêté et froid (par exemple : avant le premier démarrage de la journée)."
+          },
+          "refuter_id": "r2",
+          "verdict": "upheld"
+        }
+      ],
+      "segment_id": "body:46",
+      "statement": "Le contrôle et l'appoint du niveau juste après l'arrêt du moteur (Filtron) divergent de la notice Twingo 3 phase 2 citée par la fiche : niveau moteur arrêté et froid, attente d'environ 10 minutes, MAXI à ne jamais dépasser, ne pas démarrer s'il est dépassé. Divergence non déclarée ; risque de surremplissage."
+    },
+    {
+      "claim_ids": [
+        "p0-6",
+        "p0-8"
+      ],
+      "class": "securite",
+      "id": "c2",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Restart the engine and check for oil leaks around the filter gasket or oil drain plugs.\nTurn off the engine and close the car's bonnet."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Avant toute intervention dans le compartiment moteur, coupez impérativement le contact RODAGE, DÉMARRAGE, ARRÊT DU MOTEUR."
+          },
+          "refuter_id": "r1",
+          "verdict": "upheld"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Lors des interventions à proximité du moteur, celui-ci peut être chaud. De plus le motoventilateur peut se mettre en route à tout instant. Le témoin  présent dans le compartiment moteur vous le rappelle.\nRisque de blessures.\nAvant toute intervention dans le compartiment moteur, coupez impérativement le contact"
+          },
+          "refuter_id": "r2",
+          "verdict": "upheld"
+        }
+      ],
+      "segment_id": "body:46",
+      "statement": "Redémarrer et chercher une fuite moteur tournant est omis ou contredit par la notice Twingo citée : couper impérativement le contact avant toute intervention, moteur chaud, motoventilateur pouvant démarrer. Divergence non déclarée."
+    },
+    {
+      "claim_ids": [
+        "p0-3"
+      ],
+      "class": "formulation",
+      "id": "c3",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "If the system works correctly, the light turns on because the newly installed filter is empty for a brief moment. After a few seconds, the oil from the oil gallery reaches the interior of the filter and the light goes off."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "After a few seconds, the oil from the oil gallery reaches the interior of the filter and the light goes off."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "After a few seconds, the oil from the oil gallery reaches the interior of the filter and the light goes off."
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "body:46",
+      "statement": "« S'il ne s'éteint pas » omet le « after a while » de Filtron (un moment après le démarrage) ; le délai de quelques secondes est cependant mentionné juste avant."
+    },
+    {
+      "claim_ids": [
+        "p0-7"
+      ],
+      "class": "securite",
+      "id": "c4",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Vidange moteur : si vous réalisez la vidange moteur chaud, attention aux risques de brûlures dues à l’écoulement de l’huile."
+          },
+          "refuter_id": "r0",
+          "verdict": "upheld"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Vidange moteur : si vous réalisez la vidange moteur chaud, attention aux risques de brûlures dues à l’écoulement de l’huile."
+          },
+          "refuter_id": "r1",
+          "verdict": "upheld"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Vidange moteur : si vous réalisez la vidange moteur chaud, attention aux risques de brûlures dues à l’écoulement de l’huile."
+          },
+          "refuter_id": "r2",
+          "verdict": "upheld"
+        }
+      ],
+      "segment_id": "body:42",
+      "statement": "La dépose et la vidange omettent le risque de brûlure par l'huile moteur chaud et la coupure du contact, signalés par la notice Twingo 3 phase 2 citée par la fiche."
+    },
+    {
+      "claim_ids": [
+        "p0-7",
+        "p0-8"
+      ],
+      "class": "securite",
+      "id": "c5",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Il ne faut en aucun cas dépasser le niveau maximum de remplissage : risque d’endommagement du moteur et du système de dépollution.\nSi le niveau maxi est dépassé ne démarrez pas votre véhicule et faites appel à un Représentant de la marque."
+          },
+          "refuter_id": "r0",
+          "verdict": "upheld"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Si le niveau maxi est dépassé ne démarrez pas votre véhicule et faites appel à un Représentant de la marque."
+          },
+          "refuter_id": "r1",
+          "verdict": "upheld"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Si le niveau maxi est dépassé ne démarrez pas votre véhicule et faites appel à un Représentant de la marque."
+          },
+          "refuter_id": "r2",
+          "verdict": "upheld"
+        }
+      ],
+      "segment_id": "body:44",
+      "statement": "Le remplissage omet l'interdiction de dépasser le MAXI et la consigne de ne pas démarrer en cas de dépassement, portées par la notice Twingo citée."
+    },
+    {
+      "claim_ids": [
+        "p0-7",
+        "p0-9"
+      ],
+      "class": "securite",
+      "id": "c6",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Le véhicule doit être sur sol horizontal, moteur arrêté et froid (par exemple : avant le premier démarrage de la journée)."
+          },
+          "refuter_id": "r0",
+          "verdict": "upheld"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Restart the engine and check for oil leaks around the filter gasket or oil drain plugs."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Turn off the engine and check if the oil level in the engine is within the manufacturer's recommended range. Top up the oil to the required level."
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "body:58",
+      "statement": "La FAQ de procédure reprend le contrôle de niveau juste après l'arrêt et la recherche de fuite moteur tournant, sans les précautions de la notice Twingo citée (moteur froid, attente, MAXI, contact coupé). Divergence non déclarée."
+    },
+    {
+      "claim_ids": [
+        "p0-13",
+        "p0-14",
+        "p0-24"
+      ],
+      "class": "securite",
+      "id": "c7",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Le véhicule doit être sur sol horizontal, moteur arrêté et froid (par exemple : avant le premier démarrage de la journée)."
+          },
+          "refuter_id": "r0",
+          "verdict": "upheld"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Turn off the engine and check if the oil level in the engine is within the manufacturer's recommended range. Top up the oil to the required level."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Le véhicule doit être sur sol horizontal, moteur arrêté et froid (par exemple : avant le premier démarrage de la journée)."
+          },
+          "refuter_id": "r2",
+          "verdict": "upheld"
+        }
+      ],
+      "segment_id": "fm:entity_data",
+      "statement": "post_install_checks et la FAQ de procédure portent les mêmes consignes Filtron, divergentes de la notice Twingo citée (niveau moteur froid, MAXI, contact coupé), sans déclaration."
+    },
+    {
+      "claim_ids": [
+        "p0-1"
+      ],
+      "class": "sens",
+      "id": "c8",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": null,
+          "refuter_id": "r0",
+          "verdict": "undecidable"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": null,
+          "refuter_id": "r1",
+          "verdict": "undecidable"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": null,
+          "refuter_id": "r2",
+          "verdict": "undecidable"
+        }
+      ],
+      "segment_id": "fm:no_disputed_claims",
+      "statement": "La notice Twingo 3 phase 2 reste une capture citée par la fiche (body:54) et ses consignes divergent de la procédure Filtron publiée (les review_notes le reconnaissent). no_disputed_claims true n'est donc pas porté."
+    },
+    {
+      "claim_ids": [
+        "p0-8"
+      ],
+      "class": "sens",
+      "id": "c9",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Périodicité : reportez-vous au document d’entretien de votre véhicule."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Périodicité : reportez-vous au document d’entretien de votre véhicule."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Périodicité : reportez-vous au document d’entretien de votre véhicule."
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "fm:review_notes",
+      "statement": "« Plus aucune consigne divergente n'est juxtaposée » : la capture Twingo, toujours citée, diverge de la procédure Filtron publiée ; la divergence n'est pas déclarée dans le texte publié."
+    },
+    {
+      "claim_ids": [
+        "p0-1",
+        "p0-2"
+      ],
+      "class": "sens",
+      "id": "c10",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Clean the surface of the filter which adheres to the engine housing, making sure that the old filter gasket has been removed. Then cover the top surface of the new filter gasket with a thin layer of clean engine oil."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Clean the surface of the filter which adheres to the engine housing, making sure that the old filter gasket has been removed. Then cover the top surface of the new filter gasket with a thin layer of clean engine oil."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Clean the surface of the filter which adheres to the engine housing, making sure that the old filter gasket has been removed. Then cover the top surface of the new filter gasket with a thin layer of clean engine oil."
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "body:60",
+      "statement": "Les conseils MAHLE (retirer l'ancien joint de la bride, enduire les joints neufs) sont donnés dans le contexte des filtres OC 593/3 et OC 593/4 pour VW 1.2/1.4 TSI ; la FAQ les généralise sans cette portée."
+    },
+    {
+      "claim_ids": [
+        "p0-23"
+      ],
+      "class": "sens",
+      "id": "c11",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip: Changing the filter means changing the seals\nSo it’s time to change the oil filter. Nothing to it, right? As easy as it may seem, there are a few things you need to keep in mind."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip no. 1: Always remove the old ring from the flange. And don’t forget to coat the new sealing rings with clean motor oil every time before fitting them."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip: Changing the filter means changing the seals"
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "fm:entity_data",
+      "statement": "La FAQ joint de editorial généralise sans sa portée le conseil MAHLE propre aux OC 593/3 et OC 593/4."
+    },
+    {
+      "claim_ids": [
+        "p0-1",
+        "p0-5"
+      ],
+      "class": "sens",
+      "id": "c12",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "By using FILTRON oil filters, you can be sure that if the oil pressure warning light does not go off after replacement then it is not related to a malfunction of the filter."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "Many people think that the quicker the oil pressure warning light goes off after replacing the oil filter, the better the quality of the installed filter."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "By using FILTRON oil filters, you can be sure that if the oil pressure warning light does not go off after replacement then it is not related to a malfunction of the filter."
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "body:21",
+      "statement": "La capture Filtron formule la consigne « after starting the engine » sans la restreindre explicitement au démarrage qui suit un remplacement ; le bornage affirmé par le texte est une interprétation."
+    },
+    {
+      "claim_ids": [
+        "p0-5"
+      ],
+      "class": "sens",
+      "id": "c13",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "body:15",
+      "statement": "« Le by-pass ne dispense pas de remplacer le filtre » est une inférence attribuée à MAHLE ; la capture dit seulement que le remplacement dans les intervalles du constructeur est important pour un fonctionnement optimal."
+    },
+    {
+      "claim_ids": [
+        "p0-2"
+      ],
+      "class": "sens",
+      "id": "c14",
+      "raised_by": [
+        "p0"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "The load factors have direct effect on the so-called embrittlement limit, which determines the service life span of the filter in the end. If this limit is reached, the material is fatigued and non-functional. This means that even when the filter element is not jet clogged, it cannot collect any more dirt."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "The load factors have direct effect on the so-called embrittlement limit, which determines the service life span of the filter in the end. If this limit is reached, the material is fatigued and non-functional. This means that even when the filter element is not jet clogged, it cannot collect any more dirt."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "The load factors have direct effect on the so-called embrittlement limit, which determines the service life span of the filter in the end. If this limit is reached, the material is fatigued and non-functional. This means that even when the filter element is not jet clogged, it cannot collect any more dirt."
+          },
+          "refuter_id": "r2",
+          "verdict": "upheld"
+        }
+      ],
+      "segment_id": "body:32",
+      "statement": "MAHLE rattache la limite de fragilisation aux facteurs de charge (nitration, biodiesel, températures), non au dépassement d'échéance ; la placer sous « Si l'échéance est dépassée » suggère un lien que la capture n'établit pas."
+    },
+    {
+      "claim_ids": [
+        "p1-5"
+      ],
+      "class": "sens",
+      "id": "c15",
+      "raised_by": [
+        "p1"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A pressure relief valve guarantees the oil supply under all conditions – for viscous oil encountered during cold starts or at low temperatures, for extremely contaminated filter elements, or when the replacement intervals have been exceeded. A non-return flow valve prevents the draining of the filter when the engine is switched off and ensures adequate oil supply when the engine is started. High-grade sealing materials and custom-fit connecting pieces assure reliable separation of contaminated and filtered oil.\nHowever, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "body:15",
+      "statement": "« Le by-pass ne dispense pas de remplacer le filtre » est une inférence. MAHLE dit seulement qu'il faut remplacer le filtre dans les intervalles et que la soupape garantit l'alimentation en huile quand ces intervalles sont dépassés. Aucune capture ne formule cette conclusion à propos du by-pass."
+    },
+    {
+      "claim_ids": [
+        "p1-1"
+      ],
+      "class": "sens",
+      "id": "c16",
+      "raised_by": [
+        "p1"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip: Changing the filter means changing the seals"
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip: Changing the filter means changing the seals"
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip: Changing the filter means changing the seals"
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "body:60",
+      "statement": "« Oui : changer le filtre, c'est changer les joints » est présenté comme règle générale. Le conseil MAHLE vient d'une page dont le contenu porte sur les OC 593/3 et 593/4 (VW 1.2 et 1.4 TSI). La généralisation à tous les filtres est possiblement sur-généralisée. Le texte entre guillemets est aussi une traduction du titre anglais, présentée comme citation."
+    },
+    {
+      "claim_ids": [
+        "p1-2",
+        "p1-4"
+      ],
+      "class": "sens",
+      "id": "c17",
+      "raised_by": [
+        "p1"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "body:31",
+      "statement": "Le texte juxtapose MAHLE (environ 30 000 km en moyenne, intervalles du constructeur) et Filtron (remplacement toujours à la vidange) sans dire s'ils concordent. Une divergence possible entre les captures n'est pas déclarée. Candidat de faible confiance."
+    },
+    {
+      "claim_ids": [
+        "p1-1"
+      ],
+      "class": "formulation",
+      "id": "c18",
+      "raised_by": [
+        "p1"
+      ],
+      "refutations": [
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Today’s Oil filters have to collect many times more dirt, filter out finer particles and simultaneously last longer."
+          },
+          "refuter_id": "r0",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-sonnet-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Today’s Oil filters have to collect many times more dirt, filter out finer particles and simultaneously last longer."
+          },
+          "refuter_id": "r1",
+          "verdict": "refuted"
+        },
+        {
+          "model": "claude-opus-5-5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Today’s Oil filters have to collect many times more dirt, filter out finer particles and simultaneously last longer."
+          },
+          "refuter_id": "r2",
+          "verdict": "refuted"
+        }
+      ],
+      "segment_id": "body:2",
+      "statement": "La définition dit que le filtre « retient les impuretés contenues dans l'huile ». MAHLE formule la fonction autrement : empêcher les contaminants d'entrer dans le circuit de lubrification. Écart de formulation probable, sans effet sur le sens."
+    }
+  ],
+  "key": "0a84eae9fb809d8f12fa7951cc159f05d48ac182fdc4bcd0082f5f31e9b590b3",
+  "key_inputs": {
+    "captures": [
+      {
+        "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md"
+      },
+      {
+        "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md"
+      },
+      {
+        "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md"
+      },
+      {
+        "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+        "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md"
+      },
+      {
+        "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md"
+      }
+    ],
+    "protocol_revision": "883b8514653277bf5c7b4188e4a6c3fb887af6b717f3897f88cdf9e0090d75f5",
+    "text_sha256": "a2e6f2f0153ba3292f6f9d3e87f4a328715c1e015c267dff1d59104af3494bf5"
+  },
+  "models": [
+    "claude-opus-5-5",
+    "claude-sonnet-5-5"
+  ],
+  "passes": [
+    {
+      "covered_segments": [
+        "body:1",
+        "body:10",
+        "body:11",
+        "body:12",
+        "body:13",
+        "body:14",
+        "body:15",
+        "body:16",
+        "body:17",
+        "body:18",
+        "body:19",
+        "body:2",
+        "body:20",
+        "body:21",
+        "body:22",
+        "body:23",
+        "body:24",
+        "body:25",
+        "body:26",
+        "body:27",
+        "body:28",
+        "body:29",
+        "body:3",
+        "body:30",
+        "body:31",
+        "body:32",
+        "body:33",
+        "body:34",
+        "body:35",
+        "body:36",
+        "body:37",
+        "body:38",
+        "body:39",
+        "body:4",
+        "body:40",
+        "body:41",
+        "body:42",
+        "body:43",
+        "body:44",
+        "body:45",
+        "body:46",
+        "body:47",
+        "body:48",
+        "body:49",
+        "body:5",
+        "body:50",
+        "body:51",
+        "body:52",
+        "body:53",
+        "body:54",
+        "body:55",
+        "body:56",
+        "body:57",
+        "body:58",
+        "body:59",
+        "body:6",
+        "body:60",
+        "body:61",
+        "body:62",
+        "body:7",
+        "body:8",
+        "body:9",
+        "fm:aliases",
+        "fm:confidence_score",
+        "fm:content_hash",
+        "fm:created_at",
+        "fm:diagnostic_relations",
+        "fm:entity_data",
+        "fm:entity_type",
+        "fm:exportable",
+        "fm:id",
+        "fm:lang",
+        "fm:no_disputed_claims",
+        "fm:provenance",
+        "fm:review_notes",
+        "fm:schema_version",
+        "fm:slug",
+        "fm:source_refs",
+        "fm:target_classes",
+        "fm:title",
+        "fm:truth_level",
+        "fm:updated_at"
+      ],
+      "model": "claude-opus-5-5",
+      "pass_id": "p0"
+    },
+    {
+      "covered_segments": [
+        "body:1",
+        "body:10",
+        "body:11",
+        "body:12",
+        "body:13",
+        "body:14",
+        "body:15",
+        "body:16",
+        "body:17",
+        "body:18",
+        "body:19",
+        "body:2",
+        "body:20",
+        "body:21",
+        "body:22",
+        "body:23",
+        "body:24",
+        "body:25",
+        "body:26",
+        "body:27",
+        "body:28",
+        "body:29",
+        "body:3",
+        "body:30",
+        "body:31",
+        "body:32",
+        "body:33",
+        "body:34",
+        "body:35",
+        "body:36",
+        "body:37",
+        "body:38",
+        "body:39",
+        "body:4",
+        "body:40",
+        "body:41",
+        "body:42",
+        "body:43",
+        "body:44",
+        "body:45",
+        "body:46",
+        "body:47",
+        "body:48",
+        "body:49",
+        "body:5",
+        "body:50",
+        "body:51",
+        "body:52",
+        "body:53",
+        "body:54",
+        "body:55",
+        "body:56",
+        "body:57",
+        "body:58",
+        "body:59",
+        "body:6",
+        "body:60",
+        "body:61",
+        "body:62",
+        "body:7",
+        "body:8",
+        "body:9",
+        "fm:aliases",
+        "fm:confidence_score",
+        "fm:content_hash",
+        "fm:created_at",
+        "fm:diagnostic_relations",
+        "fm:entity_data",
+        "fm:entity_type",
+        "fm:exportable",
+        "fm:id",
+        "fm:lang",
+        "fm:no_disputed_claims",
+        "fm:provenance",
+        "fm:review_notes",
+        "fm:schema_version",
+        "fm:slug",
+        "fm:source_refs",
+        "fm:target_classes",
+        "fm:title",
+        "fm:truth_level",
+        "fm:updated_at"
+      ],
+      "model": "claude-sonnet-5-5",
+      "pass_id": "p1"
+    }
+  ],
+  "schema_version": "semantic-review/v1",
+  "segments": [
+    {
+      "id": "fm:aliases",
+      "no_claims": true,
+      "sha256": "a74849a3913588b6848e3da07ad4e1c5202a26ecb36ee2f4bfd34854f651d034"
+    },
+    {
+      "id": "fm:confidence_score",
+      "no_claims": true,
+      "sha256": "064fec5b23c4e3d514f1590700856bb904ef5d2aa7e97e43c2938af421e057a2"
+    },
+    {
+      "id": "fm:content_hash",
+      "no_claims": true,
+      "sha256": "cd627e3f2e3d6564c698e05a8ec1ea68f4ce462dbaf0b52dc295df1909ea5b6b"
+    },
+    {
+      "id": "fm:created_at",
+      "no_claims": true,
+      "sha256": "ab81ff657b6afa59f608bda6e5336f9404e24e2b7abffd22099e568c834fe41d"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Relation voyant_huile / filtre : cause possible, hypothèse non établie, confiance faible (0.6), diagnostic_safe false, revue manuelle."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Clio 5 phase 1 : la notice n'attribue pas le témoin au filtre."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Filtron : filtre inadapté ou faible si le témoin reste allumé après remplacement, niveau correct."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "MAHLE (OC 593/3-593/4, VW 1.2/1.4 TSI) : ancien joint collé, fuite possible et témoin allumé moteur tournant."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Pour la Clio 5 phase 1, le témoin n'est pas attribué au filtre."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Filtron : un filtre inadapté ou de faible qualité est une cause possible si le témoin reste allumé après remplacement avec un niveau correct."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "MAHLE (OC 593/3 et 593/4, VW 1.2 et 1.4 TSI) : un ancien joint collé peut provoquer une fuite et allumer le témoin moteur tournant."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "La relation est de type possible_cause, avec une confiance faible (0,6) et diagnostic_safe false."
+        }
+      ],
+      "id": "fm:diagnostic_relations",
+      "sha256": "e094d6b16ec631993125853ea27de77d98f0868cac031fe2e42ed75de228bd5e"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Des filtres d'aspect identique peuvent différer à l'intérieur selon le moteur ; l'apparence ne suffit pas à choisir (MAHLE)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Selon MAHLE, le filtre à huile empêche les impuretés d'entrer dans le circuit de lubrification."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Filtre vissé changé en bloc ; cartouche : seul l'élément filtrant."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Même aspect ne veut pas dire même intérieur (clapets, filetage, média)."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "Échéance du constructeur (MAHLE) ; Filtron : lors de la vidange."
+        },
+        {
+          "id": "p0-6",
+          "kind": "affirmation",
+          "text": "failure_symptoms : consignes de la notice Clio 5 phase 1 (allumage puis extinction après quelques secondes ; sur route avec témoin d'arrêt impératif et signal sonore, s'arrêter, couper le contact, vérifier le niveau ; ne pas redémarrer, appeler un Représentant ; affichage selon équipement et pays ; alerte non attribuée au filtre)."
+        },
+        {
+          "id": "p0-7",
+          "kind": "affirmation",
+          "text": "failure_symptoms : consigne Filtron après remplacement (couper immédiatement, contrôler et compléter le niveau) et causes citées (capteur, câble, pompe désamorcée, conduite obstruée, usure, filtre inadapté ou faible, rempli après péremption), bornée au démarrage qui suit un remplacement."
+        },
+        {
+          "id": "p0-8",
+          "kind": "affirmation",
+          "text": "failure_symptoms : MAHLE, OC 593/3 et OC 593/4 pour VW 1.2 et 1.4 TSI, ancien joint collé sur la bride peut provoquer une fuite et allumer le témoin moteur tournant."
+        },
+        {
+          "id": "p0-9",
+          "kind": "affirmation",
+          "text": "faq : réponses identiques à celles du corps (entretien, intervalle, apparence, colmatage, voyant, remplacement, erreurs, joint)."
+        },
+        {
+          "id": "p0-10",
+          "kind": "affirmation",
+          "text": "function : le filtre empêche les impuretés d'entrer et préserve qualité de l'huile, performances et rendement (MAHLE)."
+        },
+        {
+          "id": "p0-11",
+          "kind": "affirmation",
+          "text": "installation_procedure : joint enduit d'une fine couche d'huile propre, jamais de lubrifiant solide ; remplissage possible sur turbo ; serrage selon l'indication, habituellement ¾ de tour ou 1 tour, davantage en diesel ; ne pas forcer ; jamais l'outil de dépose (MAHLE) ; verser l'huile jusqu'au niveau recommandé."
+        },
+        {
+          "id": "p0-12",
+          "kind": "affirmation",
+          "text": "maintenance_interval : intervalles du constructeur (MAHLE), environ 30 000 km en moyenne, 30 000 km et plus courants, 50 000 km chez certains constructeurs ; Filtron : lors de la vidange ; Twingo 3 phase 2 : périodicité renvoyée au document d'entretien."
+        },
+        {
+          "id": "p0-13",
+          "kind": "affirmation",
+          "text": "post_install_checks : une fois le témoin éteint, couper le moteur, vérifier que le niveau est dans la plage et compléter."
+        },
+        {
+          "id": "p0-14",
+          "kind": "affirmation",
+          "text": "post_install_checks : redémarrer et chercher une fuite autour du joint et des bouchons, puis couper le moteur et refermer le capot."
+        },
+        {
+          "id": "p0-15",
+          "kind": "affirmation",
+          "text": "quality_tiers : MICROSTAR, by-pass et anti-retour ; qualité du montage et de l'entretien aussi importante (MAHLE)."
+        },
+        {
+          "id": "p0-16",
+          "kind": "affirmation",
+          "text": "removal_procedure : étapes Filtron de dépose et conseils MAHLE OC 593/3-593/4 (reflux, ancien joint)."
+        },
+        {
+          "id": "p0-17",
+          "kind": "affirmation",
+          "text": "replacement_guidance : un filtre de qualité ne fonctionne bien que s'il est bien monté ; la procédure vaut pour un filtre vissé."
+        },
+        {
+          "id": "p0-18",
+          "kind": "affirmation",
+          "text": "safety_warnings : procédure Filtron recommandée contre les fuites et l'endommagement ; filtre et huile usagés en conteneurs pour déchets dangereux."
+        },
+        {
+          "id": "p0-19",
+          "kind": "affirmation",
+          "text": "selection_criteria : intérieurs différents (MAHLE), filtre inadapté (Filtron), intervalles longs et qualité (MAHLE)."
+        },
+        {
+          "id": "p0-20",
+          "kind": "affirmation",
+          "text": "selection_faq : compatibilité, vissé ou cartouche (programme OX économique et écologique), clapet anti-retour requis sur filtres vissés de côté ou dessus."
+        },
+        {
+          "id": "p0-21",
+          "kind": "affirmation",
+          "text": "variants : deux formes ; un filtre vissé peut comporter trois types de clapets selon sa conception."
+        },
+        {
+          "id": "p0-22",
+          "kind": "affirmation",
+          "text": "educational_advice : intervalles du constructeur (MAHLE) ; filtre vissé changé lors de la vidange (Filtron) ; ne pas choisir à l'apparence."
+        },
+        {
+          "id": "p0-23",
+          "kind": "affirmation",
+          "text": "faq joint : « changer le filtre, c'est changer les joints » ; retirer l'ancien joint de la bride et enduire le joint neuf, présenté comme règle générale."
+        },
+        {
+          "id": "p0-24",
+          "kind": "omission",
+          "text": "Omission : la notice Twingo 3 phase 2 citée demande de vérifier le niveau moteur arrêté et froid, d'attendre environ 10 minutes l'écoulement, de ne jamais dépasser le MAXI et de couper le contact avant toute intervention dans le compartiment moteur."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Selon MAHLE, le filtre à huile empêche les impuretés d'entrer dans le circuit de lubrification."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Des filtres d'aspect identique peuvent différer à l'intérieur selon le moteur (MAHLE)."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Un filtre vissé se change en bloc ; avec une cartouche, seul l'élément filtrant est remplacé."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Échéance : celle du constructeur (MAHLE) ; Filtron : lors de la vidange."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "MAHLE donne un ordre de grandeur d'environ 30 000 km en moyenne, certains constructeurs annonçant 50 000 km."
+        },
+        {
+          "id": "p1-6",
+          "kind": "affirmation",
+          "text": "Sur la Clio 5 phase 1, le témoin d'huile allumé sur route avec le témoin d'arrêt impératif et un signal sonore impose d'arrêter, de couper le contact et de vérifier le niveau d'huile."
+        },
+        {
+          "id": "p1-7",
+          "kind": "affirmation",
+          "text": "Filtron : si le témoin ne s'éteint pas après le démarrage qui suit un remplacement, couper le moteur, contrôler le niveau et compléter."
+        },
+        {
+          "id": "p1-8",
+          "kind": "affirmation",
+          "text": "Causes citées par Filtron avec un niveau correct : capteur, câble, pompe désamorcée, conduite obstruée, usure du moteur, filtre inadapté ou périmé."
+        },
+        {
+          "id": "p1-9",
+          "kind": "affirmation",
+          "text": "Serrage habituel de ¾ de tour à 1 tour (Filtron), selon l'indication du filtre ; ne jamais serrer avec l'outil de dépose (MAHLE)."
+        },
+        {
+          "id": "p1-10",
+          "kind": "affirmation",
+          "text": "Le clapet anti-retour est requis sur les filtres vissés sur le côté ou sur le dessus du bloc."
+        },
+        {
+          "id": "p1-11",
+          "kind": "affirmation",
+          "text": "Le filtre et l'huile usagés vont dans des conteneurs pour déchets dangereux."
+        },
+        {
+          "id": "p1-12",
+          "kind": "affirmation",
+          "text": "Les procédures décrivent un filtre vissé ; la pose d'une cartouche n'est pas décrite."
+        },
+        {
+          "id": "p1-13",
+          "kind": "affirmation",
+          "text": "Sur la Twingo 3 phase 2, la notice renvoie la périodicité de la vidange au document d'entretien et ne parle pas du filtre."
+        }
+      ],
+      "id": "fm:entity_data",
+      "sha256": "173d40a1a91a8f0d0bf5117e420879828c6112b01ab843a6a647eb6658d8e663"
+    },
+    {
+      "id": "fm:entity_type",
+      "no_claims": true,
+      "sha256": "7dcbad6910f07a050ebb49e35dab2ca12004cbcef63be8c8487480d4d6d98671"
+    },
+    {
+      "id": "fm:exportable",
+      "no_claims": true,
+      "sha256": "d7afff1860e91fa76bd99e0c403eec2ec10652434b64c5818348439744cc832a"
+    },
+    {
+      "id": "fm:id",
+      "no_claims": true,
+      "sha256": "413200f821eeea219569b2132b26df3478c273efa0311b8d970bbea1a32a89c1"
+    },
+    {
+      "id": "fm:lang",
+      "no_claims": true,
+      "sha256": "2a765c307dccf3bdc6f06a8568eb54a682b8e2f3549efe2e5118dcadddaf2cfd"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "La fiche ne porte aucune affirmation disputée ni divergence entre sources."
+        }
+      ],
+      "id": "fm:no_disputed_claims",
+      "sha256": "4e96cc03e069936ad1a77023a759df8d8ead1f949d5c9dde184d8ab41a336ba8"
+    },
+    {
+      "id": "fm:provenance",
+      "no_claims": true,
+      "sha256": "8b79ca24f80d7f8fec1a12f44643db80ccc54a92a7d65b944562d868df19ea6a"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Quatre captures RAW du 2026-11-15 : Filtron remplacement, Filtron témoin, MAHLE joints, notice Twingo 3 phase 2."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Leurs références sont en confiance medium."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Valeurs reprises : serrage habituel Filtron subordonné à l'indication du filtre, quelques secondes d'allumage du témoin, environ 30 000 km en moyenne et 50 000 km chez certains constructeurs (MAHLE)."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "La capacité d'huile de la Twingo n'est pas reprise."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "Filtron dit le pré-remplissage parfois nécessaire sur moteur turbocompressé ; les captures ne traitent pas le changement de filtre sans vidange."
+        },
+        {
+          "id": "p0-6",
+          "kind": "affirmation",
+          "text": "MAHLE renvoie aux intervalles du constructeur ; Filtron indique que le filtre vissé se remplace lors de la vidange."
+        },
+        {
+          "id": "p0-7",
+          "kind": "affirmation",
+          "text": "La procédure générique Filtron et les consignes de la notice Twingo 3 phase 2 divergent ; la notice Twingo ne sert plus qu'à la périodicité de la vidange."
+        },
+        {
+          "id": "p0-8",
+          "kind": "affirmation",
+          "text": "Plus aucune consigne divergente n'est juxtaposée, d'où no_disputed_claims true."
+        },
+        {
+          "id": "p0-9",
+          "kind": "affirmation",
+          "text": "Les consignes de sécurité propres à la Twingo sont retirées."
+        }
+      ],
+      "id": "fm:review_notes",
+      "sha256": "d8873c97ead967d5199e3045635d347d24f4545424fcf4a171e3d69ed2d02376"
+    },
+    {
+      "id": "fm:schema_version",
+      "no_claims": true,
+      "sha256": "e947cbb8bb0e450cce5d059b748f0a116b8425539d6adf51bd43c1acff4702f3"
+    },
+    {
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "85dc1a891abc34753c0828a7dd0d53f097502c1d7eefd17e9988ec36b9b9e0ae"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Sept captures RAW (dates 2026-09-13, 2026-09-14, 2026-11-15) et leurs URL d'origine."
+        }
+      ],
+      "id": "fm:source_refs",
+      "sha256": "59d4d1dde1773fe2de4c6d77e37c32e736e5ddfe79af172456dfe6c53a9119f9"
+    },
+    {
+      "id": "fm:target_classes",
+      "no_claims": true,
+      "sha256": "20d669aef3731cf2de6dcbed7d2551ddbbe5aa90ac93d22d47c68519a42bc9a6"
+    },
+    {
+      "id": "fm:title",
+      "no_claims": true,
+      "sha256": "ad2f410bf153f756cf55ebdd2fad51296821f6f1f21929c47935b9f862cc08d5"
+    },
+    {
+      "id": "fm:truth_level",
+      "no_claims": true,
+      "sha256": "a3127fa38b6258e16ff523cafcbe9860db6a9a7e7af1ae2c85812fffe6a9a5ae"
+    },
+    {
+      "id": "fm:updated_at",
+      "no_claims": true,
+      "sha256": "0453ed7e893f17323db86bee5a4ab9de58ed3b8ca68b0e4cbf2a7cc98ef2ebe7"
+    },
+    {
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "92c1d8b1cea628b9559f4a3958e618faa8879d4cca683ca2036c2eabba171b3a"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Le filtre à huile est la pièce du circuit de lubrification qui retient les impuretés contenues dans l'huile."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "On le rencontre notamment sous deux formes (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Le filtre à huile retient les impuretés contenues dans l'huile."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Il existe notamment sous deux formes (MAHLE)."
+        }
+      ],
+      "id": "body:2",
+      "sha256": "3a027c6defc5a35b89327dcdba8116d244c776c38db2f6348a70e3610c022004"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Filtre vissé : boîtier et élément filtrant forment un bloc indissociable, changé en entier."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Filtre vissé : boîtier et élément filtrant indissociables, changés en entier."
+        }
+      ],
+      "id": "body:3",
+      "sha256": "9ebb2d1f94213c7e21075ac3401cde26b224ecce4cb2d9553192e7693869b165"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Cartouche : pour les filtres à boîtier démontable, on ne renouvelle que l'élément filtrant sale."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Cartouche : pour les filtres à boîtier démontable, seul l'élément filtrant sale est renouvelé."
+        }
+      ],
+      "id": "body:4",
+      "sha256": "530b8b7177be0b0e1510886b8ee270fa347e910f6857cd9798daf665a59f2a45"
+    },
+    {
+      "id": "body:5",
+      "no_claims": true,
+      "sha256": "cea93fde0bf5daa55340a17e918a36057b666290ff2da943f6492cf5e988eeb5"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Selon MAHLE, le filtre empêche les impuretés d'entrer dans le circuit de lubrification."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Il préserve la qualité de l'huile, les performances et le rendement du moteur."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Selon MAHLE, le filtre empêche les impuretés d'entrer dans le circuit et préserve la qualité de l'huile, les performances et le rendement du moteur."
+        }
+      ],
+      "id": "body:6",
+      "sha256": "fe136c29859077a21159d95acc7e60d198f9caf4f60ab10e9f253d4d36e459d3"
+    },
+    {
+      "id": "body:7",
+      "no_claims": true,
+      "sha256": "a83bde68bc3388b0a8582346bbfafe4aee6f1aead9598438b6a5db6d7fcce0c8"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Fonction : empêcher les impuretés d'entrer dans le circuit de lubrification (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Fonction : empêcher les impuretés d'entrer dans le circuit de lubrification (MAHLE)."
+        }
+      ],
+      "id": "body:8",
+      "sha256": "4430187fbab5bd313fecc185360887a64a4f1079ff9f0003a2dd7daa1609f089"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Formes : filtre vissé changé en entier ou cartouche dont seul l'élément filtrant est changé."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Formes : filtre vissé changé en entier, cartouche dont seul l'élément filtrant est changé."
+        }
+      ],
+      "id": "body:9",
+      "sha256": "ef342186e4b37f12fa82ba6082f2e24d911182d9071d0e87960c249cc0d911f2"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "L'apparence ne suffit pas, l'intérieur du filtre varie selon le moteur (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "L'apparence ne suffit pas à choisir : l'intérieur varie selon le moteur (MAHLE)."
+        }
+      ],
+      "id": "body:10",
+      "sha256": "f8d27b640379d39c3c32652c5ccfa56638b389630a72c0031873d3ea8f95ec9f"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Entretien dans les intervalles fixés par le constructeur (MAHLE)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Filtron indique que le filtre vissé se remplace lors de la vidange."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Entretien dans les intervalles fixés par le constructeur (MAHLE)."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Filtron : le filtre vissé se remplace lors de la vidange."
+        }
+      ],
+      "id": "body:11",
+      "sha256": "ae7bd0d843b16a2173e31fa4e24e110ce5ce86328b7a2afe91a41b72c286685c"
+    },
+    {
+      "id": "body:12",
+      "no_claims": true,
+      "sha256": "b74f07720e015568f59b67ed18c286a5193fbe18e7864297d7412ce9379975ef"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Trois types de clapets peuvent se trouver dans un filtre vissé."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Leur présence dépend de la conception du filtre, fixée par le constructeur du moteur ou du véhicule (Filtron)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Un filtre vissé peut contenir trois types de clapets."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Leur présence dépend de la conception fixée par le constructeur du moteur ou du véhicule."
+        }
+      ],
+      "id": "body:13",
+      "sha256": "487cefedfc7666eecb32644ef8a0061b75359a0849c62e220cda92e21e30fbae"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Le clapet anti-retour est le plus souvent une membrane en caoutchouc collée à l'intérieur du couvercle."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Il empêche l'huile de s'échapper du filtre moteur arrêté."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Il est requis sur les filtres vissés sur le côté ou le dessus du bloc ; couvercle vers le haut, la gravité remplit cette fonction."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Le clapet anti-retour est le plus souvent une membrane en caoutchouc collée à l'intérieur du couvercle."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Il empêche l'huile de s'échapper du filtre moteur arrêté."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Il est requis sur les filtres vissés sur le côté ou sur le dessus du bloc ; couvercle vers le haut, la gravité remplit cette fonction."
+        }
+      ],
+      "id": "body:14",
+      "sha256": "6e010e62d0d2eac33ea034f472422be28c2b04404f0da2d624a2697defce2b0d"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Le by-pass sert quand le filtre est colmaté (trop long délai entre remplacements) ou quand l'huile est froide et épaisse."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Il s'ouvre sous l'effet de la montée de pression pour augmenter le débit, les pièces risquant une lubrification insuffisante."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Une huile sale vaut mieux que pas d'huile ; un manque de lubrification peut endommager le moteur (Filtron)."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "La pression d'ouverture peut différer d'un filtre à l'autre selon le moteur (MAHLE)."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "Le by-pass ne dispense pas de remplacer le filtre dans les intervalles du constructeur (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Le by-pass sert quand le filtre est colmaté (trop long délai entre remplacements) ou quand l'huile est froide et épaisse."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Il s'ouvre sous la montée de pression pour augmenter le débit, car les pièces risquent une lubrification insuffisante."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Une huile sale vaut mieux que pas d'huile ; un manque de lubrification peut endommager le moteur."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "La pression d'ouverture peut différer d'un filtre à l'autre selon le moteur (MAHLE)."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "Le by-pass ne dispense pas de remplacer le filtre dans les intervalles du constructeur (MAHLE)."
+        }
+      ],
+      "id": "body:15",
+      "sha256": "c93b6006eec4abc0bac085a0b20da69c4f8b3be27124cc7e74ebf6dbcc23c77e"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Le clapet anti-siphon, côté huile propre, empêche l'huile de quitter le filtre à l'arrêt."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Le filtre reste plein ; au démarrage l'huile arrive vite, ce qui réduit fortement le frottement à sec (Filtron)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Le clapet anti-siphon est placé côté huile propre et empêche l'huile de quitter le filtre à l'arrêt."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Le filtre reste plein ; au démarrage l'huile arrive vite au moteur, ce qui réduit fortement le frottement à sec."
+        }
+      ],
+      "id": "body:16",
+      "sha256": "8a3da4ff3103a053bf97c2eca721edcf761680b5fa9e45cda31968e376bf6a07"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Aucune pression d'ouverture du by-pass n'est donnée : elle dépend du moteur."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Aucune valeur de pression d'ouverture du by-pass n'est donnée ; elle dépend du moteur."
+        }
+      ],
+      "id": "body:17",
+      "sha256": "53af4a3e00851eacac615a917f9e3501da167a3a16a5fd3ffb956880ee53baca"
+    },
+    {
+      "id": "body:18",
+      "no_claims": true,
+      "sha256": "7994f302c951aca15e94589931d192f23d1418d30e2fe56d807609209176a8cf"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Le témoin de pression d'huile ne désigne pas à lui seul le filtre."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Le témoin de pression d'huile ne désigne pas à lui seul le filtre à huile."
+        }
+      ],
+      "id": "body:19",
+      "sha256": "70cd06899893708274eccd670dcc1e3e05fd00f972c954e39dee4ecc7d92b46c"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Sur la Clio 5 phase 1, le témoin s'allume à la mise sous contact ou au démarrage puis s'éteint après quelques secondes."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "S'il s'allume sur route avec le témoin d'arrêt impératif et un signal sonore, s'arrêter impérativement, couper le contact, vérifier le niveau ; niveau normal : autre cause."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Le témoin d'arrêt impératif impose un arrêt immédiat compatible avec la circulation, d'arrêter le moteur sans le redémarrer et d'appeler un Représentant de la marque."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "L'affichage des témoins dépend de l'équipement et du pays."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "La notice n'attribue pas l'alerte au filtre ; ces consignes valent pour ce véhicule."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Clio 5 phase 1 : le témoin s'allume à la mise sous contact ou au démarrage puis s'éteint après quelques secondes."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Allumé sur route avec le témoin d'arrêt impératif et un signal sonore : s'arrêter impérativement, couper le contact, vérifier le niveau d'huile ; si le niveau est normal, l'alerte a une autre cause."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Le témoin d'arrêt impératif impose un arrêt immédiat compatible avec la circulation : arrêter le moteur, ne pas le redémarrer, faire appel à un Représentant de la marque."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "L'affichage des témoins dépend de l'équipement du véhicule et du pays."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "La notice n'attribue pas l'alerte au filtre."
+        },
+        {
+          "id": "p1-6",
+          "kind": "affirmation",
+          "text": "Ces consignes valent pour ce véhicule."
+        }
+      ],
+      "id": "body:20",
+      "sha256": "bfce9532d89329b8f2b183607177f20c033d2694e052ab169cd3856fbc681e2b"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Juste après un remplacement, si le témoin ne s'éteint pas un moment après le démarrage, couper immédiatement, contrôler le niveau et compléter (Filtron)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Niveau correct : causes hors filtre, soit capteur, câble témoin-capteur, pompe désamorcée, conduite pompe-carter obstruée, forte usure (bagues, paliers) et pression trop basse dans la galerie."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "État du filtre : filtre inadapté ou faible à résistance trop élevée, ou rempli après sa date de péremption."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Filtron affirme qu'avec ses filtres le témoin ne tient pas au filtre ; affirmation non vérifiée."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "La consigne Filtron porte sur le démarrage qui suit un remplacement, non sur une alerte en roulant."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Après un remplacement, si le témoin ne s'éteint pas un moment après le démarrage : couper immédiatement le moteur, contrôler le niveau, compléter si nécessaire."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Avec un niveau correct, causes non liées au filtre : capteur, câble, pompe désamorcée, conduite obstruée, forte usure du moteur donnant une pression trop basse."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Causes liées au filtre : filtre inadapté ou faible (résistance à l'écoulement trop élevée), ou rempli après sa date de péremption."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Filtron affirme qu'avec ses filtres, un témoin qui ne s'éteint pas n'est pas dû au filtre (affirmation de fabricant non vérifiée)."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "Cette consigne porte sur le démarrage après remplacement, pas sur une alerte en roulant."
+        }
+      ],
+      "id": "body:21",
+      "sha256": "05850f8ad0f2a02b09e68f8335466da800ed32f8e7f2c2cd36f6e858a831db89"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Sur OC 593/3 et OC 593/4 (VW 1.2 et 1.4 TSI), un ancien joint collé sur la bride peut provoquer une fuite et allumer le témoin moteur tournant, même filtre neuf bien vissé (MAHLE)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "MAHLE conseille de toujours retirer l'ancien joint de la bride."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Sur les OC 593/3 et 593/4 (VW 1.2 et 1.4 TSI), un ancien joint collé sur la bride peut provoquer une fuite et allumer le témoin moteur tournant, même avec un filtre neuf bien vissé."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "MAHLE conseille de toujours retirer l'ancien joint de la bride."
+        }
+      ],
+      "id": "body:22",
+      "sha256": "5ad0a7ddf6616bfef5236d624e5538227d4278970d818217b65d85f963fffc25"
+    },
+    {
+      "id": "body:23",
+      "no_claims": true,
+      "sha256": "e1272e55fad4f93b38fff46c88d41714a4ccbff2e5f21b76b4447aea935d05c6"
+    },
+    {
+      "id": "body:24",
+      "no_claims": true,
+      "sha256": "63ce988e402ad651dec5865d479751fae5a61e9b2de40d1a3872a34b6142aaee"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Un filtre vissé se change en bloc ; une cartouche ne remplace que l'élément filtrant d'un boîtier démontable (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Un filtre vissé se change en bloc ; une cartouche ne remplace que l'élément filtrant d'un boîtier démontable."
+        }
+      ],
+      "id": "body:25",
+      "sha256": "76ba18c29ad730ea789804bf67003bd2c91401d9063b8b4f975de8aa422bcb8d"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Des filtres semblables peuvent différer selon le moteur : anti-retour, filetage, pression d'ouverture du by-pass, média, finesse, surpression admissible (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Des filtres semblables peuvent différer à l'intérieur : clapet anti-retour, filetage, pression du by-pass, média, finesse, surpression admissible."
+        }
+      ],
+      "id": "body:26",
+      "sha256": "3b9b1676d83ac1b2c37635a792d1a04f12070eb1592324f715af45a472bbc296"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Filtron cite un filtre inadapté ou faible parmi les causes d'un témoin qui reste allumé après remplacement, niveau correct ; résistance à l'écoulement trop élevée."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Filtron cite un filtre inadapté ou faible parmi les causes d'un témoin resté allumé après remplacement, niveau correct ; sa résistance à l'écoulement peut être trop élevée."
+        }
+      ],
+      "id": "body:27",
+      "sha256": "0b01cf138a5d2c4fff1b1b57fe17474b42d422c6d3303cbdf634811f3a70b437"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Des intervalles plus longs sollicitent davantage le média ; plus l'intervalle est long, plus la qualité importe (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Des intervalles plus longs sollicitent davantage le média ; plus l'intervalle est long, plus la qualité du filtre importe (MAHLE)."
+        }
+      ],
+      "id": "body:28",
+      "sha256": "c88453d2f362e67a95e511e124acb5290d3f836f4030d9fb722f50745bbd9cc5"
+    },
+    {
+      "id": "body:29",
+      "no_claims": true,
+      "sha256": "b537b6655e27f320ecbf574e0be18f78237cd311b4cd626e82795874ea77ecb6"
+    },
+    {
+      "id": "body:30",
+      "no_claims": true,
+      "sha256": "7230a225bccecf2b97832f239fe647abea3c536d9ed17e549b4f3f3d1f784fbf"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Remplacement dans les intervalles fixés par le constructeur (MAHLE)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Un filtre se change en moyenne après environ 30 000 km ; 30 000 km et plus courants sur beaucoup de véhicules récents ; certains constructeurs annoncent 50 000 km, usage et qualité de l'huile pris en compte (MAHLE)."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Le remplacement d'un filtre vissé est toujours effectué lors de la vidange (Filtron)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Selon MAHLE, remplacement dans les intervalles fixés par le constructeur."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "MAHLE : en moyenne après environ 30 000 km."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Des durées de 30 000 km et plus sont courantes sur beaucoup de véhicules récents ; certains constructeurs annoncent 50 000 km, selon l'usage et l'huile."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Filtron : le remplacement d'un filtre vissé est toujours effectué lors de la vidange."
+        }
+      ],
+      "id": "body:31",
+      "sha256": "be58b3704e45b03ab1aa40ee217e0aedd23f6ac365a2001a459dad314d4aa76d"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Un trop long délai peut colmater le filtre ; le by-pass s'ouvre alors ; une huile sale vaut mieux que pas d'huile (Filtron)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Une fois atteinte la limite de fragilisation, l'élément ne retient plus de saleté même non colmaté (MAHLE), présenté sous « Si l'échéance est dépassée »."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Un trop long délai peut colmater le filtre ; le by-pass s'ouvre alors."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Une huile sale vaut mieux que pas d'huile (Filtron)."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Une fois la limite de fragilisation atteinte, l'élément ne retient plus de saleté même non colmaté (MAHLE)."
+        }
+      ],
+      "id": "body:32",
+      "sha256": "dca273df02d7a0c86bae0b332bddb12fb169e727c5292b950e838cea9366f4bf"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Filtre vissé changé en entier ; cartouche : seul l'élément filtrant (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Un filtre vissé se change en entier ; avec une cartouche, seul l'élément filtrant est renouvelé."
+        }
+      ],
+      "id": "body:33",
+      "sha256": "864689d253598022fae56e09f3da1d4004d583b651299086293c7d1b84b2e530"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Même un filtre de qualité ne fonctionne correctement que bien monté (MAHLE)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Le serrage d'un filtre vissé suit l'indication portée sur le filtre ou l'emballage (Filtron)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Même un filtre de qualité ne fonctionne correctement que s'il est bien monté (MAHLE)."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Le serrage suit l'indication portée sur le filtre ou son emballage (Filtron)."
+        }
+      ],
+      "id": "body:34",
+      "sha256": "9b4c5007fcb19bd20ae3544259d69abb60decdb5043eed350a263864bf84bdac"
+    },
+    {
+      "id": "body:35",
+      "no_claims": true,
+      "sha256": "471b6c2852426d6a6baf06cbb9bae4832f798c37bb638d75f9cef08c25e4e229"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "MAHLE cite trois caractéristiques de qualité : papier MICROSTAR, by-pass, anti-retour."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "La qualité du montage et de l'entretien compte autant que celle du filtre."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "MAHLE cite trois caractéristiques de qualité : papier MICROSTAR, by-pass, anti-retour."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "La qualité du montage et de l'entretien compte autant que celle du filtre."
+        }
+      ],
+      "id": "body:36",
+      "sha256": "ac4c83785da2ee7d3af19c86958a71a54a789990b286bc2711f715e0c161035d"
+    },
+    {
+      "id": "body:37",
+      "no_claims": true,
+      "sha256": "4165edf3bfe7ae484ba03592b1ad6db0ed57c0ab2c926d52f31eb865eb6c1597"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Procédure pour filtre vissé ; les sources ne décrivent pas la pose d'une cartouche."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "La procédure vaut pour un filtre vissé ; la pose d'une cartouche n'est pas décrite par les sources."
+        }
+      ],
+      "id": "body:38",
+      "sha256": "8892fce9c468d40e00ff83b9cf7b5b2700cd9e843862a6f68e58416b77c534a8"
+    },
+    {
+      "id": "body:39",
+      "no_claims": true,
+      "sha256": "c086a26a61524cedfca500f535f22dbcfa778912ef763e7a2a5af720fbfe809a"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "La procédure Filtron vise le fonctionnement normal du filtre, la protection contre les fuites et l'endommagement des pièces internes."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Filtre et huile usagés ni aux ordures ménagères ni en décharge : conteneurs pour déchets dangereux."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Filtron recommande la procédure pour le fonctionnement normal, contre les fuites et contre un possible endommagement des pièces internes."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Le filtre et l'huile usagés vont dans des conteneurs pour déchets dangereux, pas dans les ordures ménagères ni en décharge."
+        }
+      ],
+      "id": "body:40",
+      "sha256": "e223d9bb7a45634058454ba1c75c87a05ceeb665b840251c4ccbfcf75f6968e0"
+    },
+    {
+      "id": "body:41",
+      "no_claims": true,
+      "sha256": "9f5e757ff5672c6f40eed39cc093107c78c537dba9291dc046de7d0a517c87f9"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Ouvrir le capot, dévisser le bouchon de remplissage et le poser en évidence (Filtron)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Dévisser le ou les bouchons de vidange, contrôler leur étanchéité, remplacer un bouchon endommagé."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Déposer le filtre vissé, avec une clé spéciale si nécessaire."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Sur OC 593/3 et OC 593/4, prendre son temps pour laisser l'huile refluer, sinon débordement possible sur la bride (MAHLE)."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "Nettoyer la surface d'appui en vérifiant que l'ancien joint a été retiré (Filtron)."
+        },
+        {
+          "id": "p0-6",
+          "kind": "affirmation",
+          "text": "Un ancien joint collé se voit mal et peut provoquer une fuite et allumer le témoin (MAHLE)."
+        },
+        {
+          "id": "p0-7",
+          "kind": "omission",
+          "text": "Omission : la notice Twingo 3 phase 2 citée signale le risque de brûlure par l'huile lors d'une vidange moteur chaud, le moteur chaud et le motoventilateur, et impose de couper le contact avant toute intervention."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Ouvrir le capot, dévisser le bouchon de remplissage et le poser en évidence ; il rappelle que l'huile neuve n'est pas versée."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Dévisser le ou les bouchons de vidange, contrôler leur étanchéité, remplacer un bouchon endommagé."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Déposer le filtre vissé, avec une clé spéciale si nécessaire."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Sur les OC 593/3 et 593/4, prendre son temps : l'huile résiduelle doit refluer, sinon elle peut déborder sur la bride."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "Nettoyer la surface qui adhère au moteur en vérifiant que l'ancien joint est retiré."
+        },
+        {
+          "id": "p1-6",
+          "kind": "affirmation",
+          "text": "Un ancien joint collé se voit mal dans l'huile usagée et peut causer une fuite et allumer le témoin."
+        }
+      ],
+      "id": "body:42",
+      "sha256": "3316189953d4e9ecfe37ca9039df565c3314a4cdde62b00698b2c8aba70011e3"
+    },
+    {
+      "id": "body:43",
+      "no_claims": true,
+      "sha256": "930b3ba2c8021d7cc12b8ecb950a92f85e15dce687e9ea32805ab85e6294e14e"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Enduire le joint neuf d'une fine couche d'huile propre, jamais de lubrifiant solide (Filtron)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Sur moteur turbocompressé, il peut être nécessaire de remplir le filtre avant de le visser ; vérifier la recommandation du constructeur."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Visser en alignant le filetage jusqu'au contact du joint, puis serrer selon l'indication du filtre ou de l'emballage."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Habituellement ¾ de tour ou 1 tour, parfois davantage en diesel (Filtron)."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "Ne pas forcer ni dépasser le nombre de tours recommandé."
+        },
+        {
+          "id": "p0-6",
+          "kind": "affirmation",
+          "text": "Ne jamais serrer avec l'outil de dépose ; un serrage excessif peut abîmer la surface et faire fuir (MAHLE)."
+        },
+        {
+          "id": "p0-7",
+          "kind": "affirmation",
+          "text": "Verser l'huile jusqu'au niveau recommandé par le constructeur, refermer le bouchon."
+        },
+        {
+          "id": "p0-8",
+          "kind": "omission",
+          "text": "Omission : la notice Twingo 3 phase 2 citée interdit de dépasser le MAXI (risque pour le moteur et la dépollution) et de démarrer s'il est dépassé."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Enduire le joint neuf d'une fine couche d'huile moteur propre, jamais de lubrifiant solide."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Sur moteur turbocompressé, remplir peut-être le filtre d'huile propre avant de le visser ; vérifier la recommandation du constructeur."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Visser jusqu'au contact du joint puis serrer selon l'indication du filtre ou de l'emballage."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Habituellement ¾ de tour ou 1 tour, parfois davantage pour un diesel."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "Ne pas forcer ni dépasser le nombre de tours recommandé."
+        },
+        {
+          "id": "p1-6",
+          "kind": "affirmation",
+          "text": "Ne jamais serrer avec l'outil de dépose : un serrage excessif peut abîmer la surface et faire fuir (MAHLE)."
+        },
+        {
+          "id": "p1-7",
+          "kind": "affirmation",
+          "text": "Verser de l'huile propre jusqu'au niveau du constructeur puis refermer le bouchon."
+        }
+      ],
+      "id": "body:44",
+      "sha256": "ff64e60954ea4a0edebd7ba0c236ab7eb75025d421583e12f439d7b2f04116a9"
+    },
+    {
+      "id": "body:45",
+      "no_claims": true,
+      "sha256": "51c07e8942c86605035277b16c6137ab45e8390dc44ed172c88011b7995f2d80"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Démarrer et vérifier que le témoin s'éteint ou que le manomètre indique une pression normale (Filtron)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Juste après remplacement, le témoin peut rester allumé quelques secondes, le temps que le filtre se remplisse."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "S'il ne s'éteint pas, couper immédiatement le moteur, contrôler le niveau, compléter."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Si le témoin reste allumé niveau correct, Filtron cite d'autres causes : capteur, pompe désamorcée, conduite obstruée, usure, filtre inadapté."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "Une fois le témoin éteint, couper le moteur, vérifier que le niveau est dans la plage et compléter."
+        },
+        {
+          "id": "p0-6",
+          "kind": "affirmation",
+          "text": "Redémarrer, chercher une fuite autour du joint et des bouchons, couper le moteur et refermer le capot."
+        },
+        {
+          "id": "p0-7",
+          "kind": "omission",
+          "text": "Omission : la notice Twingo 3 phase 2 citée demande de contrôler le niveau moteur arrêté et froid, d'attendre environ 10 minutes l'écoulement, de ne jamais dépasser le MAXI et de ne pas démarrer s'il est dépassé."
+        },
+        {
+          "id": "p0-8",
+          "kind": "omission",
+          "text": "Omission : la notice Twingo 3 phase 2 citée impose de couper le contact avant toute intervention dans le compartiment moteur (moteur chaud, motoventilateur pouvant démarrer)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Démarrer et vérifier que le témoin s'éteint, ou que le manomètre indique une pression normale."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Le témoin peut rester allumé quelques secondes le temps que le filtre neuf se remplisse."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "S'il ne s'éteint pas : couper immédiatement le moteur, contrôler le niveau, compléter."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Avec un niveau correct, d'autres causes (capteur, pompe désamorcée, conduite obstruée, usure, filtre inadapté)."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "Témoin éteint : couper, vérifier le niveau dans la plage du constructeur, compléter, redémarrer, chercher une fuite autour du joint et des bouchons, couper et refermer le capot."
+        }
+      ],
+      "id": "body:46",
+      "sha256": "389dd110c4d621f80f08980279dd7ee5a44c362072c17928f54837ab528a8aba"
+    },
+    {
+      "id": "body:47",
+      "no_claims": true,
+      "sha256": "3c15718d21f52bb3bea95900715895e1cb9b988d7e8bee39246651f7ef92e5f2"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "L'aspect ne suffit pas : des filtres semblables diffèrent selon le moteur (anti-retour, filetage, by-pass, média, finesse, surpression) (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "L'aspect ne suffit pas : des filtres semblables ont des intérieurs différents selon le moteur (clapet, filetage, by-pass, média, finesse, surpression)."
+        }
+      ],
+      "id": "body:48",
+      "sha256": "12e548dce5aa884b1daf9d6f687f4903d4e76f3f2be74bd682127c8c8acfca94"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Un filtre vissé réunit boîtier et élément filtrant en un bloc changé en entier (MAHLE)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "La cartouche équipe les filtres à boîtier démontable ; seul l'élément sale est renouvelé."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "MAHLE présente les cartouches OX comme économiques pour les ateliers et écologiques (matière, frais d'élimination)."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Les sources ne disent pas si l'on peut passer de l'une à l'autre."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Filtre vissé : bloc changé en entier ; cartouche : filtres à boîtier démontable, seul l'élément filtrant est renouvelé."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "MAHLE présente les cartouches OX comme économiques pour les ateliers et sensées écologiquement."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Les sources ne disent pas si l'on peut passer de l'un à l'autre sur un même moteur."
+        }
+      ],
+      "id": "body:49",
+      "sha256": "b4214aab22a90c7ee03a3e6f65903bf3673348f8afbe9d6b6b24a73a70f72f9f"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "La présence d'un anti-retour dépend de la conception fixée par le constructeur."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "L'anti-retour empêche l'huile de quitter le filtre moteur arrêté ; requis sur filtres vissés de côté ou dessus ; couvercle vers le haut, la gravité suffit (Filtron)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "La présence d'un clapet anti-retour dépend de la conception fixée par le constructeur."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Il est requis sur les filtres vissés sur le côté ou sur le dessus ; couvercle vers le haut, la gravité remplit cette fonction."
+        }
+      ],
+      "id": "body:50",
+      "sha256": "666f9b0f4d2b7ea63da79f9d19bb539236332cb39ac47b3b2ea227752307029b"
+    },
+    {
+      "id": "body:51",
+      "no_claims": true,
+      "sha256": "b537b6655e27f320ecbf574e0be18f78237cd311b4cd626e82795874ea77ecb6"
+    },
+    {
+      "id": "body:52",
+      "no_claims": true,
+      "sha256": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Filtre vissé changé en entier ; cartouche : seul l'élément filtrant sale (MAHLE)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Un filtre vissé se change en entier ; avec une cartouche, seul l'élément filtrant sale est renouvelé."
+        }
+      ],
+      "id": "body:53",
+      "sha256": "903e816ea2c5d9c8c443e714a363c157a386f333d1022b42207df98a7ef168e9"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Intervalles du constructeur (MAHLE)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Environ 30 000 km en moyenne ; 30 000 km et plus courants ; 50 000 km chez certains constructeurs (MAHLE)."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Filtre vissé toujours remplacé lors de la vidange (Filtron)."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Twingo 3 phase 2 : périodicité de vidange renvoyée au document d'entretien ; la page ne parle pas du filtre."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Selon MAHLE, dans les intervalles du constructeur ; environ 30 000 km en moyenne ; 30 000 km et plus courants, certains annoncent 50 000 km."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Filtron : le remplacement d'un filtre vissé est toujours effectué lors de la vidange."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Twingo 3 phase 2 : la notice renvoie la périodicité de la vidange au document d'entretien ; la page ne parle pas du filtre."
+        }
+      ],
+      "id": "body:54",
+      "sha256": "2ca9db7a9317ccda72480d517c0e9adbfb454784aee552fe358b805e251cfe2f"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Non, des filtres semblables ont des intérieurs différents selon le moteur (MAHLE)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Filtre inadapté ou faible parmi les causes d'un témoin allumé après remplacement, niveau correct (Filtron)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Non : des filtres semblables ont des intérieurs très différents (MAHLE)."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Filtron cite un filtre inadapté ou faible parmi les causes d'un témoin resté allumé après remplacement ; résistance à l'écoulement trop élevée."
+        }
+      ],
+      "id": "body:55",
+      "sha256": "8aa317c82a69e4d6d3b6bfff2793b9bb4dac14c865ac09ecf8cc6a2abe682b59"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Les sources ne donnent pas de signe permettant de constater le colmatage."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Le by-pass sert filtre colmaté ou huile froide et épaisse ; il s'ouvre car un manque de lubrification peut endommager le moteur (Filtron)."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Une huile sale vaut toujours mieux que pas d'huile (Filtron)."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Limite de fragilisation atteinte : l'élément ne retient plus même non colmaté ; MAHLE insiste sur les intervalles."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Les sources ne donnent pas de signe permettant de constater un colmatage."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Le by-pass sert quand le filtre est colmaté ou l'huile froide et épaisse ; il s'ouvre car un manque de lubrification peut endommager le moteur."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Une huile sale vaut toujours mieux que pas d'huile (Filtron)."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Au-delà de la limite de fragilisation, l'élément ne retient plus de saleté même non colmaté ; MAHLE insiste sur les intervalles du constructeur."
+        }
+      ],
+      "id": "body:56",
+      "sha256": "c20b20814fb135ed2da63e90ea2604f09e834833147f4ddd81f6415cb06086e6"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Pas forcément ; juste après remplacement, le témoin peut rester allumé quelques secondes ; cette durée n'indique pas la qualité."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "S'il ne s'éteint pas, couper immédiatement, contrôler et compléter (Filtron)."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Niveau correct : causes possibles citées par Filtron, dont filtre inadapté ou rempli après péremption."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Affirmation Filtron sur ses filtres, non vérifiée."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "Clio 5 phase 1, alerte en roulant : s'arrêter, couper le contact, vérifier le niveau ; ne pas redémarrer, appeler un Représentant."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Pas forcément : après remplacement le témoin peut rester allumé quelques secondes ; cette durée n'indique pas la qualité du filtre."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "S'il ne s'éteint pas : couper immédiatement le moteur, contrôler le niveau, compléter."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Avec un niveau correct, causes listées par Filtron (capteur, câble, pompe, conduite, usure, filtre inadapté ou périmé)."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Filtron affirme qu'avec ses filtres ce cas ne tient pas au filtre (non vérifié)."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "Clio 5 phase 1, alerte sur route avec témoin d'arrêt impératif et signal sonore : s'arrêter, couper le contact, vérifier le niveau ; normal = autre cause."
+        },
+        {
+          "id": "p1-6",
+          "kind": "affirmation",
+          "text": "Le témoin d'arrêt impératif impose de ne pas redémarrer et de faire appel à un Représentant."
+        }
+      ],
+      "id": "body:57",
+      "sha256": "49f749dc0d822032de54b106378c59943608d7f88d1dbacf7a53661b15f15aaf"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Dévisser le bouchon de remplissage, vidanger, contrôler et remplacer les bouchons, déposer le filtre (Filtron)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Nettoyer la surface, vérifier l'ancien joint retiré, fine couche d'huile, jamais de lubrifiant solide."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Turbo : remplissage parfois nécessaire, vérifier le constructeur."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Serrer selon l'indication ; habituellement ¾ ou 1 tour, plus en diesel ; ne pas forcer ; jamais l'outil de dépose (MAHLE)."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "Verser l'huile jusqu'au niveau recommandé et refermer avant de démarrer."
+        },
+        {
+          "id": "p0-6",
+          "kind": "affirmation",
+          "text": "Démarrer ; si le témoin ne s'éteint pas un moment après, couper, contrôler, compléter."
+        },
+        {
+          "id": "p0-7",
+          "kind": "affirmation",
+          "text": "Témoin éteint : couper, vérifier le niveau, compléter, redémarrer et chercher une fuite."
+        },
+        {
+          "id": "p0-8",
+          "kind": "affirmation",
+          "text": "Filtre et huile usagés en conteneurs pour déchets dangereux."
+        },
+        {
+          "id": "p0-9",
+          "kind": "omission",
+          "text": "Omission : précautions de la notice Twingo 3 phase 2 citée (niveau moteur froid, attente, MAXI, contact coupé, brûlures)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Procédure Filtron de vidange et dépose du filtre vissé (bouchons, étanchéité, clé spéciale)."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Nettoyer la surface d'appui, vérifier le retrait de l'ancien joint, huiler finement le joint neuf, jamais de lubrifiant solide."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Sur turbocompressé, pré-remplissage possible ; vérifier le constructeur."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Serrage selon l'indication du filtre, habituellement ¾ à 1 tour, parfois plus en diesel ; sans forcer ni dépasser."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "Ne jamais serrer avec l'outil de dépose (MAHLE)."
+        },
+        {
+          "id": "p1-6",
+          "kind": "affirmation",
+          "text": "Remplir au niveau recommandé, refermer, démarrer et vérifier que le témoin s'éteint ; sinon couper, contrôler le niveau, compléter."
+        },
+        {
+          "id": "p1-7",
+          "kind": "affirmation",
+          "text": "Témoin éteint : couper, vérifier le niveau, compléter, redémarrer, chercher une fuite."
+        },
+        {
+          "id": "p1-8",
+          "kind": "affirmation",
+          "text": "Déposer filtre et huile usagés dans des conteneurs pour déchets dangereux."
+        }
+      ],
+      "id": "body:58",
+      "sha256": "2da97e7b97cbc10a1db2ac3d1cfefea3a46083f40d948f43c8e0e24e19dd70e6"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Laisser l'ancien joint collé (OC 593/3-593/4, VW 1.2/1.4 TSI) peut provoquer une fuite et allumer le témoin moteur tournant (MAHLE)."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Déposer ces filtres trop vite peut faire déborder l'huile sur la bride."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Serrer avec l'outil de dépose (MAHLE) ou dépasser le nombre de tours (Filtron)."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Oublier de vérifier si le constructeur demande de pré-remplir le filtre (turbo, Filtron)."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Laisser l'ancien joint collé : se voit mal dans l'huile usagée, peut causer fuite et témoin allumé moteur tournant, même avec filtre neuf bien vissé (OC 593/3 et 593/4)."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Déposer ces filtres trop vite : l'huile résiduelle peut déborder sur la bride et la souiller."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Serrer avec l'outil de dépose peut abîmer la surface et faire fuir (MAHLE) ; ne pas dépasser le nombre de tours (Filtron)."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Oublier de vérifier si le constructeur demande de pré-remplir le filtre, parfois nécessaire sur turbocompressé."
+        }
+      ],
+      "id": "body:59",
+      "sha256": "98b9e612b87631e1617e17666d4fba9622e387c0a59345893edc7888f319047a"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Oui : « changer le filtre, c'est changer les joints » (MAHLE), présenté comme règle générale."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Retirer l'ancien joint de la bride et enduire le joint neuf d'huile propre avant montage."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Filtron : fine couche, jamais de lubrifiant solide."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Oui : « changer le filtre, c'est changer les joints », écrit MAHLE."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Retirer l'ancien joint de la bride et enduire le joint neuf d'huile moteur propre avant montage."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Filtron précise une fine couche, jamais de lubrifiant solide."
+        }
+      ],
+      "id": "body:60",
+      "sha256": "e74cd16e584345c91286b24642249f5727c4e542cbf22645f6322cf967753da5"
+    },
+    {
+      "id": "body:61",
+      "no_claims": true,
+      "sha256": "6960ce2f700a9da7cb850796696a841e0f5026f2609aad1e7e802aa0df102438"
+    },
+    {
+      "claims": [
+        {
+          "id": "p0-1",
+          "kind": "affirmation",
+          "text": "Sources RAW : Filtron (clapets, remplacement, témoin), MAHLE (filtres, joints), notices Clio 5 phase 1 et Twingo 3 phase 2."
+        },
+        {
+          "id": "p0-2",
+          "kind": "affirmation",
+          "text": "Les consignes d'une notice Renault valent pour le véhicule cité."
+        },
+        {
+          "id": "p0-3",
+          "kind": "affirmation",
+          "text": "Seules valeurs reprises : serrage Filtron, quelques secondes, environ 30 000 km et 50 000 km (MAHLE)."
+        },
+        {
+          "id": "p0-4",
+          "kind": "affirmation",
+          "text": "Aucune valeur de pression, de couple ni de capacité n'est publiée."
+        },
+        {
+          "id": "p0-5",
+          "kind": "affirmation",
+          "text": "La relation diagnostic du voyant reste une hypothèse en confiance faible, non revue."
+        },
+        {
+          "id": "p1-1",
+          "kind": "affirmation",
+          "text": "Sources archivées : pages Filtron (clapets, remplacement, témoin), pages MAHLE (filtres, joints), notices Renault Clio 5 phase 1 et Twingo 3 phase 2."
+        },
+        {
+          "id": "p1-2",
+          "kind": "affirmation",
+          "text": "Les consignes d'une notice Renault valent pour le véhicule cité."
+        },
+        {
+          "id": "p1-3",
+          "kind": "affirmation",
+          "text": "Les seules valeurs reprises sont le serrage habituel de Filtron, les quelques secondes d'allumage du témoin et l'ordre de grandeur MAHLE (environ 30 000 km, 50 000 km chez certains)."
+        },
+        {
+          "id": "p1-4",
+          "kind": "affirmation",
+          "text": "Aucune valeur de pression, de couple ni de capacité n'est publiée."
+        },
+        {
+          "id": "p1-5",
+          "kind": "affirmation",
+          "text": "La relation diagnostic du voyant reste une hypothèse en confiance faible, non revue."
+        }
+      ],
+      "id": "body:62",
+      "sha256": "1c5c0b38aa6e37da7a9b1189fb4bbe8cb148195b898071b8864f2f3dd3175974"
+    }
+  ]
+}

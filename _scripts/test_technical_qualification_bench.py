@@ -160,7 +160,8 @@ def test_variance_counts_recovered_share_and_dispersion(setup):
                              "expected": "conserver", "defensible": ["preciser"]},
                             {"id": "U", "case": "plaquette-de-frein", "segment": "body:2", "match": "disque",
                              "expected": "retirer", "defensible": []}]}
-    assert len(files) == 2 and files[0].parent.name == "run-00" and files[1].parent.name == "run-01"
+    assert len(files) == 2 and [f.parent.parent.name for f in files] == ["run-00", "run-01"]
+    assert all(f.parent.name == arts[0][1]["key"] for f in files)
     report = tb.variance(expected, arts, setup / "raw")
     t, u = report["targets"]
     assert t["runs"] == 3 and t["recovered"] == pytest.approx(2 / 3) and t["distinct"] == 2

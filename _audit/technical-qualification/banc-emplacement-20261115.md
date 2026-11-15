@@ -35,7 +35,8 @@ fonctions existantes, et la commande du relecteur reste celle passée en argumen
   avant toute écriture.
 - Ancrage des citations : chaque passage cité est cherché, normalisé, dans le texte de la capture
   désignée par son chemin et son `cid`. Un passage non ancré est noté, sans être corrigé.
-- Écriture : `OUT/<slug>/<clé>/run-NN/<sha256>.json`. Chaque passage a son répertoire. Deux
+- Écriture : `OUT/<slug>/run-NN/<clé>/<sha256>.json`. Chaque passage a son répertoire, et le
+  parent immédiat de l'artefact reste sa clé, comme l'exige le test de dépôt du mandat S. Deux
   passages aux réponses identiques donnent deux artefacts, comptés deux fois par la variance.
   Le script hors dépôt les écrasait l'un par l'autre, ce que le test de variance a montré.
 

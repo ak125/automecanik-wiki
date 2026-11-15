@@ -12,7 +12,7 @@ Le banc ne décide rien et n'est branché nulle part : il assemble le paquet ave
 `semantic_review.build_packet`, appelle le relecteur avec `semantic_review_executor.ask`
 (processus neuf, répertoire vide), applique `technical_qualification.enforce`, valide l'artefact
 contre `_meta/schema/technical-qualification-run.schema.json` et l'écrit sous
-`OUT/<slug>/<clé>/run-NN/<sha256>.json`. Aucun seuil (ADR-131 D6).
+`OUT/<slug>/run-NN/<clé>/<sha256>.json`. Aucun seuil (ADR-131 D6).
 
 Domaines (ADR-131 D9) : `--domains TABLE.yaml` fusionne en mémoire une table
 `captures: [{cid, publisher, type, publisher_class}]` sur `_meta/source-catalog.yaml`, tant que
@@ -211,16 +211,18 @@ def prompts(prep: dict, role: str, qualification: dict | None = None) -> list[st
 # --- Artefacts ------------------------------------------------------------------------------
 
 def write_artifact(out: Path, slug: str, art: dict) -> tuple[Path, str]:
-    """Valide puis écrit l'artefact sous `OUT/<slug>/<clé>/run-NN/<sha256>.json`. Chaque passage a son
-    répertoire : deux passages aux réponses identiques donnent deux artefacts, comptés deux fois."""
+    """Valide puis écrit l'artefact sous `OUT/<slug>/run-NN/<clé>/<sha256>.json`. Chaque passage a son
+    répertoire : deux passages aux réponses identiques donnent deux artefacts, comptés deux fois. Le
+    parent immédiat reste la clé, comme le dépôt l'exige (`test_deposited_artifacts_conform`)."""
     import jsonschema
     schema = json.loads(SCHEMA.read_text(encoding="utf-8"))
     jsonschema.Draft202012Validator(schema).validate(art)
     data = (json.dumps(art, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
     digest = _sha256_bytes(data)
-    base = out / slug / art["key"]
-    runs = len(list(base.glob("run-*"))) if base.is_dir() else 0
-    target = base / f"run-{runs:02d}" / f"{digest}.json"
+    runs = 0
+    while (out / slug / f"run-{runs:02d}" / art["key"]).exists():
+        runs += 1
+    target = out / slug / f"run-{runs:02d}" / art["key"] / f"{digest}.json"
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_bytes(data)
     return target, digest

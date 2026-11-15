@@ -190,7 +190,7 @@ def score(fm: dict, body: str, ctx: dict) -> ShadowResult:
     res.applicable = sorted(applicable)
     raw_total = 0.0
     max_applicable = 0
-    for dim in applicable:
+    for dim in res.applicable:  # liste triée : ordre de dims/notes indépendant de PYTHONHASHSEED
         pts, note = computed[dim]
         res.dims[dim] = round(pts, 1)
         raw_total += pts

@@ -151,3 +151,25 @@ def test_verified_capture_retains_declared_confidence():
     ]})
     assert points == 30 * .65
     assert note is None
+
+
+def test_dims_order_independent_of_hash_seed():
+    # PROFILES[...]["dims"] est un set : son ordre d'itération suit PYTHONHASHSEED.
+    # L'ordre de r.dims (écrit tel quel dans promotion_evidence.shadow_dims) ne doit pas en dépendre.
+    import os
+    import subprocess
+
+    code = (
+        "import json, shadow_score as ss\n"
+        "r = ss.score({'entity_type': 'gamme', 'entity_data': {}}, '## a\\n', "
+        "{'manifest': None, 'coverage_map': None, 'path': 'x.md'})\n"
+        "print(json.dumps([list(r.dims), r.notes]))\n"
+    )
+    outs = set()
+    for seed in range(8):
+        env = {**os.environ, "PYTHONHASHSEED": str(seed)}
+        outs.add(subprocess.run([sys.executable, "-c", code], cwd=SCRIPTS_DIR, env=env,
+                                capture_output=True, text=True, check=True).stdout)
+    assert len(outs) == 1
+    dims, _ = __import__("json").loads(outs.pop())
+    assert dims == sorted(ss.PROFILES["gamme"]["dims"])

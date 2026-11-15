@@ -222,7 +222,7 @@ coverage_entries:
   source_status: captured
 - claim_id: filtre-huile-intervalle-moyen-mahle
   section: '## Entretien & bonnes pratiques'
-  text_anchor: un filtre à huile se change aujourd'hui en moyenne après environ 30 000 km
+  text_anchor: un filtre à huile se change en moyenne après environ 30 000 km
   source_slug: mahle_oem_conception_filtre_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -353,7 +353,8 @@ coverage_entries:
   source_status: pending_capture
 - claim_id: filtre-huile-depose-lente
   section: '### Dépose'
-  text_anchor: l'huile résiduelle doit refluer vers le carter, sinon elle déborde sur la bride
+  text_anchor: l'huile résiduelle doit refluer vers le carter, sinon elle peut déborder sur
+    la bride
   source_slug: mahle_oem_joint_filtre_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -442,9 +443,9 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
-- claim_id: filtre-huile-twingo3-controle-niveau
+- claim_id: filtre-huile-twingo3-controle-maxi
   section: '### Contrôles après montage'
-  text_anchor: en attendant environ 10 minutes après l'appoint pour que l'huile s'écoule
+  text_anchor: si le niveau maxi est dépassé, elle demande de ne pas démarrer
   source_slug: renault_twingo3p2_vidange_huile
   evidence_type: oem_owner_manual_excerpt
   confidence: high
@@ -538,10 +539,13 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
-notes: 'Révision 5 du 2026-11-15 (mandat T) : révision 4 (régénérée après la revue sémantique
-  FAIL de la clé 29efee80) plus deux liens Markdown de maillage, sans claim nouveau (révision
-  3 : revue FAIL clé 8f23743c ; révision 2 : revue FAIL clé 85e143d6, qualification et contestation
-  Codex clé d86cec54). Chaque ancre est reprise du nouveau texte de la proposition.
+notes: 'Révision 6 du 2026-11-15 (mandat T), après la revue sémantique FAIL de la clé bc72d428
+  (révision 5) : le claim des 10 minutes de la notice Twingo est remplacé par celui du niveau
+  MAXI dépassé, et les ancres du débordement et de l''intervalle moyen suivent le texte corrigé.
+  Révision 5 : révision 4 (régénérée après la revue sémantique FAIL de la clé 29efee80) plus
+  deux liens Markdown de maillage, sans claim nouveau (révision 3 : revue FAIL clé 8f23743c
+  ; révision 2 : revue FAIL clé 85e143d6, qualification et contestation Codex clé d86cec54).
+  Chaque ancre est reprise du nouveau texte de la proposition.
 
 
   65 claims : 30 captured (sources actives Filtron clapets, MAHLE conception, notice Clio
@@ -551,8 +555,8 @@ notes: 'Révision 5 du 2026-11-15 (mandat T) : révision 4 (régénérée après
 
 
   Valeurs couvertes : serrage habituel (Filtron, subordonné à l''indication du filtre), attente
-  d''environ 10 minutes (Twingo), quelques secondes d''allumage du témoin (Filtron), ordre
-  de grandeur de 30 000 km en moyenne et 50 000 km chez certains constructeurs (MAHLE). Retirés
-  avec leur texte : la relation et le paragraphe « perte de puissance », l''orientation «
-  tête en bas » du clapet anti-retour, le choix « à partir du véhicule dans le catalogue »
-  et la distinction avec les autres filtres, non portés par les captures.'
+  quelques secondes d''allumage du témoin (Filtron), ordre de grandeur de 30 000 km en moyenne
+  et 50 000 km chez certains constructeurs (MAHLE). Retirés avec leur texte : la relation
+  et le paragraphe « perte de puissance », l''orientation « tête en bas » du clapet anti-retour,
+  le choix « à partir du véhicule dans le catalogue » et la distinction avec les autres filtres,
+  non portés par les captures.'

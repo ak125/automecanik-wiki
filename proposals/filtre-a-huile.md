@@ -82,30 +82,34 @@ review_notes: 'Révision du 2026-11-15 (mandat T, prototype de FAQ en paires qa)
   phase 2. Leurs sources sont au catalogue en to_capture et leurs références en confiance
   medium ; les claims qu''elles portent restent pending_capture jusqu''à l''activation
   owner. Valeurs reprises des captures : serrage habituel de Filtron (subordonné à
-  l''indication du filtre), attente d''environ 10 minutes de la notice Twingo, quelques
-  secondes d''allumage du témoin (Filtron), ordre de grandeur de MAHLE (environ 30
-  000 km en moyenne, 50 000 km chez certains constructeurs), attribué et subordonné
-  aux intervalles du constructeur. Non reprise : capacité d''huile de la Twingo (propre
-  au véhicule). Réponses S8 remplacées : le serrage « main + 3/4 de tour » devient
-  l''indication du filtre (Filtron) ; « toujours pré-remplir » n''est pas repris (Filtron
-  le dit parfois nécessaire sur moteur turbocompressé) ; « changer le filtre sans
-  vidange » est retiré : les captures ne traitent pas ce cas ; l''intervalle chiffré
-  devient celui du constructeur. Révision 2 après revue sémantique FAIL (clé 85e143d6),
-  qualification et contestation Codex (clé d86cec54) : artefacts conservés sous _audit/.
-  Révision 3 après revue sémantique FAIL (clé 8f23743c). Révision 4 après revue sémantique
-  FAIL (clé 29efee80) : la « divergence » d''intervalle déclarée en révision 3 n''était
-  pas portée par les captures et est retirée. MAHLE renvoie aux intervalles du constructeur
-  ; Filtron indique que le filtre vissé se remplace lors de la vidange ; aucune capture
-  ne dit si un constructeur fixe au filtre une échéance distincte de celle de la vidange.
-  Pour le contrôle du niveau, Filtron renvoie à la plage du constructeur et la notice
-  Twingo 3 phase 2 en fixe les conditions pour ce véhicule, ce qui fait primer la
-  notice. no_disputed_claims reste true : aucune affirmation de la fiche ne repose
-  sur deux sources contradictoires de même portée (jugement à confirmer par le décideur).
-  Révision 5 : la revue de la révision 4 a été interrompue sans verdict (aucun artefact)
-  après la mesure DEV, qui montrait deux liens perdus ; les liens Markdown vers les
-  URL existantes /pieces/bouchon-de-vidange-593.html et /reference-auto/filtre-a-huile
-  passent dans removal_procedure et post_install_checks, seuls champs servis (ADR-106
-  D8). Le texte des sections est inchangé.'
+  l''indication du filtre), quelques secondes d''allumage du témoin (Filtron), ordre
+  de grandeur de MAHLE (environ 30 000 km en moyenne, 50 000 km chez certains constructeurs),
+  attribué et subordonné aux intervalles du constructeur. Non reprise : capacité d''huile
+  de la Twingo (propre au véhicule). Réponses S8 remplacées : le serrage « main +
+  3/4 de tour » devient l''indication du filtre (Filtron) ; « toujours pré-remplir
+  » n''est pas repris (Filtron le dit parfois nécessaire sur moteur turbocompressé)
+  ; « changer le filtre sans vidange » est retiré : les captures ne traitent pas ce
+  cas ; l''intervalle chiffré devient celui du constructeur. Révision 2 après revue
+  sémantique FAIL (clé 85e143d6), qualification et contestation Codex (clé d86cec54)
+  : artefacts conservés sous _audit/. Révision 3 après revue sémantique FAIL (clé
+  8f23743c). Révision 4 après revue sémantique FAIL (clé 29efee80) : la « divergence
+  » d''intervalle déclarée en révision 3 n''était pas portée par les captures et est
+  retirée. MAHLE renvoie aux intervalles du constructeur ; Filtron indique que le
+  filtre vissé se remplace lors de la vidange ; aucune capture ne dit si un constructeur
+  fixe au filtre une échéance distincte de celle de la vidange. Révision 5 : la revue
+  de la révision 4 a été interrompue sans verdict (aucun artefact) après la mesure
+  DEV, qui montrait deux liens perdus ; les liens Markdown vers les URL existantes
+  /pieces/bouchon-de-vidange-593.html et /reference-auto/filtre-a-huile passent dans
+  removal_procedure et post_install_checks, seuls champs servis (ADR-106 D8). Le texte
+  des sections est inchangé. Révision 6 après revue sémantique FAIL (clé bc72d428,
+  19 constats) : le contrôle du niveau après remplacement suit Filtron ; les conditions
+  de la notice Twingo 3 phase 2 (sol horizontal, moteur arrêté et froid, attente d''environ
+  10 minutes) valent pour l''appoint et le remplissage et ne sont plus étendues au
+  contrôle après remplacement ni classées par rapport à Filtron ; restent de la notice
+  les repères MINI et MAXI, la conduite si le MAXI est dépassé et la baisse anormale
+  du niveau. Aucune consigne divergente n''est juxtaposée, d''où no_disputed_claims
+  true. Débordement sur la bride au conditionnel (MAHLE), consignes Twingo attribuées
+  au véhicule, « aujourd''hui » retiré.'
 no_disputed_claims: true
 confidence_score: 0.92
 exportable:
@@ -119,10 +123,10 @@ diagnostic_relations:
 - symptom_slug: voyant_huile
   system_slug: filtration
   relation_to_part: possible_cause
-  part_role: hypothèse non établie — la notice Clio 5 phase 1 n'attribue pas le témoin
-    au filtre ; Filtron cite un filtre inadapté ou faible si le témoin ne s'éteint
-    pas après remplacement, niveau correct ; MAHLE, un ancien joint collé, source
-    de fuite moteur tournant (OC 593/3-593/4)
+  part_role: 'hypothèse non établie — Clio 5 phase 1 : témoin non attribué au filtre
+    ; Filtron : filtre inadapté ou faible si le témoin reste allumé après remplacement,
+    niveau correct ; MAHLE (OC 593/3-593/4, VW 1.2/1.4 TSI) : ancien joint collé,
+    fuite possible et témoin allumé moteur tournant'
   evidence:
     confidence: low
     source_policy: manual_review
@@ -246,8 +250,8 @@ entity_data:
       - oem:renault_clio5p1_alerte_pression_huile
       truth_level: sourced
     quality_tiers:
-      content_md: 'MAHLE cite trois caractéristiques importantes de qualité de ses
-        filtres à huile : le papier filtrant MICROSTAR, le clapet de dérivation (by-pass)
+      content_md: 'MAHLE cite trois caractéristiques importantes de qualité d''un
+        filtre à huile : le papier filtrant MICROSTAR, le clapet de dérivation (by-pass)
         et le clapet anti-retour. Selon le même fabricant, la qualité du montage et
         de l''entretien compte autant que celle du filtre.'
       source_ids:
@@ -256,10 +260,10 @@ entity_data:
     maintenance_interval:
       content_md: 'Selon MAHLE, le filtre à huile se remplace dans les intervalles
         d''entretien fixés par le constructeur du véhicule. MAHLE donne un ordre de
-        grandeur : un filtre à huile se change aujourd''hui en moyenne après environ
-        30 000 km ; des durées de 30 000 km et plus sont courantes sur beaucoup de
-        véhicules récents, et certains constructeurs annoncent 50 000 km, en tenant
-        compte de l''usage et de la qualité de l''huile. Filtron indique que le remplacement
+        grandeur : un filtre à huile se change en moyenne après environ 30 000 km
+        ; des durées de 30 000 km et plus sont courantes sur beaucoup de véhicules
+        récents, et certains constructeurs annoncent 50 000 km, en tenant compte de
+        l''usage et de la qualité de l''huile. Filtron indique que le remplacement
         d''un filtre vissé est toujours effectué lors de la vidange de l''huile moteur.
         Sur la Renault Twingo 3 phase 2, la notice renvoie la périodicité de la vidange
         au document d''entretien du véhicule ; la page consultée ne parle pas du filtre.
@@ -290,15 +294,15 @@ entity_data:
       - question: Quand remplacer le filtre à huile ?
         answer_md: 'Selon MAHLE, dans les intervalles d''entretien fixés par le constructeur
           du véhicule. MAHLE donne un ordre de grandeur : un filtre à huile se change
-          aujourd''hui en moyenne après environ 30 000 km ; des durées de 30 000 km
-          et plus sont courantes sur beaucoup de véhicules récents, et certains constructeurs
-          annoncent 50 000 km, en tenant compte de l''usage et de la qualité de l''huile.
-          Filtron indique que le remplacement d''un filtre vissé est toujours effectué
-          lors de la vidange de l''huile moteur. Sur la Renault Twingo 3 phase 2,
-          la notice renvoie la périodicité de la vidange au document d''entretien
-          du véhicule ; la page consultée ne parle pas du filtre. Aucune des sources
-          consultées ne dit si un constructeur fixe au filtre une échéance distincte
-          de celle de la vidange.'
+          en moyenne après environ 30 000 km ; des durées de 30 000 km et plus sont
+          courantes sur beaucoup de véhicules récents, et certains constructeurs annoncent
+          50 000 km, en tenant compte de l''usage et de la qualité de l''huile. Filtron
+          indique que le remplacement d''un filtre vissé est toujours effectué lors
+          de la vidange de l''huile moteur. Sur la Renault Twingo 3 phase 2, la notice
+          renvoie la périodicité de la vidange au document d''entretien du véhicule
+          ; la page consultée ne parle pas du filtre. Aucune des sources consultées
+          ne dit si un constructeur fixe au filtre une échéance distincte de celle
+          de la vidange.'
         source_ids:
         - oem:filtron_oem_remplacement_filtre_huile
         - oem:mahle_oem_conception_filtre_huile
@@ -351,29 +355,36 @@ entity_data:
         - oem:filtron_oem_voyant_pression_huile
         - oem:renault_clio5p1_alerte_pression_huile
       - question: Comment se remplace un filtre à huile vissé ?
-        answer_md: 'Selon Filtron : dévisser le bouchon de remplissage, vidanger l''huile
-          par le ou les bouchons de vidange, en contrôlant leur étanchéité et en remplaçant
-          un bouchon endommagé, puis déposer le filtre, avec une clé spéciale si nécessaire.
-          Nettoyer la surface du filtre qui adhère au moteur et vérifier que l''ancien
-          joint est retiré, puis enduire le joint neuf d''une fine couche d''huile
-          moteur propre, jamais de lubrifiant solide. Sur un moteur turbocompressé,
-          il peut être nécessaire de remplir le filtre d''huile propre avant de le
-          visser : vérifier la recommandation du constructeur. Visser le filtre en
-          alignant bien le filetage jusqu''à ce que le joint touche le moteur, puis
-          serrer selon l''indication portée sur le filtre ou son emballage. Filtron
-          précise que c''est habituellement ¾ de tour ou 1 tour, parfois davantage
-          pour un filtre de moteur diesel, sans forcer ni dépasser le nombre de tours
-          recommandé ; ne jamais serrer avec l''outil de dépose, écrit MAHLE. Verser
-          de l''huile propre jusqu''au niveau recommandé et refermer le bouchon de
-          remplissage avant de démarrer : la notice de la Twingo 3 phase 2 rappelle
-          qu''un bouchon mal refermé expose à des projections d''huile sur les pièces
-          chaudes du moteur, avec un risque d''incendie. Démarrer et vérifier que
-          le témoin s''éteint. S''il ne s''éteint pas un moment après le démarrage,
-          la page de Filtron sur le témoin demande de couper immédiatement le moteur,
-          de contrôler le niveau et de compléter. Une fois le témoin éteint, couper
-          le moteur, contrôler le niveau et compléter, puis redémarrer et chercher
-          une fuite autour du joint du filtre et des bouchons de vidange. Déposer
-          le filtre et l''huile usagés dans des conteneurs pour déchets dangereux,
+        answer_md: 'Sur la Renault Twingo 3 phase 2, la notice demande de couper impérativement
+          le contact avant toute intervention dans le compartiment moteur et de ne
+          pas faire tourner le moteur dans un local fermé ; elle signale qu''une vidange
+          moteur chaud expose à des brûlures. Selon Filtron : dévisser le bouchon
+          de remplissage, vidanger l''huile par le ou les bouchons de vidange, en
+          contrôlant leur étanchéité et en remplaçant un bouchon endommagé, puis déposer
+          le filtre, avec une clé spéciale si nécessaire. Nettoyer la surface du filtre
+          qui adhère au moteur et vérifier que l''ancien joint est retiré, puis enduire
+          le joint neuf d''une fine couche d''huile moteur propre, jamais de lubrifiant
+          solide. Sur un moteur turbocompressé, il peut être nécessaire de remplir
+          le filtre d''huile propre avant de le visser : vérifier la recommandation
+          du constructeur. Visser le filtre en alignant bien le filetage jusqu''à
+          ce que le joint touche le moteur, puis serrer selon l''indication portée
+          sur le filtre ou son emballage. Filtron précise que c''est habituellement
+          ¾ de tour ou 1 tour, parfois davantage pour un filtre de moteur diesel,
+          sans forcer ni dépasser le nombre de tours recommandé ; ne jamais serrer
+          avec l''outil de dépose, écrit MAHLE. Verser de l''huile propre jusqu''au
+          niveau recommandé et refermer le bouchon de remplissage avant de démarrer.
+          Sur la Twingo 3 phase 2, la notice demande que le niveau ne dépasse jamais
+          le repère MAXI : s''il est dépassé, ne pas démarrer et faire appel à un
+          Représentant de la marque ; elle rappelle aussi qu''un bouchon mal refermé
+          expose à des projections d''huile sur les pièces chaudes du moteur, avec
+          un risque d''incendie. Démarrer et vérifier que le témoin s''éteint. S''il
+          ne s''éteint pas un moment après le démarrage, la page de Filtron sur le
+          témoin demande de couper immédiatement le moteur, de contrôler le niveau
+          et de compléter si nécessaire. Une fois le témoin éteint, couper le moteur,
+          vérifier que le niveau est dans la plage recommandée par le constructeur
+          et, s''il le faut, compléter jusqu''au niveau requis, puis redémarrer et
+          chercher une fuite autour du joint du filtre et des bouchons de vidange.
+          Déposer le filtre et l''huile usagés dans des conteneurs pour déchets dangereux,
           jamais avec les ordures ménagères (Filtron).'
         source_ids:
         - oem:filtron_oem_remplacement_filtre_huile
@@ -386,19 +397,20 @@ entity_data:
           il se voit mal dans l''huile usagée et peut provoquer une fuite et allumer
           le témoin de pression d''huile moteur tournant, même avec un filtre neuf
           bien vissé. Déposer ces filtres trop vite, sans laisser l''huile résiduelle
-          refluer vers le carter : elle déborde alors sur la bride. Serrer avec l''outil
-          de dépose, ce qui peut abîmer la surface et faire fuir le filtre (MAHLE),
-          ou dépasser le nombre de tours recommandé (Filtron). Oublier de vérifier
-          si le constructeur demande de remplir le filtre d''huile propre avant de
-          le visser, ce qui peut être nécessaire sur un moteur turbocompressé (Filtron).'
+          refluer vers le carter : elle peut alors déborder sur la bride et la souiller.
+          Serrer avec l''outil de dépose, ce qui peut abîmer la surface et faire fuir
+          le filtre (MAHLE), ou dépasser le nombre de tours recommandé (Filtron).
+          Oublier de vérifier si le constructeur demande de remplir le filtre d''huile
+          propre avant de le visser, ce qui peut être nécessaire sur un moteur turbocompressé
+          (Filtron).'
         source_ids:
         - oem:filtron_oem_remplacement_filtre_huile
         - oem:mahle_oem_joint_filtre_huile
       - question: Faut-il changer le joint avec le filtre à huile ?
-        answer_md: 'Oui, pour un filtre vissé : « changer le filtre, c''est changer
-          les joints », écrit MAHLE. Retirer l''ancien joint de la bride et enduire
-          le joint neuf d''huile moteur propre avant le montage ; Filtron précise
-          une fine couche, jamais de lubrifiant solide.'
+        answer_md: 'Oui : « changer le filtre, c''est changer les joints », écrit
+          MAHLE. Retirer l''ancien joint de la bride et enduire le joint neuf d''huile
+          moteur propre avant le montage ; Filtron précise une fine couche, jamais
+          de lubrifiant solide.'
         source_ids:
         - oem:filtron_oem_remplacement_filtre_huile
         - oem:mahle_oem_joint_filtre_huile
@@ -451,12 +463,12 @@ entity_data:
         moteur chaud expose à des brûlures par l''huile qui s''écoule. Déposer le
         filtre vissé, avec une clé spéciale si nécessaire. Sur ses filtres OC 593/3
         et OC 593/4 pour moteurs VW 1.2 et 1.4 TSI, MAHLE conseille de prendre son
-        temps : l''huile résiduelle doit refluer vers le carter, sinon elle déborde
-        sur la bride. Nettoyer « la surface du filtre qui adhère au moteur » (engine
-        housing), selon les termes de Filtron, en vérifiant que l''ancien joint a
-        été retiré : sur ces mêmes filtres, MAHLE signale qu''un ancien joint resté
-        collé se voit mal dans l''huile usagée et peut provoquer une fuite et allumer
-        le témoin de pression d''huile. Pièce associée : [bouchon de vidange](/pieces/bouchon-de-vidange-593.html).'
+        temps : l''huile résiduelle doit refluer vers le carter, sinon elle peut déborder
+        sur la bride et la souiller. Nettoyer « la surface du filtre qui adhère au
+        moteur » (engine housing), selon les termes de Filtron, en vérifiant que l''ancien
+        joint a été retiré : sur ces mêmes filtres, MAHLE signale qu''un ancien joint
+        resté collé se voit mal dans l''huile usagée et peut provoquer une fuite et
+        allumer le témoin de pression d''huile. Pièce associée : [bouchon de vidange](/pieces/bouchon-de-vidange-593.html).'
       source_ids:
       - oem:filtron_oem_remplacement_filtre_huile
       - oem:mahle_oem_joint_filtre_huile
@@ -489,19 +501,18 @@ entity_data:
         cite d''autres causes, dont un capteur défaillant, une pompe à huile désamorcée,
         une conduite obstruée, une forte usure du moteur ou un filtre inadapté (voir
         « Symptômes & diagnostic »). Une fois le témoin éteint : couper le moteur,
-        vérifier que le niveau est dans la plage recommandée par le constructeur et
-        compléter. Redémarrer, chercher une fuite autour du joint du filtre et des
-        bouchons de vidange, puis couper le moteur. Pour faire tourner le moteur,
-        la notice de la Twingo 3 phase 2 interdit de le faire dans un local fermé
-        : les gaz d''échappement sont toxiques. Sur ce véhicule, la notice fixe les
-        conditions de l''appoint et du contrôle du niveau, qui priment donc : sol
-        horizontal, moteur arrêté et froid, par exemple avant le premier démarrage
-        de la journée, en attendant environ 10 minutes après l''appoint pour que l''huile
-        s''écoule avant de lire la jauge. Selon cette notice, le niveau ne doit jamais
-        être sous le repère MINI ni au-dessus du repère MAXI, et il faut bien refermer
-        le bouchon et remettre la jauge en place pour éviter les projections d''huile
-        sur les pièces chaudes du moteur : risque d''incendie. Fiche de référence
-        : [filtre à huile](/reference-auto/filtre-a-huile).'
+        vérifier que le niveau est dans la plage recommandée par le constructeur et,
+        s''il le faut, compléter jusqu''au niveau requis. Sur la Renault Twingo 3
+        phase 2, la notice demande que le niveau ne soit jamais sous le repère MINI
+        ni au-dessus du repère MAXI de la jauge ; si le niveau maxi est dépassé, elle
+        demande de ne pas démarrer et de faire appel à un Représentant de la marque,
+        sous peine d''endommager le moteur et le système de dépollution. Sur ce véhicule,
+        elle demande aussi de bien refermer le bouchon et de remettre la jauge en
+        place pour éviter les projections d''huile sur les pièces chaudes du moteur
+        (risque d''incendie), et interdit de faire tourner le moteur dans un local
+        fermé, car les gaz d''échappement sont toxiques. Selon Filtron, redémarrer
+        ensuite, chercher une fuite autour du joint du filtre et des bouchons de vidange,
+        puis couper le moteur. Fiche de référence : [filtre à huile](/reference-auto/filtre-a-huile).'
       source_ids:
       - oem:filtron_oem_remplacement_filtre_huile
       - oem:filtron_oem_voyant_pression_huile
@@ -518,8 +529,10 @@ entity_data:
         électriques : risque d''incendie. Ne jamais dépasser le repère MAXI de la
         jauge, sous peine d''endommager le moteur et le système de dépollution ; s''il
         est dépassé, ne pas démarrer et faire appel à un Représentant de la marque.
-        Selon Filtron, le filtre et l''huile usagés ne vont ni dans les ordures ménagères
-        ni en décharge : ils se déposent dans des conteneurs pour déchets dangereux.'
+        En cas de baisse anormale ou répétée du niveau, la notice demande aussi de
+        consulter un Représentant de la marque. Selon Filtron, le filtre et l''huile
+        usagés ne vont ni dans les ordures ménagères ni en décharge : ils se déposent
+        dans des conteneurs pour déchets dangereux.'
       source_ids:
       - oem:filtron_oem_remplacement_filtre_huile
       - oem:renault_twingo3p2_vidange_huile
@@ -539,7 +552,7 @@ entity_data:
     asset: null
     license: null
     status: DEFERRED
-content_hash: sha256:a52a3abe642359995a7bc0ab4bf72ac466e435f774ad34224b338cfc7c7d168c
+content_hash: sha256:bcd67d1a65859dba02e99bfeff91edbc9d103deff754e35156eab510d99b24c1
 ---
 
 ## Définition
@@ -558,7 +571,7 @@ Selon MAHLE, le filtre à huile empêche les impuretés d'entrer dans le circuit
 - **Fonction** : empêcher les impuretés d'entrer dans le circuit de lubrification (MAHLE).
 - **Formes** : filtre vissé (changé en entier) ou cartouche (seul l'élément filtrant est changé).
 - **Choix** : l'apparence ne suffit pas, l'intérieur du filtre varie selon le moteur (MAHLE).
-- **Entretien** : selon MAHLE, dans les intervalles fixés par le constructeur du véhicule, environ 30 000 km en moyenne aujourd'hui ; Filtron indique que le filtre vissé se remplace lors de la vidange.
+- **Entretien** : dans les intervalles fixés par le constructeur du véhicule (MAHLE) ; Filtron indique que le filtre vissé se remplace lors de la vidange. L'ordre de grandeur kilométrique donné par MAHLE est détaillé dans « Entretien & bonnes pratiques ».
 
 ## Fonctionnement
 
@@ -593,14 +606,14 @@ Voir le [catalogue des filtres à huile](/pieces/filtre-a-huile-7.html).
 
 ## Entretien & bonnes pratiques
 
-- **Quand le remplacer** — selon MAHLE, dans les intervalles d'entretien fixés par le constructeur du véhicule. MAHLE donne un ordre de grandeur : un filtre à huile se change aujourd'hui en moyenne après environ 30 000 km ; des durées de 30 000 km et plus sont courantes sur beaucoup de véhicules récents, et certains constructeurs annoncent 50 000 km, en tenant compte de l'usage et de la qualité de l'huile ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)). Filtron indique que le remplacement d'un filtre vissé est toujours effectué lors de la vidange de l'huile moteur ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html)). Aucune des sources consultées ne dit si un constructeur fixe au filtre une échéance distincte de celle de la vidange.
+- **Quand le remplacer** — selon MAHLE, dans les intervalles d'entretien fixés par le constructeur du véhicule. MAHLE donne un ordre de grandeur : un filtre à huile se change en moyenne après environ 30 000 km ; des durées de 30 000 km et plus sont courantes sur beaucoup de véhicules récents, et certains constructeurs annoncent 50 000 km, en tenant compte de l'usage et de la qualité de l'huile ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)). Filtron indique que le remplacement d'un filtre vissé est toujours effectué lors de la vidange de l'huile moteur ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html)). Aucune des sources consultées ne dit si un constructeur fixe au filtre une échéance distincte de celle de la vidange.
 - **Si l'échéance est dépassée** — un trop long délai entre deux remplacements peut colmater le filtre : le by-pass s'ouvre alors, ce que Filtron justifie ainsi : une huile sale vaut mieux pour le moteur que pas d'huile du tout ([Filtron](https://filtron.eu/en/insights/filter-guide/spin-on-oil-filter-valves.html)). Selon MAHLE, une fois atteinte la limite de fragilisation de son média, un élément filtrant ne retient plus de saleté, même s'il n'est pas encore colmaté ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)).
 - **Ce que l'on remplace** — un filtre vissé se change en entier ; avec une cartouche, seul l'élément filtrant est renouvelé ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)).
 - **Montage** — même un filtre de qualité ne fonctionne correctement que s'il a été bien monté ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/)). Pour un filtre vissé, le serrage suit l'indication portée sur le filtre ou son emballage ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html)) ; les étapes sont détaillées dans « Remplacement pas à pas ».
 
 ## Marques & qualité
 
-MAHLE cite trois caractéristiques importantes de qualité de ses filtres à huile : le papier filtrant MICROSTAR, le clapet de dérivation (by-pass) et le clapet anti-retour. Selon le même fabricant, la qualité du montage et de l'entretien compte autant que celle du filtre. ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/))
+MAHLE cite trois caractéristiques importantes de qualité d'un filtre à huile : le papier filtrant MICROSTAR, le clapet de dérivation (by-pass) et le clapet anti-retour. Selon le même fabricant, la qualité du montage et de l'entretien compte autant que celle du filtre. ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/))
 
 ## Remplacement pas à pas
 
@@ -608,11 +621,11 @@ MAHLE cite trois caractéristiques importantes de qualité de ses filtres à hui
 
 ### Avant de commencer
 
-Consignes de la notice Renault Twingo 3 phase 2, qui valent pour ce véhicule : couper impérativement le contact avant toute intervention dans le compartiment moteur ; le moteur peut être chaud et le motoventilateur peut se mettre en route à tout instant, avec un risque de blessures. Ne pas faire tourner le moteur dans un local fermé : les gaz d'échappement sont toxiques. Utiliser un entonnoir ou protéger la zone de l'orifice de remplissage, pour qu'aucune huile ne coule sur une pièce chaude ou sensible, comme les composants électriques : risque d'incendie. Ne jamais dépasser le repère MAXI de la jauge, sous peine d'endommager le moteur et le système de dépollution ; s'il est dépassé, ne pas démarrer et faire appel à un Représentant de la marque. Selon Filtron, le filtre et l'huile usagés ne vont ni dans les ordures ménagères ni en décharge : ils se déposent dans des conteneurs pour déchets dangereux. ([notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur), [Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html))
+Consignes de la notice Renault Twingo 3 phase 2, qui valent pour ce véhicule : couper impérativement le contact avant toute intervention dans le compartiment moteur ; le moteur peut être chaud et le motoventilateur peut se mettre en route à tout instant, avec un risque de blessures. Ne pas faire tourner le moteur dans un local fermé : les gaz d'échappement sont toxiques. Utiliser un entonnoir ou protéger la zone de l'orifice de remplissage, pour qu'aucune huile ne coule sur une pièce chaude ou sensible, comme les composants électriques : risque d'incendie. Ne jamais dépasser le repère MAXI de la jauge, sous peine d'endommager le moteur et le système de dépollution ; s'il est dépassé, ne pas démarrer et faire appel à un Représentant de la marque. En cas de baisse anormale ou répétée du niveau, la notice demande aussi de consulter un Représentant de la marque. Selon Filtron, le filtre et l'huile usagés ne vont ni dans les ordures ménagères ni en décharge : ils se déposent dans des conteneurs pour déchets dangereux. ([notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur), [Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html))
 
 ### Dépose
 
-Selon Filtron, ouvrir le capot et dévisser le bouchon de remplissage d'huile, puis le poser en évidence, par exemple sur le couvercle du filtre à air : il rappelle que l'huile neuve n'a pas encore été versée. Dévisser le ou les bouchons de vidange, contrôler leur étanchéité et remplacer un bouchon endommagé par un neuf. La notice de la Twingo 3 phase 2 signale qu'une vidange moteur chaud expose à des brûlures par l'huile qui s'écoule. Déposer le filtre vissé, avec une clé spéciale si nécessaire. Sur ses filtres OC 593/3 et OC 593/4 pour moteurs VW 1.2 et 1.4 TSI, MAHLE conseille de prendre son temps : l'huile résiduelle doit refluer vers le carter, sinon elle déborde sur la bride. Nettoyer « la surface du filtre qui adhère au moteur » (engine housing), selon les termes de Filtron, en vérifiant que l'ancien joint a été retiré : sur ces mêmes filtres, MAHLE signale qu'un ancien joint resté collé se voit mal dans l'huile usagée et peut provoquer une fuite et allumer le témoin de pression d'huile. ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur), [MAHLE](https://mpulse.mahle.com/en/do-and-get/changing-the-filter.jsp)) Pièce associée : [bouchon de vidange](/pieces/bouchon-de-vidange-593.html).
+Selon Filtron, ouvrir le capot et dévisser le bouchon de remplissage d'huile, puis le poser en évidence, par exemple sur le couvercle du filtre à air : il rappelle que l'huile neuve n'a pas encore été versée. Dévisser le ou les bouchons de vidange, contrôler leur étanchéité et remplacer un bouchon endommagé par un neuf. La notice de la Twingo 3 phase 2 signale qu'une vidange moteur chaud expose à des brûlures par l'huile qui s'écoule. Déposer le filtre vissé, avec une clé spéciale si nécessaire. Sur ses filtres OC 593/3 et OC 593/4 pour moteurs VW 1.2 et 1.4 TSI, MAHLE conseille de prendre son temps : l'huile résiduelle doit refluer vers le carter, sinon elle peut déborder sur la bride et la souiller. Nettoyer « la surface du filtre qui adhère au moteur » (engine housing), selon les termes de Filtron, en vérifiant que l'ancien joint a été retiré : sur ces mêmes filtres, MAHLE signale qu'un ancien joint resté collé se voit mal dans l'huile usagée et peut provoquer une fuite et allumer le témoin de pression d'huile. ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur), [MAHLE](https://mpulse.mahle.com/en/do-and-get/changing-the-filter.jsp)) Pièce associée : [bouchon de vidange](/pieces/bouchon-de-vidange-593.html).
 
 ### Repose
 
@@ -620,7 +633,7 @@ Pour un filtre vissé, selon Filtron : enduire le joint neuf d'une fine couche d
 
 ### Contrôles après montage
 
-Selon Filtron : démarrer le moteur et vérifier que le témoin de pression d'huile s'éteint, ou que le manomètre, s'il existe, indique une pression normale. Juste après le remplacement, le témoin peut rester allumé quelques secondes, le temps que le filtre neuf se remplisse. S'il ne s'éteint pas, couper immédiatement le moteur, contrôler le niveau d'huile et compléter si nécessaire ; si le témoin reste allumé avec un niveau correct, Filtron cite d'autres causes, dont un capteur défaillant, une pompe à huile désamorcée, une conduite obstruée, une forte usure du moteur ou un filtre inadapté (voir « Symptômes & diagnostic »). Une fois le témoin éteint : couper le moteur, vérifier que le niveau est dans la plage recommandée par le constructeur et compléter. Redémarrer, chercher une fuite autour du joint du filtre et des bouchons de vidange, puis couper le moteur. Pour faire tourner le moteur, la notice de la Twingo 3 phase 2 interdit de le faire dans un local fermé : les gaz d'échappement sont toxiques. Sur ce véhicule, la notice fixe les conditions de l'appoint et du contrôle du niveau, qui priment donc : sol horizontal, moteur arrêté et froid, par exemple avant le premier démarrage de la journée, en attendant environ 10 minutes après l'appoint pour que l'huile s'écoule avant de lire la jauge. Selon cette notice, le niveau ne doit jamais être sous le repère MINI ni au-dessus du repère MAXI, et il faut bien refermer le bouchon et remettre la jauge en place pour éviter les projections d'huile sur les pièces chaudes du moteur : risque d'incendie. ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html), [Filtron](https://filtron.eu/en/insights/filter-guide/oil-pressure-warning-light-meaning.html), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur)) Fiche de référence : [filtre à huile](/reference-auto/filtre-a-huile).
+Selon Filtron : démarrer le moteur et vérifier que le témoin de pression d'huile s'éteint, ou que le manomètre, s'il existe, indique une pression normale. Juste après le remplacement, le témoin peut rester allumé quelques secondes, le temps que le filtre neuf se remplisse. S'il ne s'éteint pas, couper immédiatement le moteur, contrôler le niveau d'huile et compléter si nécessaire ; si le témoin reste allumé avec un niveau correct, Filtron cite d'autres causes, dont un capteur défaillant, une pompe à huile désamorcée, une conduite obstruée, une forte usure du moteur ou un filtre inadapté (voir « Symptômes & diagnostic »). Une fois le témoin éteint : couper le moteur, vérifier que le niveau est dans la plage recommandée par le constructeur et, s'il le faut, compléter jusqu'au niveau requis. Sur la Renault Twingo 3 phase 2, la notice demande que le niveau ne soit jamais sous le repère MINI ni au-dessus du repère MAXI de la jauge ; si le niveau maxi est dépassé, elle demande de ne pas démarrer et de faire appel à un Représentant de la marque, sous peine d'endommager le moteur et le système de dépollution. Sur ce véhicule, elle demande aussi de bien refermer le bouchon et de remettre la jauge en place pour éviter les projections d'huile sur les pièces chaudes du moteur (risque d'incendie), et interdit de faire tourner le moteur dans un local fermé, car les gaz d'échappement sont toxiques. Selon Filtron, redémarrer ensuite, chercher une fuite autour du joint du filtre et des bouchons de vidange, puis couper le moteur. ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html), [Filtron](https://filtron.eu/en/insights/filter-guide/oil-pressure-warning-light-meaning.html), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur)) Fiche de référence : [filtre à huile](/reference-auto/filtre-a-huile).
 
 ## Choisir son filtre à huile
 
@@ -636,7 +649,7 @@ Voir le [catalogue des filtres à huile](/pieces/filtre-a-huile-7.html).
 
 **Que remplace-t-on lors de l'entretien ?** Un filtre vissé se change en entier : son boîtier et son élément filtrant forment un bloc indissociable. Avec une cartouche, qui équipe les filtres à boîtier démontable, seul l'élément filtrant sale est renouvelé. ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/))
 
-**Quand remplacer le filtre à huile ?** Selon MAHLE, dans les intervalles d'entretien fixés par le constructeur du véhicule. MAHLE donne un ordre de grandeur : un filtre à huile se change aujourd'hui en moyenne après environ 30 000 km ; des durées de 30 000 km et plus sont courantes sur beaucoup de véhicules récents, et certains constructeurs annoncent 50 000 km, en tenant compte de l'usage et de la qualité de l'huile. Filtron indique que le remplacement d'un filtre vissé est toujours effectué lors de la vidange de l'huile moteur. Sur la Renault Twingo 3 phase 2, la notice renvoie la périodicité de la vidange au document d'entretien du véhicule ; la page consultée ne parle pas du filtre. Aucune des sources consultées ne dit si un constructeur fixe au filtre une échéance distincte de celle de la vidange. ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur), [Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html))
+**Quand remplacer le filtre à huile ?** Selon MAHLE, dans les intervalles d'entretien fixés par le constructeur du véhicule. MAHLE donne un ordre de grandeur : un filtre à huile se change en moyenne après environ 30 000 km ; des durées de 30 000 km et plus sont courantes sur beaucoup de véhicules récents, et certains constructeurs annoncent 50 000 km, en tenant compte de l'usage et de la qualité de l'huile. Filtron indique que le remplacement d'un filtre vissé est toujours effectué lors de la vidange de l'huile moteur. Sur la Renault Twingo 3 phase 2, la notice renvoie la périodicité de la vidange au document d'entretien du véhicule ; la page consultée ne parle pas du filtre. Aucune des sources consultées ne dit si un constructeur fixe au filtre une échéance distincte de celle de la vidange. ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur), [Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html))
 
 **Peut-on choisir un filtre à son apparence ?** Non. Selon MAHLE, des filtres qui se ressemblent peuvent avoir des intérieurs très différents selon le moteur : clapet anti-retour présent ou non, filetage de raccordement, pression d'ouverture du by-pass, média filtrant, finesse de filtration ou surpression de service admissible. Filtron cite un filtre inadapté ou de faible qualité parmi les causes possibles d'un témoin de pression qui reste allumé après un remplacement, niveau d'huile correct : sa résistance à l'écoulement peut être trop élevée. ([MAHLE](https://www.mahle-aftermarket.com/na/en/products-and-services/filters/oil-filters/), [Filtron](https://filtron.eu/en/insights/filter-guide/oil-pressure-warning-light-meaning.html))
 
@@ -644,12 +657,12 @@ Voir le [catalogue des filtres à huile](/pieces/filtre-a-huile-7.html).
 
 **Le voyant de pression d'huile vient-il du filtre ?** Pas forcément. Juste après un remplacement, le témoin peut rester allumé quelques secondes, le temps que le filtre neuf se remplisse ; cette durée n'indique pas la qualité du filtre. S'il ne s'éteint pas, Filtron demande de couper immédiatement le moteur, de contrôler le niveau d'huile et de compléter si nécessaire. Si le témoin reste allumé avec un niveau correct, Filtron cite plusieurs causes possibles : capteur de pression défaillant, câble endommagé, pompe à huile désamorcée, conduite obstruée entre la pompe et le carter, forte usure du moteur qui abaisse la pression dans la galerie d'huile, filtre inadapté ou de faible qualité, ou remplissage du filtre après sa date de péremption. Filtron affirme qu'avec ses propres filtres, ce cas ne tient pas au filtre : c'est l'affirmation d'un fabricant sur ses produits, non vérifiée ici. Sur la Renault Clio 5 phase 1, si le témoin s'allume sur route avec le témoin d'arrêt impératif et un signal sonore, la notice demande de s'arrêter impérativement, de couper le contact et de vérifier le niveau d'huile : si le niveau est normal, l'alerte a une autre cause. Le témoin d'arrêt impératif impose de ne pas redémarrer le moteur et de faire appel à un Représentant de la marque. ([Filtron](https://filtron.eu/en/insights/filter-guide/oil-pressure-warning-light-meaning.html), [notice Renault](https://www.user-manual.renault.com/fr/chapitre1-faites-connaissance-avec-votre-v%C3%A9hicule/temoins-lumineux))
 
-**Comment se remplace un filtre à huile vissé ?** Selon Filtron : dévisser le bouchon de remplissage, vidanger l'huile par le ou les bouchons de vidange, en contrôlant leur étanchéité et en remplaçant un bouchon endommagé, puis déposer le filtre, avec une clé spéciale si nécessaire. Nettoyer la surface du filtre qui adhère au moteur et vérifier que l'ancien joint est retiré, puis enduire le joint neuf d'une fine couche d'huile moteur propre, jamais de lubrifiant solide. Sur un moteur turbocompressé, il peut être nécessaire de remplir le filtre d'huile propre avant de le visser : vérifier la recommandation du constructeur. Visser le filtre en alignant bien le filetage jusqu'à ce que le joint touche le moteur, puis serrer selon l'indication portée sur le filtre ou son emballage. Filtron précise que c'est habituellement ¾ de tour ou 1 tour, parfois davantage pour un filtre de moteur diesel, sans forcer ni dépasser le nombre de tours recommandé ; ne jamais serrer avec l'outil de dépose, écrit MAHLE. Verser de l'huile propre jusqu'au niveau recommandé et refermer le bouchon de remplissage avant de démarrer : la notice de la Twingo 3 phase 2 rappelle qu'un bouchon mal refermé expose à des projections d'huile sur les pièces chaudes du moteur, avec un risque d'incendie. Démarrer et vérifier que le témoin s'éteint. S'il ne s'éteint pas un moment après le démarrage, la page de Filtron sur le témoin demande de couper immédiatement le moteur, de contrôler le niveau et de compléter. Une fois le témoin éteint, couper le moteur, contrôler le niveau et compléter, puis redémarrer et chercher une fuite autour du joint du filtre et des bouchons de vidange. Déposer le filtre et l'huile usagés dans des conteneurs pour déchets dangereux, jamais avec les ordures ménagères (Filtron). ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html), [Filtron, témoin](https://filtron.eu/en/insights/filter-guide/oil-pressure-warning-light-meaning.html), [MAHLE](https://mpulse.mahle.com/en/do-and-get/changing-the-filter.jsp), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur))
+**Comment se remplace un filtre à huile vissé ?** Sur la Renault Twingo 3 phase 2, la notice demande de couper impérativement le contact avant toute intervention dans le compartiment moteur et de ne pas faire tourner le moteur dans un local fermé ; elle signale qu'une vidange moteur chaud expose à des brûlures. Selon Filtron : dévisser le bouchon de remplissage, vidanger l'huile par le ou les bouchons de vidange, en contrôlant leur étanchéité et en remplaçant un bouchon endommagé, puis déposer le filtre, avec une clé spéciale si nécessaire. Nettoyer la surface du filtre qui adhère au moteur et vérifier que l'ancien joint est retiré, puis enduire le joint neuf d'une fine couche d'huile moteur propre, jamais de lubrifiant solide. Sur un moteur turbocompressé, il peut être nécessaire de remplir le filtre d'huile propre avant de le visser : vérifier la recommandation du constructeur. Visser le filtre en alignant bien le filetage jusqu'à ce que le joint touche le moteur, puis serrer selon l'indication portée sur le filtre ou son emballage. Filtron précise que c'est habituellement ¾ de tour ou 1 tour, parfois davantage pour un filtre de moteur diesel, sans forcer ni dépasser le nombre de tours recommandé ; ne jamais serrer avec l'outil de dépose, écrit MAHLE. Verser de l'huile propre jusqu'au niveau recommandé et refermer le bouchon de remplissage avant de démarrer. Sur la Twingo 3 phase 2, la notice demande que le niveau ne dépasse jamais le repère MAXI : s'il est dépassé, ne pas démarrer et faire appel à un Représentant de la marque ; elle rappelle aussi qu'un bouchon mal refermé expose à des projections d'huile sur les pièces chaudes du moteur, avec un risque d'incendie. Démarrer et vérifier que le témoin s'éteint. S'il ne s'éteint pas un moment après le démarrage, la page de Filtron sur le témoin demande de couper immédiatement le moteur, de contrôler le niveau et de compléter si nécessaire. Une fois le témoin éteint, couper le moteur, vérifier que le niveau est dans la plage recommandée par le constructeur et, s'il le faut, compléter jusqu'au niveau requis, puis redémarrer et chercher une fuite autour du joint du filtre et des bouchons de vidange. Déposer le filtre et l'huile usagés dans des conteneurs pour déchets dangereux, jamais avec les ordures ménagères (Filtron). ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html), [Filtron, témoin](https://filtron.eu/en/insights/filter-guide/oil-pressure-warning-light-meaning.html), [MAHLE](https://mpulse.mahle.com/en/do-and-get/changing-the-filter.jsp), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur))
 
-**Quelles erreurs éviter en remplaçant le filtre à huile ?** Laisser l'ancien joint collé sur la bride : MAHLE le signale sur ses filtres OC 593/3 et OC 593/4 pour moteurs VW 1.2 et 1.4 TSI, où il se voit mal dans l'huile usagée et peut provoquer une fuite et allumer le témoin de pression d'huile moteur tournant, même avec un filtre neuf bien vissé. Déposer ces filtres trop vite, sans laisser l'huile résiduelle refluer vers le carter : elle déborde alors sur la bride. Serrer avec l'outil de dépose, ce qui peut abîmer la surface et faire fuir le filtre (MAHLE), ou dépasser le nombre de tours recommandé (Filtron). Oublier de vérifier si le constructeur demande de remplir le filtre d'huile propre avant de le visser, ce qui peut être nécessaire sur un moteur turbocompressé (Filtron). ([MAHLE](https://mpulse.mahle.com/en/do-and-get/changing-the-filter.jsp), [Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html))
+**Quelles erreurs éviter en remplaçant le filtre à huile ?** Laisser l'ancien joint collé sur la bride : MAHLE le signale sur ses filtres OC 593/3 et OC 593/4 pour moteurs VW 1.2 et 1.4 TSI, où il se voit mal dans l'huile usagée et peut provoquer une fuite et allumer le témoin de pression d'huile moteur tournant, même avec un filtre neuf bien vissé. Déposer ces filtres trop vite, sans laisser l'huile résiduelle refluer vers le carter : elle peut alors déborder sur la bride et la souiller. Serrer avec l'outil de dépose, ce qui peut abîmer la surface et faire fuir le filtre (MAHLE), ou dépasser le nombre de tours recommandé (Filtron). Oublier de vérifier si le constructeur demande de remplir le filtre d'huile propre avant de le visser, ce qui peut être nécessaire sur un moteur turbocompressé (Filtron). ([MAHLE](https://mpulse.mahle.com/en/do-and-get/changing-the-filter.jsp), [Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html))
 
-**Faut-il changer le joint avec le filtre à huile ?** Oui, pour un filtre vissé : « changer le filtre, c'est changer les joints », écrit MAHLE. Retirer l'ancien joint de la bride et enduire le joint neuf d'huile moteur propre avant le montage ; Filtron précise une fine couche, jamais de lubrifiant solide. ([MAHLE](https://mpulse.mahle.com/en/do-and-get/changing-the-filter.jsp), [Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html))
+**Faut-il changer le joint avec le filtre à huile ?** Oui : « changer le filtre, c'est changer les joints », écrit MAHLE. Retirer l'ancien joint de la bride et enduire le joint neuf d'huile moteur propre avant le montage ; Filtron précise une fine couche, jamais de lubrifiant solide. ([MAHLE](https://mpulse.mahle.com/en/do-and-get/changing-the-filter.jsp), [Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html))
 
 ## Provenance & qualité
 
-Sources archivées dans RAW : les pages Filtron sur les clapets, le remplacement d'un filtre vissé et le témoin de pression d'huile ; les pages MAHLE sur les filtres à huile et sur les joints ; les notices Renault Clio 5 phase 1 et Twingo 3 phase 2. Les consignes tirées d'une notice Renault valent pour le véhicule cité. Les seules valeurs reprises sont celles des sources : le serrage habituel indiqué par Filtron, qui s'efface devant l'indication du filtre, l'attente d'environ 10 minutes de la notice Twingo, les quelques secondes d'allumage du témoin et l'ordre de grandeur kilométrique de MAHLE (environ 30 000 km en moyenne, 50 000 km chez certains constructeurs), attribué et subordonné aux intervalles du constructeur. Aucune valeur de pression, de couple ni de capacité n'est publiée. La relation diagnostic du voyant reste une hypothèse en confiance faible, non revue.
+Sources archivées dans RAW : les pages Filtron sur les clapets, le remplacement d'un filtre vissé et le témoin de pression d'huile ; les pages MAHLE sur les filtres à huile et sur les joints ; les notices Renault Clio 5 phase 1 et Twingo 3 phase 2. Les consignes tirées d'une notice Renault valent pour le véhicule cité. Les seules valeurs reprises sont celles des sources : le serrage habituel indiqué par Filtron, qui s'efface devant l'indication du filtre, les quelques secondes d'allumage du témoin et l'ordre de grandeur kilométrique de MAHLE (environ 30 000 km en moyenne, 50 000 km chez certains constructeurs), attribué et subordonné aux intervalles du constructeur. Aucune valeur de pression, de couple ni de capacité n'est publiée. La relation diagnostic du voyant reste une hypothèse en confiance faible, non revue.

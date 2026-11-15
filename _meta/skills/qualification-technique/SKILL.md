@@ -6,7 +6,7 @@ description: >-
   seconde invite sert à la contestation par un relecteur d'une autre famille de modèles. En
   profondeur complète, conserver exige deux domaines d'autorité concordants. Le skill dépose un
   artefact (_meta/schema/technical-qualification-run.schema.json) ; il n'approuve rien.
-version: 0.3.0
+version: 0.3.1
 status: candidate
 adr: ADR-131 (proposed)
 wired: false
@@ -256,6 +256,22 @@ omission du texte (condition, précaution, cause ou cas d'aide professionnelle q
 rattache au sujet), une portée généralisée à tous
 les véhicules, une limite absente, et une profondeur sous le plancher.
 
+La qualification applique la règle de corroboration d'ADR-131 D9, citée ici à l'identique. Ta
+position et le verdict que tu retiens la suivent aussi :
+
+> - **Règle, en profondeur `complete`** :
+>
+>   - `conserver` exige une capture de rôle `proof` (`source_type_editorial_role` du catalogue) et au
+>     moins une capture d'un **autre domaine d'autorité**, concordantes sur la valeur et sur la portée ;
+>   - une seule source, ou un seul domaine : `preciser`, la portée bornée à cette source ;
+>   - une discordance entre domaines : `retirer` si elle touche une valeur, une procédure ou la
+>     sécurité, `preciser` sinon.
+>
+>   En profondeur `allegee`, rien ne change : la corroboration est consignée, rien n'est déclassé.
+>
+> Deux captures du même éditeur, ou dont l'une reprend l'autre, comptent pour un seul domaine. Une
+> capture sans classe déclarée ne compte pour aucun domaine (fail-closed).
+
 Pour chaque affirmation dont la qualification déclare plusieurs domaines, vérifie aussi, dans
 "checks" :
 
@@ -303,6 +319,9 @@ Paquet :
 - 0.3.0 (2026-11-15) : corroboration par un second domaine d'autorité (ADR-131 D9) et questions
   de reprise (D10), artefact `technical-qualification/v2`. Décisions de l'owner du 2026-11-15 à
   14:55 et 15:02 (Paris). Les exemples de réponse des invites passent en blocs de code.
+- 0.3.1 (2026-11-15) : l'invite de contestation cite à l'identique la règle d'ADR-131 D9. En 0.3.0,
+  elle ne la rappelait pas, et le contestataire demandait `conserver` pour des affirmations exactes
+  portées par un seul domaine. L'invite de qualification ne change pas ; la clé change (D1).
 
 Durcir la méthode (un motif de plancher en plus, un verdict plus strict) : PR WIKI. L'assouplir
 (un motif de plancher retiré, un verdict rendu non bloquant) : ADR, comme le protocole d'ADR-119.

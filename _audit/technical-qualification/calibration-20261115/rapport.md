@@ -263,25 +263,72 @@ D'autres positions `agree` sur `preciser` décrivent elles aussi une contradicti
 - `checks` (concordance, indépendance) : aucun n'est rendu. La contestation ne les demande que pour une affirmation déclarée sur plusieurs domaines, et aucune des trois qualifications n'en déclare. Ces deux contrôles ne sont pas mis à l'épreuve par cet étalonnage.
 - Un modèle par famille et une exécution : la variance n'est pas mesurée.
 
+## Contestation sous le skill 0.3.1 — l'invite rappelle D9
+
+La 0.3.1 ne change que l'invite de contestation : elle cite à l'identique la règle d'ADR-131 D9 (`conserver` en profondeur `complete` exige une preuve et un second domaine concordant ; un seul domaine donne `preciser`). L'invite de qualification ne change pas. Décision transmise le 2026-11-15 (complément n° 4 au mandat S).
+
+### Clé
+
+D1 met l'empreinte du skill dans la clé. La contestation 0.3.1 a donc la clé `30d1ffcf…c004dcd`, et non celle de la qualification qu'elle conteste (`7e9eb85c…b82043a`) : seul `skill_sha256` diffère, les autres entrées de la clé sont identiques. Elle désigne la qualification 0.3.0 par son empreinte (`2e07943f…3b6d620`). Sous D3, une qualification et une contestation de clés différentes ne forment pas une paire de décision : ces artefacts sont une mesure d'étalonnage. Rien n'est remplacé : la contestation 0.3.0 (`a969cdb5…c971177`) reste en place sous sa clé.
+
+### Exécution
+
+Même contestataire, même commande, même isolement : `gpt-5.6-sol` (openai), codex-cli 0.144.4. Le paquet ne porte que les deux segments où se trouvent les 12 affirmations (`fm:entity_data` et `body:6`), avec leur qualification entière, soit 27 affirmations. Il tient en un seul lot. Le paquet est figé avant l'envoi : l'invite envoyée fait 133 605 octets, d'empreinte `3dd039f24687d2fb110801e2114480c569d043c28d30d1ae1e40d860388a1cc0`. Elle se reconstruit depuis le skill à ce commit, `plaquette-de-frein@88f9f88`, les captures adressées par leur `cid` et la qualification `2e07943f…`. Elle n'est pas versionnée ici : sous `_audit/`, un `.json` doit être un artefact, et les autres extensions sont refusées.
+
+- 0.3.1, tirage 1 : 2026-11-15, de 19:43:24Z à 19:44:53Z, artefact `1c50dbb7…a67ae82`.
+- Témoin, invite 0.3.0 sur le même paquet, à la citation près (JSON identique, 126 543 octets) : de 19:45:24Z à 19:46:59Z, invite d'empreinte `5c551985…afe176e`, artefact `a8e56670…158e14c` sous la clé 0.3.0.
+- 0.3.1, tirage 2, même invite `3dd039f2…` : de 19:47:29Z à 19:49:09Z, artefact `7327e906…f6b0e86`.
+
+Aucun appel n'a échoué. Tous les passages sont ancrés dans les captures. Les 27 affirmations ont chacune une position dans les trois exécutions.
+
+### Les 12 verdicts, avant et après
+
+| Affirmation        | Objet                                           | Qualification 0.3.0 | Contestation 0.3.0, fiche entière | Témoin : invite 0.3.0, deux segments | 0.3.1, tirage 1 | 0.3.1, tirage 2 |
+| ------------------ | ----------------------------------------------- | ------------------- | --------------------------------- | ------------------------------------ | --------------- | --------------- |
+| fm:entity_data c8  | remplacement par essieu, « Oui »                | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c10 | pression hydraulique dans l'étrier              | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c11 | ressorts de rappel                              | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c12 | contrôle à intervalles réguliers                | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c13 | facteurs de la vitesse d'usure                  | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c15 | marques de qualité (défaut masqué)              | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c17 | par essieu et à chaque remplacement des disques | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c20 | adaptée à la marque et au modèle                | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c25 | étrier flottant, pistons d'un seul côté         | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c26 | étrier flottant, le plus répandu                | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| fm:entity_data c27 | étrier fixe                                     | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+| body:6 c35         | deux types d'étriers                            | `preciser`          | `contest` → `conserver`           | `agree`                              | `agree`         | `agree`         |
+
+### Ce que la 0.3.1 montre
+
+- Les 12 contestations plus souples ne reviennent dans aucun tirage 0.3.1. Mais le témoin donne le même résultat avec l'invite 0.3.0 : sur ces deux segments, le contestataire suit déjà la règle sans la citation. L'écart avec la contestation 0.3.0 vient du paquet (fiche entière, découpée en lots, contre deux segments) ou de la variance. La citation de D9 n'en est pas la cause démontrée.
+- Motifs : au tirage 2, 10 motifs sur 12 invoquent la règle (« un seul domaine », « sans second domaine »), contre 5 sur 12 au témoin. Au tirage 1, le champ `statement` recopie le texte de chaque affirmation (27 sur 27) au lieu d'en donner le motif ; au tirage 2 et au témoin, 0 sur 27. Ni l'invite ni le schéma ne disent ce que porte `statement` pour une position.
+- Défauts masqués : c15 passe de `contest` → `conserver` à `agree` sur `preciser`, avec un motif qui borne les critères à Brembo. c4, c21 et c24 restent `agree` sur `preciser`, motif inchangé sur le fond aux tirage 2 et témoin, absent au tirage 1. Le défaut reste masqué dans les verdicts.
+- Autres affirmations des deux segments : 14 `agree` sur `preciser` partout ; c23 (`retirer`) est `undecidable` avec `retirer` au tirage 1, `agree` ailleurs. Oubliée : « ni durée ni kilométrage valables pour tous les véhicules », relevée `conserver` par la contestation 0.3.0, l'est de nouveau au tirage 2 avec `preciser`, pas au tirage 1 ni au témoin.
+- `checks` : aucun n'est rendu, faute d'affirmation déclarée sur deux domaines. La concordance et l'indépendance ne sont toujours pas exercées ; elles le seront sur les cas du mandat AC.
+- Deux tirages et un témoin, un modèle : la variance est entrevue, pas mesurée.
+
 ## Artefacts
 
-| Cas                        | Révision              | Clé                | Fichier (sha256)   |
-| -------------------------- | --------------------- | ------------------ | ------------------ |
-| filtre, consignes retirées | 0.1.0                 | `968e1db0…41eb762` | `8be18ace…1f1b6a5` |
-| filtre, consignes retirées | 0.2.0                 | `0ec33159…7f24fdc` | `ff3311ed…11d1cd1` |
-| filtre, cinq paires        | 0.1.0                 | `42b11f84…26ac473` | `00775fd8…743e750` |
-| filtre, cinq paires        | 0.2.0                 | `28ffb476…c040718` | `c06d5564…01514d9` |
-| plaquette@88f9f88          | 0.1.0                 | `4261b108…8874cff` | `312a04b5…0371bff` |
-| plaquette@88f9f88          | 0.2.0                 | `410254eb…9537f3d` | `3461d4a6…04a1350` |
-| filtre, consignes retirées | contestation de 0.2.0 | `0ec33159…7f24fdc` | `da3acb46…02cb871` |
-| filtre, cinq paires        | contestation de 0.2.0 | `28ffb476…c040718` | `b32112dd…eb1a2f1` |
-| plaquette@88f9f88          | contestation de 0.2.0 | `410254eb…9537f3d` | `1dfbf385…97ab996` |
-| filtre, consignes retirées | 0.3.0                 | `50855b79…5ba6447` | `58091485…a214cac` |
-| filtre, cinq paires        | 0.3.0                 | `b95b2052…018ade1` | `eaa06224…e0afa98` |
-| plaquette@88f9f88          | 0.3.0                 | `7e9eb85c…b82043a` | `2e07943f…3b6d620` |
-| filtre, consignes retirées | contestation de 0.3.0 | `50855b79…5ba6447` | `a1202eb4…dbf7bce` |
-| filtre, cinq paires        | contestation de 0.3.0 | `b95b2052…018ade1` | `24859dc3…6c732b8` |
-| plaquette@88f9f88          | contestation de 0.3.0 | `7e9eb85c…b82043a` | `a969cdb5…c971177` |
+| Cas                        | Révision                                            | Clé                | Fichier (sha256)   |
+| -------------------------- | --------------------------------------------------- | ------------------ | ------------------ |
+| filtre, consignes retirées | 0.1.0                                               | `968e1db0…41eb762` | `8be18ace…1f1b6a5` |
+| filtre, consignes retirées | 0.2.0                                               | `0ec33159…7f24fdc` | `ff3311ed…11d1cd1` |
+| filtre, cinq paires        | 0.1.0                                               | `42b11f84…26ac473` | `00775fd8…743e750` |
+| filtre, cinq paires        | 0.2.0                                               | `28ffb476…c040718` | `c06d5564…01514d9` |
+| plaquette@88f9f88          | 0.1.0                                               | `4261b108…8874cff` | `312a04b5…0371bff` |
+| plaquette@88f9f88          | 0.2.0                                               | `410254eb…9537f3d` | `3461d4a6…04a1350` |
+| filtre, consignes retirées | contestation de 0.2.0                               | `0ec33159…7f24fdc` | `da3acb46…02cb871` |
+| filtre, cinq paires        | contestation de 0.2.0                               | `28ffb476…c040718` | `b32112dd…eb1a2f1` |
+| plaquette@88f9f88          | contestation de 0.2.0                               | `410254eb…9537f3d` | `1dfbf385…97ab996` |
+| filtre, consignes retirées | 0.3.0                                               | `50855b79…5ba6447` | `58091485…a214cac` |
+| filtre, cinq paires        | 0.3.0                                               | `b95b2052…018ade1` | `eaa06224…e0afa98` |
+| plaquette@88f9f88          | 0.3.0                                               | `7e9eb85c…b82043a` | `2e07943f…3b6d620` |
+| filtre, consignes retirées | contestation de 0.3.0                               | `50855b79…5ba6447` | `a1202eb4…dbf7bce` |
+| filtre, cinq paires        | contestation de 0.3.0                               | `b95b2052…018ade1` | `24859dc3…6c732b8` |
+| plaquette@88f9f88          | contestation de 0.3.0                               | `7e9eb85c…b82043a` | `a969cdb5…c971177` |
+| plaquette@88f9f88          | témoin : invite 0.3.0, deux segments                | `7e9eb85c…b82043a` | `a8e56670…158e14c` |
+| plaquette@88f9f88          | contestation de 0.3.0 sous le skill 0.3.1, tirage 1 | `30d1ffcf…c004dcd` | `1c50dbb7…a67ae82` |
+| plaquette@88f9f88          | contestation de 0.3.0 sous le skill 0.3.1, tirage 2 | `30d1ffcf…c004dcd` | `7327e906…f6b0e86` |
 
 Les passages cités (`{path, cid, quote}`) suivent le même régime que `_audit/semantic-review/` : ils
 recopient des captures RAW dans ce dépôt public.

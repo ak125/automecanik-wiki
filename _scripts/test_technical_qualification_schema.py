@@ -208,13 +208,36 @@ def test_control_requires_retirer_on_blocking_discordance():
     assert tq.corroboration_violations(run) == []
 
 
-def test_skill_is_v030_and_states_the_corroboration_rule():
+# Règle de D9 telle qu'ADR-131 l'écrit (vault, section D9). L'invite de contestation la cite à l'identique
+# depuis le skill 0.3.1 ; ces phrases ne se reformulent pas sans amender l'ADR.
+D9_RULE = (
+    "`conserver` exige une capture de rôle `proof` (`source_type_editorial_role` du catalogue) et au "
+    "moins une capture d'un **autre domaine d'autorité**, concordantes sur la valeur et sur la portée ;",
+    "une seule source, ou un seul domaine : `preciser`, la portée bornée à cette source ;",
+    "une discordance entre domaines : `retirer` si elle touche une valeur, une procédure ou la "
+    "sécurité, `preciser` sinon.",
+    "En profondeur `allegee`, rien ne change : la corroboration est consignée, rien n'est déclassé.",
+    "Deux captures du même éditeur, ou dont l'une reprend l'autre, comptent pour un seul domaine. Une "
+    "capture sans classe déclarée ne compte pour aucun domaine (fail-closed).",
+)
+
+
+def _flat(markdown: str) -> str:
+    """Texte d'une citation Markdown sans ses marques de citation ni ses retours à la ligne."""
+    return " ".join(re.sub(r"^\s*>?\s*(?:-\s+)?", "", line) for line in markdown.splitlines() if line.strip(" >"))
+
+
+def test_skill_is_v031_and_states_the_corroboration_rule():
     text = SKILL.read_text(encoding="utf-8")
-    assert re.search(r"^version: 0\.3\.0$", text, re.M)
+    assert re.search(r"^version: 0\.3\.1$", text, re.M)
     qualification = re.search(r"<!-- invite:qualification -->\n(.+?)<!-- /invite -->", text, re.S).group(1)
     contestation = re.search(r"<!-- invite:contestation -->\n(.+?)<!-- /invite -->", text, re.S).group(1)
     assert "concordance" in qualification and "retake_question" in qualification
     assert "concordance" in contestation and "independence" in contestation
+    assert "ADR-131 D9" in contestation
+    flat = _flat(contestation)
+    for sentence in D9_RULE:
+        assert sentence in flat, sentence
 
 
 def _deposited():

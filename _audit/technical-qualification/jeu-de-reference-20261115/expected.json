@@ -1,0 +1,663 @@
+{
+  "schema": "jeu-de-reference/1 (mandat AC, points 3 et 4)",
+  "written_at": "2026-11-15",
+  "written_before_any_run": true,
+  "skill_head": "a29310fc1ce52316eba1482ef3f0ac7647b55b0e",
+  "skill_version": "0.3.0",
+  "skill_sha256": "bbab905fb5183582c34591fa930aa2de651b4f9f289a82f447c6c74593bb2b65",
+  "wiki_commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+  "raw_commit": "4b4de7180092dd5145f106ed37bbd166b6fd9fb1",
+  "domain_definition": "publisher_class",
+  "domain_table": "domaines-i1.yaml",
+  "matching": "une cible retient les affirmations de son segment dont le texte correspond à `match` (regex, insensible à la casse) et pas à `exclude` ; si plusieurs, le verdict le plus sévère (retirer > preciser > reformuler > conserver) ; aucune : `absent`, compté non retrouvé",
+  "targets": [
+    {
+      "id": "PF-securite",
+      "case": "plaquette-de-frein",
+      "segment": "body:2",
+      "liste_ref": "P01",
+      "match": "s[ée]curit",
+      "exclude": null,
+      "expected": "conserver",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "concordant"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+          "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+          "quote": "Étant donné que les plaquettes font partie du système de freinage et qu’elles représentent des composants de sécurité"
+        },
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+          "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+          "quote": "Le freinage fait partie des pièces centrales de votre véhicule, il est primordial de les contrôler régulièrement."
+        },
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/renault-fr-wl-plaquette-de-frein-renault-freins-20261115-39e27e06.md",
+          "cid": "sha256:35d728d4a2b85efa99f15e16ed5aaad7936162b3f8c2038b96bf2dde77c01c58",
+          "quote": "Sécurité et performance maximales grâce à des freins fiables et bien entretenus."
+        }
+      ],
+      "rationale": "Brembo (équipementier, proof) porte la formule ; Dacia et Renault (constructeur, marketing) lient freinage et sécurité. Deux domaines concordants avec une preuve : conserver. Défendable : preciser, si le relecteur juge que les pages constructeur parlent du freinage et non de la plaquette."
+    },
+    {
+      "id": "PF-bruit-strident",
+      "case": "plaquette-de-frein",
+      "segment": "body:4",
+      "liste_ref": "P05",
+      "match": "strident|languette",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "discordant",
+        "discordance_on": "safety"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+          "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+          "quote": "En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+        },
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+          "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+          "quote": "Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+        },
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+          "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+          "quote": "En cas de plaquette de frein usée, lors du freinage un bruit sourd se fait entendre. Il indique que vos plaquettes et disques de freins sont usés et à changer au plus vite. Au contraire, un bruit aigu n’est pas inquiétant."
+        }
+      ],
+      "rationale": "Contradiction §6.1 : Delphi et ZF (équipementier) disent que le son strident ou le signal sonore signale la fin d'usure ; Dacia (constructeur) dit que le bruit sourd signale l'usure et qu'un bruit aigu n'est pas inquiétant. Famille sécurité, discordance sur la sécurité : retirer (D9). Défendable : preciser, si le relecteur juge que Delphi borne son propos aux languettes des systèmes anciens et que Dacia parle d'autre chose."
+    },
+    {
+      "id": "PF-par-essieu",
+      "case": "plaquette-de-frein",
+      "segment": "body:6",
+      "liste_ref": "P11",
+      "match": "essieu|disque",
+      "exclude": null,
+      "expected": "preciser",
+      "defensible": [],
+      "expected_corroboration": {
+        "domains": [
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "single_source"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+          "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+          "quote": "remplacer par essieu si : l’usure dépasse les limites"
+        },
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+          "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+          "quote": "À chaque remplacement des disques, remplacer aussi leurs plaquettes."
+        }
+      ],
+      "rationale": "Seul Brembo (équipementier) porte la règle ; aucune capture constructeur du cas ne la porte. Un seul domaine en profondeur complete : preciser."
+    },
+    {
+      "id": "PF-controle",
+      "case": "plaquette-de-frein",
+      "segment": "body:8",
+      "liste_ref": "P23",
+      "match": "contr[ôo]l",
+      "exclude": null,
+      "expected": "conserver",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "concordant"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+          "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+          "quote": "Les plaquettes de frein s’usent et elles doivent, donc, être contrôlées à intervalles réguliers."
+        },
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+          "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+          "quote": "il est primordial de les contrôler régulièrement"
+        },
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+          "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+          "quote": "Faites contrôler vos freins tous les 2 ans ou 20 000 km."
+        }
+      ],
+      "rationale": "Brembo (proof) et Dacia/Renault (constructeur) concordent sur le contrôle régulier : conserver. Défendable : preciser, si le relecteur tient pour une omission la préconisation réseau Dacia « 2 ans ou 20 000 km » face à la phrase « ni durée ni kilométrage valables pour tous les véhicules »."
+    },
+    {
+      "id": "PF-faq-strident",
+      "case": "plaquette-de-frein",
+      "segment": "body:10",
+      "liste_ref": "P29",
+      "match": "strident|languette|fin d.usure",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "discordant",
+        "discordance_on": "safety"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+          "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+          "quote": "En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+        },
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+          "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+          "quote": "Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+        },
+        {
+          "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+          "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+          "quote": "En cas de plaquette de frein usée, lors du freinage un bruit sourd se fait entendre. Il indique que vos plaquettes et disques de freins sont usés et à changer au plus vite. Au contraire, un bruit aigu n’est pas inquiétant."
+        }
+      ],
+      "rationale": "Même contradiction que PF-bruit-strident, dans la FAQ."
+    },
+    {
+      "id": "FA-30000",
+      "case": "filtre-a-air",
+      "segment": "body:2",
+      "liste_ref": "A03",
+      "match": "30 ?000",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "discordant",
+        "discordance_on": "value"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+          "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+          "quote": "Dans de nombreux cas, les constructeurs automobiles recommandent de remplacer le filtre tous les 15 000 kilomètres ou une fois par an."
+        },
+        {
+          "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+          "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+          "quote": "Périodicité de remplacement des éléments filtrants : reportez-vous au document d’entretien de votre véhicule."
+        }
+      ],
+      "rationale": "Contradiction §6.2 : aucune capture ne porte 30 000 km ; FILTRON donne 15 000 km ou un an « dans de nombreux cas », Renault renvoie au document d'entretien. Valeur contredite : retirer. Défendable : preciser (réécrire en renvoi au constructeur)."
+    },
+    {
+      "id": "FA-faq-30000",
+      "case": "filtre-a-air",
+      "segment": "body:7",
+      "liste_ref": "A03",
+      "match": "30 ?000",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "discordant",
+        "discordance_on": "value"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+          "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+          "quote": "Dans de nombreux cas, les constructeurs automobiles recommandent de remplacer le filtre tous les 15 000 kilomètres ou une fois par an."
+        },
+        {
+          "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+          "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+          "quote": "Périodicité de remplacement des éléments filtrants : reportez-vous au document d’entretien de votre véhicule."
+        }
+      ],
+      "rationale": "Même valeur que FA-30000, dans la FAQ."
+    },
+    {
+      "id": "FA-carburant-60000",
+      "case": "filtre-a-air",
+      "segment": "body:4",
+      "liste_ref": "A11",
+      "match": "60 ?000",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "discordant",
+        "discordance_on": "value"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+          "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+          "quote": "Un filtre à carburant doit être remplacé régulièrement, conformément au calendrier d’entretien du véhicule, par exemple tous les 30 000 miles ou tous les deux ans."
+        },
+        {
+          "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+          "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+          "quote": "Le remplacement des éléments filtrants (filtre à air, filtre habitacle, filtre à gazole…) est prévu dans les opérations d’entretien de votre véhicule."
+        }
+      ],
+      "rationale": "Contradiction §6.3 entre fiches : 60 000 km en diesel n'est porté par aucune capture (Delphi donne en exemple 30 000 miles ou deux ans ; Renault renvoie à l'entretien) et la fiche filtre-a-carburant dit 20–30 000 km en diesel. Retirer. Défendable : preciser."
+    },
+    {
+      "id": "FA-nettoyage-papier",
+      "case": "filtre-a-air",
+      "segment": "body:9",
+      "liste_ref": "A07",
+      "match": "papier",
+      "exclude": "coton|r[ée]utilisable",
+      "expected": "conserver",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "single_source"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+          "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+          "quote": "Le nettoyage du filtre avec de l’air n’améliore pas, mais au contraire diminue sa capacité de filtration."
+        }
+      ],
+      "rationale": "Plancher allegee (FAQ sans chiffre, famille non sécurité) : la règle des deux domaines ne s'applique pas ; FILTRON porte la substance. Conserver. Défendable : preciser, si le relecteur élève la profondeur ou juge « perte de porosité » plus étroit que la capture."
+    },
+    {
+      "id": "FA-coton-huile",
+      "case": "filtre-a-air",
+      "segment": "body:9",
+      "liste_ref": "A07",
+      "match": "coton|r[ée]utilisable",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [],
+        "proof": false,
+        "concordance": "no_source"
+      },
+      "provenance": [],
+      "rationale": "Aucune capture ne porte le nettoyage des filtres coton huilé : retirer. Défendable : preciser."
+    },
+    {
+      "id": "FC-retient-eau",
+      "case": "filtre-a-carburant",
+      "segment": "body:2",
+      "liste_ref": "C01",
+      "match": "retien|retenir|eau et (les )?impuret",
+      "exclude": "fr[ée]quem",
+      "expected": "conserver",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "single_source"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-carburant/filtron-eu-wl-filtre-a-carburant-filtron-hiver-20261115-607df51b.md",
+          "cid": "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+          "quote": "Le filtre à carburant arrête les contaminants dans le carburant"
+        },
+        {
+          "path": "sources/auto-captures/filtre-a-carburant/filtron-eu-wl-filtre-a-carburant-filtron-hiver-20261115-607df51b.md",
+          "cid": "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+          "quote": "Dans le cas des filtres à carburant de moteur diesel, la séparation de l’eau est également importante."
+        }
+      ],
+      "rationale": "Cas positif en profondeur allegee : FILTRON (et Delphi, même domaine) portent la fonction. Conserver. Défendable : preciser (l'eau ne concerne explicitement que le diesel chez FILTRON)."
+    },
+    {
+      "id": "FC-preconisation",
+      "case": "filtre-a-carburant",
+      "segment": "body:4",
+      "liste_ref": "C06",
+      "match": "pr[ée]conisation|calendrier|constructeur prime",
+      "exclude": "\\d",
+      "expected": "conserver",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "concordant"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+          "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+          "quote": "Un filtre à carburant doit être remplacé régulièrement, conformément au calendrier d’entretien du véhicule"
+        },
+        {
+          "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+          "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+          "quote": "Périodicité de remplacement des éléments filtrants : reportez-vous au document d’entretien de votre véhicule."
+        }
+      ],
+      "rationale": "Cas positif en profondeur complete : Delphi (équipementier, proof) et la notice Renault (constructeur, proof) renvoient tous deux à la préconisation du constructeur. Conserver. Défendable : preciser."
+    },
+    {
+      "id": "FC-fourchettes",
+      "case": "filtre-a-carburant",
+      "segment": "body:4",
+      "liste_ref": "C06",
+      "match": "\\d{2} ?000",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "discordant",
+        "discordance_on": "value"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+          "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+          "quote": "par exemple tous les 30 000 miles ou tous les deux ans"
+        }
+      ],
+      "rationale": "Les fourchettes chiffrées ne sont portées par aucune capture ; Delphi donne une autre valeur en exemple. Retirer. Défendable : preciser, la fiche les présentant comme observées et subordonnées au constructeur."
+    },
+    {
+      "id": "FC-faq-intervalles",
+      "case": "filtre-a-carburant",
+      "segment": "body:7",
+      "liste_ref": "C06",
+      "match": "diesel|essence|HDI|\\d{2} ?000",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "discordant",
+        "discordance_on": "value"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+          "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+          "quote": "par exemple tous les 30 000 miles ou tous les deux ans"
+        },
+        {
+          "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+          "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+          "quote": "Périodicité de remplacement des éléments filtrants : reportez-vous au document d’entretien de votre véhicule."
+        }
+      ],
+      "rationale": "Contradiction §6.3 (paire avec FA-carburant-60000) : valeurs non portées, Delphi diverge. Retirer. Défendable : preciser."
+    },
+    {
+      "id": "FC-amorcage",
+      "case": "filtre-a-carburant",
+      "segment": "body:9",
+      "liste_ref": "C09",
+      "match": "amorc|pomp|r[ée]sistance|purg",
+      "exclude": null,
+      "expected": "preciser",
+      "defensible": [
+        "retirer"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur"
+        ],
+        "proof": true,
+        "concordance": "single_source"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md",
+          "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+          "quote": "After a breakdown caused by completely running out of fuel, the system must be reprimed before the engine is restarted:"
+        },
+        {
+          "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md",
+          "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+          "quote": "activate the priming bulb 1 until it hardens and fuel runs in the pipes."
+        }
+      ],
+      "rationale": "Contradiction §6.5 : la notice Kangoo 2 ph2 porte le geste (poire jusqu'à durcissement) après une panne sèche, pas après remplacement ; portée trop large : preciser. Défendable : retirer (la condition « après remplacement » n'est portée par aucune capture)."
+    },
+    {
+      "id": "FC-ralenti-bobine",
+      "case": "filtre-a-carburant",
+      "segment": "body:11",
+      "liste_ref": "C10",
+      "match": "ralenti|bobine|injecteur",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [],
+        "proof": false,
+        "concordance": "no_source"
+      },
+      "provenance": [],
+      "rationale": "Contradiction §6.6 : aucune capture ne porte « à-coups au ralenti = injecteur/bobine » ; la bobine n'existe qu'en essence. Retirer. Défendable : preciser."
+    },
+    {
+      "id": "FC-acceleration",
+      "case": "filtre-a-carburant",
+      "segment": "body:11",
+      "liste_ref": "C10",
+      "match": "acc[ée]l[ée]ration",
+      "exclude": "ralenti|bobine",
+      "expected": "preciser",
+      "defensible": [
+        "retirer"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "equipementier"
+        ],
+        "proof": true,
+        "concordance": "single_source"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-common-rail-827c5aac.md",
+          "cid": "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+          "quote": "Si vous remarquez un manque de puissance à forte charge (vitesse élevée du moteur et accélération lourde)"
+        }
+      ],
+      "rationale": "Delphi associe un manque de puissance à forte charge au circuit de filtration, pas des à-coups ; substance partielle, un seul domaine : preciser. Défendable : retirer."
+    },
+    {
+      "id": "FH-charbon-90",
+      "case": "filtre-d-habitacle",
+      "segment": "body:2",
+      "liste_ref": "H03",
+      "match": "90 ?%|charbon",
+      "exclude": "92",
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": false,
+        "concordance": "discordant",
+        "discordance_on": "value"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+          "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+          "quote": "Cette couche supplémentaire piège les gaz jusqu'à 90 %"
+        },
+        {
+          "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+          "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+          "quote": "un revêtement de polyphénol pour piéger plus de 95 % des particules allergènes de l'air ambiant"
+        },
+        {
+          "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-climatisation-20261-3618c53c.md",
+          "cid": "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de",
+          "quote": "filtre anti-allergène breveté, capable de capturer 99 % des allergènes et 95 % des particules fines"
+        }
+      ],
+      "rationale": "Contradiction §6.4 : chez MANN le 90 % porte sur les gaz et odeurs du filtre charbon (CUK) ; les allergènes relèvent du polyphénol (plus de 95 %). Valeur mal attribuée : retirer. Défendable : preciser (réattribuer)."
+    },
+    {
+      "id": "FH-polyphenol-92",
+      "case": "filtre-d-habitacle",
+      "segment": "body:2",
+      "liste_ref": "H04",
+      "match": "92|polyph",
+      "exclude": null,
+      "expected": "retirer",
+      "defensible": [
+        "preciser"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "equipementier"
+        ],
+        "proof": false,
+        "concordance": "discordant",
+        "discordance_on": "value"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+          "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+          "quote": "un revêtement de polyphénol pour piéger plus de 95 % des particules allergènes de l'air ambiant"
+        },
+        {
+          "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md",
+          "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+          "quote": "neutralizes allergens transmitted by pollens using a natural surface treatment of the filter medium (polyphenol)"
+        }
+      ],
+      "rationale": "92 % n'est porté par aucune capture : MANN dit plus de 95 %, Valeo ne chiffre pas. Retirer. Défendable : preciser (corriger la valeur)."
+    },
+    {
+      "id": "FH-intervalle",
+      "case": "filtre-d-habitacle",
+      "segment": "body:2",
+      "liste_ref": "H05",
+      "match": "15 ?000|fois par an|20 ?000",
+      "exclude": "9[02] ?%",
+      "expected": "preciser",
+      "defensible": [
+        "retirer"
+      ],
+      "expected_corroboration": {
+        "domains": [
+          "constructeur",
+          "equipementier"
+        ],
+        "proof": false,
+        "concordance": "concordant"
+      },
+      "provenance": [
+        {
+          "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-climatisation-20261-3618c53c.md",
+          "cid": "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de",
+          "quote": "Il est conseillé de vérifier et remplacer le filtre d’habitacle tous les 15 000 à 20 000 km ou une fois par an"
+        },
+        {
+          "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+          "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+          "quote": "Les filtres d'habitacle doivent être remplacés une fois par an ou tous les 15 000 km."
+        },
+        {
+          "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-mag-clim-20261115-2059fa62.md",
+          "cid": "sha256:7b962ebb7e33dab68e250720a1f1e9df246ad473fddbb43324d4d7ede081876c",
+          "quote": "il est donc conseillé de le changer au minimum une fois tous les deux ans"
+        }
+      ],
+      "rationale": "Renault climatisation porte la valeur à l'identique, MANN et Valeo donnent 15 000 km ou un an ; aucune capture n'a le rôle proof (marketing et brochure) : le contrôle déclasse un conserver en preciser. Le magazine Renault (« au minimum une fois tous les deux ans ») peut être lu comme une discordance de valeur : retirer défendable."
+    }
+  ]
+}

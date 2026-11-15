@@ -1,0 +1,54 @@
+{
+  "slug": "filtre-a-air",
+  "fm": {
+    "slug": "filtre-a-air",
+    "title": "Filtre à air",
+    "source_refs": [
+      {
+        "kind": "raw",
+        "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+        "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c"
+      },
+      {
+        "kind": "raw",
+        "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+        "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc"
+      },
+      {
+        "kind": "raw",
+        "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+        "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2"
+      }
+    ]
+  },
+  "body": "## Choix selon véhicule\n\n> **Conseil entretien** : remplacement typique tous les 30 000 km, plus fréquent en milieu poussiéreux ou usage tout-terrain.\n\n## Compatibilité véhicule\n\n- [[filtre-a-carburant]] — filtre injection essence/diesel, intervalle 60 000 km diesel\n\n## FAQ\n\n### À quelle fréquence remplacer le filtre à air ?\n\nTypiquement tous les 30 000 km. Plus fréquent en milieu poussiéreux, usage urbain intensif ou tout-terrain [^1].\n\n### Peut-on nettoyer un filtre à air au lieu de le remplacer ?\n\nNon pour les filtres papier standard (perte de porosité après nettoyage). Oui pour les filtres réutilisables type coton huilé, mais selon procédure constructeur stricte (nettoyant + huile dédiés) [^2].\n",
+  "subject": {
+    "repo": "automecanik-wiki",
+    "path": "wiki/gamme/filtre-a-air.md, extrait verbatim des lignes 129, 133, 137, 145, 155, 157, 159, 161, 163 ; frontmatter réduit à slug, title et aux captures RAW du cas",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "slug": "filtre-a-air"
+  },
+  "freshness": {
+    "read_from": "origin",
+    "ref": "origin/main",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "4b4de7180092dd5145f106ed37bbd166b6fd9fb1",
+    "checked_at": "2026-11-15T17:52:04Z"
+  },
+  "producer": {
+    "declared": "human:@fafa",
+    "provider": "unknown",
+    "basis": "wiki/gamme/filtre-a-air.md@67e49d8, provenance.ingested_by (ligne 25) : humain déclaré, famille de modèle non consignée"
+  },
+  "source_lines": [
+    129,
+    133,
+    137,
+    145,
+    155,
+    157,
+    159,
+    161,
+    163
+  ]
+}

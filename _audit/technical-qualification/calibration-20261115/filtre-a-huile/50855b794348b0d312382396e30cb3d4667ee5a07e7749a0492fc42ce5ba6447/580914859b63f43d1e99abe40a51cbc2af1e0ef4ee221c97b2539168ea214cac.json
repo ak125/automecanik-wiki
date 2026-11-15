@@ -1,0 +1,553 @@
+{
+  "freshness": {
+    "checked_at": "2026-11-15T09:19:00Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "401314c6bb349378dcd9a9b15e773795e5d5d3d3",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "50855b794348b0d312382396e30cb3d4667ee5a07e7749a0492fc42ce5ba6447",
+  "key_inputs": {
+    "capture_domains": [
+      {
+        "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Filtron (MANN+HUMMEL)"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "MAHLE Aftermarket"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      }
+    ],
+    "captures": [
+      {
+        "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md"
+      }
+    ],
+    "domain_basis": "calib/catalog-publisher-class.yaml hors dépôt (sha256 ca75e3a459c75217e68c8250fe73a1bec1868b0de55814043323a141e400fcb7) : _meta/source-catalog.yaml de WIKI 67e49d821f17a73692ca0eb976791bcb092483ca + publisher_class des 8 captures d'éditeur des cas (hypothèse d'étalonnage, rapport.md)",
+    "domain_definition": "publisher_class",
+    "skill_sha256": "bbab905fb5183582c34591fa930aa2de651b4f9f289a82f447c6c74593bb2b65",
+    "text_sha256": "9c1b1be8ab441a7436e7371413c712a0c921dd002ea23f17d53a97cc1fb4e656"
+  },
+  "producer": {
+    "basis": "provenance.ingested_by de bd29675:proposals/filtre-a-huile.md ; _meta/source-policy.md:74",
+    "declared": "skill:wiki-proposal-writer",
+    "provider": "anthropic"
+  },
+  "retake_questions": [
+    {
+      "claim_id": "c0",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Quel intervalle de remplacement du filtre à huile, et lié ou non à chaque vidange, un constructeur (carnet ou plan d'entretien officiel) fixe-t-il pour un moteur précis ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c1",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Une source constructeur ou un manuel d'atelier confirme-t-il les conditions d'ouverture du clapet by-pass (colmatage, huile froide) et la pression d'ouverture pour un moteur donné ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c2",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Un constructeur ou un second éditeur indépendant de MAHLE confirme-t-il l'interdiction de réutiliser un élément ou un filtre à huile usagé ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c3",
+      "domains_present": [],
+      "question": "Une source constructeur ou équipementier indique-t-elle qu'un filtre à huile à média papier ou cellulose ne peut pas être nettoyé, et pourquoi ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c4",
+      "domains_present": [],
+      "question": "Une notice d'équipementier ou un manuel constructeur prescrit-il de vérifier le retrait de l'ancien joint (risque de double joint) lors du montage d'un filtre vissé ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:3"
+    },
+    {
+      "claim_id": "c5",
+      "domains_present": [],
+      "question": "Quelle notice d'équipementier ou quel constructeur prescrit de lubrifier le joint d'un filtre vissé, et avec quoi ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:3"
+    },
+    {
+      "claim_id": "c6",
+      "domains_present": [],
+      "question": "Quelle méthode et quelle valeur de serrage (tours après contact ou couple) une notice d'équipementier et un constructeur prescrivent-ils pour un filtre vissé donné ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:3"
+    },
+    {
+      "claim_id": "c7",
+      "domains_present": [],
+      "question": "Une notice d'équipementier ou un constructeur prescrit-il le remplacement et le positionnement des joints toriques lors du changement d'une cartouche de filtre à huile ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c8",
+      "domains_present": [],
+      "question": "Quel constructeur ou équipementier documente la présence et la repose d'un tube central sur un boîtier de cartouche précis ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c9",
+      "domains_present": [],
+      "question": "Quel couple de serrage du couvercle de boîtier de cartouche un manuel constructeur et une notice d'équipementier donnent-ils pour un moteur précis ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c10",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Un constructeur ou un second éditeur indépendant de MAHLE confirme-t-il qu'un filtre ou un élément à huile usagé ne doit pas être réutilisé ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:6"
+    },
+    {
+      "claim_id": "c11",
+      "domains_present": [],
+      "question": "Une source d'équipementier ou de constructeur explique-t-elle qu'un média de filtre à huile ne peut pas être nettoyé sans être endommagé ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:6"
+    }
+  ],
+  "reviewer": {
+    "cli_version": "2.1.325",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic"
+  },
+  "role": "qualification",
+  "schema_version": "technical-qualification/v2",
+  "segments": [
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "85dc1a891abc34753c0828a7dd0d53f097502c1d7eefd17e9988ec36b9b9e0ae"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:source_refs",
+      "no_claims": true,
+      "sha256": "6b312463a901fbb7c016c0b5e614eafbbe1ed817610e0c2f583ae9ab541b810d"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "bb52b31484c35bd646a6695583c5cdcd91ecdb83218ac301645b94bdb7091246"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c0",
+          "limite": "Aucune capture ne dit que le filtre se change « à chaque vidange ». La règle générale dépend du constructeur et du véhicule. Le texte omet de renvoyer au plan d'entretien du constructeur. Une seule source le dit, celle d'un équipementier, sans confirmation par un constructeur.",
+          "portee": "MAHLE (équipementier) : le filtre à huile se remplace dans les intervalles d'entretien fixés par le constructeur du véhicule. La capture cite des durées de service de 30 000 km en moyenne et jusqu'à 50 000 km sur certains véhicules récents.",
+          "proposed_wording": "Le filtre à huile se remplace dans les intervalles d'entretien fixés par le constructeur du véhicule : se référer au plan d'entretien de son modèle.",
+          "retake_question": "Quel intervalle de remplacement du filtre à huile, et lié ou non à chaque vidange, un constructeur (carnet ou plan d'entretien officiel) fixe-t-il pour un moteur précis ?",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "In the mean time, an oil filter needs changing after about 30,000 km on average."
+            }
+          ],
+          "text": "L'élément papier est conçu pour être changé à chaque vidange.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+              "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c1",
+          "limite": "Le texte omet le cas de l'huile froide et visqueuse, une autre cause d'ouverture, et la raison d'être du clapet : une huile sale vaut mieux que pas d'huile. Le mot « prématurément » n'est porté par aucune capture. La présence du clapet dépend de la conception du filtre et du moteur. Les deux captures viennent du même domaine (équipementier).",
+          "portee": "Filtres vissés (spin-on) équipés d'un clapet by-pass. Le clapet s'ouvre sous l'effet de la montée de pression, quand le filtre est colmaté (intervalle dépassé) ou quand l'huile est froide et visqueuse, pour éviter un défaut de lubrification.",
+          "proposed_wording": "Sur les filtres qui en sont équipés, le clapet by-pass s'ouvre quand la pression monte, si le filtre est colmaté (intervalle dépassé) ou si l'huile est froide et épaisse : l'huile circule alors sans être filtrée, pour éviter un manque de lubrification.",
+          "retake_question": "Une source constructeur ou un manuel d'atelier confirme-t-il les conditions d'ouverture du clapet by-pass (colmatage, huile froide) et la pression d'ouverture pour un moteur donné ?",
+          "sources": [
+            {
+              "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+              "quote": "The bypass valve is used when the filter is clogged due to a long period of time between replacements or when the vehicle is running at a low temperature (when the oil is cold and dense)."
+            },
+            {
+              "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+              "quote": "The bypass valve is opened as a result of the pressure increase in order to increase the throughput of oil flow in the engine as there may be a risk of insufficient lubrication of the parts working together."
+            },
+            {
+              "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+              "quote": "Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "A pressure relief valve guarantees the oil supply under all conditions – for viscous oil encountered during cold starts or at low temperatures, for extremely contaminated filter elements, or when the replacement intervals have been exceeded."
+            }
+          ],
+          "text": "Un filtre saturé fait ouvrir le by-pass prématurément (huile non filtrée).",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c2",
+          "limite": "La source parle de remplacement, pas de « filtre papier jetable » en général. SlashGear et Firestone ne figurent pas parmi les captures. Une seule source, celle d'un équipementier.",
+          "portee": "MAHLE : un filtre vissé (boîtier et élément indissociables) se change en bloc. Sur une cartouche, c'est l'élément sale qui se renouvelle.",
+          "proposed_wording": "Un filtre vissé, dont le boîtier et l'élément sont indissociables, se remplace en bloc. Sur un filtre à cartouche, on remplace l'élément filtrant usagé.",
+          "retake_question": "Un constructeur ou un second éditeur indépendant de MAHLE confirme-t-il l'interdiction de réutiliser un élément ou un filtre à huile usagé ?",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "instead of replacing the complete filter, only the dirty filter element has to be renewed."
+            }
+          ],
+          "text": "Un filtre papier jetable ne se réutilise pas.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c3",
+          "limite": "L'affirmation repose sur SlashGear et Firestone, absents des captures.",
+          "portee": "Aucune capture ne traite du nettoyage d'un filtre à huile.",
+          "proposed_wording": null,
+          "retake_question": "Une source constructeur ou équipementier indique-t-elle qu'un filtre à huile à média papier ou cellulose ne peut pas être nettoyé, et pourquoi ?",
+          "sources": [],
+          "text": "Un filtre papier jetable ne se nettoie pas.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:2",
+      "sha256": "dc10bf8b501a5f735bfbb20e42b74190045955fe3f1de4cbadb026f080490896"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c4",
+          "limite": "PMM ne figure pas parmi les captures. MAHLE dit seulement qu'un filtre ne fonctionne bien que s'il est correctement monté, sans détailler le geste. MAHLE signale aussi que des filtres d'aspect identique diffèrent selon le moteur (clapet, filetage) : le texte omet de dire qu'il faut vérifier la référence. En cas de fuite ou d'alerte de pression d'huile après le montage, il faut s'arrêter et consulter un professionnel.",
+          "portee": "Aucune capture ne décrit la dépose ou la repose du joint d'un filtre vissé.",
+          "proposed_wording": null,
+          "retake_question": "Une notice d'équipementier ou un manuel constructeur prescrit-il de vérifier le retrait de l'ancien joint (risque de double joint) lors du montage d'un filtre vissé ?",
+          "sources": [],
+          "text": "Filtre vissé : vérifier que l'ancien joint est parti (éviter le double joint).",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c5",
+          "limite": "Le geste n'a pas de source. Le lubrifiant et la méthode dépendent de la notice du filtre.",
+          "portee": "Aucune capture ne porte ce geste.",
+          "proposed_wording": null,
+          "retake_question": "Quelle notice d'équipementier ou quel constructeur prescrit de lubrifier le joint d'un filtre vissé, et avec quoi ?",
+          "sources": [],
+          "text": "Huiler le joint neuf.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c6",
+          "limite": "Aucune source ne porte la valeur de serrage, qui varie selon le filtre et le moteur. Un serrage inadapté peut provoquer une fuite et une perte de pression d'huile.",
+          "portee": "Aucune capture ne donne de méthode ni de valeur de serrage.",
+          "proposed_wording": null,
+          "retake_question": "Quelle méthode et quelle valeur de serrage (tours après contact ou couple) une notice d'équipementier et un constructeur prescrivent-ils pour un filtre vissé donné ?",
+          "sources": [],
+          "text": "Visser à la main jusqu'au contact puis serrer d'une fraction de tour selon la notice, sans clé ni sur-serrage.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:3",
+      "sha256": "92aa51a7a25b06913490f7d2469d4016d0752bcd7fbc38b007bc06278b6f9ea9"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c7",
+          "limite": "ECOGARD ne figure pas parmi les captures. Aucune capture ne porte ce geste.",
+          "portee": "MAHLE évoque les cartouches (seul l'élément se renouvelle, sur les boîtiers démontables), sans parler des joints toriques.",
+          "proposed_wording": null,
+          "retake_question": "Une notice d'équipementier ou un constructeur prescrit-il le remplacement et le positionnement des joints toriques lors du changement d'une cartouche de filtre à huile ?",
+          "sources": [],
+          "text": "Cartouche : remplacer les joints toriques par les neufs fournis, placés dans leur gorge.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c8",
+          "limite": "Le tube central dépend de la conception du boîtier. Le geste n'a pas de source.",
+          "portee": "Aucune capture ne mentionne de tube central.",
+          "proposed_wording": null,
+          "retake_question": "Quel constructeur ou équipementier documente la présence et la repose d'un tube central sur un boîtier de cartouche précis ?",
+          "sources": [],
+          "text": "Ne pas oublier le tube central.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c9",
+          "limite": "La valeur dépend du véhicule et du boîtier, et aucune source ne la donne. Il faut renvoyer au manuel d'atelier ou à un professionnel.",
+          "portee": "Aucune capture ne donne de couple de couvercle.",
+          "proposed_wording": null,
+          "retake_question": "Quel couple de serrage du couvercle de boîtier de cartouche un manuel constructeur et une notice d'équipementier donnent-ils pour un moteur précis ?",
+          "sources": [],
+          "text": "Respecter le couple du couvercle.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:4",
+      "sha256": "7d7be99498806d232dfb6be30cbddaefecde1e109f56b042a5bd7cb2b23d79b4"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:5",
+      "no_claims": true,
+      "sha256": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c10",
+          "limite": "Une seule source, celle d'un équipementier. Elle parle de remplacement, sans viser nommément le « papier jetable ».",
+          "portee": "MAHLE : le filtre vissé se change en bloc ; sur une cartouche, l'élément sale se renouvelle.",
+          "proposed_wording": "Non : un filtre vissé se remplace en bloc, et sur un filtre à cartouche on remplace l'élément filtrant usagé.",
+          "retake_question": "Un constructeur ou un second éditeur indépendant de MAHLE confirme-t-il qu'un filtre ou un élément à huile usagé ne doit pas être réutilisé ?",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "instead of replacing the complete filter, only the dirty filter element has to be renewed."
+            }
+          ],
+          "text": "On ne réutilise pas un élément papier jetable.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c11",
+          "limite": "SlashGear ne figure pas parmi les captures. La cause invoquée (dommage au nettoyage) n'a pas de source.",
+          "portee": "Aucune capture ne traite du nettoyage du média.",
+          "proposed_wording": null,
+          "retake_question": "Une source d'équipementier ou de constructeur explique-t-elle qu'un média de filtre à huile ne peut pas être nettoyé sans être endommagé ?",
+          "sources": [],
+          "text": "Le média ne se nettoie pas sans l'endommager.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:6",
+      "sha256": "c045b3c1861fc2079208630b74f77f17ceeb8691a57de813dedd5e774ebe0e62"
+    }
+  ],
+  "subject": {
+    "commit": "bd2967566af89414f01a205c646d5959da0a4e82",
+    "path": "proposals/filtre-a-huile.md (extrait : consignes retirées par 678c113, #97)",
+    "repo": "ak125/automecanik-wiki",
+    "slug": "filtre-a-huile"
+  }
+}

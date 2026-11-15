@@ -6,14 +6,15 @@ de l'owner du 2026-11-14. ADR-131 D6 ne fixe pas de seuil : les chiffres ci-dess
 
 ## Conditions d'exécution
 
-|                        |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ---------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Fraîcheur              | WIKI `origin/main` = `67e49d821f17a73692ca0eb976791bcb092483ca` ; RAW `origin/main` = `401314c6bb349378dcd9a9b15e773795e5d5d3d3`, lu par `git archive` (le checkout partagé du RAW est sur une branche obsolète) ; contrôle à 2026-11-15T09:19:00Z                                                                                                                                                                                                                                                                                                              |
-| Qualification          | `claude-opus-5-5` (famille anthropic), Claude Code CLI 2.1.325, `claude -p` sur stdin seul : `--tools ""`, `--strict-mcp-config`, `--no-session-persistence`, `--setting-sources ""`, `--disable-slash-commands`, `--system-prompt` imposé, mémoire automatique coupée                                                                                                                                                                                                                                                                                          |
-| Contestation           | `gpt-5.6-sol` (famille openai), codex-cli 0.144.4, `codex exec` sur stdin seul, le 2026-11-15 vers 13:32Z : `CODEX_HOME` dédié (fichier d'authentification seul), `--ignore-user-config`, `--ignore-rules`, `--ephemeral`, `--sandbox read-only`, outils coupés par `--disable` (commande complète : `_meta/semantic-review.md` §7), `-c web_search=disabled`, `-c skills.bundled.enabled=false`. Entrée : le paquet figé de la qualification 0.2.0 (texte, captures, artefact de qualification désigné par son empreinte), paquets de 7 000 caractères au plus |
-| Skill                  | 0.1.0 (sha256 `47abb9b6…c04473`), puis 0.2.0 (sha256 `52a78abd…8c241d`). Une révision du skill change la clé : les deux exécutions ont des clés distinctes et aucune ne remplace l'autre                                                                                                                                                                                                                                                                                                                                                                        |
-| Plancher de profondeur | calculé hors du modèle (ADR-131 D4)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| Banc                   | outil de session hors dépôt : découpe en paquets de 5 000 caractères au plus, 3 appels parallèles, validation par le schéma, contrôle d'ancrage des passages. Le mandat exclut un script enveloppe : le banc n'est pas déposé                                                                                                                                                                                                                                                                                                                                   |
+|                            |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Fraîcheur                  | WIKI `origin/main` = `67e49d821f17a73692ca0eb976791bcb092483ca` ; RAW `origin/main` = `401314c6bb349378dcd9a9b15e773795e5d5d3d3`, lu par `git archive` (le checkout partagé du RAW est sur une branche obsolète) ; contrôle à 2026-11-15T09:19:00Z                                                                                                                                                                                                                                                                                                              |
+| Qualification              | `claude-opus-5-5` (famille anthropic), Claude Code CLI 2.1.325, `claude -p` sur stdin seul : `--tools ""`, `--strict-mcp-config`, `--no-session-persistence`, `--setting-sources ""`, `--disable-slash-commands`, `--system-prompt` imposé, mémoire automatique coupée                                                                                                                                                                                                                                                                                          |
+| Contestation               | `gpt-5.6-sol` (famille openai), codex-cli 0.144.4, `codex exec` sur stdin seul, le 2026-11-15 vers 13:32Z : `CODEX_HOME` dédié (fichier d'authentification seul), `--ignore-user-config`, `--ignore-rules`, `--ephemeral`, `--sandbox read-only`, outils coupés par `--disable` (commande complète : `_meta/semantic-review.md` §7), `-c web_search=disabled`, `-c skills.bundled.enabled=false`. Entrée : le paquet figé de la qualification 0.2.0 (texte, captures, artefact de qualification désigné par son empreinte), paquets de 7 000 caractères au plus |
+| Skill                      | 0.1.0 (sha256 `47abb9b6…c04473`), puis 0.2.0 (sha256 `52a78abd…8c241d`), puis 0.3.0 (sha256 `bbab905f…93bb2b65`). Une révision du skill change la clé : chaque exécution a sa clé et aucune ne remplace une autre                                                                                                                                                                                                                                                                                                                                               |
+| Domaine d'autorité (0.3.0) | classe d'éditeur (ADR-131 D9, option I1), calculée par `_scripts/technical_qualification.py`. Le catalogue n'a pas `publisher_class` : l'étalonnage lui applique une classe posée hors du dépôt (sha256 `ca75e3a4…e400fcb7`) : Renault `constructeur` ; Filtron, MAHLE, ZF, Brembo, Delphi `equipementier` ; Wikipedia sans classe                                                                                                                                                                                                                              |
+| Plancher de profondeur     | calculé hors du modèle (ADR-131 D4)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| Banc                       | outil de session hors dépôt : découpe en paquets de 5 000 caractères au plus, 3 appels parallèles, validation par le schéma, contrôle d'ancrage des passages. Le mandat exclut un script enveloppe : le banc n'est pas déposé                                                                                                                                                                                                                                                                                                                                   |
 
 Le rapprochement entre les artefacts et les jeux de référence est fait à la main par l'agent qui a
 exécuté le skill. Il n'a pas de seconde lecture.
@@ -164,6 +165,70 @@ n'est hors des captures.
   comme contexte lèverait ce biais ; c'est une propriété du banc, pas du skill.
 - Un modèle par famille et une exécution : la variance n'est pas mesurée.
 
+## Révision 0.3.0 — corroboration par un second domaine
+
+Le skill 0.3.0 applique la règle de corroboration (ADR-131 D9) : en profondeur `complete`, `conserver`
+exige une capture de rôle `proof` et un second domaine concordant ; une seule source donne
+`preciser`. Les trois cas ont été relancés le 2026-11-15 entre 14:40Z et 14:54Z, même modèle, mêmes
+captures, nouvelles clés. Aucun appel n'a échoué ; le contrôle `corroboration_violations` ne relève
+rien sur les trois artefacts. Seul le tour 0 de la boucle de reprise est mesuré : aucune capture n'est
+ajoutée.
+
+| Cas                        | Affirmations `complete`                         | Déclassées depuis `conserver`         | Score    | Questions de reprise                    |
+| -------------------------- | ----------------------------------------------- | ------------------------------------- | -------- | --------------------------------------- |
+| filtre, consignes retirées | 12 : 4 `preciser`, 8 `retirer`                  | 0                                     | 0 sur 12 | 12 (8 sans capture, 4 un seul domaine)  |
+| filtre, cinq paires        | 8 : 7 `preciser`, 1 `retirer`                   | 2, par le modèle ; 0 par le contrôle  | 0 sur 8  | 8 (7 un seul domaine, 1 sans capture)   |
+| plaquette@88f9f88          | 93 : 90 `preciser`, 2 `retirer`, 1 `reformuler` | 40, par le modèle ; 0 par le contrôle | 0 sur 93 | 93 (91 un seul domaine, 2 sans capture) |
+
+Toutes les questions de reprise sont rédigées par le modèle ; aucune n'est un gabarit.
+
+### Part retrouvée
+
+- Cas 1 : 6 sur 6. « à chaque vidange », by-pass et réutilisation en `preciser` ; « ne se nettoie
+  pas » en `retirer` ; double joint, huilage et serrage en `retirer` ; joints toriques, tube central
+  et couple en `retirer` ; la FAQ en `preciser` et `retirer`. Aucune affirmation ne cite la capture
+  Renault.
+- Cas 2 : L153 `preciser` et `retirer` (« une référence d'origine permet de recouper ») ; L154 et L155
+  deux `preciser` chacune, dont une déclassée depuis `conserver` par le modèle ; L156 et L157
+  `preciser`. Les deux `conserver` de L154 en 0.2.0 deviennent `preciser`.
+- Cas 3 :
+  - sécurité, Q5 (body:52, c90) : **en partie**. `preciser`, mais la limite nomme les essais à vitesse
+    réduite et le risque d'un mauvais rodage, pas le mauvais montage ni la pression instable à la
+    pédale (body:16 et body:50 en parlent ailleurs). La 0.2.0 la retrouvait en entier ;
+  - sens : 8 sur 8 (rainure, argument de gamme, Q3 « plus anciens », Q4 « Oui », type contre nombre
+    et position en `retirer`, trois `diagnostic_relations` en `preciser`, épaisseur et distance de
+    rodage en `reformuler`) ;
+  - formulation : 6 sur 12 en entier (symptôme seul, « en principe », « électroniques », argument de
+    gamme, « signal sonore », « ces valeurs dépendent du véhicule ») ; manqués : « plus anciens »
+    dans `entity_data`, garnitures, « cinq pages techniques », disque voilé ; hors de portée :
+    `educational_advice` sans `source_ids`, `kit-de-frein-arriere`.
+
+### Trois définitions du domaine, recalculées hors du modèle
+
+Même artefact, mêmes passages cités ; seul change le calcul du domaine. « Confirmées » compte les
+affirmations au fond `conserver` (verdict ou déclassement) qui auraient une preuve et deux domaines.
+
+| Définition           | Domaines (filtre / plaquette) | Confirmées : cas 1 | cas 2                | cas 3                                                        |
+| -------------------- | ----------------------------- | ------------------ | -------------------- | ------------------------------------------------------------ |
+| I1, classe d'éditeur | 2 / 1                         | 0                  | 0                    | 0                                                            |
+| I2, `source_type`    | 1 / 2                         | 0                  | 0                    | 1, avec Wikipedia pour second domaine                        |
+| I3, hôte             | 3 / 4                         | 0                  | 1 (Filtron et MAHLE) | 10 : 9 par deux équipementiers concurrents, 1 avec Wikipedia |
+
+Sous I1, aucune affirmation de ces cas ne peut être confirmée sans nouvelle capture : le cas 1 ne cite
+jamais Renault, et la plaquette n'a qu'une classe d'éditeur.
+
+### Ce que la révision 0.3.0 montre
+
+- La règle est appliquée par le modèle lui-même : 42 déclassements, aucun laissé au contrôle.
+- Le défaut resté ouvert en 0.2.0 (un `conserver` dont la limite décrit un écart) est **masqué**, pas
+  corrigé. Plusieurs affirmations déclassées depuis `conserver` ont une limite qui décrit un écart de
+  fond : `entity_data` c4 (« signal sonore »), c21 (« en principe »), c15, c24, et L155 c4 au cas 2.
+  Elles finissent en `preciser` faute de second domaine, comme les affirmations exactes et seules.
+  Le verdict ne les distingue plus ; seule la limite le fait.
+- La Q5 est moins bien retrouvée qu'en 0.2.0. Un modèle et une exécution par révision ne disent pas
+  si l'écart tient à la révision ou à la variance.
+- La contestation n'a pas été relancée sur la 0.3.0.
+
 ## Artefacts
 
 | Cas                        | Révision              | Clé                | Fichier (sha256)   |
@@ -177,6 +242,9 @@ n'est hors des captures.
 | filtre, consignes retirées | contestation de 0.2.0 | `0ec33159…7f24fdc` | `da3acb46…02cb871` |
 | filtre, cinq paires        | contestation de 0.2.0 | `28ffb476…c040718` | `b32112dd…eb1a2f1` |
 | plaquette@88f9f88          | contestation de 0.2.0 | `410254eb…9537f3d` | `1dfbf385…97ab996` |
+| filtre, consignes retirées | 0.3.0                 | `50855b79…5ba6447` | `58091485…a214cac` |
+| filtre, cinq paires        | 0.3.0                 | `b95b2052…018ade1` | `eaa06224…e0afa98` |
+| plaquette@88f9f88          | 0.3.0                 | `7e9eb85c…b82043a` | `2e07943f…3b6d620` |
 
 Les passages cités (`{path, cid, quote}`) suivent le même régime que `_audit/semantic-review/` : ils
 recopient des captures RAW dans ce dépôt public.

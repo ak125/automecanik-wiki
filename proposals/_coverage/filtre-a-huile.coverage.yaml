@@ -173,7 +173,7 @@ coverage_entries:
 - claim_id: filtre-huile-joint-colle-temoin
   section: '## Symptômes & diagnostic'
   text_anchor: un ancien joint resté collé sur la bride peut provoquer une fuite et allumer
-    le témoin moteur tournant
+    le témoin de pression d'huile moteur tournant
   source_slug: mahle_oem_joint_filtre_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -238,7 +238,7 @@ coverage_entries:
   source_status: captured
 - claim_id: filtre-huile-fragilisation-media
   section: '## Entretien & bonnes pratiques'
-  text_anchor: un élément filtrant ne retient plus de saleté, même s'il n'est pas encore colmaté
+  text_anchor: l'élément filtrant ne retient plus de saleté, même s'il n'est pas encore colmaté
   source_slug: mahle_oem_conception_filtre_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -263,8 +263,8 @@ coverage_entries:
   source_status: captured
 - claim_id: filtre-huile-qualite-microstar
   section: '## Marques & qualité'
-  text_anchor: le papier filtrant MICROSTAR, le clapet de dérivation (by-pass) et le clapet
-    anti-retour
+  text_anchor: son papier filtrant MICROSTAR, le clapet de dérivation (by-pass) et le clapet
+    anti-vidange
   source_slug: mahle_oem_conception_filtre_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -411,9 +411,18 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
+- claim_id: filtre-huile-controle-niveau-plage
+  section: '### Contrôles après montage'
+  text_anchor: vérifier aussi que le niveau d'huile se situe dans la plage recommandée par
+    le constructeur du véhicule
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
 - claim_id: filtre-huile-controle-fuite
   section: '### Contrôles après montage'
-  text_anchor: chercher une fuite autour du joint du filtre et des bouchons de vidange
+  text_anchor: vérifier l'absence de fuite autour du joint du filtre et des bouchons de vidange
   source_slug: filtron_oem_remplacement_filtre_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -443,14 +452,6 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: captured
-- claim_id: filtre-huile-faq-twingo3-periodicite
-  section: '## FAQ'
-  text_anchor: la notice renvoie la périodicité de la vidange au document d'entretien du véhicule
-  source_slug: renault_twingo3p2_vidange_huile
-  evidence_type: oem_owner_manual_excerpt
-  confidence: high
-  source_policy: 1_high
-  source_status: pending_capture
 - claim_id: filtre-huile-faq-temoin-duree
   section: '## FAQ'
   text_anchor: cette durée n'indique pas la qualité du filtre
@@ -499,23 +500,26 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
-notes: 'Révision 7 du 2026-11-15 (mandat T), après la revue sémantique FAIL de la clé c6ae8560
-  (révision 6) : les claims de la notice Twingo propres à la procédure (sécurité, MAXI, brûlures,
-  bouchon) sont retirés avec leur texte ; claims ajoutés : objectif de la procédure (Filtron)
-  et bornage de la consigne du témoin au démarrage après remplacement (Filtron). Révision
-  6, après la revue sémantique FAIL de la clé bc72d428 (révision 5) : le claim des 10 minutes
-  de la notice Twingo est remplacé par celui du niveau MAXI dépassé, et les ancres du débordement
-  et de l''intervalle moyen suivent le texte corrigé. Révision 5 : révision 4 (régénérée après
-  la revue sémantique FAIL de la clé 29efee80) plus deux liens Markdown de maillage, sans
-  claim nouveau (révision 3 : revue FAIL clé 8f23743c ; révision 2 : revue FAIL clé 85e143d6,
-  qualification et contestation Codex clé d86cec54). Chaque ancre est reprise du nouveau texte
-  de la proposition.
+notes: 'Révision 8 du 2026-11-15 (complément n° 2 au mandat T) : claim de périodicité de la
+  notice Twingo retiré avec son texte (la Twingo n''est plus citée) ; claim ajouté : niveau
+  dans la plage recommandée par le constructeur (Filtron), sans moment ni condition ; ancres
+  suivies des reformulations (témoin de pression d''huile, clapet anti-vidange, fuite, fragilisation).
+  Révision 7 du 2026-11-15 (mandat T), après la revue sémantique FAIL de la clé c6ae8560 (révision
+  6) : les claims de la notice Twingo propres à la procédure (sécurité, MAXI, brûlures, bouchon)
+  sont retirés avec leur texte ; claims ajoutés : objectif de la procédure (Filtron) et bornage
+  de la consigne du témoin au démarrage après remplacement (Filtron). Révision 6, après la
+  revue sémantique FAIL de la clé bc72d428 (révision 5) : le claim des 10 minutes de la notice
+  Twingo est remplacé par celui du niveau MAXI dépassé, et les ancres du débordement et de
+  l''intervalle moyen suivent le texte corrigé. Révision 5 : révision 4 (régénérée après la
+  revue sémantique FAIL de la clé 29efee80) plus deux liens Markdown de maillage, sans claim
+  nouveau (révision 3 : revue FAIL clé 8f23743c ; révision 2 : revue FAIL clé 85e143d6, qualification
+  et contestation Codex clé d86cec54). Chaque ancre est reprise du nouveau texte de la proposition.
 
 
   60 claims : 30 captured (sources actives Filtron clapets, MAHLE conception, notice Clio
-  5 phase 1), 30 pending_capture (Filtron remplacement, Filtron témoin, MAHLE joints, notice
-  Twingo 3 phase 2, sources to_capture depuis automecanik-raw PR #78). Passage en captured
-  = activation owner de la source, puis relecture du claim contre sa capture.
+  5 phase 1), 30 pending_capture (Filtron remplacement, Filtron témoin, MAHLE joints, sources
+  to_capture depuis automecanik-raw PR #78). Passage en captured = activation owner de la
+  source, puis relecture du claim contre sa capture.
 
 
   Valeurs couvertes : serrage habituel (Filtron, subordonné à l''indication du filtre), attente

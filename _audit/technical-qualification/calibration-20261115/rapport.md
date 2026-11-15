@@ -10,7 +10,7 @@ de l'owner du 2026-11-14. ADR-131 D6 ne fixe pas de seuil : les chiffres ci-dess
 |---|---|
 | Fraîcheur | WIKI `origin/main` = `67e49d821f17a73692ca0eb976791bcb092483ca` ; RAW `origin/main` = `401314c6bb349378dcd9a9b15e773795e5d5d3d3`, lu par `git archive` (le checkout partagé du RAW est sur une branche obsolète) ; contrôle à 2026-11-15T09:19:00Z |
 | Qualification | `claude-opus-5-5` (famille anthropic), Claude Code CLI 2.1.325, `claude -p` sur stdin seul : `--tools ""`, `--strict-mcp-config`, `--no-session-persistence`, `--setting-sources ""`, `--disable-slash-commands`, `--system-prompt` imposé, mémoire automatique coupée |
-| Contestation | voir § Contestation |
+| Contestation | `gpt-5.6-sol` (famille openai), codex-cli 0.144.4, `codex exec` sur stdin seul, le 2026-11-15 vers 13:32Z : `CODEX_HOME` dédié (fichier d'authentification seul), `--ignore-user-config`, `--ignore-rules`, `--ephemeral`, `--sandbox read-only`, outils coupés par `--disable` (commande complète : `_meta/semantic-review.md` §7), `-c web_search=disabled`, `-c skills.bundled.enabled=false`. Entrée : le paquet figé de la qualification 0.2.0 (texte, captures, artefact de qualification désigné par son empreinte), paquets de 7 000 caractères au plus |
 | Skill | 0.1.0 (sha256 `47abb9b6…c04473`), puis 0.2.0 (sha256 `52a78abd…8c241d`). Une révision du skill change la clé : les deux exécutions ont des clés distinctes et aucune ne remplace l'autre |
 | Plancher de profondeur | calculé hors du modèle (ADR-131 D4) |
 | Banc | outil de session hors dépôt : découpe en paquets de 5 000 caractères au plus, 3 appels parallèles, validation par le schéma, contrôle d'ancrage des passages. Le mandat exclut un script enveloppe : le banc n'est pas déposé |
@@ -101,8 +101,68 @@ est compté comme manqué.
 
 ## Contestation
 
-À compléter : le contestataire de la famille openai (Codex CLI) a atteint sa limite d'usage pendant
-la session ; sa contestation sera exécutée dès la fin de cette limite.
+Le contestataire a reçu, pour chaque cas, la qualification 0.2.0 et le même texte. Chaque artefact de
+contestation désigne la qualification par son empreinte (`contests.artifact_sha256`) et partage sa
+clé. Une sonde a précédé l'exécution, avec la commande retenue : aucun skill visible, aucune commande
+exécutable (la lecture de `/etc/hostname` échoue faute d'outil), le lancement d'un sous-agent échoue.
+Le flux `--json` de la sonde ne contient aucun élément d'exécution de commande.
+
+| Cas | Affirmations | `agree` | `contest` | `undecidable` | Oubliées (`missed`) |
+|---|---|---|---|---|---|
+| filtre, consignes retirées | 11 | 4 | 0 | 7 (toutes avec `retirer`) | 0 |
+| filtre, cinq paires | 8 | 7 | 1 | 0 | 0 |
+| plaquette@88f9f88 | 107 | 95 | 11 | 1 | 6 |
+
+Chaque affirmation de la qualification a reçu une position. Aucun passage cité par le contestataire
+n'est hors des captures.
+
+### Cas 1 et 2
+
+- Consignes retirées : aucune n'est rendue `conserver`. Les sept `undecidable` portent sur les
+  consignes que le 11 retire faute de capture (double joint, huilage, serrage, joints toriques, tube
+  central, couple, nettoyage du média) ; le contestataire dit lui aussi qu'aucune capture ne les
+  tranche.
+- Cinq paires : L154 (body:3, c4, « ne cherchez pas à convertir le montage ») passe de `preciser` à
+  `retirer` : les captures justifient un filtre adapté au moteur, pas l'interdiction de convertir.
+
+### Cas 3 — `plaquette-de-frein@88f9f88`
+
+- Q5 (body:52, c103) : `agree` sur `preciser`, pour le motif de la référence (mauvais montage,
+  pression instable).
+- Constats de formulation que la qualification 0.2.0 avait manqués :
+  - **retrouvés par la contestation** (2) : « un symptôme seul ne désigne pas la plaquette » (body:16,
+    c54, `undecidable` : aucune capture ne porte cette précaution) ; « ces valeurs dépendent du
+    véhicule » (body:54, c106, `contest` vers `reformuler` : la capture publie une distance de rodage
+    propre au Kit EV) ;
+  - **manqués** (6) : « en principe » dans le corps (body:22, c64, `agree` sur `conserver`) ; « plus
+    anciens » et « signal sonore » dans `entity_data` (c5, `agree`) ; garnitures (body:45, c95,
+    `agree`) ; disque voilé ; « cinq pages techniques » (body:54, c104, contesté vers `reformuler` pour
+    un autre motif : « chaque affirmation repose » trop absolu, procédure intitulée Kit EV ; le
+    contestataire tient l'inventaire des six captures pour exact, ce que la référence conteste) ;
+  - hors de portée, comme pour la qualification : `educational_advice` sans `source_ids`, slug
+    `kit-de-frein-arriere`.
+- Contestations hors du jeu de référence, vers un verdict plus strict : relation de diagnostic (c3,
+  confiance et `diagnostic_safe` sans capture), durée et kilométrage (c15), type d'indicateur (c26,
+  `retirer` : la capture parle du nombre et de la position), ECE R90 (c27), structure de la plaquette
+  (c37), composant de sécurité (c38), indicateur d'usure (c53).
+- Contestations vers un verdict plus souple : c68 (remplacement par essieu, `preciser` vers
+  `conserver`) et c85 (durée d'usure, `reformuler` vers `conserver`). ADR-131 D3 retient le verdict le
+  plus strict des deux : elles ne lèvent aucun blocage.
+- Six affirmations oubliées par le 11, toutes dans des notes de fiche (`review_notes` et body:54) :
+  date de révision, état de la relation de diagnostic, pages et slugs absents, licence, absence de
+  valeur publiée.
+
+### Ce que la contestation montre
+
+- Sur les deux couches, 4 constats de formulation sur 12 sont retrouvés en entier (« électroniques »,
+  argument de gamme, symptôme seul, « ces valeurs dépendent du véhicule ») et 1 en partie (« en
+  principe », relevé dans `entity_data` mais pas dans le corps). « Cinq pages techniques », contesté
+  pour un autre motif, reste compté comme manqué, selon la règle appliquée à 0.1.0. Le défaut resté ouvert en 0.2.0 (un `conserver` dont la limite décrit
+  un écart) n'est corrigé que sur body:54 c106 ; c5 reste `agree` sur `conserver`.
+- Deux contestations (c38, c53) renvoient à un segment absent de leur paquet : le banc découpe la fiche
+  et le contestataire ne voit qu'un paquet à la fois. Un contestataire qui reçoit la fiche entière
+  comme contexte lèverait ce biais ; c'est une propriété du banc, pas du skill.
+- Un modèle par famille et une exécution : la variance n'est pas mesurée.
 
 ## Artefacts
 
@@ -114,6 +174,9 @@ la session ; sa contestation sera exécutée dès la fin de cette limite.
 | filtre, cinq paires | 0.2.0 | `28ffb476…c040718` | `c06d5564…01514d9` |
 | plaquette@88f9f88 | 0.1.0 | `4261b108…8874cff` | `312a04b5…0371bff` |
 | plaquette@88f9f88 | 0.2.0 | `410254eb…9537f3d` | `3461d4a6…04a1350` |
+| filtre, consignes retirées | contestation de 0.2.0 | `0ec33159…7f24fdc` | `da3acb46…02cb871` |
+| filtre, cinq paires | contestation de 0.2.0 | `28ffb476…c040718` | `b32112dd…eb1a2f1` |
+| plaquette@88f9f88 | contestation de 0.2.0 | `410254eb…9537f3d` | `1dfbf385…97ab996` |
 
 Les passages cités (`{path, cid, quote}`) suivent le même régime que `_audit/semantic-review/` : ils
 recopient des captures RAW dans ce dépôt public.

@@ -1,0 +1,20 @@
+# Consigne de la seconde lecture (invite : consigne + SKILL.md 0.3.0 + paquet).
+# Valeur de `text` : octets d'origine, mot pour mot ; `sha256` porte sur ces octets.
+source_file: consigne.txt
+sha256: 6250e70e2d846b3199957ac519239f2320dbb72f3561de1210004633725e13f6
+text: |
+  Tu es un second relecteur technique, indépendant. Tu ne disposes d'aucun outil et ta seule entrée est ce message.
+
+  Ta tâche : pour chacune des 20 cibles du paquet JSON ci-dessous, rendre le verdict que la méthode du skill `qualification-technique` (version 0.3.0, texte intégral ci-dessous) impose pour l'affirmation `claim`, lue dans son segment `segment` du cas `case`, au regard des seules captures de ce cas.
+
+  Règles de lecture :
+  - Le paquet donne pour chaque segment son plancher de profondeur (`depth_floor`, motifs `depth_floor_reasons`), calculé hors du modèle. Tu peux élever la profondeur (motifs `escalated` ou `doubt`), jamais la baisser.
+  - Le paquet donne pour chaque capture son éditeur (`publisher`), son domaine d'autorité (`domain` = classe d'éditeur, option I1) et son rôle éditorial (`editorial_role` : proof, corroboration, unknown). Ne les recalcule pas.
+  - Applique la règle des deux domaines (D9) en profondeur complete : `conserver` exige une preuve (capture de rôle proof) et au moins deux domaines concordants ; une discordance sur une valeur, une procédure ou la sécurité donne `retirer`.
+  - Chaque passage cité doit être une citation exacte, mot pour mot, de la capture désignée par son chemin.
+  - Ne déduis rien de ta connaissance générale de l'automobile : seules les captures font foi.
+
+  Réponds uniquement par un objet JSON, sans autre texte :
+  {"targets": [{"id": "<id de la cible>", "depth": "complete|allegee", "depth_reasons": ["..."], "verdict": "conserver|preciser|reformuler|retirer", "concordance": "concordant|discordant|single_source|no_source", "discordance_on": "value|procedure|safety|other|null", "domains": ["<domaines des captures citées>"], "proof": true, "sources": [{"path": "...", "quote": "..."}], "justification": "<deux à quatre phrases>"}]}
+
+  === SKILL.md (qualification-technique 0.3.0) ===

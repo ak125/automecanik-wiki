@@ -67,7 +67,9 @@ ses affirmations en profondeur complete ne peut rester `conserver`.
 1. Trois passages par cas avec le banc `_scripts/technical_qualification_bench.py`, puis la
    variance : `runs/` (artefacts, `manifest.yaml`, `variance.yaml`) et `variance-20261115.md`.
 
-`SHA256SUMS` couvre les fichiers de ce dossier.
+`SHA256SUMS.yaml` donne le sha256 de chaque autre fichier de ce dossier. Le dépôt n'admet que les
+extensions `.md`, `.json`, `.yaml` et `.yml` (`_scripts/check-extension-whitelist.mjs`), d'où ce
+format plutôt que celui de `sha256sum`.
 
 ## Format des fichiers
 

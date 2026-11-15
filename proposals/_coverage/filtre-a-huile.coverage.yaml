@@ -146,6 +146,30 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
+- claim_id: filtre-huile-temoin-affichage-equipement
+  section: '## Symptômes & diagnostic'
+  text_anchor: l'affichage des témoins dépend de l'équipement du véhicule et du pays
+  source_slug: renault_clio5p1_alerte_pression_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-temoin-usure-galerie
+  section: '## Symptômes & diagnostic'
+  text_anchor: une pression trop basse dans la galerie d'huile
+  source_slug: filtron_oem_voyant_pression_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-temoin-affirmation-filtron
+  section: '## Symptômes & diagnostic'
+  text_anchor: avec ses propres filtres, un témoin qui ne s'éteint pas après remplacement
+  source_slug: filtron_oem_voyant_pression_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
 - claim_id: filtre-huile-joint-colle-temoin
   section: '## Symptômes & diagnostic'
   text_anchor: un ancien joint resté collé sur la bride peut provoquer une fuite et allumer
@@ -180,9 +204,33 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: captured
+- claim_id: filtre-huile-choix-qualite-intervalle-long
+  section: '## Critères de choix selon le véhicule'
+  text_anchor: plus l'intervalle est long, plus la qualité du filtre importe
+  source_slug: mahle_oem_conception_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
 - claim_id: filtre-huile-intervalle-constructeur
   section: '## Entretien & bonnes pratiques'
   text_anchor: dans les intervalles d'entretien fixés par le constructeur du véhicule
+  source_slug: mahle_oem_conception_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-intervalle-moyen-mahle
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: un filtre à huile se change aujourd'hui en moyenne après environ 30 000 km
+  source_slug: mahle_oem_conception_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-intervalle-50000-mahle
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: certains constructeurs annoncent 50 000 km
   source_slug: mahle_oem_conception_filtre_huile
   evidence_type: oem_technical_page
   confidence: high
@@ -418,6 +466,14 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: captured
+- claim_id: filtre-huile-sel-cartouche-economique
+  section: '## Choisir son filtre à huile'
+  text_anchor: particulièrement économique pour les ateliers
+  source_slug: mahle_oem_conception_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
 - claim_id: filtre-huile-faq-twingo3-periodicite
   section: '## FAQ'
   text_anchor: la notice renvoie la périodicité de la vidange au document d'entretien du véhicule
@@ -450,6 +506,30 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
+- claim_id: filtre-huile-faq-bouchon-remplissage
+  section: '## FAQ'
+  text_anchor: refermer le bouchon de remplissage avant de démarrer
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-faq-bouchon-incendie
+  section: '## FAQ'
+  text_anchor: qu'un bouchon mal refermé expose à des projections d'huile
+  source_slug: renault_twingo3p2_vidange_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-faq-dechets
+  section: '## FAQ'
+  text_anchor: jamais avec les ordures ménagères
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
 - claim_id: filtre-huile-faq-changer-joints
   section: '## FAQ'
   text_anchor: changer le filtre, c'est changer les joints
@@ -458,19 +538,21 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
-notes: 'Révision 3 du 2026-11-15 (mandat T), régénérée après la revue sémantique FAIL de la
-  clé 8f23743c (révision 2 : revue FAIL clé 85e143d6, qualification et contestation Codex
-  clé d86cec54). Chaque ancre est reprise du nouveau texte de la proposition.
+notes: 'Révision 4 du 2026-11-15 (mandat T), régénérée après la revue sémantique FAIL de la
+  clé 29efee80 (révision 3 : revue FAIL clé 8f23743c ; révision 2 : revue FAIL clé 85e143d6,
+  qualification et contestation Codex clé d86cec54). Chaque ancre est reprise du nouveau texte
+  de la proposition.
 
 
-  55 claims : 25 captured (sources actives Filtron clapets, MAHLE conception, notice Clio
-  5 phase 1), 30 pending_capture (Filtron remplacement, Filtron témoin, MAHLE joints, notice
+  65 claims : 30 captured (sources actives Filtron clapets, MAHLE conception, notice Clio
+  5 phase 1), 35 pending_capture (Filtron remplacement, Filtron témoin, MAHLE joints, notice
   Twingo 3 phase 2, sources to_capture depuis automecanik-raw PR #78). Passage en captured
   = activation owner de la source, puis relecture du claim contre sa capture.
 
 
   Valeurs couvertes : serrage habituel (Filtron, subordonné à l''indication du filtre), attente
-  d''environ 10 minutes (Twingo), quelques secondes d''allumage du témoin (Filtron). Retirés
+  d''environ 10 minutes (Twingo), quelques secondes d''allumage du témoin (Filtron), ordre
+  de grandeur de 30 000 km en moyenne et 50 000 km chez certains constructeurs (MAHLE). Retirés
   avec leur texte : la relation et le paragraphe « perte de puissance », l''orientation «
   tête en bas » du clapet anti-retour, le choix « à partir du véhicule dans le catalogue »
   et la distinction avec les autres filtres, non portés par les captures.'

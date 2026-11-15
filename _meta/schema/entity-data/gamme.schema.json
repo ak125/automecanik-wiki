@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/entity-data/gamme.schema.json",
-  "title": "entity_data v2.4.0 — gamme (R1/R3/R4/R6)",
-  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'. v2.0.0 ajoute le bloc maintenance (canon ADR-032 §D1). v2.1.0 (additive, 2026-05-27 Task 8a) ajoute le bloc optionnel `dimensions` pour les compatibility_factors + motorisation_profiles produits par scripts/wiki-generators/promote-raw-gammes-to-wiki.py (canon B5 compatibility_proven_by_runtime_url_and_db). v2.2.0 (additive, 2026-05-28) ajoute le bloc optionnel `decision_brief` — facettes décisionnelles sourcées (function_oneliner + selection_criteria_top + compatibility_summary) projetées déterministiquement depuis dimensions. Aucun texte généré stocké. Capte les signaux Google AI Mode Decide/Summarize sans toucher R2/R8 runtime. v2.3.0 (additive, ADR-086 §2bis) ajoute `editorial` (sections éditoriales gamme curées+sourcées, cluster R1/R3/R4/R6, prose humaine-validée projetée en blocks[] role-aware — distinct du decision_brief déterministe ; niveau GAMME, 1/gamme, zéro risque duplicate) + `media` (couture image-ready, chantier image gouverné SÉPARÉ). diagnostic_relations[] reste top-level frontmatter (canon ADR-033 §D1). v2.4.0 (additive, ADR-088) ajoute `related_gammes` + `commerce_intent` (optionnels, défaut []) — parité avec vehicle.schema.json v1.2.0 ; alimentent la dimension D (mapping commerce) du score shadow, validés contre le manifest commité (reality-check 0-DB). Report-only : n'enclenche aucun cutover, n'impose rien aux fiches existantes.",
+  "title": "entity_data v2.5.0 — gamme (R1/R3/R4/R6)",
+  "description": "Données spécifiques aux gammes de pièces auto. Chargé par frontmatter.schema.json quand entity_type == 'gamme'. v2.0.0 ajoute le bloc maintenance (canon ADR-032 §D1). v2.1.0 (additive, 2026-05-27 Task 8a) ajoute le bloc optionnel `dimensions` pour les compatibility_factors + motorisation_profiles produits par scripts/wiki-generators/promote-raw-gammes-to-wiki.py (canon B5 compatibility_proven_by_runtime_url_and_db). v2.2.0 (additive, 2026-05-28) ajoute le bloc optionnel `decision_brief` — facettes décisionnelles sourcées (function_oneliner + selection_criteria_top + compatibility_summary) projetées déterministiquement depuis dimensions. Aucun texte généré stocké. Capte les signaux Google AI Mode Decide/Summarize sans toucher R2/R8 runtime. v2.3.0 (additive, ADR-086 §2bis) ajoute `editorial` (sections éditoriales gamme curées+sourcées, cluster R1/R3/R4/R6, prose humaine-validée projetée en blocks[] role-aware — distinct du decision_brief déterministe ; niveau GAMME, 1/gamme, zéro risque duplicate) + `media` (couture image-ready, chantier image gouverné SÉPARÉ). diagnostic_relations[] reste top-level frontmatter (canon ADR-033 §D1). v2.4.0 (additive, ADR-088) ajoute `related_gammes` + `commerce_intent` (optionnels, défaut []) — parité avec vehicle.schema.json v1.2.0 ; alimentent la dimension D (mapping commerce) du score shadow, validés contre le manifest commité (reality-check 0-DB). Report-only : n'enclenche aucun cutover, n'impose rien aux fiches existantes. v2.5.0 (additive, ADR-107 D2/D4 + ADR-111 D3 + ADR-086 §2bis) : `editorial.faq` et `editorial.selection_faq` acceptent `qa` (paires question-réponse typées, une seule vérité : pas de content_md écrit à la main quand qa est présent) ; ajout des sections optionnelles hors scoring `removal_procedure`, `installation_procedure`, `post_install_checks`, `safety_warnings` (truth_level = sourced uniquement, ADR-086 §2bis). Aucune fiche existante n'est invalidée.",
   "type": "object",
   "required": ["pg_id", "family"],
   "additionalProperties": false,
@@ -23,6 +23,65 @@
         "truth_level": { "enum": ["db_owned", "sourced", "inferred", "editorial"] },
         "usefulness_target": { "type": ["string", "null"] }
       }
+    },
+    "procedureBlock": {
+      "description": "ADR-086 §2bis — section procédurale ou de sécurité (removal_procedure, installation_procedure, post_install_checks, safety_warnings) : optionnelle, hors scoring, truth_level = sourced UNIQUEMENT (inferred et editorial interdits). Absence = aucun bloc.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["content_md", "source_ids", "truth_level"],
+      "properties": {
+        "content_md": { "type": "string", "minLength": 60 },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^(db|web|raw|oem|specialist):" }
+        },
+        "truth_level": { "const": "sourced" },
+        "usefulness_target": { "type": ["string", "null"] }
+      }
+    },
+    "qaPair": {
+      "description": "ADR-107 D2 — paire question-réponse typée. question finit par « ? » ; answer_md Markdown non vide ; au moins une source préfixée (une réponse sans source n'est pas une paire valide).",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["question", "answer_md", "source_ids"],
+      "properties": {
+        "question": { "type": "string", "minLength": 2, "pattern": "\\?$" },
+        "answer_md": { "type": "string", "minLength": 1 },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^(db|web|raw|oem|specialist):" }
+        }
+      }
+    },
+    "faqBlock": {
+      "description": "ADR-107 D2 (faq) + ADR-111 D3 (selection_faq) — forme editorialBlock, plus le champ optionnel qa. Une seule vérité : soit content_md (prose, sans qa), soit qa sans content_md écrit à la main ; le builder dérive alors content_md et source_ids (union triée) depuis qa, et refuse l'export si source_ids diverge de cette union.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_ids", "truth_level"],
+      "properties": {
+        "content_md": { "type": "string", "minLength": 60 },
+        "qa": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/qaPair" }
+        },
+        "source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "type": "string", "pattern": "^(db|web|raw|oem|specialist):" }
+        },
+        "truth_level": { "enum": ["db_owned", "sourced", "inferred", "editorial"] },
+        "usefulness_target": { "type": ["string", "null"] }
+      },
+      "oneOf": [
+        { "required": ["content_md"], "not": { "required": ["qa"] } },
+        { "required": ["qa"], "not": { "required": ["content_md"] } }
+      ]
     },
     "mediaSlot": {
       "description": "Slot média déclaré (image-ready). status DEFERRED = déclaré non rempli, jamais bloquant pour la projection. Acquisition/optimisation = chantier image gouverné SÉPARÉ.",
@@ -250,7 +309,12 @@
         "quality_tiers": { "$ref": "#/$defs/editorialBlock" },
         "standards_norms": { "$ref": "#/$defs/editorialBlock" },
         "replacement_guidance": { "$ref": "#/$defs/editorialBlock" },
-        "faq": { "$ref": "#/$defs/editorialBlock" }
+        "faq": { "$ref": "#/$defs/faqBlock" },
+        "selection_faq": { "$ref": "#/$defs/faqBlock" },
+        "removal_procedure": { "$ref": "#/$defs/procedureBlock" },
+        "installation_procedure": { "$ref": "#/$defs/procedureBlock" },
+        "post_install_checks": { "$ref": "#/$defs/procedureBlock" },
+        "safety_warnings": { "$ref": "#/$defs/procedureBlock" }
       }
     },
     "media": {

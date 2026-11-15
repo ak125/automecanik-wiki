@@ -48,9 +48,9 @@ import click
 import yaml
 
 
-SCHEMA_VERSION = "1.1.0"
+SCHEMA_VERSION = "1.2.0"
 PROJECTION_CONTRACT_VERSION = "1.0.0"
-BUILDER_VERSION = "1.1.0"
+BUILDER_VERSION = "1.2.0"
 
 # entity_types autorisés dans exports/seo/. 'support' explicitement EXCLU.
 SEO_ENTITY_TYPES_BASE: set[str] = {"gamme", "vehicle", "constructeur"}
@@ -242,33 +242,115 @@ def _gamme_source_id(source_refs: list) -> str | None:
     return None
 
 
-# ADR-086 §2bis — taxonomie section éditoriale gamme → rôle SEO (déterministe, contrôlé).
-# Les sections DÉTERMINISTES (vehicle_selector/compatibility/related_parts) ne sont PAS ici :
-# elles sont composées depuis dimensions/related_parts/DB par _map_gamme_to_facts_blocks.
-_GAMME_EDITORIAL_ROLES: dict[str, str] = {
-    "function": "R3_CONSEILS",
-    "failure_symptoms": "R3_CONSEILS",
-    "maintenance_interval": "R3_CONSEILS",
-    "variants": "R4_REFERENCE",
-    "selection_criteria": "R6_GUIDE_ACHAT",
-    "quality_tiers": "R6_GUIDE_ACHAT",
-    "standards_norms": "R4_REFERENCE",
-    "replacement_guidance": "R3_CONSEILS",
-    "faq": "R3_CONSEILS",  # FAQ gamme = cluster gamme (R3), PAS R0_HOME (home) — cohérent roles_allowed
+# ADR-086 §2bis — taxonomie section éditoriale gamme → (rôle SEO, section émise) (déterministe,
+# contrôlé). Les sections DÉTERMINISTES (vehicle_selector/compatibility/related_parts) ne sont PAS
+# ici : elles sont composées depuis dimensions/related_parts/DB par _map_gamme_to_facts_blocks.
+# v1.2.0 : + 4 sections procédurales/sécurité ADR-086 §2bis (R3_CONSEILS, consommées par la table
+# ADR-106 D2) ; + selection_faq émise sous R1_ROUTER/faq (ADR-111 D3).
+_GAMME_EDITORIAL_ROLES: dict[str, tuple[str, str]] = {
+    "function": ("R3_CONSEILS", "function"),
+    "failure_symptoms": ("R3_CONSEILS", "failure_symptoms"),
+    "maintenance_interval": ("R3_CONSEILS", "maintenance_interval"),
+    "variants": ("R4_REFERENCE", "variants"),
+    "selection_criteria": ("R6_GUIDE_ACHAT", "selection_criteria"),
+    "quality_tiers": ("R6_GUIDE_ACHAT", "quality_tiers"),
+    "standards_norms": ("R4_REFERENCE", "standards_norms"),
+    "replacement_guidance": ("R3_CONSEILS", "replacement_guidance"),
+    # FAQ gamme = cluster gamme (R3), PAS R0_HOME (home) — cohérent roles_allowed
+    "faq": ("R3_CONSEILS", "faq"),
+    "removal_procedure": ("R3_CONSEILS", "removal_procedure"),
+    "installation_procedure": ("R3_CONSEILS", "installation_procedure"),
+    "post_install_checks": ("R3_CONSEILS", "post_install_checks"),
+    "safety_warnings": ("R3_CONSEILS", "safety_warnings"),
+    "selection_faq": ("R1_ROUTER", "faq"),  # ADR-111 D3
 }
+
+# Même règle de préfixe que exports-seo.schema.json (blocks[].source_ids).
+_SOURCE_ID_PREFIX_RE = re.compile(r"^(db|web|raw|oem|specialist):")
+
+# ADR-107 D2 + ADR-111 D3 — seules ces sections portent `qa`.
+_QA_SECTIONS: frozenset[str] = frozenset({"faq", "selection_faq"})
+
+# ADR-086 §2bis — truth_level verrouillé à `sourced` pour les procédures et la sécurité.
+_SOURCED_ONLY_SECTIONS: frozenset[str] = frozenset({
+    "removal_procedure", "installation_procedure", "post_install_checks", "safety_warnings",
+})
+
+
+def render_qa_content_md(qa: list[dict]) -> str:
+    """ADR-107 D2 — rendu déterministe de `qa` : question en gras, puis réponse,
+    une paire par paragraphe. Seul rendu admis du content_md d'un bloc FAQ à `qa`."""
+    return "\n\n".join(f"**{p['question']}** {p['answer_md']}" for p in qa)
+
+
+def _validated_qa(section: str, entry: dict) -> tuple[list[dict], list[str], str]:
+    """ADR-107 D2 « une seule vérité » : valide `qa`, dérive content_md et source_ids (union
+    triée). Toute divergence bloque l'export (ClickException), jamais de correction silencieuse."""
+    qa = entry.get("qa")
+    if not isinstance(qa, list) or not qa:
+        raise click.ClickException(f"editorial.{section}.qa must be a non-empty list")
+    if entry.get("content_md"):
+        raise click.ClickException(
+            f"editorial.{section}: content_md written by hand alongside qa (ADR-107 D2 — one truth)"
+        )
+    pairs: list[dict] = []
+    union: set[str] = set()
+    for i, pair in enumerate(qa):
+        if not isinstance(pair, dict):
+            raise click.ClickException(f"editorial.{section}.qa[{i}] is not a mapping")
+        question = pair.get("question")
+        answer = pair.get("answer_md")
+        sources = pair.get("source_ids")
+        if not isinstance(question, str) or not question.strip().endswith("?"):
+            raise click.ClickException(f"editorial.{section}.qa[{i}].question must end with '?'")
+        if not isinstance(answer, str) or not answer.strip():
+            raise click.ClickException(f"editorial.{section}.qa[{i}].answer_md is empty")
+        if (not isinstance(sources, list) or not sources
+                or not all(isinstance(s, str) and _SOURCE_ID_PREFIX_RE.match(s) for s in sources)):
+            raise click.ClickException(
+                f"editorial.{section}.qa[{i}].source_ids must hold >=1 prefixed source"
+            )
+        pairs.append({"question": question, "answer_md": answer, "source_ids": list(sources)})
+        union.update(sources)
+    derived_sources = sorted(union)
+    declared = entry.get("source_ids")
+    if not isinstance(declared, list) or sorted(set(declared)) != derived_sources:
+        raise click.ClickException(
+            f"editorial.{section}.source_ids diverges from the union of qa sources "
+            f"(declared={declared!r}, union={derived_sources!r}) — ADR-107 D2 guard"
+        )
+    return pairs, derived_sources, render_qa_content_md(pairs)
 
 
 def _map_gamme_editorial_to_blocks(ed: dict) -> list[dict]:
     """gamme `entity_data.editorial.<section>` → blocks[] role-aware (ADR-086 §2bis).
     Prose curée+sourcée niveau GAMME (1/gamme, pas de duplicate). Ordre déterministe (taxonomie).
-    ZÉRO filler : section absente/invalide (sans content_md ou sans source_ids) → ignorée."""
+    ZÉRO filler : section absente/invalide (sans content_md ou sans source_ids) → ignorée.
+    `qa` (faq, selection_faq) : validé et recopié ; content_md/source_ids dérivés (ADR-107 D2)."""
     editorial = ed.get("editorial")
     if not isinstance(editorial, dict):
         return []
     blocks: list[dict] = []
-    for section, role in _GAMME_EDITORIAL_ROLES.items():  # itère la taxonomie = ordre stable
+    for section, (role, emitted_section) in _GAMME_EDITORIAL_ROLES.items():  # ordre stable
         entry = editorial.get(section)
         if not isinstance(entry, dict):
+            continue
+        truth_level = entry.get("truth_level") or "editorial"
+        if section in _SOURCED_ONLY_SECTIONS and truth_level != "sourced":
+            raise click.ClickException(
+                f"editorial.{section}.truth_level must be 'sourced' (ADR-086 §2bis), got {truth_level!r}"
+            )
+        if section in _QA_SECTIONS and "qa" in entry:
+            pairs, sources, content = _validated_qa(section, entry)
+            blocks.append({
+                "role": role,
+                "section": emitted_section,
+                "content_md": content,
+                "source_ids": sources,
+                "truth_level": truth_level,
+                "usefulness_target": entry.get("usefulness_target") or section,
+                "qa": pairs,
+            })
             continue
         content = entry.get("content_md")
         sources = entry.get("source_ids")
@@ -276,10 +358,10 @@ def _map_gamme_editorial_to_blocks(ed: dict) -> list[dict]:
             continue  # bloc invalide → non émis, jamais inventé
         blocks.append({
             "role": role,
-            "section": section,
+            "section": emitted_section,
             "content_md": str(content),
             "source_ids": list(sources),
-            "truth_level": entry.get("truth_level") or "editorial",
+            "truth_level": truth_level,
             "usefulness_target": entry.get("usefulness_target") or section,
         })
     return blocks
@@ -513,7 +595,12 @@ def _compute_roles_allowed(fm: dict, entity_type: str, blocks: list[dict]) -> li
     fm_roles = fm.get("roles_allowed")
     if isinstance(fm_roles, list) and fm_roles:
         return [str(r) for r in fm_roles if r]
-    return list(ROLES_BY_ENTITY_TYPE_DEFAULT.get(entity_type, []))
+    roles = list(ROLES_BY_ENTITY_TYPE_DEFAULT.get(entity_type, []))
+    # ADR-111 D3 : R1_ROUTER rejoint les rôles de la gamme qui émet un bloc R1_ROUTER
+    # (selection_faq). Une gamme sans ce bloc garde ses rôles inchangés (export identique).
+    if entity_type == "gamme" and any(b.get("role") == "R1_ROUTER" for b in blocks):
+        roles.insert(0, "R1_ROUTER")
+    return roles
 
 
 def _compute_consumers_allowed(fm: dict, entity_type: str) -> list[str]:

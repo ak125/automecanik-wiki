@@ -1,6 +1,6 @@
 fiche: filtre-a-huile
 schema_version: 1.0.0
-generated_at: '2026-09-30'
+generated_at: '2026-11-15'
 coverage_entries:
   # --- Filtron (clapets du filtre vissé) — source ACTIVE ---
   # Deux claims déjà contrôlés contre la capture (captured) — inchangés.
@@ -162,6 +162,232 @@ coverage_entries:
     source_policy: 1_high
     source_status: captured
 
+  # --- Révision 2026-11-15 : 4 pages RAW du 2026-11-15 (automecanik-raw PR #78), sources to_capture ---
+  - claim_id: filtre-huile-serrage-indication-filtre
+    section: "## Entretien & bonnes pratiques"
+    text_anchor: "le serrage se fait selon l'indication portée sur le filtre ou son emballage"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-twingo3-contact-coupe
+    section: "### Avant de commencer"
+    text_anchor: "couper impérativement le contact avant toute intervention dans le compartiment moteur"
+    source_slug: renault_twingo3p2_vidange_huile
+    evidence_type: oem_owner_manual_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-twingo3-brulure-vidange-chaud
+    section: "### Avant de commencer"
+    text_anchor: "Une vidange moteur chaud expose à des brûlures par l'huile qui s'écoule"
+    source_slug: renault_twingo3p2_vidange_huile
+    evidence_type: oem_owner_manual_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-twingo3-niveau-maxi
+    section: "### Avant de commencer"
+    text_anchor: "Ne jamais dépasser le repère MAXI"
+    source_slug: renault_twingo3p2_vidange_huile
+    evidence_type: oem_owner_manual_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-dechets-dangereux
+    section: "### Avant de commencer"
+    text_anchor: "Le filtre et l'huile usagés ne vont ni dans les ordures ménagères ni en décharge"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-bouchons-vidange-etat
+    section: "### Dépose"
+    text_anchor: "contrôler leur état et remplacer un"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-depose-cle-speciale
+    section: "### Dépose"
+    text_anchor: "Déposer le filtre usagé, avec une clé spéciale si nécessaire"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-ancien-joint-retire
+    section: "### Dépose"
+    text_anchor: "en vérifiant que l'ancien joint a bien été retiré"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-ancien-joint-colle
+    section: "### Dépose"
+    text_anchor: "resté collé sur la bride, il se voit mal dans l'huile usagée"
+    source_slug: mahle_oem_joint_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-joint-huile-propre
+    section: "### Repose"
+    text_anchor: "Enduire le joint du filtre neuf d'une fine couche d'huile moteur propre, jamais de lubrifiant solide"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-prerempli-turbo-constructeur
+    section: "### Repose"
+    text_anchor: "Sur certains moteurs turbocompressés, le filtre doit être rempli d'huile propre avant d'être vissé"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-serrage-selon-filtre
+    section: "### Repose"
+    text_anchor: "puis serrer selon l'indication portée sur le filtre ou son emballage"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-pas-outil-depose
+    section: "### Repose"
+    text_anchor: "ne jamais serrer avec l'outil de dépose : un serrage excessif peut abîmer la surface et faire fuir le filtre"
+    source_slug: mahle_oem_joint_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-temoin-eteint-apres-montage
+    section: "### Contrôles après montage"
+    text_anchor: "vérifier que le témoin de pression d'huile s'éteint"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-temoin-quelques-secondes
+    section: "### Contrôles après montage"
+    text_anchor: "le témoin peut rester allumé quelques secondes le temps que le filtre neuf se remplisse"
+    source_slug: filtron_oem_voyant_pression_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-twingo3-controle-niveau
+    section: "### Contrôles après montage"
+    text_anchor: "ce contrôle se fait sur sol horizontal, moteur arrêté et froid, sans dépasser le repère MAXI"
+    source_slug: renault_twingo3p2_vidange_huile
+    evidence_type: oem_owner_manual_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-controle-fuites
+    section: "### Contrôles après montage"
+    text_anchor: "vérifier l'absence de fuite autour du joint du filtre et des bouchons de vidange"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-choix-interieur-different
+    section: "## Choisir son filtre à huile"
+    text_anchor: "des filtres qui se ressemblent peuvent différer à l'intérieur"
+    source_slug: mahle_oem_conception_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
+  - claim_id: filtre-huile-choix-anti-retour-montage
+    section: "## Choisir son filtre à huile"
+    text_anchor: "Le clapet anti-retour est surtout indispensable quand le filtre est monté horizontalement ou tête en bas"
+    source_slug: filtron_oem_clapets_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: captured
+
+  - claim_id: filtre-huile-faq-visse-avec-huile
+    section: "## FAQ"
+    text_anchor: "Selon Filtron, un filtre vissé se remplace lors du remplacement de l'huile moteur"
+    source_slug: filtron_oem_remplacement_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-faq-twingo3-periodicite
+    section: "## FAQ"
+    text_anchor: "renvoie la périodicité au document d'entretien du véhicule"
+    source_slug: renault_twingo3p2_vidange_huile
+    evidence_type: oem_owner_manual_excerpt
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-faq-temoin-causes
+    section: "## FAQ"
+    text_anchor: "la cause peut être le capteur de pression, son câble, la pompe à huile désamorcée"
+    source_slug: filtron_oem_voyant_pression_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-faq-temoin-delai-qualite
+    section: "## FAQ"
+    text_anchor: "ce délai n'indique pas la qualité du filtre"
+    source_slug: filtron_oem_voyant_pression_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-faq-joint-colle-tsi
+    section: "## FAQ"
+    text_anchor: "sur des moteurs VW 1.2 et 1.4 TSI, qu'il peut provoquer une fuite et l'allumage du témoin de pression d'huile"
+    source_slug: mahle_oem_joint_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
+  - claim_id: filtre-huile-faq-changer-joints
+    section: "## FAQ"
+    text_anchor: "changer le filtre, c'est aussi changer les joints"
+    source_slug: mahle_oem_joint_filtre_huile
+    evidence_type: oem_technical_page
+    confidence: high
+    source_policy: 1_high
+    source_status: pending_capture
+
 notes: |
   Coverage map filtre-a-huile — réécrite 2026-09-30 avec la fiche.
 
@@ -181,3 +407,13 @@ notes: |
   et Renault (expected_sha256 + status active) et relecture de chaque claim
   contre sa capture. Question ouverte pour le vault : une page produit
   d'équipementier doit-elle rester typée oem_manual (plafond high) ?
+
+  Révision 2026-11-15 (mandat T) : 25 claims ajoutés pour les sections de
+  procédure (Avant de commencer, Dépose, Repose, Contrôles après montage), la
+  FAQ de sélection et la FAQ en paires. 21 portent sur quatre pages archivées
+  le 2026-11-15 (Filtron remplacement, Filtron témoin, MAHLE joints, notice
+  Renault Twingo 3 phase 2), inscrites au catalogue en to_capture : ces claims
+  restent pending_capture jusqu'à l'activation owner (reçu signé) après fusion
+  de automecanik-raw PR #78. Les 4 autres reprennent des sources déjà actives
+  (MAHLE conception, Filtron clapets). Aucune valeur de serrage, d'intervalle,
+  de capacité ou de délai n'est couverte : la fiche n'en publie aucune.

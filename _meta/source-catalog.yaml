@@ -656,6 +656,90 @@ sources:
       l'auto-test à la mise sous contact. Ne prouve ni que le filtre est en cause,
       ni une consigne identique pour tous les véhicules.
 
+  - slug: filtron_oem_remplacement_filtre_huile
+    title: 'Filtron (groupe MANN+HUMMEL) — remplacement d’un filtre à huile vissé (spin-on)'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Filtron (MANN+HUMMEL)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-dd585111b6ad617727c7e1ca94cd8903f1f2aaf1cf868ed5102972cb43896143
+      expected_sha256: 'sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Capture RAW 2026-11-15 (automecanik-raw PR #78, brouillon non fusionné).
+      Étapes de remplacement d'un filtre vissé : clé spéciale si nécessaire,
+      surface nettoyée et ancien joint retiré, joint enduit d'huile moteur propre,
+      préremplissage possible sur certains moteurs turbocompressés selon la
+      recommandation du constructeur, serrage selon l'indication portée sur le
+      filtre ou l'emballage, niveau, témoin et fuites. La généralité « ¾ ou 1
+      tour » de la page n'a pas de portée véhicule : elle n'est pas publiée.
+      STATUS to_capture : activation = acte owner (reçu signé) après fusion RAW.
+
+  - slug: filtron_oem_voyant_pression_huile
+    title: 'Filtron (groupe MANN+HUMMEL) — signification du témoin de pression d’huile'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Filtron (MANN+HUMMEL)'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-0d3695aabfefb7ae6c73770130a084458317cd48ab4934ce96de0f45306c975d
+      expected_sha256: 'sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Capture RAW 2026-11-15 (automecanik-raw PR #78). Causes possibles d'un
+      témoin de pression d'huile allumé (capteur, câblage, pompe, conduite,
+      usure moteur, filtre inadapté ou en fin de vie) et conduite à tenir
+      (couper le moteur, contrôler le niveau). Le délai d'extinction après
+      remplacement n'indique pas la qualité du filtre. Ne désigne pas le filtre
+      comme cause unique. STATUS to_capture : activation = acte owner.
+
+  - slug: mahle_oem_joint_filtre_huile
+    title: 'MAHLE Aftermarket — remplacement du filtre à huile : joints et serrage'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'MAHLE Aftermarket'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-775d5e06b301678ebe0e64b1dd94951065594f4a9f2846d0a500113777f3544d
+      expected_sha256: 'sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Capture RAW 2026-11-15 (automecanik-raw PR #78). Retirer toujours l'ancien
+      joint, enduire les joints neufs d'huile moteur propre, ne jamais serrer
+      avec l'outil de dépose (serrage excessif = surface abîmée, fuite).
+      L'exemple de joint resté collé porte sur OC 593/3 et OC 593/4 (VW 1.2/1.4
+      TSI) : il illustre le risque, il ne borne pas la consigne générale.
+      STATUS to_capture : activation = acte owner.
+
+  - slug: renault_twingo3p2_vidange_huile
+    title: 'Renault Twingo 3 phase 2 — notice : niveau d’huile moteur, appoint, vidange'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Renault'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-76501ea326ebbfa0eb60a2081dfd4adbf2384947c347ba231abaed8ae94f43b5
+      expected_sha256: 'sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Notice utilisateur constructeur (capture RAW 2026-11-15, automecanik-raw
+      PR #78), Twingo 3 phase 2 uniquement. Passages retenus : contrôle du niveau
+      moteur arrêté sur sol horizontal, ne pas dépasser le repère MAXI,
+      périodicité et qualité d'huile renvoyées au document d'entretien, risques
+      de brûlure et d'incendie, contact coupé avant toute intervention. Les
+      valeurs de capacité et de délai de la notice sont propres au véhicule :
+      elles ne sont pas des valeurs du filtre et ne sont pas publiées.
+      STATUS to_capture : activation = acte owner.
+
   - slug: eu_reg_461_2010_block_exemption
     title: 'Règlement (UE) n°461/2010 — exemption par catégorie automobile (qualité OE / OES / équivalente)'
     type: normative_standard                    # → max confidence: high

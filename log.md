@@ -135,3 +135,10 @@
 ### 2026-10-21 — second lot candidat, sans promotion
 
 15 affirmations mal attribuees retirees des six vehicules ; courroie reecrite et couverture valide ; disque enrichi Hella/Brembo (3 editeurs) ; Scenic sans blocs moteur non prouves ; Dacia historique rapproche de la source officielle. 13 schemas valides ; 13 refus conserves ; aucune regle de promotion modifiee. Details : _audit/candidates-repair-20261021/lot2-native-dry-run.json.
+
+## 2026-11-15 — Filtre à huile : FAQ en paires qa et sections de procédure (proposition, mandat T)
+
+- `proposals/filtre-a-huile.md` : FAQ en 8 paires qa (ADR-107 D2), FAQ de sélection R1 en 3 paires (ADR-111 D3), dépose, repose, contrôles et précautions (ADR-086 §2bis), chaque passage lié à une capture.
+- Quatre captures RAW du 2026-11-15 (automecanik-raw PR #78, brouillon) inscrites au catalogue en `to_capture` ; activation = acte owner.
+- Contrat : schéma gamme 2.5.0, export SEO 1.2.0 (`blocks[].qa` optionnel), builder 1.2.0. Aucune fiche n'émet de qa avant le préavis MOC et la validation du consommateur (ADR-107 D4).
+- Aucune valeur de couple, serrage, intervalle, capacité ou délai. Fiche canonique, exports et décideur inchangés ; aucune promotion.

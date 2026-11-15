@@ -100,7 +100,12 @@ review_notes: 'Révision du 2026-11-15 (mandat T, prototype de FAQ en paires qa)
   Pour le contrôle du niveau, Filtron renvoie à la plage du constructeur et la notice
   Twingo 3 phase 2 en fixe les conditions pour ce véhicule, ce qui fait primer la
   notice. no_disputed_claims reste true : aucune affirmation de la fiche ne repose
-  sur deux sources contradictoires de même portée (jugement à confirmer par le décideur).'
+  sur deux sources contradictoires de même portée (jugement à confirmer par le décideur).
+  Révision 5 : la revue de la révision 4 a été interrompue sans verdict (aucun artefact)
+  après la mesure DEV, qui montrait deux liens perdus ; les liens Markdown vers les
+  URL existantes /pieces/bouchon-de-vidange-593.html et /reference-auto/filtre-a-huile
+  passent dans removal_procedure et post_install_checks, seuls champs servis (ADR-106
+  D8). Le texte des sections est inchangé.'
 no_disputed_claims: true
 confidence_score: 0.92
 exportable:
@@ -451,7 +456,7 @@ entity_data:
         housing), selon les termes de Filtron, en vérifiant que l''ancien joint a
         été retiré : sur ces mêmes filtres, MAHLE signale qu''un ancien joint resté
         collé se voit mal dans l''huile usagée et peut provoquer une fuite et allumer
-        le témoin de pression d''huile.'
+        le témoin de pression d''huile. Pièce associée : [bouchon de vidange](/pieces/bouchon-de-vidange-593.html).'
       source_ids:
       - oem:filtron_oem_remplacement_filtre_huile
       - oem:mahle_oem_joint_filtre_huile
@@ -495,7 +500,8 @@ entity_data:
         s''écoule avant de lire la jauge. Selon cette notice, le niveau ne doit jamais
         être sous le repère MINI ni au-dessus du repère MAXI, et il faut bien refermer
         le bouchon et remettre la jauge en place pour éviter les projections d''huile
-        sur les pièces chaudes du moteur : risque d''incendie.'
+        sur les pièces chaudes du moteur : risque d''incendie. Fiche de référence
+        : [filtre à huile](/reference-auto/filtre-a-huile).'
       source_ids:
       - oem:filtron_oem_remplacement_filtre_huile
       - oem:filtron_oem_voyant_pression_huile
@@ -533,7 +539,7 @@ entity_data:
     asset: null
     license: null
     status: DEFERRED
-content_hash: sha256:9039bae6113d3ced282895b6a33d6c957e34204dbd339ab4bcad8bffd3e063ad
+content_hash: sha256:a52a3abe642359995a7bc0ab4bf72ac466e435f774ad34224b338cfc7c7d168c
 ---
 
 ## Définition
@@ -614,7 +620,7 @@ Pour un filtre vissé, selon Filtron : enduire le joint neuf d'une fine couche d
 
 ### Contrôles après montage
 
-Selon Filtron : démarrer le moteur et vérifier que le témoin de pression d'huile s'éteint, ou que le manomètre, s'il existe, indique une pression normale. Juste après le remplacement, le témoin peut rester allumé quelques secondes, le temps que le filtre neuf se remplisse. S'il ne s'éteint pas, couper immédiatement le moteur, contrôler le niveau d'huile et compléter si nécessaire ; si le témoin reste allumé avec un niveau correct, Filtron cite d'autres causes, dont un capteur défaillant, une pompe à huile désamorcée, une conduite obstruée, une forte usure du moteur ou un filtre inadapté (voir « Symptômes & diagnostic »). Une fois le témoin éteint : couper le moteur, vérifier que le niveau est dans la plage recommandée par le constructeur et compléter. Redémarrer, chercher une fuite autour du joint du filtre et des bouchons de vidange, puis couper le moteur. Pour faire tourner le moteur, la notice de la Twingo 3 phase 2 interdit de le faire dans un local fermé : les gaz d'échappement sont toxiques. Sur ce véhicule, la notice fixe les conditions de l'appoint et du contrôle du niveau, qui priment donc : sol horizontal, moteur arrêté et froid, par exemple avant le premier démarrage de la journée, en attendant environ 10 minutes après l'appoint pour que l'huile s'écoule avant de lire la jauge. Selon cette notice, le niveau ne doit jamais être sous le repère MINI ni au-dessus du repère MAXI, et il faut bien refermer le bouchon et remettre la jauge en place pour éviter les projections d'huile sur les pièces chaudes du moteur : risque d'incendie. ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html), [Filtron](https://filtron.eu/en/insights/filter-guide/oil-pressure-warning-light-meaning.html), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur))
+Selon Filtron : démarrer le moteur et vérifier que le témoin de pression d'huile s'éteint, ou que le manomètre, s'il existe, indique une pression normale. Juste après le remplacement, le témoin peut rester allumé quelques secondes, le temps que le filtre neuf se remplisse. S'il ne s'éteint pas, couper immédiatement le moteur, contrôler le niveau d'huile et compléter si nécessaire ; si le témoin reste allumé avec un niveau correct, Filtron cite d'autres causes, dont un capteur défaillant, une pompe à huile désamorcée, une conduite obstruée, une forte usure du moteur ou un filtre inadapté (voir « Symptômes & diagnostic »). Une fois le témoin éteint : couper le moteur, vérifier que le niveau est dans la plage recommandée par le constructeur et compléter. Redémarrer, chercher une fuite autour du joint du filtre et des bouchons de vidange, puis couper le moteur. Pour faire tourner le moteur, la notice de la Twingo 3 phase 2 interdit de le faire dans un local fermé : les gaz d'échappement sont toxiques. Sur ce véhicule, la notice fixe les conditions de l'appoint et du contrôle du niveau, qui priment donc : sol horizontal, moteur arrêté et froid, par exemple avant le premier démarrage de la journée, en attendant environ 10 minutes après l'appoint pour que l'huile s'écoule avant de lire la jauge. Selon cette notice, le niveau ne doit jamais être sous le repère MINI ni au-dessus du repère MAXI, et il faut bien refermer le bouchon et remettre la jauge en place pour éviter les projections d'huile sur les pièces chaudes du moteur : risque d'incendie. ([Filtron](https://filtron.eu/en/insights/filter-guide/how-to-change-spin-on-oil-filters.html), [Filtron](https://filtron.eu/en/insights/filter-guide/oil-pressure-warning-light-meaning.html), [notice Renault](https://www.user-manual.renault.com/en/chapitre4-entretien/niveau-huile-moteur-appoint-remplissage-vidange-moteur)) Fiche de référence : [filtre à huile](/reference-auto/filtre-a-huile).
 
 ## Choisir son filtre à huile
 

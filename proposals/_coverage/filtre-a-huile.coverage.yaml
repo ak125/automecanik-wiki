@@ -538,10 +538,10 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
-notes: 'Révision 4 du 2026-11-15 (mandat T), régénérée après la revue sémantique FAIL de la
-  clé 29efee80 (révision 3 : revue FAIL clé 8f23743c ; révision 2 : revue FAIL clé 85e143d6,
-  qualification et contestation Codex clé d86cec54). Chaque ancre est reprise du nouveau texte
-  de la proposition.
+notes: 'Révision 5 du 2026-11-15 (mandat T) : révision 4 (régénérée après la revue sémantique
+  FAIL de la clé 29efee80) plus deux liens Markdown de maillage, sans claim nouveau (révision
+  3 : revue FAIL clé 8f23743c ; révision 2 : revue FAIL clé 85e143d6, qualification et contestation
+  Codex clé d86cec54). Chaque ancre est reprise du nouveau texte de la proposition.
 
 
   65 claims : 30 captured (sources actives Filtron clapets, MAHLE conception, notice Clio

@@ -65,7 +65,7 @@ ses affirmations en profondeur complete ne peut rester `conserver`.
    `seconde-lecture/arbitrage.md` (codex `gpt-5.6-sol`, 17 accords exacts sur 20, aucun verdict
    attendu modifié).
 1. Trois passages par cas avec le banc `_scripts/technical_qualification_bench.py`, puis la
-   variance.
+   variance : `runs/` (artefacts, `manifest.yaml`, `variance.yaml`) et `variance-20261115.md`.
 
 `SHA256SUMS` couvre les fichiers de ce dossier.
 

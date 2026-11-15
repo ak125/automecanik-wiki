@@ -1,0 +1,125 @@
+# Manifeste des passages du point 4 (mandat AC). Le schéma v2 n'a pas de champ pour la tête
+# du skill : elle est consignée ici ; key_inputs.skill_sha256 de chaque artefact en fixe les octets.
+skill:
+  repo: automecanik-wiki
+  head: a29310fc1ce52316eba1482ef3f0ac7647b55b0e
+  branch: 'feat/qualif-11-codex-executor-20261115 (WIKI #134, lue sans écriture)'
+  path: _meta/skills/qualification-technique/SKILL.md
+  sha256: bbab905fb5183582c34591fa930aa2de651b4f9f289a82f447c6c74593bb2b65
+raw_commit: 4b4de7180092dd5145f106ed37bbd166b6fd9fb1
+bench: _scripts/technical_qualification_bench.py qualify <cas> --raw-root <RAW 4b4de71> --domains domaines-i1.yaml --shard-chars
+  5000 --model claude-opus-5-5 --provider anthropic --runs 3 --jobs 1 --timeout 1500
+reviewer_command: env CLAUDE_CODE_DISABLE_AUTO_MEMORY=1 claude -p --model {model} --tools "" --strict-mcp-config --no-session-persistence
+  --setting-sources "" --disable-slash-commands --system-prompt "Tu es un relecteur technique. Ta seule entrée est le message
+  reçu. Tu ne disposes d aucun outil. Réponds uniquement par l objet JSON demandé."
+started: '2026-11-15T18:09:06Z'
+ended: '2026-11-15T18:33:43Z'
+artifacts:
+- path: filtre-a-air/run-00/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/5aac496fe4593d321431e01f148931a91c7e073519b9ba8c072c044f9d7e6d65.json
+  sha256: 5aac496fe4593d321431e01f148931a91c7e073519b9ba8c072c044f9d7e6d65
+  case: filtre-a-air
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: filtre-a-air/run-01/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/1242508adf1b325da8b617ad062bf8e0f07f06c26e4ccc0751f2fb8f243246fe.json
+  sha256: 1242508adf1b325da8b617ad062bf8e0f07f06c26e4ccc0751f2fb8f243246fe
+  case: filtre-a-air
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: filtre-a-air/run-02/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/e640f0aed81422726a80ecc5833287b771ba9839f4e7520c4ab24a0540a6a4b1.json
+  sha256: e640f0aed81422726a80ecc5833287b771ba9839f4e7520c4ab24a0540a6a4b1
+  case: filtre-a-air
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: filtre-a-carburant/run-00/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/8f27ad14aff337d1bd7b3c4d9364703c2fc4cc9de0099147d9393fd3e149d887.json
+  sha256: 8f27ad14aff337d1bd7b3c4d9364703c2fc4cc9de0099147d9393fd3e149d887
+  case: filtre-a-carburant
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: filtre-a-carburant/run-01/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/215f2043890bc2e82fc0beed5ab3f503191e14d03be3f328ecdb23f48d08e4bf.json
+  sha256: 215f2043890bc2e82fc0beed5ab3f503191e14d03be3f328ecdb23f48d08e4bf
+  case: filtre-a-carburant
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: filtre-a-carburant/run-02/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/3498d32932a747f9f264997d310ec7a462a04c5dadee817a8f56590fbad4b33c.json
+  sha256: 3498d32932a747f9f264997d310ec7a462a04c5dadee817a8f56590fbad4b33c
+  case: filtre-a-carburant
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: filtre-d-habitacle/run-00/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/2c4232e7123d801a08c0e5c97211b7e4306d8b9c1412bec348d77af92c4dfbbf.json
+  sha256: 2c4232e7123d801a08c0e5c97211b7e4306d8b9c1412bec348d77af92c4dfbbf
+  case: filtre-d-habitacle
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: filtre-d-habitacle/run-01/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/eea6aad6ea6d847c6d16813b506997304c693aca87a433f586d26556110fa3af.json
+  sha256: eea6aad6ea6d847c6d16813b506997304c693aca87a433f586d26556110fa3af
+  case: filtre-d-habitacle
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: filtre-d-habitacle/run-02/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/824938c20f1154f374e13ffce4ed0c74c449b54815f2ec478b92079a80c41de5.json
+  sha256: 824938c20f1154f374e13ffce4ed0c74c449b54815f2ec478b92079a80c41de5
+  case: filtre-d-habitacle
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: plaquette-de-frein/run-00/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/6a828aa9eb0d45a8b06a187248c40a6b7dedc62a759d9a084e9017308b3cda33.json
+  sha256: 6a828aa9eb0d45a8b06a187248c40a6b7dedc62a759d9a084e9017308b3cda33
+  case: plaquette-de-frein
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: plaquette-de-frein/run-01/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/778b2f8945a7cbe7a5efcb6f0ed487045fd54dd1a1ade69322dba275afe291dd.json
+  sha256: 778b2f8945a7cbe7a5efcb6f0ed487045fd54dd1a1ade69322dba275afe291dd
+  case: plaquette-de-frein
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic
+- path: plaquette-de-frein/run-02/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/d163a3de25a4d990a8aa88fa37b4f549e521e5972a2a1c18f439ac3f30fefe1a.json
+  sha256: d163a3de25a4d990a8aa88fa37b4f549e521e5972a2a1c18f439ac3f30fefe1a
+  case: plaquette-de-frein
+  role: qualification
+  error: null
+  reviewer:
+    cli_version: 2.1.325 (Claude Code)
+    model: claude-opus-5-5
+    provider: anthropic

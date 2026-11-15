@@ -1,0 +1,520 @@
+{
+  "freshness": {
+    "checked_at": "2026-11-15T17:52:04Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "4b4de7180092dd5145f106ed37bbd166b6fd9fb1",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b",
+  "key_inputs": {
+    "capture_domains": [
+      {
+        "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Filtron (MANN+HUMMEL)"
+      },
+      {
+        "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      },
+      {
+        "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Delphi Technologies"
+      }
+    ],
+    "captures": [
+      {
+        "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+        "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md"
+      },
+      {
+        "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+        "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md"
+      },
+      {
+        "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+        "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md"
+      }
+    ],
+    "domain_basis": "source-catalog.yaml sha256 0b51f1ddbabafd152d55c5c610fbea9d83d0a64ad52624582676eb02c82030bb + table domaines-i1.yaml sha256 32a48fe5a5441fde0664be083addf6c2171b450f4fa247c38201f9e4dfea464c fusionnée en mémoire",
+    "domain_definition": "publisher_class",
+    "skill_sha256": "bbab905fb5183582c34591fa930aa2de651b4f9f289a82f447c6c74593bb2b65",
+    "text_sha256": "c6e9b2c8da9eeb9f58be463121a49eb70a2adb1da4221ad233d7ce33a3651cd3"
+  },
+  "producer": {
+    "basis": "wiki/gamme/filtre-a-air.md@67e49d8, provenance.ingested_by (ligne 25) : humain déclaré, famille de modèle non consignée",
+    "declared": "human:@fafa",
+    "provider": "unknown"
+  },
+  "retake_questions": [
+    {
+      "claim_id": "c0",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quel intervalle de remplacement du filtre à air (en km et en durée) un carnet d'entretien constructeur publie-t-il pour un véhicule et un moteur précis, et un second éditeur indépendant (équipementier) confirme-t-il cette valeur pour la même portée ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c1",
+      "domains_present": [],
+      "question": "Un carnet d'entretien constructeur ou un équipementier définit-il un intervalle réduit de remplacement du filtre à air en conditions sévères (poussière, tout-terrain) ? Pour quel véhicule et avec quelle valeur ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c2",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Un constructeur et un équipementier décrivent-ils, pour une même motorisation (essence et diesel séparément), l'emplacement et le rôle du filtre à carburant dans le circuit d'alimentation et d'injection ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c3",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quel intervalle de remplacement du filtre à gazole (en km et en durée) un carnet d'entretien constructeur publie-t-il pour une motorisation diesel précise, et un équipementier le confirme-t-il pour la même portée ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c4",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quel intervalle de remplacement du filtre à air (en km et en durée) un carnet d'entretien constructeur publie-t-il pour un véhicule et un moteur précis, et un équipementier indépendant le confirme-t-il pour la même portée ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:7"
+    },
+    {
+      "claim_id": "c5",
+      "domains_present": [],
+      "question": "Un constructeur ou un équipementier publie-t-il un intervalle réduit de remplacement du filtre à air en conditions sévères (poussière, urbain intensif, tout-terrain) ? Pour quel véhicule et avec quelle valeur ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:7"
+    },
+    {
+      "claim_id": "c6",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Un constructeur automobile (notice ou document d'entretien) interdit-il explicitement le nettoyage des filtres à air à média papier/cellulose, et pour quels véhicules ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:9"
+    },
+    {
+      "claim_id": "c7",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Le fabricant d'un filtre à air réutilisable (coton huilé) publie-t-il une procédure de nettoyage et de réhuilage (produits, quantités, précautions), et un constructeur automobile en autorise-t-il l'usage sur un véhicule précis ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:9"
+    }
+  ],
+  "reviewer": {
+    "cli_version": "2.1.325 (Claude Code)",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic"
+  },
+  "role": "qualification",
+  "schema_version": "technical-qualification/v2",
+  "segments": [
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "7d7f345c3a7e08c5eb2f3983fadf1509e41695fea7bfa55c3e61832ea9a46bff"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:source_refs",
+      "no_claims": true,
+      "sha256": "61a0745b595252f5e0bbddcf8c8b3450fb133707fd17ee99ab9b5471c3bcd06b"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:title",
+      "no_claims": true,
+      "sha256": "1e367cea9b6378a5e7611f2a1ef248fcdf75af1089aed6ec77169f70cdee30fe"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "405115da18603cc17ffc499b64799ca8cbdb0dce7e4541724359e96e91cb351b"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+              "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc"
+            ],
+            "concordance": "undetermined",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c0",
+          "limite": "Aucune capture ne porte la valeur de 30 000 km. Filtron la contredit (15 000 km ou un an dans de nombreux cas). Le texte omet que l'intervalle dépend du constructeur et du véhicule et qu'il faut se reporter au document d'entretien.",
+          "portee": "Filtron : intervalle fixé par le constructeur du véhicule, souvent 15 000 km ou un an selon de nombreux constructeurs. Renault (Clio 5 phase 1) : renvoi au document d'entretien du véhicule, sans valeur chiffrée.",
+          "proposed_wording": null,
+          "retake_question": "Quel intervalle de remplacement du filtre à air (en km et en durée) un carnet d'entretien constructeur publie-t-il pour un véhicule et un moteur précis, et un second éditeur indépendant (équipementier) confirme-t-il cette valeur pour la même portée ?",
+          "sources": [
+            {
+              "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+              "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+              "quote": "Dans de nombreux cas, les constructeurs automobiles recommandent de remplacer le filtre tous les 15 000 kilomètres ou une fois par an."
+            },
+            {
+              "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+              "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+              "quote": "Le filtre à air doit être remplacé après la période spécifiée par le constructeur du véhicule."
+            },
+            {
+              "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+              "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+              "quote": "Périodicité de remplacement des éléments filtrants : reportez-vous au document d’entretien de votre véhicule."
+            }
+          ],
+          "text": "Remplacement typique du filtre à air tous les 30 000 km.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c1",
+          "limite": "Aucune capture ne porte cette condition. Les captures renvoient à la périodicité fixée par le constructeur.",
+          "portee": "Aucune capture ne traite des conditions d'usage sévères.",
+          "proposed_wording": null,
+          "retake_question": "Un carnet d'entretien constructeur ou un équipementier définit-il un intervalle réduit de remplacement du filtre à air en conditions sévères (poussière, tout-terrain) ? Pour quel véhicule et avec quelle valeur ?",
+          "sources": [],
+          "text": "Remplacement plus fréquent en milieu poussiéreux ou en usage tout-terrain.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:2",
+      "sha256": "b56e3b5533ddf8731f0830eef0f11025f463f7d2bb551f22433a2f163e8a6726"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:3",
+      "no_claims": true,
+      "sha256": "30d6d259eb791f4260b0ca889580c707ac333d23c7a8d04db47779a0e305710b"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c2",
+          "limite": "Aucune capture ne lie explicitement le filtre au circuit d'injection. Delphi et Renault ne couvrent pas la même portée (essence d'un côté, gazole de l'autre), il n'y a donc pas de concordance sur une même portée. Le texte omet que le remplacement présente un risque de déversement de carburant et qu'il vaut mieux le confier à un professionnel.",
+          "portee": "Delphi : rôle général du filtre à carburant (contenu classé systèmes de carburant essence). Renault (Clio 5 phase 1) : le filtre à gazole fait partie des éléments filtrants remplacés à l'entretien.",
+          "proposed_wording": "Filtre à carburant : il protège le moteur des contaminants contenus dans le carburant ; son remplacement est prévu au calendrier d'entretien du véhicule et, en raison du risque de déversement de carburant, il est préférable de le confier à un professionnel.",
+          "retake_question": "Un constructeur et un équipementier décrivent-ils, pour une même motorisation (essence et diesel séparément), l'emplacement et le rôle du filtre à carburant dans le circuit d'alimentation et d'injection ?",
+          "sources": [
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Le filtre à carburant maintient le flux de carburant dans le moteur du véhicule exempt de contaminants."
+            },
+            {
+              "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+              "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+              "quote": "Le remplacement des éléments filtrants (filtre à air, filtre habitacle, filtre à gazole…) est prévu dans les opérations d’entretien de votre véhicule."
+            }
+          ],
+          "text": "Le filtre à carburant est un filtre d'injection essence/diesel.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc"
+            ],
+            "concordance": "undetermined",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c3",
+          "limite": "Aucune capture ne porte 60 000 km pour le diesel. L'exemple de Delphi (30 000 miles ou deux ans) diffère et n'est pas propre au diesel. Le texte omet le critère de durée, le renvoi au calendrier constructeur et la recommandation de Delphi de confier le remplacement à un professionnel.",
+          "portee": "Delphi : remplacement selon le calendrier d'entretien du véhicule, valeur donnée à titre d'exemple (30 000 miles ou deux ans), sans distinction essence/diesel. Renault (Clio 5 phase 1) : renvoi au document d'entretien.",
+          "proposed_wording": null,
+          "retake_question": "Quel intervalle de remplacement du filtre à gazole (en km et en durée) un carnet d'entretien constructeur publie-t-il pour une motorisation diesel précise, et un équipementier le confirme-t-il pour la même portée ?",
+          "sources": [
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Un filtre à carburant doit être remplacé régulièrement, conformément au calendrier d’entretien du véhicule, par exemple tous les 30 000 miles ou tous les deux ans."
+            },
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Bien que le processus soit assez simple, pour assurer votre sécurité et éviter la possibilité de causer des dommages par déversement de carburant ou contamination, il vaut mieux laisser la tâche aux professionnels."
+            },
+            {
+              "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+              "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+              "quote": "Périodicité de remplacement des éléments filtrants : reportez-vous au document d’entretien de votre véhicule."
+            }
+          ],
+          "text": "Intervalle de remplacement du filtre à carburant : 60 000 km en diesel.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:4",
+      "sha256": "f2441e043bad669394d6069d0dd75797683716537f297f83b2581a9ed6baab16"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:5",
+      "no_claims": true,
+      "sha256": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:6",
+      "no_claims": true,
+      "sha256": "204d3fda704ec1dba23cbb458d33991317ed5c5dc2fb1cb93f1f7328896455d2"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+              "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc"
+            ],
+            "concordance": "undetermined",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c4",
+          "limite": "Aucune capture ne porte 30 000 km et Filtron contredit cette valeur. Le texte omet le critère de durée et le renvoi à la périodicité propre à chaque véhicule. La note [^1] ne correspond à aucune capture qui porte cette valeur.",
+          "portee": "Filtron : intervalle constructeur, souvent 15 000 km ou un an. Renault (Clio 5 phase 1) : renvoi au document d'entretien.",
+          "proposed_wording": null,
+          "retake_question": "Quel intervalle de remplacement du filtre à air (en km et en durée) un carnet d'entretien constructeur publie-t-il pour un véhicule et un moteur précis, et un équipementier indépendant le confirme-t-il pour la même portée ?",
+          "sources": [
+            {
+              "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+              "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+              "quote": "Dans de nombreux cas, les constructeurs automobiles recommandent de remplacer le filtre tous les 15 000 kilomètres ou une fois par an."
+            },
+            {
+              "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+              "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+              "quote": "Périodicité de remplacement des éléments filtrants : reportez-vous au document d’entretien de votre véhicule."
+            }
+          ],
+          "text": "Remplacement du filtre à air typiquement tous les 30 000 km.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c5",
+          "limite": "Aucune capture ne porte ces conditions (poussière, usage urbain intensif, tout-terrain).",
+          "portee": "Aucune capture ne traite des conditions d'usage sévères.",
+          "proposed_wording": null,
+          "retake_question": "Un constructeur ou un équipementier publie-t-il un intervalle réduit de remplacement du filtre à air en conditions sévères (poussière, urbain intensif, tout-terrain) ? Pour quel véhicule et avec quelle valeur ?",
+          "sources": [],
+          "text": "Remplacement plus fréquent en milieu poussiéreux, en usage urbain intensif ou en tout-terrain.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:7",
+      "sha256": "1967f22426f2cd642250290183bb1f1a636f46023c1dbe56239d3cfc957938ee"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:8",
+      "no_claims": true,
+      "sha256": "52029f472bae582502e6501fe573b34e91985068332b7d4b723996f100044249"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c6",
+          "limite": "Un seul domaine porte l'affirmation. Renault ne traite pas du nettoyage. Filtron ne parle pas de « papier » ni de « porosité » : il cite l'endommagement du média multicouche, la dégradation de la filtration et la modification du flux d'air. Le texte omet la conséquence que Filtron rattache au nettoyage : l'entrée d'impuretés dans la chambre de combustion, qui peut endommager segments, coussinets et cylindres.",
+          "portee": "Filtron (équipementier) : le nettoyage mécanique, par exemple à l'air comprimé, d'un filtre à air à média multicouche endommage le média, dégrade la filtration et modifie la circulation de l'air.",
+          "proposed_wording": "Non : selon l'équipementier Filtron, nettoyer un filtre à air (par exemple à l'air comprimé) endommage durablement le média filtrant et réduit sa capacité de filtration. Des impuretés peuvent alors entrer dans la chambre de combustion et endommager les segments de pistons, les coussinets et les cylindres. Seul le remplacement par un filtre neuf, à la périodicité prévue par le constructeur, assure une filtration efficace.",
+          "retake_question": "Un constructeur automobile (notice ou document d'entretien) interdit-il explicitement le nettoyage des filtres à air à média papier/cellulose, et pour quels véhicules ?",
+          "sources": [
+            {
+              "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+              "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+              "quote": "Le nettoyage du filtre avec de l’air n’améliore pas, mais au contraire diminue sa capacité de filtration."
+            },
+            {
+              "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+              "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+              "quote": "Les effets ci-dessus peuvent entraîner la pénétration d’impuretés dans la chambre de combustion et endommager les segments des pistons, les coussinets et les cylindres."
+            },
+            {
+              "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+              "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+              "quote": "Seul le remplacement périodique du filtre par un filtre neuf permet d’assurer une filtration efficace de l’air entrant directement dans la chambre de combustion du moteur."
+            }
+          ],
+          "text": "Un filtre à air papier standard ne doit pas être nettoyé au lieu d'être remplacé, en raison d'une perte de porosité après nettoyage.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c7",
+          "limite": "Aucune capture ne traite des filtres coton huilé ni d'une procédure de nettoyage avec nettoyant et huile dédiés. La seule capture qui aborde le nettoyage le déconseille. Ce geste, sans procédure sourcée, peut conduire à un mauvais entretien.",
+          "portee": "Filtron couvre les filtres à air en général, sans évoquer les filtres réutilisables. Il affirme que seul le remplacement assure une filtration efficace.",
+          "proposed_wording": null,
+          "retake_question": "Le fabricant d'un filtre à air réutilisable (coton huilé) publie-t-il une procédure de nettoyage et de réhuilage (produits, quantités, précautions), et un constructeur automobile en autorise-t-il l'usage sur un véhicule précis ?",
+          "sources": [
+            {
+              "cid": "sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c",
+              "path": "sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md",
+              "quote": "Seul le remplacement périodique du filtre par un filtre neuf permet d’assurer une filtration efficace de l’air entrant directement dans la chambre de combustion du moteur."
+            }
+          ],
+          "text": "Les filtres réutilisables de type coton huilé peuvent être nettoyés, selon une procédure constructeur stricte (nettoyant et huile dédiés).",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:9",
+      "sha256": "c38f8b2d0d3a184718d25a45279190da69b2dd83b36afbe03e3fe369015edd87"
+    }
+  ],
+  "subject": {
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "path": "wiki/gamme/filtre-a-air.md, extrait verbatim des lignes 129, 133, 137, 145, 155, 157, 159, 161, 163 ; frontmatter réduit à slug, title et aux captures RAW du cas",
+    "repo": "automecanik-wiki",
+    "slug": "filtre-a-air"
+  }
+}

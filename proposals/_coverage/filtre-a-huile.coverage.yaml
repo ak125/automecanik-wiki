@@ -278,36 +278,12 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: captured
-- claim_id: filtre-huile-securite-contact
+- claim_id: filtre-huile-procedure-objectif
   section: '### Avant de commencer'
-  text_anchor: couper impérativement le contact avant toute intervention dans le compartiment
-    moteur
-  source_slug: renault_twingo3p2_vidange_huile
-  evidence_type: oem_owner_manual_excerpt
-  confidence: high
-  source_policy: 1_high
-  source_status: pending_capture
-- claim_id: filtre-huile-securite-local-ferme
-  section: '### Avant de commencer'
-  text_anchor: Ne pas faire tourner le moteur dans un local fermé
-  source_slug: renault_twingo3p2_vidange_huile
-  evidence_type: oem_owner_manual_excerpt
-  confidence: high
-  source_policy: 1_high
-  source_status: pending_capture
-- claim_id: filtre-huile-securite-entonnoir
-  section: '### Avant de commencer'
-  text_anchor: Utiliser un entonnoir ou protéger la zone de l'orifice de remplissage
-  source_slug: renault_twingo3p2_vidange_huile
-  evidence_type: oem_owner_manual_excerpt
-  confidence: high
-  source_policy: 1_high
-  source_status: pending_capture
-- claim_id: filtre-huile-twingo3-maxi
-  section: '### Avant de commencer'
-  text_anchor: s'il est dépassé, ne pas démarrer et faire appel à un Représentant de la marque
-  source_slug: renault_twingo3p2_vidange_huile
-  evidence_type: oem_owner_manual_excerpt
+  text_anchor: protéger contre les fuites d'huile et contre un possible endommagement des
+    pièces internes du moteur
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
@@ -332,14 +308,6 @@ coverage_entries:
   text_anchor: contrôler leur étanchéité et remplacer un bouchon endommagé par un neuf
   source_slug: filtron_oem_remplacement_filtre_huile
   evidence_type: oem_technical_page
-  confidence: high
-  source_policy: 1_high
-  source_status: pending_capture
-- claim_id: filtre-huile-twingo3-vidange-chaud
-  section: '### Dépose'
-  text_anchor: qu'une vidange moteur chaud expose à des brûlures par l'huile qui s'écoule
-  source_slug: renault_twingo3p2_vidange_huile
-  evidence_type: oem_owner_manual_excerpt
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
@@ -435,19 +403,19 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
+- claim_id: filtre-huile-temoin-borne-remplacement
+  section: '## Symptômes & diagnostic'
+  text_anchor: porte sur le démarrage qui suit un remplacement du filtre
+  source_slug: filtron_oem_voyant_pression_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
 - claim_id: filtre-huile-controle-fuite
   section: '### Contrôles après montage'
   text_anchor: chercher une fuite autour du joint du filtre et des bouchons de vidange
   source_slug: filtron_oem_remplacement_filtre_huile
   evidence_type: oem_technical_page
-  confidence: high
-  source_policy: 1_high
-  source_status: pending_capture
-- claim_id: filtre-huile-twingo3-controle-maxi
-  section: '### Contrôles après montage'
-  text_anchor: si le niveau maxi est dépassé, elle demande de ne pas démarrer
-  source_slug: renault_twingo3p2_vidange_huile
-  evidence_type: oem_owner_manual_excerpt
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
@@ -515,14 +483,6 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
-- claim_id: filtre-huile-faq-bouchon-incendie
-  section: '## FAQ'
-  text_anchor: qu'un bouchon mal refermé expose à des projections d'huile
-  source_slug: renault_twingo3p2_vidange_huile
-  evidence_type: oem_owner_manual_excerpt
-  confidence: high
-  source_policy: 1_high
-  source_status: pending_capture
 - claim_id: filtre-huile-faq-dechets
   section: '## FAQ'
   text_anchor: jamais avec les ordures ménagères
@@ -539,17 +499,21 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
-notes: 'Révision 6 du 2026-11-15 (mandat T), après la revue sémantique FAIL de la clé bc72d428
-  (révision 5) : le claim des 10 minutes de la notice Twingo est remplacé par celui du niveau
-  MAXI dépassé, et les ancres du débordement et de l''intervalle moyen suivent le texte corrigé.
-  Révision 5 : révision 4 (régénérée après la revue sémantique FAIL de la clé 29efee80) plus
-  deux liens Markdown de maillage, sans claim nouveau (révision 3 : revue FAIL clé 8f23743c
-  ; révision 2 : revue FAIL clé 85e143d6, qualification et contestation Codex clé d86cec54).
-  Chaque ancre est reprise du nouveau texte de la proposition.
+notes: 'Révision 7 du 2026-11-15 (mandat T), après la revue sémantique FAIL de la clé c6ae8560
+  (révision 6) : les claims de la notice Twingo propres à la procédure (sécurité, MAXI, brûlures,
+  bouchon) sont retirés avec leur texte ; claims ajoutés : objectif de la procédure (Filtron)
+  et bornage de la consigne du témoin au démarrage après remplacement (Filtron). Révision
+  6, après la revue sémantique FAIL de la clé bc72d428 (révision 5) : le claim des 10 minutes
+  de la notice Twingo est remplacé par celui du niveau MAXI dépassé, et les ancres du débordement
+  et de l''intervalle moyen suivent le texte corrigé. Révision 5 : révision 4 (régénérée après
+  la revue sémantique FAIL de la clé 29efee80) plus deux liens Markdown de maillage, sans
+  claim nouveau (révision 3 : revue FAIL clé 8f23743c ; révision 2 : revue FAIL clé 85e143d6,
+  qualification et contestation Codex clé d86cec54). Chaque ancre est reprise du nouveau texte
+  de la proposition.
 
 
-  65 claims : 30 captured (sources actives Filtron clapets, MAHLE conception, notice Clio
-  5 phase 1), 35 pending_capture (Filtron remplacement, Filtron témoin, MAHLE joints, notice
+  60 claims : 30 captured (sources actives Filtron clapets, MAHLE conception, notice Clio
+  5 phase 1), 30 pending_capture (Filtron remplacement, Filtron témoin, MAHLE joints, notice
   Twingo 3 phase 2, sources to_capture depuis automecanik-raw PR #78). Passage en captured
   = activation owner de la source, puis relecture du claim contre sa capture.
 

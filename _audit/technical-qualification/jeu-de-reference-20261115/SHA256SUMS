@@ -4,4 +4,8 @@
 cca3c7b402cdd33ce67c4f4c98eafabd26d65471436c889121d2fac2c623ba87  ./cases/plaquette-de-frein.yaml
 32a48fe5a5441fde0664be083addf6c2171b450f4fa247c38201f9e4dfea464c  ./domaines-i1.yaml
 b277e9b036667a1784438ac120a5fad5a2d15117c1b80926b991df887fe66bbf  ./expected.yaml
-1a9b3b95c1ab2e367866e7654a415308204a35e0a630c83395611cae02a38d4d  ./README.md
+e4aab199f1479c885a0aa1fdf726fe6f3cbfbad93632f05cfd1ba825187784b8  ./README.md
+54f1746367639eacc3cc9c40bb8e46fe84b4cac649ab6c477cb5034b5b82a5d1  ./seconde-lecture/arbitrage.md
+e0ffa897935d2b4ac117f4750903e97f707f597dbca65d3d59b1b3061a06a756  ./seconde-lecture/cibles.yaml
+6250e70e2d846b3199957ac519239f2320dbb72f3561de1210004633725e13f6  ./seconde-lecture/consigne.txt
+8fa9b46490d46c47e38d2039e3bfcea090da422560a11a332ed771870ad9e010  ./seconde-lecture/reponse-codex-gpt-5.6-sol.txt

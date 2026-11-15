@@ -1,0 +1,82 @@
+note: Affirmations remises au second relecteur, sans verdict attendu, justification, provenance ni corroboration attendue.
+targets:
+- id: PF-securite
+  case: plaquette-de-frein
+  segment: body:2
+  claim: Les plaquettes sont des composants de sécurité du système de freinage.
+- id: PF-bruit-strident
+  case: plaquette-de-frein
+  segment: body:4
+  claim: Signal de fin d'usure — les languettes métalliques des systèmes de freinage plus anciens émettent un son strident en frottant contre le disque, quand les plaquettes ont atteint leur usure maximale.
+- id: PF-par-essieu
+  case: plaquette-de-frein
+  segment: body:6
+  claim: '- Par essieu — les plaquettes se remplacent par essieu, et à chaque remplacement des disques, les plaquettes sont remplacées aussi.'
+- id: PF-controle
+  case: plaquette-de-frein
+  segment: body:8
+  claim: '- Contrôle — les plaquettes s''usent : elles doivent être contrôlées à intervalles réguliers.'
+- id: PF-faq-strident
+  case: plaquette-de-frein
+  segment: body:10
+  claim: 'Pourquoi une plaquette usée fait-elle un son strident ? Sur beaucoup de systèmes, c''est le signal de fin d''usure : une languette métallique ou un indicateur d''usure mécanique frotte contre le disque.'
+- id: FA-30000
+  case: filtre-a-air
+  segment: body:2
+  claim: '> Conseil entretien : remplacement typique tous les 30 000 km, plus fréquent en milieu poussiéreux ou usage tout-terrain.'
+- id: FA-faq-30000
+  case: filtre-a-air
+  segment: body:7
+  claim: Typiquement tous les 30 000 km.
+- id: FA-carburant-60000
+  case: filtre-a-air
+  segment: body:4
+  claim: '- [[filtre-a-carburant]] — filtre injection essence/diesel, intervalle 60 000 km diesel'
+- id: FA-nettoyage-papier
+  case: filtre-a-air
+  segment: body:9
+  claim: Non pour les filtres papier standard (perte de porosité après nettoyage).
+- id: FA-coton-huile
+  case: filtre-a-air
+  segment: body:9
+  claim: Oui pour les filtres réutilisables type coton huilé, mais selon procédure constructeur stricte (nettoyant + huile dédiés) [^2].
+- id: FC-retient-eau
+  case: filtre-a-carburant
+  segment: body:2
+  claim: Le filtre à carburant retient l'eau et les impuretés du carburant pour protéger les injecteurs et la pompe.
+- id: FC-preconisation
+  case: filtre-a-carburant
+  segment: body:4
+  claim: 'Intervalle : suivre la préconisation constructeur'
+- id: FC-fourchettes
+  case: filtre-a-carburant
+  segment: body:4
+  claim: les fourchettes observées divergent selon les sources (15 000–20 000 km en moyenne chez certains comparateurs ; diesels HDI/TDI 20 000–30 000 km et essences jusqu'à 60 000 km dans le corpus)
+- id: FC-faq-intervalles
+  case: filtre-a-carburant
+  segment: body:7
+  claim: 'Diesels HDI/TDI : 20 000–30 000 km. Essences : jusqu''à 60 000 km.'
+- id: FC-amorcage
+  case: filtre-a-carburant
+  segment: body:9
+  claim: Oui, après remplacement il faut amorcer le circuit. Pompez jusqu'à sentir une résistance.
+- id: FC-ralenti-bobine
+  case: filtre-a-carburant
+  segment: body:11
+  claim: 2) À-coups au ralenti = injecteur/bobine.
+- id: FC-acceleration
+  case: filtre-a-carburant
+  segment: body:11
+  claim: 1) À-coups à l'accélération = filtre suspect.
+- id: FH-charbon-90
+  case: filtre-d-habitacle
+  segment: body:2
+  claim: le charbon actif retient jusqu'à 90 % des allergènes et reste recommandé en zone urbaine/polluée
+- id: FH-polyphenol-92
+  case: filtre-d-habitacle
+  segment: body:2
+  claim: des variantes combinées (pollen + charbon) et polyphénol (jusqu'à 92 % des particules allergisantes) existent
+- id: FH-intervalle
+  case: filtre-d-habitacle
+  segment: body:2
+  claim: 'Remplacement : tous les 15 000 à 20 000 km ou une fois par an — plus souvent en ville, idéalement au printemps (pollens) ; zone rurale et filtre de meilleure qualité allongent l''intervalle.'

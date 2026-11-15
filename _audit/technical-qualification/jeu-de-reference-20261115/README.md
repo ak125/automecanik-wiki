@@ -61,7 +61,9 @@ ses affirmations en profondeur complete ne peut rester `conserver`.
 ## Ordre de production
 
 1. Ce dossier : cas, verdicts attendus, table des domaines (commit avant tout passage).
-1. Seconde lecture à l'aveugle par un modèle d'une autre famille, puis arbitrage consigné.
+1. Seconde lecture à l'aveugle par un modèle d'une autre famille, puis arbitrage consigné :
+   `seconde-lecture/arbitrage.md` (codex `gpt-5.6-sol`, 17 accords exacts sur 20, aucun verdict
+   attendu modifié).
 1. Trois passages par cas avec le banc `_scripts/technical_qualification_bench.py`, puis la
    variance.
 

@@ -16,12 +16,12 @@ Les captures citées sont des pages de constructeurs et d'équipementiers archiv
 
 ## Contenu
 
-- `cases/<gamme>.json` : un cas par fiche (filtre-a-huile exclu). Le corps reprend mot pour mot
+- `cases/<gamme>.yaml` : un cas par fiche (filtre-a-huile exclu). Le corps reprend mot pour mot
   les lignes de la fiche à `67e49d8` listées dans `source_lines`, avec leurs titres de section.
   Le frontmatter est réduit à `slug`, `title` et aux captures RAW du cas. Le `cid` de chaque
   capture est le sha256 des octets du fichier : c'est ce que vérifie
   `semantic_review.load_captures`. Ce n'est pas le champ `content_hash` du frontmatter de la capture.
-- `expected.json` : 20 cibles. Chaque cible donne son segment, la regex qui retrouve
+- `expected.yaml` : 20 cibles. Chaque cible donne son segment, la regex qui retrouve
   l'affirmation, le verdict attendu, les verdicts défendables, la corroboration attendue,
   les citations de provenance et la justification. Toutes les citations ont été vérifiées
   par ancrage (`semantic_review._normalize`) dans les octets des captures.
@@ -66,3 +66,20 @@ ses affirmations en profondeur complete ne peut rester `conserver`.
    variance.
 
 `SHA256SUMS` couvre les fichiers de ce dossier.
+
+## Format des fichiers
+
+Les cas et les verdicts attendus ont d'abord été déposés en JSON au commit `eb0f8f0`, avant tout
+passage. Le test `test_technical_qualification_schema.py` du mandat S tient tout fichier `.json`
+de `_audit/technical-qualification/` pour un artefact d'exécution. Ces fichiers sont des entrées,
+pas des artefacts : ils sont passés en YAML sans changer une donnée (`yaml.safe_load` du YAML est
+égal à `json.loads` du JSON, vérifié pour les cinq fichiers). Empreintes des versions JSON de
+`eb0f8f0` :
+
+| Fichier JSON (`eb0f8f0`)        | sha256                                                             |
+| ------------------------------- | ------------------------------------------------------------------ |
+| `cases/filtre-a-air.json`       | `abe87a8a76672b704c53949c20b96b4312a68f6442c3c3a1edc88d5b7b4e53f4` |
+| `cases/filtre-a-carburant.json` | `0ea80a4757ac05a86acf2088a31000083e24f22d5aff25422dee9b09dda1ae10` |
+| `cases/filtre-d-habitacle.json` | `cad451c2469e2b8268aa57686067809d0898bd1f365ff17612680495637b135b` |
+| `cases/plaquette-de-frein.json` | `a68c06bbe8e908d79a1bedbb7a184216212c72abd98a0cf9e71dbb2ad546a50c` |
+| `expected.json`                 | `842474348bd7614182f9052605eff42cbfb3204dfde9499b4b5e05424af021ee` |

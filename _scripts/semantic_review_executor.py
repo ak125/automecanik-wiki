@@ -14,8 +14,12 @@ Une passe ou un réfutateur en échec (code non nul, délai dépassé, réponse 
 consigné et l'exécution porte `error` : la relecture se relance. Une erreur d'exécution ne
 confirme ni n'écarte jamais un candidat.
 
-La commande est une liste d'arguments où `{model}` est remplacé par l'identifiant du modèle ; elle
-lit l'invite sur stdin et écrit la réponse sur stdout. Aucune commande ni aucun modèle par défaut.
+Chaque relecteur est un couple (modèle, commande). La commande est une liste d'arguments où
+`{model}` est remplacé par l'identifiant du modèle ; elle lit l'invite sur stdin et écrit la réponse
+sur stdout. Une même exécution peut répartir ses passes et ses réfutateurs entre plusieurs
+fournisseurs, une commande par modèle (`--reviewer MODÈLE COMMANDE`, répétable), ou donner une seule
+commande à tous ses modèles (`--command` et `--model`). Chaque appel suit le même isolement, quel
+que soit le fournisseur. Aucune commande ni aucun modèle par défaut.
 Protocole et usage : `_meta/semantic-review.md`.
 """
 from __future__ import annotations
@@ -177,9 +181,11 @@ def _attempt(call):
         return None, str(exc)
 
 
-def execute(fm: dict, body: str, raw_root, command: list[str], models: list[str], *,
+def execute(fm: dict, body: str, raw_root, reviewers: list[tuple[str, list[str]]], *,
             passes: int, refuters: int, timeout=None, jobs: int = 1) -> dict:
-    """Une exécution complète du protocole sur le texte publié `fm` + `body`, prête à déposer."""
+    """Une exécution complète du protocole sur le texte publié `fm` + `body`, prête à déposer.
+    `reviewers` : couples (modèle, commande), pris à tour de rôle par les passes, puis par les
+    réfutateurs de chaque candidat ; chaque appel lance la commande de son propre modèle."""
     packet = sr.build_packet(fm, body, raw_root)
     if not packet["key_inputs"]["captures"]:
         raise ValueError("no_capture: la fiche ne cite aucune capture RAW, la relecture est impossible")
@@ -189,15 +195,15 @@ def execute(fm: dict, body: str, raw_root, command: list[str], models: list[str]
     detection_input = DETECTION_PROMPT + json.dumps(
         {"segments": [{"id": sid, "text": text} for sid, text in texts.items()], "captures": captures},
         ensure_ascii=False, indent=2)
-    pass_specs = [(f"p{i}", models[i % len(models)]) for i in range(passes)]
+    pass_specs = [(f"p{i}", *reviewers[i % len(reviewers)]) for i in range(passes)]
     errors = []
     with ThreadPoolExecutor(max_workers=jobs) as pool:
         detections = list(pool.map(lambda spec: _attempt(lambda: parse_detection(
-            ask(command, spec[1], detection_input, timeout), set(texts))), pass_specs))
+            ask(spec[2], spec[1], detection_input, timeout), set(texts))), pass_specs))
 
         claims: dict[str, list] = {}
         run_passes, candidates = [], []
-        for (pass_id, model), (result, error) in zip(pass_specs, detections):
+        for (pass_id, model, _), (result, error) in zip(pass_specs, detections):
             if error:
                 errors.append(f"passe {pass_id}: {error}")
                 continue
@@ -213,7 +219,7 @@ def execute(fm: dict, body: str, raw_root, command: list[str], models: list[str]
                     "statement": c["statement"], "raised_by": [pass_id], "refutations": []})
 
         def refute(job):
-            candidate, _, model = job
+            candidate, _, model, command = job
             subject = {"candidate": {"class": candidate["class"], "statement": candidate["statement"],
                                      "segment": {"id": candidate["segment_id"],
                                                  "text": texts[candidate["segment_id"]]}},
@@ -221,8 +227,8 @@ def execute(fm: dict, body: str, raw_root, command: list[str], models: list[str]
             prompt = REFUTATION_PROMPT + json.dumps(subject, ensure_ascii=False, indent=2)
             return _attempt(lambda: parse_refutation(ask(command, model, prompt, timeout)))
 
-        jobs_list = [(c, f"r{j}", models[j % len(models)]) for c in candidates for j in range(refuters)]
-        for (candidate, refuter_id, model), (result, error) in zip(jobs_list, pool.map(refute, jobs_list)):
+        jobs_list = [(c, f"r{j}", *reviewers[j % len(reviewers)]) for c in candidates for j in range(refuters)]
+        for (candidate, refuter_id, model, _), (result, error) in zip(jobs_list, pool.map(refute, jobs_list)):
             if error:
                 errors.append(f"candidat {candidate['id']} {refuter_id}: {error}")
                 continue
@@ -236,7 +242,7 @@ def execute(fm: dict, body: str, raw_root, command: list[str], models: list[str]
                 for sid in texts if sid in claims]
     used = ({p["model"] for p in run_passes}
             | {r["model"] for c in candidates for r in c["refutations"]}
-            or {model for _, model in pass_specs})
+            or {model for _, model, _ in pass_specs})
     run = {"schema_version": sr.SCHEMA_VERSION, "key": packet["key"], "key_inputs": packet["key_inputs"],
            "models": sorted(used), "segments": segments, "passes": run_passes, "candidates": candidates}
     if errors:
@@ -248,10 +254,14 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Exécute l'auto-review de sens d'une fiche WIKI (ADR-119 D2) "
                                                  "et dépose l'exécution sous _audit/semantic-review/.")
     parser.add_argument("fiche", type=Path)
-    parser.add_argument("--command", required=True,
-                        help="commande du relecteur ; {model} y est remplacé ; invite sur stdin, réponse sur stdout")
-    parser.add_argument("--model", action="append", required=True, dest="models",
-                        help="identifiant de modèle, répétable : passes et réfutateurs les prennent à tour de rôle")
+    parser.add_argument("--reviewer", nargs=2, action="append", default=[], dest="reviewers",
+                        metavar=("MODÈLE", "COMMANDE"),
+                        help="relecteur : un modèle et sa propre commande ({model} y est remplacé ; invite sur "
+                             "stdin, réponse sur stdout) ; répétable, un fournisseur par commande")
+    parser.add_argument("--command",
+                        help="commande commune à tous les --model ; {model} y est remplacé ; exclut --reviewer")
+    parser.add_argument("--model", action="append", default=[], dest="models",
+                        help="identifiant de modèle pour --command, répétable")
     parser.add_argument("--passes", type=int, default=sr.PROTOCOL["detection_passes_min"])
     parser.add_argument("--refuters", type=int, default=sr.PROTOCOL["refuters_min"])
     parser.add_argument("--timeout", type=float, default=None, help="délai par appel, en secondes")
@@ -261,10 +271,24 @@ def main(argv=None) -> int:
                         help="racine RAW (défaut : AUTOMECANIK_RAW_PATH, puis ../automecanik-raw)")
     args = parser.parse_args(argv)
 
-    command = shlex.split(args.command)
     problems = []
-    if not any("{model}" in arg for arg in command):
-        problems.append("--command doit transmettre {model} : le modèle consigné est celui qui relit")
+    if args.reviewers and (args.command is not None or args.models):
+        problems.append("--reviewer exclut --command et --model : une commande par modèle, ou une commande pour tous")
+        reviewers = []
+    elif args.reviewers:
+        reviewers = [(model, shlex.split(command)) for model, command in args.reviewers]
+    elif args.command is not None and args.models:
+        reviewers = [(model, shlex.split(args.command)) for model in args.models]
+    else:
+        problems.append("aucun relecteur : --reviewer MODÈLE COMMANDE, ou --command avec au moins un --model")
+        reviewers = []
+    models = [model for model, _ in reviewers]
+    if any(not model.strip() for model in models):
+        problems.append("identifiant de modèle vide")
+    if len(set(models)) != len(models):
+        problems.append("modèle répété : chaque modèle consigné doit désigner une seule commande")
+    if any(not any("{model}" in arg for arg in command) for _, command in reviewers):
+        problems.append("chaque commande doit transmettre {model} : le modèle consigné est celui qui relit")
     if args.passes < sr.PROTOCOL["detection_passes_min"] or args.refuters < sr.PROTOCOL["refuters_min"]:
         problems.append("passes ou réfutateurs sous le protocole : l'assouplir exige un ADR")
     if args.jobs < 1:
@@ -278,7 +302,7 @@ def main(argv=None) -> int:
         raw_fm, body = decision._parse_markdown(args.fiche)
         fm = decision._published_frontmatter(raw_fm)
         raw_root = decision._effective_raw_root(args.raw_root, args.wiki_root)
-        run = execute(fm, body, raw_root, command, args.models, passes=args.passes,
+        run = execute(fm, body, raw_root, reviewers, passes=args.passes,
                       refuters=args.refuters, timeout=args.timeout, jobs=args.jobs)
         target = sr.record_run(args.wiki_root, raw_fm.get("slug"), fm, body, run)
         evaluation = sr.evaluate_run(run, sr.segments(fm, body),

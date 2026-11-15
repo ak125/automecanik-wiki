@@ -558,7 +558,7 @@ prompt = sys.stdin.buffer.read().decode("utf-8")
 model = sys.argv[1] if len(sys.argv) > 1 else None
 kind = "detection" if prompt.startswith("Relecture de sens — passe de détection") else "refutation"
 with open(os.environ["FAKE_REVIEWER_LOG"], "a", encoding="utf-8") as log:
-    log.write(json.dumps({"kind": kind, "model": model, "cwd": os.getcwd(),
+    log.write(json.dumps({"kind": kind, "model": model, "argv": sys.argv[1:], "cwd": os.getcwd(),
                           "files": os.listdir("."), "prompt": prompt}) + "\\n")
 scenario = json.loads(pathlib.Path(os.environ["FAKE_REVIEWER_SCENARIO"]).read_text(encoding="utf-8"))
 if model in scenario["fail"].get(kind, []):
@@ -594,11 +594,14 @@ def ex(w, tmp_path, monkeypatch):
     base = f"{shlex.quote(sys.executable)} {shlex.quote(str(reviewer))}"
     default_fiche = _write_fiche(w, w.fm, w.fm["slug"])
 
-    def run(detection, refutation="{}", *, fail=None, extra=(), command=None, fiche=None):
+    def run(detection, refutation="{}", *, fail=None, extra=(), command=None, fiche=None, reviewers=None):
         scenario.write_text(json.dumps({"detection": detection, "refutation": refutation, "fail": fail or {}}),
                             encoding="utf-8")
-        code = sre.main([str(fiche or default_fiche), "--command", command or f"{base} {{model}}",
-                         "--model", "model-a", "--model", "model-b",
+        if reviewers is None:
+            selection = ["--command", command or f"{base} {{model}}", "--model", "model-a", "--model", "model-b"]
+        else:
+            selection = [arg for model, cmd in reviewers for arg in ("--reviewer", model, cmd)]
+        code = sre.main([str(fiche or default_fiche), *selection,
                          "--wiki-root", str(w.root), "--raw-root", str(w.raw), *extra])
         calls = [json.loads(line) for line in log.read_text(encoding="utf-8").splitlines()] if log.exists() else []
         log.unlink(missing_ok=True)
@@ -723,3 +726,72 @@ def test_executor_refuses_a_fiche_without_capture(w, ex, capsys):
                          "sans-capture")
     code, calls = ex.run(_detection(w), fiche=fiche)
     assert code == 2 and calls == [] and "no_capture" in capsys.readouterr().err
+
+
+# --- Exécuteur multi-fournisseurs : une commande par modèle -----------------------------------
+
+def _providers(ex):
+    """Deux fournisseurs simulés : même relecteur, commandes distinctes, reconnaissables à leur
+    dernier argument."""
+    return [("claude-x", f"{ex.base} {{model}} --provider claude"),
+            ("codex-y", f"{ex.base} {{model}} --provider codex")]
+
+
+@pytest.mark.parametrize("jobs", ["1", "4"])
+def test_executor_spreads_passes_and_refuters_across_providers(w, ex, capsys, jobs):
+    code, calls = ex.run(_detection(w, [SECURITY_GAP]), _verdict(w, "upheld"), reviewers=_providers(ex),
+                         extra=["--jobs", jobs])
+    assert code == 0 and json.loads(capsys.readouterr().out)["verdict"] == "FAIL"
+    # Chaque appel lance la commande de son propre modèle, jamais celle d'un autre fournisseur.
+    assert all(c["argv"] == [c["model"], "--provider", {"claude-x": "claude", "codex-y": "codex"}[c["model"]]]
+               for c in calls)
+    # Même isolement pour chaque fournisseur : processus neuf, répertoire vide et distinct.
+    assert all(c["files"] == [] for c in calls) and len({c["cwd"] for c in calls}) == len(calls)
+    run = _recorded_run(w)
+    assert run["models"] == ["claude-x", "codex-y"]
+    assert [(p["pass_id"], p["model"]) for p in run["passes"]] == [("p0", "claude-x"), ("p1", "codex-y")]
+    # Chaque candidat est réfuté par les deux fournisseurs, à tour de rôle.
+    for candidate in run["candidates"]:
+        assert [(r["refuter_id"], r["model"]) for r in candidate["refutations"]] == \
+            [("r0", "claude-x"), ("r1", "codex-y"), ("r2", "claude-x")]
+
+
+def test_failed_provider_is_an_error_and_keeps_the_other_votes(w, ex, capsys):
+    code, calls = ex.run(_detection(w, [SECURITY_GAP]), _verdict(w, "refuted"), reviewers=_providers(ex),
+                         fail={"refutation": ["codex-y"]})
+    assert code == 0
+    status = _status(w)
+    run = status["runs"][0]
+    # Les réfutations du fournisseur en échec ne sont pas consignées : candidats en attente, jamais écartés.
+    assert status["status"] == "ERROR" and run["dismissed"] == 0 and run["pending"] == 2
+    assert "r1" in run["error"] and sum(run["confirmed_by_class"].values()) == 0
+    votes = [r["model"] for c in _recorded_run(w)["candidates"] for r in c["refutations"]]
+    assert votes == ["claude-x"] * 4
+
+
+@pytest.mark.parametrize("selection, message", [
+    ("mixed", "--reviewer exclut"),
+    ("repeated", "modèle répété"),
+    ("no_model_placeholder", "{model}"),
+    ("none", "aucun relecteur"),
+])
+def test_executor_refuses_an_ambiguous_reviewer_set(w, ex, capsys, selection, message):
+    reviewers = {"repeated": [("claude-x", f"{ex.base} {{model}}"), ("claude-x", f"{ex.base} {{model}} --b")],
+                 "no_model_placeholder": [("claude-x", f"{ex.base} {{model}}"), ("codex-y", ex.base)],
+                 "none": [], "mixed": _providers(ex)}[selection]
+    extra = ["--model", "model-a"] if selection == "mixed" else []
+    code, calls = ex.run(_detection(w), reviewers=reviewers, extra=extra)
+    assert code == 2 and calls == [] and message in capsys.readouterr().err
+    assert not (w.root / sr.REVIEW_DIR).exists()
+
+
+def test_single_command_still_spreads_its_models(w, ex, capsys):
+    """Forme historique : une commande commune, ses modèles à tour de rôle (inchangée)."""
+    code, calls = ex.run(_detection(w))
+    assert code == 0 and sorted(c["argv"] for c in calls) == [["model-a"], ["model-b"]]
+
+
+def _recorded_run(w) -> dict:
+    files = sorted((w.root / sr.REVIEW_DIR).rglob("*.json"))
+    assert len(files) == 1
+    return json.loads(files[0].read_text(encoding="utf-8"))

@@ -106,6 +106,12 @@ ______________________________________________________________________
 # 1. Relire : chaque passe et chaque réfutateur tourne dans un processus neuf, dans un répertoire
 #    vide, avec pour seule entrée son invite et le paquet sur stdin. L'exécution est déposée,
 #    FAIL compris, et son évaluation affichée.
+#    Plusieurs fournisseurs : une commande par modèle (--reviewer, répétable).
+python3 _scripts/semantic_review_executor.py wiki/gamme/<slug>.md \
+  --reviewer <modèle claude> "claude --bare -p --model {model} --tools '' --strict-mcp-config --no-session-persistence" \
+  --reviewer <modèle codex> "codex exec --model {model} --ignore-user-config --ignore-rules --ephemeral --skip-git-repo-check --sandbox read-only -" \
+  [--jobs 4]
+#    Un seul fournisseur : une commande commune à tous les modèles.
 python3 _scripts/semantic_review_executor.py wiki/gamme/<slug>.md \
   --command "claude --bare -p --model {model} --tools '' --strict-mcp-config --no-session-persistence" \
   --model <modèle> [--model <autre modèle>] [--jobs 4]
@@ -117,8 +123,11 @@ python3 _scripts/semantic_review_executor.py wiki/gamme/<slug>.md \
 python3 _scripts/semantic_review.py verdict wiki/gamme/<slug>.md
 ```
 
-- `--command` est obligatoire et doit contenir `{model}` ; il n'existe ni commande ni modèle par défaut. Les modèles passés par `--model` sont répartis à tour de rôle entre les passes, puis entre les réfutateurs, et consignés dans l'exécution.
-- La commande doit donner au relecteur son entrée standard pour seule entrée : aucun outil, aucun serveur MCP, aucune instruction ni mémoire locale, aucune session conservée. Avec le CLI `claude`, `--bare` écarte les instructions et la mémoire locales mais exige une clé d'API. L'étalonnage (ADR-119 D4 e) vérifie la commande retenue et la consigne dans sa PR.
+- Relecteurs : `--reviewer MODÈLE COMMANDE` (répétable, une commande par modèle) ou `--command` avec au moins un `--model` ; les deux formes s'excluent. Chaque commande doit contenir `{model}`, et un modèle ne désigne qu'une commande ; il n'existe ni commande ni modèle par défaut. Les relecteurs sont répartis à tour de rôle entre les passes, puis entre les réfutateurs : avec deux fournisseurs, chacun reçoit au moins une passe et au moins un réfutateur de chaque candidat. Les modèles sont consignés dans l'exécution.
+- Chaque commande, quel que soit son fournisseur, doit donner au relecteur son entrée standard pour seule entrée : aucun outil, aucun serveur MCP, aucune instruction ni mémoire locale, aucune session conservée. L'exécuteur lance chaque appel dans un processus neuf et un répertoire vide ; le reste dépend des options de la commande :
+  - CLI `claude` : `--bare` écarte les instructions et la mémoire locales mais exige une clé d'API. Sans clé, `--setting-sources ""`, `--disable-slash-commands`, `--system-prompt` et la variable `CLAUDE_CODE_DISABLE_AUTO_MEMORY=1` s'en approchent ; l'absence d'outil y repose sur `--tools ""` et `--strict-mcp-config` ;
+  - CLI `codex exec` : `--ignore-user-config` écarte `~/.codex/config.toml`, donc ses serveurs MCP ; `--ignore-rules` écarte les règles, `--ephemeral` la session, `--sandbox read-only` toute écriture. Les outils du modèle (shell, recherche web, extensions) se désactivent par `--disable <fonction>` et `-c web_search=disabled`.
+  L'étalonnage (ADR-119 D4 e) vérifie chaque commande retenue par une sonde et la consigne dans sa PR.
 - `--passes` et `--refuters` valent par défaut le minimum du protocole ; une valeur plus basse est refusée. `--timeout` borne chaque appel ; `--jobs` règle le parallélisme.
 - Sorties de l'exécuteur : 0 si l'exécution est déposée (verdict affiché, FAIL compris) ; 2 si rien n'est déposé (commande sans `{model}`, protocole assoupli, fiche sans capture, entrée illisible).
 - Sans exécuteur : `semantic_review.py packet FICHE` écrit le paquet remis aux relecteurs ; `semantic_review.py record FICHE RUN.json` dépose une exécution assemblée ailleurs, aux mêmes contrôles. Sorties de `semantic_review.py` : 0 succès, 1 état autre que PASS (`verdict`), 2 entrée invalide ou indisponible.
@@ -129,7 +138,7 @@ ______________________________________________________________________
 
 - **Versionnement** : l'exécuteur dépose l'exécution dans l'arbre de travail. Une exécution supprimée avant son premier commit ne laisse aucune trace ; versionnée, elle ne peut plus disparaître sans `HISTORY_GAP`.
 - **Pertinence du passage** : le décideur vérifie qu'un passage cité figure dans une capture citée, pas qu'il tranche le candidat. L'unanimité de trois réfutateurs et la confirmation de tout autre vote bornent ce risque.
-- **Indépendance** : elle est mécanique (processus et répertoire séparés, aucune sortie partagée). Deux passes du même modèle restent corrélées : plusieurs `--model` la renforcent.
+- **Indépendance** : elle est mécanique (processus et répertoire séparés, aucune sortie partagée). Deux passes du même modèle restent corrélées : plusieurs modèles la renforcent, et des modèles de fournisseurs différents (`--reviewer`) écartent en plus les biais communs d'une même famille. L'exécution consigne les modèles ; elle n'a pas de champ fournisseur (schéma `semantic-review/v1` inchangé), et la famille de chaque modèle se déclare dans la PR qui versionne l'exécution.
 - **Invites et commande** : les invites de l'exécuteur et la commande de lancement n'entrent pas dans la clé ; seuls les modèles sont consignés. Modifier les invites est une modification du code de l'exécuteur, par PR WIKI.
 - **Relances** : une exécution `INCOMPLETE` ou `ERROR` se relance sur la même clé ; chaque relance reste visible dans l'historique.
 - **`no_disputed_claims`** reste une déclaration du frontmatter. L'auto-review la complète : une divergence non déclarée entre sources est un écart de sens (ADR-119 D3).

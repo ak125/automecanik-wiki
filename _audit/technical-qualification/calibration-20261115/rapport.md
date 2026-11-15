@@ -227,7 +227,41 @@ jamais Renault, et la plaquette n'a qu'une classe d'éditeur.
   Le verdict ne les distingue plus ; seule la limite le fait.
 - La Q5 est moins bien retrouvée qu'en 0.2.0. Un modèle et une exécution par révision ne disent pas
   si l'écart tient à la révision ou à la variance.
-- La contestation n'a pas été relancée sur la 0.3.0.
+- La contestation de la 0.3.0 est consignée ci-dessous.
+
+## Contestation de la 0.3.0
+
+Même contestataire, même commande, même isolement que pour la 0.2.0 : `gpt-5.6-sol` (openai), codex-cli 0.144.4, `CODEX_HOME` dédié, outils coupés, paquet figé sur l'entrée standard. Exécution le 2026-11-15 entre 18:16Z et 18:18Z. Chaque artefact désigne la qualification 0.3.0 par son empreinte (`contests.artifact_sha256`) et partage sa clé. Aucun appel n'a échoué. Tous les passages cités sont dans les captures, et chaque affirmation qualifiée a reçu une position.
+
+| Cas                        | Révision contestée | Affirmations | `agree` | `contest`                                              | `undecidable`             | Oubliées (`missed`) |
+| -------------------------- | ------------------ | ------------ | ------- | ------------------------------------------------------ | ------------------------- | ------------------- |
+| filtre, consignes retirées | 0.2.0              | 11           | 4       | 0                                                      | 7 (toutes avec `retirer`) | 0                   |
+| filtre, consignes retirées | 0.3.0              | 12           | 12      | 0                                                      | 0                         | 0                   |
+| filtre, cinq paires        | 0.2.0              | 8            | 7       | 1                                                      | 0                         | 0                   |
+| filtre, cinq paires        | 0.3.0              | 8            | 4       | 3 : 2 plus strictes, 1 sur la limite                   | 1 (avec `retirer`)        | 1                   |
+| plaquette@88f9f88          | 0.2.0              | 107          | 95      | 11                                                     | 1                         | 6                   |
+| plaquette@88f9f88          | 0.3.0              | 93           | 78      | 15 : 12 plus souples, 2 plus strictes, 1 sur la limite | 0                         | 6                   |
+
+### Défauts masqués par la 0.3.0
+
+Les cinq affirmations relevées plus haut sont passées de `conserver` à `preciser` alors que leur limite décrit un écart de fond. La contestation les traite ainsi :
+
+- L155 (cinq paires, body:4 c4, même modèle et même année) : **retrouvée**. Position `undecidable`, verdict `retirer` : la dépendance au moteur ne prouve pas la combinaison de critères. C'est le seul cas où le verdict se sépare d'une affirmation exacte et seule.
+- `entity_data` c21 (« en principe ») : **retrouvée dans le motif, pas dans le verdict**. Position `agree` sur `preciser`, mais le motif dit que le texte « transforme en règle absolue une priorité formulée « en principe » ». Même chose pour la reprise de cette phrase dans le corps (body:22 c55).
+- `entity_data` c24 (ECE R90) : `agree` sur `preciser`. Le motif reprend la limite (pas de texte réglementaire, champ de l'obligation non couvert).
+- `entity_data` c4 (« signal sonore ») : **en partie**. `agree` sur `preciser`, avec une portée bornée aux systèmes munis de languettes. Le motif ne dit pas que le texte est à corriger.
+- `entity_data` c15 (marques de qualité) : **non retrouvée**. Contestée vers `conserver`, au motif que le texte attribue déjà les critères à une page d'équipementier.
+
+D'autres positions `agree` sur `preciser` décrivent elles aussi une contradiction dans leur motif : le « Oui » sur le remplacement du témoin d'usure (c9, body:51 c89 : contredit par la réutilisation d'un capteur intact admise par Brembo). La contestation voit ces écarts, mais son verdict ne les sépare pas des affirmations exactes et seules. Le défaut reste masqué dans les verdicts des deux familles.
+
+### Autres constats
+
+- Q5 (body:52 c90) : `agree` sur `preciser`. Le motif nomme les essais à vitesse réduite et le rodage, comme la qualification. La partie manquée (mauvais montage, pression instable) n'est pas retrouvée.
+- Les 12 contestations plus souples de la plaquette demandent `conserver` pour des affirmations que le 11 a déclassées faute de second domaine. Le contestataire juge chaque affirmation sur son passage ; l'invite de contestation 0.3.0 ne lui rappelle pas la règle de D9 (une seule source donne `preciser`). ADR-131 D3 retient le verdict le plus strict : elles ne lèvent aucun blocage.
+- Contestations plus strictes : cinq paires c6 et c7 (`retirer` : les captures ne montrent ni l'équivalence d'une autre marque ni le renvoi à la documentation du fabricant) ; plaquette c30 (plaque arrière et matériau de friction, `retirer`) et c46 (« relève de l'outil de diagnostic », `retirer`, déjà retrouvé par la contestation de la 0.2.0).
+- Oubliées par le 11 : une consigne de la FAQ des cinq paires (« Consultez le guide du filtre à huile », `retirer`) ; six dans la plaquette, dont trois dans les notes de body:54 (date de révision, « cinq pages techniques », relation de diagnostic), comme en 0.2.0.
+- `checks` (concordance, indépendance) : aucun n'est rendu. La contestation ne les demande que pour une affirmation déclarée sur plusieurs domaines, et aucune des trois qualifications n'en déclare. Ces deux contrôles ne sont pas mis à l'épreuve par cet étalonnage.
+- Un modèle par famille et une exécution : la variance n'est pas mesurée.
 
 ## Artefacts
 
@@ -245,6 +279,9 @@ jamais Renault, et la plaquette n'a qu'une classe d'éditeur.
 | filtre, consignes retirées | 0.3.0                 | `50855b79…5ba6447` | `58091485…a214cac` |
 | filtre, cinq paires        | 0.3.0                 | `b95b2052…018ade1` | `eaa06224…e0afa98` |
 | plaquette@88f9f88          | 0.3.0                 | `7e9eb85c…b82043a` | `2e07943f…3b6d620` |
+| filtre, consignes retirées | contestation de 0.3.0 | `50855b79…5ba6447` | `a1202eb4…dbf7bce` |
+| filtre, cinq paires        | contestation de 0.3.0 | `b95b2052…018ade1` | `24859dc3…6c732b8` |
+| plaquette@88f9f88          | contestation de 0.3.0 | `7e9eb85c…b82043a` | `a969cdb5…c971177` |
 
 Les passages cités (`{path, cid, quote}`) suivent le même régime que `_audit/semantic-review/` : ils
 recopient des captures RAW dans ce dépôt public.

@@ -51,7 +51,7 @@
 ### Suite
 
 - **Phase F.2** — constructeurs (36 fichiers) : direct via recycler tel quel.
-- **Phase F.0.x** — `recycle-from-rag.py --mode enrich` pour le flux D15bis (absorption guides+reference dans gammes body).
+- **Phase F.0.x** — ~~`recycle-from-rag.py --mode enrich` pour le flux D15bis (absorption guides+reference dans gammes body).~~ Abandonnée : script déprécié le 2026-06-26 (#65), retiré le 2026-11-15 (mandat AD) ; le RAG est un consommateur chatbot (ADR-046), les propositions passent par le skill `wiki-proposal-writer` du monorepo.
 - **Phase F.1** — reference + guides absorbables → distribué dans `wiki/gammes/<slug>.md` body sections + `entity_data.references[]`.
 - **Phase F.4** — gammes (241 fichiers) : plus volumineux, peut-être à sous-découper.
 - **F.tombstones** — 3 fichiers redondants → `automecanik-raw/manifests/tombstones.json` per D21.

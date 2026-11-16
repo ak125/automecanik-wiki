@@ -109,11 +109,17 @@ Avant de créer un nouveau script de lint / quality / extraction, vérifier les 
 | `_audit/`                                                  | Logs de promotions, deprecations, disputes                     |
 | `exports/{rag,seo,support}/`                               | Sorties générées (gitignored sauf contrats)                    |
 
-## Référence canon
+## Référence
 
-- **ADR-031** — Raw / Wiki / RAG / SEO Separation (`accepted` 2026-04-28, vault PR #107)
-  `ak125/governance-vault/ledger/decisions/adr/ADR-031-raw-wiki-rag-seo-separation.md`
-- **ADR-032** — Diagnostic & Maintenance unification (`accepted` 2026-04-29)
-  `ak125/governance-vault/ledger/decisions/adr/ADR-032-diagnostic-maintenance-unification.md`
-- **ADR-033** — Wiki gamme `diagnostic_relations[]` contract (`accepted` 2026-04-29, vault PR #108)
-  `ak125/governance-vault/ledger/decisions/adr/ADR-033-wiki-gamme-diagnostic-relations-contract.md`
+Les règles en vigueur sont au journal des principes du monorepo
+(`ak125/nestjs-remix-monorepo`, `.claude/governance/journal-des-principes.md`) : P10 (RAW → WIKI →
+projections → consommateurs) et P19 (base de diagnostic sourcée WIKI). Le dépôt
+`ak125/governance-vault` est une archive en lecture seule : les ADR ci-dessous expliquent la
+décision d'origine, elles ne sont plus normatives par elles-mêmes.
+
+- **ADR-031** — Four-Layer Content Architecture, Raw / Wiki / Exports / Consumers (vault PR #107)
+  `ledger/decisions/adr/ADR-031-four-layer-content-architecture.md`
+- **ADR-032** — Diagnostic & Maintenance unification (`superseded` par ADR-112 dans l'archive)
+  `ledger/decisions/adr/ADR-032-diagnostic-maintenance-unification.md`
+- **ADR-033** — Wiki gamme `diagnostic_relations[]` contract (vault PR #108)
+  `ledger/decisions/adr/ADR-033-wiki-gamme-diagnostic-relations-contract.md`

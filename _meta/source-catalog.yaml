@@ -739,6 +739,129 @@ sources:
       valeurs de capacité et de délai de la notice sont propres au véhicule :
       elles ne sont pas des valeurs du filtre et ne sont pas publiées.
       STATUS to_capture : activation = acte owner.
+      Complément n° 3 au mandat T (2026-11-17) : retirée des sources de la fiche
+      filtre-a-huile ; la divergence qu'elle porte reste au rapport seulement.
+
+  - slug: renault_entretien_revision_filtre_huile
+    title: 'Renault — entretien et révision : vidange avec remplacement du filtre à huile'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Renault'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-304c05bd50ce8da412d341e3a15b1e67c581799c9739321cbff30a6d5ca14a9b
+      expected_sha256: 'sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/renault-fr-wl-filtre-a-huile-revision-renault-20261117-304c05bd.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Page constructeur (capture RAW 2026-11-17, automecanik-raw PR #78,
+      sha256:cdad28e2…). Passage retenu : l'entretien comprend la vidange et le
+      remplacement du filtre à huile ; la révision complète dit « remplacement du
+      filtre à huile si besoin » : ne pas écrire « toujours » sur cette seule
+      source. Prix, forfaits et points de contrôle non repris.
+      STATUS to_capture : activation = acte owner (complément n° 3 T, palier 1).
+
+  - slug: dacia_entretien_revision_filtre_huile
+    title: 'Dacia — entretien : vidange avec remplacement du filtre à huile'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Dacia'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-45b4c02ff669ed06af7f39142b561636bb41c1380e8be432b9a79fde1e5c8a59
+      expected_sha256: 'sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/dacia-fr-wl-filtre-a-huile-revision-dacia-20261117-45b4c02f.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Page constructeur (capture RAW 2026-11-17, automecanik-raw PR #78,
+      sha256:ede68209…). Passage retenu : l'entretien comprend la vidange et le
+      remplacement du filtre à huile. Groupe Renault : même domaine « constructeur »
+      que renault.fr, pas un domaine de plus. Prix et grade d'huile non repris.
+      STATUS to_capture : activation = acte owner (complément n° 3 T, palier 1).
+
+  - slug: renault_captur2_niveau_vidange_huile
+    title: 'Renault Captur 2 — notice : niveau d’huile moteur, appoint, vidange'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Renault'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-a1fff257eb3854d5833ad855f67807510698e05a5b1fe0c24482cb72e3b919c4
+      expected_sha256: 'sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Notice utilisateur constructeur (capture RAW 2026-11-17, automecanik-raw
+      PR #78, sha256:e49866bf…), Captur 2 uniquement, en anglais. Passages
+      retenus : périodicité de vidange renvoyée au document d'entretien du
+      véhicule ; niveau contrôlé à la jauge, jamais au-dessus du maxi ; contact
+      coupé avant toute intervention ; risque de brûlure. Capacités non reprises.
+      STATUS to_capture : activation = acte owner (complément n° 3 T, palier 1).
+
+  - slug: renault_talisman_niveau_huile
+    title: 'Renault Talisman — notice : niveau d’huile moteur, généralités'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Renault'
+    year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-5c4ca1a2a0f84ff7129cd84e85af14ef07d60bb4011c2c74a377e4b09108d5f3
+      expected_sha256: 'sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-talisman-re-5c4ca1a2.md'
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Notice utilisateur constructeur (capture RAW 2026-11-17, automecanik-raw
+      PR #78, sha256:a1cf9911…), Talisman uniquement. Passages retenus : lecture
+      du niveau sur sol horizontal après un arrêt prolongé du moteur, à la jauge ;
+      ne jamais dépasser le maxi ; l'afficheur n'alerte qu'au niveau minimum ;
+      contact coupé avant toute intervention. Consommation chiffrée non reprise.
+      STATUS to_capture : activation = acte owner (complément n° 3 T, palier 1).
+
+  - slug: volkswagen_fluides_huile_moteur_filtre
+    title: 'Volkswagen — fluides et huile moteur : rôle du filtre à huile'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Volkswagen'
+    year: null
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Page constructeur visée (palier 2, complément n° 3 T) :
+      volkswagen.fr/fr/entretenir-ma-volkswagen/entretien-et-pieces/fluides-huile-moteur.html,
+      FAQ « À quoi sert le filtre à huile ». Domaine en attente d'allowlist
+      (automecanik-raw PR #84). Pas encore capturée : aucun raw_ref, rien n'est
+      publié depuis cette entrée. STATUS to_capture : capture après fusion owner.
+
+  - slug: nissan_juke2024_remplacement_filtre_huile
+    title: 'Nissan Juke 2024 — notice : remplacement du filtre à huile moteur'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Nissan'
+    year: null
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Notice constructeur visée (palier 2, complément n° 3 T), nissan.fr,
+      « Remplacement du filtre à huile moteur » (Juke 2024). Domaine en attente
+      d'allowlist (automecanik-raw PR #84). Pas encore capturée : aucun raw_ref.
+      Le serrage « 2/3 de tour » est propre au véhicule et n'a pas de second
+      domaine : il ne sera pas publié. STATUS to_capture : capture après fusion owner.
+
+  - slug: kia_programme_entretien_huile_filtre
+    title: 'Kia — notice : programme d’entretien, huile moteur et filtre à huile'
+    type: oem_manual                            # → max confidence: high
+    publisher: 'Kia'
+    year: null
+    status: to_capture
+    license: captured_for_internal_review
+    notes: |
+      Notice constructeur visée (palier 2, complément n° 3 T),
+      ownersmanual.kia.com (full_webhelp, fr_FR), programme d'entretien « Huile
+      moteur et filtre à huile ». Domaine en attente d'allowlist (automecanik-raw
+      PR #84). Pas encore capturée : aucun raw_ref. Intervalles chiffrés non
+      repris. STATUS to_capture : capture après fusion owner.
 
   - slug: eu_reg_461_2010_block_exemption
     title: 'Règlement (UE) n°461/2010 — exemption par catégorie automobile (qualité OE / OES / équivalente)'

@@ -86,3 +86,5 @@ Bump majeur (X.0) = nouvelle règle ou statut interdit ajouté. Bump mineur (X.Y
 - `rules-engineering-quality.md` (Q1-Q4 — solution structurelle vs bricolage)
 - `rules-ai-antipatterns.md` (AP-* — anti-patterns IA)
 - `rules-governance-process.md` (G5-G8 — processus)
+
+Ligne ajoutee par le test negatif du mandat BC, etape 4.

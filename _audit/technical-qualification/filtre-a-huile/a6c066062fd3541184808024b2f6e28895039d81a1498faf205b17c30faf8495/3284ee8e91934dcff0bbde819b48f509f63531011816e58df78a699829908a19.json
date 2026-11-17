@@ -1,0 +1,2566 @@
+{
+  "contests": {
+    "artifact_sha256": "c4c2dc2d4110fde57f98d4aa0d58453e9f9ffccf8da40805465e010c6409f492",
+    "reviewer_model": "claude-opus-5-5",
+    "reviewer_provider": "anthropic"
+  },
+  "freshness": {
+    "checked_at": "2026-11-15T14:57:05Z",
+    "commit": "dad41b86e89ae8e7e4623a2d7c1a74ce1c27b7f7",
+    "raw_commit": "5c1b5a58aba85b06aec6a12f31ae847c220e79d3",
+    "read_from": "origin",
+    "ref": "origin/claude/filtre-a-huile-qa-revision-20261115"
+  },
+  "key": "a6c066062fd3541184808024b2f6e28895039d81a1498faf205b17c30faf8495",
+  "key_inputs": {
+    "captures": [
+      {
+        "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md"
+      },
+      {
+        "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md"
+      },
+      {
+        "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md"
+      },
+      {
+        "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+        "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md"
+      },
+      {
+        "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md"
+      }
+    ],
+    "skill_sha256": "52a78abd5f4566cb32a177bd84586f9055204494de9f256b76b991b1288c241d",
+    "text_sha256": "a2e6f2f0153ba3292f6f9d3e87f4a328715c1e015c267dff1d59104af3494bf5"
+  },
+  "missed": [
+    {
+      "passage": null,
+      "segment_id": "fm:entity_data",
+      "statement": "L’existence et la destination de ce lien interne ne sont établies par aucune capture fournie.",
+      "text": "Fiche de référence : [filtre à huile](/reference-auto/filtre-a-huile).",
+      "verdict": "retirer"
+    },
+    {
+      "passage": null,
+      "segment_id": "fm:entity_data",
+      "statement": "L’association éditoriale et la destination de ce lien interne ne sont établies par aucune capture fournie.",
+      "text": "Pièce associée : [bouchon de vidange](/pieces/bouchon-de-vidange-593.html).",
+      "verdict": "retirer"
+    },
+    {
+      "passage": null,
+      "segment_id": "fm:review_notes",
+      "statement": "Les captures permettent d’en constater trois datées du 2026-11-15 dans le paquet, mais ne tranchent ni l’existence ni le contenu de la PR #78.",
+      "text": "Quatre captures RAW du 2026-11-15 (automecanik-raw PR #78)",
+      "verdict": "retirer"
+    },
+    {
+      "passage": null,
+      "segment_id": "fm:review_notes",
+      "statement": "Aucune capture ne documente ces états de catalogue, niveaux de confiance ou statuts de workflow.",
+      "text": "Leurs sources sont au catalogue en to_capture et leurs références en confiance medium ; les claims qu'elles portent restent pending_capture jusqu'à l'activation owner.",
+      "verdict": "retirer"
+    },
+    {
+      "passage": null,
+      "segment_id": "fm:review_notes",
+      "statement": "Les captures fournies ne donnent aucune instruction sur un remplacement du filtre sans vidange.",
+      "text": "« changer le filtre sans vidange » est retiré : les captures ne traitent pas ce cas",
+      "verdict": "conserver"
+    },
+    {
+      "passage": null,
+      "segment_id": "fm:review_notes",
+      "statement": "Aucune capture ne permet de vérifier la présence de ces artefacts.",
+      "text": "artefacts conservés sous _audit/",
+      "verdict": "retirer"
+    },
+    {
+      "passage": null,
+      "segment_id": "fm:review_notes",
+      "statement": "Aucune capture ne permet de vérifier l’existence des URL, le déplacement des liens ou les champs servis.",
+      "text": "les liens Markdown vers les URL existantes /pieces/bouchon-de-vidange-593.html et /reference-auto/filtre-a-huile passent dans removal_procedure et post_install_checks, seuls champs servis (ADR-106 D8).",
+      "verdict": "retirer"
+    },
+    {
+      "passage": null,
+      "segment_id": "fm:review_notes",
+      "statement": "Les captures ne montrent pas la fiche publiée complète et ne permettent donc pas de vérifier l’absence de juxtaposition ni la valeur de no_disputed_claims.",
+      "text": "Plus aucune consigne divergente n'est juxtaposée, d'où no_disputed_claims true.",
+      "verdict": "retirer"
+    },
+    {
+      "passage": null,
+      "segment_id": "body:49",
+      "statement": "Aucune des captures fournies n'affirme qu'un même moteur permet de substituer un filtre vissé à une cartouche ou inversement.",
+      "text": "Les sources consultées ne disent pas si l'on peut passer de l'une à l'autre sur un même moteur.",
+      "verdict": "conserver"
+    },
+    {
+      "passage": {
+        "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+        "quote": "Capacité de vidange\nReportez-vous au document d’entretien de votre véhicule ou consultez un Représentant de la marque."
+      },
+      "segment_id": "body:62",
+      "statement": "Dans les segments publiés fournis, aucune valeur de pression, de couple de serrage ou de capacité n'apparaît ; les captures Renault renvoient d'ailleurs la capacité de vidange au document d'entretien ou au représentant de la marque.",
+      "text": "Aucune valeur de pression, de couple ni de capacité n'est publiée.",
+      "verdict": "conserver"
+    },
+    {
+      "passage": null,
+      "segment_id": "body:62",
+      "statement": "Aucune capture ne permet de vérifier le statut éditorial « hypothèse en confiance faible, non revue ».",
+      "text": "La relation diagnostic du voyant reste une hypothèse en confiance faible, non revue.",
+      "verdict": "retirer"
+    }
+  ],
+  "producer": {
+    "basis": "provenance.ingested_by de dad41b86e:proposals/filtre-a-huile.md ; _meta/source-policy.md:74 ; rédigé par Claude Code (claude-opus-5-5)",
+    "declared": "skill:wiki-proposal-writer",
+    "provider": "anthropic"
+  },
+  "reviewer": {
+    "cli_version": "codex-cli 0.144.4",
+    "model": "gpt-5.6-sol",
+    "provider": "openai"
+  },
+  "role": "contestation",
+  "schema_version": "technical-qualification/v1",
+  "segments": [
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "diagnostic_relation"
+      ],
+      "id": "fm:diagnostic_relations",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+          },
+          "position": "contest",
+          "statement": "La conclusion « préciser » tient, mais la portée « filtres vissés en général » et l'affirmation que les autres causes sont « plus fréquemment citées » ne sont pas établies par la capture Filtron, qui énumère seulement plusieurs causes possibles.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+          },
+          "position": "agree",
+          "statement": "La capture Renault ne rattache pas le témoin au filtre et impose, dans le cas précisément décrit, l'arrêt, le contrôle du niveau puis l'appel à un Représentant de la marque si le niveau est normal."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "The flow resistance may be too high due to the installation of an incorrect or weak filter"
+          },
+          "position": "contest",
+          "statement": "Le besoin de préciser les autres causes, la vérification du niveau et l'arrêt immédiat est fondé, mais la portée « filtres vissés en général » et surtout « tous véhicules » n'est pas établie par cette capture, qui ne désigne aucun type de filtre ni ensemble de véhicules.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip no. 1: Always remove the old ring from the flange. And don’t forget to coat the new sealing rings with clean motor oil every time before fitting them."
+          },
+          "position": "contest",
+          "statement": "La précision sur le retrait de l'ancien joint et la lubrification du joint neuf est nécessaire, mais la limite ajoute une conduite à tenir — arrêter le moteur, contrôler le niveau puis consulter un professionnel — que la capture MAHLE ne rattache pas à ce cas.",
+          "verdict": "preciser"
+        }
+      ],
+      "sha256": "e094d6b16ec631993125853ea27de77d98f0868cac031fe2e42ed75de228bd5e"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure",
+        "diagnostic_relation"
+      ],
+      "id": "fm:entity_data",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine."
+          },
+          "position": "contest",
+          "statement": "L’affirmation est correctement limitée par « selon le moteur » et attribuée à MAHLE. L’exigence de recours à un professionnel ou à un catalogue n’est établie par aucune capture.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "MAHLE oil filters reliably prevent contaminants from entering the lubrication system and maintain oil quality as well as the performance and efficiency of the engine."
+          },
+          "position": "agree",
+          "statement": "La capture décrit explicitement les filtres MAHLE, tandis que le texte parle du filtre à huile en général."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+          },
+          "position": "agree",
+          "statement": "La distinction entre filtre vissé et cartouche est portée par la capture et le texte ne prétend pas identifier le type monté sur un moteur précis."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "For example, they may be with or without anti-drain valve or have different connection threads. They also can differ in the oil pressure of the bypass valve, filter media, the fineness of the filter or the permissible operational overpressure."
+          },
+          "position": "agree",
+          "statement": "La capture énumère bien les différences internes possibles entre filtres d’apparence identique."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+          },
+          "position": "agree",
+          "statement": "La mention Filtron doit être limitée aux filtres vissés."
+        },
+        {
+          "claim_id": "c5",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+          },
+          "position": "contest",
+          "statement": "Les captures suffisent à montrer que le témoin ne désigne pas à lui seul le filtre. L’affirmation supplémentaire selon laquelle les contrôles relèvent nécessairement d’un diagnostic professionnel n’est pas établie par le passage Filtron.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c6",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Il s’allume à la mise sous contact ou au démarrage du moteur puis s’éteint après quelques secondes."
+          },
+          "position": "agree",
+          "statement": "La phrase et sa portée Clio 5 phase 1 correspondent à la capture."
+        },
+        {
+          "claim_id": "c7",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Il vous impose, pour votre sécurité, un arrêt impératif et immédiat compatible avec les conditions de circulation. Arrêtez le moteur et ne le redémarrez pas."
+          },
+          "position": "agree",
+          "statement": "Le texte restitue l’arrêt, le contrôle du niveau, l’interdiction de redémarrer et l’appel au représentant de la marque."
+        },
+        {
+          "claim_id": "c8",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "L’affichage des informations décrites ci-après DÉPEND DE L’ÉQUIPEMENT DU VÉHICULE ET DU PAYS."
+          },
+          "position": "agree",
+          "statement": "La dépendance à l’équipement et au pays est explicite, et la capture n’attribue pas cette alerte au filtre à huile."
+        },
+        {
+          "claim_id": "c9",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+          },
+          "position": "agree",
+          "statement": "La conduite à tenir après le démarrage est fidèlement rapportée sans durée chiffrée ajoutée."
+        },
+        {
+          "claim_id": "c10",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "High wear of the engine (bushes, bearings), and thus too low pressure in the oil gallery."
+          },
+          "position": "contest",
+          "statement": "La liste du texte correspond à la liste Filtron. La capture ne dit pas que le contrôle de toutes ces causes relève obligatoirement d’un atelier.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c11",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "By using FILTRON oil filters, you can be sure that if the oil pressure warning light does not go off after replacement then it is not related to a malfunction of the filter."
+          },
+          "position": "agree",
+          "statement": "Le texte restitue l’affirmation commerciale et signale correctement qu’elle n’est pas vérifiée indépendamment."
+        },
+        {
+          "claim_id": "c12",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+          },
+          "position": "agree",
+          "statement": "Les deux captures distinguent bien un témoin persistant après démarrage et une alerte apparaissant sur route."
+        },
+        {
+          "claim_id": "c13",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "As a result, leaks can occur and the oil pressure indicator can light up when the engine is running, even though the new filter is properly screwed on."
+          },
+          "position": "agree",
+          "statement": "Il faut nommer le témoin de pression d’huile pour éviter que « le témoin moteur tournant » soit compris comme un témoin moteur."
+        },
+        {
+          "claim_id": "c14",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "With filter cartridges from the OX program we offer particularly economical solutions for repair shops: instead of replacing the complete filter, only the dirty filter element has to be renewed."
+          },
+          "position": "agree",
+          "statement": "Les deux constructions et les éléments renouvelés sont correctement décrits."
+        },
+        {
+          "claim_id": "c15",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "position": "agree",
+          "statement": "La recommandation de suivre les intervalles du constructeur est explicitement portée."
+        },
+        {
+          "claim_id": "c16",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Filter service life spans of 30,000 km and more are now common for many new vehicles and some manufacturers are even quoting 50,000 km—driving patterns and the quality of engine oil taken into account."
+          },
+          "position": "contest",
+          "statement": "Le texte présente déjà 30 000 km comme une moyenne et un ordre de grandeur, puis distingue les véhicules récents et les annonces de certains constructeurs. Il ne formule aucun plafond universel.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c17",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+          },
+          "position": "agree",
+          "statement": "La portée aux filtres vissés et le remplacement lors de la vidange sont exacts."
+        },
+        {
+          "claim_id": "c18",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Périodicité : reportez-vous au document d’entretien de votre véhicule."
+          },
+          "position": "agree",
+          "statement": "La capture Twingo renvoie bien au document d’entretien sans donner de valeur ni parler du filtre."
+        },
+        {
+          "claim_id": "c19",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit. However, the problem is that many filters look identical but have completely different insides depending on the engine."
+          },
+          "position": "agree",
+          "statement": "Les différences internes sont fidèlement énumérées et la capture ne fournit effectivement pas de méthode d’identification de la référence compatible."
+        },
+        {
+          "claim_id": "c20",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "The flow resistance may be too high due to the installation of an incorrect or weak filter"
+          },
+          "position": "agree",
+          "statement": "Le texte présente correctement la résistance excessive comme une cause possible parmi d’autres."
+        },
+        {
+          "claim_id": "c21",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "This is because the longer the replacement interval, the more important the quality of the oil filter."
+          },
+          "position": "agree",
+          "statement": "La relation entre intervalle prolongé, sollicitation du média et importance de la qualité est portée par MAHLE."
+        },
+        {
+          "claim_id": "c22",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "If this limit is reached, the material is fatigued and non-functional. This means that even when the filter element is not jet clogged, it cannot collect any more dirt."
+          },
+          "position": "agree",
+          "statement": "La capture décrit la fragilisation sans fournir de signe permettant à l’utilisateur de constater le colmatage."
+        },
+        {
+          "claim_id": "c23",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The use of a bypass valve results from the fact that dirty oil is always better for the engine than its total absence. A lack of oil lubrication can damage the engine."
+          },
+          "position": "agree",
+          "statement": "Les circonstances et le rôle du by-pass sont correctement restitués sans le présenter comme un indicateur visible."
+        },
+        {
+          "claim_id": "c24",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "However, the time after the warning light goes off does not in any way indicate the quality of the filter. If the system works correctly, the light turns on because the newly installed filter is empty for a brief moment."
+          },
+          "position": "agree",
+          "statement": "Le délai de quelques secondes et l’absence de valeur diagnostique sur la qualité sont explicites."
+        },
+        {
+          "claim_id": "c25",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+          },
+          "position": "contest",
+          "statement": "La conduite immédiate, les causes possibles et la réserve sur l’affirmation commerciale sont correctement rapportées. La capture ne rattache pas explicitement les autres causes à une obligation de diagnostic professionnel.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c26",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Il vous impose, pour votre sécurité, un arrêt impératif et immédiat compatible avec les conditions de circulation. Arrêtez le moteur et ne le redémarrez pas."
+          },
+          "position": "agree",
+          "statement": "Cette occurrence de la FAQ omet la compatibilité de l’arrêt avec les conditions de circulation et la dépendance de l’affichage à l’équipement et au pays."
+        },
+        {
+          "claim_id": "c27",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Vidange moteur : si vous réalisez la vidange moteur chaud, attention aux risques de brûlures dues à l’écoulement de l’huile."
+          },
+          "position": "contest",
+          "statement": "Le verdict « conserver » est incompatible avec la limite relevée : le segment procédural omet des précautions de sécurité que la capture Twingo rattache directement à la vidange et aux interventions près du moteur.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c28",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Take it slow: When you remove the used filter, the remaining oil in the filter and flange flows back into the oil pan through the antidrain back plate. This takes time."
+          },
+          "position": "agree",
+          "statement": "Le texte respecte la portée limitée aux références et moteurs indiqués."
+        },
+        {
+          "claim_id": "c29",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Clean the surface of the filter which adheres to the engine housing, making sure that the old filter gasket has been removed. Then cover the top surface of the new filter gasket with a thin layer of clean engine oil."
+          },
+          "position": "agree",
+          "statement": "La consigne générique Filtron et le cas particulier MAHLE sont correctement séparés."
+        },
+        {
+          "claim_id": "c30",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "For turbocharged engines it may be necessary to fill the filter with clean oil before screwing it to the engine. Check the manufacturer's recommendations in this regard."
+          },
+          "position": "agree",
+          "statement": "La condition liée au moteur turbocompressé et le renvoi aux recommandations du constructeur sont présents."
+        },
+        {
+          "claim_id": "c31",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Screw in the filter until the filter gasket touches the engine housing and then tighten according to the indications on the filter or packaging. Usually it is ¾ rotation or 1 rotation. For filters in diesel engines this may be more."
+          },
+          "position": "agree",
+          "statement": "Le texte présente ¾ à 1 tour comme une valeur habituelle et fait primer l’indication du filtre ou de l’emballage."
+        },
+        {
+          "claim_id": "c32",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip no. 2: Never use a removal tool to tighten the filter. As the name says, this tool should only be used to remove the filter. Overtightening can damage the surface and cause the filter to leak."
+          },
+          "position": "agree",
+          "statement": "L’interdiction d’utiliser l’outil de dépose au serrage et le risque lié au serrage excessif sont explicitement portés."
+        },
+        {
+          "claim_id": "c33",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Overtightening can damage the surface and cause the filter to leak."
+          },
+          "position": "agree",
+          "statement": "La reformulation doit préserver le lien causal précis entre dommage et serrage excessif."
+        },
+        {
+          "claim_id": "c34",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Pour clean oil into the engine until the level recommended by the manufacturer is reached and tighten the oil filler cap."
+          },
+          "position": "agree",
+          "statement": "Le texte renvoie bien au niveau recommandé par le constructeur sans inventer quantité ni qualité d’huile."
+        },
+        {
+          "claim_id": "c35",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Start the engine and make sure that the oil pressure indicator has turned off or check that the oil pressure has reached the normal level on the pressure gauge if it has been installed in the vehicle."
+          },
+          "position": "agree",
+          "statement": "La vérification au manomètre, lorsque le véhicule en est équipé, appartient à la même étape et doit être conservée."
+        },
+        {
+          "claim_id": "c36",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "En cas de baisse anormale ou répétée du niveau, consultez un Représentant de la marque."
+          },
+          "position": "contest",
+          "statement": "Le verdict « conserver » ne tient pas avec sa propre limite : une capture rattache explicitement une baisse anormale ou répétée du niveau à l’appel à un représentant de la marque, précaution absente du texte.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c37",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+          },
+          "position": "contest",
+          "statement": "Les vérifications et causes sont correctement attribuées à Filtron. La capture Filtron ne dit pas que les causes non liées au niveau relèvent nécessairement d’un professionnel.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c38",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Ensure that the removed filter and old oil are placed in special hazardous waste containers and disposed of in an environmentally safe manner. Remember that both used filters and oil cannot be disposed of in municipal waste containers and landfills!"
+          },
+          "position": "agree",
+          "statement": "La capture impose les conteneurs pour déchets dangereux et exclut les ordures municipales et décharges."
+        },
+        {
+          "claim_id": "c39",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "But keep your eyes peeled: the old sealing ring can stick to the flange, and because the used oil is black, the ring can be hard to see."
+          },
+          "position": "agree",
+          "statement": "Le cas est correctement limité aux références MAHLE et moteurs indiqués."
+        },
+        {
+          "claim_id": "c40",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "For turbocharged engines it may be necessary to fill the filter with clean oil before screwing it to the engine. Check the manufacturer's recommendations in this regard."
+          },
+          "position": "agree",
+          "statement": "Le texte conserve le caractère éventuel du pré-remplissage et le renvoi au constructeur."
+        },
+        {
+          "claim_id": "c41",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip: Changing the filter means changing the seals"
+          },
+          "position": "agree",
+          "statement": "Les guillemets français présentent une traduction comme une citation littérale, alors que la capture est en anglais."
+        },
+        {
+          "claim_id": "c42",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip no. 1: Always remove the old ring from the flange. And don’t forget to coat the new sealing rings with clean motor oil every time before fitting them."
+          },
+          "position": "agree",
+          "statement": "Le retrait de l’ancien joint, l’huilage du neuf et l’interdiction du lubrifiant solide sont portés."
+        },
+        {
+          "claim_id": "c43",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Important oil filter quality characteristics: MICROSTAR filter paper (1), bypass valve (2) and anti-drain valve (3)."
+          },
+          "position": "contest",
+          "statement": "Le texte commence par « MAHLE cite » et nomme le papier propriétaire MICROSTAR : il ne présente donc pas ce papier comme un critère générique indépendant de MAHLE.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c44",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, not only the quality of the filter is essential. The quality of fitting and maintenance is as important. As simple as it may sound—also a high quality oil filter can only work properly when it has been fitted correctly beforehand."
+          },
+          "position": "agree",
+          "statement": "Les deux formulations correspondent directement au propos de MAHLE."
+        },
+        {
+          "claim_id": "c45",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "When replacing spin-on filters, the following procedure is recommended to ensure normal operation of the filter in the engine oil system, and protection against oil leakage and possible damage to the engine’s internal components."
+          },
+          "position": "agree",
+          "statement": "La capture décrit expressément une procédure pour filtres vissés et ne décrit pas la pose d’une cartouche."
+        },
+        {
+          "claim_id": "c46",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Avant toute intervention dans le compartiment moteur, coupez impérativement le contact RODAGE, DÉMARRAGE, ARRÊT DU MOTEUR."
+          },
+          "position": "agree",
+          "statement": "La rubrique de sécurité omet plusieurs précautions documentées pour la Twingo 3 phase 2 : huile et moteur chauds, motoventilateur et coupure du contact."
+        },
+        {
+          "claim_id": "c47",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "With filter cartridges from the OX program we offer particularly economical solutions for repair shops: instead of replacing the complete filter, only the dirty filter element has to be renewed. This is an ecologically sensible solution that saves material and disposal costs."
+          },
+          "position": "agree",
+          "statement": "La présentation commerciale du programme OX est fidèle et le texte signale correctement l’absence d’information sur une conversion."
+        },
+        {
+          "claim_id": "c48",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The anti-drainback valve is required in filters screwed from the side or top of the engine body (if the filter’s cover is facing upward, gravity assumes the function of the valve)."
+          },
+          "position": "agree",
+          "statement": "Le texte conserve la dépendance à la conception fixée par le constructeur et restitue la formulation de Filtron sur l’orientation."
+        },
+        {
+          "claim_id": "c49",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "There are three types of valves which can be found in SPIN-ON oil filters. Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+          },
+          "position": "agree",
+          "statement": "Les formes de filtre et les trois types de clapets possibles sont correctement décrits sans attribuer un équipement précis à une référence donnée."
+        },
+        {
+          "claim_id": "c50",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+          },
+          "position": "agree",
+          "statement": "Le conseil respecte les portées respectives de MAHLE et Filtron et ne donne aucun intervalle propre à un véhicule."
+        }
+      ],
+      "sha256": "173d40a1a91a8f0d0bf5117e420879828c6112b01ab843a6a647eb6658d8e663"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "fm:review_notes",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Screw in the filter until the filter gasket touches the engine housing and then tighten according to the indications on the filter or packaging. Usually it is ¾ rotation or 1 rotation. For filters in diesel engines this may be more."
+          },
+          "position": "agree",
+          "statement": "Le serrage doit suivre l’indication du filtre ou de l’emballage ; les valeurs usuelles et les précautions signalées par la qualification sont bien portées par les captures."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+          },
+          "position": "agree",
+          "statement": "Les quelques secondes ne valent que lorsque le système fonctionne correctement après la pose d’un filtre neuf ; la conduite à tenir si le témoin persiste est omise."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Filter service life spans of 30,000 km and more are now common for many new vehicles and some manufacturers are even quoting 50,000 km—driving patterns and the quality of engine oil taken into account."
+          },
+          "position": "agree",
+          "statement": "Les valeurs MAHLE sont des tendances, non des intervalles applicables à tout véhicule, et les 50 000 km dépendent notamment de l’usage et de l’huile."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "For turbocharged engines it may be necessary to fill the filter with clean oil before screwing it to the engine. Check the manufacturer's recommendations in this regard."
+          },
+          "position": "agree",
+          "statement": "Le pré-remplissage peut être nécessaire sur un moteur turbocompressé, mais la capture impose de consulter les recommandations du constructeur."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+          },
+          "position": "agree",
+          "statement": "La capture affirme bien que le remplacement d’un filtre vissé est effectué lors du remplacement de l’huile moteur ; la portée est correctement limitée aux filtres vissés."
+        },
+        {
+          "claim_id": "c5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Périodicité : reportez-vous au document d’entretien de votre véhicule."
+          },
+          "position": "agree",
+          "statement": "Les captures renvoient bien au document d’entretien du véhicule et aux intervalles stipulés par les constructeurs, sans fournir de valeur propre à la Twingo."
+        },
+        {
+          "claim_id": "c6",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "- rétablissez le niveau (pour information la capacité entre le « MINI » et le « MAXI » de la jauge 1 est de 0,9 à 1,1 litre suivant moteur) ;"
+          },
+          "position": "agree",
+          "statement": "La capacité mentionnée est propre à la Twingo 3 phase 2 et varie suivant le moteur ; sa non-reprise est correctement justifiée."
+        },
+        {
+          "claim_id": "c7",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Take it slow: When you remove the used filter, the remaining oil in the filter and flange flows back into the oil pan through the antidrain back plate. This takes time. If you rush this step in the process, you’ll get ahead of the residual oil, so to speak. This can cause used oil to spill over the flange, resulting in contamination."
+          },
+          "position": "agree",
+          "statement": "Le débordement est conditionné par une dépose trop rapide et par le mécanisme particulier d’écoulement à travers la plaque anti-retour."
+        },
+        {
+          "claim_id": "c8",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Turn off the engine and check if the oil level in the engine is within the manufacturer's recommended range. Top up the oil to the required level."
+          },
+          "position": "agree",
+          "statement": "Filtron prescrit le contrôle après l’arrêt, mais ne dit pas « juste après » ; les conditions précises de contrôle doivent rester celles du constructeur."
+        },
+        {
+          "claim_id": "c9",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Lors des interventions à proximité du moteur, celui-ci peut être chaud. De plus le motoventilateur peut se mettre en route à tout instant. Le témoin  présent dans le compartiment moteur vous le rappelle."
+          },
+          "position": "contest",
+          "statement": "Le fond du verdict reste justifié, mais l’un des passages fourni par la qualification n’est pas recopié à l’identique : il omet le caractère  après « témoin ».",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c10",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Le véhicule doit être sur sol horizontal, moteur arrêté et froid (par exemple : avant le premier démarrage de la journée)."
+          },
+          "position": "agree",
+          "statement": "Les deux consignes résumées sont exactes, mais la capture les rattache à des conditions et précautions supplémentaires propres à la Twingo 3 phase 2."
+        },
+        {
+          "claim_id": "c11",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+          },
+          "position": "agree",
+          "statement": "La borne « alerte en roulant » est correcte mais insuffisante sans les conditions associées et la conduite à tenir prescrite pour la Clio 5 phase 1."
+        }
+      ],
+      "sha256": "d8873c97ead967d5199e3045635d347d24f4545424fcf4a171e3d69ed2d02376"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:2",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "MAHLE oil filters reliably prevent contaminants from entering the lubrication system and maintain oil quality as well as the performance and efficiency of the engine."
+          },
+          "position": "agree",
+          "statement": "La capture attribue bien aux filtres à huile MAHLE l'empêchement des contaminants d'entrer dans le circuit de lubrification ; la portée et la limite signalent correctement qu'il s'agit d'une présentation du fabricant."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+          },
+          "position": "agree",
+          "statement": "Les captures décrivent bien le filtre vissé et la cartouche, tandis que « notamment » évite de présenter ces formes comme une liste exhaustive."
+        }
+      ],
+      "sha256": "3a027c6defc5a35b89327dcdba8116d244c776c38db2f6348a70e3610c022004"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:3",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+          },
+          "position": "agree",
+          "statement": "La capture porte directement l'affirmation relative au caractère indissociable du boîtier et de l'élément d'un filtre vissé et à leur remplacement en bloc."
+        }
+      ],
+      "sha256": "9ebb2d1f94213c7e21075ac3401cde26b224ecce4cb2d9553192e7693869b165"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:4",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "instead of replacing the complete filter, only the dirty filter element has to be renewed."
+          },
+          "position": "agree",
+          "statement": "La capture indique explicitement que, pour les cartouches destinées aux boîtiers démontables, seul l'élément sale est renouvelé."
+        }
+      ],
+      "sha256": "530b8b7177be0b0e1510886b8ee270fa347e910f6857cd9798daf665a59f2a45"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:6",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "As simple as it may sound—also a high quality oil filter can only work properly when it has been fitted correctly beforehand."
+          },
+          "position": "agree",
+          "statement": "La capture formule la performance pour les filtres MAHLE et rattache le bon fonctionnement au montage correct ainsi qu'au respect des intervalles d'entretien ; la précision proposée rétablit ces limites."
+        }
+      ],
+      "sha256": "fe136c29859077a21159d95acc7e60d198f9caf4f60ab10e9f253d4d36e459d3"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:8",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "MAHLE oil filters reliably prevent contaminants from entering the lubrication system and maintain oil quality as well as the performance and efficiency of the engine."
+          },
+          "position": "agree",
+          "statement": "L'attribution explicite à MAHLE et la limite de portée rendent l'affirmation conforme à la capture."
+        }
+      ],
+      "sha256": "4430187fbab5bd313fecc185360887a64a4f1079ff9f0003a2dd7daa1609f089"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:9",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+          },
+          "position": "agree",
+          "statement": "Les deux caractéristiques résumées sont directement portées par la capture, sans prétendre déterminer la forme équipant un véhicule précis."
+        }
+      ],
+      "sha256": "ef342186e4b37f12fa82ba6082f2e24d911182d9071d0e87960c249cc0d911f2"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:10",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine."
+          },
+          "position": "contest",
+          "statement": "L'affirmation se limite au fait que des filtres d'apparence identique peuvent avoir des intérieurs différents selon le moteur. La capture le dit directement ; l'énumération exhaustive des différences, les conséquences possibles d'un filtre inadapté et la conduite à tenir devant un témoin persistant sont des développements distincts, non des conditions ou limites nécessaires de cette affirmation.",
+          "verdict": "conserver"
+        }
+      ],
+      "sha256": "f8d27b640379d39c3c32652c5ccfa56638b389630a72c0031873d3ea8f95ec9f"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:11",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "position": "agree",
+          "statement": "La capture MAHLE prescrit le remplacement aux intervalles fixés par les constructeurs automobiles, sans fournir d'intervalle propre à un véhicule."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+          },
+          "position": "agree",
+          "statement": "La phrase est explicitement attribuée à Filtron et limitée au filtre vissé ; la capture indique son remplacement lors du remplacement de l'huile moteur."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "In the mean time, an oil filter needs changing after about 30,000 km on average."
+          },
+          "position": "contest",
+          "statement": "La capture établit seulement une moyenne d'environ 30 000 km. Elle ne montre pas que cet ordre de grandeur est effectivement détaillé dans la section intitulée « Entretien & bonnes pratiques », absente du paquet ; la qualification reconnaît cette absence tout en conservant néanmoins l'affirmation.",
+          "verdict": "retirer"
+        }
+      ],
+      "sha256": "ae7bd0d843b16a2173e31fa4e24e110ce5ce86328b7a2afe91a41b72c286685c"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:13",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "There are three types of valves which can be found in SPIN-ON oil filters. Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+          },
+          "position": "agree",
+          "statement": "La capture porte exactement le nombre de types possibles et la dépendance de leur présence à la conception déterminée par le constructeur du moteur ou du véhicule."
+        }
+      ],
+      "sha256": "487cefedfc7666eecb32644ef8a0061b75359a0849c62e220cda92e21e30fbae"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "doubt"
+      ],
+      "id": "body:14",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "This valve is most often in the form of a rubber membrane adhering to the inner side of the spin-on filter cover."
+          },
+          "position": "agree",
+          "statement": "La formulation « le plus souvent » reproduit correctement la fréquence non universelle indiquée par Filtron."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The purpose of the anti-drainback valve is to prevent the oil from escaping from the filter when the engine is switched off."
+          },
+          "position": "agree",
+          "statement": "Dans le contexte immédiat consacré au clapet anti-retour, la capture porte directement la fonction décrite ; la portée aux filtres qui en sont équipés est correcte."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The anti-drainback valve is required in filters screwed from the side or top of the engine body (if the filter’s cover is facing upward, gravity assumes the function of the valve)."
+          },
+          "position": "contest",
+          "statement": "La capture porte mot pour mot la règle d'orientation énoncée. La phrase précédente du texte publié précise déjà que la présence des clapets dépend de la conception fixée par le constructeur ; répéter cette condition et ajouter un conseil de sélection ne sont donc pas nécessaires pour conserver cette affirmation.",
+          "verdict": "conserver"
+        }
+      ],
+      "sha256": "6e010e62d0d2eac33ea034f472422be28c2b04404f0da2d624a2697defce2b0d"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:15",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+          },
+          "position": "agree",
+          "statement": "La présence du clapet dépend de la conception du filtre fixée par le constructeur du moteur ou du véhicule."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The bypass valve is opened as a result of the pressure increase in order to increase the throughput of oil flow in the engine as there may be a risk of insufficient lubrication of the parts working together."
+          },
+          "position": "agree",
+          "statement": "La montée de pression ouvre le by-pass afin d'augmenter le débit lorsque la lubrification risque d'être insuffisante."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The use of a bypass valve results from the fact that dirty oil is always better for the engine than its total absence. A lack of oil lubrication can damage the engine."
+          },
+          "position": "agree",
+          "statement": "Filtron justifie le by-pass par le fait qu'une huile sale vaut mieux qu'une absence totale d'huile et qu'un défaut de lubrification peut endommager le moteur."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine."
+          },
+          "position": "agree",
+          "statement": "Des filtres extérieurement semblables peuvent différer selon le moteur, notamment par la pression du clapet by-pass."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "position": "agree",
+          "statement": "Les filtres doivent être remplacés dans les intervalles d'entretien prescrits par les constructeurs automobiles."
+        }
+      ],
+      "sha256": "c93b6006eec4abc0bac085a0b20da69c4f8b3be27124cc7e74ebf6dbcc23c77e"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:16",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+          },
+          "position": "agree",
+          "statement": "La présence du clapet anti-siphon dépend de la conception du filtre fixée par le constructeur du moteur ou du véhicule."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "After starting the engine, the anti-syphon valve significantly reduces dry friction between the parts working together, as it contributes to the rapid flow of oil to the engine."
+          },
+          "position": "agree",
+          "statement": "Le clapet maintient le filtre plein et contribue, au démarrage, à l'arrivée rapide de l'huile et à une réduction importante du frottement à sec."
+        }
+      ],
+      "sha256": "8a3da4ff3103a053bf97c2eca721edcf761680b5fa9e45cda31968e376bf6a07"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:17",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "They also can differ in the oil pressure of the bypass valve, filter media, the fineness of the filter or the permissible operational overpressure."
+          },
+          "position": "agree",
+          "statement": "La capture ne donne aucune valeur de pression et indique que les filtres peuvent différer par la pression du clapet by-pass selon le moteur."
+        }
+      ],
+      "sha256": "53af4a3e00851eacac615a917f9e3501da167a3a16a5fd3ffb956880ee53baca"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "diagnostic_relation"
+      ],
+      "id": "body:19",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+          },
+          "position": "contest",
+          "statement": "L'affirmation est étayée par les différentes causes possibles citées, mais les captures ne permettent pas de généraliser que le diagnostic relève d'un professionnel ; le renvoi au Représentant de la marque concerne la Clio 5 phase 1 et l'alerte en roulant.",
+          "verdict": "conserver"
+        }
+      ],
+      "sha256": "70cd06899893708274eccd670dcc1e3e05fd00f972c954e39dee4ecc7d92b46c"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "numeric_value",
+        "diagnostic_relation"
+      ],
+      "id": "body:20",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Il s’allume à la mise sous contact ou au démarrage du moteur puis s’éteint après quelques secondes."
+          },
+          "position": "agree",
+          "statement": "La notice de la Clio 5 phase 1 indique que le témoin s'allume au contact ou au démarrage puis s'éteint après quelques secondes."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+          },
+          "position": "contest",
+          "statement": "La phrase qualifiée est fidèle à la rubrique sur le témoin de pression d'huile, et le même segment publié donne immédiatement après la consigne de ne pas redémarrer et de faire appel à un Représentant de la marque ; il n'y a donc pas l'omission alléguée à l'échelle du segment.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Le témoin ® vous impose, pour votre sécurité, un arrêt impératif et immédiat compatible avec les conditions de circulation. Arrêtez le moteur et ne le redémarrez pas. Faites appel à un Représentant de la marque."
+          },
+          "position": "agree",
+          "statement": "Le témoin d'arrêt impératif impose un arrêt immédiat compatible avec la circulation, l'arrêt du moteur, l'absence de redémarrage et l'appel à un Représentant de la marque."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "L’affichage des informations décrites ci-après DÉPEND DE L’ÉQUIPEMENT DU VÉHICULE ET DU PAYS."
+          },
+          "position": "agree",
+          "statement": "L'affichage dépend de l'équipement du véhicule et du pays."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+          },
+          "position": "agree",
+          "statement": "La rubrique ne nomme pas le filtre à huile comme cause de l'alerte et indique seulement une autre cause si le niveau est normal."
+        },
+        {
+          "claim_id": "c5",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "18/12/2018 à 01/06/2023"
+          },
+          "position": "agree",
+          "statement": "La capture limite la notice à la Renault Clio 5 phase 1 du 18/12/2018 au 01/06/2023."
+        }
+      ],
+      "sha256": "bfce9532d89329b8f2b183607177f20c033d2694e052ab169cd3856fbc681e2b"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "diagnostic_relation"
+      ],
+      "id": "body:21",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+          },
+          "position": "contest",
+          "statement": "La consigne et l'absence de durée chiffrée sont établies, mais la capture ne dit pas que cette consigne ne remplace pas celle du constructeur du véhicule.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+          },
+          "position": "contest",
+          "statement": "La liste de causes possibles est correctement attribuée, mais aucune capture ne dit que leur contrôle relève d'un professionnel.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "The flow resistance may be too high due to the installation of an incorrect or weak filter"
+          },
+          "position": "agree",
+          "statement": "Filtron cite comme causes possibles une résistance trop élevée due à un filtre incorrect ou faible et le remplissage d'un filtre après sa date de péremption."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "By using FILTRON oil filters, you can be sure that if the oil pressure warning light does not go off after replacement then it is not related to a malfunction of the filter."
+          },
+          "position": "contest",
+          "statement": "Le texte présente correctement cette phrase comme une affirmation non vérifiée du fabricant ; en revanche, la capture ne formule pas les exclusions relatives à un filtre inadapté ou à une erreur de montage ajoutées dans la limite.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+          },
+          "position": "contest",
+          "statement": "La délimitation entre le démarrage après remplacement et l'alerte en roulant est étayée, mais aucune capture n'énonce la règle générale selon laquelle la consigne du constructeur prévaut.",
+          "verdict": "conserver"
+        }
+      ],
+      "sha256": "05850f8ad0f2a02b09e68f8335466da800ed32f8e7f2c2cd36f6e858a831db89"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "diagnostic_relation"
+      ],
+      "id": "body:22",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "But keep your eyes peeled: the old sealing ring can stick to the flange, and because the used oil is black, the ring can be hard to see. As a result, leaks can occur and the oil pressure indicator can light up when the engine is running, even though the new filter is properly screwed on."
+          },
+          "position": "agree",
+          "statement": "La capture vise le témoin de pression d'huile et précise que le joint ancien peut être difficile à voir à cause de l'huile usagée noire."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip no. 1: Always remove the old ring from the flange. And don’t forget to coat the new sealing rings with clean motor oil every time before fitting them."
+          },
+          "position": "contest",
+          "statement": "Le conseil qualifié est intégralement porté par la capture. L'huilage du joint neuf et l'interdiction d'utiliser l'outil de dépose pour serrer sont des conseils supplémentaires distincts, et non des conditions ou limites de l'affirmation selon laquelle il faut retirer l'ancien joint.",
+          "verdict": "conserver"
+        }
+      ],
+      "sha256": "5ad0a7ddf6616bfef5236d624e5538227d4278970d818217b65d85f963fffc25"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:25",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+          },
+          "position": "contest",
+          "statement": "Les définitions sont étayées, mais la limite affirmant que le type de filtre est imposé par la conception du moteur n'est énoncée dans aucune capture.",
+          "verdict": "conserver"
+        }
+      ],
+      "sha256": "76ba18c29ad730ea789804bf67003bd2c91401d9063b8b4f975de8aa422bcb8d"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:26",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "They also can differ in the oil pressure of the bypass valve, filter media, the fineness of the filter or the permissible operational overpressure."
+          },
+          "position": "contest",
+          "statement": "Les différences internes énumérées sont étayées, mais la capture ne prescrit pas de se reporter au constructeur ou à un professionnel en cas de doute.",
+          "verdict": "conserver"
+        }
+      ],
+      "sha256": "3b9b1676d83ac1b2c37635a792d1a04f12070eb1592324f715af45a472bbc296"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:27",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Renault Clio 5 phase 1\n18/12/2018 à 01/06/2023"
+          },
+          "position": "contest",
+          "statement": "La précision sur l'arrêt immédiat, le contrôle du niveau et les autres causes est fondée, mais la limite généralise à tous les véhicules le recours à un professionnel alors que la capture correspondante ne l'impose que pour une Renault Clio 5 phase 1.",
+          "verdict": "preciser"
+        }
+      ],
+      "sha256": "0b01cf138a5d2c4fff1b1b57fe17474b42d422c6d3303cbdf634811f3a70b437"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:28",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Increased service life makes also higher demands on the filter media in oil filters, particularly as the new engine generations with direct injection increase the problem of oil aging."
+          },
+          "position": "agree",
+          "statement": "La source rattache explicitement l'allongement de la durée de service à des exigences accrues pour le média filtrant."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "This is because the longer the replacement interval, the more important the quality of the oil filter."
+          },
+          "position": "agree",
+          "statement": "La phrase reproduit l'affirmation générale de MAHLE et la qualification en limite correctement la portée."
+        }
+      ],
+      "sha256": "c88453d2f362e67a95e511e124acb5290d3f836f4030d9fb722f50745bbd9cc5"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:31",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "position": "agree",
+          "statement": "MAHLE impose le respect des intervalles fixés par les constructeurs automobiles."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "In the mean time, an oil filter needs changing after about 30,000 km on average. A trend that is bound to continue—driven also by oil condition sensors and optimised fully synthetic oils."
+          },
+          "position": "agree",
+          "statement": "Les 30 000 km sont présentés comme une moyenne liée à une tendance, et non comme une échéance applicable à tout véhicule."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Filter service life spans of 30,000 km and more are now common for many new vehicles and some manufacturers are even quoting 50,000 km—driving patterns and the quality of engine oil taken into account."
+          },
+          "position": "contest",
+          "statement": "Le texte publié indique déjà que les valeurs concernent beaucoup de véhicules récents, que 50 000 km n'est annoncé que par certains constructeurs et que l'usage ainsi que la qualité de l'huile sont pris en compte ; la capture ne dit pas que toutes ces valeurs supposent nécessairement une huile entièrement synthétique.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+          },
+          "position": "agree",
+          "statement": "La capture affirme bien que le filtre vissé est remplacé lors du remplacement de l'huile moteur, sans étendre cette règle aux cartouches."
+        }
+      ],
+      "sha256": "be58b3704e45b03ab1aa40ee217e0aedd23f6ac365a2001a459dad314d4aa76d"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:32",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The bypass valve is used when the filter is clogged due to a long period of time between replacements or when the vehicle is running at a low temperature (when the oil is cold and dense). The bypass valve is opened as a result of the pressure increase in order to increase the throughput of oil flow in the engine as there may be a risk of insufficient lubrication of the parts working together."
+          },
+          "position": "agree",
+          "statement": "La capture rattache aussi l'ouverture du by-pass à l'huile froide et épaisse et précise que la présence des clapets dépend de la conception déterminée par le constructeur."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The use of a bypass valve results from the fact that dirty oil is always better for the engine than its total absence. A lack of oil lubrication can damage the engine."
+          },
+          "position": "agree",
+          "statement": "La justification attribuée à Filtron est fidèlement rapportée et la limite n'ajoute aucune mesure absente de la source."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "The load factors have direct effect on the so-called embrittlement limit, which determines the service life span of the filter in the end. If this limit is reached, the material is fatigued and non-functional. This means that even when the filter element is not jet clogged, it cannot collect any more dirt."
+          },
+          "position": "agree",
+          "statement": "La conséquence décrite est exacte, mais MAHLE rattache la fragilisation à des facteurs de charge et cite notamment la nitration et le biodiesel."
+        }
+      ],
+      "sha256": "dca273df02d7a0c86bae0b332bddb12fb169e727c5292b950e838cea9366f4bf"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:33",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit. However, the problem is that many filters look identical but have completely different insides depending on the engine."
+          },
+          "position": "agree",
+          "statement": "Le remplacement en bloc est établi, mais le même passage avertit que des filtres extérieurement semblables peuvent avoir des caractéristiques internes différentes selon le moteur."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Oil filter cartridges are available for all oil filters with removable housings."
+          },
+          "position": "agree",
+          "statement": "Le renouvellement du seul élément est limité par la capture aux filtres possédant un boîtier démontable."
+        }
+      ],
+      "sha256": "864689d253598022fae56e09f3da1d4004d583b651299086293c7d1b84b2e530"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:34",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "As simple as it may sound—also a high quality oil filter can only work properly when it has been fitted correctly beforehand."
+          },
+          "position": "agree",
+          "statement": "Le principe général est directement énoncé par MAHLE."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Screw in the filter until the filter gasket touches the engine housing and then tighten according to the indications on the filter or packaging. Usually it is ¾ rotation or 1 rotation. For filters in diesel engines this may be more."
+          },
+          "position": "agree",
+          "statement": "L'indication de serrage est exacte, mais la source lui rattache le contact préalable du joint ainsi que l'interdiction de forcer ou de dépasser le nombre de tours recommandé."
+        }
+      ],
+      "sha256": "9b4c5007fcb19bd20ae3544259d69abb60decdb5043eed350a263864bf84bdac"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:36",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Important oil filter quality characteristics: MICROSTAR filter paper (1), bypass valve (2) and anti-drain valve (3)."
+          },
+          "position": "agree",
+          "statement": "La capture dit « anti-drain valve », soit clapet anti-vidange, et présente MICROSTAR comme une caractéristique citée par MAHLE."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, not only the quality of the filter is essential. The quality of fitting and maintenance is as important."
+          },
+          "position": "agree",
+          "statement": "MAHLE place explicitement la qualité du montage et de l'entretien au même niveau d'importance que celle du filtre."
+        }
+      ],
+      "sha256": "ac4c83785da2ee7d3af19c86958a71a54a789990b286bc2711f715e0c161035d"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:38",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "SPIN-ON FILTER REPLACEMENT MANUAL"
+          },
+          "position": "agree",
+          "statement": "Le guide disponible est explicitement un manuel de remplacement de filtre vissé et aucune capture ne décrit la pose d'une cartouche."
+        }
+      ],
+      "sha256": "8892fce9c468d40e00ff83b9cf7b5b2700cd9e843862a6f68e58416b77c534a8"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:40",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Avant toute intervention dans le compartiment moteur, coupez impérativement le contact RODAGE, DÉMARRAGE, ARRÊT DU MOTEUR."
+          },
+          "position": "agree",
+          "statement": "L'objectif attribué à la procédure Filtron est exact, mais une procédure complète doit signaler ses limites génériques et les précautions de sécurité disponibles dans la capture constructeur."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Ensure that the removed filter and old oil are placed in special hazardous waste containers and disposed of in an environmentally safe manner. Remember that both used filters and oil cannot be disposed of in municipal waste containers and landfills!"
+          },
+          "position": "agree",
+          "statement": "La consigne d'élimination reprend fidèlement la capture et la limite constate correctement l'absence de précisions locales."
+        }
+      ],
+      "sha256": "e223d9bb7a45634058454ba1c75c87a05ceeb665b840251c4ccbfcf75f6968e0"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:42",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Lift the bonnet and unscrew the oil fill plug. Put the plug on the air filter cover or any other flat surface (this will remind you that no new engine oil has been poured in yet)."
+          },
+          "position": "agree",
+          "statement": "Les gestes et la fonction mnémotechnique du bouchon sont directement décrits par Filtron."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Vidange moteur : si vous réalisez la vidange moteur chaud, attention aux risques de brûlures dues à l’écoulement de l’huile."
+          },
+          "position": "agree",
+          "statement": "La procédure Filtron est bien rapportée, mais le segment procédural omet le risque de brûlure expressément rattaché à une vidange à chaud dans la capture Renault."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Remove the spin-on oil filter using a special wrench if necessary."
+          },
+          "position": "agree",
+          "statement": "La dépose du filtre vissé avec une clé spéciale si nécessaire est explicitement prescrite."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Take it slow: When you remove the used filter, the remaining oil in the filter and flange flows back into the oil pan through the antidrain back plate. This takes time. If you rush this step in the process, you’ll get ahead of the residual oil, so to speak. This can cause used oil to spill over the flange, resulting in contamination."
+          },
+          "position": "agree",
+          "statement": "Le texte limite correctement le conseil aux références et moteurs visés, et décrit fidèlement le reflux et le risque de souillure."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Clean the surface of the filter which adheres to the engine housing, making sure that the old filter gasket has been removed."
+          },
+          "position": "agree",
+          "statement": "La formulation littérale est ambiguë dans une procédure française et doit identifier clairement la surface d'appui sur le carter moteur."
+        },
+        {
+          "claim_id": "c5",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "But keep your eyes peeled: the old sealing ring can stick to the flange, and because the used oil is black, the ring can be hard to see. As a result, leaks can occur and the oil pressure indicator can light up when the engine is running, even though the new filter is properly screwed on."
+          },
+          "position": "agree",
+          "statement": "La conséquence d'un ancien joint resté sur la bride est fidèlement rapportée et correctement limitée aux filtres précédemment désignés."
+        }
+      ],
+      "sha256": "3316189953d4e9ecfe37ca9039df565c3314a4cdde62b00698b2c8aba70011e3"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:44",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Clean the surface of the filter which adheres to the engine housing, making sure that the old filter gasket has been removed. Then cover the top surface of the new filter gasket with a thin layer of clean engine oil."
+          },
+          "position": "agree",
+          "statement": "Le nettoyage de la surface d'appui et le retrait de l'ancien joint sont des étapes omises de la procédure."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "For turbocharged engines it may be necessary to fill the filter with clean oil before screwing it to the engine. Check the manufacturer's recommendations in this regard."
+          },
+          "position": "agree",
+          "statement": "Le préremplissage éventuel des filtres de moteurs turbocompressés et le renvoi aux recommandations du constructeur sont correctement restitués."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Screw in the filter until the filter gasket touches the engine housing and then tighten according to the indications on the filter or packaging."
+          },
+          "position": "agree",
+          "statement": "L'alignement du filetage et le serrage selon les indications du filtre ou de l'emballage sont correctement restitués."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Usually it is ¾ rotation or 1 rotation. For filters in diesel engines this may be more."
+          },
+          "position": "agree",
+          "statement": "Les valeurs habituelles de trois quarts de tour ou un tour et la réserve concernant les filtres de moteurs diesel sont correctement restituées."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Remember - do not forcefully screw in the filter and do not exceed the recommended number of rotations!"
+          },
+          "position": "agree",
+          "statement": "L'interdiction de forcer ou de dépasser le nombre de tours recommandé est explicitement donnée."
+        },
+        {
+          "claim_id": "c5",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip no. 2: Never use a removal tool to tighten the filter. As the name says, this tool should only be used to remove the filter. Overtightening can damage the surface and cause the filter to leak."
+          },
+          "position": "agree",
+          "statement": "MAHLE interdit d'utiliser l'outil de dépose pour serrer et relie le serrage excessif aux dommages de surface et aux fuites."
+        },
+        {
+          "claim_id": "c6",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Si le niveau maxi est dépassé ne démarrez pas votre véhicule et faites appel à un Représentant de la marque."
+          },
+          "position": "agree",
+          "statement": "La procédure complète doit signaler les précautions de remplissage et la conduite à tenir en cas de dépassement du maximum, en les limitant à la notice Renault citée."
+        }
+      ],
+      "sha256": "ff64e60954ea4a0edebd7ba0c236ab7eb75025d421583e12f439d7b2f04116a9"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:46",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Ne faites pas tourner le moteur dans un local fermé : les gaz d’échappement sont toxiques."
+          },
+          "position": "agree",
+          "statement": "La procédure omet la précaution de ne pas faire tourner le moteur dans un local fermé."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "If the system works correctly, the light turns on because the newly installed filter is empty for a brief moment. After a few seconds, the oil from the oil gallery reaches the interior of the filter and the light goes off."
+          },
+          "position": "agree",
+          "statement": "Filtron indique que le filtre neuf reste brièvement vide et que le témoin s'éteint après quelques secondes lorsque le circuit fonctionne correctement."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+          },
+          "position": "agree",
+          "statement": "L'arrêt immédiat du moteur, le contrôle du niveau et l'appoint éventuel sont explicitement prescrits."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause.\nFaites appel à un Représentant de la marque."
+          },
+          "position": "agree",
+          "statement": "À niveau correct, le texte doit mentionner le recours professionnel rattaché par la notice Renault au témoin de pression d'huile et ne doit pas présenter la liste partielle de causes comme une procédure d'autodiagnostic."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Vérifiez toujours le niveau d’huile moteur à l’aide de la jauge comme expliqué précédemment (il ne doit jamais être en dessous du « MINI », ni au-dessus du « MAXI » de la jauge)."
+          },
+          "position": "agree",
+          "statement": "Le contrôle complet doit préciser de ne pas dépasser le maximum et distinguer les conditions de lecture propres à la notice de la Twingo 3 phase 2."
+        },
+        {
+          "claim_id": "c5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Lors des interventions à proximité du moteur, celui-ci peut être chaud. De plus le motoventilateur peut se mettre en route à tout instant."
+          },
+          "position": "agree",
+          "statement": "La recherche de fuite près d'un moteur en marche omet le risque lié au moteur chaud et au déclenchement inopiné du motoventilateur."
+        }
+      ],
+      "sha256": "389dd110c4d621f80f08980279dd7ee5a44c362072c17928f54837ab528a8aba"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:48",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine. For example, they may be with or without anti-drain valve or have different connection threads. They also can differ in the oil pressure of the bypass valve, filter media, the fineness of the filter or the permissible operational overpressure."
+          },
+          "position": "contest",
+          "statement": "L'affirmation publiée se limite aux différences internes entre filtres d'apparence semblable et les énumère fidèlement. La conséquence possible d'un filtre inadapté et une méthode de sélection constituent des affirmations supplémentaires, non des limites nécessaires à celle-ci.",
+          "verdict": "conserver"
+        }
+      ],
+      "sha256": "12e548dce5aa884b1daf9d6f687f4903d4e76f3f2be74bd682127c8c8acfca94"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:49",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+          },
+          "position": "agree",
+          "statement": "La constitution indissociable du filtre vissé et son remplacement en bloc sont explicitement établis."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "With filter cartridges from the OX program we offer particularly economical solutions for repair shops: instead of replacing the complete filter, only the dirty filter element has to be renewed."
+          },
+          "position": "agree",
+          "statement": "MAHLE rattache les cartouches aux boîtiers démontables et indique que seul l'élément sale est renouvelé."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "With filter cartridges from the OX program we offer particularly economical solutions for repair shops: instead of replacing the complete filter, only the dirty filter element has to be renewed. This is an ecologically sensible solution that saves material and disposal costs."
+          },
+          "position": "agree",
+          "statement": "Le texte attribue correctement à MAHLE l'argument économique et écologique et le limite à son programme OX."
+        }
+      ],
+      "sha256": "b4214aab22a90c7ee03a3e6f65903bf3673348f8afbe9d6b6b24a73a70f72f9f"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:50",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+          },
+          "position": "agree",
+          "statement": "Filtron indique que l'emploi des clapets dépend de la conception arrêtée par le constructeur du moteur ou du véhicule."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The purpose of the anti-drainback valve is to prevent the oil from escaping from the filter when the engine is switched off. The anti-drainback valve is required in filters screwed from the side or top of the engine body (if the filter’s cover is facing upward, gravity assumes the function of the valve)."
+          },
+          "position": "agree",
+          "statement": "La fonction du clapet anti-retour, les orientations qui l'exigent et l'exception où la gravité remplit cette fonction sont fidèlement restituées."
+        }
+      ],
+      "sha256": "666f9b0f4d2b7ea63da79f9d19bb539236332cb39ac47b3b2ea227752307029b"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:53",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+          },
+          "position": "contest",
+          "statement": "L'affirmation porte uniquement sur les composants indissociables d'un filtre vissé et leur remplacement en bloc. Les opérations concernant les joints et les bouchons de vidange sont des étapes distinctes de la procédure d'entretien, non des limites de cette définition.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "With filter cartridges from the OX program we offer particularly economical solutions for repair shops: instead of replacing the complete filter, only the dirty filter element has to be renewed."
+          },
+          "position": "agree",
+          "statement": "Pour les cartouches MAHLE OX montées dans un boîtier démontable, seul l'élément filtrant sale est renouvelé."
+        }
+      ],
+      "sha256": "903e816ea2c5d9c8c443e714a363c157a386f333d1022b42207df98a7ef168e9"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:54",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "position": "contest",
+          "statement": "La portée « tous véhicules » généralise au-delà de la capture, qui formule une règle générale sans établir son universalité à tous les véhicules.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "In the mean time, an oil filter needs changing after about 30,000 km on average."
+          },
+          "position": "contest",
+          "statement": "L'affirmation chiffrée est correctement attribuée comme moyenne et le segment indique déjà, juste avant, que les intervalles applicables sont ceux fixés par le constructeur ; la limite qualifie donc à tort cette précaution d'omission.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "With the use of new fully synthetic high performance oils, replacement intervals of up to 50,000 km are reached—with a trend to even longer intervals."
+          },
+          "position": "agree",
+          "statement": "La capture rattache les longs intervalles à des conditions que le texte ne restitue pas entièrement, notamment l'emploi d'huiles entièrement synthétiques hautes performances et l'importance accrue de la qualité du filtre."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+          },
+          "position": "agree",
+          "statement": "La formulation est fidèlement limitée aux filtres vissés et à leur remplacement lors de la vidange."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Périodicité : reportez-vous au document d’entretien de votre véhicule."
+          },
+          "position": "agree",
+          "statement": "La notice de la Twingo 3 Phase 2 renvoie bien la périodicité de vidange au document d'entretien et la capture ne mentionne pas le filtre à huile."
+        }
+      ],
+      "sha256": "2ca9db7a9317ccda72480d517c0e9adbfb454784aee552fe358b805e251cfe2f"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:55",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine. For example, they may be with or without anti-drain valve or have different connection threads. They also can differ in the oil pressure of the bypass valve, filter media, the fineness of the filter or the permissible operational overpressure."
+          },
+          "position": "contest",
+          "statement": "L'affirmation publiée est portée par MAHLE, mais la limite ajoute sans appui capturé que le choix doit suivre la préconisation du constructeur ou le catalogue du fabricant.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+          },
+          "position": "contest",
+          "statement": "La précaution d'arrêt immédiat et les autres causes sont bien omises, mais aucune capture ne dit que l'établissement de la cause demande une aide professionnelle ; cette partie de la limite n'est pas étayée.",
+          "verdict": "preciser"
+        }
+      ],
+      "sha256": "8aa317c82a69e4d6d3b6bfff2793b9bb4dac14c865ac09ecf8cc6a2abe682b59"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "doubt"
+      ],
+      "id": "body:56",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A pressure relief valve guarantees the oil supply under all conditions – for viscous oil encountered during cold starts or at low temperatures, for extremely contaminated filter elements, or when the replacement intervals have been exceeded."
+          },
+          "position": "agree",
+          "statement": "Le constat est explicitement limité aux sources consultées et aucune capture fournie ne décrit un signe permettant de constater le colmatage."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+          },
+          "position": "agree",
+          "statement": "Le fonctionnement décrit est exact, mais le texte omet que les clapets ne sont présents que selon la conception retenue par le constructeur et que l'ouverture résulte d'une hausse de pression."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The use of a bypass valve results from the fact that dirty oil is always better for the engine than its total absence."
+          },
+          "position": "agree",
+          "statement": "La phrase restitue fidèlement la justification donnée par Filtron, sans en tirer l'autorisation de dépasser les intervalles."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "If this limit is reached, the material is fatigued and non-functional. This means that even when the filter element is not jet clogged, it cannot collect any more dirt."
+          },
+          "position": "agree",
+          "statement": "La défaillance du média avant colmatage et le rappel des intervalles constructeur sont tous deux portés par la capture, sans durée propre à un filtre précis."
+        }
+      ],
+      "sha256": "c20b20814fb135ed2da63e90ea2604f09e834833147f4ddd81f6415cb06086e6"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "numeric_value"
+      ],
+      "id": "body:57",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "However, the time after the warning light goes off does not in any way indicate the quality of the filter. If the system works correctly, the light turns on because the newly installed filter is empty for a brief moment. After a few seconds, the oil from the oil gallery reaches the interior of the filter and the light goes off."
+          },
+          "position": "agree",
+          "statement": "Filtron décrit bien l'allumage durant quelques secondes pendant le remplissage du filtre et précise que cette durée n'indique pas sa qualité."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+          },
+          "position": "agree",
+          "statement": "La conduite à tenir publiée correspond exactement à celle donnée par Filtron."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "But keep your eyes peeled: the old sealing ring can stick to the flange, and because the used oil is black, the ring can be hard to see. As a result, leaks can occur and the oil pressure indicator can light up when the engine is running, even though the new filter is properly screwed on."
+          },
+          "position": "contest",
+          "statement": "L'omission du cas particulier de l'ancien joint justifie de préciser la liste, mais la qualification ajoute sans appui capturé que les causes mécaniques ou électriques relèvent nécessairement d'un diagnostic professionnel.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "By using FILTRON oil filters, you can be sure that if the oil pressure warning light does not go off after replacement then it is not related to a malfunction of the filter."
+          },
+          "position": "agree",
+          "statement": "Le texte attribue correctement l'affirmation commerciale à Filtron, la limite à ses propres produits et la signale comme non vérifiée."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Il vous impose, pour votre sécurité, un arrêt impératif et immédiat compatible avec les conditions de circulation. Arrêtez le moteur et ne le redémarrez pas."
+          },
+          "position": "agree",
+          "statement": "La consigne publiée omet le caractère immédiat de l'arrêt, sa compatibilité avec les conditions de circulation et la dépendance à l'équipement et au pays."
+        },
+        {
+          "claim_id": "c5",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "Arrêtez le moteur et ne le redémarrez pas.\nFaites appel à un Représentant de la marque."
+          },
+          "position": "agree",
+          "statement": "Dans le contexte explicitement consacré à la Clio 5 phase 1, la consigne de ne pas redémarrer et d'appeler un Représentant de la marque est correctement restituée."
+        }
+      ],
+      "sha256": "49f749dc0d822032de54b106378c59943608d7f88d1dbacf7a53661b15f15aaf"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:58",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Vidange moteur : si vous réalisez la vidange moteur chaud, attention aux risques de brûlures dues à l’écoulement de l’huile."
+          },
+          "position": "agree",
+          "statement": "La procédure est étayée, mais les précautions de la notice Renault citées sont bien omises et doivent rester limitées à la Twingo 3 phase 2."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Clean the surface of the filter which adheres to the engine housing, making sure that the old filter gasket has been removed. Then cover the top surface of the new filter gasket with a thin layer of clean engine oil."
+          },
+          "position": "agree",
+          "statement": "La capture porte exactement le nettoyage, le retrait de l'ancien joint, la fine couche d'huile propre et l'interdiction du lubrifiant solide."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "For turbocharged engines it may be necessary to fill the filter with clean oil before screwing it to the engine. Check the manufacturer's recommendations in this regard."
+          },
+          "position": "agree",
+          "statement": "La possibilité, la portée limitée aux moteurs turbocompressés et le renvoi à la recommandation du constructeur sont explicitement établis."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Screw in the filter until the filter gasket touches the engine housing and then tighten according to the indications on the filter or packaging."
+          },
+          "position": "agree",
+          "statement": "L'alignement du filetage, le contact du joint et la priorité donnée aux indications du filtre ou de l'emballage sont établis."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip no. 2: Never use a removal tool to tighten the filter. As the name says, this tool should only be used to remove the filter. Overtightening can damage the surface and cause the filter to leak."
+          },
+          "position": "agree",
+          "statement": "Les valeurs indicatives et les interdictions sont établies, mais la cause associée par MAHLE au serrage excessif est omise."
+        },
+        {
+          "claim_id": "c5",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "Si le niveau maxi est dépassé ne démarrez pas votre véhicule et faites appel à un Représentant de la marque."
+          },
+          "position": "agree",
+          "statement": "Filtron rattache le niveau au constructeur et la notice Renault citée ajoute des précautions de remplissage et de dépassement du maximum absentes du texte."
+        },
+        {
+          "claim_id": "c6",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Start the engine and make sure that the oil pressure indicator has turned off or check that the oil pressure has reached the normal level on the pressure gauge if it has been installed in the vehicle."
+          },
+          "position": "agree",
+          "statement": "La vérification du témoin est établie, mais Filtron prévoit aussi le manomètre éventuel et explique l'allumage bref lié au remplissage du filtre neuf."
+        },
+        {
+          "claim_id": "c7",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+          },
+          "position": "contest",
+          "statement": "Il faut préciser le cas où le témoin reste allumé avec un niveau correct et les causes possibles listées par Filtron, mais aucune capture générique n'affirme que ce diagnostic relève d'un professionnel ; le recours au Représentant de la marque concerne seulement la Clio 5 phase 1 dans la situation décrite par sa notice.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c8",
+          "passage": {
+            "cid": "sha256:b85941bffdb30c8d35f1c78e12e748d0d6f1797413fa656426501a46c012ac6e",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-vidange-renault-20-76501ea3.md",
+            "quote": "attendez 10 minutes environ pour permettre l’écoulement de l’huile"
+          },
+          "position": "agree",
+          "statement": "La procédure Filtron est établie, tandis que les conditions de lecture données par Renault sont absentes et ne doivent être attribuées qu'à la Twingo 3 phase 2."
+        },
+        {
+          "claim_id": "c9",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Ensure that the removed filter and old oil are placed in special hazardous waste containers and disposed of in an environmentally safe manner. Remember that both used filters and oil cannot be disposed of in municipal waste containers and landfills!"
+          },
+          "position": "agree",
+          "statement": "La consigne de placer l'huile et le filtre usagés dans des conteneurs spéciaux et de ne pas les jeter avec les déchets municipaux est explicite."
+        }
+      ],
+      "sha256": "2da97e7b97cbc10a1db2ac3d1cfefea3a46083f40d948f43c8e0e24e19dd70e6"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:59",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "But keep your eyes peeled: the old sealing ring can stick to the flange, and because the used oil is black, the ring can be hard to see. As a result, leaks can occur and the oil pressure indicator can light up when the engine is running, even though the new filter is properly screwed on."
+          },
+          "position": "agree",
+          "statement": "Le texte conserve correctement la portée propre aux filtres OC 593/3 et OC 593/4 pour moteurs VW 1.2 et 1.4 TSI."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "When you remove the used filter, the remaining oil in the filter and flange flows back into the oil pan through the antidrain back plate. This takes time. If you rush this step in the process, you’ll get ahead of the residual oil, so to speak. This can cause used oil to spill over the flange, resulting in contamination."
+          },
+          "position": "agree",
+          "statement": "Le reflux de l'huile résiduelle, le temps nécessaire et le risque de débordement contaminant sont établis sans durée chiffrée."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip no. 2: Never use a removal tool to tighten the filter. As the name says, this tool should only be used to remove the filter. Overtightening can damage the surface and cause the filter to leak."
+          },
+          "position": "agree",
+          "statement": "MAHLE interdit l'outil de dépose au serrage, mais attribue explicitement le dommage et la fuite au serrage excessif plutôt qu'à l'outil lui-même."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Remember - do not forcefully screw in the filter and do not exceed the recommended number of rotations!"
+          },
+          "position": "agree",
+          "statement": "L'interdiction de dépasser le nombre de tours recommandé est explicite et sa valeur dépend bien des indications applicables au filtre."
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "For turbocharged engines it may be necessary to fill the filter with clean oil before screwing it to the engine. Check the manufacturer's recommendations in this regard."
+          },
+          "position": "agree",
+          "statement": "La formulation conserve le caractère éventuel, la portée turbocompressée et la condition tenant à la recommandation du constructeur."
+        }
+      ],
+      "sha256": "98b9e612b87631e1617e17666d4fba9622e387c0a59345893edc7888f319047a"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:60",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:59e94cef5d548b4759a9e5b8834ee0431442466fcb04e30e268e42dca295bb41",
+            "path": "sources/auto-captures/filtre-a-huile/mpulse-mahle-com-wl-filtre-a-huile-joint-mahle-20261115-775d5e06.md",
+            "quote": "Our tip: Changing the filter means changing the seals"
+          },
+          "position": "agree",
+          "statement": "Le conseil est repris fidèlement et la limite reconnaît que la capture ne détaille pas les joints selon chaque filtre ou moteur."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Then cover the top surface of the new filter gasket with a thin layer of clean engine oil."
+          },
+          "position": "agree",
+          "statement": "Le retrait de l'ancien joint, l'huilage du neuf, la finesse de la couche et l'interdiction du lubrifiant solide sont établis."
+        }
+      ],
+      "sha256": "e74cd16e584345c91286b24642249f5727c4e542cbf22645f6322cf967753da5"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated",
+        "doubt"
+      ],
+      "id": "body:62",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "Filter service life spans of 30,000 km and more are now common for many new vehicles and some manufacturers are even quoting 50,000 km—driving patterns and the quality of engine oil taken into account."
+          },
+          "position": "agree",
+          "statement": "Les ordres de grandeur sont établis, mais les 50 000 km sont expressément conditionnés par l'usage et la qualité de l'huile et ne constituent pas un intervalle applicable à tout véhicule."
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+            "quote": "After a few seconds, the oil from the oil gallery reaches the interior of the filter and the light goes off."
+          },
+          "position": "agree",
+          "statement": "Les captures établissent seulement un délai de quelques secondes, sans valeur numérique plus précise."
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+            "quote": "Screw in the filter until the filter gasket touches the engine housing and then tighten according to the indications on the filter or packaging. Usually it is ¾ rotation or 1 rotation. For filters in diesel engines this may be more."
+          },
+          "position": "agree",
+          "statement": "La capture donne un nombre de rotations habituel subordonné aux indications du filtre ou de l'emballage, sans valeur de couple."
+        },
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+            "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+            "quote": "L’affichage des informations décrites ci-après DÉPEND DE L’ÉQUIPEMENT DU VÉHICULE ET DU PAYS."
+          },
+          "position": "agree",
+          "statement": "La restriction au véhicule cité est correcte et la limite ajoute justement la dépendance à l'équipement et au pays."
+        }
+      ],
+      "sha256": "1c5c0b38aa6e37da7a9b1189fb4bbe8cb148195b898071b8864f2f3dd3175974"
+    }
+  ],
+  "subject": {
+    "commit": "dad41b86e89ae8e7e4623a2d7c1a74ce1c27b7f7",
+    "path": "proposals/filtre-a-huile.md",
+    "repo": "ak125/automecanik-wiki",
+    "slug": "filtre-a-huile"
+  }
+}

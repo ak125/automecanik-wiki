@@ -1,0 +1,2932 @@
+{
+  "freshness": {
+    "checked_at": "2026-11-17T23:03:48Z",
+    "commit": "69e8d51abb6064ad2f4326355a55576cc77b1816",
+    "raw_commit": "7433034db446a634c723d8abf02a4e01946ae42c",
+    "read_from": "origin",
+    "ref": "origin/claude/filtre-a-huile-qa-revision-20261115"
+  },
+  "key": "ae987f611ef9da99032085a349e50825dda2e88766b7e7de412b7aa68441a96a",
+  "key_inputs": {
+    "capture_domains": [
+      {
+        "cid": "sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Dacia"
+      },
+      {
+        "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Filtron (MANN+HUMMEL)"
+      },
+      {
+        "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Filtron (MANN+HUMMEL)"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "MAHLE Aftermarket"
+      },
+      {
+        "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Nissan"
+      },
+      {
+        "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Kia"
+      },
+      {
+        "cid": "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      },
+      {
+        "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      },
+      {
+        "cid": "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      }
+    ],
+    "captures": [
+      {
+        "cid": "sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47",
+        "path": "sources/auto-captures/filtre-a-huile/dacia-fr-wl-filtre-a-huile-revision-dacia-20261117-45b4c02f.md"
+      },
+      {
+        "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md"
+      },
+      {
+        "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md"
+      },
+      {
+        "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+        "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md"
+      },
+      {
+        "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+        "path": "sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md"
+      },
+      {
+        "cid": "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+        "path": "sources/auto-captures/filtre-a-huile/renault-fr-wl-filtre-a-huile-revision-renault-20261117-304c05bd.md"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md"
+      },
+      {
+        "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md"
+      },
+      {
+        "cid": "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-talisman-re-5c4ca1a2.md"
+      }
+    ],
+    "domain_basis": "_meta/source-catalog.yaml",
+    "domain_definition": "publisher_class",
+    "skill_sha256": "8d7c6805d485626b5df3fc9b79971a3d3f09534a6901245eabb6c6eb42bc113b",
+    "text_sha256": "820e01a6c414c70f82c8d4617deaf07cabfbce1caf34724314531e75888c1adb"
+  },
+  "producer": {
+    "basis": "provenance.ingested_by de 69e8d51ab:proposals/filtre-a-huile.md ; _meta/source-policy.md:74 ; rédigé par Claude Code (claude-opus-5-5)",
+    "declared": "skill:wiki-proposal-writer",
+    "provider": "anthropic"
+  },
+  "retake_questions": [
+    {
+      "claim_id": "c0",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Témoin de pression allumé moteur tournant : couper le moteur, contrôler le niveau. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:diagnostic_relations"
+    },
+    {
+      "claim_id": "c1",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Niveau normal = autre cause (notice Clio 5 phase 1, Filtron). »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:diagnostic_relations"
+    },
+    {
+      "claim_id": "c2",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Une notice constructeur (Renault, Dacia, Nissan, Kia…) ou une note technique d'atelier attribue-t-elle l'allumage ou la non-extinction du témoin de pression d'huile à un filtre à huile inadapté ou colmaté ? Pour quel véhicule et dans quelle situation (après remplacement ou en roulant) ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "fm:diagnostic_relations"
+    },
+    {
+      "claim_id": "c3",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Existe-t-il une source constructeur ou une autre source indépendante d'équipementier qui confirme ou infirme le lien entre un filtre à huile inadapté et le témoin de pression d'huile ? Pour quelle portée (véhicule, situation après remplacement) ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "fm:diagnostic_relations"
+    },
+    {
+      "claim_id": "c4",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quelle conduite à tenir (arrêt, coupure du moteur, contrôle du niveau, interdiction de redémarrer, appel à un professionnel) un second domaine indépendant (autre constructeur ou guide d'atelier) fixe-t-il pour un témoin de pression d'huile allumé en roulant, et pour quels véhicules ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c5",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quelles causes d'un témoin de pression d'huile allumé avec un niveau correct, et quelle orientation vers un professionnel, une source constructeur ou un manuel d'atelier indépendant de Filtron donne-t-il ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c6",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Une source constructeur ou un autre équipementier que Filtron confirme-t-il qu'un filtre inadapté ou défectueux peut maintenir le témoin de pression d'huile allumé, et qu'un bref allumage après remplacement est normal ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c7",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « maintenance_interval et faq qa[0] : le filtre à huile se remplace avec la vidange. Filtron le dit pour le filtre vissé. Les forfaits Renault et Dacia pour véhicules de plus de 3 ans comprennent la vidange et le remplacement du filtre. Le programme d'entretien de la notice Kia prévoit de remplacer ensemble l'huile moteur et le filtre à huile. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c8",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « maintenance_interval et faq qa[0] : l'échéance est celle que fixe le constructeur du véhicule. MAHLE insiste sur le remplacement dans les intervalles fixés par le constructeur, et la notice du Captur 2 renvoie la périodicité de la vidange au document d'entretien. La fiche ne donne pas d'intervalle chiffré. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c9",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « maintenance.educational_advice : remplacer le filtre à huile avec la vidange, aux échéances fixées par le constructeur du véhicule (Filtron, forfaits Renault et Dacia, notice Kia, MAHLE, notice du Captur 2). »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c10",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « removal_procedure : vidanger l'huile moteur, puis déposer le filtre usagé, au besoin avec une clé à filtre. La notice du Juke 2024 indique une clé à filtre à huile ou, selon le moteur, une clé spéciale à douille. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c12",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « installation_procedure : enduire le joint du filtre neuf d'un peu d'huile moteur propre ; la notice Nissan précise de l'huile moteur neuve. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c13",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « installation_procedure : visser le filtre neuf jusqu'à ce que son joint touche le moteur (Nissan : jusqu'à une légère résistance), puis le serrer du complément indiqué. Filtron renvoie aux indications du filtre ou de son emballage ; Nissan donne celui du Juke 2024. La fiche ne donne pas de valeur de serrage. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c14",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « installation_procedure : remettre de l'huile moteur. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c15",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « post_install_checks : démarrer le moteur et vérifier que le témoin de pression d'huile s'éteint. Filtron le demande après un remplacement, et la notice de la Clio 5 phase 1 indique que ce témoin, allumé au démarrage, s'éteint après quelques secondes. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c16",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « post_install_checks : vérifier que le niveau d'huile se situe dans la plage recommandée par le constructeur (Filtron), soit entre les repères mini et maxi de la jauge sur les notices Renault du Captur 2 et de la Talisman. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "fm:entity_data"
+    },
+    {
+      "claim_id": "c17",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Une capture d'un second domaine décrit-elle la conduite à tenir pour un témoin de pression d'huile allumé en roulant (couper le moteur, vérifier le niveau, ne pas redémarrer), sur la même portée que la notice Renault Clio 5 phase 1 ? Faute de quoi, une notice d'un autre constructeur ou un guide équipementier sur l'alerte en roulant, et non après remplacement du filtre, conviendrait.",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c18",
+      "domains_present": [
+        "constructeur"
+      ],
+      "question": "Une capture d'un domaine autre que le constructeur (équipementier, organisme technique) porte-t-elle la consigne pour un témoin de pression d'huile qui s'allume en roulant : arrêt immédiat, coupure du moteur, contrôle du niveau, interdiction de redémarrer ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c19",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Une notice constructeur décrit-elle la conduite à tenir quand le témoin de pression d'huile ne s'éteint pas quelques secondes après le démarrage, notamment après remplacement du filtre à huile (couper le moteur, vérifier le niveau, compléter) ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c20",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Une capture d'un second domaine traite-t-elle l'alerte de pression d'huile en roulant avec un niveau d'huile normal, en concluant à une autre cause et en renvoyant vers un professionnel, sur une portée comparable à la notice Renault Clio 5 phase 1 ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:3"
+    },
+    {
+      "claim_id": "c21",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Une capture d'un second domaine, de préférence une documentation constructeur ou atelier, énumère-t-elle les causes d'un témoin de pression d'huile allumé avec un niveau d'huile correct (capteur, faisceau, pompe, crépine, usure, filtre inadapté) ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:3"
+    },
+    {
+      "claim_id": "c23",
+      "domains_present": [
+        "constructeur"
+      ],
+      "question": "Un éditeur indépendant de Renault et de Dacia (réseau d'entretien, équipementier) confirme-t-il, pour ces marques, que le filtre à huile est remplacé à chaque vidange du programme d'entretien ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:6"
+    },
+    {
+      "claim_id": "c24",
+      "domains_present": [
+        "constructeur"
+      ],
+      "question": "Un autre constructeur ou un équipementier confirme-t-il, pour ce modèle, le remplacement conjoint de l'huile et du filtre à chaque échéance ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:6"
+    },
+    {
+      "claim_id": "c25",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « L'échéance de remplacement du filtre est celle que fixe le constructeur du véhicule (MAHLE ; la notice Renault Captur 2 renvoie la périodicité de vidange au document d'entretien). »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:7"
+    },
+    {
+      "claim_id": "c26",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Chaque étape publiée est confirmée par Filtron et par un constructeur ; les autres étapes et les précautions qu'un seul domaine porte ne sont pas publiées. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:10"
+    },
+    {
+      "claim_id": "c27",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Vidanger l'huile moteur, puis déposer le filtre usagé, au besoin avec une clé à filtre ; selon le moteur, une clé spéciale à douille (Nissan Juke 2024). »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:12"
+    },
+    {
+      "claim_id": "c29",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Enduire le joint du filtre neuf d'un peu d'huile moteur propre (neuve selon Nissan). »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:14"
+    },
+    {
+      "claim_id": "c30",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Visser le filtre neuf jusqu'à ce que son joint touche le moteur (Nissan : légère résistance), puis le serrer du complément indiqué sur le filtre ou son emballage (Filtron) ou dans la notice (Nissan Juke 2024) ; la fiche ne donne pas de valeur. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:14"
+    },
+    {
+      "claim_id": "c31",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Remettre de l'huile moteur. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:14"
+    },
+    {
+      "claim_id": "c32",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Démarrer le moteur et vérifier que le témoin de pression d'huile s'éteint ; sur la Clio 5 phase 1, ce témoin, allumé au démarrage, s'éteint après quelques secondes. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:16"
+    },
+    {
+      "claim_id": "c33",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Vérifier que le niveau d'huile se situe dans la plage recommandée par le constructeur, soit, sur les Renault Captur 2 et Talisman, entre les repères mini et maxi de la jauge. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:16"
+    },
+    {
+      "claim_id": "c35",
+      "domains_present": [
+        "constructeur"
+      ],
+      "question": "Un éditeur indépendant de Renault et de Dacia confirme-t-il, pour ces marques, que le filtre à huile est remplacé à chaque vidange ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:18"
+    },
+    {
+      "claim_id": "c36",
+      "domains_present": [
+        "constructeur"
+      ],
+      "question": "Un équipementier ou un autre constructeur confirme-t-il, pour ce modèle, le remplacement conjoint de l'huile et du filtre ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:18"
+    },
+    {
+      "claim_id": "c37",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « L'échéance est celle que fixe le constructeur du véhicule (MAHLE ; la notice Renault Captur 2 renvoie la périodicité de vidange au document d'entretien) ; la fiche ne donne pas d'intervalle chiffré. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:18"
+    },
+    {
+      "claim_id": "c38",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Une notice ou une documentation de constructeur cite-t-elle le filtre à huile (filtre inadapté, colmaté ou mal monté) parmi les causes d'un témoin de pression d'huile allumé avec un niveau correct ? Pour quels véhicules et dans quelle situation (au démarrage ou en roulant) ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:19"
+    },
+    {
+      "claim_id": "c39",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quelle conduite un constructeur prescrit-il, pour un autre modèle que la Clio 5 phase 1, quand le témoin de pression d'huile s'allume moteur tournant ? Un fabricant de filtres ou un second constructeur confirme-t-il la même conduite dans la même situation (en roulant ou au démarrage) ?",
+      "question_source": "model",
+      "reason": "discordant",
+      "segment_id": "body:19"
+    },
+    {
+      "claim_id": "c40",
+      "domains_present": [
+        "constructeur"
+      ],
+      "question": "Un second domaine (fabricant de filtres, équipementier ou autre constructeur) prescrit-il la même conduite pour un témoin de pression d'huile allumé en roulant, accompagné d'un témoin d'arrêt impératif ? Pour quels véhicules ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:19"
+    },
+    {
+      "claim_id": "c41",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Une notice de constructeur prescrit-elle de couper le moteur, de contrôler le niveau puis de compléter quand le témoin de pression d'huile ne s'éteint pas après le démarrage ? Pour quels véhicules, et prescrit-elle de ne pas redémarrer ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:19"
+    },
+    {
+      "claim_id": "c42",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Un constructeur et un fabricant de filtres décrivent-ils, pour la même situation (témoin allumé en roulant, ou persistant après le démarrage) et le même véhicule, les causes d'un témoin de pression d'huile allumé avec un niveau d'huile correct ?",
+      "question_source": "model",
+      "reason": "discordant",
+      "segment_id": "body:19"
+    }
+  ],
+  "reviewer": {
+    "cli_version": "2.1.326 (Claude Code)",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic"
+  },
+  "role": "qualification",
+  "schema_version": "technical-qualification/v2",
+  "segments": [
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:aliases",
+      "no_claims": true,
+      "sha256": "a74849a3913588b6848e3da07ad4e1c5202a26ecb36ee2f4bfd34854f651d034"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:confidence_score",
+      "no_claims": true,
+      "sha256": "064fec5b23c4e3d514f1590700856bb904ef5d2aa7e97e43c2938af421e057a2"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:content_hash",
+      "no_claims": true,
+      "sha256": "8fc925b029fe261118e40825b623a12bb8461434ee4d9eeb6bcf19569568f34c"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:created_at",
+      "no_claims": true,
+      "sha256": "ab81ff657b6afa59f608bda6e5336f9404e24e2b7abffd22099e568c834fe41d"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c0",
+          "limite": "Le texte omet trois éléments. 1) L'arrêt doit être compatible avec les conditions de circulation. 2) Renault impose de ne pas redémarrer le moteur quand le témoin ® accompagne l'alerte. 3) Renault impose de faire appel à un Représentant de la marque. Les deux sources portent le même geste, mais dans deux situations différentes : allumage en roulant (Renault, Clio 5 ph1) et non-extinction après démarrage suivant un remplacement de filtre (Filtron). Les conditions précises (témoin ®, signal sonore) ne valent que pour la Clio 5 phase 1. Les autres véhicules relèvent de leur notice. Le texte omet aussi qu'un témoin qui s'allume brièvement à la mise sous contact ou au démarrage est normal.",
+          "portee": "Renault : Clio 5 phase 1 (18/12/2018 à 01/06/2023). Le témoin s'allume sur route, accompagné du témoin d'arrêt impératif ® et d'un signal sonore : s'arrêter impérativement, couper le contact, vérifier le niveau, faire appel à un Représentant de la marque. Filtron : cas général, après un remplacement de filtre. Le témoin ne s'éteint pas peu après le démarrage : couper le moteur immédiatement, contrôler le niveau, faire l'appoint si nécessaire.",
+          "proposed_wording": "Témoin de pression d'huile allumé en roulant (Clio 5 phase 1 : accompagné du témoin ® et d'un signal sonore) : s'arrêter dès que la circulation le permet, couper le contact, ne pas redémarrer, vérifier le niveau d'huile et faire appel à un Représentant de la marque. Après un remplacement de filtre, si le témoin ne s'éteint pas peu après le démarrage (Filtron) : couper aussitôt le moteur et contrôler le niveau. Pour les autres véhicules, se reporter à leur notice.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Faites appel à un Représentant de la marque."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Il vous impose, pour votre sécurité, un arrêt impératif et immédiat compatible avec les conditions de circulation. Arrêtez le moteur et ne le redémarrez pas."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+            }
+          ],
+          "text": "Témoin de pression allumé moteur tournant : couper le moteur, contrôler le niveau.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c1",
+          "limite": "Le texte omet trois éléments. 1) Les causes listées par Filtron, dont plusieurs exigent un diagnostic professionnel (pompe, usure moteur). 2) L'appel à un Représentant de la marque prescrit par Renault. 3) Le fait que l'« autre cause » peut inclure le filtre selon Filtron. La formule « autre cause » laisse croire à une panne bénigne. Or ce diagnostic relève d'un professionnel, et il ne faut pas rouler.",
+          "portee": "Renault : Clio 5 phase 1, témoin allumé sur route. Si le niveau est normal, la cause est autre, et il faut faire appel à un Représentant de la marque. Filtron : témoin qui ne s'éteint pas après démarrage, niveau correct. Causes possibles : capteur de pression, câble entre témoin et capteur, pompe désamorcée ou aérée, obstruction de la ligne pompe-carter, usure moteur (coussinets, paliers), état du filtre.",
+          "proposed_wording": "Si le niveau est normal, la cause est autre : capteur ou câblage du témoin, pompe à huile désamorcée, obstruction de la crépine ou de la ligne d'aspiration, usure moteur, ou filtre inadapté (Filtron). Ne pas reprendre la route et faire diagnostiquer par un professionnel (notice Clio 5 phase 1 : faire appel à un Représentant de la marque).",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+            }
+          ],
+          "text": "Niveau normal = autre cause (notice Clio 5 phase 1, Filtron).",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c2",
+          "limite": "Le lien filtre → témoin n'est porté que par un domaine (équipementier), sans confirmation constructeur. Il ne vaut que pour la non-extinction du témoin après un remplacement de filtre, et seulement pour un filtre inadapté ou défectueux. Il ne vaut pas pour un témoin qui s'allume en roulant. Le texte ne restreint pas la relation à ce cas. La source a un intérêt commercial : elle exclut ses propres filtres de cette cause. Le diagnostic demande un professionnel.",
+          "portee": "Filtron (équipementier), cas général hors véhicule précis : le témoin qui ne s'éteint pas après un remplacement peut venir de l'état du filtre (filtre incorrect ou faible créant une résistance à l'écoulement trop forte, filtre périmé). Seul le domaine équipementier porte ce lien.",
+          "proposed_wording": "Hypothèse non établie, portée par un seul équipementier (Filtron) : après un remplacement de filtre, un témoin de pression qui ne s'éteint pas peut venir d'un filtre inadapté ou défectueux (résistance à l'écoulement trop élevée). Aucune source constructeur ne confirme ce lien. Faire vérifier par un professionnel.",
+          "retake_question": "Une notice constructeur (Renault, Dacia, Nissan, Kia…) ou une note technique d'atelier attribue-t-elle l'allumage ou la non-extinction du témoin de pression d'huile à un filtre à huile inadapté ou colmaté ? Pour quel véhicule et dans quelle situation (après remplacement ou en roulant) ?",
+          "sources": [
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The reason for the oil warning light not going off may also be the condition of the filter:"
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The flow resistance may be too high due to the installation of an incorrect or weak filter"
+            }
+          ],
+          "text": "Relation possible_cause filtre à huile → voyant_huile, qualifiée d'« hypothèse non établie ».",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c3",
+          "limite": "Le texte omet qu'un domaine, l'équipementier Filtron, établit bien ce lien dans un cas précis : filtre incorrect ou faible après remplacement. Sans cette mention, le lecteur peut écarter à tort le filtre dans un diagnostic.",
+          "portee": "Le constat est exact au regard des captures. Filtron (équipementier) attribue la non-extinction du témoin à l'état du filtre dans certains cas. La notice Renault Clio 5 phase 1 (constructeur) ne cite pas le filtre.",
+          "proposed_wording": "Seul un équipementier (Filtron) cite le filtre comme cause possible : filtre incorrect ou défectueux, témoin qui ne s'éteint pas après remplacement. Aucune source constructeur ne le confirme.",
+          "retake_question": "Existe-t-il une source constructeur ou une autre source indépendante d'équipementier qui confirme ou infirme le lien entre un filtre à huile inadapté et le témoin de pression d'huile ? Pour quelle portée (véhicule, situation après remplacement) ?",
+          "sources": [
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The reason for the oil warning light not going off may also be the condition of the filter:"
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            }
+          ],
+          "text": "Aucune source à deux domaines n'attribue le témoin au filtre.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "diagnostic_relation"
+      ],
+      "id": "fm:diagnostic_relations",
+      "sha256": "6507a4c160c752bec3aa5af81f781b82a0b1cf6646fd421e8e74fc8e015776f8"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c4",
+          "limite": "Chaque situation n'est portée que par un seul domaine. La consigne Renault n'est pas transposable aux autres véhicules. Le texte omet trois éléments : l'appel à un Représentant de la marque exigé par Renault, l'arrêt « compatible avec les conditions de circulation » et l'interdiction de redémarrer liée au témoin ®. Il omet aussi que le témoin s'allume normalement quelques secondes au démarrage : « allumé moteur tournant » est trop large.",
+          "portee": "Renault : Clio 5 phase 1 (18/12/2018 à 01/06/2023). Le témoin s'allume sur route avec le témoin ® et un signal sonore. Filtron : cas général d'un témoin qui ne s'éteint pas après le démarrage du moteur.",
+          "proposed_wording": "Le témoin de pression d'huile s'allume normalement quelques secondes au démarrage. Sur la Clio 5 phase 1, s'il s'allume en roulant avec le témoin STOP et un signal sonore, arrêtez-vous impérativement (en tenant compte de la circulation), coupez le contact et vérifiez le niveau d'huile, puis faites appel à un représentant de la marque ; ne redémarrez pas le moteur. Selon Filtron, si le témoin ne s'éteint pas un moment après le démarrage, coupez immédiatement le moteur, contrôlez le niveau et complétez si nécessaire.",
+          "retake_question": "Quelle conduite à tenir (arrêt, coupure du moteur, contrôle du niveau, interdiction de redémarrer, appel à un professionnel) un second domaine indépendant (autre constructeur ou guide d'atelier) fixe-t-il pour un témoin de pression d'huile allumé en roulant, et pour quels véhicules ?",
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Faites appel à un Représentant de la marque."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Il vous impose, pour votre sécurité, un arrêt impératif et immédiat compatible avec les conditions de circulation. Arrêtez le moteur et ne le redémarrez pas."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+            }
+          ],
+          "text": "failure_symptoms et faq qa[1] : un témoin de pression d'huile allumé moteur tournant demande de couper le moteur, puis de contrôler le niveau d'huile. Sur la Clio 5 phase 1, pour une alerte en roulant : s'arrêter, couper le contact, vérifier le niveau. Selon Filtron, pour un témoin qui ne s'éteint pas un moment après le démarrage : couper immédiatement le moteur, contrôler le niveau, compléter si nécessaire.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c5",
+          "limite": "Chaque situation n'est portée que par un domaine. Le texte n'indique pas que, niveau normal, Renault renvoie à un Représentant de la marque. Il ne dit pas non plus que les causes énumérées par Filtron (capteur, pompe, usure du moteur) relèvent d'un diagnostic professionnel.",
+          "portee": "Renault : Clio 5 phase 1, alerte sur route. Filtron : témoin qui reste allumé après le démarrage alors que le niveau est correct. Les causes possibles sont le capteur, le câblage, une pompe désamorcée, une crépine obstruée, l'usure du moteur ou l'état du filtre.",
+          "proposed_wording": "Si le niveau d'huile est normal, l'alerte a une autre cause : la notice de la Clio 5 phase 1 demande alors de faire appel à un représentant de la marque. Filtron cite comme causes possibles un capteur de pression défaillant, un câble endommagé, une pompe à huile désamorcée, une conduite d'aspiration obstruée, une usure du moteur, ou un filtre inadapté ou périmé. Ces vérifications relèvent d'un atelier.",
+          "retake_question": "Quelles causes d'un témoin de pression d'huile allumé avec un niveau correct, et quelle orientation vers un professionnel, une source constructeur ou un manuel d'atelier indépendant de Filtron donne-t-il ?",
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "High wear of the engine (bushes, bearings), and thus too low pressure in the oil gallery."
+            }
+          ],
+          "text": "failure_symptoms et faq qa[1] : si le niveau d'huile est normal, l'alerte a une autre cause : la notice Renault le dit, et Filtron énumère d'autres causes possibles.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c6",
+          "limite": "Un seul domaine relie le témoin au filtre. La réponse ne nomme pas les causes liées au filtre que Filtron rattache à cette question. Elle n'indique pas non plus qu'un allumage de quelques secondes après la pose d'un filtre neuf est normal. L'affirmation commerciale de Filtron sur ses propres filtres ne peut pas être reprise.",
+          "portee": "Filtron : témoin qui ne s'éteint pas après un remplacement du filtre. Le filtre figure parmi plusieurs causes possibles (filtre inadapté ou trop faible, filtre périmé). Un allumage bref après la pose d'un filtre neuf est normal.",
+          "proposed_wording": "Pas forcément. Juste après la pose d'un filtre neuf, le témoin peut rester allumé quelques secondes, le temps que le filtre se remplisse. S'il ne s'éteint pas, Filtron cite des causes sans rapport avec le filtre (capteur, câblage, pompe, usure du moteur), mais aussi un filtre inadapté, trop faible ou périmé.",
+          "retake_question": "Une source constructeur ou un autre équipementier que Filtron confirme-t-il qu'un filtre inadapté ou défectueux peut maintenir le témoin de pression d'huile allumé, et qu'un bref allumage après remplacement est normal ?",
+          "sources": [
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The reason for the oil warning light not going off may also be the condition of the filter:"
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The flow resistance may be too high due to the installation of an incorrect or weak filter"
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the system works correctly, the light turns on because the newly installed filter is empty for a brief moment. After a few seconds, the oil from the oil gallery reaches the interior of the filter and the light goes off."
+            }
+          ],
+          "text": "faq qa[1] : à la question « Le voyant de pression d'huile vient-il du filtre ? », la réponse est « Pas forcément ».",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c7",
+          "limite": "La notice Kia est citée sans modèle ni moteurs, ce qui donne une portée trop large. Pour les filtres à cartouche, MAHLE indique que seul l'élément filtrant se remplace, et non le filtre complet : le texte ne le précise pas.",
+          "portee": "Filtron : filtres vissés (spin-on). Renault : forfait des véhicules de plus de 3 ans, hors électriques, hors PTAC > 3,5 t et hors véhicules de plus de 6 L d'huile. Dacia : forfait ÉCO des véhicules de plus de 3 ans. Kia : programme d'entretien Europe d'une notice Kia 2021 (moteurs Smartstream G1.0/G1.5 T-GDi, 1.6 T-GDi, D1.6 MHEV).",
+          "proposed_wording": "Le filtre à huile se remplace avec la vidange. Filtron l'indique pour le filtre vissé. Les forfaits Renault et Dacia pour véhicules de plus de 3 ans comprennent la vidange et le remplacement du filtre. Le programme d'entretien Europe de la notice Kia citée (moteurs Smartstream G1.0/G1.5 T-GDi, 1.6 T-GDi et D1.6 MHEV) associe huile moteur et filtre. Sur un filtre à cartouche, seul l'élément filtrant se remplace (MAHLE).",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+            },
+            {
+              "cid": "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "path": "sources/auto-captures/filtre-a-huile/renault-fr-wl-filtre-a-huile-revision-renault-20261117-304c05bd.md",
+              "quote": "cela comprend : vidange, remplacement filtre à huile, 38 points de contrôle et main-d’œuvre associée"
+            },
+            {
+              "cid": "sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47",
+              "path": "sources/auto-captures/filtre-a-huile/dacia-fr-wl-filtre-a-huile-revision-dacia-20261117-45b4c02f.md",
+              "quote": "qui comprend la vidange, le remplacement du filtre à huile, 38 points de contrôle et la main-d’oeuvre associée"
+            },
+            {
+              "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "path": "sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md",
+              "quote": "Huile moteur et filtre à huile du moteur"
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "instead of replacing the complete filter, only the dirty filter element has to be renewed."
+            }
+          ],
+          "text": "maintenance_interval et faq qa[0] : le filtre à huile se remplace avec la vidange. Filtron le dit pour le filtre vissé. Les forfaits Renault et Dacia pour véhicules de plus de 3 ans comprennent la vidange et le remplacement du filtre. Le programme d'entretien de la notice Kia prévoit de remplacer ensemble l'huile moteur et le filtre à huile.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c8",
+          "limite": "Le texte omet que le constructeur peut prévoir un calendrier plus court en conditions d'utilisation sévères : trajets courts, ralenti prolongé, remorquage, poussière, huile non recommandée. Les sources ne donnent aucun intervalle valable pour tous les véhicules.",
+          "portee": "MAHLE : principe général, les intervalles du constructeur automobile s'appliquent. Renault : Captur 2 (25/06/2019 au 18/03/2024), périodicité de vidange. Kia : calendriers normal et intensif de la notice citée.",
+          "proposed_wording": "L'échéance est celle que fixe le constructeur du véhicule dans son document d'entretien (MAHLE ; notice du Captur 2). Elle peut être raccourcie en conditions d'utilisation sévères (trajets courts, ralenti prolongé, remorquage, routes poussiéreuses, huile non recommandée), comme le prévoit le calendrier pour service intensif de la notice Kia. Cette fiche ne donne pas d'intervalle chiffré.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Service interval: refer to the maintenance document for your vehicle."
+            },
+            {
+              "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "path": "sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md",
+              "quote": "Si le véhicule est utilisé dans une des situations reprises ci-dessus, il convient de réaliser les inspections, les remplacements et les appoints plus souvent, selon le calendrier de maintenance pour service intensif au lieu du calendrier de maintenance pour service normal."
+            }
+          ],
+          "text": "maintenance_interval et faq qa[0] : l'échéance est celle que fixe le constructeur du véhicule. MAHLE insiste sur le remplacement dans les intervalles fixés par le constructeur, et la notice du Captur 2 renvoie la périodicité de la vidange au document d'entretien. La fiche ne donne pas d'intervalle chiffré.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c9",
+          "limite": "Le conseil omet le calendrier plus court en conditions sévères, ainsi que le cas des filtres à cartouche, où seul l'élément filtrant se remplace.",
+          "portee": "Mêmes portées que les deux affirmations précédentes : filtres vissés, forfaits des véhicules de plus de 3 ans, notice Kia citée, Captur 2.",
+          "proposed_wording": "Remplacer le filtre à huile (ou son élément filtrant, sur un filtre à cartouche) avec la vidange, aux échéances fixées par le constructeur du véhicule, en appliquant le calendrier pour conditions sévères s'il en prévoit un.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Service interval: refer to the maintenance document for your vehicle."
+            },
+            {
+              "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "path": "sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md",
+              "quote": "Si le véhicule est utilisé dans une des situations reprises ci-dessus, il convient de réaliser les inspections, les remplacements et les appoints plus souvent, selon le calendrier de maintenance pour service intensif au lieu du calendrier de maintenance pour service normal."
+            }
+          ],
+          "text": "maintenance.educational_advice : remplacer le filtre à huile avec la vidange, aux échéances fixées par le constructeur du véhicule (Filtron, forfaits Renault et Dacia, notice Kia, MAHLE, notice du Captur 2).",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c10",
+          "limite": "Le texte omet plusieurs points. Il ne dit pas de garer le véhicule à plat, frein serré et moteur arrêté (Nissan). Il ne signale pas le risque de brûlure par l'huile chaude (Renault Captur 2). Il omet de contrôler les bouchons de vidange et de les remplacer s'ils sont endommagés (Filtron). Il ne mentionne pas l'élimination du filtre et de l'huile usagés en filière déchets dangereux (Filtron). Enfin, il ne renvoie pas à un concessionnaire ou à un atelier qualifié quand une clé spéciale est nécessaire (Nissan).",
+          "portee": "Filtron : filtres vissés en général. Nissan : Juke 2024, outil selon le moteur. Renault : Captur 2, précaution lors d'une vidange à chaud.",
+          "proposed_wording": "Garer le véhicule à plat, frein de stationnement serré, moteur arrêté. Vidanger l'huile moteur, en prenant garde aux brûlures si le moteur est chaud, et contrôler les bouchons de vidange : les remplacer s'ils sont endommagés. Déposer ensuite le filtre usagé, au besoin avec une clé à filtre. Sur le Juke 2024, selon le moteur, une clé spéciale à douille peut être nécessaire : se renseigner auprès d'un concessionnaire ou d'un atelier qualifié. Déposer le filtre et l'huile usagés dans une filière de déchets dangereux.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Remove the spin-on oil filter using a special wrench if necessary."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Unscrew the oil drain plug. If there are a few of them, unscrew each one. Check the condition of the tightness of the plugs. If they are damaged, replace them with new ones."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Ensure that the removed filter and old oil are placed in special hazardous waste containers and disposed of in an environmentally safe manner."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Garez le véhicule sur une surface plane et serrez le frein de stationnement."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Desserrez le filtre à huile moteur à l'aide d'une clé à filtre à huile."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Selon le type de moteur, une clé spéciale à douille peut être nécessaire. Contactez un concessionnaire NISSAN ou un atelier qualifié pour plus d'informations."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Engine oil change: if you are changing the oil when the engine is hot, be careful not to scald yourself if the oil overflows."
+            }
+          ],
+          "text": "removal_procedure : vidanger l'huile moteur, puis déposer le filtre usagé, au besoin avec une clé à filtre. La notice du Juke 2024 indique une clé à filtre à huile ou, selon le moteur, une clé spéciale à douille.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c11",
+          "limite": "Les sources ne couvrent pas les filtres à cartouche à boîtier démontable.",
+          "portee": "Filtres vissés en général (Filtron) et Juke 2024 (Nissan).",
+          "proposed_wording": null,
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Clean the surface of the filter which adheres to the engine housing, making sure that the old filter gasket has been removed."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Essuyez la surface de fixation du filtre à huile moteur avec un chiffon propre."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Veillez à retirer toute trace de joint usagé adhérant à la surface de fixation."
+            }
+          ],
+          "text": "removal_procedure : essuyer la surface d'appui du filtre sur le moteur et s'assurer qu'il n'y reste rien de l'ancien joint.",
+          "verdict": "conserver"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c12",
+          "limite": "Le texte omet l'interdiction de graisser le joint avec un lubrifiant solide (Filtron). Il omet aussi que, sur un moteur turbocompressé, il peut falloir remplir le filtre d'huile propre avant de le visser, selon les préconisations du constructeur (Filtron).",
+          "portee": "Filtres vissés en général (Filtron) et Juke 2024 (Nissan).",
+          "proposed_wording": "Enduire le joint du filtre neuf d'une fine couche d'huile moteur propre (neuve, selon la notice Nissan), jamais d'un lubrifiant solide. Sur un moteur turbocompressé, vérifier si le constructeur demande de remplir le filtre d'huile propre avant de le visser.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Then cover the top surface of the new filter gasket with a thin layer of clean engine oil."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Note: Never use solid lubricants for this purpose!"
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "For turbocharged engines it may be necessary to fill the filter with clean oil before screwing it to the engine. Check the manufacturer's recommendations in this regard."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Appliquez de l'huile moteur neuve sur le joint du filtre à huile neuf."
+            }
+          ],
+          "text": "installation_procedure : enduire le joint du filtre neuf d'un peu d'huile moteur propre ; la notice Nissan précise de l'huile moteur neuve.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c13",
+          "limite": "Les compléments diffèrent selon le produit et le véhicule : 2/3 de tour sur le Juke 2024 ; selon Filtron, en général 3/4 de tour à 1 tour, davantage pour certains diesels. Aucune valeur n'est généralisable. Le texte omet deux précautions de Filtron : bien engager le filetage, et ne pas forcer ni dépasser le nombre de tours recommandé.",
+          "portee": "Filtron : filtres vissés, complément de serrage indiqué sur le filtre ou l'emballage. Nissan : Juke 2024, 2/3 de tour.",
+          "proposed_wording": "Visser le filtre neuf avec soin en veillant à bien engager le filetage, jusqu'à ce que son joint touche le moteur (Nissan : jusqu'à une légère résistance). Le serrer ensuite du seul complément indiqué sur le filtre ou son emballage (Filtron), ou dans la notice du véhicule (Nissan Juke 2024), sans forcer ni dépasser le nombre de tours recommandé. Cette fiche ne donne pas de valeur de serrage.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Screw in the filter until the filter gasket touches the engine housing and then tighten according to the indications on the filter or packaging. Usually it is ¾ rotation or 1 rotation. For filters in diesel engines this may be more."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Carefully screw the new filter to the engine, paying particular attention to correctly align the thread."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Remember - do not forcefully screw in the filter and do not exceed the recommended number of rotations!"
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Vissez le filtre à huile jusqu'à ce qu'une légère résistance soit ressentie, puis serrez de 2/3 de tour supplémentaire pour fixer le filtre à huile correctement."
+            }
+          ],
+          "text": "installation_procedure : visser le filtre neuf jusqu'à ce que son joint touche le moteur (Nissan : jusqu'à une légère résistance), puis le serrer du complément indiqué. Filtron renvoie aux indications du filtre ou de son emballage ; Nissan donne celui du Juke 2024. La fiche ne donne pas de valeur de serrage.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c14",
+          "limite": "Le texte omet d'utiliser l'huile et la quantité prévues par le constructeur. Il omet aussi de remplir jusqu'au niveau recommandé sans dépasser le maxi, de refermer le bouchon et d'utiliser un entonnoir pour éviter tout écoulement sur une pièce chaude (risque d'incendie, Captur 2).",
+          "portee": "Filtron : cas général, jusqu'au niveau recommandé par le constructeur. Nissan : Juke 2024. Renault : Captur 2, précautions de remplissage.",
+          "proposed_wording": "Remettre de l'huile moteur propre, du type prévu par le constructeur, jusqu'au niveau recommandé sans dépasser le maxi. Utiliser un entonnoir pour éviter tout écoulement sur une pièce chaude (risque d'incendie), puis refermer le bouchon de remplissage.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Pour clean oil into the engine until the level recommended by the manufacturer is reached and tighten the oil filler cap."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Remplissez avec l'huile moteur."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Use a funnel or protect the filling neck area to avoid engine oil escaping on to a hot part of the engine compartment or a sensitive part (e.g. electrical components)."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Do not exceed the “maxi” level and do not forget to refit the cap 1 and the dipstick 2."
+            }
+          ],
+          "text": "installation_procedure : remettre de l'huile moteur.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c15",
+          "limite": "Le texte omet la conduite à tenir si le témoin ne s'éteint pas : couper immédiatement le moteur et contrôler le niveau (Filtron). Il omet aussi le contrôle des fuites autour du joint du filtre et des bouchons de vidange (Filtron, Nissan). Le comportement « quelques secondes » n'est documenté que pour la Clio 5 phase 1.",
+          "portee": "Filtron : contrôle après remplacement d'un filtre vissé. Renault : comportement normal du témoin sur la Clio 5 phase 1. Nissan : Juke 2024, contrôle d'étanchéité.",
+          "proposed_wording": "Démarrer le moteur et vérifier que le témoin de pression d'huile s'éteint après quelques secondes. S'il ne s'éteint pas, couper immédiatement le moteur et contrôler le niveau d'huile (Filtron). Vérifier ensuite l'absence de fuite autour du joint du filtre et des bouchons de vidange (Filtron ; notice Nissan du Juke 2024).",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Start the engine and make sure that the oil pressure indicator has turned off or check that the oil pressure has reached the normal level on the pressure gauge if it has been installed in the vehicle."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Restart the engine and check for oil leaks around the filter gasket or oil drain plugs."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Il s’allume à la mise sous contact ou au démarrage du moteur puis s’éteint après quelques secondes."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Faites démarrer le moteur et vérifiez qu'il n'y a aucune fuite au niveau du filtre à huile. Corrigez le problème, si nécessaire."
+            }
+          ],
+          "text": "post_install_checks : démarrer le moteur et vérifier que le témoin de pression d'huile s'éteint. Filtron le demande après un remplacement, et la notice de la Clio 5 phase 1 indique que ce témoin, allumé au démarrage, s'éteint après quelques secondes.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c16",
+          "limite": "Le texte omet les conditions de lecture : moteur arrêté, véhicule sur sol horizontal, temps d'attente (quelques minutes selon Nissan, environ 20 minutes après un appoint sur le Captur 2). Il omet aussi la consigne en cas de dépassement du maxi : ne pas démarrer et faire appel au réseau de la marque, sous peine d'endommager le moteur et le catalyseur. Les repères mini et maxi ne sont documentés que pour le Captur 2 et la Talisman.",
+          "portee": "Filtron : principe général, plage du constructeur. Renault : Captur 2 (25/06/2019 au 18/03/2024) et Talisman (01/07/2019 au 31/07/2020), repères mini et maxi de la jauge. Nissan : Juke 2024, attente avant contrôle.",
+          "proposed_wording": "Couper le moteur, attendre quelques minutes, véhicule sur sol horizontal, puis vérifier que le niveau se situe dans la plage recommandée par le constructeur (Filtron). Sur les Renault Captur 2 et Talisman, cette plage se situe entre les repères mini et maxi de la jauge. Compléter si nécessaire. Si le maxi est dépassé, ne pas démarrer le véhicule et faire appel à un professionnel de la marque.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Turn off the engine and check if the oil level in the engine is within the manufacturer's recommended range. Top up the oil to the required level."
+            },
+            {
+              "cid": "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-talisman-re-5c4ca1a2.md",
+              "quote": "lisez le niveau : il ne doit jamais descendre en dessous du « mini » A ni dépasser le « maxi » B."
+            },
+            {
+              "cid": "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-talisman-re-5c4ca1a2.md",
+              "quote": "La lecture doit être faite sur sol horizontal et après un arrêt prolongé du moteur."
+            },
+            {
+              "cid": "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-talisman-re-5c4ca1a2.md",
+              "quote": "Si le niveau maxi est dépassé, ne démarrez pas votre véhicule et faites appel à un Représentant de la marque."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "If the oil level exceeds the maximum level, do not start your vehicle and contact an approved Dealer."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "wait for approximately 20 minutes to allow the oil to flow into the engine;"
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Arrêtez le moteur et attendez quelques minutes."
+            }
+          ],
+          "text": "post_install_checks : vérifier que le niveau d'huile se situe dans la plage recommandée par le constructeur (Filtron), soit entre les repères mini et maxi de la jauge sur les notices Renault du Captur 2 et de la Talisman.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure",
+        "diagnostic_relation"
+      ],
+      "id": "fm:entity_data",
+      "sha256": "3040068af017e6357f4ad87c056443daee8701aa160e48d4f040840e8094754b"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:entity_type",
+      "no_claims": true,
+      "sha256": "7dcbad6910f07a050ebb49e35dab2ca12004cbcef63be8c8487480d4d6d98671"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:exportable",
+      "no_claims": true,
+      "sha256": "d7afff1860e91fa76bd99e0c403eec2ec10652434b64c5818348439744cc832a"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:id",
+      "no_claims": true,
+      "sha256": "413200f821eeea219569b2132b26df3478c273efa0311b8d970bbea1a32a89c1"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:lang",
+      "no_claims": true,
+      "sha256": "2a765c307dccf3bdc6f06a8568eb54a682b8e2f3549efe2e5118dcadddaf2cfd"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:no_disputed_claims",
+      "no_claims": true,
+      "sha256": "4e96cc03e069936ad1a77023a759df8d8ead1f949d5c9dde184d8ab41a336ba8"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:provenance",
+      "no_claims": true,
+      "sha256": "8b79ca24f80d7f8fec1a12f44643db80ccc54a92a7d65b944562d868df19ea6a"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:review_notes",
+      "no_claims": true,
+      "sha256": "0891d996da59ea0bd24eefb5237de0b1e4622ac0d6d4c70fccf0222134b6b463"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:schema_version",
+      "no_claims": true,
+      "sha256": "e947cbb8bb0e450cce5d059b748f0a116b8425539d6adf51bd43c1acff4702f3"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "85dc1a891abc34753c0828a7dd0d53f097502c1d7eefd17e9988ec36b9b9e0ae"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "numeric_value"
+      ],
+      "id": "fm:source_refs",
+      "no_claims": true,
+      "sha256": "6ae3da04c2f21720a82c9278988f546f2bd6511f6811ca524edce77d670fa050"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:target_classes",
+      "no_claims": true,
+      "sha256": "20d669aef3731cf2de6dcbed7d2551ddbbe5aa90ac93d22d47c68519a42bc9a6"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:title",
+      "no_claims": true,
+      "sha256": "ad2f410bf153f756cf55ebdd2fad51296821f6f1f21929c47935b9f862cc08d5"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:truth_level",
+      "no_claims": true,
+      "sha256": "a3127fa38b6258e16ff523cafcbe9860db6a9a7e7af1ae2c85812fffe6a9a5ae"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:updated_at",
+      "no_claims": true,
+      "sha256": "65ba3396bddb9b9be5cb979cab9f85ae453bc9261f3d5d3fe5c22051c235327e"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "diagnostic_relation"
+      ],
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "7994f302c951aca15e94589931d192f23d1418d30e2fe56d807609209176a8cf"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c17",
+          "limite": "La phrase générale ne reprend pas ces deux conditions. Elle omet aussi deux cas que les sources décrivent. D'abord, l'allumage bref au démarrage est normal : il dure quelques secondes, ou le temps que le filtre neuf se remplisse. Ensuite, Renault demande de faire appel à un Représentant de la marque. Les deux captures ne portent pas la même situation : elles ne se corroborent pas sur une portée commune. Les autres véhicules ne sont pas couverts.",
+          "portee": "Renault : Clio 5 phase 1 (18/12/2018 à 01/06/2023), témoin allumé sur route avec le témoin ® et un signal sonore. Filtron : témoin qui ne s'éteint pas un moment après le démarrage, notamment après remplacement du filtre.",
+          "proposed_wording": "Au démarrage, le témoin de pression d'huile s'allume puis s'éteint après quelques secondes. S'il reste allumé après le démarrage (Filtron), ou s'il s'allume en roulant avec le témoin d'arrêt et un signal sonore (notice Renault Clio 5 phase 1), il faut couper le moteur, contrôler le niveau d'huile et, selon Renault, faire appel à un Représentant de la marque.",
+          "retake_question": "Une capture d'un second domaine décrit-elle la conduite à tenir pour un témoin de pression d'huile allumé en roulant (couper le moteur, vérifier le niveau, ne pas redémarrer), sur la même portée que la notice Renault Clio 5 phase 1 ? Faute de quoi, une notice d'un autre constructeur ou un guide équipementier sur l'alerte en roulant, et non après remplacement du filtre, conviendrait.",
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Il s’allume à la mise sous contact ou au démarrage du moteur puis s’éteint après quelques secondes."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the system works correctly, the light turns on because the newly installed filter is empty for a brief moment. After a few seconds, the oil from the oil gallery reaches the interior of the filter and the light goes off."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level."
+            }
+          ],
+          "text": "Un témoin de pression d'huile allumé moteur tournant demande de couper le moteur, puis de contrôler le niveau d'huile.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur"
+            ],
+            "proof": true
+          },
+          "id": "c18",
+          "limite": "Le texte omet trois éléments que la notice rattache à cette alerte : la condition « accompagné du témoin ® et d'un signal sonore », la consigne de ne pas redémarrer le moteur et le recours à un Représentant de la marque. Un seul domaine, le constructeur, porte cette alerte en roulant. La consigne ne vaut pas pour les autres véhicules.",
+          "portee": "Renault Clio 5 phase 1 (18/12/2018 à 01/06/2023) : témoin de pression d'huile allumé sur route avec le témoin ® et un signal sonore. L'affichage dépend de l'équipement et du pays.",
+          "proposed_wording": "Sur la Clio 5 phase 1, si le témoin de pression d'huile s'allume en roulant avec le témoin d'arrêt et un signal sonore, la notice Renault demande de s'arrêter impérativement dès que la circulation le permet, de couper le contact et de vérifier le niveau d'huile. Il ne faut pas redémarrer le moteur et il faut faire appel à un Représentant de la marque.",
+          "retake_question": "Une capture d'un domaine autre que le constructeur (équipementier, organisme technique) porte-t-elle la consigne pour un témoin de pression d'huile qui s'allume en roulant : arrêt immédiat, coupure du moteur, contrôle du niveau, interdiction de redémarrer ?",
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Il vous impose, pour votre sécurité, un arrêt impératif et immédiat compatible avec les conditions de circulation. Arrêtez le moteur et ne le redémarrez pas."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "L’affichage des informations décrites ci-après DÉPEND DE L’ÉQUIPEMENT DU VÉHICULE ET DU PAYS."
+            }
+          ],
+          "text": "Notice Renault Clio 5 phase 1, alerte en roulant : s'arrêter, couper le contact, vérifier le niveau.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6"
+            ],
+            "concordance": "single_source",
+            "declassed_by": "model",
+            "declassed_from": "conserver",
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c19",
+          "limite": "Un seul domaine, l'équipementier, porte cette consigne. Aucune capture constructeur ne traite le cas du témoin qui reste allumé après le démarrage. La portée se borne à Filtron.",
+          "portee": "Filtron (équipementier) : témoin de basse pression d'huile qui ne s'éteint pas un moment après le démarrage, dans le contexte d'un remplacement de filtre. Aucun véhicule n'est désigné.",
+          "proposed_wording": "Selon Filtron, il est normal que le témoin s'allume quelques secondes après le remplacement du filtre, le temps qu'il se remplisse. S'il ne s'éteint pas après un moment, il faut couper immédiatement le moteur, contrôler le niveau d'huile et compléter si nécessaire.",
+          "retake_question": "Une notice constructeur décrit-elle la conduite à tenir quand le témoin de pression d'huile ne s'éteint pas quelques secondes après le démarrage, notamment après remplacement du filtre à huile (couper le moteur, vérifier le niveau, compléter) ?",
+          "sources": [
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the system works correctly, the light turns on because the newly installed filter is empty for a brief moment. After a few seconds, the oil from the oil gallery reaches the interior of the filter and the light goes off."
+            }
+          ],
+          "text": "Filtron, témoin qui ne s'éteint pas un moment après le démarrage : couper immédiatement le moteur, contrôler le niveau, compléter si nécessaire.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "numeric_value",
+        "diagnostic_relation"
+      ],
+      "id": "body:2",
+      "sha256": "8b39f26ef59fd0c6a8be9ffc2410d45a83e32ef907ed10a5e33687109e120816"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c20",
+          "limite": "Le texte omet que Renault demande alors de faire appel à un Représentant de la marque : un niveau normal ne permet ni de redémarrer ni de conclure. Les deux captures portent des situations différentes ; elles ne se corroborent pas sur une même portée. Les autres véhicules ne sont pas couverts.",
+          "portee": "Renault : Clio 5 phase 1, alerte de pression d'huile en roulant avec le témoin ®. Filtron : témoin qui ne s'éteint pas après le démarrage alors que le niveau est correct.",
+          "proposed_wording": "Si le niveau d'huile est normal, l'alerte provient d'une autre cause. La notice Renault de la Clio 5 phase 1 demande alors de faire appel à un Représentant de la marque, sans redémarrer le moteur.",
+          "retake_question": "Une capture d'un second domaine traite-t-elle l'alerte de pression d'huile en roulant avec un niveau d'huile normal, en concluant à une autre cause et en renvoyant vers un professionnel, sur une portée comparable à la notice Renault Clio 5 phase 1 ?",
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Faites appel à un Représentant de la marque."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+            }
+          ],
+          "text": "Si le niveau d'huile est normal, l'alerte a une autre cause : la notice Renault le dit en ces termes.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c21",
+          "limite": "Un seul domaine porte ces causes. Le texte ne les nomme pas, alors que l'une concerne directement la gamme : un filtre incorrect ou de mauvaise qualité. Il ne signale pas non plus que leur diagnostic (capteur, pompe, usure moteur) relève d'un professionnel. L'affirmation promotionnelle de Filtron sur ses propres filtres ne doit pas être reprise.",
+          "portee": "Filtron (équipementier) : témoin qui ne s'éteint pas après le démarrage avec un niveau d'huile correct. Les causes possibles sont le capteur de pression, le câble, la pompe non amorcée, l'obstruction de la crépine, l'usure moteur et un filtre inadapté ou périmé.",
+          "proposed_wording": "Selon Filtron, quand le témoin ne s'éteint pas malgré un niveau correct, plusieurs causes sont possibles : capteur de pression défaillant, câble endommagé, pompe à huile désamorcée, conduite d'aspiration obstruée, usure du moteur, ou filtre inadapté ou de mauvaise qualité. Ce diagnostic relève d'un professionnel.",
+          "retake_question": "Une capture d'un second domaine, de préférence une documentation constructeur ou atelier, énumère-t-elle les causes d'un témoin de pression d'huile allumé avec un niveau d'huile correct (capteur, faisceau, pompe, crépine, usure, filtre inadapté) ?",
+          "sources": [
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The oil pressure sensor may be malfunctioning."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "High wear of the engine (bushes, bearings), and thus too low pressure in the oil gallery."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The flow resistance may be too high due to the installation of an incorrect or weak filter"
+            }
+          ],
+          "text": "Filtron énumère alors d'autres causes possibles.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "numeric_value",
+        "diagnostic_relation"
+      ],
+      "id": "body:3",
+      "sha256": "ee67cdc5ee91264626b1a094cff68b38bc38f738476ad08c19030e370ad133d3"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "diagnostic_relation"
+      ],
+      "id": "body:4",
+      "no_claims": true,
+      "sha256": "e1272e55fad4f93b38fff46c88d41714a4ccbff2e5f21b76b4447aea935d05c6"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:5",
+      "no_claims": true,
+      "sha256": "7230a225bccecf2b97832f239fe647abea3c536d9ed17e549b4f3f3d1f784fbf"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c22",
+          "limite": "Les captures ne couvrent pas les modèles à cartouche dans un boîtier démontable, pour lesquels MAHLE indique que seul l'élément filtrant se remplace. Elles ne fixent aucune échéance dans ce passage.",
+          "portee": "Filtron : filtres vissés (spin-on), en général. Nissan : procédure du Juke 2024, où la vidange précède le remplacement du filtre. Renault : forfait des véhicules de plus de 3 ans.",
+          "proposed_wording": null,
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Vidangez l'huile moteur en respectant la procédure appropriée."
+            },
+            {
+              "cid": "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "path": "sources/auto-captures/filtre-a-huile/renault-fr-wl-filtre-a-huile-revision-renault-20261117-304c05bd.md",
+              "quote": "cela comprend : vidange, remplacement filtre à huile, 38 points de contrôle et main-d’œuvre associée (hors véhicule électrique, hors véhicules PTAC > 3,5 t et hors véhicules ayant + de 6 L d’huile)."
+            }
+          ],
+          "text": "Le filtre à huile se remplace avec la vidange : Filtron l'indique pour le filtre vissé.",
+          "verdict": "conserver"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur"
+            ],
+            "proof": true
+          },
+          "id": "c23",
+          "limite": "Le texte omet les exclusions que portent les captures : véhicules électriques, PTAC supérieur à 3,5 t et véhicules de plus de 6 L d'huile. Seul le domaine constructeur porte cette affirmation.",
+          "portee": "Offres commerciales Renault et Dacia en France, réservées aux particuliers, pour les véhicules de plus de 3 ans.",
+          "proposed_wording": "Les forfaits d'entretien Renault et Dacia réservés aux particuliers pour les véhicules de plus de 3 ans comprennent la vidange et le remplacement du filtre à huile. Ils excluent les véhicules électriques, ceux de PTAC supérieur à 3,5 t et ceux de plus de 6 L d'huile.",
+          "retake_question": "Un éditeur indépendant de Renault et de Dacia (réseau d'entretien, équipementier) confirme-t-il, pour ces marques, que le filtre à huile est remplacé à chaque vidange du programme d'entretien ?",
+          "sources": [
+            {
+              "cid": "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "path": "sources/auto-captures/filtre-a-huile/renault-fr-wl-filtre-a-huile-revision-renault-20261117-304c05bd.md",
+              "quote": "cela comprend : vidange, remplacement filtre à huile, 38 points de contrôle et main-d’œuvre associée (hors véhicule électrique, hors véhicules PTAC > 3,5 t et hors véhicules ayant + de 6 L d’huile)."
+            },
+            {
+              "cid": "sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47",
+              "path": "sources/auto-captures/filtre-a-huile/dacia-fr-wl-filtre-a-huile-revision-dacia-20261117-45b4c02f.md",
+              "quote": "Tarif conseillé au 01/01/2026 pour le forfait Entretien ÉCO, qui comprend la vidange, le remplacement du filtre à huile, 38 points de contrôle et la main-d’oeuvre associée"
+            },
+            {
+              "cid": "sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47",
+              "path": "sources/auto-captures/filtre-a-huile/dacia-fr-wl-filtre-a-huile-revision-dacia-20261117-45b4c02f.md",
+              "quote": "Offre réservée aux particuliers sur les véhicules Dacia de plus de 3 ans."
+            }
+          ],
+          "text": "Les forfaits d'entretien de Renault et de Dacia pour les véhicules de plus de 3 ans comprennent la vidange et le remplacement du filtre à huile.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur"
+            ],
+            "proof": true
+          },
+          "id": "c24",
+          "limite": "Le texte ne précise ni le modèle (ProCeed 2021) ni la zone (Europe). Il ne signale pas non plus le calendrier pour conditions sévères que la notice prévoit. Seul le domaine constructeur porte cette affirmation.",
+          "portee": "Notice du Kia ProCeed 2021, calendrier pour l'Europe (sauf la Russie).",
+          "proposed_wording": "La notice du Kia ProCeed 2021 (Europe) prévoit de remplacer ensemble l'huile moteur et le filtre à huile, selon un calendrier normal ou un calendrier pour conditions sévères.",
+          "retake_question": "Un autre constructeur ou un équipementier confirme-t-il, pour ce modèle, le remplacement conjoint de l'huile et du filtre à chaque échéance ?",
+          "sources": [
+            {
+              "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "path": "sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md",
+              "quote": "Huile moteur et filtre à huile du moteur"
+            },
+            {
+              "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "path": "sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md",
+              "quote": "Remplacer tous les 15 000 km (10 000 miles) ou 12 mois"
+            }
+          ],
+          "text": "Le programme d'entretien de la notice Kia prévoit de remplacer ensemble l'huile moteur et le filtre à huile.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:6",
+      "sha256": "94ae7502169fb2604847eb60c3fd225e69b6172d7c6fd8dba4faba5ec7de6829"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c25",
+          "limite": "Le texte omet une condition que portent les captures : le constructeur peut prévoir une échéance plus courte en conditions sévères (trajets courts, remorquage, poussière, huile non recommandée). Selon MAHLE, l'échéance dépend aussi du type de conduite et de la qualité de l'huile.",
+          "portee": "MAHLE : filtres à huile en général. Renault : périodicité de vidange du Captur 2 (2019-2024). Kia : ProCeed 2021, Europe.",
+          "proposed_wording": "L'échéance est celle que fixe le constructeur dans le document d'entretien du véhicule. Celui-ci peut prévoir une échéance plus courte en conditions d'utilisation sévères, par exemple pour les trajets courts, le remorquage ou l'usage d'une huile non recommandée.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Service interval: refer to the maintenance document for your vehicle."
+            },
+            {
+              "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "path": "sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md",
+              "quote": "Si le véhicule est utilisé dans une des situations reprises ci-dessus, il convient de réaliser les inspections, les remplacements et les appoints plus souvent, selon le calendrier de maintenance pour service intensif au lieu du calendrier de maintenance pour service normal."
+            }
+          ],
+          "text": "L'échéance de remplacement du filtre est celle que fixe le constructeur du véhicule (MAHLE ; la notice Renault Captur 2 renvoie la périodicité de vidange au document d'entretien).",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:7",
+      "sha256": "77f85fc51f048cc9fd0ff586b37c0bef761a11151c930c461d47da8347bc3fe9"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:8",
+      "no_claims": true,
+      "sha256": "b537b6655e27f320ecbf574e0be18f78237cd311b4cd626e82795874ea77ecb6"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:9",
+      "no_claims": true,
+      "sha256": "4165edf3bfe7ae484ba03592b1ad6db0ed57c0ab2c926d52f31eb865eb6c1597"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c26",
+          "limite": "La note laisse croire que la procédure publiée est complète pour ce qui est confirmé par deux domaines. Or le contrôle d'étanchéité après démarrage, porté par Filtron et par Nissan, n'est pas publié. Des précautions de sécurité sont omises : huile chaude, remplissage par turbocompresseur, niveau maxi, témoin qui ne s'éteint pas. La procédure exacte relève de la notice du véhicule ou d'un professionnel.",
+          "portee": "Procédures Filtron (filtres vissés) et Nissan Juke 2024.",
+          "proposed_wording": "Cette procédure est partielle. Elle ne remplace ni la notice du véhicule ni l'intervention d'un professionnel. Suivez les étapes et les précautions de la notice de votre véhicule ; en cas de doute, confiez l'intervention à un atelier.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Restart the engine and check for oil leaks around the filter gasket or oil drain plugs."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Faites démarrer le moteur et vérifiez qu'il n'y a aucune fuite au niveau du filtre à huile. Corrigez le problème, si nécessaire."
+            }
+          ],
+          "text": "Chaque étape publiée est confirmée par Filtron et par un constructeur ; les autres étapes et les précautions qu'un seul domaine porte ne sont pas publiées.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:10",
+      "sha256": "ba7908775ad01d70c2781254f7aae6082c96e7930532d12afaacb65b53958ec0"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:11",
+      "no_claims": true,
+      "sha256": "9f5e757ff5672c6f40eed39cc093107c78c537dba9291dc046de7d0a517c87f9"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c27",
+          "limite": "Le texte omet plusieurs points que portent les captures : garer le véhicule à plat, frein serré et moteur arrêté (Nissan) ; le risque de brûlure par l'huile chaude (Renault) ; le contrôle et, si besoin, le remplacement des bouchons de vidange (Filtron) ; le recours au concessionnaire ou à un atelier qualifié pour la clé spéciale (Nissan). La dépose d'un filtre à cartouche n'est pas couverte.",
+          "portee": "Filtron : filtres vissés. Nissan : Juke 2024. Renault : vidange du Captur 2.",
+          "proposed_wording": "Garer le véhicule à plat, frein de stationnement serré, moteur arrêté. Vidanger l'huile en prenant garde aux brûlures si le moteur est chaud, puis déposer le filtre vissé, au besoin avec une clé à filtre. Si votre moteur demande une clé spéciale à douille (cas du Nissan Juke 2024 selon le moteur), adressez-vous à un concessionnaire ou à un atelier qualifié.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Remove the spin-on oil filter using a special wrench if necessary."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Desserrez le filtre à huile moteur à l'aide d'une clé à filtre à huile."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Selon le type de moteur, une clé spéciale à douille peut être nécessaire. Contactez un concessionnaire NISSAN ou un atelier qualifié pour plus d'informations."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Garez le véhicule sur une surface plane et serrez le frein de stationnement."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Engine oil change: if you are changing the oil when the engine is hot, be careful not to scald yourself if the oil overflows."
+            }
+          ],
+          "text": "Vidanger l'huile moteur, puis déposer le filtre usagé, au besoin avec une clé à filtre ; selon le moteur, une clé spéciale à douille (Nissan Juke 2024).",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c28",
+          "limite": "Les captures ne couvrent pas les filtres à cartouche dans un boîtier démontable.",
+          "portee": "Filtres vissés (Filtron) ; Nissan Juke 2024.",
+          "proposed_wording": null,
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Clean the surface of the filter which adheres to the engine housing, making sure that the old filter gasket has been removed."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Veillez à retirer toute trace de joint usagé adhérant à la surface de fixation."
+            }
+          ],
+          "text": "Essuyer la surface d'appui du filtre sur le moteur et s'assurer qu'il n'y reste rien de l'ancien joint.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:12",
+      "sha256": "5b4bdc6c5ac0b31fa1d45b516db8df72a0edc87430383559bea5d279980a3c99"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:13",
+      "no_claims": true,
+      "sha256": "930b3ba2c8021d7cc12b8ecb950a92f85e15dce687e9ea32805ab85e6294e14e"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c29",
+          "limite": "Le texte omet la précaution de Filtron : ne jamais utiliser de lubrifiant solide sur le joint.",
+          "portee": "Filtres vissés (Filtron) ; Nissan Juke 2024.",
+          "proposed_wording": "Enduire le joint du filtre neuf d'une fine couche d'huile moteur propre (neuve selon la notice Nissan), jamais de lubrifiant solide.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Then cover the top surface of the new filter gasket with a thin layer of clean engine oil."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Note: Never use solid lubricants for this purpose!"
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Appliquez de l'huile moteur neuve sur le joint du filtre à huile neuf."
+            }
+          ],
+          "text": "Enduire le joint du filtre neuf d'un peu d'huile moteur propre (neuve selon Nissan).",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c30",
+          "limite": "Le texte omet plusieurs précautions de Filtron : bien aligner le filetage, ne pas forcer, ne pas dépasser le nombre de tours recommandé, et vérifier si un moteur turbocompressé demande de remplir le filtre avant montage. Les valeurs de complément diffèrent selon le filtre et le véhicule (Filtron : ¾ à 1 tour, davantage en diesel ; Nissan Juke 2024 : 2/3 de tour) et ne se transposent pas d'un véhicule à l'autre.",
+          "portee": "Filtron : filtres vissés, complément de serrage indiqué sur le filtre ou l'emballage. Nissan : Juke 2024 (2/3 de tour).",
+          "proposed_wording": "Visser le filtre neuf à la main, en alignant soigneusement le filetage, jusqu'à ce que son joint touche le moteur. Serrer ensuite du seul complément indiqué sur le filtre, son emballage ou la notice du véhicule, sans forcer ni le dépasser. Sur moteur turbocompressé, vérifier dans les recommandations du constructeur s'il faut remplir le filtre d'huile propre avant montage. Cette fiche ne donne pas de valeur de serrage.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Screw in the filter until the filter gasket touches the engine housing and then tighten according to the indications on the filter or packaging. Usually it is ¾ rotation or 1 rotation. For filters in diesel engines this may be more."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Carefully screw the new filter to the engine, paying particular attention to correctly align the thread."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Remember - do not forcefully screw in the filter and do not exceed the recommended number of rotations!"
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "For turbocharged engines it may be necessary to fill the filter with clean oil before screwing it to the engine. Check the manufacturer's recommendations in this regard."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Vissez le filtre à huile jusqu'à ce qu'une légère résistance soit ressentie, puis serrez de 2/3 de tour supplémentaire pour fixer le filtre à huile correctement."
+            }
+          ],
+          "text": "Visser le filtre neuf jusqu'à ce que son joint touche le moteur (Nissan : légère résistance), puis le serrer du complément indiqué sur le filtre ou son emballage (Filtron) ou dans la notice (Nissan Juke 2024) ; la fiche ne donne pas de valeur.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c31",
+          "limite": "Le texte omet plusieurs points que portent les captures : la quantité et la qualité d'huile du document d'entretien ou du concessionnaire (Renault) ; le remplissage jusqu'au niveau recommandé et le serrage du bouchon (Filtron) ; l'entonnoir pour éviter l'huile sur des pièces chaudes, en raison du risque d'incendie (Renault).",
+          "portee": "Filtron : remplissage jusqu'au niveau recommandé par le constructeur. Nissan : Juke 2024. Renault : Captur 2 (quantité et risque d'incendie).",
+          "proposed_wording": "Remplir d'huile moteur de la qualité et en quantité prescrites par le document d'entretien du véhicule, jusqu'au niveau recommandé. Utiliser un entonnoir pour ne pas répandre d'huile sur des pièces chaudes (risque d'incendie), puis refermer le bouchon de remplissage.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Pour clean oil into the engine until the level recommended by the manufacturer is reached and tighten the oil filler cap."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Remplissez avec l'huile moteur."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Please refer to the maintenance document for your vehicle, or contact an authorised dealer."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Use a funnel or protect the filling neck area to avoid engine oil escaping on to a hot part of the engine compartment or a sensitive part (e.g. electrical components)."
+            }
+          ],
+          "text": "Remettre de l'huile moteur.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:14",
+      "sha256": "a4757d24226bd678683e0affed55047bf366e8f18752bbeabea123bded6566c2"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:15",
+      "no_claims": true,
+      "sha256": "51c07e8942c86605035277b16c6137ab45e8390dc44ed172c88011b7995f2d80"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c32",
+          "limite": "Le texte omet la conduite à tenir si le témoin ne s'éteint pas : couper aussitôt le moteur et vérifier le niveau (Filtron). Si le niveau est normal, la cause est autre ; faire appel à un professionnel (Renault, Filtron : capteur, câblage, pompe, usure, filtre inadapté). Il omet aussi le contrôle d'absence de fuite au filtre et aux bouchons de vidange, porté par Filtron et Nissan.",
+          "portee": "Filtron : après le remplacement d'un filtre vissé (témoin ou manomètre). Renault : Clio 5 phase 1, selon l'équipement et le pays. Nissan : Juke 2024.",
+          "proposed_wording": "Démarrer le moteur : le témoin de pression d'huile doit s'éteindre après quelques secondes. Vérifier l'absence de fuite autour du filtre et des bouchons de vidange. Si le témoin reste allumé, couper aussitôt le moteur et vérifier le niveau d'huile. S'il reste allumé à niveau correct, ne pas rouler et faire appel à un professionnel.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Start the engine and make sure that the oil pressure indicator has turned off or check that the oil pressure has reached the normal level on the pressure gauge if it has been installed in the vehicle."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Il s’allume à la mise sous contact ou au démarrage du moteur puis s’éteint après quelques secondes."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Faites démarrer le moteur et vérifiez qu'il n'y a aucune fuite au niveau du filtre à huile. Corrigez le problème, si nécessaire."
+            }
+          ],
+          "text": "Démarrer le moteur et vérifier que le témoin de pression d'huile s'éteint ; sur la Clio 5 phase 1, ce témoin, allumé au démarrage, s'éteint après quelques secondes.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c33",
+          "limite": "Le texte omet les conditions de lecture : moteur arrêté, attente de quelques minutes, sol horizontal (Filtron, Nissan, Renault). Il omet aussi la consigne de sécurité de Renault : si le niveau dépasse le maxi, ne pas démarrer et faire appel au réseau de la marque (risque pour le moteur et le catalyseur). Les repères mini et maxi valent pour les modèles Renault cités ; ailleurs, la notice du véhicule fait foi.",
+          "portee": "Filtron : plage recommandée par le constructeur, en général. Renault : Captur 2 (2019-2024) et Talisman (2019-2020), repères mini et maxi de la jauge. Nissan : Juke 2024.",
+          "proposed_wording": "Couper le moteur, attendre quelques minutes, puis lire le niveau à la jauge, véhicule sur sol horizontal. Le niveau doit se situer dans la plage recommandée par le constructeur, par exemple entre les repères mini et maxi sur les Renault Captur 2 et Talisman. S'il dépasse le maxi, ne pas redémarrer et faire appel à un professionnel.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Turn off the engine and check if the oil level in the engine is within the manufacturer's recommended range. Top up the oil to the required level."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Always check the engine oil level using the dipstick, as explained previously (it should never fall below the minimum level, or be over the maximum level on the dipstick)."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "If the oil level exceeds the maximum level, do not start your vehicle and contact an approved Dealer."
+            },
+            {
+              "cid": "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-talisman-re-5c4ca1a2.md",
+              "quote": "lisez le niveau : il ne doit jamais descendre en dessous du « mini » A ni dépasser le « maxi » B."
+            },
+            {
+              "cid": "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-talisman-re-5c4ca1a2.md",
+              "quote": "La lecture doit être faite sur sol horizontal et après un arrêt prolongé du moteur."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Arrêtez le moteur et attendez quelques minutes."
+            }
+          ],
+          "text": "Vérifier que le niveau d'huile se situe dans la plage recommandée par le constructeur, soit, sur les Renault Captur 2 et Talisman, entre les repères mini et maxi de la jauge.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "numeric_value"
+      ],
+      "id": "body:16",
+      "sha256": "0433dac0ae2e14f13f7bc7f7e549a530556664abf14092904052850c6b09e558"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:17",
+      "no_claims": true,
+      "sha256": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c34",
+          "limite": "Les captures ne couvrent pas les filtres à cartouche, pour lesquels seul l'élément filtrant se remplace (MAHLE).",
+          "portee": "Filtres vissés (Filtron) ; forfait Renault des véhicules de plus de 3 ans.",
+          "proposed_wording": null,
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Replacement of spin-on oil filters is always carried out when replacing engine oil and is offered by most car repair shops."
+            },
+            {
+              "cid": "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "path": "sources/auto-captures/filtre-a-huile/renault-fr-wl-filtre-a-huile-revision-renault-20261117-304c05bd.md",
+              "quote": "cela comprend : vidange, remplacement filtre à huile, 38 points de contrôle et main-d’œuvre associée (hors véhicule électrique, hors véhicules PTAC > 3,5 t et hors véhicules ayant + de 6 L d’huile)."
+            }
+          ],
+          "text": "Le filtre à huile se remplace avec la vidange (Filtron, pour le filtre vissé).",
+          "verdict": "conserver"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur"
+            ],
+            "proof": true
+          },
+          "id": "c35",
+          "limite": "Le texte omet les exclusions : véhicules électriques, PTAC supérieur à 3,5 t et plus de 6 L d'huile. Seul le domaine constructeur porte cette affirmation.",
+          "portee": "Offres Renault et Dacia en France, réservées aux particuliers, pour les véhicules de plus de 3 ans.",
+          "proposed_wording": "Les forfaits Renault et Dacia réservés aux particuliers pour les véhicules de plus de 3 ans comprennent la vidange et le remplacement du filtre à huile. Ils excluent les véhicules électriques, ceux de PTAC supérieur à 3,5 t et ceux de plus de 6 L d'huile.",
+          "retake_question": "Un éditeur indépendant de Renault et de Dacia confirme-t-il, pour ces marques, que le filtre à huile est remplacé à chaque vidange ?",
+          "sources": [
+            {
+              "cid": "sha256:cdad28e2327749850f0b1b472a02efd244fb01768acd18691fb84ee543ed0c37",
+              "path": "sources/auto-captures/filtre-a-huile/renault-fr-wl-filtre-a-huile-revision-renault-20261117-304c05bd.md",
+              "quote": "cela comprend : vidange, remplacement filtre à huile, 38 points de contrôle et main-d’œuvre associée (hors véhicule électrique, hors véhicules PTAC > 3,5 t et hors véhicules ayant + de 6 L d’huile)."
+            },
+            {
+              "cid": "sha256:ede68209dd00658dc725ed470eb5d29159c8ff1a5d563134060a794a8038dc47",
+              "path": "sources/auto-captures/filtre-a-huile/dacia-fr-wl-filtre-a-huile-revision-dacia-20261117-45b4c02f.md",
+              "quote": "Offre réservée aux particuliers sur les véhicules Dacia de plus de 3 ans."
+            }
+          ],
+          "text": "Les forfaits d'entretien de Renault et de Dacia pour les véhicules de plus de 3 ans comprennent la vidange et le remplacement du filtre à huile.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur"
+            ],
+            "proof": true
+          },
+          "id": "c36",
+          "limite": "Le texte omet le modèle et la zone concernés, ainsi que le calendrier pour conditions sévères. Seul le domaine constructeur porte cette affirmation.",
+          "portee": "Notice du Kia ProCeed 2021, Europe (sauf la Russie).",
+          "proposed_wording": "La notice du Kia ProCeed 2021 (Europe) prévoit de remplacer ensemble l'huile moteur et le filtre à huile.",
+          "retake_question": "Un équipementier ou un autre constructeur confirme-t-il, pour ce modèle, le remplacement conjoint de l'huile et du filtre ?",
+          "sources": [
+            {
+              "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "path": "sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md",
+              "quote": "Huile moteur et filtre à huile du moteur"
+            }
+          ],
+          "text": "Le programme d'entretien de la notice Kia prévoit de remplacer ensemble l'huile moteur et le filtre à huile.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c37",
+          "limite": "Le texte omet que l'échéance peut être raccourcie en conditions d'utilisation sévères (Kia) et qu'elle dépend du type de conduite et de la qualité de l'huile (MAHLE).",
+          "portee": "MAHLE : filtres à huile en général. Renault : Captur 2. Kia : ProCeed 2021, Europe.",
+          "proposed_wording": "L'échéance est celle que fixe le constructeur dans le document d'entretien du véhicule. Elle peut être plus courte en conditions d'utilisation sévères, par exemple pour les trajets courts, le remorquage ou l'usage d'une huile non recommandée. Cette fiche ne donne pas d'intervalle chiffré.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Service interval: refer to the maintenance document for your vehicle."
+            },
+            {
+              "cid": "sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32",
+              "path": "sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md",
+              "quote": "Si le véhicule est utilisé dans une des situations reprises ci-dessus, il convient de réaliser les inspections, les remplacements et les appoints plus souvent, selon le calendrier de maintenance pour service intensif au lieu du calendrier de maintenance pour service normal."
+            }
+          ],
+          "text": "L'échéance est celle que fixe le constructeur du véhicule (MAHLE ; la notice Renault Captur 2 renvoie la périodicité de vidange au document d'entretien) ; la fiche ne donne pas d'intervalle chiffré.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:18",
+      "sha256": "d1b2c705813a237aa96286079c8e922de23ee69fbef5c7ca44644670e5a4b543"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6"
+            ],
+            "concordance": "single_source",
+            "declassed_by": "model",
+            "declassed_from": "conserver",
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c38",
+          "limite": "Un seul domaine, un fabricant de filtres dont le texte contient aussi une promotion de ses produits. La notice Renault Clio 5 dit seulement qu'un niveau normal renvoie à « une autre cause », sans citer le filtre. Le texte omet que Filtron range un filtre inadapté parmi les causes possibles, et qu'un allumage bref après un changement de filtre est normal. Il omet aussi le recours à un professionnel quand le témoin persiste.",
+          "portee": "Filtron (fabricant de filtres), sans véhicule précis : témoin de basse pression d'huile qui ne s'éteint pas un moment après le démarrage du moteur, niveau d'huile correct. Les causes possibles sont le capteur, le câble, la pompe non amorcée, une obstruction de la conduite pompe-carter, l'usure du moteur, ou l'état du filtre (filtre inadapté ou trop faible, filtre périmé). Après un remplacement de filtre, un allumage bref est normal.",
+          "proposed_wording": "Pas forcément. Selon Filtron, fabricant de filtres, un allumage bref juste après un changement de filtre est normal, le temps que le filtre neuf se remplisse. Si le témoin reste allumé alors que le niveau d'huile est correct, la cause peut être le capteur de pression, son câblage, la pompe à huile, la conduite d'aspiration, l'usure du moteur, ou un filtre inadapté. Ce diagnostic relève d'un professionnel.",
+          "retake_question": "Une notice ou une documentation de constructeur cite-t-elle le filtre à huile (filtre inadapté, colmaté ou mal monté) parmi les causes d'un témoin de pression d'huile allumé avec un niveau correct ? Pour quels véhicules et dans quelle situation (au démarrage ou en roulant) ?",
+          "sources": [
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The reason for the oil warning light not going off may also be the condition of the filter:"
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The flow resistance may be too high due to the installation of an incorrect or weak filter"
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the system works correctly, the light turns on because the newly installed filter is empty for a brief moment."
+            }
+          ],
+          "text": "Le voyant de pression d'huile ne vient pas forcément du filtre.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "discordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": "other",
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c39",
+          "limite": "La règle générale « moteur tournant » est plus large que chacune des deux sources, qui portent sur des situations différentes. Les deux domaines ne couvrent pas la même portée. Le texte omet l'arrêt impératif, le recours au Représentant de la marque prescrit par Renault et, pour les autres véhicules, le renvoi à leur notice. Un allumage bref au démarrage puis l'extinction sont normaux.",
+          "portee": "Renault : Clio 5 phase 1 (18/12/2018 à 01/06/2023), témoin allumé sur route avec le témoin d'arrêt impératif et un signal sonore. Filtron : tout véhicule, témoin qui ne s'éteint pas un moment après le démarrage.",
+          "proposed_wording": "Il n'existe pas de règle unique pour tous les véhicules : suivez la notice de votre véhicule. Sur une Renault Clio 5 phase 1, si le témoin de pression d'huile s'allume en roulant, avec le témoin d'arrêt impératif et un signal sonore, arrêtez-vous impérativement, coupez le contact, vérifiez le niveau d'huile et faites appel à un Représentant de la marque.",
+          "retake_question": "Quelle conduite un constructeur prescrit-il, pour un autre modèle que la Clio 5 phase 1, quand le témoin de pression d'huile s'allume moteur tournant ? Un fabricant de filtres ou un second constructeur confirme-t-il la même conduite dans la même situation (en roulant ou au démarrage) ?",
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Faites appel à un Représentant de la marque."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+            }
+          ],
+          "text": "Un témoin de pression d'huile allumé moteur tournant demande de couper le moteur, puis de contrôler le niveau d'huile.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur"
+            ],
+            "proof": true
+          },
+          "id": "c40",
+          "limite": "Seul le domaine constructeur porte cette consigne, pour ce seul modèle. Le texte omet trois éléments : la condition (témoin d'arrêt impératif et signal sonore), le recours obligatoire au Représentant de la marque, et l'interdiction de redémarrer le moteur qu'impose le témoin d'arrêt impératif.",
+          "portee": "Renault Clio 5 phase 1 (18/12/2018 à 01/06/2023), affichage selon l'équipement et le pays. Témoin de pression d'huile allumé sur route avec le témoin d'arrêt impératif et un signal sonore.",
+          "proposed_wording": "Sur une Renault Clio 5 phase 1, si le témoin de pression d'huile s'allume en roulant, avec le témoin d'arrêt impératif et un signal sonore, arrêtez-vous impérativement dès que la circulation le permet et coupez le contact. Ne redémarrez pas le moteur. Vérifiez le niveau d'huile et faites appel à un Représentant de la marque.",
+          "retake_question": "Un second domaine (fabricant de filtres, équipementier ou autre constructeur) prescrit-il la même conduite pour un témoin de pression d'huile allumé en roulant, accompagné d'un témoin d'arrêt impératif ? Pour quels véhicules ?",
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Faites appel à un Représentant de la marque."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Il vous impose, pour votre sécurité, un arrêt impératif et immédiat compatible avec les conditions de circulation. Arrêtez le moteur et ne le redémarrez pas."
+            }
+          ],
+          "text": "La notice Renault de la Clio 5 phase 1, pour une alerte en roulant : s'arrêter, couper le contact, vérifier le niveau.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c41",
+          "limite": "La consigne de Filtron n'est portée que par le domaine équipementier. Le texte omet la précaution, que Renault rattache à l'appoint, de ne jamais dépasser le niveau maxi (sinon ne pas démarrer et faire appel à un Représentant de la marque). Il omet aussi le recours à un professionnel si le témoin reste allumé avec un niveau correct.",
+          "portee": "Filtron, sans véhicule précis : témoin de basse pression d'huile qui ne s'éteint pas un moment après le démarrage. Les captures Renault Captur 2 et Talisman portent sur l'appoint d'huile (ne pas dépasser le maxi) pour ces modèles.",
+          "proposed_wording": "Selon Filtron, fabricant de filtres, si le témoin de basse pression d'huile ne s'éteint pas un moment après le démarrage, coupez immédiatement le moteur, contrôlez le niveau d'huile et complétez si nécessaire, sans jamais dépasser le repère maxi de la jauge. Si le témoin reste allumé alors que le niveau est correct, faites appel à un professionnel.",
+          "retake_question": "Une notice de constructeur prescrit-elle de couper le moteur, de contrôler le niveau puis de compléter quand le témoin de pression d'huile ne s'éteint pas après le démarrage ? Pour quels véhicules, et prescrit-elle de ne pas redémarrer ?",
+          "sources": [
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while. In this case, turn off the engine immediately and check the engine oil level. Add more oil if necessary."
+            },
+            {
+              "cid": "sha256:e49866bfd1729d3ccc2139853834cf69d84c10153780335f82fb632bc08f42c2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-captur2-ren-a1fff257.md",
+              "quote": "Do not exceed the “maxi” level and do not forget to refit the cap 1 and the dipstick 2."
+            },
+            {
+              "cid": "sha256:a1cf9911981e258c9ea6bd3ece257659331ee053dc9fc26e0314cb14c9e8f9e2",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-niveau-talisman-re-5c4ca1a2.md",
+              "quote": "Si le niveau maxi est dépassé, ne démarrez pas votre véhicule et faites appel à un Représentant de la marque."
+            }
+          ],
+          "text": "Filtron, pour un témoin qui ne s'éteint pas un moment après le démarrage du moteur : couper immédiatement le moteur, contrôler le niveau, compléter si nécessaire.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "discordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": "other",
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c42",
+          "limite": "Les deux domaines disent qu'un niveau normal renvoie à une autre cause, mais pour des situations différentes : la portée n'est pas la même. Le texte omet le recours au Représentant de la marque prescrit par Renault et ne dit pas que ces causes relèvent d'un diagnostic professionnel. Il ne cite pas non plus le filtre parmi les causes listées par Filtron.",
+          "portee": "Renault : Clio 5 phase 1, alerte en roulant, cause non précisée et renvoi au Représentant de la marque. Filtron : tout véhicule, témoin persistant après le démarrage, liste de causes possibles (capteur, câble, pompe, conduite d'aspiration, usure du moteur, filtre).",
+          "proposed_wording": "Si le niveau d'huile est correct, le témoin signale une autre cause. La notice de la Renault Clio 5 phase 1 ne la précise pas et demande de faire appel à un Représentant de la marque. Filtron cite comme causes possibles : capteur de pression ou son câblage, pompe à huile mal amorcée, conduite d'aspiration obstruée, usure du moteur, ou filtre inadapté. Ce diagnostic relève d'un professionnel.",
+          "retake_question": "Un constructeur et un fabricant de filtres décrivent-ils, pour la même situation (témoin allumé en roulant, ou persistant après le démarrage) et le même véhicule, les causes d'un témoin de pression d'huile allumé avec un niveau d'huile correct ?",
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Faites appel à un Représentant de la marque."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "If the warning light does not go off at the correct oil level, it may be caused by one of the following reasons:"
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The oil pressure sensor may be malfunctioning."
+            }
+          ],
+          "text": "Si le niveau d'huile est normal, l'alerte a une autre cause : la notice Renault le dit en ces termes, et Filtron énumère alors d'autres causes possibles.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "numeric_value"
+      ],
+      "id": "body:19",
+      "sha256": "bf60a3ff55c8130834054af9bc849d42f46cf41a38fdcd8882bcfc12354badda"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:20",
+      "no_claims": true,
+      "sha256": "6960ce2f700a9da7cb850796696a841e0f5026f2609aad1e7e802aa0df102438"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "discordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": "other",
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c43",
+          "limite": "Les deux domaines portent des situations différentes, pas la même portée. La relation filtre-voyant n'est portée que par Filtron. Dacia, Nissan, Kia et MAHLE ne sont pas cités par le texte publié.",
+          "portee": "Les seules captures citées par le texte publié sont la notice Renault Clio 5 phase 1 (alerte en roulant) et la page Filtron sur le témoin (témoin persistant après le démarrage).",
+          "proposed_wording": "Les réponses publiées s'appuient sur un fabricant de filtres (Filtron) et un constructeur (Renault, notice de la Clio 5 phase 1), chacun pour une situation différente. Le lien entre le filtre et le voyant n'est porté que par Filtron.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+            },
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "There may be a problem if after starting the engine, the low oil pressure warning light does not go off after a while."
+            }
+          ],
+          "text": "Chaque affirmation publiée est confirmée par deux domaines : un fabricant de filtres (Filtron ou MAHLE, qui comptent pour un seul domaine) et un constructeur (Renault, Dacia, Nissan ou Kia).",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "discordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": "value",
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c44",
+          "limite": "Écarter les précautions portées par un seul domaine a conduit à omettre, dans la réponse sur le voyant, des consignes de sécurité de la notice Renault : arrêt impératif, ne pas redémarrer, faire appel à un Représentant de la marque. Une précaution de sécurité ne devrait pas être écartée faute de second domaine, mais publiée avec sa portée.",
+          "portee": "Le texte publié (body:19) ne contient effectivement aucune valeur de serrage, de couple, d'intervalle ou de préremplissage. Les valeurs de serrage diffèrent selon la source : Nissan Juke 2024, 2/3 de tour ; Filtron, en général ¾ à 1 tour.",
+          "proposed_wording": "Aucune valeur de serrage, de couple, d'intervalle ou de préremplissage n'est publiée : elles diffèrent selon le véhicule et le filtre (par exemple 2/3 de tour pour le Nissan Juke 2024, ¾ à 1 tour selon Filtron). Les précautions de sécurité et les cas qui demandent un professionnel sont publiés avec la portée de leur source, même lorsqu'un seul domaine les porte.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Faites appel à un Représentant de la marque."
+            },
+            {
+              "cid": "sha256:e9affa25f0e08698bc6cc72d5d609769c44f9c1942ba9c704cd323ed60677e61",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-remplacement-filtron-20261115-dd585111.md",
+              "quote": "Usually it is ¾ rotation or 1 rotation. For filters in diesel engines this may be more."
+            },
+            {
+              "cid": "sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509",
+              "path": "sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md",
+              "quote": "Vissez le filtre à huile jusqu'à ce qu'une légère résistance soit ressentie, puis serrez de 2/3 de tour supplémentaire pour fixer le filtre à huile correctement."
+            }
+          ],
+          "text": "Les affirmations qu'un seul domaine porte ne sont pas publiées (rôle du filtre, formes, clapets, critères de choix, qualité, précautions avant intervention, préremplissage, ordre de grandeur kilométrique) ; aucune valeur de serrage, de couple, d'intervalle ou de préremplissage n'est publiée.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c45",
+          "limite": "Le texte ne dit pas quelle relation est hypothétique ni pourquoi : seul Filtron, fabricant de filtres, la porte. Il ne dit pas non plus que le diagnostic relève d'un professionnel.",
+          "portee": "Filtron lie l'état du filtre au témoin persistant après le démarrage. Renault (Clio 5 phase 1) ne nomme pas la cause et renvoie au Représentant de la marque.",
+          "proposed_wording": "Le lien entre le filtre à huile et le voyant de pression n'est porté que par Filtron, fabricant de filtres. La notice Renault de la Clio 5 phase 1 ne le mentionne pas et renvoie vers un Représentant de la marque. Ce lien reste une hypothèse à faire confirmer par un professionnel.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:d625abd8d883cc3e553ee96d9c9904d34e6545a8bb0ed14781d5b2b87a2974e6",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-voyant-filtron-20261115-0d3695aa.md",
+              "quote": "The reason for the oil warning light not going off may also be the condition of the filter:"
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            }
+          ],
+          "text": "La relation diagnostic du voyant reste une hypothèse en confiance faible, non revue.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:21",
+      "sha256": "5ff2905f9dea0fb96d1b2d49bfc7e277aced9e7892257c09c62ea708105ec3a7"
+    }
+  ],
+  "subject": {
+    "commit": "69e8d51abb6064ad2f4326355a55576cc77b1816",
+    "path": "proposals/filtre-a-huile.md",
+    "repo": "ak125/automecanik-wiki",
+    "slug": "filtre-a-huile"
+  }
+}

@@ -1,183 +1,294 @@
 fiche: filtre-a-huile
 schema_version: 1.0.0
-generated_at: '2026-09-30'
+generated_at: '2026-11-18'
 coverage_entries:
-  # --- Filtron (clapets du filtre vissé) — source ACTIVE ---
-  # Deux claims déjà contrôlés contre la capture (captured) — inchangés.
-  - claim_id: filtre-huile-anti-retour-orientation
-    section: "## Fonctionnement"
-    text_anchor: "Il est surtout indispensable quand le filtre est monté horizontalement ou tête en bas"
-    source_slug: filtron_oem_clapets_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
+- claim_id: filtre-huile-temoin-couper-controler--renault-clio5p1-alerte-pression-huile
+  section: '## Symptômes & diagnostic'
+  text_anchor: demande de couper le moteur, puis de contrôler le niveau d'huile
+  source_slug: renault_clio5p1_alerte_pression_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-temoin-couper-controler--filtron-oem-voyant-pression-huile
+  section: '## Symptômes & diagnostic'
+  text_anchor: demande de couper le moteur, puis de contrôler le niveau d'huile
+  source_slug: filtron_oem_voyant_pression_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-temoin-niveau-normal-autre-cause--renault-clio5p1-alerte-pression-huile
+  section: '## Symptômes & diagnostic'
+  text_anchor: Si le niveau d'huile est normal, l'alerte a une autre cause
+  source_slug: renault_clio5p1_alerte_pression_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-temoin-niveau-normal-autre-cause--filtron-oem-voyant-pression-huile
+  section: '## Symptômes & diagnostic'
+  text_anchor: Si le niveau d'huile est normal, l'alerte a une autre cause
+  source_slug: filtron_oem_voyant_pression_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-remplace-avec-vidange--filtron-oem-remplacement-filtre-huile
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-remplace-avec-vidange--renault-entretien-revision-filtre-huile
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: renault_entretien_revision_filtre_huile
+  evidence_type: oem_service_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-remplace-avec-vidange--dacia-entretien-revision-filtre-huile
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: dacia_entretien_revision_filtre_huile
+  evidence_type: oem_service_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-remplace-avec-vidange--kia-programme-entretien-huile-filtre
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: kia_programme_entretien_huile_filtre
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-echeance-constructeur--mahle-oem-conception-filtre-huile
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: L'échéance est celle que fixe le constructeur du véhicule
+  source_slug: mahle_oem_conception_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-echeance-constructeur--renault-captur2-niveau-vidange-huile
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: L'échéance est celle que fixe le constructeur du véhicule
+  source_slug: renault_captur2_niveau_vidange_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-depose-cle-filtre--filtron-oem-remplacement-filtre-huile
+  section: '### Dépose'
+  text_anchor: déposer le filtre usagé, au besoin avec une clé à filtre
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-depose-cle-filtre--nissan-juke2024-remplacement-filtre-huile
+  section: '### Dépose'
+  text_anchor: déposer le filtre usagé, au besoin avec une clé à filtre
+  source_slug: nissan_juke2024_remplacement_filtre_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-depose-surface-ancien-joint--filtron-oem-remplacement-filtre-huile
+  section: '### Dépose'
+  text_anchor: s'assurer qu'il n'y reste rien de l'ancien joint
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-depose-surface-ancien-joint--nissan-juke2024-remplacement-filtre-huile
+  section: '### Dépose'
+  text_anchor: s'assurer qu'il n'y reste rien de l'ancien joint
+  source_slug: nissan_juke2024_remplacement_filtre_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-joint-huile--filtron-oem-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Enduire le joint du filtre neuf d'un peu d'huile moteur propre
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-joint-huile--nissan-juke2024-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Enduire le joint du filtre neuf d'un peu d'huile moteur propre
+  source_slug: nissan_juke2024_remplacement_filtre_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-vissage-complement--filtron-oem-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Visser le filtre neuf jusqu'à ce que son joint touche le moteur
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-vissage-complement--nissan-juke2024-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Visser le filtre neuf jusqu'à ce que son joint touche le moteur
+  source_slug: nissan_juke2024_remplacement_filtre_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-remettre-huile--filtron-oem-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Remettre de l'huile moteur
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-remettre-huile--nissan-juke2024-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Remettre de l'huile moteur
+  source_slug: nissan_juke2024_remplacement_filtre_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-controle-temoin-eteint--filtron-oem-remplacement-filtre-huile
+  section: '### Contrôles après montage'
+  text_anchor: vérifier que le témoin de pression d'huile s'éteint
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-controle-temoin-eteint--renault-clio5p1-alerte-pression-huile
+  section: '### Contrôles après montage'
+  text_anchor: vérifier que le témoin de pression d'huile s'éteint
+  source_slug: renault_clio5p1_alerte_pression_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-controle-niveau-plage--filtron-oem-remplacement-filtre-huile
+  section: '### Contrôles après montage'
+  text_anchor: Vérifier que le niveau d'huile se situe dans la plage recommandée
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-controle-niveau-plage--renault-captur2-niveau-vidange-huile
+  section: '### Contrôles après montage'
+  text_anchor: Vérifier que le niveau d'huile se situe dans la plage recommandée
+  source_slug: renault_captur2_niveau_vidange_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-controle-niveau-plage--renault-talisman-niveau-huile
+  section: '### Contrôles après montage'
+  text_anchor: Vérifier que le niveau d'huile se situe dans la plage recommandée
+  source_slug: renault_talisman_niveau_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-faq-quand-avec-vidange--filtron-oem-remplacement-filtre-huile
+  section: '## FAQ'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-faq-quand-avec-vidange--renault-entretien-revision-filtre-huile
+  section: '## FAQ'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: renault_entretien_revision_filtre_huile
+  evidence_type: oem_service_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-faq-quand-avec-vidange--dacia-entretien-revision-filtre-huile
+  section: '## FAQ'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: dacia_entretien_revision_filtre_huile
+  evidence_type: oem_service_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-faq-quand-avec-vidange--kia-programme-entretien-huile-filtre
+  section: '## FAQ'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: kia_programme_entretien_huile_filtre
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-faq-quand-echeance-constructeur--mahle-oem-conception-filtre-huile
+  section: '## FAQ'
+  text_anchor: L'échéance est celle que fixe le constructeur du véhicule
+  source_slug: mahle_oem_conception_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-faq-quand-echeance-constructeur--renault-captur2-niveau-vidange-huile
+  section: '## FAQ'
+  text_anchor: L'échéance est celle que fixe le constructeur du véhicule
+  source_slug: renault_captur2_niveau_vidange_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-faq-temoin-couper-controler--renault-clio5p1-alerte-pression-huile
+  section: '## FAQ'
+  text_anchor: demande de couper le moteur, puis de contrôler le niveau d'huile
+  source_slug: renault_clio5p1_alerte_pression_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-faq-temoin-couper-controler--filtron-oem-voyant-pression-huile
+  section: '## FAQ'
+  text_anchor: demande de couper le moteur, puis de contrôler le niveau d'huile
+  source_slug: filtron_oem_voyant_pression_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-faq-temoin-autre-cause--renault-clio5p1-alerte-pression-huile
+  section: '## FAQ'
+  text_anchor: Si le niveau d'huile est normal, l'alerte a une autre cause
+  source_slug: renault_clio5p1_alerte_pression_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: captured
+- claim_id: filtre-huile-faq-temoin-autre-cause--filtron-oem-voyant-pression-huile
+  section: '## FAQ'
+  text_anchor: Si le niveau d'huile est normal, l'alerte a une autre cause
+  source_slug: filtron_oem_voyant_pression_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+notes: 'Révision 10 du 2026-11-18 (complément n° 4 au mandat T, palier 2). Une entrée par
+  source et par affirmation : 15 affirmations, chacune portée par au moins un fabricant (Filtron
+  ou MAHLE, un seul domaine) et un constructeur (Renault, Dacia, Nissan ou Kia).
 
-  - claim_id: filtre-huile-bypass-huile-non-filtree
-    section: "## Symptômes & diagnostic"
-    text_anchor: "de l'huile non filtrée chargée de débris circule en permanence vers les organes en rotation"
-    source_slug: filtron_oem_clapets_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
 
-  # Nouveaux claims Filtron — à relire contre la capture avant passage en captured.
-  - claim_id: filtre-huile-clapets-selon-conception
-    section: "## Fonctionnement"
-    text_anchor: "Leur présence dépend de la conception du filtre, fixée par le constructeur du moteur ou du véhicule"
-    source_slug: filtron_oem_clapets_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-anti-retour-arret-moteur
-    section: "## Fonctionnement"
-    text_anchor: "Il empêche l'huile de s'échapper du filtre quand le moteur est arrêté"
-    source_slug: filtron_oem_clapets_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-bypass-colmatage-froid
-    section: "## Fonctionnement"
-    text_anchor: "il sert quand le filtre est colmaté, par exemple après un trop long délai entre deux remplacements, ou quand l'huile est froide et épaisse"
-    source_slug: filtron_oem_clapets_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-anti-siphon
-    section: "## Fonctionnement"
-    text_anchor: "Le filtre reste plein : au démarrage, l'huile arrive vite au moteur, ce qui réduit fortement le frottement à sec"
-    source_slug: filtron_oem_clapets_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  # --- MAHLE Aftermarket (conception, entretien, qualité) — source to_capture ---
-  - claim_id: filtre-huile-definition-visse-bloc
-    section: "## Définition"
-    text_anchor: "le boîtier et l'élément filtrant forment un seul bloc, qui se change en entier"
-    source_slug: mahle_oem_conception_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-definition-cartouche-element
-    section: "## Définition"
-    text_anchor: "au lieu de remplacer tout le filtre, on ne renouvelle que l'élément filtrant sale"
-    source_slug: mahle_oem_conception_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-role-contaminants
-    section: "## Rôle technique"
-    text_anchor: "Le filtre à huile empêche les impuretés d'entrer dans le circuit de lubrification"
-    source_slug: mahle_oem_conception_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  # Id historique conservé, ré-pointé de Filtron vers MAHLE (passage « differ in
-  # the oil pressure of the bypass valve … depending on the engine »).
-  - claim_id: filtre-huile-bypass-pression-engine-tied
-    section: "## Fonctionnement"
-    text_anchor: "La pression à laquelle il s'ouvre peut différer d'un filtre à l'autre selon le moteur"
-    source_slug: mahle_oem_conception_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-apparence-identique-interieur-different
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "beaucoup de filtres se ressemblent mais sont très différents à l'intérieur selon le moteur"
-    source_slug: mahle_oem_conception_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-qualite-selon-intervalle
-    section: "## Critères de choix selon le véhicule"
-    text_anchor: "plus l'intervalle de remplacement est long, plus la qualité du filtre à huile compte"
-    source_slug: mahle_oem_conception_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-remplacement-echeances-constructeur
-    section: "## Entretien & bonnes pratiques"
-    text_anchor: "aux échéances d'entretien fixées par le constructeur du véhicule"
-    source_slug: mahle_oem_conception_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-montage-correct
-    section: "## Entretien & bonnes pratiques"
-    text_anchor: "même un filtre de qualité ne fonctionne correctement que s'il a été bien monté"
-    source_slug: mahle_oem_conception_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-criteres-qualite-media-clapets
-    section: "## Marques & qualité"
-    text_anchor: "le papier filtrant, le clapet de dérivation (by-pass) et le clapet anti-retour"
-    source_slug: mahle_oem_conception_filtre_huile
-    evidence_type: oem_technical_page
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  # --- Notice Renault Clio 5 phase 1 (témoin de pression d'huile) — source to_capture ---
-  - claim_id: filtre-huile-alerte-pression-clio5-consigne
-    section: "## Symptômes & diagnostic"
-    text_anchor: "il faut s'arrêter impérativement et couper le contact, puis vérifier le niveau d'huile"
-    source_slug: renault_clio5p1_alerte_pression_huile
-    evidence_type: oem_owner_manual_excerpt
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-  - claim_id: filtre-huile-alerte-niveau-normal-autre-cause
-    section: "## Symptômes & diagnostic"
-    text_anchor: "Si le niveau est normal, l'alerte a une autre cause"
-    source_slug: renault_clio5p1_alerte_pression_huile
-    evidence_type: oem_owner_manual_excerpt
-    confidence: high
-    source_policy: 1_high
-    source_status: captured
-
-notes: |
-  Coverage map filtre-a-huile — réécrite 2026-09-30 avec la fiche.
-
-  17 claims, chacun rattaché à UNE page archivée dans RAW
-  (sources/auto-captures/filtre-a-huile/) :
-  - Filtron (active) : 2 claims déjà captured (inchangés) + 4 nouveaux en
-    pending_capture ;
-  - MAHLE Aftermarket (to_capture) : 9 claims pending_capture ;
-  - notice Renault Clio 5 phase 1 (to_capture) : 2 claims pending_capture.
-
-  Retirés avec leurs affirmations (aucune capture ne les prouve) : ISO 4548
-  (efficacité, by-pass, anti-retour), MANN-FILTER (média, cartouche/vissé,
-  clapets portés par le boîtier), règlement UE 461/2010 (trois niveaux, OES),
-  maintenance OEM générique (« à chaque vidange », capacité de rétention).
-
-  Passage en captured = acte propriétaire, après activation des sources MAHLE
-  et Renault (expected_sha256 + status active) et relecture de chaque claim
-  contre sa capture. Question ouverte pour le vault : une page produit
-  d'équipementier doit-elle rester typée oem_manual (plafond high) ?
+  35 entrées : 7 captured (MAHLE conception, notice Clio 5 phase 1), 28 pending_capture (Filtron
+  remplacement et témoin, capturés par automecanik-raw PR #78 le 2026-11-15 ; Renault révision,
+  Dacia, notices Captur 2 et Talisman, capturés par la même PR le 2026-11-17 ; notices Nissan
+  Juke 2024 et Kia, capturées par la même PR le 2026-11-17 au palier 2). Passage en captured
+  = activation owner de la source après fusion RAW, puis relecture du claim contre sa capture.'

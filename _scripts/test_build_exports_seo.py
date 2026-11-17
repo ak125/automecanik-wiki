@@ -28,8 +28,13 @@ SCRIPT_PATH = Path(__file__).resolve().parent / "build_exports_seo.py"
 
 
 def test_editorial_contract_keys_match_export_taxonomy():
+    """La prose d'authoring (SECTION_SPEC) couvre les 9 sections scorées. Les sections ajoutées en
+    v1.2.0 ne sont pas produites depuis une prose : procédures/sécurité = truth_level sourced
+    uniquement (ADR-086 §2bis), selection_faq = qa seulement (ADR-107 D3, ADR-111 D3)."""
     from editorial_sections import SECTION_SPEC
-    assert set(SECTION_SPEC) == set(builder._GAMME_EDITORIAL_ROLES)
+    not_authored_from_prose = {"removal_procedure", "installation_procedure", "post_install_checks",
+                               "safety_warnings", "selection_faq"}
+    assert set(SECTION_SPEC) == set(builder._GAMME_EDITORIAL_ROLES) - not_authored_from_prose
 
 
 def _valid_payload() -> dict:
@@ -333,7 +338,7 @@ def test_builder_accepts_gamme_approved_exportable(tmp_path: Path) -> None:
     payload = builder.build_export(src, tmp_path, "abc1234")
     assert payload is not None
     assert payload["entity_id"] == "gamme:filtre-a-huile"
-    assert payload["schema_version"] == "1.1.0"  # bump ADR-086 (blocks v1.1.0)
+    assert payload["schema_version"] == "1.2.0"  # bump ADR-107 D4 (blocks[].qa v1.2.0)
     assert payload["projection_contract_version"] == "1.0.0"
     assert payload["source_wiki_commit"] == "abc1234"
     assert payload["wiki_path"] == "wiki/gamme/filtre-a-huile.md"
@@ -610,7 +615,7 @@ def test_gamme_editorial_maps_to_role_aware_blocks() -> None:
     ed_blocks = [b for b in blocks if b["section"] in builder._GAMME_EDITORIAL_ROLES]
     assert len(ed_blocks) == 9, "les 9 sections éditoriales doivent produire 9 blocs"
     for b in ed_blocks:
-        assert b["role"] == builder._GAMME_EDITORIAL_ROLES[b["section"]], "rôle ≠ taxonomie"
+        assert b["role"] == builder._GAMME_EDITORIAL_ROLES[b["section"]][0], "rôle ≠ taxonomie"
         assert b["content_md"] and b["source_ids"] and b["truth_level"]
 
 
@@ -680,6 +685,138 @@ def test_entity_data_editorial_media_validates_against_gamme_schema() -> None:
     schema = json.loads(GAMME_ED_SCHEMA_PATH.read_text(encoding="utf-8"))
     ed = _gamme_fm_with_editorial()["entity_data"]
     jsonschema.validate(ed, schema)  # editorial + media conformes au canon entity-data v2.3.0
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# v1.2.0 (ADR-107 D2/D4, ADR-111 D3, ADR-086 §2bis) — qa typé + sections procédurales
+# ──────────────────────────────────────────────────────────────────────────────
+_QA = [
+    {"question": "Que remplace-t-on lors de l'entretien ?",
+     "answer_md": "Le filtre vissé en entier, ou seulement l'élément filtrant d'une cartouche.",
+     "source_ids": ["oem:b"]},
+    {"question": "Faut-il huiler le joint ?",
+     "answer_md": "Oui, d'une fine couche d'huile moteur propre.",
+     "source_ids": ["oem:a", "oem:b"]},
+]
+
+
+def _fm_qa(**editorial) -> dict:
+    return {"entity_type": "gamme", "slug": "x", "source_refs": [], "entity_data": {
+        "pg_id": 7, "family": "filtration", "editorial": editorial}}
+
+
+def _faq_qa(qa=None, sources=("oem:a", "oem:b"), **extra) -> dict:
+    return {"qa": [dict(p) for p in (qa or _QA)], "source_ids": list(sources),
+            "truth_level": "sourced", **extra}
+
+
+def _blocks(fm) -> list[dict]:
+    return builder._extract_facts_sources_blocks(fm, "", "gamme")[2]
+
+
+def test_qa_derives_content_md_and_sorted_source_union() -> None:
+    [b] = [b for b in _blocks(_fm_qa(faq=_faq_qa(sources=("oem:b", "oem:a")))) if b["section"] == "faq"]
+    assert b["role"] == "R3_CONSEILS"
+    assert b["qa"] == _QA, "qa recopié tel quel, dans l'ordre du WIKI"
+    assert b["content_md"] == (
+        "**Que remplace-t-on lors de l'entretien ?** Le filtre vissé en entier, ou seulement "
+        "l'élément filtrant d'une cartouche.\n\n**Faut-il huiler le joint ?** Oui, d'une fine "
+        "couche d'huile moteur propre.")
+    assert b["content_md"] == builder.render_qa_content_md(b["qa"])
+    assert b["source_ids"] == ["oem:a", "oem:b"], "union triée des sources des paires"
+
+
+@pytest.mark.parametrize("entry", [
+    _faq_qa(sources=("oem:a",)),                       # union ≠ déclaré (manque oem:b)
+    _faq_qa(sources=("oem:a", "oem:b", "oem:c")),      # source déclarée sans paire
+    _faq_qa(content_md="Prose écrite à la main à côté de qa, interdite par ADR-107 D2 une seule vérité."),
+    _faq_qa(qa=[{"question": "Sans point d'interrogation", "answer_md": "x", "source_ids": ["oem:a"]}],
+            sources=("oem:a",)),
+    _faq_qa(qa=[{"question": "Réponse vide ?", "answer_md": " ", "source_ids": ["oem:a"]}],
+            sources=("oem:a",)),
+    _faq_qa(qa=[{"question": "Sans source ?", "answer_md": "x", "source_ids": []}], sources=("oem:a",)),
+    _faq_qa(qa=[{"question": "Source non préfixée ?", "answer_md": "x", "source_ids": ["mahle"]}],
+            sources=("mahle",)),
+    {"qa": [], "source_ids": ["oem:a"], "truth_level": "sourced"},
+])
+def test_qa_guard_blocks_export_on_divergence(entry) -> None:
+    with pytest.raises(click.ClickException):
+        _blocks(_fm_qa(faq=entry))
+
+
+def test_faq_prose_without_qa_unchanged() -> None:
+    """Rétro-compatibilité : un bloc faq en prose sort comme avant, sans clé qa."""
+    prose = _ed("Faut-il changer le filtre à chaque vidange ? Oui, selon les échéances du constructeur.", "oem:a")
+    [b] = [b for b in _blocks(_fm_qa(faq=prose)) if b["section"] == "faq"]
+    assert "qa" not in b and b["content_md"] == prose["content_md"]
+
+
+def test_selection_faq_emitted_under_r1_router_faq_and_role_allowed() -> None:
+    fm = _fm_qa(selection_faq=_faq_qa())
+    blocks = _blocks(fm)
+    [b] = [b for b in blocks if b["role"] == "R1_ROUTER"]
+    assert b["section"] == "faq" and b["qa"] == _QA
+    roles = builder._compute_roles_allowed(fm, "gamme", blocks)
+    assert roles[0] == "R1_ROUTER" and set(roles) >= {"R3_CONSEILS", "R4_REFERENCE", "R6_GUIDE_ACHAT"}
+
+
+def test_roles_allowed_unchanged_without_r1_block() -> None:
+    fm = _gamme_fm_with_editorial()
+    assert builder._compute_roles_allowed(fm, "gamme", _blocks(fm)) == ["R3_CONSEILS", "R4_REFERENCE", "R6_GUIDE_ACHAT"]
+
+
+_PROC = ("Déposer le filtre usagé avec une clé adaptée si nécessaire, nettoyer la portée et retirer "
+         "l'ancien joint.")
+
+
+@pytest.mark.parametrize("section", ["removal_procedure", "installation_procedure",
+                                     "post_install_checks", "safety_warnings"])
+def test_procedure_sections_emitted_r3_sourced_only(section) -> None:
+    [b] = [b for b in _blocks(_fm_qa(**{section: _ed(_PROC, "oem:a", truth="sourced")}))
+           if b["section"] == section]
+    assert b["role"] == "R3_CONSEILS" and b["truth_level"] == "sourced"
+    for forbidden in ("inferred", "editorial"):
+        with pytest.raises(click.ClickException):
+            _blocks(_fm_qa(**{section: _ed(_PROC, "oem:a", truth=forbidden)}))
+
+
+def test_v120_export_with_qa_validates_schema() -> None:
+    fm = _fm_qa(faq=_faq_qa(), selection_faq=_faq_qa(),
+                removal_procedure=_ed(_PROC, "oem:a", truth="sourced"))
+    facts, sources, blocks = builder._extract_facts_sources_blocks(fm, "", "gamme")
+    payload = _valid_payload()
+    payload["facts"], payload["sources"], payload["blocks"] = facts, sources, blocks
+    payload["schema_version"] = builder.SCHEMA_VERSION
+    payload["roles_allowed"] = builder._compute_roles_allowed(fm, "gamme", blocks)
+    _validate(payload)
+
+
+def test_export_schema_rejects_bad_qa_pair() -> None:
+    import jsonschema
+    payload = _valid_payload()
+    payload["blocks"] = [{"role": "R3_CONSEILS", "section": "faq", "content_md": "x",
+                          "source_ids": ["oem:a"], "truth_level": "sourced",
+                          "qa": [{"question": "Pas de point", "answer_md": "x", "source_ids": ["oem:a"]}]}]
+    with pytest.raises(jsonschema.ValidationError):
+        _validate(payload)
+
+
+def test_gamme_schema_v250_qa_one_truth_and_procedure_lock() -> None:
+    import jsonschema
+    schema = json.loads(GAMME_ED_SCHEMA_PATH.read_text(encoding="utf-8"))
+    base = {"pg_id": 7, "family": "filtration"}
+    ok = {**base, "editorial": {"faq": _faq_qa(), "selection_faq": _faq_qa(),
+                                "safety_warnings": _ed(_PROC, "oem:a", truth="sourced")}}
+    jsonschema.validate(ok, schema)
+    for bad in (
+        {"faq": _faq_qa(content_md="x" * 80)},                                 # content_md + qa
+        {"faq": {"source_ids": ["oem:a"], "truth_level": "sourced"}},          # ni content_md ni qa
+        {"faq": _faq_qa(qa=[{"question": "Sans point", "answer_md": "x", "source_ids": ["oem:a"]}])},
+        {"installation_procedure": _ed(_PROC, "oem:a", truth="inferred")},     # lock sourced
+        {"selection_faq": _faq_qa(qa=[{"question": "Q ?", "answer_md": "x", "source_ids": []}])},
+    ):
+        with pytest.raises(jsonschema.ValidationError):
+            jsonschema.validate({**base, "editorial": bad}, schema)
 
 
 # ──────────────────────────────────────────────────────────────────────────────

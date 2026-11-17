@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://github.com/ak125/automecanik-wiki/_meta/schema/exports-seo.schema.json",
-  "title": "automecanik-wiki exports/seo/ contract v1.1.0",
-  "description": "Schema strict pour wiki/exports/seo/<entity_type>/<slug>.json. Vue dérivée éphémère du wiki canon. Référence : ADR-059 SEO Runtime Projection §Décision (accepted 2026-05-13). v1.1.0 (ADR-086, 2026-06-13) : blocks portent source_ids[] préfixés + truth_level + usefulness_target — le canon WIKI structuré (entity_data.dimensions/decision_brief/maintenance/related_parts) est projeté en facts/blocks role-aware.",
+  "title": "automecanik-wiki exports/seo/ contract v1.2.0",
+  "description": "Schema strict pour wiki/exports/seo/<entity_type>/<slug>.json. Vue dérivée éphémère du wiki canon. Référence : ADR-059 SEO Runtime Projection §Décision (accepted 2026-05-13). v1.1.0 (ADR-086, 2026-06-13) : blocks portent source_ids[] préfixés + truth_level + usefulness_target — le canon WIKI structuré (entity_data.dimensions/decision_brief/maintenance/related_parts) est projeté en facts/blocks role-aware. v1.2.0 (ADR-107 D2/D4, MINOR) : champ optionnel blocks[].qa (paires question-réponse typées) sur les blocs FAQ (R3_CONSEILS/faq, R1_ROUTER/faq ADR-111). content_md reste requis : il est le rendu déterministe de qa (question en gras, puis réponse, une paire par paragraphe) et source_ids est l'union triée des sources des paires. projection_contract_version inchangé.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -116,7 +116,27 @@
             "enum": ["db_owned", "sourced", "inferred", "editorial"],
             "description": "ADR-086 : db_owned (DB) | sourced (web/oem) | inferred (dérivé) | editorial (reformulé)."
           },
-          "usefulness_target": { "type": ["string", "null"] }
+          "usefulness_target": { "type": ["string", "null"] },
+          "qa": {
+            "type": "array",
+            "minItems": 1,
+            "description": "ADR-107 D2 — paires question-réponse typées, dans l'ordre du WIKI. Source unique de FAQPage sur le chemin projeté (ADR-107 D3). Présent seulement sur un bloc de section faq.",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["question", "answer_md", "source_ids"],
+              "properties": {
+                "question": { "type": "string", "minLength": 2, "pattern": "\\?$" },
+                "answer_md": { "type": "string", "minLength": 1 },
+                "source_ids": {
+                  "type": "array",
+                  "minItems": 1,
+                  "uniqueItems": true,
+                  "items": { "type": "string", "minLength": 1, "pattern": "^(db|web|raw|oem|specialist):" }
+                }
+              }
+            }
+          }
         }
       }
     },

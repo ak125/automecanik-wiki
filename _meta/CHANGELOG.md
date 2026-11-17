@@ -3,6 +3,15 @@
 > Versionnage du schema canonique frontmatter + exports + entity-data.
 > Bump majeur (X.0) = breaking change. Bump mineur (X.Y) = ajout rétrocompatible. Bump patch (X.Y.Z) = clarification.
 
+## \[1.4.0\] — 2026-11-15
+
+ADR-107 D2–D4 (FAQ en paires `qa`), ADR-086 §2bis (sections de procédure) et ADR-111 D3 (FAQ de sélection R1), contrat seul. Ajout rétrocompatible : tous les champs sont optionnels, aucune fiche existante ne change et les 5 exports actuels restent valides. Aucune fiche n'émet `qa` tant que l'avis MOC de 30 jours n'est pas publié et que le consommateur ne valide pas `qa` (ADR-107 D4).
+
+- `entity-data/gamme.schema.json` v2.5.0 : `faq` et `selection_faq` portent soit `content_md` en prose, soit `qa` (paires `question` finissant par « ? », `answer_md`, `source_ids` préfixés), jamais les deux. `removal_procedure`, `installation_procedure`, `post_install_checks` et `safety_warnings` exigent `truth_level: sourced`.
+- `exports-seo.schema.json` contrat 1.2.0 : bloc `qa` facultatif ; `content_md` reste obligatoire, c'est le rendu déterministe des paires. `projection_contract_version` inchangé (1.0.0).
+- `_scripts/build_exports_seo.py` 1.2.0 : `content_md` dérivé de `qa` (question en gras, puis réponse, une paire par paragraphe), `source_ids` = union triée des paires ; toute divergence entre l'union et les `source_ids` déclarés bloque l'export. Les 4 sections de procédure sont émises sous `R3_CONSEILS`, `selection_faq` sous `R1_ROUTER/faq` ; `R1_ROUTER` n'entre dans `roles_allowed` que pour une gamme qui émet ce bloc, lecture d'ADR-111 D3 retenue pour laisser les autres exports identiques.
+- Tests : `_scripts/test_build_exports_seo.py` (dérivation, garde de divergence, rôle R1, verrou `sourced`, validation des deux schémas).
+
 ## \[1.3.0\] — 2026-10-16
 
 ADR-116 (relations hors sécurité relues par une règle de preuve), mise en œuvre report-only. Ajout rétrocompatible : les deux champs sont optionnels, aucune fiche existante ne change, et le décideur n'en écrit aucun tant que `RELATION_REVIEW_ADR` est vide (ADR-116 D4).

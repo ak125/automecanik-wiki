@@ -1,0 +1,220 @@
+{
+  "contests": {
+    "artifact_sha256": "580914859b63f43d1e99abe40a51cbc2af1e0ef4ee221c97b2539168ea214cac",
+    "reviewer_model": "claude-opus-5-5",
+    "reviewer_provider": "anthropic"
+  },
+  "freshness": {
+    "checked_at": "2026-11-15T09:19:00Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "401314c6bb349378dcd9a9b15e773795e5d5d3d3",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "50855b794348b0d312382396e30cb3d4667ee5a07e7749a0492fc42ce5ba6447",
+  "key_inputs": {
+    "capture_domains": [
+      {
+        "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Filtron (MANN+HUMMEL)"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "MAHLE Aftermarket"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      }
+    ],
+    "captures": [
+      {
+        "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md"
+      }
+    ],
+    "domain_basis": "calib/catalog-publisher-class.yaml hors dépôt (sha256 ca75e3a459c75217e68c8250fe73a1bec1868b0de55814043323a141e400fcb7) : _meta/source-catalog.yaml de WIKI 67e49d821f17a73692ca0eb976791bcb092483ca + publisher_class des 8 captures d'éditeur des cas (hypothèse d'étalonnage, rapport.md)",
+    "domain_definition": "publisher_class",
+    "skill_sha256": "bbab905fb5183582c34591fa930aa2de651b4f9f289a82f447c6c74593bb2b65",
+    "text_sha256": "9c1b1be8ab441a7436e7371413c712a0c921dd002ea23f17d53a97cc1fb4e656"
+  },
+  "missed": [],
+  "producer": {
+    "basis": "provenance.ingested_by de bd29675:proposals/filtre-a-huile.md ; _meta/source-policy.md:74",
+    "declared": "skill:wiki-proposal-writer",
+    "provider": "anthropic"
+  },
+  "reviewer": {
+    "cli_version": "0.144.4",
+    "model": "gpt-5.6-sol",
+    "provider": "openai"
+  },
+  "role": "contestation",
+  "schema_version": "technical-qualification/v2",
+  "segments": [
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:2",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "position": "agree",
+          "statement": "Le remplacement à chaque vidange n'est pas établi ; il faut renvoyer aux intervalles d'entretien fixés par le constructeur.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The bypass valve is used when the filter is clogged due to a long period of time between replacements or when the vehicle is running at a low temperature (when the oil is cold and dense)."
+          },
+          "position": "agree",
+          "statement": "L'ouverture du by-pass doit être limitée aux filtres qui en sont équipés et peut aussi résulter d'une huile froide et visqueuse ; « prématurément » n'est pas établi.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c2",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+          },
+          "position": "agree",
+          "statement": "Les captures établissent le remplacement du filtre vissé en bloc ou le renouvellement de la cartouche, mais pas une interdiction générale de réutiliser tout filtre papier jetable.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c3",
+          "passage": null,
+          "position": "agree",
+          "statement": "Aucune capture ne traite du nettoyage d'un filtre à huile.",
+          "verdict": "retirer"
+        }
+      ],
+      "sha256": "dc10bf8b501a5f735bfbb20e42b74190045955fe3f1de4cbadb026f080490896"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:3",
+      "positions": [
+        {
+          "claim_id": "c4",
+          "passage": null,
+          "position": "agree",
+          "statement": "Aucune capture ne prescrit de vérifier le retrait de l'ancien joint ni ne documente le risque de double joint.",
+          "verdict": "retirer"
+        },
+        {
+          "claim_id": "c5",
+          "passage": null,
+          "position": "agree",
+          "statement": "Aucune capture ne prescrit d'huiler le joint neuf.",
+          "verdict": "retirer"
+        },
+        {
+          "claim_id": "c6",
+          "passage": null,
+          "position": "agree",
+          "statement": "Aucune capture ne donne cette méthode de vissage ou de serrage.",
+          "verdict": "retirer"
+        }
+      ],
+      "sha256": "92aa51a7a25b06913490f7d2469d4016d0752bcd7fbc38b007bc06278b6f9ea9"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:4",
+      "positions": [
+        {
+          "claim_id": "c7",
+          "passage": null,
+          "position": "agree",
+          "statement": "Aucune capture ne prescrit le remplacement et le positionnement des joints toriques.",
+          "verdict": "retirer"
+        },
+        {
+          "claim_id": "c8",
+          "passage": null,
+          "position": "agree",
+          "statement": "Aucune capture ne mentionne un tube central ni sa repose.",
+          "verdict": "retirer"
+        },
+        {
+          "claim_id": "c9",
+          "passage": null,
+          "position": "agree",
+          "statement": "Aucune capture ne prescrit un couple de serrage du couvercle.",
+          "verdict": "retirer"
+        }
+      ],
+      "sha256": "7d7be99498806d232dfb6be30cbddaefecde1e109f56b042a5bd7cb2b23d79b4"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:6",
+      "positions": [
+        {
+          "claim_id": "c10",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "instead of replacing the complete filter, only the dirty filter element has to be renewed."
+          },
+          "position": "agree",
+          "statement": "Les captures portent le remplacement du filtre vissé ou de l'élément de cartouche, sans établir la règle générale visant tout élément papier jetable.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c11",
+          "passage": null,
+          "position": "agree",
+          "statement": "Aucune capture n'établit que le nettoyage endommage le média.",
+          "verdict": "retirer"
+        }
+      ],
+      "sha256": "c045b3c1861fc2079208630b74f77f17ceeb8691a57de813dedd5e774ebe0e62"
+    }
+  ],
+  "subject": {
+    "commit": "bd2967566af89414f01a205c646d5959da0a4e82",
+    "path": "proposals/filtre-a-huile.md (extrait : consignes retirées par 678c113, #97)",
+    "repo": "ak125/automecanik-wiki",
+    "slug": "filtre-a-huile"
+  }
+}

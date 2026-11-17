@@ -1,0 +1,193 @@
+{
+  "contests": {
+    "artifact_sha256": "c06d5564245268b36e1707b730eea847d928ede1b65c7b8595cf5f8c901514d9",
+    "reviewer_model": "claude-opus-5-5",
+    "reviewer_provider": "anthropic"
+  },
+  "freshness": {
+    "checked_at": "2026-11-15T09:19:00Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "401314c6bb349378dcd9a9b15e773795e5d5d3d3",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "28ffb476c9c2906b7110db9b165cdca7fd03d41e88a4efd790dbd7c9dc040718",
+  "key_inputs": {
+    "captures": [
+      {
+        "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md"
+      }
+    ],
+    "skill_sha256": "52a78abd5f4566cb32a177bd84586f9055204494de9f256b76b991b1288c241d",
+    "text_sha256": "9f7a06b8e4e928766c6efff32c479368236e78d6e57ca48b64e17b08fb2e4429"
+  },
+  "missed": [],
+  "producer": {
+    "basis": "maquette du PC de l'owner, hors WIKI : producteur non consigné ; L155 et L157 rédigées par le 11 (Space ChatGPT) le 2026-11-07",
+    "declared": null,
+    "provider": "unknown"
+  },
+  "reviewer": {
+    "cli_version": "0.144.4",
+    "model": "gpt-5.6-sol",
+    "provider": "openai"
+  },
+  "role": "contestation",
+  "schema_version": "technical-qualification/v1",
+  "segments": [
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:2",
+      "positions": [
+        {
+          "claim_id": "c0",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine."
+          },
+          "position": "agree",
+          "statement": "Les captures établissent une dépendance au moteur, mais ne justifient pas l’ordre de recherche proposé.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c1",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "For example, they may be with or without anti-drain valve or have different connection threads. They also can differ in the oil pressure of the bypass valve, filter media, the fineness of the filter or the permissible operational overpressure."
+          },
+          "position": "agree",
+          "statement": "La vérification des restrictions est justifiée, mais le texte n’explicite ni leur nature ni leur enjeu pour la lubrification.",
+          "verdict": "preciser"
+        },
+        {
+          "claim_id": "c2",
+          "passage": null,
+          "position": "agree",
+          "statement": "Aucune capture ne porte le recoupement de la sélection au moyen d’une référence d’origine.",
+          "verdict": "retirer"
+        }
+      ],
+      "sha256": "9ec97dbc77ac6f05db711bece9a5c892a323dca094e7fd0d84883baae4c9c330"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:3",
+      "positions": [
+        {
+          "claim_id": "c3",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+          },
+          "position": "agree",
+          "statement": "La capture distingue bien le filtre vissé, remplacé comme une unité, de la cartouche montée dans un boîtier démontable.",
+          "verdict": "conserver"
+        },
+        {
+          "claim_id": "c4",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine."
+          },
+          "position": "contest",
+          "statement": "Les captures justifient de choisir un filtre adapté au moteur, mais aucune ne permet de conclure explicitement qu’il ne faut pas convertir un montage cartouche en montage vissé.",
+          "verdict": "retirer"
+        }
+      ],
+      "sha256": "3c9ac1966be16946c34a66185b1cf294f22b01de180d431d69c55979cdd00e62"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:4",
+      "positions": [
+        {
+          "claim_id": "c5",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "For example, they may be with or without anti-drain valve or have different connection threads. They also can differ in the oil pressure of the bypass valve, filter media, the fineness of the filter or the permissible operational overpressure."
+          },
+          "position": "agree",
+          "statement": "La dépendance au moteur étaye le fait que le modèle et l’année ne suffisent pas, mais les différences techniques pertinentes devraient être précisées.",
+          "verdict": "preciser"
+        }
+      ],
+      "sha256": "4736f6bc70dcce7a632599aa58a878ee64d9771bafa19d8322512c79efee6454"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:5",
+      "positions": [
+        {
+          "claim_id": "c6",
+          "passage": {
+            "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+            "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+            "quote": "The FILTRON range holds more than 2700 products, and covers 97% of the European passenger-car market."
+          },
+          "position": "agree",
+          "statement": "Les captures rendent plausible l’existence de références de remplacement, mais ne définissent pas à elles seules une règle d’équivalence entre marques et imposent de préciser les caractéristiques de compatibilité.",
+          "verdict": "preciser"
+        }
+      ],
+      "sha256": "2443768a22ed344b14ba3526bc4c72448a77b4b6889d61f3e1206057c9e70354"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:6",
+      "positions": [
+        {
+          "claim_id": "c7",
+          "passage": {
+            "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+            "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+            "quote": "an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+          },
+          "position": "agree",
+          "statement": "Le renvoi général à la documentation doit être complété par l’intervalle prescrit par le constructeur et par l’exigence d’un montage correct ; le « guide du filtre à huile » n’est pas porté par les captures.",
+          "verdict": "preciser"
+        }
+      ],
+      "sha256": "8a21b8667eddb99995608ed3395f3474ec9828ff9236df489db8b14fe90e57c3"
+    }
+  ],
+  "subject": {
+    "commit": null,
+    "path": "lignes 153-157 ; réponses de L155 et L157 = formulations proposées par le 11 le 2026-11-07 (texte d'origine inconnu)",
+    "repo": "pc:r1-atelier.html (avant-faq, sha256 eb57e4ad8169a253886edf67b211036d5b3ec2e1a0dc3197bda14e003252e939)",
+    "slug": "filtre-a-huile"
+  }
+}

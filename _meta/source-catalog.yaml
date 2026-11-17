@@ -616,6 +616,7 @@ sources:
     title: 'MAHLE Aftermarket — conception et entretien des filtres à huile (vissé, cartouche, by-pass, média)'
     type: oem_manual                            # → max confidence: high
     publisher: 'MAHLE Aftermarket'
+    publisher_class: equipementier
     year: null
     raw_ref:
       repo: automecanik-raw
@@ -640,6 +641,7 @@ sources:
     title: 'Renault Clio 5 phase 1 — notice : témoin de pression d’huile et arrêt impératif'
     type: oem_manual                            # → max confidence: high
     publisher: 'Renault'
+    publisher_class: constructeur
     year: null
     raw_ref:
       repo: automecanik-raw
@@ -660,6 +662,7 @@ sources:
     title: 'Filtron (groupe MANN+HUMMEL) — remplacement d’un filtre à huile vissé (spin-on)'
     type: oem_manual                            # → max confidence: high
     publisher: 'Filtron (MANN+HUMMEL)'
+    publisher_class: equipementier
     year: null
     raw_ref:
       repo: automecanik-raw
@@ -682,6 +685,7 @@ sources:
     title: 'Filtron (groupe MANN+HUMMEL) — signification du témoin de pression d’huile'
     type: oem_manual                            # → max confidence: high
     publisher: 'Filtron (MANN+HUMMEL)'
+    publisher_class: equipementier
     year: null
     raw_ref:
       repo: automecanik-raw
@@ -746,6 +750,7 @@ sources:
     title: 'Renault — entretien et révision : vidange avec remplacement du filtre à huile'
     type: oem_manual                            # → max confidence: high
     publisher: 'Renault'
+    publisher_class: constructeur
     year: null
     raw_ref:
       repo: automecanik-raw
@@ -766,6 +771,7 @@ sources:
     title: 'Dacia — entretien : vidange avec remplacement du filtre à huile'
     type: oem_manual                            # → max confidence: high
     publisher: 'Dacia'
+    publisher_class: constructeur
     year: null
     raw_ref:
       repo: automecanik-raw
@@ -785,6 +791,7 @@ sources:
     title: 'Renault Captur 2 — notice : niveau d’huile moteur, appoint, vidange'
     type: oem_manual                            # → max confidence: high
     publisher: 'Renault'
+    publisher_class: constructeur
     year: null
     raw_ref:
       repo: automecanik-raw
@@ -805,6 +812,7 @@ sources:
     title: 'Renault Talisman — notice : niveau d’huile moteur, généralités'
     type: oem_manual                            # → max confidence: high
     publisher: 'Renault'
+    publisher_class: constructeur
     year: null
     raw_ref:
       repo: automecanik-raw
@@ -825,6 +833,7 @@ sources:
     title: 'Volkswagen — fluides et huile moteur : rôle du filtre à huile'
     type: oem_manual                            # → max confidence: high
     publisher: 'Volkswagen'
+    publisher_class: constructeur
     year: null
     status: to_capture
     license: captured_for_internal_review
@@ -839,6 +848,7 @@ sources:
     title: 'Nissan Juke 2024 — notice : remplacement du filtre à huile moteur'
     type: oem_manual                            # → max confidence: high
     publisher: 'Nissan'
+    publisher_class: constructeur
     year: null
     status: to_capture
     license: captured_for_internal_review
@@ -853,6 +863,7 @@ sources:
     title: 'Kia — notice : programme d’entretien, huile moteur et filtre à huile'
     type: oem_manual                            # → max confidence: high
     publisher: 'Kia'
+    publisher_class: constructeur
     year: null
     status: to_capture
     license: captured_for_internal_review

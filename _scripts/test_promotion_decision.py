@@ -783,7 +783,7 @@ def test_native_regression_resolver_target_is_guarded_without_baseline_override(
         return {"verdict": "NEUTRAL"}
     real_load = dec._load_module
     def module(name, filename):
-        if filename in ('compute-confidence-score.py', 'semantic_review.py'):
+        if filename in ('compute-confidence-score.py', 'semantic_review.py', 'technical_qualification.py'):
             return real_load(name, filename)
         if filename == 'compare-proposal-versions.py':
             return SimpleNamespace(compare=compare)
@@ -4770,3 +4770,98 @@ def test_canon_revision_schema_admits_an_exportable_proposal_only_when_declared(
         (SCRIPTS.parent / "_meta" / "schema" / "frontmatter.schema.json").read_text(encoding="utf-8")))
     errors = [e.message for e in validator.iter_errors(fm)]
     assert (errors == []) is valid, errors
+
+
+# --- Qualification technique (ADR-131 D3) : câblée en report-only (D6) ------------------------
+# Les tests de `technical_qualification.py` couvrent le calcul de l'état ; ici, sa composition.
+
+def test_technical_qualification_lock_is_an_empty_code_constant(monkeypatch):
+    """D6 : report-only tant que la constante est vide ; ni variable d'environnement ni option
+    ne la renseigne."""
+    monkeypatch.setenv("TECHNICAL_QUALIFICATION_ADR", "ADR-131")
+    dec = _load_decision()
+    assert dec.TECHNICAL_QUALIFICATION_ADR is None
+
+
+def test_technical_qualification_is_evaluated_on_every_fiche(tmp_path):
+    """Branchement réel : `evaluate_tier` consigne l'état ; hors dépôt git et sans skill ni
+    catalogue, l'entrée est indisponible, jamais un succès."""
+    dec = _load_decision()
+    substance = _clean_substance(tmp_path)
+    local = substance["technical_qualification"]
+    assert local["pass"] is False and local["status"] == "UNAVAILABLE", local
+    trace = dec.decide_promotion({"substance": substance})["technical_qualification"]
+    assert trace["evaluated"] is True and trace["blocking"] is False
+    assert trace["policy"] == {"technical_qualification_adr": None, "status": "report_only"}
+
+
+@pytest.mark.parametrize("local", [
+    None,
+    {"pass": False, "status": "FAIL", "key": "0" * 64, "pairs": []},
+    {"pass": False, "status": "UNAVAILABLE", "missing_input": "skill"},
+    {"pass": True, "status": "PASS", "key": "0" * 64, "pairs": []},
+])
+def test_technical_qualification_in_report_only_changes_no_decision(tmp_path, local):
+    dec = _load_decision()
+    substance = _clean_substance(tmp_path)
+    before = dec.decide_promotion({"substance": {**substance, "technical_qualification": None}})
+    after = dec.decide_promotion({"substance": {**substance, "technical_qualification": local}})
+    assert before["eligible"] is True
+    for field in ("promotion_status", "eligible", "blocking_reasons"):
+        assert after[field] == before[field], field
+    assert after["technical_qualification"]["evaluated"] is (local is not None)
+    assert after["technical_qualification"]["pass"] is bool(local and local["pass"])
+
+
+@pytest.mark.parametrize("local, code, status", [
+    (None, "TECHNICAL_QUALIFICATION_FAIL", "BLOCKED"),
+    ({"pass": False, "status": "ABSENT", "key": "0" * 64, "pairs": []},
+     "TECHNICAL_QUALIFICATION_FAIL", "BLOCKED"),
+    ({"pass": False, "status": "FAIL", "key": "0" * 64,
+      "pairs": [{"qualification": "a", "contestation": "b", "status": "FAIL"}]},
+     "TECHNICAL_QUALIFICATION_FAIL", "BLOCKED"),
+    ({"pass": False, "status": "PRODUCER_UNKNOWN", "key": "0" * 64, "pairs": []},
+     "TECHNICAL_QUALIFICATION_FAIL", "BLOCKED"),
+    ({"pass": False, "status": "UNAVAILABLE", "missing_input": "skill"},
+     "TECHNICAL_QUALIFICATION_UNAVAILABLE", "UNKNOWN_FAIL_CLOSED"),
+    ({"pass": False, "status": "EVALUATOR_ERROR", "error": "x"}, "TECHNICAL_QUALIFICATION_FAIL", "BLOCKED"),
+    ({"pass": "true", "status": "PASS"}, "TECHNICAL_QUALIFICATION_FAIL", "BLOCKED"),
+])
+def test_ratified_technical_qualification_blocks_without_a_pass(tmp_path, monkeypatch, local, code, status):
+    """Constante renseignée (PR WIKI dédiée après D6) : sans PASS, un motif ; indisponible,
+    UNKNOWN_FAIL_CLOSED ; `pass` doit être le booléen vrai."""
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "TECHNICAL_QUALIFICATION_ADR", "ADR-131")
+    substance = {**_clean_substance(tmp_path), "technical_qualification": local}
+    d = dec.decide_promotion({"substance": substance})
+    assert [r["code"] for r in d["blocking_reasons"]] == [code]
+    assert d["promotion_status"] == getattr(dec, f"STATUS_{status}")
+    reason = d["blocking_reasons"][0]
+    assert reason["owner_stage"] == "POLICY_QUALIFICATION"
+    assert reason["evidence"]["policy"]["status"] == "ratified"
+
+
+def test_ratified_technical_qualification_pass_adds_no_reason(tmp_path, monkeypatch):
+    dec = _load_decision()
+    monkeypatch.setattr(dec, "TECHNICAL_QUALIFICATION_ADR", "ADR-131")
+    substance = {**_clean_substance(tmp_path),
+                 "technical_qualification": {"pass": True, "status": "PASS", "key": "0" * 64, "pairs": []}}
+    d = dec.decide_promotion({"substance": substance})
+    assert d["eligible"] is True and d["technical_qualification"]["blocking"] is True
+
+
+def test_technical_qualification_inputs_are_in_the_snapshot(tmp_path):
+    """Une qualification déposée ou retirée, le skill (empreinte de la clé) et le catalogue
+    (domaines) changent le verdict : ils entrent dans le manifeste."""
+    dec = _load_decision()
+    cand = _write_candidate(tmp_path)
+    tq = _load("_technical_qualification_test", "technical_qualification.py")
+    run = tmp_path / tq.QUALIFICATION_DIR / "filtre-a-huile" / ("1" * 64) / ("2" * 64 + ".json")
+    run.parent.mkdir(parents=True)
+    run.write_text("{}\n", encoding="utf-8")
+    (tmp_path / tq.SKILL_RELPATH).parent.mkdir(parents=True)
+    (tmp_path / tq.SKILL_RELPATH).write_text("skill\n", encoding="utf-8")
+    roles = {e["role"]: e["path"] for e in dec.capture_input_manifest(cand, tmp_path, None, None)["input_manifest"]}
+    assert roles["technical_qualification_run"] == run.relative_to(tmp_path).as_posix()
+    assert roles["technical_qualification_skill"] == tq.SKILL_RELPATH.as_posix()
+    assert roles["technical_qualification_catalog"] == tq.CATALOG_RELPATH.as_posix()

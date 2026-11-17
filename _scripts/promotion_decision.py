@@ -63,6 +63,7 @@ _COVERAGE_DETECTOR = "COVERAGE_MAP"
 _REGRESSION_DETECTOR = "REGRESSION"
 _PROVENANCE_DETECTOR = "PROVENANCE_GATE"
 _REVISION_DETECTOR = "CANON_REVISION"
+_QUALIFICATION_DETECTOR = "TECHNICAL_QUALIFICATION"
 _APPLY_GUARD = "APPLY_GUARD"
 
 
@@ -260,6 +261,38 @@ def _semantic_review_trace(substance: dict) -> dict:
     return {"evaluated": True, **local}
 
 
+def _technical_qualification_trace(substance: dict) -> dict:
+    """Qualification technique (ADR-131 D3) dans la décision : clé, état, paires qualification et
+    contestation avec leur statut, affirmations bloquantes ou contestées, planchers `complete`.
+    `blocking` : vrai seulement si `TECHNICAL_QUALIFICATION_ADR` est renseignée ; sinon
+    report-only. Absente : `evaluated` faux, jamais un succès."""
+    policy = {"technical_qualification_adr": TECHNICAL_QUALIFICATION_ADR,
+              "status": "ratified" if TECHNICAL_QUALIFICATION_ADR else "report_only"}
+    local = (substance or {}).get("technical_qualification")
+    if not isinstance(local, dict):
+        return {"evaluated": False, "pass": False, "blocking": bool(TECHNICAL_QUALIFICATION_ADR),
+                "policy": policy}
+    return {"evaluated": True, **local, "blocking": bool(TECHNICAL_QUALIFICATION_ADR),
+            "policy": policy}
+
+
+def _reasons_from_technical_qualification(trace: dict) -> list[dict]:
+    """Condition `technical_qualification_pass` (ADR-131 D3). Constante vide : aucun motif
+    (report-only, D6). Renseignée : un motif dès que la condition n'est pas vraie ; une entrée
+    absente du contexte évalué (racine RAW, schéma, skill, catalogue, historique git) donne
+    `TECHNICAL_QUALIFICATION_UNAVAILABLE` (UNKNOWN_FAIL_CLOSED), jamais un succès."""
+    if not TECHNICAL_QUALIFICATION_ADR or trace.get("pass") is True:
+        return []
+    status = trace.get("status") if trace.get("evaluated") else "NOT_EVALUATED"
+    code = ("TECHNICAL_QUALIFICATION_UNAVAILABLE" if status == "UNAVAILABLE"
+            else "TECHNICAL_QUALIFICATION_FAIL")
+    return [blocking_reason(code, "POLICY_QUALIFICATION", _QUALIFICATION_DETECTOR, {
+        "status": status, "key": trace.get("key"),
+        "pairs": [{k: p.get(k) for k in ("qualification", "contestation", "status")}
+                  for p in trace.get("pairs") or []],
+        "policy": trace.get("policy")})]
+
+
 def _relation_review_verdicts(decision: dict):
     """Verdicts qu'`apply_promotion` écrit (ADR-116 D3) : index d'une relation de D1 (`not_safety`
     prouvée) → `would_review`. Trace absente ou non évaluée : None, relations telles que proposées."""
@@ -355,6 +388,8 @@ def decide_promotion(bundle: dict) -> dict:
     reasons += _reasons_from_provenance(bundle.get("provenance"))
     revision = _canon_revision_trace(bundle, _status_of(reasons))
     reasons += _reasons_from_canon_revision(revision)
+    qualification = _technical_qualification_trace(substance)
+    reasons += _reasons_from_technical_qualification(qualification)
 
     reasons.sort(key=_reason_sort_key)
     status = _status_of(reasons)
@@ -367,6 +402,7 @@ def decide_promotion(bundle: dict) -> dict:
         "blocking_reasons": reasons,
         "relation_review": _relation_review_trace(substance, status),
         "semantic_review": _semantic_review_trace(substance),
+        "technical_qualification": qualification,
     }
     if revision is not None:
         decision["canon_revision"] = revision
@@ -460,6 +496,8 @@ _EVALUATION_ENGINE_FILES = (
     "gates/contradiction_gate.py", "gates/risk_gate.py", "gates/confidence_gate.py",
     # Auto-review de sens (ADR-119) : clé, découpage et verdict recalculé des exécutions.
     "semantic_review.py",
+    # Qualification technique (ADR-131) : clé, plancher, corroboration et statut recalculés.
+    "technical_qualification.py",
 )
 
 
@@ -587,6 +625,20 @@ def capture_input_manifest(candidate_path, wiki_root, raw_root, baseline_path) -
         captures = []
     for capture in captures:
         add("semantic_review_capture", raw_root / capture["path"])
+    # Qualification technique (ADR-131 D3) : schéma, skill (son empreinte entre dans la clé),
+    # catalogue (domaines, D9) et tous les artefacts déposés pour le slug.
+    qualification = _load_module("_technical_qualification_snapshot", "technical_qualification.py")
+    add("technical_qualification_schema", wiki_root / qualification.RUN_SCHEMA_RELPATH)
+    add("technical_qualification_skill", wiki_root / qualification.SKILL_RELPATH)
+    add("technical_qualification_catalog", wiki_root / qualification.CATALOG_RELPATH)
+    try:
+        qualification_dir = (wiki_root / qualification.QUALIFICATION_DIR
+                             / review._check_slug(fm.get("slug")))
+    except ValueError:
+        qualification_dir = None
+    if qualification_dir is not None and qualification_dir.is_dir():
+        for path in sorted(p for p in qualification_dir.rglob("*") if p.is_file()):
+            add("technical_qualification_run", path)
 
     entries.sort(key=lambda e: (e["role"], e["path"]))
     return {
@@ -700,6 +752,17 @@ RELATION_REVIEW_STAMP_PREFIX = "rule:ADR-116@"
 # `decision_engine_revision` : changer la constante invalide toute décision déjà rendue
 # (STALE_DECISION). Refermer = la remettre à None (ADR-117 §Retour arrière).
 CANON_REVISION_ADR: str | None = None
+
+# --- Qualification technique du 11 et contestation par une autre famille (ADR-131) ----
+# Même verrou que les trois précédents : une constante de CODE, jamais une variable
+# d'environnement ni une option CLI. Vide : report-only, le décideur recalcule la condition
+# `technical_qualification_pass` (D3) et la consigne dans sa trace (`technical_qualification`),
+# sans motif de blocage (D6 : aucune condition ne bloque avant un étalonnage versionné). La lever =
+# PR WIKI dédiée qui y inscrit "ADR-131", recevable une fois l'étalonnage de D6 versionné, la
+# classe d'éditeur du catalogue posée (D9) et les inconnues d'ADR-131 tranchées. Le fichier entre
+# dans `decision_engine_revision` : changer la constante invalide toute décision déjà rendue
+# (STALE_DECISION). Refermer = la remettre à None.
+TECHNICAL_QUALIFICATION_ADR: str | None = None
 # Conditions d'ADR-117 D1 à D3, toutes exigées, dans l'ordre de l'ADR.
 CANON_REVISION_CONDITIONS = ("promoter_canon", "not_safety", "no_human_authority",
                              "target_approved", "base_current", "fiche_eligible",
@@ -1939,6 +2002,28 @@ def _semantic_review_local(fm: dict, body: str, wiki_root: Path, raw_root) -> di
         return {"pass": False, "status": "EVALUATOR_ERROR", "error": f"{type(exc).__name__}: {exc}"}
 
 
+def _technical_qualification_local(fm: dict, body: str, wiki_root: Path, raw_root) -> dict:
+    """Qualification technique de la fiche (ADR-131 D3) : état des artefacts versionnés pour la
+    clé de son texte publié (`technical_qualification.qualification_status`). Ne lève jamais :
+    entrée absente du contexte évalué → UNAVAILABLE (infra, pas contenu) ; référence de capture
+    ou slug invalide → INVALID_INPUT ; autre erreur → EVALUATOR_ERROR. `pass` n'est vrai que
+    sur PASS."""
+    try:
+        qualification = _load_module("_technical_qualification", "technical_qualification.py")
+        unavailable = qualification._sibling("semantic_review").ReviewInputUnavailable
+    except Exception as exc:  # noqa: BLE001 — fail-closed, erreur rapportée
+        return {"pass": False, "status": "EVALUATOR_ERROR", "error": f"{type(exc).__name__}: {exc}"}
+    try:
+        return qualification.qualification_status(wiki_root, fm.get("slug"), _published_frontmatter(fm),
+                                                  body, _effective_raw_root(raw_root, wiki_root))
+    except unavailable as exc:
+        return {"pass": False, "status": "UNAVAILABLE", "missing_input": str(exc)}
+    except ValueError as exc:
+        return {"pass": False, "status": "INVALID_INPUT", "error": str(exc)}
+    except Exception as exc:  # noqa: BLE001 — fail-closed, erreur rapportée
+        return {"pass": False, "status": "EVALUATOR_ERROR", "error": f"{type(exc).__name__}: {exc}"}
+
+
 def _safety_local_conditions(fm: dict, body: str, target: Path, wiki_root: Path,
                              shadow, gate_results, score, semantic_review=None) -> dict:
     """Conditions de la Safety Auto-Gate calculables sur la fiche elle-même. Couverture,
@@ -2332,6 +2417,9 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
     # Auto-review de sens (ADR-119 D3) : condition de la Safety Auto-Gate pour une fiche sécurité,
     # trace seulement pour les autres.
     semantic_review = _semantic_review_local(fm, body, wiki_root, raw_root)
+    # Qualification technique (ADR-131 D3) : condition de toute fiche, observée tant que
+    # TECHNICAL_QUALIFICATION_ADR est vide (D6) ; la décision la compose.
+    technical_qualification = _technical_qualification_local(fm, body, wiki_root, raw_root)
 
     safety_local = None
     if is_safety:
@@ -2367,6 +2455,7 @@ def evaluate_tier(fm: dict, body: str, target: Path, wiki_root: Path,
         "numeric_flags": numeric_flags,
         "relation_review": relation_review,
         "semantic_review": {"blocking": bool(is_safety), **semantic_review},
+        "technical_qualification": technical_qualification,
     }
 
 

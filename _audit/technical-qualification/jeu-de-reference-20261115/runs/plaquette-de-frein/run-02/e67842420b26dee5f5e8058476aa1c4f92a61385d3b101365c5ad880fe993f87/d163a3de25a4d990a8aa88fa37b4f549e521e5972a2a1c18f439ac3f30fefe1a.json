@@ -1,0 +1,772 @@
+{
+  "freshness": {
+    "checked_at": "2026-11-15T17:52:04Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "4b4de7180092dd5145f106ed37bbd166b6fd9fb1",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87",
+  "key_inputs": {
+    "capture_domains": [
+      {
+        "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "ZF Aftermarket (TRW)"
+      },
+      {
+        "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Brembo (bremboparts.com)"
+      },
+      {
+        "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+        "domain": "constructeur",
+        "editorial_role": "corroboration",
+        "publisher": "Dacia"
+      },
+      {
+        "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Delphi Technologies"
+      },
+      {
+        "cid": "sha256:35d728d4a2b85efa99f15e16ed5aaad7936162b3f8c2038b96bf2dde77c01c58",
+        "domain": "constructeur",
+        "editorial_role": "corroboration",
+        "publisher": "Renault"
+      }
+    ],
+    "captures": [
+      {
+        "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+        "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md"
+      },
+      {
+        "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+        "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md"
+      },
+      {
+        "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+        "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md"
+      },
+      {
+        "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+        "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md"
+      },
+      {
+        "cid": "sha256:35d728d4a2b85efa99f15e16ed5aaad7936162b3f8c2038b96bf2dde77c01c58",
+        "path": "sources/auto-captures/plaquette-de-frein/renault-fr-wl-plaquette-de-frein-renault-freins-20261115-39e27e06.md"
+      }
+    ],
+    "domain_basis": "source-catalog.yaml sha256 0b51f1ddbabafd152d55c5c610fbea9d83d0a64ad52624582676eb02c82030bb + table domaines-i1.yaml sha256 32a48fe5a5441fde0664be083addf6c2171b450f4fa247c38201f9e4dfea464c fusionnée en mémoire",
+    "domain_definition": "publisher_class",
+    "skill_sha256": "bbab905fb5183582c34591fa930aa2de651b4f9f289a82f447c6c74593bb2b65",
+    "text_sha256": "08df537f55e62ef6304c55f5dc7498719996927f103a21904070de372d7395b0"
+  },
+  "producer": {
+    "basis": "wiki/gamme/plaquette-de-frein.md@67e49d8, provenance.ingested_by (ligne 66) : skill du dépôt exécuté par Claude Code (famille anthropic, hypothèse consignée)",
+    "declared": "skill:wiki-proposal-writer",
+    "provider": "anthropic"
+  },
+  "retake_questions": [
+    {
+      "claim_id": "c0",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Un constructeur ou un organisme officiel (manuel d'atelier, notice) qualifie-t-il explicitement les plaquettes de frein de composants de sécurité dont le remplacement doit être confié à un professionnel, et pour quels véhicules ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c1",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Un constructeur ou un manuel d'atelier précise-t-il, pour des véhicules identifiés, le type de bruit (aigu ou strident, ou bien sourd) qui signale la fin d'usure des plaquettes équipées d'une languette métallique ? Comment s'articule-t-il avec l'affirmation de Dacia selon laquelle « un bruit aigu n'est pas inquiétant » ?",
+      "question_source": "model",
+      "reason": "discordant",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c2",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Un constructeur ou une seconde source d'un autre domaine confirme-t-il que l'indicateur d'usure mécanique émet un signal sonore au contact du disque, sur quels véhicules, et avec quel type de son ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c3",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Une source constructeur ou un manuel d'atelier confirme-t-il, pour des véhicules identifiés, qu'un son strident produit par l'indicateur d'usure impose le remplacement des plaquettes ? Cette source précise-t-elle aussi s'il faut contrôler les disques ?",
+      "question_source": "model",
+      "reason": "discordant",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c4",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Un constructeur (manuel d'atelier ou notice d'entretien) impose-t-il le remplacement des plaquettes par essieu complet, et pour quels véhicules ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:6"
+    },
+    {
+      "claim_id": "c5",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Un constructeur confirme-t-il l'obligation de remplacer les plaquettes à chaque remplacement des disques, et pour quels véhicules ou types de freins ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:6"
+    },
+    {
+      "claim_id": "c6",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Les plaquettes s'usent : elles doivent être contrôlées à intervalles réguliers. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:8"
+    },
+    {
+      "claim_id": "c8",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quelle source constructeur ou de formation atelier explique, pour des véhicules identifiés, comment distinguer le son strident d'un indicateur d'usure du bruit sourd de plaquettes et disques usés décrit par Dacia ?",
+      "question_source": "model",
+      "reason": "discordant",
+      "segment_id": "body:10"
+    },
+    {
+      "claim_id": "c9",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Un constructeur ou un manuel d'atelier confirme-t-il qu'un mauvais montage des plaquettes ou de leurs accessoires provoque des bruits et une baisse d'efficacité du freinage, et pour quels véhicules ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:10"
+    },
+    {
+      "claim_id": "c10",
+      "domains_present": [],
+      "question": "Quelle procédure un constructeur ou un équipementier prescrit-il pour rechercher la cause d'un bruit de freinage (inspection visuelle, contrôle du montage, essai routier, outil de diagnostic), et sur quels véhicules ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:10"
+    }
+  ],
+  "reviewer": {
+    "cli_version": "2.1.325 (Claude Code)",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic"
+  },
+  "role": "qualification",
+  "schema_version": "technical-qualification/v2",
+  "segments": [
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "5455f13cb9f2ba2b05feb13f781b0cea7254f18868effd93e854b53817a4b2e0"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:source_refs",
+      "no_claims": true,
+      "sha256": "b3165fb705ccb6b3fc45dd289ae58ee0530bd8f8777a0b6facedd4a3c7d1605d"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:title",
+      "no_claims": true,
+      "sha256": "1727a5c5da6d826565c5fb78a9bb8ba858fa06a019eaeaeb0f265c7e1e334439"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "92c1d8b1cea628b9559f4a3958e618faa8879d4cca683ca2036c2eabba171b3a"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c0",
+          "limite": "Le texte omet la conséquence que Brembo rattache à ce statut : les plaquettes ne doivent être remplacées que par un personnel compétent, car un travail mal exécuté peut rendre le freinage totalement inefficace. Un seul domaine (équipementier) qualifie explicitement les plaquettes de composants de sécurité. Les pages constructeurs parlent de sécurité du freinage, sans cette qualification.",
+          "portee": "Instructions générales Brembo de remplacement des disques et des plaquettes (page Kit EV), valables pour ses produits.",
+          "proposed_wording": "Les plaquettes font partie du système de freinage et sont des composants de sécurité. Selon un équipementier (Brembo), leur remplacement doit être confié à un personnel compétent, car un travail mal exécuté peut rendre le freinage totalement inefficace.",
+          "retake_question": "Un constructeur ou un organisme officiel (manuel d'atelier, notice) qualifie-t-il explicitement les plaquettes de frein de composants de sécurité dont le remplacement doit être confié à un professionnel, et pour quels véhicules ?",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Étant donné que les plaquettes font partie du système de freinage et qu’elles représentent des composants de sécurité, toutes les opérations doivent être effectuées très soigneusement."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes ne doivent être remplacées que par un personnel compétent."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Un travail mal exécuté risque de rendre le système de freinage totalement inefficace."
+            }
+          ],
+          "text": "Les plaquettes sont des composants de sécurité du système de freinage.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:2",
+      "sha256": "2d5da202aff9dd24d4d5a000bf9c67efcffbda39871f4f071d00bbd1057dca6b"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "diagnostic_relation"
+      ],
+      "id": "body:3",
+      "no_claims": true,
+      "sha256": "7994f302c951aca15e94589931d192f23d1418d30e2fe56d807609209176a8cf"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd"
+            ],
+            "concordance": "discordant",
+            "declassed_by": "model",
+            "declassed_from": "preciser",
+            "discordance_on": "safety",
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c1",
+          "limite": "Les domaines divergent sur le diagnostic. Selon Dacia, une plaquette usée produit un bruit sourd, et un bruit aigu n'est pas inquiétant. Selon Delphi, un son strident signale l'usure maximale. Le texte généralise aussi à « des systèmes plus anciens », alors que Delphi écrit « de nombreux systèmes ». Les témoins électroniques (voyant au tableau de bord) ne produisent aucun son.",
+          "portee": "Delphi (équipementier) : languettes métalliques de « nombreux » systèmes de freinage plus anciens. Dacia (constructeur) : véhicules de sa marque.",
+          "proposed_wording": null,
+          "retake_question": "Un constructeur ou un manuel d'atelier précise-t-il, pour des véhicules identifiés, le type de bruit (aigu ou strident, ou bien sourd) qui signale la fin d'usure des plaquettes équipées d'une languette métallique ? Comment s'articule-t-il avec l'affirmation de Dacia selon laquelle « un bruit aigu n'est pas inquiétant » ?",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins de plaquettes de frein actuels représentent une évolution par rapport aux languettes métalliques traditionnelles que l'on retrouve dans de nombreux systèmes de freinage plus anciens."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            },
+            {
+              "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+              "quote": "En cas de plaquette de frein usée, lors du freinage un bruit sourd se fait entendre."
+            },
+            {
+              "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+              "quote": "Il indique que vos plaquettes et disques de freins sont usés et à changer au plus vite. Au contraire, un bruit aigu n’est pas inquiétant."
+            }
+          ],
+          "text": "Les languettes métalliques des systèmes de freinage plus anciens émettent un son strident en frottant contre le disque, quand les plaquettes ont atteint leur usure maximale.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c2",
+          "limite": "Le texte omet que seules certaines plaquettes d'un jeu (normalement deux sur quatre) portent un indicateur, et que cet indicateur peut être électrique plutôt que mécanique. Le type de son n'est pas précisé par ZF. Un seul domaine (équipementier) porte l'affirmation.",
+          "portee": "Plaquettes TRW (ZF Aftermarket) dotées d'un indicateur d'usure mécanique.",
+          "proposed_wording": "Sur les plaquettes qui en sont équipées (normalement deux sur quatre dans un jeu, selon ZF/TRW), un indicateur d'usure mécanique émet un signal sonore au contact du disque quand les plaquettes sont usées. D'autres systèmes utilisent un indicateur électrique.",
+          "retake_question": "Un constructeur ou une seconde source d'un autre domaine confirme-t-il que l'indicateur d'usure mécanique émet un signal sonore au contact du disque, sur quels véhicules, et avec quel type de son ?",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Normalement, seules deux des quatre plaquettes composant un jeu de plaquettes sont dotées d'un indicateur d'usure mécanique ou électrique."
+            }
+          ],
+          "text": "L'indicateur d'usure mécanique émet lui aussi un signal sonore au contact du disque quand les plaquettes sont usées.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738"
+            ],
+            "concordance": "discordant",
+            "declassed_by": "model",
+            "declassed_from": "preciser",
+            "discordance_on": "safety",
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c3",
+          "limite": "Il existe une discordance de sécurité entre les domaines. Dacia associe l'usure à un bruit sourd, juge un bruit aigu non inquiétant, et signale que les disques peuvent aussi être à changer. Le texte omet plusieurs points : le seuil de 2 mm et le voyant (Brembo), le remplacement par essieu et par un personnel compétent, et le remplacement des témoins d'usure avec les plaquettes neuves (Delphi).",
+          "portee": "Équipementiers (Delphi, Brembo) : témoins et indicateurs d'usure en général, et seuil de 2 mm pour les produits Brembo. Dacia : véhicules de sa marque.",
+          "proposed_wording": null,
+          "retake_question": "Une source constructeur ou un manuel d'atelier confirme-t-il, pour des véhicules identifiés, qu'un son strident produit par l'indicateur d'usure impose le remplacement des plaquettes ? Cette source précise-t-elle aussi s'il faut contrôler les disques ?",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure étant conçus pour rompre, il convient de les remplacer chaque fois que de nouvelles plaquettes sont installées."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque le matériau de friction atteint 2 mm d’épaisseur ou lorsque le témoin de l’indicateur d’usure s’allume, il faut impérativement remplacer les plaquettes."
+            },
+            {
+              "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+              "quote": "Il indique que vos plaquettes et disques de freins sont usés et à changer au plus vite. Au contraire, un bruit aigu n’est pas inquiétant."
+            }
+          ],
+          "text": "C'est un signal voulu, qui demande de remplacer les plaquettes.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "diagnostic_relation"
+      ],
+      "id": "body:4",
+      "sha256": "fce5a0825c8e30f3f4158fececaeda90ae7f8e9e25f4b0db6a4f1ae43834a255"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:5",
+      "no_claims": true,
+      "sha256": "63ce988e402ad651dec5865d479751fae5a61e9b2de40d1a3872a34b6142aaee"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c4",
+          "limite": "Le texte omet les critères de remplacement donnés par Brembo : usure au-delà des limites, usure différenciée, fissures ou rayures profondes. Il omet aussi la vérification de la compatibilité de la pièce avec la marque et le modèle du véhicule, ainsi que l'intervention d'un personnel compétent. Un seul domaine (équipementier) porte l'affirmation.",
+          "portee": "Instructions générales Brembo pour ses disques et plaquettes.",
+          "proposed_wording": "Selon Brembo, les plaquettes se remplacent par essieu, notamment quand l'usure dépasse les limites, quand l'usure est différenciée ou quand la surface présente des fissures ou des rayures profondes. La pièce doit être adaptée à la marque et au modèle du véhicule, et l'intervention confiée à un personnel compétent.",
+          "retake_question": "Un constructeur (manuel d'atelier ou notice d'entretien) impose-t-il le remplacement des plaquettes par essieu complet, et pour quels véhicules ?",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein doivent être remplacées par essieu."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Vérifier l’épaisseur des plaquettes de frein et les remplacer par essieu si : l’usure dépasse les limites, s’il y a une usure différenciée, si la surface présente des fissures ou de profondes rayures."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Avant de commencer la procédure de remplacement, s’assurer que la pièce de rechange est adaptée à la marque et au modèle du véhicule."
+            }
+          ],
+          "text": "Les plaquettes se remplacent par essieu.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c5",
+          "limite": "Le texte omet que les disques se remplacent eux aussi par essieu. Il omet aussi que les disques et plaquettes Brembo Kit EV doivent toujours être montés ensemble. Delphi, de son côté, recommande de remplacer les témoins d'usure à chaque pose de plaquettes neuves. Un seul domaine (équipementier) porte l'affirmation. Le remplacement relève d'un personnel compétent.",
+          "portee": "Instructions Brembo pour ses disques et plaquettes, avec une règle propre au Kit EV.",
+          "proposed_wording": "Selon Brembo, les disques se remplacent par essieu, et les plaquettes sont remplacées à chaque remplacement des disques. Certains kits (Brembo Kit EV) imposent de monter ensemble disques et plaquettes du même kit.",
+          "retake_question": "Un constructeur confirme-t-il l'obligation de remplacer les plaquettes à chaque remplacement des disques, et pour quels véhicules ou types de freins ?",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Il est fondamental de remplacer les disques de frein pour chaque essieu, en les prélevant de leur emballage."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "À chaque remplacement des disques, remplacer aussi leurs plaquettes."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les disques Brembo Kit EV et les plaquettes Brembo Kit EV doivent toujours être montés ensemble."
+            }
+          ],
+          "text": "À chaque remplacement des disques, les plaquettes sont remplacées aussi.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:6",
+      "sha256": "c512f8ce3caa9cf945c530508d6ae1b326b1c23e2e663f4cebf53aa5d29d7988"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:7",
+      "no_claims": true,
+      "sha256": "7230a225bccecf2b97832f239fe647abea3c536d9ed17e549b4f3f3d1f784fbf"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:35d728d4a2b85efa99f15e16ed5aaad7936162b3f8c2038b96bf2dde77c01c58",
+              "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c6",
+          "limite": "Le texte omet trois points. D'abord, le critère de remplacement donné par Brembo (2 mm de matériau de friction ou témoin allumé). Ensuite, la priorité des prescriptions du constructeur (ZF), qui fixe l'intervalle propre à chaque véhicule ; Dacia, par exemple, indique 2 ans ou 20 000 km pour ses véhicules. Enfin, le contrôle est assuré par des techniciens en atelier selon Renault et Dacia.",
+          "portee": "Équipementiers (Brembo, ZF) et constructeurs (Renault, Dacia) : contrôle régulier des plaquettes, avec un intervalle propre à Dacia pour ses véhicules.",
+          "proposed_wording": "Les plaquettes s'usent : elles doivent être contrôlées à intervalles réguliers, selon les préconisations du constructeur du véhicule (Dacia indique par exemple un contrôle des freins tous les 2 ans ou 20 000 km pour ses véhicules). Selon Brembo, il faut remplacer les plaquettes dès que le matériau de friction atteint 2 mm ou que le témoin d'usure s'allume.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein s’usent et elles doivent, donc, être contrôlées à intervalles réguliers."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque le matériau de friction atteint 2 mm d’épaisseur ou lorsque le témoin de l’indicateur d’usure s’allume, il faut impérativement remplacer les plaquettes."
+            },
+            {
+              "cid": "sha256:35d728d4a2b85efa99f15e16ed5aaad7936162b3f8c2038b96bf2dde77c01c58",
+              "path": "sources/auto-captures/plaquette-de-frein/renault-fr-wl-plaquette-de-frein-renault-freins-20261115-39e27e06.md",
+              "quote": "Pour garantir un freinage optimal, il est recommandé de les faire vérifer régulièrement."
+            },
+            {
+              "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+              "quote": "Faites contrôler vos freins tous les 2 ans ou 20 000 km."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Important ! Les prescriptions et indications du fabricant du véhicule s'appliquent en principe avant toutes autres !"
+            }
+          ],
+          "text": "Les plaquettes s'usent : elles doivent être contrôlées à intervalles réguliers.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:35d728d4a2b85efa99f15e16ed5aaad7936162b3f8c2038b96bf2dde77c01c58",
+              "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c7",
+          "limite": "Les intervalles chiffrés existants (par exemple 2 ans ou 20 000 km chez Dacia) restent propres à un constructeur et à ses véhicules.",
+          "portee": "Équipementier (Delphi) et constructeur (Renault) : la durée de vie des plaquettes varie selon la route, la conduite, la charge, le type de pièces et la motorisation (électrique ou thermique).",
+          "proposed_wording": null,
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les plaquettes de frein s'usent au fil du temps. Cependant, le temps nécessaire pour ce faire peut varier considérablement."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les conditions de la route, le style de conduite, la vitesse, la charge (du véhicule ?) et le type de plaquettes et de disques ont une incidence sur la rapidité à laquelle cela se produit"
+            },
+            {
+              "cid": "sha256:35d728d4a2b85efa99f15e16ed5aaad7936162b3f8c2038b96bf2dde77c01c58",
+              "path": "sources/auto-captures/plaquette-de-frein/renault-fr-wl-plaquette-de-frein-renault-freins-20261115-39e27e06.md",
+              "quote": "cela va dépendre de votre style de conduite, les plaquettes et disques sont plus sollicités, donc remplacés plus souvent"
+            }
+          ],
+          "text": "Cette fiche ne donne ni durée ni kilométrage valables pour tous les véhicules.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:8",
+      "sha256": "7a5b6ed824f56daf5a010d1a683ead5564a6a887cea73e1a1a6c361d07e48adc"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:9",
+      "no_claims": true,
+      "sha256": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd"
+            ],
+            "concordance": "discordant",
+            "declassed_by": "model",
+            "declassed_from": "preciser",
+            "discordance_on": "safety",
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c8",
+          "limite": "Il existe une discordance de sécurité entre les domaines sur la signification d'un bruit aigu : Dacia l'estime non inquiétant et associe l'usure à un bruit sourd. Les témoins électroniques ne produisent pas de son mais allument un voyant. La question présuppose qu'une plaquette usée fait un son strident, ce qu'aucune source ne généralise.",
+          "portee": "Équipementiers (Delphi, ZF) : languettes métalliques de nombreux systèmes anciens et indicateurs d'usure mécaniques. Dacia : ses véhicules.",
+          "proposed_wording": null,
+          "retake_question": "Quelle source constructeur ou de formation atelier explique, pour des véhicules identifiés, comment distinguer le son strident d'un indicateur d'usure du bruit sourd de plaquettes et disques usés décrit par Dacia ?",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            },
+            {
+              "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+              "quote": "En cas de plaquette de frein usée, lors du freinage un bruit sourd se fait entendre."
+            },
+            {
+              "cid": "sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4",
+              "path": "sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md",
+              "quote": "Il indique que vos plaquettes et disques de freins sont usés et à changer au plus vite. Au contraire, un bruit aigu n’est pas inquiétant."
+            }
+          ],
+          "text": "Sur beaucoup de systèmes, le son strident d'une plaquette usée est le signal de fin d'usure : une languette métallique ou un indicateur d'usure mécanique frotte contre le disque.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c9",
+          "limite": "Le texte omet que, selon ZF, un mauvais montage cause aussi une performance réduite des freins, et que, selon Brembo, un travail mal exécuté peut rendre le freinage totalement inefficace. Il omet également que le montage doit être confié à un personnel compétent et suivre les prescriptions du constructeur. Un seul domaine (équipementier) porte l'affirmation.",
+          "portee": "Équipementiers (ZF/TRW, Brembo) : montage des plaquettes et de leurs accessoires.",
+          "proposed_wording": "Selon les équipementiers, un montage incorrect des plaquettes ou de leurs accessoires cause le plus souvent des bruits de freinage ou une baisse de performance des freins, et peut aller jusqu'à rendre le freinage inefficace. Le montage doit être confié à un professionnel, selon les prescriptions du constructeur du véhicule.",
+          "retake_question": "Un constructeur ou un manuel d'atelier confirme-t-il qu'un mauvais montage des plaquettes ou de leurs accessoires provoque des bruits et une baisse d'efficacité du freinage, et pour quels véhicules ?",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Si les plaquettes de frein ou accessoires sont mal montés, cela causera inévitablement des problèmes – dans la plupart des cas, des bruits de freinage ou une performance réduite des freins."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Un travail mal exécuté risque de rendre le système de freinage totalement inefficace."
+            }
+          ],
+          "text": "Un montage incorrect peut aussi causer des bruits de freinage.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c10",
+          "limite": "Aucune source ne rattache la recherche de la cause d'un bruit de freinage à un outil de diagnostic. Les captures renvoient au contrôle du montage (positions, accessoires, documents de service) et au contrôle complet du système par des techniciens en atelier. Cette formulation peut conduire à un mauvais diagnostic.",
+          "portee": "Aucune capture ne porte cette affirmation.",
+          "proposed_wording": null,
+          "retake_question": "Quelle procédure un constructeur ou un équipementier prescrit-il pour rechercher la cause d'un bruit de freinage (inspection visuelle, contrôle du montage, essai routier, outil de diagnostic), et sur quels véhicules ?",
+          "sources": [],
+          "text": "La recherche de la cause des bruits de freinage relève de l'outil de diagnostic.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:10",
+      "sha256": "8336ed68ecd3a8d310158999b851a81aa9756fd8e3789bcc53d12a211ffc812e"
+    }
+  ],
+  "subject": {
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "path": "wiki/gamme/plaquette-de-frein.md, extrait verbatim des lignes 270, 274, 293, 297, 305, 310, 327, 329, 342, 348 ; frontmatter réduit à slug, title et aux captures RAW du cas",
+    "repo": "automecanik-wiki",
+    "slug": "plaquette-de-frein"
+  }
+}

@@ -1,0 +1,278 @@
+{
+  "freshness": {
+    "checked_at": "2026-11-15T09:19:00Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "401314c6bb349378dcd9a9b15e773795e5d5d3d3",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "968e1db0f2b43e22708ef34787caf09500a3203f3b7f89d786208ea9241eb762",
+  "key_inputs": {
+    "captures": [
+      {
+        "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md"
+      }
+    ],
+    "skill_sha256": "47abb9b67e1e9a20d345d798052f6b93203df9af7254c43a050269c58bc04473",
+    "text_sha256": "9c1b1be8ab441a7436e7371413c712a0c921dd002ea23f17d53a97cc1fb4e656"
+  },
+  "producer": {
+    "basis": "provenance.ingested_by de bd29675:proposals/filtre-a-huile.md ; _meta/source-policy.md:74",
+    "declared": "skill:wiki-proposal-writer",
+    "provider": "anthropic"
+  },
+  "reviewer": {
+    "cli_version": "2.1.325",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic"
+  },
+  "role": "qualification",
+  "schema_version": "technical-qualification/v1",
+  "segments": [
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "85dc1a891abc34753c0828a7dd0d53f097502c1d7eefd17e9988ec36b9b9e0ae"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:source_refs",
+      "no_claims": true,
+      "sha256": "6b312463a901fbb7c016c0b5e614eafbbe1ed817610e0c2f583ae9ab541b810d"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "bb52b31484c35bd646a6695583c5cdcd91ecdb83218ac301645b94bdb7091246"
+    },
+    {
+      "claims": [
+        {
+          "id": "c0",
+          "limite": "Aucune capture ne lie le remplacement du filtre à chaque vidange. L'intervalle dépend du constructeur, du véhicule, de l'huile et de l'usage. Tous les éléments ne sont pas en papier : MAHLE décrit des médias entièrement synthétiques sans cellulose. Il faut consulter le carnet d'entretien du véhicule ou un professionnel.",
+          "portee": "MAHLE (filtres à huile en général) : remplacement dans les intervalles d'entretien fixés par le constructeur automobile.",
+          "proposed_wording": "Remplacer le filtre à huile dans les intervalles d'entretien fixés par le constructeur du véhicule. Consultez le carnet d'entretien : l'intervalle varie selon le véhicule, l'huile et l'usage.",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+            }
+          ],
+          "text": "L'élément papier est conçu pour être changé à chaque vidange.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c1",
+          "limite": "Le terme « prématurément » n'est porté par aucune capture. L'ouverture du by-pass concerne aussi l'huile froide, pas seulement le filtre saturé. La présence du clapet et sa pression d'ouverture dépendent de la conception du filtre et du moteur. Si le témoin de pression d'huile s'allume en roulant, il faut s'arrêter et faire appel à un professionnel ; la capture Renault ne couvre que la Clio 5 phase 1.",
+          "portee": "FILTRON (filtres vissés) et MAHLE : le clapet by-pass s'ouvre si le filtre est colmaté, si l'intervalle de remplacement est dépassé ou si l'huile est froide et visqueuse. Il assure l'alimentation en huile.",
+          "proposed_wording": "Sur les filtres qui en sont équipés, le clapet by-pass s'ouvre quand le filtre est colmaté (intervalle de remplacement dépassé) ou quand l'huile est froide et épaisse. Il laisse alors passer de l'huile non filtrée pour éviter un manque de lubrification.",
+          "sources": [
+            {
+              "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+              "quote": "The bypass valve is used when the filter is clogged due to a long period of time between replacements or when the vehicle is running at a low temperature (when the oil is cold and dense)."
+            },
+            {
+              "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+              "quote": "Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "A pressure relief valve guarantees the oil supply under all conditions – for viscous oil encountered during cold starts or at low temperatures, for extremely contaminated filter elements, or when the replacement intervals have been exceeded."
+            }
+          ],
+          "text": "Un filtre saturé fait ouvrir le by-pass prématurément (huile non filtrée).",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c2",
+          "limite": "La capture parle de remplacement, pas explicitement d'interdiction de réutiliser. Elle ne vise pas spécifiquement le « papier ». Les sources citées (SlashGear, Firestone) ne figurent pas parmi les captures.",
+          "portee": "MAHLE : le filtre vissé se remplace d'un bloc. Pour une cartouche, on renouvelle l'élément filtrant encrassé.",
+          "proposed_wording": "Un filtre vissé (boîtier et élément indissociables) se remplace en entier. Sur un filtre à cartouche, c'est l'élément filtrant encrassé qui se remplace.",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "instead of replacing the complete filter, only the dirty filter element has to be renewed."
+            }
+          ],
+          "text": "Un filtre papier jetable ne se réutilise pas.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c3",
+          "limite": "L'affirmation repose uniquement sur SlashGear et Firestone, qui ne figurent pas parmi les captures. Il faut capturer une source avant de republier.",
+          "portee": "Aucune capture ne traite du nettoyage d'un élément filtrant.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Un filtre papier jetable ne se nettoie pas.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:2",
+      "sha256": "dc10bf8b501a5f735bfbb20e42b74190045955fe3f1de4cbadb026f080490896"
+    },
+    {
+      "claims": [
+        {
+          "id": "c4",
+          "limite": "La source PMM n'est pas capturée. La précaution est importante pour la sécurité : il faut la reprendre à partir d'une source capturée (notice du fabricant du filtre ou du véhicule) plutôt que de la supprimer sans remplacement. En cas de doute, faites monter le filtre par un professionnel.",
+          "portee": "Aucune capture ne porte ce geste. MAHLE indique seulement qu'un filtre ne fonctionne correctement que s'il a été bien monté.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Filtre vissé : vérifier que l'ancien joint est parti (éviter le double joint).",
+          "verdict": "retirer"
+        },
+        {
+          "id": "c5",
+          "limite": "La source PMM n'est pas capturée. Le geste doit suivre la notice du filtre concerné.",
+          "portee": "Aucune capture ne porte ce geste.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Huiler le joint neuf.",
+          "verdict": "retirer"
+        },
+        {
+          "id": "c6",
+          "limite": "Une méthode de serrage ne se généralise pas à tous les filtres. La consigne « sans clé » peut contredire certaines notices. Il faut se référer à la notice du filtre ou du constructeur, ou faire appel à un professionnel. Après montage, une fuite ou l'allumage du témoin de pression d'huile impose l'arrêt et l'avis d'un professionnel.",
+          "portee": "Aucune capture ne donne de méthode ni de valeur de serrage. MAHLE signale que des filtres d'apparence identique diffèrent selon le moteur (filetage, clapet anti-retour, pression du by-pass).",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Visser à la main jusqu'au contact puis serrer d'une fraction de tour selon la notice — sans clé ni sur-serrage.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:3",
+      "sha256": "92aa51a7a25b06913490f7d2469d4016d0752bcd7fbc38b007bc06278b6f9ea9"
+    },
+    {
+      "claims": [
+        {
+          "id": "c7",
+          "limite": "La source ECOGARD n'est pas capturée. Le montage dépend du boîtier et du constructeur ; il faut la notice ou un professionnel.",
+          "portee": "MAHLE indique seulement que, pour une cartouche, on renouvelle l'élément filtrant encrassé. Aucune capture ne traite des joints toriques.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Cartouche : remplacer par les joints toriques neufs fournis, placés dans leur gorge.",
+          "verdict": "retirer"
+        },
+        {
+          "id": "c8",
+          "limite": "Ce point dépend de la conception du boîtier, qui n'est documentée par aucune capture.",
+          "portee": "Aucune capture ne mentionne de tube central.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Ne pas oublier le tube central.",
+          "verdict": "retirer"
+        },
+        {
+          "id": "c9",
+          "limite": "Le couple est propre à chaque véhicule ou boîtier et ne doit pas être généralisé. Il faut la documentation du constructeur ou un professionnel.",
+          "portee": "Aucune capture ne donne de couple de serrage pour un couvercle de boîtier.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Respecter le couple du couvercle.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "procedure"
+      ],
+      "id": "body:4",
+      "sha256": "7d7be99498806d232dfb6be30cbddaefecde1e109f56b042a5bd7cb2b23d79b4"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:5",
+      "no_claims": true,
+      "sha256": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86"
+    },
+    {
+      "claims": [
+        {
+          "id": "c10",
+          "limite": "La capture ne parle pas de nettoyage et ne vise pas spécifiquement le papier. La source SlashGear n'est pas capturée.",
+          "portee": "MAHLE : le filtre vissé se remplace d'un bloc. Pour une cartouche, on renouvelle l'élément filtrant.",
+          "proposed_wording": "Non. Un filtre vissé (boîtier et élément indissociables) se remplace en entier. Sur un filtre à cartouche, on remplace l'élément filtrant encrassé.",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "instead of replacing the complete filter, only the dirty filter element has to be renewed."
+            }
+          ],
+          "text": "On ne peut pas réutiliser un filtre à huile à élément papier jetable.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c11",
+          "limite": "L'affirmation repose uniquement sur SlashGear, qui n'est pas capturé.",
+          "portee": "Aucune capture ne traite du nettoyage du média ni de son endommagement.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Le média ne se nettoie pas sans l'endommager.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:6",
+      "sha256": "c045b3c1861fc2079208630b74f77f17ceeb8691a57de813dedd5e774ebe0e62"
+    }
+  ],
+  "subject": {
+    "commit": "bd2967566af89414f01a205c646d5959da0a4e82",
+    "path": "proposals/filtre-a-huile.md (extrait : consignes retirées par 678c113, #97)",
+    "repo": "ak125/automecanik-wiki",
+    "slug": "filtre-a-huile"
+  }
+}

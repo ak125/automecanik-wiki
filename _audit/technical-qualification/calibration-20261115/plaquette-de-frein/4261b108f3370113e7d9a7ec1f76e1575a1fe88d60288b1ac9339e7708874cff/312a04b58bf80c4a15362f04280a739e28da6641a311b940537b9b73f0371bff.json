@@ -1,0 +1,2868 @@
+{
+  "freshness": {
+    "checked_at": "2026-11-15T09:19:00Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "401314c6bb349378dcd9a9b15e773795e5d5d3d3",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "4261b108f3370113e7d9a7ec1f76e1575a1fe88d60288b1ac9339e7708874cff",
+  "key_inputs": {
+    "captures": [
+      {
+        "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+        "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md"
+      },
+      {
+        "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+        "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md"
+      },
+      {
+        "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+        "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md"
+      },
+      {
+        "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+        "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md"
+      },
+      {
+        "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+        "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md"
+      },
+      {
+        "cid": "sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933",
+        "path": "sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md"
+      }
+    ],
+    "skill_sha256": "47abb9b67e1e9a20d345d798052f6b93203df9af7254c43a050269c58bc04473",
+    "text_sha256": "8e8ac3b0fa9a5fe44c7be3f40076fba83ef70e95ce4d2e1606a3c342498f7be1"
+  },
+  "producer": {
+    "basis": "provenance.ingested_by de la fiche ; _meta/source-policy.md:74 « Anthropic seul pour le texte rédactionnel » (déclaration en prose, aucun champ machine)",
+    "declared": "skill:wiki-proposal-writer",
+    "provider": "anthropic"
+  },
+  "reviewer": {
+    "cli_version": "2.1.325",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic"
+  },
+  "role": "qualification",
+  "schema_version": "technical-qualification/v1",
+  "segments": [
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:aliases",
+      "no_claims": true,
+      "sha256": "1b8556e37fce1a82dd680cfeef01ad1e57f879da729a95a8d1a46e0c32039753"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:confidence_score",
+      "no_claims": true,
+      "sha256": "458bd361fe464dfc3e91ebbea5d3434a7acf0481140fd69d464cb239aead69d5"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:created_at",
+      "no_claims": true,
+      "sha256": "07c60746ff11a8bb4f382dd3e776b1d6c53a790a34d6eab12d8eda4f3b826bd4"
+    },
+    {
+      "claims": [
+        {
+          "id": "c0",
+          "limite": "Ne couvre pas les témoins électroniques, qui allument un voyant sans émettre de son. Toutes les plaquettes d'un jeu ne portent pas d'indicateur. Le son est un signal de remplacement immédiat : il ne faut pas continuer à rouler en attendant. Les captures ne disent pas qu'un bruit métallique vient toujours de l'usure : le diagnostic doit être confirmé par un professionnel (diagnostic_safe: false).",
+          "portee": "Plaquettes équipées d'un indicateur d'usure mécanique (languettes métalliques, présentes selon Delphi sur de nombreux systèmes plus anciens). Le son au contact du disque signale l'usure maximale. Le seuil de 2 mm provient des consignes générales Brembo.",
+          "proposed_wording": "Sur les plaquettes équipées d'un indicateur d'usure mécanique (languettes métalliques), un son strident au contact du disque est un signal voulu : la plaquette a atteint son usure maximale et doit être remplacée sans attendre. Les témoins électroniques signalent l'usure par un voyant, sans bruit. Un bruit métallique peut avoir d'autres causes : faites contrôler le freinage par un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "⑤ Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure électroniques éliminent les languettes en utilisant un petit capteur : une boucle de fil électrique traversée par un faible courant."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Normalement, seules deux des quatre plaquettes composant un jeu de plaquettes sont dotées d'un indicateur d'usure mécanique ou électrique."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque le matériau de friction atteint 2 mm d’épaisseur ou lorsque le témoin de l’indicateur d’usure s’allume, il faut impérativement remplacer les plaquettes."
+            }
+          ],
+          "text": "Plaquette en fin d'usure, dont l'indicateur mécanique ou les languettes métalliques émettent un son strident au contact du disque (signal voulu), cause possible de bruit métallique au freinage.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c1",
+          "limite": "La source parle de « bruits de freinage » en général, pas spécifiquement d'un bruit métallique. Le texte omet la baisse de performance de freinage, ce qui est une omission de sécurité. La position de montage dépend du modèle et des documents du fabricant. Une vérification du montage relève d'un professionnel.",
+          "portee": "Guide atelier ZF/TRW sur le montage des plaquettes et de leurs accessoires (shim, tôles de guidage, ressorts). Les conséquences citées sont des bruits de freinage ou une performance de freinage réduite.",
+          "proposed_wording": "Des plaquettes ou des accessoires de montage (shim, tôles de guidage, ressorts) mal montés provoquent le plus souvent des bruits de freinage ou une baisse de performance des freins. La position correcte dépend du modèle et des prescriptions du constructeur : faites vérifier le montage par un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Si les plaquettes de frein ou accessoires sont mal montés, cela causera inévitablement des problèmes – dans la plupart des cas, des bruits de freinage ou une performance réduite des freins."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Important ! Les prescriptions et indications du fabricant du véhicule s'appliquent en principe avant toutes autres !"
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes ne doivent être remplacées que par un personnel compétent."
+            }
+          ],
+          "text": "Plaquette ou accessoires mal montés, cause possible de bruit au freinage.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c2",
+          "limite": "Ne concerne que les plaquettes directionnelles. La source ne qualifie pas le bruit de métallique. Le texte omet l'usure accrue et la baisse de performance, ce qui est une omission de sécurité. Le sens de montage dépend du produit et des instructions du fabricant.",
+          "portee": "Plaquettes directionnelles (flèche sur le shim ou la plaque arrière). Le montage du mauvais côté augmente le bruit et l'usure, et réduit les performances de freinage.",
+          "proposed_wording": "Une plaquette directionnelle (flèche sur le shim ou la plaque arrière) montée du mauvais côté augmente le bruit au freinage et l'usure des plaquettes, et réduit les performances de freinage. Faites contrôler le sens de montage par un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Une aide indispensable dans le cas de plaquettes de frein directionnelles, dont le montage du mauvais côté augmente le niveau de bruit au freinage et l’usure des plaquettes, et réduit les performances du système de freinage dans son ensemble."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Flèche : Si une flèche apparaît sur le Shim ou la plaque arrière de la plaquette, la plaquette de frein doit être monté de manière à ce que le sens de la flèche coïncide avec le sens de sortie du disque."
+            }
+          ],
+          "text": "Plaquette directionnelle montée du mauvais côté, cause possible de bruit au freinage.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c3",
+          "limite": "Le qualificatif « métallique » n'est porté que par le cas de l'indicateur d'usure. Pour le mauvais montage et la plaquette directionnelle, les sources parlent de bruit en général. Les captures n'établissent pas que la plaquette est la seule cause : la relation n'est pas exhaustive et ne doit pas servir d'autodiagnostic. Un contrôle professionnel est nécessaire.",
+          "portee": "Deux sources concordent sur le lien plaquette/bruit : le son strident des languettes d'usure (Delphi) et les bruits dus à un mauvais montage (ZF). Le classement possible_cause et diagnostic_safe: false sont cohérents avec ces captures.",
+          "proposed_wording": "Rattacher brake_noise_metallic au seul cas de l'indicateur d'usure mécanique. Rattacher le mauvais montage et la plaquette directionnelle à un symptôme de bruit de freinage général, accompagné d'une baisse possible de performance. Conserver possible_cause et diagnostic_safe: false.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Si les plaquettes de frein ou accessoires sont mal montés, cela causera inévitablement des problèmes – dans la plupart des cas, des bruits de freinage ou une performance réduite des freins."
+            }
+          ],
+          "text": "Relation possible_cause entre la plaquette et le symptôme brake_noise_metallic (système freinage), evidence confidence medium, diagnostic_safe false, source_policy 2_medium_concordant.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "diagnostic_relation",
+        "escalated"
+      ],
+      "id": "fm:diagnostic_relations",
+      "sha256": "06fbc4ca22173221fc64b47d3450ac3b3266f747daca3b72cdfbbc81cdb6e76f"
+    },
+    {
+      "claims": [
+        {
+          "id": "c4",
+          "limite": "Les captures ne donnent aucune liste de causes différentielles et aucune méthode de diagnostic. Un bruit, une vibration ou une baisse d'efficacité au freinage relève d'un contrôle par un professionnel.",
+          "portee": "Les captures montrent qu'un bruit peut venir d'un montage incorrect (ZF/TRW) et qu'un capteur d'usure peut être endommagé par la chaleur (Delphi). Ces deux causes sont distinctes de l'usure de la plaquette.",
+          "proposed_wording": "Un symptôme seul ne désigne pas la plaquette. Un bruit de freinage peut aussi venir d'une plaquette ou d'accessoires mal montés. Un témoin peut aussi signaler un câblage de capteur endommagé. Toute baisse d'efficacité du freinage doit être contrôlée par un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Si les plaquettes de frein ou accessoires sont mal montés, cela causera inévitablement des problèmes – dans la plupart des cas, des bruits de freinage ou une performance réduite des freins."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Au fil du temps, la chaleur dégagée par les freins peut endommager le câblage et les clips."
+            }
+          ],
+          "text": "Un symptôme seul ne désigne pas la plaquette.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c5",
+          "limite": "Les plaquettes n'ont pas toutes un indicateur mécanique. ZF précise que normalement seules deux plaquettes sur quatre en ont un. L'absence de bruit ne prouve donc pas que la plaquette n'est pas usée.",
+          "portee": "Plaquettes équipées de languettes métalliques ou d'un indicateur d'usure mécanique. Delphi situe les languettes sur de nombreux systèmes plus anciens.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "⑤ Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            }
+          ],
+          "text": "En fin d'usure, les languettes métalliques et les indicateurs d'usure mécaniques émettent un son strident au contact du disque.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c6",
+          "limite": "Le nombre de capteurs (un à quatre) et leur position varient selon la conception du système. Les témoins à deux niveaux affichent aussi une estimation avant l'allumage final. Le voyant ne surveille donc que les plaquettes équipées d'un capteur.",
+          "portee": "Véhicules équipés d'un témoin d'usure électronique (Delphi).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Cela allume le voyant du tableau de bord, indiquant qu’il est temps de remplacer les plaquettes de frein."
+            }
+          ],
+          "text": "Sur les plaquettes à témoin électronique, le témoin s'allume au tableau de bord.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c7",
+          "limite": "La capture ne permet pas d'attribuer à coup sûr un bruit à un défaut de montage. Une performance de freinage réduite impose un contrôle professionnel avant de rouler.",
+          "portee": "Conseil atelier ZF/TRW sur le montage des plaquettes et de leurs accessoires.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Si les plaquettes de frein ou accessoires sont mal montés, cela causera inévitablement des problèmes – dans la plupart des cas, des bruits de freinage ou une performance réduite des freins."
+            }
+          ],
+          "text": "Une plaquette ou des accessoires mal montés causent dans la plupart des cas des bruits de freinage ou une performance réduite des freins.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c8",
+          "limite": "Le seuil de 2 mm est donné par Brembo pour ses produits. La limite d'usure applicable dépend du constructeur et du produit, et la fiche ne doit pas la généraliser. La question posée ne valide pas la réponse : seule la capture la porte.",
+          "portee": "Instructions Brembo de remplacement des disques et plaquettes (page KIT EV, normes générales).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Vérifier l’épaisseur des plaquettes de frein et les remplacer par essieu si : l’usure dépasse les limites, s’il y a une usure différenciée, si la surface présente des fissures ou de profondes rayures."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque le matériau de friction atteint 2 mm d’épaisseur ou lorsque le témoin de l’indicateur d’usure s’allume, il faut impérativement remplacer les plaquettes."
+            }
+          ],
+          "text": "FAQ – Remplacer les plaquettes à la limite d'usure, quand le témoin d'usure s'allume, ou en cas d'usure différenciée, de fissures ou de profondes rayures.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c9",
+          "limite": "La consigne porte sur l'essieu, pas sur le véhicule entier.",
+          "portee": "Instructions générales Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein doivent être remplacées par essieu."
+            }
+          ],
+          "text": "FAQ – Faut-il changer les deux côtés ? Oui, les plaquettes se remplacent par essieu.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c10",
+          "limite": "Le « oui » catégorique ne vaut pas pour tous les produits : les deux sources divergent. Il faut suivre les instructions du constructeur du véhicule et du fabricant de la pièce.",
+          "portee": "Delphi recommande de remplacer le témoin à chaque changement de plaquettes. Brembo admet de rebrancher le capteur existant s'il n'est pas endommagé. Les témoins intégrés au matériau sont remplacés avec la plaquette.",
+          "proposed_wording": "Faut-il changer le témoin d'usure ? Delphi recommande de le remplacer à chaque changement de plaquettes, car il est conçu pour rompre. Les témoins intégrés à la plaquette sont remplacés avec elle. Les instructions Brembo admettent de rebrancher le capteur existant s'il n'est pas endommagé. Suivez les prescriptions du constructeur du véhicule.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure étant conçus pour rompre, il convient de les remplacer chaque fois que de nouvelles plaquettes sont installées."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure électroniques les plus courants sont directement intégrés dans le matériau des plaquettes de frein et ne sont donc pas amovibles."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Si un indicateur d’usure est prévu, rebrancher le nouveau capteur ou celui existant, s’il n’est pas endommagé."
+            }
+          ],
+          "text": "FAQ – Faut-il changer le témoin d'usure ? Oui, il est conçu pour rompre et se remplace avec les plaquettes.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c11",
+          "limite": "Sur un étrier flottant, une plaquette est poussée par le corps de l'étrier et non par le piston (voir variants).",
+          "portee": "Fonctionnement général des étriers de frein hydrauliques (Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Cette transformation se produit lorsque la pression hydraulique du maître-cylindre agit sur les pistons de l'étrier, générant la force nécessaire pour pousser les plaquettes contre les disques et ralentir ou arrêter le véhicule."
+            }
+          ],
+          "text": "Dans l'étrier, la pression hydraulique venue du maître-cylindre agit sur les pistons, qui poussent les plaquettes contre le disque pour ralentir ou arrêter le véhicule.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c12",
+          "limite": "Les accessoires varient selon la conception : ressort de piston, tôle de guidage (ZF). Le retour du piston dépend aussi des joints (roll-back).",
+          "portee": "Étriers équipés de ressorts de plaquettes (Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Ressorts de plaquettes de frein : Ils ramènent les plaquettes dans leur position de repos après le freinage. Les ressorts maintiennent également les plaquettes collées à leurs pistons respectifs."
+            }
+          ],
+          "text": "Après le freinage, des ressorts ramènent les plaquettes en position de repos et les maintiennent contre leurs pistons.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c13",
+          "limite": "Aucun intervalle chiffré n'est donné. L'intervalle relève des prescriptions du constructeur du véhicule.",
+          "portee": "Informations générales et de sécurité Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein s’usent et elles doivent, donc, être contrôlées à intervalles réguliers."
+            }
+          ],
+          "text": "Les plaquettes s'usent et doivent être contrôlées à intervalles réguliers.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c14",
+          "limite": "La liste de facteurs n'est pas présentée comme exhaustive et n'est pas quantifiée.",
+          "portee": "Article Delphi sur les témoins d'usure.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les conditions de la route, le style de conduite, la vitesse, la charge (du véhicule ?) et le type de plaquettes et de disques ont une incidence sur la rapidité à laquelle cela se produit"
+            }
+          ],
+          "text": "La vitesse d'usure dépend des conditions de la route, du style de conduite, de la vitesse, de la charge et du type de plaquettes et de disques.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c15",
+          "limite": "Cette limite est cohérente avec les sources et ne doit pas être remplacée par un chiffre générique.",
+          "portee": "Delphi justifie l'absence d'intervalle universel par la forte variabilité de l'usure.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les plaquettes de frein s'usent au fil du temps. Cependant, le temps nécessaire pour ce faire peut varier considérablement."
+            }
+          ],
+          "text": "Cette fiche ne donne ni durée ni kilométrage valables pour tous les véhicules.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c16",
+          "limite": "Il s'agit d'une page commerciale d'un seul fabricant. Elle ne prouve pas que toutes les pièces d'origine, toutes marques confondues, portent ce logo.",
+          "portee": "Affirmation d'un équipementier (Brembo) sur ses produits de première monte, en particulier ses boîtes de plaquettes, disques et étriers.",
+          "proposed_wording": "Selon Brembo, ses produits de première monte se reconnaissent au logo « OE supplier » présent sur l'emballage.",
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Tous les produits d’origine sont immédiatement reconnaissables car ils portent le logo OE supplier."
+            }
+          ],
+          "text": "Les pièces d'origine portent le logo « OE supplier ».",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c17",
+          "limite": "Il s'agit d'arguments commerciaux, non d'un référentiel neutre. Ils ne permettent pas de juger une pièce précise.",
+          "portee": "Arguments de Brembo pour ses propres plaquettes. L'attribution à « une page d'équipementier » est correcte.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "On limite ainsi la perte d’efficacité au freinage (phénomène de fading ou patinage) et la performance au freinage reste donc constante."
+            },
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Elles y parviennent en partie grâce aux différentes couches en caoutchouc, acier et caoutchouc de la cale antibruit (anti-noise shim)."
+            },
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "À commencer par les essais sur bancs statiques"
+            },
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Enfin, on passe aux essais sur route."
+            }
+          ],
+          "text": "Une page d'équipementier cite comme marques de qualité un traitement thermique de surface qui limite la perte d'efficacité à chaud, un shim antibruit multicouche et des essais sur bancs puis sur route. Cette fiche ne classe pas les marques.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c18",
+          "limite": "Un travail mal exécuté peut rendre le freinage totalement inefficace. Le recours à un professionnel est la règle donnée par la source.",
+          "portee": "Normes générales Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes ne doivent être remplacées que par un personnel compétent."
+            }
+          ],
+          "text": "Composants de sécurité, les plaquettes ne doivent être remplacées que par un personnel compétent.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c19",
+          "limite": "Les produits Brembo Kit EV doivent en outre être montés ensemble, ce qui est propre à ce kit.",
+          "portee": "Instructions Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein doivent être remplacées par essieu."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "À chaque remplacement des disques, remplacer aussi leurs plaquettes."
+            }
+          ],
+          "text": "Elles se remplacent par essieu, et à chaque remplacement des disques.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c20",
+          "limite": "L'orientation face au disque ne suffit pas pour les plaquettes directionnelles ou asymétriques. Pour certaines tôles de guidage, la position ne peut être déterminée qu'avec la documentation du fabricant. Un montage du mauvais côté réduit les performances : c'est un travail de professionnel.",
+          "portee": "Orientation du matériau de friction (Brembo). Les sources ajoutent des règles de position : flèche, côté piston ou côté griffe, échancrure, ressort, indicateur (ZF/TRW).",
+          "proposed_wording": "Le matériau de friction se monte tourné vers le disque. Sur une plaquette fléchée ou asymétrique, la flèche suit le sens de rotation du disque en marche avant. La position côté piston ou côté griffe et celle des accessoires suivent la documentation du fabricant et les prescriptions du constructeur du véhicule.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Avec les plaquettes asymétriques, la flèche est orientée dans le sens de rotation du disque en marche avant."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Flèche : Si une flèche apparaît sur le Shim ou la plaque arrière de la plaquette, la plaquette de frein doit être monté de manière à ce que le sens de la flèche coïncide avec le sens de sortie du disque."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Important ! Les prescriptions et indications du fabricant du véhicule s'appliquent en principe avant toutes autres !"
+            }
+          ],
+          "text": "Le matériau de friction se monte tourné vers le disque.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c21",
+          "limite": "La fiche omet la conduite à tenir en cas de contamination : remplacer les plaquettes et dégraisser les disques. Elle omet aussi que certaines surfaces exigent une graisse spéciale selon le constructeur. Une plaquette souillée ne doit pas être remontée.",
+          "portee": "Instructions Brembo : interdiction de contact entre graisse et surfaces de friction. Un graissage spécifique peut être prévu à l'arrière et sur les côtés des plaquettes, ainsi que sur les zones de coulissement.",
+          "proposed_wording": "Le matériau de friction et le disque ne doivent toucher ni graisse ni huile. Une plaquette souillée se remplace, et le disque se dégraisse. Les seules zones à graisser (arrière et côtés de la plaquette, zones de coulissement) le sont avec la graisse spéciale indiquée par le constructeur.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Le matériau de friction des plaquettes et les disques ne doivent pas entrer en contact avec les graisses utilisées parce que cela risque de compromettre le frein. Si cela devait se produire, dégraisser les disques et utiliser d’autres plaquettes."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Le cas échéant, appliquer de la graisse à l’arrière et sur les côtés des plaquettes."
+            }
+          ],
+          "text": "Le matériau de friction ne doit pas toucher de graisse.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c22",
+          "limite": "La règle n'est pas universelle : les sources divergent. Il faut suivre les prescriptions du constructeur et rebrancher l'indicateur dans tous les cas.",
+          "portee": "Recommandation Delphi. Brembo admet de réutiliser un capteur existant non endommagé.",
+          "proposed_wording": "Delphi recommande de remplacer les témoins d'usure, conçus pour rompre, à chaque changement de plaquettes. Brembo admet de rebrancher un capteur existant non endommagé. Dans tous les cas, l'indicateur doit être rebranché selon les prescriptions du constructeur.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure étant conçus pour rompre, il convient de les remplacer chaque fois que de nouvelles plaquettes sont installées."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Si un indicateur d’usure est prévu, rebrancher le nouveau capteur ou celui existant, s’il n’est pas endommagé."
+            }
+          ],
+          "text": "Les témoins d'usure, conçus pour rompre, se remplacent avec les plaquettes.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c23",
+          "limite": "La marque et le modèle peuvent ne pas suffire à identifier la bonne référence. Il faut se fier au catalogue et aux prescriptions du constructeur.",
+          "portee": "Consigne de sécurité Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Avant de commencer la procédure de remplacement, s’assurer que la pièce de rechange est adaptée à la marque et au modèle du véhicule."
+            }
+          ],
+          "text": "Le choix part du véhicule : la plaquette doit être adaptée à sa marque et à son modèle.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c24",
+          "limite": "La source vise le montage. L'extension au choix de la pièce est cohérente, mais elle n'est pas explicitement couverte.",
+          "portee": "Consigne ZF/TRW, formulée dans le contexte du montage des plaquettes (« en principe »).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Important ! Les prescriptions et indications du fabricant du véhicule s'appliquent en principe avant toutes autres !"
+            }
+          ],
+          "text": "Les prescriptions du constructeur priment sur toute autre indication.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c25",
+          "limite": "La capture ne garantit pas que chaque fabricant propose un matériau adapté à chaque véhicule et à chaque style de conduite. Le matériau doit rester conforme à la référence prescrite pour le véhicule.",
+          "portee": "Gamme Brembo uniquement.",
+          "proposed_wording": "Il existe de nombreux matériaux de friction : Brembo indique en utiliser plus de 100 pour adapter ses plaquettes au véhicule et au style de conduite. Le matériau retenu doit correspondre à la référence prévue pour le véhicule.",
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Pour ses plaquettes de frein, Brembo utilise plus de 100 matériaux de friction différents, créés afin d’offrir, pour chaque véhicule et style de conduite, la solution la mieux adaptée en termes de performances et de confort."
+            }
+          ],
+          "text": "Il existe de nombreux matériaux de friction, adaptés à chaque véhicule et à chaque style de conduite.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c26",
+          "limite": "Aucune capture n'affirme que le type d'indicateur dépend de la conception. Elles parlent du nombre et de la position des capteurs.",
+          "portee": "Delphi lie à la conception du système le nombre et la position des capteurs. ZF indique que deux plaquettes sur quatre sont normalement équipées, d'un indicateur mécanique ou électrique.",
+          "proposed_wording": "Les indicateurs d'usure sont mécaniques ou électriques. Leur nombre (un à quatre capteurs selon Delphi) et leur position dépendent de la conception du système de freinage. Dans un jeu, seules deux plaquettes sur quatre en sont normalement dotées.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Bien que de nombreux systèmes d’usure des plaquettes de frein comportent un capteur situé à l’intérieur du véhicule, ce nombre peut varier - entre un et quatre - en fonction de la conception du système de freinage."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Normalement, seules deux des quatre plaquettes composant un jeu de plaquettes sont dotées d'un indicateur d'usure mécanique ou électrique."
+            }
+          ],
+          "text": "Le type d'indicateur d'usure, mécanique ou électrique, dépend de la conception du système de freinage.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c27",
+          "limite": "La source est un fabricant, non un texte réglementaire. Le champ précis de la réglementation (pièces de rechange, exceptions) n'est pas couvert.",
+          "portee": "Affirmation de Brembo, un fabricant, sur le marché européen.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Ainsi, en Europe, l’homologation ECE R90, obligatoire pour commercialiser disques et plaquettes, figure systématiquement sur toutes les boites de disques et plaquettes Brembo."
+            }
+          ],
+          "text": "En Europe, l'homologation ECE R90 est obligatoire pour commercialiser des disques et des plaquettes de frein.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c28",
+          "limite": "Il y a généralement un ou deux pistons. Le texte ne doit pas servir de guide d'identification ou de démontage.",
+          "portee": "Description générale Brembo des étriers flottants.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Les étriers flottants sont actionnés par des pistons (généralement un ou deux) situés d'un côté de l'étrier."
+            },
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Les pistons poussent directement l’une des plaquettes contre le disque, tandis que l’autre plaquette est poussée par le corps de l'étrier flottant, qui glisse sur des guides spéciaux."
+            }
+          ],
+          "text": "L'étrier flottant a ses pistons d'un seul côté : ils poussent une plaquette, et l'autre est poussée par le corps de l'étrier, qui glisse sur des guides.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c29",
+          "limite": "Il s'agit d'une tendance et non d'une règle par véhicule. Le type d'étrier d'un véhicule donné se vérifie sur ce véhicule.",
+          "portee": "Tendance générale selon Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Les étriers flottants sont les plus répandus sur les véhicules d’entrée et de milieu de gamme ainsi que sur les véhicules utilitaires légers (VUL)."
+            }
+          ],
+          "text": "L'étrier flottant est le type le plus répandu sur les véhicules d'entrée et de milieu de gamme et sur les utilitaires légers.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c30",
+          "limite": "Il s'agit d'une tendance d'usage, pas d'une exclusivité.",
+          "portee": "Description Brembo des étriers fixes. La source écrit « pistons fixes » dans la section consacrée aux étriers fixes.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Ils contiennent deux pistons opposés ou plus permettant l’actionnement des plaquettes de frein."
+            },
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Les pistons fixes s’utilisent sur les véhicules sportifs de milieu à haut de gamme et sont généralement fabriqués en alliage d’aluminium."
+            }
+          ],
+          "text": "L'étrier fixe porte des pistons opposés ; on le trouve sur les véhicules sportifs de milieu à haut de gamme.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c31",
+          "limite": "Les autres motifs de remplacement (usure différenciée, fissures, rayures) ne figurent pas dans ce conseil. Le remplacement relève d'un personnel compétent.",
+          "portee": "Instructions générales Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein s’usent et elles doivent, donc, être contrôlées à intervalles réguliers."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque le matériau de friction atteint 2 mm d’épaisseur ou lorsque le témoin de l’indicateur d’usure s’allume, il faut impérativement remplacer les plaquettes."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein doivent être remplacées par essieu."
+            }
+          ],
+          "text": "Conseil d'entretien : contrôler les plaquettes à intervalles réguliers et les remplacer par essieu à la limite d'usure ou quand le témoin d'usure s'allume, en suivant les prescriptions du constructeur du véhicule.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure",
+        "diagnostic_relation"
+      ],
+      "id": "fm:entity_data",
+      "sha256": "75647127af9e8f3a02169cfe0cd51c30490c2df33a606f9b847dae9478a80fd4"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:entity_type",
+      "no_claims": true,
+      "sha256": "7dcbad6910f07a050ebb49e35dab2ca12004cbcef63be8c8487480d4d6d98671"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:exportable",
+      "no_claims": true,
+      "sha256": "d7afff1860e91fa76bd99e0c403eec2ec10652434b64c5818348439744cc832a"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:id",
+      "no_claims": true,
+      "sha256": "c2b4af3029df973131899291a936b8622fb9fcba4a17533ea508d5fee9b35018"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:lang",
+      "no_claims": true,
+      "sha256": "2a765c307dccf3bdc6f06a8568eb54a682b8e2f3549efe2e5118dcadddaf2cfd"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:no_disputed_claims",
+      "no_claims": true,
+      "sha256": "4e96cc03e069936ad1a77023a759df8d8ead1f949d5c9dde184d8ab41a336ba8"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:provenance",
+      "no_claims": true,
+      "sha256": "8b79ca24f80d7f8fec1a12f44643db80ccc54a92a7d65b944562d868df19ea6a"
+    },
+    {
+      "claims": [
+        {
+          "id": "c32",
+          "limite": "Ces valeurs ne valent pas pour toutes les plaquettes ni pour tous les véhicules. Les prescriptions du constructeur priment. Le motif « faute de preuve archivée » est inexact : la preuve existe, mais elle ne couvre que ces produits Brembo. Le retrait se justifie par la non-généralisation, pas par l'absence de preuve.",
+          "portee": "Notice Brembo de remplacement des disques et plaquettes Kit EV. Elle donne un seuil de 2 mm de matériau de friction et un rodage de 200 km pour ces produits.",
+          "proposed_wording": "Retirées car non généralisables : l'épaisseur minimale (2 mm) et la distance de rodage (200 km) ne sont attestées que par la notice Brembo Kit EV, pour ces produits ; les prescriptions du constructeur du véhicule priment.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque le matériau de friction atteint 2 mm d’épaisseur ou lorsque le témoin de l’indicateur d’usure s’allume, il faut impérativement remplacer les plaquettes."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Le rodage à conseiller à l’utilisateur final consiste à parcourir 200 km, en effectuant des freinages doux et courts, sans faire intervenir l’ABS."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Toujours respecter les instructions de rodage du constructeur du véhicule."
+            }
+          ],
+          "text": "Épaisseur minimale chiffrée et distance de rodage retirées faute de preuve archivée.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c33",
+          "limite": "La capture ne parle pas de vibration « dans la pédale » et n'emploie pas le terme « voile ». Elle ne fonde pas un diagnostic à partir du symptôme. Le contrôle de l'oscillation se fait au comparateur et relève d'un atelier.",
+          "portee": "Brembo relie une oscillation de disque incorrecte, mesurée au montage, à des vibrations lors des freinages.",
+          "proposed_wording": "Retirée : seule une capture Brembo relie une oscillation de disque incorrecte à des vibrations lors des freinages ; la relation symptôme pédale → voile de disque n'est pas attestée.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Une valeur d’oscillation incorrecte entraîne une usure anormale et des vibrations lors des freinages."
+            }
+          ],
+          "text": "Relation de vibration dans la pédale (voile de disque) retirée faute de preuve archivée.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c34",
+          "limite": "Aucune page d'équipementier ne corrobore ces deux points. Le retrait est cohérent avec le plafond low.",
+          "portee": "Wikipédia (confiance low) décrit la conversion en chaleur et les familles de matériaux. Brembo ne cite qu'un nombre de matériaux, sans familles.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933",
+              "path": "sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md",
+              "quote": "Les plaquettes pincent le disque avec plus ou moins de force, ce qui transforme l'énergie cinétique en chaleur[4], évacuée dans l'air ambiant."
+            },
+            {
+              "cid": "sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933",
+              "path": "sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md",
+              "quote": "Plaquettes réalisées avec différents matériaux:"
+            },
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Pour ses plaquettes de frein, Brembo utilise plus de 100 matériaux de friction différents"
+            }
+          ],
+          "text": "Conversion de l'énergie cinétique en chaleur et familles de matériaux de friction attestées par Wikipédia seul.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c35",
+          "limite": "Aucune capture ne relie la contamination au grincement : le retrait est fondé. La précaution anti-contamination reste attestée et pourrait être publiée comme précaution, pas comme cause de bruit.",
+          "portee": "Brembo relie la contamination par les graisses à une atteinte au freinage, pas à un grincement.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Le matériau de friction des plaquettes et les disques ne doivent pas entrer en contact avec les graisses utilisées parce que cela risque de compromettre le frein."
+            }
+          ],
+          "text": "Causes de grincement par contamination de la garniture retirées faute de preuve archivée.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c36",
+          "limite": "Le grincement n'indique pas toujours l'usure. Les plaquettes à témoin électronique n'ont pas de languette sonore. Un bruit au freinage justifie un contrôle par un professionnel, et le maintien de diagnostic_safe=false est requis.",
+          "portee": "Le signal sonore d'usure vient des plaquettes équipées d'un indicateur mécanique (languette). ZF attribue aussi des bruits de freinage à un mauvais montage.",
+          "proposed_wording": "grincement aigu au freinage : peut signaler l'usure sur les plaquettes à indicateur mécanique (ZF, Delphi) ; un mauvais montage peut aussi causer des bruits (ZF) ; contrôle professionnel recommandé.",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "⑤ Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Si les plaquettes de frein ou accessoires sont mal montés, cela causera inévitablement des problèmes – dans la plupart des cas, des bruits de freinage ou une performance réduite des freins."
+            }
+          ],
+          "text": "Relation diagnostique « grincement aigu au freinage », confiance moyenne, diagnostic_safe=false.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c37",
+          "limite": "Le corps de la fiche n'est pas fourni dans le paquet : sa formulation n'a pas pu être vérifiée. Le nombre et la position des capteurs varient selon le système de freinage.",
+          "portee": "Delphi décrit les témoins d'usure électroniques à boucle de fil.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Cela allume le voyant du tableau de bord, indiquant qu’il est temps de remplacer les plaquettes de frein."
+            }
+          ],
+          "text": "L'allumage du témoin d'usure au tableau de bord (plaquettes à témoin électronique) est décrit dans le corps.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c38",
+          "limite": "La mention CC-BY-SA-3.0 du catalogue n'est pas vérifiable dans les captures. Les cinq autres captures portent aussi license null. La décision revient au propriétaire.",
+          "portee": "Métadonnées de la capture Wikipédia.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933",
+              "path": "sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md",
+              "quote": "license: null"
+            },
+            {
+              "cid": "sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933",
+              "path": "sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md",
+              "quote": "license_status: unknown"
+            }
+          ],
+          "text": "La capture RAW de l'article Wikipédia porte license null (license_status unknown).",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:review_notes",
+      "sha256": "b66632adb7182153b743d2fa02e236462faa6a338b9ffa4d49961b80be15c00e"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:schema_version",
+      "no_claims": true,
+      "sha256": "e947cbb8bb0e450cce5d059b748f0a116b8425539d6adf51bd43c1acff4702f3"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "5455f13cb9f2ba2b05feb13f781b0cea7254f18868effd93e854b53817a4b2e0"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "numeric_value"
+      ],
+      "id": "fm:source_refs",
+      "no_claims": true,
+      "sha256": "c3e65db0f9f38733ab9b87d655a1f73d7e7a266b94e4f46616a4c2a83b95622a"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:target_classes",
+      "no_claims": true,
+      "sha256": "20d669aef3731cf2de6dcbed7d2551ddbbe5aa90ac93d22d47c68519a42bc9a6"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:title",
+      "no_claims": true,
+      "sha256": "1727a5c5da6d826565c5fb78a9bb8ba858fa06a019eaeaeb0f265c7e1e334439"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:truth_level",
+      "no_claims": true,
+      "sha256": "a3127fa38b6258e16ff523cafcbe9860db6a9a7e7af1ae2c85812fffe6a9a5ae"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "fm:updated_at",
+      "no_claims": true,
+      "sha256": "357a14f9df7bc123ee51b57138ef73235a798983ea8ec94b09b6f82def026d0e"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "92c1d8b1cea628b9559f4a3958e618faa8879d4cca683ca2036c2eabba171b3a"
+    },
+    {
+      "claims": [
+        {
+          "id": "c39",
+          "limite": "Les sources ne traitent pas les freins à tambour dans ce sens. Wikipédia rattache aussi le terme aux freins à tambour.",
+          "portee": "Définition générale de la plaquette (Wikipédia) et fonctionnement de l'étrier hydraulique (article général Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933",
+              "path": "sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md",
+              "quote": "Une plaquette de frein est l'élément qui entre en friction avec la surface en rotation dans les freins à tambour ou à disque"
+            },
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Cette transformation se produit lorsque la pression hydraulique du maître-cylindre agit sur les pistons de l'étrier, générant la force nécessaire pour pousser les plaquettes contre les disques et ralentir ou arrêter le véhicule."
+            }
+          ],
+          "text": "La plaquette de frein est l'élément de friction du frein à disque : l'étrier la presse contre le disque pour ralentir ou arrêter le véhicule.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c40",
+          "limite": "Aucune source ne décrit la composition complète de la plaquette. La composition se déduit des termes employés.",
+          "portee": "Terminologie d'atelier ZF/TRW et consigne de montage Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Shim: élément d'amortissement fixé sur la plaque arrière de la plaquette."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "avec la surface du matériau de friction orientée vers le disque"
+            }
+          ],
+          "text": "Elle associe une plaque arrière et un matériau de friction, monté tourné vers le disque.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:2",
+      "sha256": "73de472ecdb64d1d6e87a6142fc2b454ee99b40020c04240659e4aa7249ee5ca"
+    },
+    {
+      "claims": [
+        {
+          "id": "c41",
+          "limite": "La source tire de ce statut une exigence de soin et de compétence pour toute intervention (voir body:28).",
+          "portee": "Consignes générales Brembo pour le remplacement des plaquettes.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Étant donné que les plaquettes font partie du système de freinage et qu’elles représentent des composants de sécurité, toutes les opérations doivent être effectuées très soigneusement."
+            }
+          ],
+          "text": "Les plaquettes sont des composants de sécurité du système de freinage.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:3",
+      "sha256": "2d5da202aff9dd24d4d5a000bf9c67efcffbda39871f4f071d00bbd1057dca6b"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:4",
+      "no_claims": true,
+      "sha256": "cea93fde0bf5daa55340a17e918a36057b666290ff2da943f6492cf5e988eeb5"
+    },
+    {
+      "claims": [
+        {
+          "id": "c42",
+          "limite": "La source ne couvre pas les étriers à commande mécanique de frein de stationnement ou électrique.",
+          "portee": "Étriers hydrauliques en général (article technique Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Cette transformation se produit lorsque la pression hydraulique du maître-cylindre agit sur les pistons de l'étrier, générant la force nécessaire pour pousser les plaquettes contre les disques et ralentir ou arrêter le véhicule."
+            }
+          ],
+          "text": "Dans l'étrier, la pression hydraulique venue du maître-cylindre agit sur les pistons, qui poussent les plaquettes contre le disque.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c43",
+          "limite": "Il s'agit d'une description fonctionnelle générale.",
+          "portee": "Étriers de frein hydrauliques (Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Leur principale fonction est de transformer l’énergie hydraulique en force mécanique."
+            }
+          ],
+          "text": "L'étrier transforme ainsi l'énergie hydraulique en force mécanique.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c44",
+          "limite": "La source parle d'isolation thermique, pas d'isolation au sens général. Elle ne précise pas le matériau et ne couvre pas tous les étriers.",
+          "portee": "Pistons d'étrier tels que décrits par Brembo.",
+          "proposed_wording": "Les pistons sont fabriqués dans une matière aux propriétés d'isolation thermique, qui limite la chaleur transmise de la plaquette au liquide de frein.",
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Ils sont fabriqués dans une matière caractérisée par ses propriétés d’isolation thermique afin de limiter la transmission de la chaleur de la plaquette au liquide de frein."
+            }
+          ],
+          "text": "Les pistons sont faits d'une matière isolante qui limite la chaleur transmise de la plaquette au liquide de frein.",
+          "verdict": "reformuler"
+        },
+        {
+          "id": "c45",
+          "limite": "Ces ressorts sont sous contrainte : la source de remplacement demande de les relâcher de façon contrôlée lors de la dépose.",
+          "portee": "Composants d'étrier décrits par Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Ressorts de plaquettes de frein : Ils ramènent les plaquettes dans leur position de repos après le freinage. Les ressorts maintiennent également les plaquettes collées à leurs pistons respectifs."
+            }
+          ],
+          "text": "Après le freinage, des ressorts ramènent les plaquettes en position de repos et les maintiennent contre leurs pistons.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:5",
+      "sha256": "8c1cee97bcf691717700e1362a41d60b8d829a05482742a4cc1c50c2dae8fef6"
+    },
+    {
+      "claims": [
+        {
+          "id": "c46",
+          "limite": "D'autres captures citent des variantes : étriers à griffe (ZF) et étriers à corps fermé (Brembo). La liste n'est donc pas exhaustive.",
+          "portee": "Classification Brembo en étriers flottants et fixes.",
+          "proposed_wording": "On distingue deux grandes familles d'étriers qui actionnent les plaquettes :",
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Types d’étriers de frein : flottants et fixes"
+            }
+          ],
+          "text": "Deux types d'étriers actionnent les plaquettes.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:6",
+      "sha256": "a47558014e1d5eb11f6b2d03608bbb42870a1cd1677eb2e34275515cc3ecd037"
+    },
+    {
+      "claims": [
+        {
+          "id": "c47",
+          "limite": "Le nombre de pistons (généralement un ou deux) n'est pas indiqué dans le texte.",
+          "portee": "Étriers flottants en général (Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Les étriers flottants sont actionnés par des pistons (généralement un ou deux) situés d'un côté de l'étrier."
+            },
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Les pistons poussent directement l’une des plaquettes contre le disque, tandis que l’autre plaquette est poussée par le corps de l'étrier flottant, qui glisse sur des guides spéciaux."
+            }
+          ],
+          "text": "Étrier flottant : les pistons sont d'un seul côté ; ils poussent une plaquette, et l'autre est poussée par le corps de l'étrier, qui glisse sur des guides.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c48",
+          "limite": "C'est une tendance, pas une règle : seul le véhicule concerné fait foi.",
+          "portee": "Tendance générale selon Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Les étriers flottants sont les plus répandus sur les véhicules d’entrée et de milieu de gamme ainsi que sur les véhicules utilitaires légers (VUL)."
+            }
+          ],
+          "text": "C'est le type le plus répandu sur les véhicules d'entrée et de milieu de gamme et sur les utilitaires légers.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:7",
+      "sha256": "9a1f9e033cb042ae69f5ce323d2e617150028ec94ad6fe25c0a84174dddec51c"
+    },
+    {
+      "claims": [
+        {
+          "id": "c49",
+          "limite": "Le nombre de pistons (deux ou plus) et les pistons différenciés ne sont pas détaillés.",
+          "portee": "Étriers fixes (Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Ils contiennent deux pistons opposés ou plus permettant l’actionnement des plaquettes de frein."
+            }
+          ],
+          "text": "Étrier fixe : son corps porte des pistons opposés qui actionnent les plaquettes.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c50",
+          "limite": "La source écrit « pistons fixes » dans la section consacrée aux étriers fixes. Il s'agit d'une tendance d'usage, pas d'une exclusivité.",
+          "portee": "Section « Étriers fixes » de l'article Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Les pistons fixes s’utilisent sur les véhicules sportifs de milieu à haut de gamme et sont généralement fabriqués en alliage d’aluminium."
+            }
+          ],
+          "text": "On le trouve sur les véhicules sportifs de milieu à haut de gamme.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:8",
+      "sha256": "3a9a0fc2d78d96287c9e01645a6be1b32e59abd0107678adc38118c30f1d0d41"
+    },
+    {
+      "claims": [
+        {
+          "id": "c51",
+          "limite": "Les accessoires fournis varient selon la référence et la marque. Certains éléments listés (rainure) sont des caractéristiques de la plaquette plutôt que des pièces livrées.",
+          "portee": "Plaquettes TRW (ZF Aftermarket).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Les plaquettes de frein TRW sont fabriquées sur le modèle des pièces d'origine et fournies à nos clients avec les accessoires requis pour le montage."
+            }
+          ],
+          "text": "Une plaquette peut être livrée avec plusieurs accessoires.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:9",
+      "sha256": "46a2820c9384dec915e31d663a79161e79f96c809970b302550df7beb147006c"
+    },
+    {
+      "claims": [
+        {
+          "id": "c52",
+          "limite": "Il s'agit d'une définition. Une flèche éventuelle sur le shim conditionne le sens de montage (body:29).",
+          "portee": "Terminologie ZF/TRW.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Shim: élément d'amortissement fixé sur la plaque arrière de la plaquette."
+            }
+          ],
+          "text": "Shim : élément d'amortissement fixé sur la plaque arrière de la plaquette.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:10",
+      "sha256": "eaca8903f8b925f7169de17c0590854c3036a55b79eb477ca12006f6bc71a789"
+    },
+    {
+      "claims": [
+        {
+          "id": "c53",
+          "limite": "La source cite la rainure parmi les termes techniques, sans la présenter comme un accessoire livré séparément.",
+          "portee": "Terminologie ZF/TRW.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Slot (rainure) : garantit une évacuation rapide de l'eau, de la saleté et de la poussière."
+            }
+          ],
+          "text": "Rainure : elle permet d'évacuer rapidement l'eau, la saleté et la poussière.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:11",
+      "sha256": "d19e700469229ec555384855d4a25f01482140995c51d8fece223df37346dcc4"
+    },
+    {
+      "claims": [
+        {
+          "id": "c54",
+          "limite": "La position de montage de nombreuses tôles exige la documentation correspondante (body:31). Brembo demande de remplacer les tôles corrodées, courbées ou renflées.",
+          "portee": "Terminologie ZF/TRW.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Tôle de guidage de la plaquette : maintient la plaquette en position, empêchant ainsi les cliquetis et garantit le retour en position initiale de la plaquette lorsque les freins sont relâchés."
+            }
+          ],
+          "text": "Tôle de guidage : elle maintient la plaquette en position, évite les cliquetis et la ramène en position initiale quand le frein est relâché.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:12",
+      "sha256": "ae212b7b423a5c62c92057689beedd5769d5fc810a6cad4fb1d2537bf02b0ac5"
+    },
+    {
+      "claims": [
+        {
+          "id": "c55",
+          "limite": "Il existe des plaquettes à ressorts ancrées côté griffe (body:30).",
+          "portee": "Terminologie ZF/TRW.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Ressort de piston : maintient la plaquette en position, côté piston."
+            }
+          ],
+          "text": "Ressort de piston : il maintient la plaquette en position, côté piston.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:13",
+      "sha256": "675012417140e6a33fa9c46e5ca9cc3ee267730052fcd79035c58a5e919ab42d"
+    },
+    {
+      "claims": [
+        {
+          "id": "c56",
+          "limite": "Les indicateurs électriques sont traités en body:18.",
+          "portee": "Indicateur d'usure mécanique (ZF/TRW).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            }
+          ],
+          "text": "Indicateur d'usure : il signale que la plaquette est usée.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:14",
+      "sha256": "d53cd707782c9dcc5c01545b4999337987e3efa5768bf685cc72d85c1380982f"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "diagnostic_relation"
+      ],
+      "id": "body:15",
+      "no_claims": true,
+      "sha256": "7994f302c951aca15e94589931d192f23d1418d30e2fe56d807609209176a8cf"
+    },
+    {
+      "claims": [
+        {
+          "id": "c57",
+          "limite": "Aucune capture ne formule la règle telle quelle. Toute baisse d'efficacité ou anomalie de pédale relève d'un contrôle professionnel immédiat.",
+          "portee": "Les captures montrent qu'un même symptôme (bruit, vibration, freinage réduit) a plusieurs causes possibles.",
+          "proposed_wording": "> Un symptôme seul ne désigne pas la plaquette de frein : un bruit, une vibration ou un freinage moins efficace peut aussi venir d'un montage incorrect ou d'un disque qui oscille. En cas de baisse d'efficacité du freinage, faire contrôler le système par un professionnel avant de rouler.",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Si les plaquettes de frein ou accessoires sont mal montés, cela causera inévitablement des problèmes – dans la plupart des cas, des bruits de freinage ou une performance réduite des freins."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Une valeur d’oscillation incorrecte entraîne une usure anormale et des vibrations lors des freinages."
+            }
+          ],
+          "text": "Un symptôme seul ne désigne pas la plaquette de frein. La recherche de la cause relève de l'outil de diagnostic, pas de cette fiche.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "diagnostic_relation"
+      ],
+      "id": "body:16",
+      "sha256": "7529dd894f509bd5fb6327bc1b56641a1df05220846a31210107276e720cb604"
+    },
+    {
+      "claims": [
+        {
+          "id": "c58",
+          "limite": "Un bruit strident peut avoir d'autres causes (body:19).",
+          "portee": "Témoins mécaniques à languette (Delphi).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins de plaquettes de frein actuels représentent une évolution par rapport aux languettes métalliques traditionnelles que l'on retrouve dans de nombreux systèmes de freinage plus anciens. En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            }
+          ],
+          "text": "Les languettes métalliques des systèmes de freinage plus anciens émettent un son strident en frottant contre le disque, quand les plaquettes ont atteint leur usure maximale.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c59",
+          "limite": "La formulation « lui aussi » laisse croire à deux dispositifs distincts, alors que les sources décrivent probablement le même principe.",
+          "portee": "Indicateur mécanique (ZF/TRW).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            }
+          ],
+          "text": "L'indicateur d'usure mécanique émet lui aussi un signal sonore au contact du disque quand les plaquettes sont usées.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c60",
+          "limite": "Le texte omet l'urgence (usure maximale atteinte) et le remplacement par essieu. La limite de 2 mm citée par Brembo vaut pour ses instructions et ne doit pas être généralisée.",
+          "portee": "Signal d'usure maximale (Delphi) et remplacement par essieu (Brembo).",
+          "proposed_wording": "C'est un signal voulu : il indique que les plaquettes ont atteint leur usure maximale. Elles doivent être remplacées sans attendre, par essieu.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins de plaquettes de frein actuels représentent une évolution par rapport aux languettes métalliques traditionnelles que l'on retrouve dans de nombreux systèmes de freinage plus anciens. En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein doivent être remplacées par essieu."
+            }
+          ],
+          "text": "C'est un signal voulu, qui demande de remplacer les plaquettes.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "diagnostic_relation"
+      ],
+      "id": "body:17",
+      "sha256": "fce5a0825c8e30f3f4158fececaeda90ae7f8e9e25f4b0db6a4f1ae43834a255"
+    },
+    {
+      "claims": [
+        {
+          "id": "c61",
+          "limite": "Le texte ne dit pas que le voyant impose le remplacement, ni que le témoin, conçu pour rompre, se remplace à chaque changement de plaquettes.",
+          "portee": "Témoins d'usure électroniques (Delphi).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure électroniques éliminent les languettes en utilisant un petit capteur : une boucle de fil électrique traversée par un faible courant. Au fur et à mesure qu'une plaquette s'use, la boucle est exposée et établit des contacts avec le rotor ou le disque, créant un circuit ouvert. Cela allume le voyant du tableau de bord, indiquant qu’il est temps de remplacer les plaquettes de frein."
+            }
+          ],
+          "text": "Une boucle de fil traversée par un faible courant est mise à nu par l'usure de la plaquette ; au contact du disque, le circuit s'ouvre et le témoin s'allume au tableau de bord.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c62",
+          "limite": "C'est le système du véhicule qui calcule, à partir de données de roulage. La fonction n'existe que sur certains véhicules.",
+          "portee": "Témoins à deux niveaux sur certains véhicules (Delphi).",
+          "proposed_wording": "Sur certains véhicules, des témoins à deux niveaux permettent au système du véhicule d'estimer la durée de vie restante de la plaquette. Les témoins étant conçus pour rompre, ils se remplacent à chaque changement de plaquettes.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Lorsque le premier circuit est rompu, la résistance au sein du capteur augmente et le système calcule la durée de vie restante dans la plaquette de frein à l'aide de données telles que la vitesse des roues, le kilométrage, la pression de freinage, la température de freinage et la durée de fonctionnement du frein."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure étant conçus pour rompre, il convient de les remplacer chaque fois que de nouvelles plaquettes sont installées."
+            }
+          ],
+          "text": "Les témoins à deux niveaux estiment en plus la durée de vie restante de la plaquette.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "diagnostic_relation"
+      ],
+      "id": "body:18",
+      "sha256": "0515c12784d5ccff2834379547de9f92204eed91125c37cc5409a143bc71234c"
+    },
+    {
+      "claims": [
+        {
+          "id": "c63",
+          "limite": "Une performance réduite impose un contrôle professionnel avant de rouler.",
+          "portee": "Conseil d'atelier ZF/TRW.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Si les plaquettes de frein ou accessoires sont mal montés, cela causera inévitablement des problèmes – dans la plupart des cas, des bruits de freinage ou une performance réduite des freins."
+            }
+          ],
+          "text": "Une plaquette ou des accessoires mal montés causent dans la plupart des cas des bruits de freinage ou une performance réduite des freins.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c64",
+          "limite": "Le sens se vérifie sur les instructions de la référence montée.",
+          "portee": "Plaquettes directionnelles (Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Une aide indispensable dans le cas de plaquettes de frein directionnelles, dont le montage du mauvais côté augmente le niveau de bruit au freinage et l’usure des plaquettes, et réduit les performances du système de freinage dans son ensemble."
+            }
+          ],
+          "text": "Une plaquette directionnelle montée du mauvais côté augmente le bruit au freinage et l'usure des plaquettes, et réduit les performances du freinage.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "diagnostic_relation"
+      ],
+      "id": "body:19",
+      "sha256": "10ba35e9302662fc2ca691e085433dc4db53b295b456929b80d2bf9283072e9c"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "diagnostic_relation"
+      ],
+      "id": "body:20",
+      "no_claims": true,
+      "sha256": "397c17ac03e8e72701d1308811d75e0f893849f33727ed8553b3a208ddc311d9"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:21",
+      "no_claims": true,
+      "sha256": "63ce988e402ad651dec5865d479751fae5a61e9b2de40d1a3872a34b6142aaee"
+    },
+    {
+      "claims": [
+        {
+          "id": "c65",
+          "limite": "ZF écrit « en principe ».",
+          "portee": "Consignes Brembo et ZF.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "s’assurer que la pièce de rechange est adaptée à la marque et au modèle du véhicule."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Important ! Les prescriptions et indications du fabricant du véhicule s'appliquent en principe avant toutes autres !"
+            }
+          ],
+          "text": "Avant le remplacement, s'assurer que la plaquette est adaptée à la marque et au modèle du véhicule. Les prescriptions du constructeur du véhicule priment sur toute autre indication.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:22",
+      "sha256": "a7f9d1596018901012e1b41582d95116fb94561a82892833e7f084f552010216"
+    },
+    {
+      "claims": [
+        {
+          "id": "c66",
+          "limite": "L'adaptation par véhicule et par style de conduite est une affirmation de Brembo sur sa propre gamme. Le choix se fait selon la référence prescrite pour le véhicule.",
+          "portee": "Gamme Brembo (fabricant) et constat général (Wikipédia).",
+          "proposed_wording": "Il existe une grande diversité de matériaux de friction. Un fabricant comme Brembo indique en proposer plus de 100, conçus selon le véhicule et le style de conduite. Retenir la référence prévue pour le véhicule.",
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Pour ses plaquettes de frein, Brembo utilise plus de 100 matériaux de friction différents, créés afin d’offrir, pour chaque véhicule et style de conduite, la solution la mieux adaptée en termes de performances et de confort."
+            },
+            {
+              "cid": "sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933",
+              "path": "sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md",
+              "quote": "Il existe une grande diversité de plaquettes de freins, en matériaux plus ou moins agressifs et plus ou moins durables"
+            }
+          ],
+          "text": "Il existe de nombreux matériaux de friction, adaptés à chaque véhicule et à chaque style de conduite.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:23",
+      "sha256": "83a1790e6e885ae85dddd1cc7af6a9c247bb771cf8071b104c3c35effb8a8200"
+    },
+    {
+      "claims": [
+        {
+          "id": "c67",
+          "limite": "Le type dépend du véhicule.",
+          "portee": "ZF/TRW.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Normalement, seules deux des quatre plaquettes composant un jeu de plaquettes sont dotées d'un indicateur d'usure mécanique ou électrique."
+            }
+          ],
+          "text": "Type d'indicateur d'usure : mécanique ou électrique.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c68",
+          "limite": "La mention « intégrés, non amovibles » concerne les témoins électroniques, pas tous les indicateurs. Le nombre varie de un à quatre.",
+          "portee": "Témoins d'usure électroniques (Delphi).",
+          "proposed_wording": "Le nombre de capteurs (de un à quatre) et leur position varient selon la conception du système de freinage. Les témoins électroniques les plus courants sont intégrés au matériau de la plaquette et ne sont pas amovibles ; d'autres sont montés sur la plaquette. Conçus pour rompre, ils se remplacent à chaque changement de plaquettes.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Bien que de nombreux systèmes d’usure des plaquettes de frein comportent un capteur situé à l’intérieur du véhicule, ce nombre peut varier - entre un et quatre - en fonction de la conception du système de freinage. La position du capteur peut également varier. Les témoins d’usure électroniques les plus courants sont directement intégrés dans le matériau des plaquettes de frein et ne sont donc pas amovibles. D'autres sont montés sur la plaquette de frein elle-même."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure étant conçus pour rompre, il convient de les remplacer chaque fois que de nouvelles plaquettes sont installées."
+            }
+          ],
+          "text": "Le nombre de capteurs et leur position varient selon la conception du système de freinage ; les plus courants sont intégrés au matériau de la plaquette et ne sont pas amovibles, d'autres sont montés sur la plaquette.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:24",
+      "sha256": "48c813cfa8128e95debe5bb33de3240ad272677859c7ca979930631f45a3ddf2"
+    },
+    {
+      "claims": [
+        {
+          "id": "c69",
+          "limite": "Le remplacement des plaquettes seules n'impose pas toujours celui des disques. Le contrôle des disques relève du professionnel.",
+          "portee": "Instructions générales de Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein doivent être remplacées par essieu."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "À chaque remplacement des disques, remplacer aussi leurs plaquettes."
+            }
+          ],
+          "text": "Les plaquettes se remplacent par essieu, et à chaque remplacement des disques, les plaquettes sont remplacées aussi.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:25",
+      "sha256": "c512f8ce3caa9cf945c530508d6ae1b326b1c23e2e663f4cebf53aa5d29d7988"
+    },
+    {
+      "claims": [
+        {
+          "id": "c70",
+          "limite": "Le texte réglementaire n'est pas capturé. Le champ exact de l'obligation n'est pas détaillé.",
+          "portee": "Affirmation d'un fabricant (Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Ainsi, en Europe, l’homologation ECE R90, obligatoire pour commercialiser disques et plaquettes, figure systématiquement sur toutes les boites de disques et plaquettes Brembo."
+            }
+          ],
+          "text": "En Europe, l'homologation ECE R90 est obligatoire pour commercialiser disques et plaquettes.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:26",
+      "sha256": "802721c50c63f61bd1c10e056913438b90162953af3e68b412ef2b2bf25d7aef"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:27",
+      "no_claims": true,
+      "sha256": "8487fc61182aa4d2acd64e27d50531c9d4bf15e5477e25e2b4d476aca195c2d1"
+    },
+    {
+      "claims": [
+        {
+          "id": "c71",
+          "limite": "La fiche ne reprend pas les étapes critiques des sources : pédale à actionner avant de rouler, contrôle du liquide, couples constructeur, absence de graisse sur les surfaces de friction, rodage. Ces étapes relèvent du professionnel.",
+          "portee": "Consignes générales Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes ne doivent être remplacées que par un personnel compétent. Un travail mal exécuté risque de rendre le système de freinage totalement inefficace."
+            }
+          ],
+          "text": "Les plaquettes ne doivent être remplacées que par un personnel compétent : un travail mal exécuté risque de rendre le système de freinage totalement inefficace.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:28",
+      "sha256": "010d2a6aa8e02af4bd77e34e288b8781ffdbdb37a2d3914c64f3151997d83d58"
+    },
+    {
+      "claims": [
+        {
+          "id": "c72",
+          "limite": "Le texte ne définit pas la « sortie du disque ». Les prescriptions du constructeur priment.",
+          "portee": "Règle fondamentale ZF/TRW.",
+          "proposed_wording": "Si une flèche figure sur le shim ou la plaque arrière, elle doit coïncider avec le sens de sortie du disque, c'est-à-dire la direction dans laquelle le disque quitte l'étrier en marche avant. Les prescriptions du constructeur du véhicule priment.",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Flèche : Si une flèche apparaît sur le Shim ou la plaque arrière de la plaquette, la plaquette de frein doit être monté de manière à ce que le sens de la flèche coïncide avec le sens de sortie du disque."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Sortie du disque : direction dans laquelle le disque quitte l'étrier de frein en marche avant (flèche)."
+            }
+          ],
+          "text": "Si une flèche figure sur le shim ou la plaque arrière, elle doit coïncider avec le sens de sortie du disque.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c73",
+          "limite": "Il s'agit d'un guide général ; seules les instructions de la référence montée font foi.",
+          "portee": "Instructions Brembo.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Avec les plaquettes asymétriques, la flèche est orientée dans le sens de rotation du disque en marche avant."
+            }
+          ],
+          "text": "Sur les plaquettes asymétriques, la flèche est orientée dans le sens de rotation du disque en marche avant.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:29",
+      "sha256": "6c98a0f83c7d383bd9b546b25f8f3a35012369490872f721250b92a9e4ea53e0"
+    },
+    {
+      "claims": [
+        {
+          "id": "c74",
+          "limite": "Le texte omet l'exception des plaquettes à ressorts ancrées côté griffe. Sur étrier fixe, les quatre plaquettes peuvent avoir une échancrure.",
+          "portee": "Règles ZF/TRW pour étriers à griffe et flottants.",
+          "proposed_wording": "Avec les étriers à griffe et flottants, la plaquette dotée d'une échancrure en quart-de-rond ou d'un ressort de piston riveté se place côté piston. Certaines plaquettes à ressorts s'ancrent toutefois aussi côté griffe : suivre les instructions de la référence.",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Échancrure en quart-de-rond : La plaquette de frein dotée d'une échancrure doit être placée sur le côté piston (étriers à griffe et flottants)."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Ressort de piston : La plaquette de frein dotée d'un ressort de piston riveté doit être placée sur le côté piston (étriers à griffe et flottants)."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Remarque : Il existe une série de plaquettes à ressorts devant également être ancrée sur le côté de la griffe du boîtier de l'étrier de frein !"
+            }
+          ],
+          "text": "Avec les étriers à griffe et flottants, la plaquette dotée d'une échancrure en quart-de-rond ou d'un ressort de piston riveté se place côté piston.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c75",
+          "limite": "Selon Delphi, le nombre de capteurs varie de un à quatre selon le système de freinage.",
+          "portee": "Règle générale ZF/TRW (« normalement »).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Normalement, seules deux des quatre plaquettes composant un jeu de plaquettes sont dotées d'un indicateur d'usure mécanique ou électrique."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Ceux-ci sont montés sur le côté piston des plaquettes symétriques car c'est là que l'usure la plus importante est à craindre."
+            }
+          ],
+          "text": "Les indicateurs d'usure équipent normalement deux des quatre plaquettes d'un jeu, côté piston des plaquettes symétriques, car c'est là que l'usure la plus importante est à craindre.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:30",
+      "sha256": "99925a0e5e538e236dd1acda9e9ced3eddbc916fcc5ce028512ca50b707efccb"
+    },
+    {
+      "claims": [
+        {
+          "id": "c76",
+          "limite": "Sans documentation de la référence, confier le montage à un professionnel.",
+          "portee": "Conseil ZF/TRW.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Le design d'un grand nombre de tôles de guidage de plaquettes rend la détermination de la position de montage impossible. Il faut ici impérativement se reporter aux documents correspondants."
+            }
+          ],
+          "text": "Pour beaucoup de tôles de guidage, la position de montage ne peut pas être déduite de leur forme : il faut se reporter à la documentation correspondante.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:31",
+      "sha256": "3f300f2be7c8ca837e2af1ab39a7ec6001ca1430a4a2141c373828bfc1e7876f"
+    },
+    {
+      "claims": [
+        {
+          "id": "c77",
+          "limite": "Le texte omet le contrôle des caoutchoucs et la conduite à tenir si l'étrier coulisse mal : graisse spéciale selon le constructeur, sans contact avec les surfaces de friction. Des guides corrodés se remplacent, intervention de professionnel.",
+          "portee": "Instructions de remontage Brembo.",
+          "proposed_wording": "Étrier flottant : vérifier le coulissement du corps de l'étrier sur ses tiges de guidage et l'état des parties en caoutchouc, à remplacer si elles sont endommagées. Si l'étrier coulisse mal, graisser légèrement les zones de coulissement avec la graisse spéciale prescrite par le constructeur, sans jamais en mettre sur le matériau de friction ni sur le disque.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Dans le cas d’un étrier flottant, vérifier le coulissement du corps sur les tiges de guidage."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "ATTENTION! Contrôler que les parties en caoutchouc ne sont pas endommagées. Si nécessaire, les remplacer."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque l’étrier coulisse difficilement, graisser légèrement les zones de coulissement avec de la graisse spéciale en suivant les instructions du constructeur du véhicule ou de l’étrier."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Le matériau de friction des plaquettes et les disques ne doivent pas entrer en contact avec les graisses utilisées parce que cela risque de compromettre le frein."
+            }
+          ],
+          "text": "Étrier flottant : vérifier le coulissement du corps de l'étrier sur ses tiges de guidage.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:32",
+      "sha256": "5a522d428f636ec6d192712adf1e1da0e678af4077ff673303e760dce7bc89b7"
+    },
+    {
+      "claims": [
+        {
+          "id": "c78",
+          "limite": "La fiche ne dit pas quoi faire en cas de contamination. La source demande alors de dégraisser les disques et de poser d'autres plaquettes. Les graisses spécifiques des guides et des zones de coulissement relèvent des instructions du constructeur du véhicule ou de l'étrier. En cas de contamination, faire contrôler le frein par un professionnel.",
+          "portee": "Consigne générale de sécurité des instructions Brembo de remplacement des disques et plaquettes, valable pour toute intervention sur un frein à disque.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Éviter le contact de graisse et autres lubrifiants avec les surfaces de freinage du disque et des plaquettes parce que cela risque de rendre le système de freinage inefficace."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Le matériau de friction des plaquettes et les disques ne doivent pas entrer en contact avec les graisses utilisées parce que cela risque de compromettre le frein. Si cela devait se produire, dégraisser les disques et utiliser d’autres plaquettes."
+            }
+          ],
+          "text": "Éviter tout contact de graisse ou de lubrifiant avec les surfaces de freinage du disque et des plaquettes, qui risquerait de rendre le freinage inefficace.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:33",
+      "sha256": "b2fa27dfe1220d7f4bf8bdd292566793b2ed7cebc69b59d82bd9647cbd6dcdd4"
+    },
+    {
+      "claims": [
+        {
+          "id": "c79",
+          "limite": "Aucune valeur n'est transposable d'un véhicule à l'autre. La source impose aussi de remplacer les vis autobloquantes par des neuves du même type, ce que la fiche ne mentionne pas. Le serrage demande une clé dynamométrique. Sans documentation du véhicule ni outillage adapté, s'adresser à un professionnel.",
+          "portee": "Serrage des vis de fixation et des axes de guidage lors du remplacement des plaquettes (instructions Brembo). La valeur du couple relève du constructeur du véhicule.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "AVERTISSEMENT! Respecter le couple de serrage conseillé par le constructeur du véhicule. Un couple de serrage erroné risque d’endommager le système de freinage."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les vis autobloquantes doivent être remplacées par des neuves, du même type."
+            }
+          ],
+          "text": "Respecter le couple de serrage conseillé par le constructeur du véhicule ; cette fiche n'en donne aucune valeur.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:34",
+      "sha256": "fd3f7e36c2883bff37b489599eb10ed1c4e3cce15f87c481c3c848543b6f9255"
+    },
+    {
+      "claims": [
+        {
+          "id": "c80",
+          "limite": "La fiche omet trois points : la condition (véhicule abaissé), le critère (la course ne change pas sous une force constante) et la conduite à tenir en cas d'échec (frein inutilisable, contrôle complet du système). Une pédale qui ne se stabilise pas interdit de rouler et demande une intervention professionnelle. La valeur indicative de course donnée par Brembo n'est pas généralisée.",
+          "portee": "Contrôle du fonctionnement après remplacement des plaquettes, roues montées et véhicule abaissé (instructions Brembo).",
+          "proposed_wording": "Après le montage, roues remontées et véhicule abaissé, actionner la pédale de frein jusqu'à ce que sa course se stabilise : elle ne doit plus changer sous une pression constante. Si la pédale ne se stabilise pas, le frein n'est pas utilisable. Ne pas rouler et faire contrôler tout le système de freinage par un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "ATTENTION! Pour obtenir la pleine efficacité des freins, après avoir abaissé le véhicule, actionner la pédale de frein pour permettre aux plaquettes de se positionner correctement."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "La course de la pédale ne doit pas changer lorsque l’on applique une force constante, même après une période prolongée."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "ATTENTION! Si la pression et sa stabilité ne sont pas obtenues, contrôler à nouveau tout le système de freinage. Dans de telles conditions, le frein n’est pas utilisable."
+            }
+          ],
+          "text": "Après le montage, actionner la pédale de frein jusqu'à ce que sa course se stabilise.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c81",
+          "limite": "La fiche ne précise ni l'appoint éventuel jusqu'au repère max, ni l'usage exclusif de liquide neuf de la classe prévue pour le véhicule, ni le contrôle des fuites. Une fuite ou un niveau qui baisse demande une intervention professionnelle.",
+          "portee": "Contrôle du fonctionnement après remplacement des plaquettes (instructions Brembo).",
+          "proposed_wording": "Contrôler le niveau du liquide de frein dans le réservoir et, si nécessaire, faire l'appoint jusqu'au repère max, uniquement avec du liquide neuf de la classe prévue pour le véhicule. Vérifier l'absence de fuite. En cas de fuite, ne pas rouler et faire contrôler le système par un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Contrôler le niveau du liquide de frein dans le réservoir, et faire éventuellement l'appoint jusqu’au repère max. Utiliser exclusivement du liquide de frein neuf, de la classe requise pour ce type particulier de véhicule."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Recontrôler si le système de freinage présente des fuites."
+            }
+          ],
+          "text": "Contrôler le niveau du liquide de frein.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:35",
+      "sha256": "117c78280cd04bb4b82fdf29a4f1818153ef5e58f5e104a88190d6d7a45c6c2e"
+    },
+    {
+      "claims": [
+        {
+          "id": "c82",
+          "limite": "La source prévoit aussi des essais à vitesse réduite, dans le respect du code de la route. La distance de rodage indiquée par Brembo est propre à son Kit EV et ne vaut pas pour tous les véhicules.",
+          "portee": "Essais de freinage après remplacement des plaquettes (instructions Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Effectuer des essais de freinage à vitesse réduite, en tenant compte du fait que lors des premiers freinages, l’efficacité du frein peut être inférieure. Ne pas freiner avec une force excessive ou de façon continue pour essayer d'obtenir un rodage rapide de la plaquette au disque de frein."
+            }
+          ],
+          "text": "Les premiers freinages peuvent être moins efficaces. Ne pas freiner avec une force excessive ni de façon continue pour accélérer le rodage.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c83",
+          "limite": "Les modalités de rodage dépendent du constructeur du véhicule. Si l'efficacité du freinage ne revient pas, faire contrôler le système par un professionnel.",
+          "portee": "Rodage après remplacement des plaquettes (instructions Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Toujours respecter les instructions de rodage du constructeur du véhicule."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "ATTENTION! Un mauvais rodage risque de compromettre l’efficacité du système de freinage."
+            }
+          ],
+          "text": "Toujours respecter les instructions de rodage du constructeur du véhicule : un mauvais rodage risque de compromettre l'efficacité du freinage.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:36",
+      "sha256": "1a8a443e8db896b8f347330134a74aa76d38f5331e079b7ca8748a5e7b1bd886"
+    },
+    {
+      "claims": [
+        {
+          "id": "c84",
+          "limite": "La fiche omet deux précautions de la source : le port d'un masque en zone mal aspirée, et l'usage de détergents qui ne sont pas à base d'huiles minérales. Les guides et ressorts ne doivent pas être dégraissés.",
+          "portee": "Nettoyage du support, du corps d'étrier et des guides lors du remplacement des plaquettes (instructions Brembo).",
+          "proposed_wording": "Ne pas nettoyer les composants du frein à l'air comprimé, à la brosse dure ou par un moyen équivalent, et ne pas soulever de poussières : leur inhalation peut être nocive. Porter un masque si l'aspiration est faible. Utiliser des détergents qui ne sont pas à base d'huiles minérales, sans dégraisser les guides ni les ressorts.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "ATTENTION! Ne pas nettoyer les composants du système de freinage avec de l'air comprimé, une brosse dure ou équivalents. Ne pas soulever de poussières dont l’inhalation peut être nocive pour la santé. Porter un masque lorsque l’on travaille dans une zone où l’aspiration est faible."
+            }
+          ],
+          "text": "Ne pas nettoyer les composants du frein à l'air comprimé ni à la brosse dure : les poussières soulevées peuvent être nocives à l'inhalation.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:37",
+      "sha256": "c4b03ce0e1b5bfcb2c6d6f9dfc97c1389c683a28dc22cc837101c1a37a164f7b"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:38",
+      "no_claims": true,
+      "sha256": "7230a225bccecf2b97832f239fe647abea3c536d9ed17e549b4f3f3d1f784fbf"
+    },
+    {
+      "claims": [
+        {
+          "id": "c85",
+          "limite": "Aucune source ne fixe d'intervalle. L'intervalle relève du plan d'entretien du constructeur du véhicule.",
+          "portee": "Consigne générale de Brembo pour ses plaquettes.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein s’usent et elles doivent, donc, être contrôlées à intervalles réguliers."
+            }
+          ],
+          "text": "Les plaquettes s'usent : elles doivent être contrôlées à intervalles réguliers. Cette fiche ne donne ni durée ni kilométrage valables pour tous les véhicules.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:39",
+      "sha256": "7a5b6ed824f56daf5a010d1a683ead5564a6a887cea73e1a1a6c361d07e48adc"
+    },
+    {
+      "claims": [
+        {
+          "id": "c86",
+          "limite": "La source écrit « la charge (du véhicule ?) » : elle ne tranche pas elle-même le sens du mot. La fiche transforme cette hésitation en affirmation. Le mot « dépend » est aussi plus fort que « ont une incidence ». La liste n'est pas exhaustive et ne permet pas de prédire une durée.",
+          "portee": "Facteurs d'usure cités par la page Delphi sur les témoins d'usure.",
+          "proposed_wording": "Le temps qu'une plaquette met à s'user varie beaucoup. Les conditions de la route, le style de conduite, la vitesse, la charge et le type de plaquettes et de disques ont une incidence sur la rapidité de l'usure.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les plaquettes de frein s'usent au fil du temps. Cependant, le temps nécessaire pour ce faire peut varier considérablement. Les conditions de la route, le style de conduite, la vitesse, la charge (du véhicule ?) et le type de plaquettes et de disques ont une incidence sur la rapidité à laquelle cela se produit"
+            }
+          ],
+          "text": "Le temps qu'une plaquette met à s'user varie beaucoup : il dépend des conditions de la route, du style de conduite, de la vitesse, de la charge du véhicule et du type de plaquettes et de disques.",
+          "verdict": "reformuler"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:40",
+      "sha256": "83145116a64a2aad21587b1825558e26dba0d91fc422b99cbbbe186300c4feb8"
+    },
+    {
+      "claims": [
+        {
+          "id": "c87",
+          "limite": "La fiche ne mentionne que le témoin lumineux. Or un indicateur mécanique signale l'usure par un bruit, et certains systèmes n'ont pas d'indicateur électrique. Cette omission peut faire négliger un signal d'usure. La limite d'usure chiffrée relève de la documentation du véhicule ou de la plaquette. En cas de doute, faire mesurer par un professionnel.",
+          "portee": "Critères de remplacement des instructions Brembo. La valeur de 2 mm est propre à ces instructions et n'est pas reprise, à juste titre. Le témoin lumineux ne concerne que les indicateurs électriques.",
+          "proposed_wording": "Il faut impérativement remplacer les plaquettes quand le matériau de friction atteint la limite d'usure prévue pour le véhicule, ou quand l'indicateur d'usure le signale : voyant au tableau de bord pour un témoin électrique, signal sonore au contact du disque pour un indicateur mécanique.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque le matériau de friction atteint 2 mm d’épaisseur ou lorsque le témoin de l’indicateur d’usure s’allume, il faut impérativement remplacer les plaquettes."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "⑤ Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            }
+          ],
+          "text": "Il faut impérativement remplacer les plaquettes quand le matériau de friction atteint sa limite d'usure ou quand le témoin de l'indicateur d'usure s'allume.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c88",
+          "limite": "Une usure différenciée peut révéler un défaut de l'étrier ou des guides. La recherche de cette cause relève d'un professionnel.",
+          "portee": "Contrôle des plaquettes lors d'une intervention sur l'étrier (instructions Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Vérifier l’épaisseur des plaquettes de frein et les remplacer par essieu si : l’usure dépasse les limites, s’il y a une usure différenciée, si la surface présente des fissures ou de profondes rayures."
+            }
+          ],
+          "text": "Elles se remplacent aussi, par essieu, en cas d'usure différenciée, de fissures ou de profondes rayures.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:41",
+      "sha256": "362f31834ad9305110f83dce765f13ae2cc6ef788c4586aee15b6e112bd5cec1"
+    },
+    {
+      "claims": [
+        {
+          "id": "c89",
+          "limite": "Delphi formule un conseil (« il convient »), et les instructions Brembo admettent de rebrancher le capteur existant s'il n'est pas endommagé : les deux sources divergent. Les témoins intégrés à la plaquette sont remplacés de fait avec elle. Suivre la documentation du véhicule et des plaquettes.",
+          "portee": "Recommandation de Delphi sur les témoins d'usure électroniques.",
+          "proposed_wording": "Les témoins d'usure électroniques étant conçus pour rompre, il est conseillé de les remplacer à chaque pose de plaquettes neuves ; beaucoup sont intégrés à la plaquette et se remplacent avec elle. Certaines instructions admettent de rebrancher un capteur existant s'il n'est pas endommagé : suivre la documentation du véhicule et des plaquettes.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure étant conçus pour rompre, il convient de les remplacer chaque fois que de nouvelles plaquettes sont installées."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure électroniques les plus courants sont directement intégrés dans le matériau des plaquettes de frein et ne sont donc pas amovibles."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Si un indicateur d’usure est prévu, rebrancher le nouveau capteur ou celui existant, s’il n’est pas endommagé."
+            }
+          ],
+          "text": "Les témoins d'usure, conçus pour rompre, se remplacent chaque fois que des plaquettes neuves sont posées.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c90",
+          "limite": "La source ne fixe pas d'intervalle d'inspection. Un voyant allumé ou défaillant demande un contrôle par un professionnel.",
+          "portee": "Témoins d'usure électroniques (page Delphi).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Il est également conseillé d’inspecter régulièrement les capteurs, entre les changements de plaquettes, et de les remplacer si nécessaire. Au fil du temps, la chaleur dégagée par les freins peut endommager le câblage et les clips. Ils peuvent également être endommagés lors d'autres interventions sur le véhicule, telles que l'installation de nouveaux disques de frein."
+            }
+          ],
+          "text": "Il est conseillé d'inspecter les témoins régulièrement entre deux changements de plaquettes : la chaleur des freins peut endommager leur câblage et leurs clips, et ils peuvent être abîmés lors d'autres interventions, comme la pose de disques neufs.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family",
+        "procedure"
+      ],
+      "id": "body:42",
+      "sha256": "afc3beddc6ba5b67f9037747ef1f28a84c23c4f14a427aca3e44e831a6825ea7"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:43",
+      "no_claims": true,
+      "sha256": "471b6c2852426d6a6baf06cbb9bae4832f798c37bb638d75f9cef08c25e4e229"
+    },
+    {
+      "claims": [
+        {
+          "id": "c91",
+          "limite": "La source est un seul équipementier et ne prouve pas la règle pour tous les fabricants. Le logo figure sur les boîtes, pas nécessairement sur la pièce. L'absence de logo ne prouve pas qu'une pièce n'est pas d'origine. La compatibilité avec le véhicule reste le critère premier.",
+          "portee": "Affirmation de Brembo, sur une page de présentation commerciale, illustrée par ses propres emballages.",
+          "proposed_wording": "Selon Brembo, les produits de première monte se reconnaissent au logo « OE supplier » ; chez cet équipementier, ce logo figure sur les boîtes de plaquettes, de disques et d'autres pièces de freinage.",
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Tous les produits d’origine sont immédiatement reconnaissables car ils portent le logo OE supplier."
+            },
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Les boîtes de plaquettes, de disques et d’étriers de frein rénovés, de mâchoires et de tambours Brembo comportent toutes en effet le logo OE supplier."
+            }
+          ],
+          "text": "Les pièces d'origine (première monte) se reconnaissent au logo « OE supplier » qu'elles portent.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:44",
+      "sha256": "73395a10e502319e68d2676d329dfc33983ff0a93ff17809b9b59c965e65cb48"
+    },
+    {
+      "claims": [
+        {
+          "id": "c92",
+          "limite": "Il s'agit d'une auto-déclaration, sans vérification indépendante. Elle ne s'applique pas aux autres marques.",
+          "portee": "Plaquettes Brembo, d'après la présentation commerciale de l'équipementier. L'attribution à « une page d'équipementier » est correcte.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Les plaquettes de frein Brembo sont soumises à un traitement thermique de surface (scorching), qui garantit une efficacité maximale même aux températures les plus élevées."
+            },
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "le scorching permet l'élimination préventive des gaz susceptibles de provoquer une réduction significative du coefficient de friction entre le disque et la plaquette de frein à des températures élevées. On limite ainsi la perte d’efficacité au freinage (phénomène de fading ou patinage) et la performance au freinage reste donc constante."
+            }
+          ],
+          "text": "Un traitement thermique de surface (scorching) qui élimine les gaz et limite la perte d'efficacité aux températures élevées (fading).",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c93",
+          "limite": "Il s'agit d'une auto-déclaration de Brembo. La construction des shims varie selon les produits.",
+          "portee": "Plaquettes Brembo de première monte.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Elles y parviennent en partie grâce aux différentes couches en caoutchouc, acier et caoutchouc de la cale antibruit (anti-noise shim)."
+            }
+          ],
+          "text": "Un shim antibruit multicouche en caoutchouc, acier et caoutchouc.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c94",
+          "limite": "La source énonce un objectif (« doit garantir ») et non un résultat constaté. Un bruit peut avoir d'autres causes, dont un montage incorrect.",
+          "portee": "Exigence formulée par Brembo pour le matériau de friction de ses plaquettes.",
+          "proposed_wording": "un matériau de friction choisi pour garantir, outre la sécurité du freinage, le confort et l'absence de bruits ou de sifflements gênants",
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Mais, là encore, le choix fondamental concerne le matériau de friction qui, en plus d'assurer un maximum de sécurité au freinage, doit garantir un confort maximal et l'absence de bruits ou de sifflements gênants."
+            }
+          ],
+          "text": "Un matériau de friction qui assure le confort et l'absence de bruit gênant.",
+          "verdict": "reformuler"
+        },
+        {
+          "id": "c95",
+          "limite": "Il s'agit d'une auto-déclaration. Elle ne renseigne pas sur les essais des autres fabricants.",
+          "portee": "Processus d'essai décrit par Brembo pour ses composants de freinage.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Ensuite, on passe aux essais sur bancs dynamiques qui permettent de reproduire la dynamique du véhicule à équiper."
+            },
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Enfin, on passe aux essais sur route."
+            }
+          ],
+          "text": "Des essais sur bancs statiques et dynamiques, puis sur route.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c96",
+          "limite": "Cette phrase vient d'une autre page que les marques de qualité précédentes. La source cite aussi la fluidité du piston et l'absorption volumétrique.",
+          "portee": "Page Brembo sur la technologie des étriers. Les garnitures y figurent parmi d'autres facteurs.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "La fluidité du piston, la qualité des garnitures et l'absorption volumétrique (c'est-à-dire le volume de liquide de frein absorbé pendant le freinage suite à la déformation de l'étrier) sont d'autres facteurs décisifs pour obtenir une réponse rapide et précise du système de freinage."
+            }
+          ],
+          "text": "La qualité des garnitures fait partie des facteurs décisifs d'une réponse rapide et précise du freinage.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:45",
+      "sha256": "bbec81e3586eabf2304a5128aae09fad284f00d54399ccbcebef9b02cfd61bb3"
+    },
+    {
+      "claims": [
+        {
+          "id": "c97",
+          "limite": "La compatibilité s'établit par la marque et le modèle du véhicule. La fiche pourrait aussi mentionner l'homologation ECE R90, obligatoire en Europe selon la source. La pose doit être faite par du personnel qualifié.",
+          "portee": "Consigne de Brembo (« DANGER! ») avant tout remplacement. La page source est bien la présentation d'un équipementier.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Avant de commencer la procédure de remplacement, s’assurer que la pièce de rechange est adaptée à la marque et au modèle du véhicule."
+            },
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Ainsi, en Europe, l’homologation ECE R90, obligatoire pour commercialiser disques et plaquettes, figure systématiquement sur toutes les boites de disques et plaquettes Brembo."
+            }
+          ],
+          "text": "Dans tous les cas, la plaquette doit d'abord être celle prévue pour le véhicule.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:46",
+      "sha256": "8c2a18e84282c501d029717c2e5ea273a6b1e81b2bc90d5cc0950e8f42fec394"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:47",
+      "no_claims": true,
+      "sha256": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86"
+    },
+    {
+      "claims": [
+        {
+          "id": "c98",
+          "limite": "La réponse omet le signal sonore de l'indicateur mécanique et le remplacement par essieu. La limite d'usure chiffrée dépend du véhicule. La question ne valide pas la réponse : chaque critère doit être porté par une capture.",
+          "portee": "Critères de remplacement des instructions Brembo, complétés par la description ZF de l'indicateur mécanique.",
+          "proposed_wording": "Quand le matériau de friction atteint la limite d'usure prévue pour le véhicule, quand l'indicateur d'usure le signale (voyant pour un témoin électrique, signal sonore pour un indicateur mécanique), ou en cas d'usure différenciée, de fissures ou de profondes rayures : elles se remplacent alors par essieu. Elles doivent être contrôlées à intervalles réguliers.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque le matériau de friction atteint 2 mm d’épaisseur ou lorsque le témoin de l’indicateur d’usure s’allume, il faut impérativement remplacer les plaquettes."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Vérifier l’épaisseur des plaquettes de frein et les remplacer par essieu si : l’usure dépasse les limites, s’il y a une usure différenciée, si la surface présente des fissures ou de profondes rayures."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein s’usent et elles doivent, donc, être contrôlées à intervalles réguliers."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "⑤ Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            }
+          ],
+          "text": "Quand le matériau de friction atteint sa limite d'usure, quand le témoin de l'indicateur d'usure s'allume, ou en cas d'usure différenciée, de fissures ou de profondes rayures. Elles doivent être contrôlées à intervalles réguliers.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:48",
+      "sha256": "6b5e60f606f802f65f3c123b8bf772b1b567cdc012696c3f74e367856ce9fe48"
+    },
+    {
+      "claims": [
+        {
+          "id": "c99",
+          "limite": "Le fond est juste mais « les deux côtés » reste ambigu : il s'agit des deux roues d'un même essieu, pas de l'avant et de l'arrière. La formulation doit le dire.",
+          "portee": "Consignes générales des instructions Brembo.",
+          "proposed_wording": "Oui : les plaquettes se remplacent par essieu, c'est-à-dire sur les deux roues d'un même essieu. Elles se remplacent aussi à chaque remplacement des disques.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les plaquettes de frein doivent être remplacées par essieu."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "À chaque remplacement des disques, remplacer aussi leurs plaquettes."
+            }
+          ],
+          "text": "Oui. Les plaquettes se remplacent par essieu, et à chaque remplacement des disques.",
+          "verdict": "reformuler"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:49",
+      "sha256": "913e7023eb6f6cf112dad5d7755b7c3e0803bdf18e4e08d64a4d2075c39288fc"
+    },
+    {
+      "claims": [
+        {
+          "id": "c100",
+          "limite": "La source parle de « nombreux systèmes de freinage plus anciens », pas de « beaucoup de systèmes ». Les témoins électroniques ne font pas de bruit. Un son strident ne prouve pas à lui seul la fin d'usure. Le prendre pour certain peut conduire à un mauvais diagnostic. Faire contrôler l'épaisseur par un professionnel.",
+          "portee": "Systèmes équipés de languettes métalliques, nombreux parmi les systèmes plus anciens selon Delphi, ou d'indicateurs d'usure mécaniques selon ZF.",
+          "proposed_wording": "Sur les systèmes équipés d'une languette métallique (nombreux parmi les systèmes plus anciens) ou d'un indicateur d'usure mécanique, un son strident peut signaler la fin d'usure : l'indicateur frotte contre le disque. Ce bruit justifie un contrôle des plaquettes sans attendre.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins de plaquettes de frein actuels représentent une évolution par rapport aux languettes métalliques traditionnelles que l'on retrouve dans de nombreux systèmes de freinage plus anciens. En frottant contre les disques, celles-ci émettent un son strident fort, indiquant au conducteur que les plaquettes ont atteint leur niveau d'usure maximal."
+            },
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "⑤ Indicateur d'usure mécanique : émet un signal sonore en entrant en contact avec le disque de frein lorsque les plaquettes sont usées."
+            }
+          ],
+          "text": "Sur beaucoup de systèmes, c'est le signal de fin d'usure : une languette métallique ou un indicateur d'usure mécanique frotte contre le disque.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c101",
+          "limite": "La fiche omet que le même défaut peut réduire la performance des freins, ce qui est une omission de sécurité. Le contrôle du montage relève d'un professionnel, d'après la documentation du véhicule.",
+          "portee": "Montage des plaquettes et de leurs accessoires (conseil atelier ZF/TRW).",
+          "proposed_wording": "Des plaquettes ou accessoires mal montés causent, dans la plupart des cas, des bruits de freinage ou une performance réduite des freins. Un bruit persistant après une intervention justifie un contrôle du montage par un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Si les plaquettes de frein ou accessoires sont mal montés, cela causera inévitablement des problèmes – dans la plupart des cas, des bruits de freinage ou une performance réduite des freins."
+            }
+          ],
+          "text": "Un montage incorrect peut aussi causer des bruits de freinage.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c102",
+          "limite": "L'affirmation n'est pas portée et peut induire en erreur : les causes citées (indicateur mécanique, montage) sont mécaniques et relèvent d'un contrôle physique. Orienter vers un contrôle du système de freinage par un professionnel.",
+          "portee": "Aucune capture ne relie la recherche de la cause d'un bruit de freinage à un outil de diagnostic.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "La recherche de la cause relève de l'outil de diagnostic.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:50",
+      "sha256": "8336ed68ecd3a8d310158999b851a81aa9756fd8e3789bcc53d12a211ffc812e"
+    },
+    {
+      "claims": [
+        {
+          "id": "c103",
+          "limite": "Le « Oui » catégorique dépasse la source, qui formule un conseil. Les instructions Brembo admettent de rebrancher un capteur existant non endommagé. Suivre la documentation du véhicule.",
+          "portee": "Recommandation de Delphi sur les témoins d'usure électroniques.",
+          "proposed_wording": "C'est conseillé : les témoins d'usure électroniques étant conçus pour rompre, Delphi recommande de les remplacer à chaque pose de plaquettes neuves. Certaines instructions admettent de rebrancher un capteur existant s'il n'est pas endommagé : suivre la documentation du véhicule.",
+          "sources": [
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Les témoins d’usure étant conçus pour rompre, il convient de les remplacer chaque fois que de nouvelles plaquettes sont installées."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Si un indicateur d’usure est prévu, rebrancher le nouveau capteur ou celui existant, s’il n’est pas endommagé."
+            }
+          ],
+          "text": "Oui. Les témoins d'usure étant conçus pour rompre, ils se remplacent chaque fois que des plaquettes neuves sont posées.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:51",
+      "sha256": "12c8e9b88ada5bf146b98eabb9352fa455964fc25035597c0bb4ced3b692e621"
+    },
+    {
+      "claims": [
+        {
+          "id": "c104",
+          "limite": "Une efficacité réduite n'est admise qu'aux premiers freinages. Si elle persiste, ou si la pédale est instable, le frein doit être contrôlé par un professionnel. La distance de rodage Brembo est propre au Kit EV et n'est pas généralisée.",
+          "portee": "Période qui suit le remplacement des plaquettes (instructions Brembo).",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Effectuer des essais de freinage à vitesse réduite, en tenant compte du fait que lors des premiers freinages, l’efficacité du frein peut être inférieure. Ne pas freiner avec une force excessive ou de façon continue pour essayer d'obtenir un rodage rapide de la plaquette au disque de frein."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Toujours respecter les instructions de rodage du constructeur du véhicule."
+            }
+          ],
+          "text": "Lors des premiers freinages, l'efficacité du frein peut être inférieure. Il ne faut pas freiner fort ni de façon continue pour forcer le rodage, et il faut suivre les instructions de rodage du constructeur du véhicule.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:52",
+      "sha256": "b5034ee29409909db05de1f8ffc966ae28a6e12318a668e6740a6a11562cfeff"
+    },
+    {
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:53",
+      "no_claims": true,
+      "sha256": "6960ce2f700a9da7cb850796696a841e0f5026f2609aad1e7e802aa0df102438"
+    },
+    {
+      "claims": [
+        {
+          "id": "c105",
+          "limite": "La « procédure de remplacement » est en réalité l'instruction Brembo du Kit EV, présentée comme un guide général : ses valeurs propres ne se généralisent pas. Toutes les affirmations ne reposent pas sur une page : l'une d'elles, sur l'outil de diagnostic (body:50), n'est portée par aucune capture.",
+          "portee": "Inventaire exact des six captures du paquet : ZF/TRW, Brembo (×3), Delphi et Wikipédia.",
+          "proposed_wording": "Fiche révisée le 2026-10-11. Les affirmations reposent sur six pages archivées dans RAW : cinq pages d'équipementiers de freinage (montage des plaquettes ZF/TRW ; technologie des étriers, pièces d'origine et équivalentes, et instructions de remplacement des disques et plaquettes du Kit EV Brembo, présentées comme un guide général ; témoins d'usure Delphi) et un article encyclopédique, utilisé seulement en corroboration.",
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Remarques relatives au montage correct des plaquettes de frein"
+            },
+            {
+              "cid": "sha256:05d748bc57eb1c952bb36141cc707b443b21bc4d0777356905e9a71b6aceb5a8",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-etriers-c18ae549.md",
+              "quote": "Technologie et fonction des étriers de frein"
+            },
+            {
+              "cid": "sha256:87deee38f48156b2fe7cffbf2080117358c4de7235b5b7883b78f9fa6bdeef1e",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-origine-equival-ebb13203.md",
+              "quote": "Pièces de rechange : comment différencier pièces d’origine et pièces équivalentes en 10 points"
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Instructions pour remplacer les disques et les plaquettes: KIT EV"
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Les instructions sont un guide général, les disques de frein peuvent différer de ceux illustrés ci-dessous."
+            },
+            {
+              "cid": "sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd",
+              "path": "sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md",
+              "quote": "Ce qu'il faut savoir sur les témoins d’usure des plaquettes de frein"
+            },
+            {
+              "cid": "sha256:9f3297f619c04853f548342a22f148c757e4373a28ed267eb471ecb54c0a7933",
+              "path": "sources/auto-captures/plaquette-de-frein/fr-wikipedia-org-wl-plaquette-de-frein-wikipedia-fr-f3c3e816.md",
+              "quote": "Un article de Wikipédia, l'encyclopédie libre."
+            }
+          ],
+          "text": "Chaque affirmation repose sur l'une de six pages archivées : cinq pages techniques d'équipementiers (montage des plaquettes, technologie des étriers, pièces d'origine et équivalentes, procédure de remplacement, témoins d'usure) et un article encyclopédique, utilisé seulement en corroboration.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c106",
+          "limite": "Le motif « faute de preuve archivée » est inexact pour l'épaisseur et la distance de rodage. Le vrai motif est que ces valeurs sont propres à un produit et ne valent pas pour tous les véhicules. Les autres retraits ne sont contredits par aucune capture.",
+          "portee": "Une capture Brembo archive bien une épaisseur minimale et une distance de rodage, mais pour ses propres produits, la distance relevant de l'instruction du Kit EV.",
+          "proposed_wording": "Ont été retirés : l'épaisseur minimale chiffrée et la distance de rodage, que les captures ne donnent que pour des produits Brembo (instructions du Kit EV) et qui ne valent pas pour tous les véhicules ; et, faute de preuve archivée, les causes de bruit par contamination de la garniture, le lien avec un disque voilé, les familles de matériaux de friction et toute hiérarchie de marques.",
+          "sources": [
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Lorsque le matériau de friction atteint 2 mm d’épaisseur ou lorsque le témoin de l’indicateur d’usure s’allume, il faut impérativement remplacer les plaquettes."
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "Le rodage à conseiller à l’utilisateur final consiste à parcourir 200 km, en effectuant des freinages doux et courts, sans faire intervenir l’ABS."
+            }
+          ],
+          "text": "Ont été retirés, faute de preuve archivée : l'épaisseur minimale chiffrée, la distance de rodage, les causes de bruit par contamination de la garniture, le lien avec un disque voilé, les familles de matériaux de friction et toute hiérarchie de marques.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c107",
+          "limite": "La relation diagnostic (reviewed: false, diagnostic_safe: false) est une métadonnée interne, sans capture à vérifier. Les gestes de sécurité du freinage doivent être faits par du personnel qualifié, comme le rappelle la source Brembo.",
+          "portee": "Les segments relus ne publient aucune valeur chiffrée, ce qui est conforme à la primauté des prescriptions du constructeur.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37",
+              "path": "sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md",
+              "quote": "Important ! Les prescriptions et indications du fabricant du véhicule s'appliquent en principe avant toutes autres !"
+            },
+            {
+              "cid": "sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738",
+              "path": "sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md",
+              "quote": "AVERTISSEMENT! Respecter le couple de serrage conseillé par le constructeur du véhicule. Un couple de serrage erroné risque d’endommager le système de freinage."
+            }
+          ],
+          "text": "Aucune valeur de couple, de pression, de cote ni de distance n'est publiée : ces valeurs dépendent du véhicule et relèvent de sa documentation.",
+          "verdict": "conserver"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "safety_family"
+      ],
+      "id": "body:54",
+      "sha256": "cc193b4840792120c784205addb89d61adcfd86dbfeebac03194fd0a72ab12d4"
+    }
+  ],
+  "subject": {
+    "commit": "88f9f88841acb6cd42a79ecf52e535f41327bbbb",
+    "path": "wiki/gamme/plaquette-de-frein.md",
+    "repo": "ak125/automecanik-wiki",
+    "slug": "plaquette-de-frein"
+  }
+}

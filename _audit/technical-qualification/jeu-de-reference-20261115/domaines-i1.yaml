@@ -1,0 +1,127 @@
+# Table des domaines d'autorité du jeu de référence (option I1 d'ADR-131 : classe d'éditeur).
+# Surcouche d'étalonnage, PAS un catalogue : le banc la fusionne en mémoire sur
+# _meta/source-catalog.yaml (champ publisher_class ; type seulement si la capture n'a pas d'entrée).
+# La classe d'éditeur n'existe pas dans le catalogue du dépôt (constat du mandat S) ; les 3 classes
+# marquées S reprennent la table hors dépôt de S, retrouvée et vérifiée par son sha256.
+# Convention de typage AC (hypothèse, à trancher au vault) :
+#   oem_manual (rôle proof)        : notices user-manual.renault.com ; pages conseil ou technique
+#                                    d'équipementier (Filtron, Delphi), comme les entrées existantes ;
+#   marketing (rôle corroboration) : pages commerciales renault.fr et dacia.fr ;
+#   brochure  (rôle corroboration) : pages produit d'équipementier (MANN, Valeo).
+# Conséquence assumée : le cas filtre-d-habitacle n'a aucune capture de rôle proof.
+skill_head: a29310fc1ce52316eba1482ef3f0ac7647b55b0e
+raw_commit: 4b4de7180092dd5145f106ed37bbd166b6fd9fb1
+definition: publisher_class
+captures:
+- cid: 'sha256:ac179373a261661bc14b66b251c0e719803b5f045e4136da92d1260b8f51d738'
+  path: sources/auto-captures/plaquette-de-frein/bremboparts-com-wl-plaquette-de-frein-brembo-remplacement-51e9790a.md
+  publisher: Brembo
+  type: oem_manual
+  publisher_class: equipementier
+  provenance: S (hors dépôt, catalog-publisher-class.yaml sha256 ca75e3a459c75217e68c8250fe73a1bec1868b0de55814043323a141e400fcb7)
+  basis: entrée existante du catalogue ; classe posée par S
+- cid: 'sha256:76b90102bc27f734d5c849b0443a3cc5c0816291831ada22dce5c6be427725bd'
+  path: sources/auto-captures/plaquette-de-frein/delphiautoparts-com-wl-plaquette-de-frein-delphi-temoins-usu-a57fe2c9.md
+  publisher: Delphi Technologies
+  type: oem_manual
+  publisher_class: equipementier
+  provenance: S (hors dépôt, catalog-publisher-class.yaml sha256 ca75e3a459c75217e68c8250fe73a1bec1868b0de55814043323a141e400fcb7)
+  basis: entrée existante du catalogue ; classe posée par S
+- cid: 'sha256:6f4636a477d2bd398b789a80ca0443b5c8361de3c697dc3cd9b4a85cefa4eb37'
+  path: sources/auto-captures/plaquette-de-frein/aftermarket-zf-com-wl-plaquette-de-frein-zf-installation-565c00d2.md
+  publisher: ZF Aftermarket (TRW)
+  type: oem_manual
+  publisher_class: equipementier
+  provenance: S (hors dépôt, catalog-publisher-class.yaml sha256 ca75e3a459c75217e68c8250fe73a1bec1868b0de55814043323a141e400fcb7)
+  basis: entrée existante du catalogue ; classe posée par S
+- cid: 'sha256:68c2b98b112a2f336bc9a3fd6bbf54def3833ad4b9b67d232804e6aadfbaf1c4'
+  path: sources/auto-captures/plaquette-de-frein/dacia-fr-wl-plaquette-de-frein-dacia-freinage-20261115-3f125443.md
+  publisher: Dacia
+  type: marketing
+  publisher_class: constructeur
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: page commerciale du réseau dacia.fr ; même type que l'entrée Dacia existante (c67d0c65)
+- cid: 'sha256:35d728d4a2b85efa99f15e16ed5aaad7936162b3f8c2038b96bf2dde77c01c58'
+  path: sources/auto-captures/plaquette-de-frein/renault-fr-wl-plaquette-de-frein-renault-freins-20261115-39e27e06.md
+  publisher: Renault
+  type: marketing
+  publisher_class: constructeur
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: page commerciale de l'atelier renault.fr
+- cid: 'sha256:5ec930b41df4abe79a451ee3eff19707b305c63d05fba542ade1f5b90ba95a8c'
+  path: sources/auto-captures/filtre-a-air/filtron-eu-wl-filtre-a-air-filtron-nettoyer-20261115-6cd1da29.md
+  publisher: Filtron (MANN+HUMMEL)
+  type: oem_manual
+  publisher_class: equipementier
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: page conseil technique de l'équipementier ; même type que l'entrée Filtron existante (809c3efd)
+- cid: 'sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc'
+  path: sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md
+  publisher: Renault
+  type: oem_manual
+  publisher_class: constructeur
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: notice utilisateur user-manual.renault.com ; même type que l'entrée Renault existante (fc3dc890)
+- cid: 'sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce'
+  path: sources/auto-captures/filtre-a-carburant/filtron-eu-wl-filtre-a-carburant-filtron-hiver-20261115-607df51b.md
+  publisher: Filtron (MANN+HUMMEL)
+  type: oem_manual
+  publisher_class: equipementier
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: page conseil technique de l'équipementier
+- cid: 'sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b'
+  path: sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-common-rail-827c5aac.md
+  publisher: Delphi Technologies
+  type: oem_manual
+  publisher_class: equipementier
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: page technique de l'équipementier ; même type que l'entrée Delphi existante (76b90102)
+- cid: 'sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2'
+  path: sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md
+  publisher: Delphi Technologies
+  type: oem_manual
+  publisher_class: equipementier
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: page technique de l'équipementier
+- cid: 'sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f'
+  path: sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md
+  publisher: Renault
+  type: oem_manual
+  publisher_class: constructeur
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: notice utilisateur Kangoo 2 phase 2 (user-manual.renault.com)
+- cid: 'sha256:5a62d2be5b756d233c83ee8c0ba6cabd0b9df97f8710f457e599a99336b61681'
+  path: sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-7ed46e83.md
+  publisher: Renault
+  type: oem_manual
+  publisher_class: constructeur
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: notice utilisateur (eau dans le gazole)
+- cid: 'sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a'
+  path: sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md
+  publisher: MANN-FILTER (MANN+HUMMEL)
+  type: brochure
+  publisher_class: equipementier
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: page produit à chiffres promotionnels ; brochure et non oem_manual (la page HELLA filtre à air du catalogue, du même genre, est typée marketing)
+- cid: 'sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1'
+  path: sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md
+  publisher: Valeo
+  type: brochure
+  publisher_class: equipementier
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: page produit de l'équipementier
+- cid: 'sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de'
+  path: sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-climatisation-20261-3618c53c.md
+  publisher: Renault
+  type: marketing
+  publisher_class: constructeur
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: page commerciale de l'atelier renault.fr
+- cid: 'sha256:7b962ebb7e33dab68e250720a1f1e9df246ad473fddbb43324d4d7ede081876c'
+  path: sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-mag-clim-20261115-2059fa62.md
+  publisher: Renault
+  type: marketing
+  publisher_class: constructeur
+  provenance: AC (convention de typage ci-dessus, hypothèse d'étalonnage)
+  basis: magazine éditorial renault.fr

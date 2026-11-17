@@ -1,0 +1,620 @@
+{
+  "freshness": {
+    "checked_at": "2026-11-15T17:52:04Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "4b4de7180092dd5145f106ed37bbd166b6fd9fb1",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd",
+  "key_inputs": {
+    "capture_domains": [
+      {
+        "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+        "domain": "equipementier",
+        "editorial_role": "corroboration",
+        "publisher": "MANN-FILTER (MANN+HUMMEL)"
+      },
+      {
+        "cid": "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de",
+        "domain": "constructeur",
+        "editorial_role": "corroboration",
+        "publisher": "Renault"
+      },
+      {
+        "cid": "sha256:7b962ebb7e33dab68e250720a1f1e9df246ad473fddbb43324d4d7ede081876c",
+        "domain": "constructeur",
+        "editorial_role": "corroboration",
+        "publisher": "Renault"
+      },
+      {
+        "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+        "domain": "equipementier",
+        "editorial_role": "corroboration",
+        "publisher": "Valeo"
+      }
+    ],
+    "captures": [
+      {
+        "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+        "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md"
+      },
+      {
+        "cid": "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de",
+        "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-climatisation-20261-3618c53c.md"
+      },
+      {
+        "cid": "sha256:7b962ebb7e33dab68e250720a1f1e9df246ad473fddbb43324d4d7ede081876c",
+        "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-mag-clim-20261115-2059fa62.md"
+      },
+      {
+        "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+        "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md"
+      }
+    ],
+    "domain_basis": "source-catalog.yaml sha256 0b51f1ddbabafd152d55c5c610fbea9d83d0a64ad52624582676eb02c82030bb + table domaines-i1.yaml sha256 32a48fe5a5441fde0664be083addf6c2171b450f4fa247c38201f9e4dfea464c fusionnée en mémoire",
+    "domain_definition": "publisher_class",
+    "skill_sha256": "bbab905fb5183582c34591fa930aa2de651b4f9f289a82f447c6c74593bb2b65",
+    "text_sha256": "bc2e61fdb3f658817e55c1c2ff8db7eec91b20d9241cfc3fa7f1b11b4b3e072e"
+  },
+  "producer": {
+    "basis": "wiki/gamme/filtre-d-habitacle.md@67e49d8, provenance.ingested_by (ligne 24)",
+    "declared": "agent:claude-code@degrippage-wave1",
+    "provider": "anthropic"
+  },
+  "retake_questions": [
+    {
+      "claim_id": "c0",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Quelle source de rôle « proof », constructeur ou catalogue d'application, précise les critères d'identification nécessaires (marque, modèle, année, motorisation, équipement climatisation) pour choisir une référence de filtre d'habitacle ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c1",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Quelle source, constructeur ou équipementier de rôle « proof », chiffre l'efficacité d'un filtre à charbon actif seul sur les allergènes, en distinguant les gaz, les odeurs et les particules allergènes ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c2",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Quel constructeur ou organisme de rôle « proof » recommande explicitement le filtre à charbon actif pour la circulation urbaine ou en environnement pollué ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c3",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Quelle source constructeur de rôle « proof » confirme la distinction entre filtre à particules et filtre combiné à charbon actif pour les filtres d'habitacle ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c4",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Quelle source de rôle « proof » documente la disponibilité des filtres d'habitacle à traitement polyphénol et leur compatibilité selon les véhicules ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c5",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quelle fiche de rôle « proof » (fabricant ou essai normalisé) donne l'efficacité anti-allergène chiffrée d'un filtre polyphénol, et pour quelle référence ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c6",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quelle source de rôle « proof » (carnet d'entretien constructeur) fixe l'intervalle kilométrique de remplacement du filtre d'habitacle, et pour quels véhicules : 15 000 km ou jusqu'à 20 000 km ?",
+      "question_source": "model",
+      "reason": "discordant",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c7",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Remplacement : une fois par an. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c8",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quelle source de rôle « proof », constructeur ou équipementier, quantifie le raccourcissement de l'intervalle de remplacement en usage urbain ou en zone poussiéreuse ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c9",
+      "domains_present": [],
+      "question": "Quelle source constructeur ou équipementier de rôle « proof » recommande une période de l'année pour remplacer le filtre d'habitacle, par exemple avant la saison des pollens ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c10",
+      "domains_present": [],
+      "question": "Quelle source de rôle « proof », constructeur ou équipementier, autorise un intervalle de remplacement plus long selon l'environnement (rural) ou la gamme du filtre, et avec quelles limites ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:2"
+    }
+  ],
+  "reviewer": {
+    "cli_version": "2.1.325 (Claude Code)",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic"
+  },
+  "role": "qualification",
+  "schema_version": "technical-qualification/v2",
+  "segments": [
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "2d0c4a439a5891f735783c231825ca3a4a1a9bebeaa55e0ae152c0d416c3d38d"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:source_refs",
+      "no_claims": true,
+      "sha256": "9d8c3086f8339ecac1eb9cef38e62675de2b804b9e5ad4c29da508b303086868"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:title",
+      "no_claims": true,
+      "sha256": "82b7527ed70f5c419a3505b2e7b2d63668cf9213a5018c01478d79c2815b3bb6"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "405115da18603cc17ffc499b64799ca8cbdb0dce7e4541724359e96e91cb351b"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": false
+          },
+          "id": "c0",
+          "limite": "Aucune capture ne cite la liste « marque, modèle, année » comme critère suffisant, ni le sélecteur du site. Le texte omet les spécifications du constructeur et les conditions de montage que Valeo rattache au choix. Les deux captures relèvent du même domaine (équipementier) et aucune n'a le rôle « proof ».",
+          "portee": "Équipementiers (Valeo, MANN-FILTER) : le filtre se choisit selon l'application véhicule, les spécifications du constructeur et les conditions de montage.",
+          "proposed_wording": "Critères de sélection : la référence doit correspondre à l'application exacte du véhicule et respecter les spécifications du constructeur et les conditions de montage. Vérifiez la compatibilité dans un catalogue d'application.",
+          "retake_question": "Quelle source de rôle « proof », constructeur ou catalogue d'application, précise les critères d'identification nécessaires (marque, modèle, année, motorisation, équipement climatisation) pour choisir une référence de filtre d'habitacle ?",
+          "sources": [
+            {
+              "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md",
+              "quote": "The choice of filtering materials is always made in line with specifications from the automaker as well as installation conditions."
+            },
+            {
+              "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+              "quote": "Parcourez notre catalogue en ligne pour rechercher tous nos produits de qualité 100% OE et trouver celui qui convient parmi plus de 300 000 applications."
+            }
+          ],
+          "text": "Critères de sélection : marque, modèle et année du véhicule (vérification via le sélecteur véhicule du site).",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": false
+          },
+          "id": "c1",
+          "limite": "Les captures attribuent les 90 % aux gaz et aux odeurs, pas aux allergènes. Elles rattachent l'action anti-allergène au revêtement polyphénol (MANN FreciousPlus, Valeo) ou à un filtre anti-allergène spécifique (Renault). Le texte confond donc deux fonctions.",
+          "portee": "MANN-FILTER CUK : la couche de charbon actif piège jusqu'à 90 % des gaz et des odeurs. Valeo : le charbon actif capte les odeurs et les gaz nocifs.",
+          "proposed_wording": null,
+          "retake_question": "Quelle source, constructeur ou équipementier de rôle « proof », chiffre l'efficacité d'un filtre à charbon actif seul sur les allergènes, en distinguant les gaz, les odeurs et les particules allergènes ?",
+          "sources": [
+            {
+              "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+              "quote": "Cette couche supplémentaire piège les gaz jusqu'à 90 %, afin d'empêcher les toxines nocives telles que le toluène, l'oxyde d'azote, l'ozone, le dioxyde de soufre et les odeurs désagréables de pénétrer dans le véhicule par le système de ventilation."
+            },
+            {
+              "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md",
+              "quote": "Combined filters: as well as trapping dust, these filters capture unpleasant smells and harmful gases (NOx, ozone, NO2, butane, toluene, SO2, Butadiene, etc.) using an active carbon layer."
+            }
+          ],
+          "text": "Le charbon actif retient jusqu'à 90 % des allergènes.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": false
+          },
+          "id": "c2",
+          "limite": "Aucune capture ne recommande explicitement le charbon actif en zone urbaine. La recommandation est déduite d'une seule source équipementier, sans rôle « proof ». Le choix reste soumis à la compatibilité avec le véhicule.",
+          "portee": "MANN-FILTER : le niveau de filtre se choisit selon l'environnement et les besoins. Le CUK piège les gaz polluants (oxydes d'azote, ozone, SO2).",
+          "proposed_wording": "Le filtre à charbon actif ajoute la rétention d'une partie des gaz polluants et des odeurs ; il peut être pertinent si l'on circule dans un environnement exposé aux gaz d'échappement, sous réserve d'une référence compatible avec le véhicule.",
+          "retake_question": "Quel constructeur ou organisme de rôle « proof » recommande explicitement le filtre à charbon actif pour la circulation urbaine ou en environnement pollué ?",
+          "sources": [
+            {
+              "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+              "quote": "MANN-FILTER propose trois niveaux de filtres d’habitacle adaptés à votre environnement et à vos besoins."
+            },
+            {
+              "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+              "quote": "Cette couche supplémentaire piège les gaz jusqu'à 90 %, afin d'empêcher les toxines nocives telles que le toluène, l'oxyde d'azote, l'ozone, le dioxyde de soufre et les odeurs désagréables de pénétrer dans le véhicule par le système de ventilation."
+            }
+          ],
+          "text": "Le charbon actif reste recommandé en zone urbaine/polluée.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a"
+            ],
+            "concordance": "single_source",
+            "declassed_by": "model",
+            "declassed_from": "conserver",
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": false
+          },
+          "id": "c3",
+          "limite": "Seul le domaine équipementier en parle (MANN et Valeo comptent pour un seul domaine), sans capture de rôle « proof ». La disponibilité de chaque variante dépend du véhicule.",
+          "portee": "Gammes équipementiers (Valeo, MANN-FILTER) : un filtre à particules de base et un filtre combiné particules + couche de charbon actif.",
+          "proposed_wording": "Deux familles principales existent chez les équipementiers : le filtre à particules et le filtre combiné (particules + couche de charbon actif contre gaz et odeurs), selon les références disponibles pour le véhicule.",
+          "retake_question": "Quelle source constructeur de rôle « proof » confirme la distinction entre filtre à particules et filtre combiné à charbon actif pour les filtres d'habitacle ?",
+          "sources": [
+            {
+              "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md",
+              "quote": "Particle filters: these capture particles and dust larger than 0.1µm (e.g. pollen, soot, tire wear dust)."
+            },
+            {
+              "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md",
+              "quote": "Combined filters: as well as trapping dust, these filters capture unpleasant smells and harmful gases (NOx, ozone, NO2, butane, toluene, SO2, Butadiene, etc.) using an active carbon layer."
+            },
+            {
+              "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+              "quote": "En plus d'éliminer jusqu'à 95 % de la suie, de la poussière et des autres particules, nos filtres CUK avancés comportent également une couche de charbon actif."
+            }
+          ],
+          "text": "Classique ou charbon actif ; des variantes combinées (pollen + charbon) existent.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": false
+          },
+          "id": "c4",
+          "limite": "L'existence repose sur un seul domaine (équipementier), sans rôle « proof ». Chez Valeo, le produit est annoncé et non disponible. Le texte omet que la variante polyphénol inclut aussi du charbon actif.",
+          "portee": "Produits équipementiers précis : MANN FreciousPlus (charbon actif + polyphénol + antimicrobien) ; filtre Valeo annoncé comme lancement prochain en Europe.",
+          "proposed_wording": "Certains équipementiers proposent des filtres combinés charbon actif + traitement polyphénol anti-allergène, selon les références disponibles pour le véhicule.",
+          "retake_question": "Quelle source de rôle « proof » documente la disponibilité des filtres d'habitacle à traitement polyphénol et leur compatibilité selon les véhicules ?",
+          "sources": [
+            {
+              "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+              "quote": "Ce filtre d'habitacle biofonctionnel révolutionnaire utilise, en plus d'une couche de charbon actif, un revêtement de polyphénol pour piéger plus de 95 % des particules allergènes de l'air ambiant, et contient un revêtement antimicrobien qui empêche la propagation de moisissures et de bactéries sur la surface du filtre."
+            },
+            {
+              "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md",
+              "quote": "Combined filters with additional functions: Valeo will shortly launch in Europe a new combined filter with anti-allergen properties that neutralizes allergens transmitted by pollens using a natural surface treatment of the filter medium (polyphenol)."
+            }
+          ],
+          "text": "Des variantes polyphénol existent.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de"
+            ],
+            "concordance": "undetermined",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": false
+          },
+          "id": "c5",
+          "limite": "Aucune capture ne porte la valeur de 92 % ; celle de MANN la contredit. Les pourcentages publiés sont propres à chaque produit et ne se généralisent pas à une technologie.",
+          "portee": "MANN FreciousPlus : plus de 95 % des particules allergènes. Renault : son filtre anti-allergène breveté capture 99 % des allergènes, sans mention de polyphénol.",
+          "proposed_wording": null,
+          "retake_question": "Quelle fiche de rôle « proof » (fabricant ou essai normalisé) donne l'efficacité anti-allergène chiffrée d'un filtre polyphénol, et pour quelle référence ?",
+          "sources": [
+            {
+              "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+              "quote": "Ce filtre d'habitacle biofonctionnel révolutionnaire utilise, en plus d'une couche de charbon actif, un revêtement de polyphénol pour piéger plus de 95 % des particules allergènes de l'air ambiant, et contient un revêtement antimicrobien qui empêche la propagation de moisissures et de bactéries sur la surface du filtre."
+            },
+            {
+              "cid": "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de",
+              "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-climatisation-20261-3618c53c.md",
+              "quote": "La climatisation régule, désembue et purifie l’air grâce à un filtre anti-allergène breveté, capable de capturer 99 % des allergènes et 95 % des particules fines."
+            }
+          ],
+          "text": "Polyphénol : jusqu'à 92 % des particules allergisantes.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "sha256:7b962ebb7e33dab68e250720a1f1e9df246ad473fddbb43324d4d7ede081876c",
+              "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de"
+            ],
+            "concordance": "discordant",
+            "declassed_by": "model",
+            "declassed_from": "preciser",
+            "discordance_on": "value",
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": false
+          },
+          "id": "c6",
+          "limite": "Le constructeur et les équipementiers divergent sur la valeur kilométrique : la borne de 20 000 km n'est portée que par Renault. Renault renvoie aussi aux préconisations d'entretien du véhicule, que le texte omet. Les intervalles réels dépendent du carnet d'entretien de chaque véhicule.",
+          "portee": "Renault (conseil général atelier) : 15 000 à 20 000 km. MANN et Valeo (conseil général équipementier) : 15 000 km, en moyenne, selon l'environnement de conduite.",
+          "proposed_wording": null,
+          "retake_question": "Quelle source de rôle « proof » (carnet d'entretien constructeur) fixe l'intervalle kilométrique de remplacement du filtre d'habitacle, et pour quels véhicules : 15 000 km ou jusqu'à 20 000 km ?",
+          "sources": [
+            {
+              "cid": "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de",
+              "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-climatisation-20261-3618c53c.md",
+              "quote": "Il est conseillé de vérifier et remplacer le filtre d’habitacle tous les 15 000 à 20 000 km ou une fois par an, surtout si vous roulez souvent en ville ou en zone poussiéreuse."
+            },
+            {
+              "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+              "quote": "Les filtres d'habitacle doivent être remplacés une fois par an ou tous les 15 000 km."
+            },
+            {
+              "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md",
+              "quote": "When dust, soot and pollen particles accumulate, this leads to a loss of effectiveness (the filter becomes clogged up with particles and air can no longer pass through), so it is necessary to change the filter (on average once a year, or every 15,000 kilometers, depending on the driving environment)."
+            },
+            {
+              "cid": "sha256:7b962ebb7e33dab68e250720a1f1e9df246ad473fddbb43324d4d7ede081876c",
+              "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-mag-clim-20261115-2059fa62.md",
+              "quote": "Plusieurs dizaines de mètres-cubes d’air passent à travers le filtre en permanence, il est donc conseillé de le changer au minimum une fois tous les deux ans et si possible tous les ans en fonction des préconisations d’entretien de votre véhicule."
+            }
+          ],
+          "text": "Remplacement : tous les 15 000 à 20 000 km.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "sha256:7b962ebb7e33dab68e250720a1f1e9df246ad473fddbb43324d4d7ede081876c",
+              "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": false
+          },
+          "id": "c7",
+          "limite": "Aucune capture n'a le rôle « proof ». Renault mag donne un plancher d'une fois tous les deux ans et renvoie aux préconisations d'entretien du véhicule. Le texte omet ce renvoi, ainsi que les signes d'un filtre colmaté que MANN décrit (bruits, odeurs, mauvaise circulation d'air, buée persistante sur les vitres). Une buée difficile à éliminer touche la visibilité. Les interventions sur le circuit de climatisation, sous pression, relèvent d'un professionnel.",
+          "portee": "Conseil général du constructeur (Renault) et des équipementiers (MANN, Valeo) : remplacement annuel, au premier des deux termes (temps ou kilométrage).",
+          "proposed_wording": "Remplacement : en général une fois par an (ou selon le kilométrage, au premier terme atteint), en suivant en priorité les préconisations du carnet d'entretien du véhicule ; à anticiper si l'air circule mal, si des odeurs ou des bruits apparaissent ou si les vitres s'embuent fréquemment.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de",
+              "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-climatisation-20261-3618c53c.md",
+              "quote": "Il est conseillé de vérifier et remplacer le filtre d’habitacle tous les 15 000 à 20 000 km ou une fois par an, surtout si vous roulez souvent en ville ou en zone poussiéreuse."
+            },
+            {
+              "cid": "sha256:7b962ebb7e33dab68e250720a1f1e9df246ad473fddbb43324d4d7ede081876c",
+              "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-mag-clim-20261115-2059fa62.md",
+              "quote": "Plusieurs dizaines de mètres-cubes d’air passent à travers le filtre en permanence, il est donc conseillé de le changer au minimum une fois tous les deux ans et si possible tous les ans en fonction des préconisations d’entretien de votre véhicule."
+            },
+            {
+              "cid": "sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a",
+              "path": "sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md",
+              "quote": "Les filtres d'habitacle doivent être remplacés une fois par an ou tous les 15 000 km."
+            },
+            {
+              "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md",
+              "quote": "When dust, soot and pollen particles accumulate, this leads to a loss of effectiveness (the filter becomes clogged up with particles and air can no longer pass through), so it is necessary to change the filter (on average once a year, or every 15,000 kilometers, depending on the driving environment)."
+            }
+          ],
+          "text": "Remplacement : une fois par an.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": false
+          },
+          "id": "c8",
+          "limite": "Seul le constructeur nomme la ville ; Valeo reste général. Le texte omet la zone poussiéreuse que Renault rattache à la même condition. Aucune capture n'a le rôle « proof ».",
+          "portee": "Renault : vigilance accrue en usage urbain ou en zone poussiéreuse. Valeo : l'intervalle dépend de l'environnement de conduite, sans citer la ville.",
+          "proposed_wording": "L'intervalle peut être raccourci en usage urbain fréquent ou en zone poussiéreuse.",
+          "retake_question": "Quelle source de rôle « proof », constructeur ou équipementier, quantifie le raccourcissement de l'intervalle de remplacement en usage urbain ou en zone poussiéreuse ?",
+          "sources": [
+            {
+              "cid": "sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de",
+              "path": "sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-climatisation-20261-3618c53c.md",
+              "quote": "Il est conseillé de vérifier et remplacer le filtre d’habitacle tous les 15 000 à 20 000 km ou une fois par an, surtout si vous roulez souvent en ville ou en zone poussiéreuse."
+            },
+            {
+              "cid": "sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1",
+              "path": "sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md",
+              "quote": "When dust, soot and pollen particles accumulate, this leads to a loss of effectiveness (the filter becomes clogged up with particles and air can no longer pass through), so it is necessary to change the filter (on average once a year, or every 15,000 kilometers, depending on the driving environment)."
+            }
+          ],
+          "text": "Plus souvent en ville.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c9",
+          "limite": "Renault mag mentionne le printemps pour la reprise de la climatisation et indique que le filtre retient les pollens, mais ne recommande pas de remplacer le filtre au printemps.",
+          "portee": "Aucune capture ne recommande une saison de remplacement.",
+          "proposed_wording": null,
+          "retake_question": "Quelle source constructeur ou équipementier de rôle « proof » recommande une période de l'année pour remplacer le filtre d'habitacle, par exemple avant la saison des pollens ?",
+          "sources": [],
+          "text": "Idéalement au printemps (pollens).",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c10",
+          "limite": "Valeo indique seulement que l'intervalle dépend de l'environnement, et Renault mag qu'un filtre trop ancien favorise champignons, bactéries et odeurs. Allonger l'intervalle peut conduire à garder un filtre colmaté : baisse du débit d'air et désembuage dégradé, qui touche la visibilité.",
+          "portee": "Aucune capture ne porte l'allongement de l'intervalle en zone rurale ni grâce à un filtre de gamme supérieure.",
+          "proposed_wording": null,
+          "retake_question": "Quelle source de rôle « proof », constructeur ou équipementier, autorise un intervalle de remplacement plus long selon l'environnement (rural) ou la gamme du filtre, et avec quelles limites ?",
+          "sources": [],
+          "text": "Zone rurale et filtre de meilleure qualité allongent l'intervalle.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "complete",
+      "depth_reasons": [
+        "numeric_value"
+      ],
+      "id": "body:2",
+      "sha256": "b032fd0dc0dab181a253b3d330f8ff97cde42519eef402a7fd42d02384e4faa9"
+    }
+  ],
+  "subject": {
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "path": "wiki/gamme/filtre-d-habitacle.md, extrait verbatim des lignes 93, 95 ; frontmatter réduit à slug, title et aux captures RAW du cas",
+    "repo": "automecanik-wiki",
+    "slug": "filtre-d-habitacle"
+  }
+}

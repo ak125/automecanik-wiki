@@ -1,0 +1,39 @@
+slug: filtre-d-habitacle
+fm:
+  slug: filtre-d-habitacle
+  title: Filtre d'habitacle
+  source_refs:
+  - kind: raw
+    path: sources/auto-captures/filtre-d-habitacle/mann-filter-com-wl-filtre-d-habitacle-mann-produit-20261115-fcfcfed6.md
+    cid: sha256:8453ef2d408f8945b629347b6b05389d6b25ffaaf8fd28100c9e43d756ec514a
+  - kind: raw
+    path: sources/auto-captures/filtre-d-habitacle/valeo-com-wl-filtre-d-habitacle-valeo-20261115-f4cdf2fe.md
+    cid: sha256:6dbf79cd6700c60b742c5635ab95f0de0653861f34d0eae6721175f51e6a5fb1
+  - kind: raw
+    path: sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-climatisation-20261-3618c53c.md
+    cid: sha256:97661f476e78769b9452b83dcab26307231dfecc6601661128dac1a3c6de52de
+  - kind: raw
+    path: sources/auto-captures/filtre-d-habitacle/renault-fr-wl-filtre-d-habitacle-renault-mag-clim-20261115-2059fa62.md
+    cid: sha256:7b962ebb7e33dab68e250720a1f1e9df246ad473fddbb43324d4d7ede081876c
+body: |
+  ## Choix selon véhicule
+
+  Critères de sélection : marque, modèle et année du véhicule (vérification via le sélecteur véhicule du site). Classique ou charbon actif : le charbon actif retient jusqu'à 90 % des allergènes et reste recommandé en zone urbaine/polluée ; des variantes combinées (pollen + charbon) et polyphénol (jusqu'à 92 % des particules allergisantes) existent. Remplacement : tous les 15 000 à 20 000 km ou une fois par an — plus souvent en ville, idéalement au printemps (pollens) ; zone rurale et filtre de meilleure qualité allongent l'intervalle.
+subject:
+  repo: automecanik-wiki
+  path: wiki/gamme/filtre-d-habitacle.md, extrait verbatim des lignes 93, 95 ; frontmatter réduit à slug, title et aux captures RAW du cas
+  commit: 67e49d821f17a73692ca0eb976791bcb092483ca
+  slug: filtre-d-habitacle
+freshness:
+  read_from: origin
+  ref: origin/main
+  commit: 67e49d821f17a73692ca0eb976791bcb092483ca
+  raw_commit: 4b4de7180092dd5145f106ed37bbd166b6fd9fb1
+  checked_at: '2026-11-15T17:52:04Z'
+producer:
+  declared: agent:claude-code@degrippage-wave1
+  provider: anthropic
+  basis: wiki/gamme/filtre-d-habitacle.md@67e49d8, provenance.ingested_by (ligne 24)
+source_lines:
+- 93
+- 95

@@ -1,0 +1,1415 @@
+# Sortie de « technical_qualification_bench.py variance expected.yaml runs », rendue en YAML : le test de
+# dépôt du mandat S tient tout .json de _audit/technical-qualification/ pour un artefact.
+targets:
+- id: PF-securite
+  case: plaquette-de-frein
+  segment: body:2
+  expected: conserver
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - preciser
+  - preciser
+  - preciser
+  recovered: 0.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-00/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/6a828aa9eb0d45a8b06a187248c40a6b7dedc62a759d9a084e9017308b3cda33.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c0
+      verdict: preciser
+      text: Les plaquettes sont des composants de sécurité du système de freinage.
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-01/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/778b2f8945a7cbe7a5efcb6f0ed487045fd54dd1a1ade69322dba275afe291dd.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c0
+      verdict: preciser
+      text: Les plaquettes sont des composants de sécurité du système de freinage.
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-02/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/d163a3de25a4d990a8aa88fa37b4f549e521e5972a2a1c18f439ac3f30fefe1a.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c0
+      verdict: preciser
+      text: Les plaquettes sont des composants de sécurité du système de freinage.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: PF-bruit-strident
+  case: plaquette-de-frein
+  segment: body:4
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-00/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/6a828aa9eb0d45a8b06a187248c40a6b7dedc62a759d9a084e9017308b3cda33.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c1
+      verdict: retirer
+      text: Les languettes métalliques des systèmes de freinage plus anciens émettent un son strident en frottant contre le
+        disque, quand les plaquettes ont atteint leur usure maximale.
+      concordance: discordant
+      discordance_on: safety
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: model
+      declassed_from: preciser
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-01/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/778b2f8945a7cbe7a5efcb6f0ed487045fd54dd1a1ade69322dba275afe291dd.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c1
+      verdict: retirer
+      text: Les languettes métalliques des systèmes de freinage plus anciens émettent un son strident en frottant contre le
+        disque, quand les plaquettes ont atteint leur usure maximale.
+      concordance: discordant
+      discordance_on: safety
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: model
+      declassed_from: preciser
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-02/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/d163a3de25a4d990a8aa88fa37b4f549e521e5972a2a1c18f439ac3f30fefe1a.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c1
+      verdict: retirer
+      text: Les languettes métalliques des systèmes de freinage plus anciens émettent un son strident en frottant contre le
+        disque, quand les plaquettes ont atteint leur usure maximale.
+      concordance: discordant
+      discordance_on: safety
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: model
+      declassed_from: preciser
+- id: PF-par-essieu
+  case: plaquette-de-frein
+  segment: body:6
+  expected: preciser
+  defensible: []
+  runs: 3
+  verdicts:
+  - preciser
+  - preciser
+  - preciser
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-00/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/6a828aa9eb0d45a8b06a187248c40a6b7dedc62a759d9a084e9017308b3cda33.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c4
+      verdict: preciser
+      text: Les plaquettes se remplacent par essieu.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+    - id: c5
+      verdict: preciser
+      text: À chaque remplacement des disques, les plaquettes sont remplacées aussi.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-01/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/778b2f8945a7cbe7a5efcb6f0ed487045fd54dd1a1ade69322dba275afe291dd.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c4
+      verdict: preciser
+      text: Les plaquettes se remplacent par essieu.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+    - id: c5
+      verdict: preciser
+      text: À chaque remplacement des disques, les plaquettes sont remplacées aussi.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-02/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/d163a3de25a4d990a8aa88fa37b4f549e521e5972a2a1c18f439ac3f30fefe1a.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c4
+      verdict: preciser
+      text: Les plaquettes se remplacent par essieu.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+    - id: c5
+      verdict: preciser
+      text: À chaque remplacement des disques, les plaquettes sont remplacées aussi.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: PF-controle
+  case: plaquette-de-frein
+  segment: body:8
+  expected: conserver
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - preciser
+  - preciser
+  - preciser
+  recovered: 0.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-00/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/6a828aa9eb0d45a8b06a187248c40a6b7dedc62a759d9a084e9017308b3cda33.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c6
+      verdict: preciser
+      text: 'Les plaquettes s''usent : elles doivent être contrôlées à intervalles réguliers.'
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-01/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/778b2f8945a7cbe7a5efcb6f0ed487045fd54dd1a1ade69322dba275afe291dd.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c6
+      verdict: preciser
+      text: 'Les plaquettes s''usent : elles doivent être contrôlées à intervalles réguliers.'
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-02/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/d163a3de25a4d990a8aa88fa37b4f549e521e5972a2a1c18f439ac3f30fefe1a.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c6
+      verdict: preciser
+      text: 'Les plaquettes s''usent : elles doivent être contrôlées à intervalles réguliers.'
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: PF-faq-strident
+  case: plaquette-de-frein
+  segment: body:10
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-00/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/6a828aa9eb0d45a8b06a187248c40a6b7dedc62a759d9a084e9017308b3cda33.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c8
+      verdict: retirer
+      text: 'Sur beaucoup de systèmes, le son strident d''une plaquette usée est le signal de fin d''usure : une languette
+        métallique ou un indicateur d''usure mécanique frotte contre le disque.'
+      concordance: discordant
+      discordance_on: safety
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: model
+      declassed_from: preciser
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-01/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/778b2f8945a7cbe7a5efcb6f0ed487045fd54dd1a1ade69322dba275afe291dd.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c8
+      verdict: retirer
+      text: 'Sur beaucoup de systèmes, le son strident d''une plaquette usée est le signal de fin d''usure : une languette
+        métallique ou un indicateur d''usure mécanique frotte contre le disque.'
+      concordance: discordant
+      discordance_on: safety
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: model
+      declassed_from: preciser
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/plaquette-de-frein/run-02/e67842420b26dee5f5e8058476aa1c4f92a61385d3b101365c5ad880fe993f87/d163a3de25a4d990a8aa88fa37b4f549e521e5972a2a1c18f439ac3f30fefe1a.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c8
+      verdict: retirer
+      text: 'Sur beaucoup de systèmes, le son strident d''une plaquette usée est le signal de fin d''usure : une languette
+        métallique ou un indicateur d''usure mécanique frotte contre le disque.'
+      concordance: discordant
+      discordance_on: safety
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: model
+      declassed_from: preciser
+- id: FA-30000
+  case: filtre-a-air
+  segment: body:2
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-00/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/5aac496fe4593d321431e01f148931a91c7e073519b9ba8c072c044f9d7e6d65.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c0
+      verdict: retirer
+      text: Remplacement typique du filtre à air tous les 30 000 km.
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-01/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/1242508adf1b325da8b617ad062bf8e0f07f06c26e4ccc0751f2fb8f243246fe.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c0
+      verdict: retirer
+      text: remplacement typique tous les 30 000 km
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-02/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/e640f0aed81422726a80ecc5833287b771ba9839f4e7520c4ab24a0540a6a4b1.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c0
+      verdict: retirer
+      text: Remplacement typique du filtre à air tous les 30 000 km
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: FA-faq-30000
+  case: filtre-a-air
+  segment: body:7
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-00/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/5aac496fe4593d321431e01f148931a91c7e073519b9ba8c072c044f9d7e6d65.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c4
+      verdict: retirer
+      text: Remplacement du filtre à air typiquement tous les 30 000 km.
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-01/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/1242508adf1b325da8b617ad062bf8e0f07f06c26e4ccc0751f2fb8f243246fe.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c4
+      verdict: retirer
+      text: Typiquement tous les 30 000 km.
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-02/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/e640f0aed81422726a80ecc5833287b771ba9839f4e7520c4ab24a0540a6a4b1.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c4
+      verdict: retirer
+      text: Remplacement du filtre à air typiquement tous les 30 000 km
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: FA-carburant-60000
+  case: filtre-a-air
+  segment: body:4
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-00/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/5aac496fe4593d321431e01f148931a91c7e073519b9ba8c072c044f9d7e6d65.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c3
+      verdict: retirer
+      text: 'Intervalle de remplacement du filtre à carburant : 60 000 km en diesel.'
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-01/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/1242508adf1b325da8b617ad062bf8e0f07f06c26e4ccc0751f2fb8f243246fe.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c3
+      verdict: retirer
+      text: intervalle 60 000 km diesel
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-02/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/e640f0aed81422726a80ecc5833287b771ba9839f4e7520c4ab24a0540a6a4b1.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c3
+      verdict: retirer
+      text: 'Intervalle de remplacement du filtre à carburant : 60 000 km en diesel'
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: FA-nettoyage-papier
+  case: filtre-a-air
+  segment: body:9
+  expected: conserver
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - preciser
+  - preciser
+  - preciser
+  recovered: 0.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-00/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/5aac496fe4593d321431e01f148931a91c7e073519b9ba8c072c044f9d7e6d65.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c6
+      verdict: preciser
+      text: Un filtre à air papier standard ne doit pas être nettoyé au lieu d'être remplacé, en raison d'une perte de porosité
+        après nettoyage.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-01/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/1242508adf1b325da8b617ad062bf8e0f07f06c26e4ccc0751f2fb8f243246fe.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c6
+      verdict: preciser
+      text: Non pour les filtres papier standard (perte de porosité après nettoyage).
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-02/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/e640f0aed81422726a80ecc5833287b771ba9839f4e7520c4ab24a0540a6a4b1.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c6
+      verdict: preciser
+      text: Un filtre à air papier standard ne doit pas être nettoyé (perte de porosité après nettoyage)
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: FA-coton-huile
+  case: filtre-a-air
+  segment: body:9
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-00/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/5aac496fe4593d321431e01f148931a91c7e073519b9ba8c072c044f9d7e6d65.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c7
+      verdict: retirer
+      text: Les filtres réutilisables de type coton huilé peuvent être nettoyés, selon une procédure constructeur stricte
+        (nettoyant et huile dédiés).
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-01/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/1242508adf1b325da8b617ad062bf8e0f07f06c26e4ccc0751f2fb8f243246fe.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c7
+      verdict: retirer
+      text: Oui pour les filtres réutilisables type coton huilé, mais selon procédure constructeur stricte (nettoyant + huile
+        dédiés)
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-air/run-02/0085040dea7a73e11acf18d5309149e6109b3d67430ac173afed251b1168ff6b/e640f0aed81422726a80ecc5833287b771ba9839f4e7520c4ab24a0540a6a4b1.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c7
+      verdict: retirer
+      text: Les filtres réutilisables type coton huilé peuvent être nettoyés selon une procédure constructeur stricte (nettoyant
+        et huile dédiés)
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: FC-retient-eau
+  case: filtre-a-carburant
+  segment: body:2
+  expected: conserver
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - preciser
+  - preciser
+  - preciser
+  recovered: 0.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-00/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/8f27ad14aff337d1bd7b3c4d9364703c2fc4cc9de0099147d9393fd3e149d887.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c0
+      verdict: preciser
+      text: Le filtre à carburant retient l'eau et les impuretés du carburant pour protéger les injecteurs et la pompe.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-01/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/215f2043890bc2e82fc0beed5ab3f503191e14d03be3f328ecdb23f48d08e4bf.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c0
+      verdict: preciser
+      text: Le filtre à carburant retient les impuretés du carburant.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: model
+      declassed_from: conserver
+    - id: c1
+      verdict: preciser
+      text: Le filtre à carburant retient l'eau du carburant.
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-02/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/3498d32932a747f9f264997d310ec7a462a04c5dadee817a8f56590fbad4b33c.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c0
+      verdict: preciser
+      text: Le filtre à carburant retient les impuretés du carburant.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: model
+      declassed_from: conserver
+    - id: c1
+      verdict: preciser
+      text: Le filtre à carburant retient l'eau du carburant.
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: FC-preconisation
+  case: filtre-a-carburant
+  segment: body:4
+  expected: conserver
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - preciser
+  - preciser
+  - preciser
+  recovered: 0.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-00/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/8f27ad14aff337d1bd7b3c4d9364703c2fc4cc9de0099147d9393fd3e149d887.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c5
+      verdict: preciser
+      text: 'Intervalle : suivre la préconisation constructeur ; la préconisation constructeur prime.'
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-01/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/215f2043890bc2e82fc0beed5ab3f503191e14d03be3f328ecdb23f48d08e4bf.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c7
+      verdict: preciser
+      text: 'Intervalle : suivre la préconisation constructeur, qui prime.'
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-02/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/3498d32932a747f9f264997d310ec7a462a04c5dadee817a8f56590fbad4b33c.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c7
+      verdict: preciser
+      text: 'Intervalle : suivre la préconisation constructeur, qui prime.'
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: FC-fourchettes
+  case: filtre-a-carburant
+  segment: body:4
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-00/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/8f27ad14aff337d1bd7b3c4d9364703c2fc4cc9de0099147d9393fd3e149d887.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c6
+      verdict: retirer
+      text: 'Les fourchettes observées divergent selon les sources : 15 000–20 000 km en moyenne chez certains comparateurs
+        ; diesels HDI/TDI 20 000–30 000 km et essences jusqu''à 60 000 km dans le corpus.'
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-01/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/215f2043890bc2e82fc0beed5ab3f503191e14d03be3f328ecdb23f48d08e4bf.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c8
+      verdict: retirer
+      text: 15 000–20 000 km en moyenne chez certains comparateurs.
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c9
+      verdict: retirer
+      text: Diesels HDI/TDI 20 000–30 000 km et essences jusqu'à 60 000 km dans le corpus.
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-02/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/3498d32932a747f9f264997d310ec7a462a04c5dadee817a8f56590fbad4b33c.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c8
+      verdict: retirer
+      text: 15 000–20 000 km en moyenne chez certains comparateurs
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c9
+      verdict: retirer
+      text: diesels HDI/TDI 20 000–30 000 km et essences jusqu'à 60 000 km dans le corpus
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+- id: FC-faq-intervalles
+  case: filtre-a-carburant
+  segment: body:7
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-00/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/8f27ad14aff337d1bd7b3c4d9364703c2fc4cc9de0099147d9393fd3e149d887.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c8
+      verdict: retirer
+      text: 'Non (essence et diesel n''ont pas la même fréquence). Diesels HDI/TDI : 20 000–30 000 km. Essences : jusqu''à
+        60 000 km.'
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-01/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/215f2043890bc2e82fc0beed5ab3f503191e14d03be3f328ecdb23f48d08e4bf.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c11
+      verdict: retirer
+      text: Essence et diesel n'ont pas la même fréquence de remplacement.
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c12
+      verdict: retirer
+      text: 'Diesels HDI/TDI : 20 000–30 000 km. Essences : jusqu''à 60 000 km.'
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-02/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/3498d32932a747f9f264997d310ec7a462a04c5dadee817a8f56590fbad4b33c.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c11
+      verdict: retirer
+      text: 'Non [pas la même fréquence]. Diesels HDI/TDI : 20 000–30 000 km. Essences : jusqu''à 60 000 km.'
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+- id: FC-amorcage
+  case: filtre-a-carburant
+  segment: body:9
+  expected: preciser
+  defensible:
+  - retirer
+  runs: 3
+  verdicts:
+  - preciser
+  - retirer
+  - retirer
+  recovered: 0.3333333333333333
+  defensible_share: 1.0
+  distinct: 2
+  modal_share: 0.6666666666666666
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-00/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/8f27ad14aff337d1bd7b3c4d9364703c2fc4cc9de0099147d9393fd3e149d887.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c10
+      verdict: preciser
+      text: Après remplacement du filtre diesel, il faut amorcer le circuit.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+    - id: c11
+      verdict: preciser
+      text: Pompez jusqu'à sentir une résistance.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - constructeur
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-01/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/215f2043890bc2e82fc0beed5ab3f503191e14d03be3f328ecdb23f48d08e4bf.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c14
+      verdict: retirer
+      text: Après remplacement du filtre diesel, il faut amorcer le circuit.
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+    - id: c15
+      verdict: preciser
+      text: Pompez jusqu'à sentir une résistance.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - constructeur
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-02/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/3498d32932a747f9f264997d310ec7a462a04c5dadee817a8f56590fbad4b33c.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c13
+      verdict: retirer
+      text: Après remplacement du filtre diesel, il faut amorcer le circuit.
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+    - id: c14
+      verdict: retirer
+      text: Pompez jusqu'à sentir une résistance.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - constructeur
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: FC-ralenti-bobine
+  case: filtre-a-carburant
+  segment: body:11
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-00/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/8f27ad14aff337d1bd7b3c4d9364703c2fc4cc9de0099147d9393fd3e149d887.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c13
+      verdict: retirer
+      text: À-coups au ralenti = injecteur/bobine.
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-01/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/215f2043890bc2e82fc0beed5ab3f503191e14d03be3f328ecdb23f48d08e4bf.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c17
+      verdict: retirer
+      text: À-coups au ralenti = injecteur/bobine.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-02/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/3498d32932a747f9f264997d310ec7a462a04c5dadee817a8f56590fbad4b33c.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c16
+      verdict: retirer
+      text: À-coups au ralenti = injecteur/bobine.
+      concordance: no_source
+      discordance_on: null
+      domains: []
+      proof: false
+      declassed_by: null
+      declassed_from: null
+- id: FC-acceleration
+  case: filtre-a-carburant
+  segment: body:11
+  expected: preciser
+  defensible:
+  - retirer
+  runs: 3
+  verdicts:
+  - preciser
+  - preciser
+  - preciser
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-00/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/8f27ad14aff337d1bd7b3c4d9364703c2fc4cc9de0099147d9393fd3e149d887.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c12
+      verdict: preciser
+      text: À-coups à l'accélération = filtre suspect.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-01/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/215f2043890bc2e82fc0beed5ab3f503191e14d03be3f328ecdb23f48d08e4bf.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c16
+      verdict: preciser
+      text: À-coups à l'accélération = filtre suspect.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-a-carburant/run-02/f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4/3498d32932a747f9f264997d310ec7a462a04c5dadee817a8f56590fbad4b33c.json
+    verdict: preciser
+    depth: complete
+    claims:
+    - id: c15
+      verdict: preciser
+      text: À-coups à l'accélération = filtre suspect.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: true
+      declassed_by: null
+      declassed_from: null
+- id: FH-charbon-90
+  case: filtre-d-habitacle
+  segment: body:2
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-d-habitacle/run-00/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/2c4232e7123d801a08c0e5c97211b7e4306d8b9c1412bec348d77af92c4dfbbf.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c1
+      verdict: retirer
+      text: Le charbon actif retient jusqu'à 90 % des allergènes.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c2
+      verdict: preciser
+      text: Le charbon actif reste recommandé en zone urbaine/polluée.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c3
+      verdict: preciser
+      text: Classique ou charbon actif ; des variantes combinées (pollen + charbon) existent.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: model
+      declassed_from: conserver
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-d-habitacle/run-01/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/eea6aad6ea6d847c6d16813b506997304c693aca87a433f586d26556110fa3af.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c1
+      verdict: retirer
+      text: Le charbon actif retient jusqu'à 90 % des allergènes.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c2
+      verdict: preciser
+      text: Le filtre à charbon actif reste recommandé en zone urbaine/polluée.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c3
+      verdict: preciser
+      text: Des variantes combinées (pollen + charbon) existent.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: model
+      declassed_from: conserver
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-d-habitacle/run-02/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/824938c20f1154f374e13ffce4ed0c74c449b54815f2ec478b92079a80c41de5.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c1
+      verdict: retirer
+      text: Le charbon actif retient jusqu'à 90 % des allergènes.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c2
+      verdict: preciser
+      text: Le charbon actif reste recommandé en zone urbaine/polluée.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c3
+      verdict: preciser
+      text: Des variantes combinées (pollen + charbon) existent.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: model
+      declassed_from: conserver
+- id: FH-polyphenol-92
+  case: filtre-d-habitacle
+  segment: body:2
+  expected: retirer
+  defensible:
+  - preciser
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 1.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-d-habitacle/run-00/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/2c4232e7123d801a08c0e5c97211b7e4306d8b9c1412bec348d77af92c4dfbbf.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c4
+      verdict: preciser
+      text: Des variantes polyphénol existent.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+    - id: c5
+      verdict: retirer
+      text: 'Polyphénol : jusqu''à 92 % des particules allergisantes.'
+      concordance: undetermined
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-d-habitacle/run-01/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/eea6aad6ea6d847c6d16813b506997304c693aca87a433f586d26556110fa3af.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c4
+      verdict: retirer
+      text: Des variantes polyphénol (jusqu'à 92 % des particules allergisantes) existent.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-d-habitacle/run-02/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/824938c20f1154f374e13ffce4ed0c74c449b54815f2ec478b92079a80c41de5.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c4
+      verdict: preciser
+      text: Des variantes au polyphénol existent.
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: model
+      declassed_from: conserver
+    - id: c5
+      verdict: retirer
+      text: 'Polyphénol : jusqu''à 92 % des particules allergisantes.'
+      concordance: single_source
+      discordance_on: null
+      domains:
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+- id: FH-intervalle
+  case: filtre-d-habitacle
+  segment: body:2
+  expected: preciser
+  defensible:
+  - retirer
+  runs: 3
+  verdicts:
+  - retirer
+  - retirer
+  - retirer
+  recovered: 0.0
+  defensible_share: 1.0
+  distinct: 1
+  modal_share: 1.0
+  observations:
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-d-habitacle/run-00/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/2c4232e7123d801a08c0e5c97211b7e4306d8b9c1412bec348d77af92c4dfbbf.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c6
+      verdict: retirer
+      text: 'Remplacement : tous les 15 000 à 20 000 km.'
+      concordance: discordant
+      discordance_on: value
+      domains:
+      - constructeur
+      - equipementier
+      proof: false
+      declassed_by: model
+      declassed_from: preciser
+    - id: c7
+      verdict: preciser
+      text: 'Remplacement : une fois par an.'
+      concordance: concordant
+      discordance_on: null
+      domains:
+      - constructeur
+      - equipementier
+      proof: false
+      declassed_by: null
+      declassed_from: null
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-d-habitacle/run-01/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/eea6aad6ea6d847c6d16813b506997304c693aca87a433f586d26556110fa3af.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c5
+      verdict: retirer
+      text: 'Remplacement : tous les 15 000 à 20 000 km ou une fois par an.'
+      concordance: discordant
+      discordance_on: value
+      domains:
+      - constructeur
+      - equipementier
+      proof: false
+      declassed_by: model
+      declassed_from: preciser
+  - artifact: _audit/technical-qualification/jeu-de-reference-20261115/runs/filtre-d-habitacle/run-02/ff955b4482cd07c3ea291bc7773fa3ba99cda940fb5fab0b3bf4396686bd24fd/824938c20f1154f374e13ffce4ed0c74c449b54815f2ec478b92079a80c41de5.json
+    verdict: retirer
+    depth: complete
+    claims:
+    - id: c6
+      verdict: retirer
+      text: 'Remplacement : tous les 15 000 à 20 000 km ou une fois par an.'
+      concordance: discordant
+      discordance_on: value
+      domains:
+      - constructeur
+      - equipementier
+      proof: false
+      declassed_by: model
+      declassed_from: preciser
+summary:
+  targets: 20
+  observations: 60
+  recovered: 0.6666666666666666
+  defensible_share: 1.0
+  stable_targets: 19
+  reviewers:
+  - model: claude-opus-5-5
+    provider: anthropic
+    cli_version: 2.1.325 (Claude Code)
+  artifacts_with_error: []
+conserver_limit_signals: []
+anchoring:
+  quotes: 278
+  anchored: 278
+  unanchored: []

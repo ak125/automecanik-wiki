@@ -1,0 +1,290 @@
+{
+  "freshness": {
+    "checked_at": "2026-11-15T09:19:00Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "401314c6bb349378dcd9a9b15e773795e5d5d3d3",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "42b11f842ed1806178535e030e91bd2f535bd9dd3d033a67fbb5ea42326ac473",
+  "key_inputs": {
+    "captures": [
+      {
+        "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+        "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md"
+      },
+      {
+        "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+        "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md"
+      },
+      {
+        "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+        "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md"
+      }
+    ],
+    "skill_sha256": "47abb9b67e1e9a20d345d798052f6b93203df9af7254c43a050269c58bc04473",
+    "text_sha256": "9f7a06b8e4e928766c6efff32c479368236e78d6e57ca48b64e17b08fb2e4429"
+  },
+  "producer": {
+    "basis": "maquette du PC de l'owner, hors WIKI : producteur non consigné ; L155 et L157 rédigées par le 11 (Space ChatGPT) le 2026-11-07",
+    "declared": null,
+    "provider": "unknown"
+  },
+  "reviewer": {
+    "cli_version": "2.1.325",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic"
+  },
+  "role": "qualification",
+  "schema_version": "technical-qualification/v1",
+  "segments": [
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "85dc1a891abc34753c0828a7dd0d53f097502c1d7eefd17e9988ec36b9b9e0ae"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:source_refs",
+      "no_claims": true,
+      "sha256": "6b312463a901fbb7c016c0b5e614eafbbe1ed817610e0c2f583ae9ab541b810d"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86"
+    },
+    {
+      "claims": [
+        {
+          "id": "c0",
+          "limite": "Les captures ne décrivent aucune méthode de sélection par marque, modèle ou année, ni aucun catalogue d’application. Elles ne détaillent pas les restrictions par référence. En cas de doute sur la compatibilité, faites confirmer la référence par un professionnel ou par le constructeur.",
+          "portee": "Filtres vissés (spin-on) en général, selon MAHLE et FILTRON : la conception interne (clapet anti-retour, filetage, clapet de dérivation) dépend du moteur et du choix du constructeur.",
+          "proposed_wording": "Identifiez la motorisation exacte du véhicule, puis vérifiez que la référence choisie lui est bien destinée. Des filtres d’apparence identique peuvent différer selon le moteur : présence ou non d’un clapet anti-retour, filetage de raccordement, pression d’ouverture du clapet de dérivation. En cas de doute, faites confirmer la référence par un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "For example, they may be with or without anti-drain valve or have different connection threads."
+            },
+            {
+              "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+              "quote": "Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+            }
+          ],
+          "text": "Commencez par la marque, le modèle, l’année et la motorisation exacte. Vérifiez ensuite l’application de la référence choisie et ses éventuelles restrictions.",
+          "verdict": "preciser"
+        },
+        {
+          "id": "c1",
+          "limite": "Affirmation non portée par les captures fournies.",
+          "portee": "Aucune capture ne traite des références d’origine ni du recoupement de références.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Une référence d’origine connue permet de recouper la sélection.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:2",
+      "sha256": "9ec97dbc77ac6f05db711bece9a5c892a323dca094e7fd0d84883baae4c9c330"
+    },
+    {
+      "claims": [
+        {
+          "id": "c2",
+          "limite": "Les captures ne traitent pas de la conversion d’un montage vers l’autre.",
+          "portee": "Gamme MAHLE : le filtre vissé est un ensemble boîtier et élément indissociable. La cartouche ne remplace que l’élément filtrant d’un boîtier démontable.",
+          "proposed_wording": null,
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "A spin-on oil filter consists of housing and filter element, which are inseparably connected and must therefore be changed as a unit."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "Oil filter cartridges are available for all oil filters with removable housings."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "instead of replacing the complete filter, only the dirty filter element has to be renewed."
+            }
+          ],
+          "text": "Cartouche et filtre vissé correspondent à des montages différents.",
+          "verdict": "conserver"
+        },
+        {
+          "id": "c3",
+          "limite": "Aucune capture n’interdit ni ne décrit explicitement une conversion. Un mauvais montage peut compromettre la lubrification. Toute modification du support de filtre relève d’un professionnel.",
+          "portee": "Les captures établissent que l’apparence ne garantit pas l’équivalence et que le montage correct conditionne le fonctionnement.",
+          "proposed_wording": "Montez uniquement la référence prévue pour votre moteur, sous la forme cartouche ou filtre vissé selon le montage d’origine. Deux filtres d’apparence proche peuvent avoir des composants internes différents, et un filtre ne fonctionne correctement que s’il est monté correctement. Ne modifiez pas le support de filtre ; pour tout doute, consultez un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "As simple as it may sound—also a high quality oil filter can only work properly when it has been fitted correctly beforehand."
+            }
+          ],
+          "text": "Choisissez la référence prévue pour votre moteur ; ne cherchez pas à convertir le montage avec une pièce d’apparence approchante.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:3",
+      "sha256": "3c9ac1966be16946c34a66185b1cf294f22b01de180d431d69c55979cdd00e62"
+    },
+    {
+      "claims": [
+        {
+          "id": "c4",
+          "limite": "Les captures ne parlent ni de modèle, ni d’année, ni de restrictions par référence. Elles établissent seulement la dépendance au moteur.",
+          "portee": "Les filtres diffèrent selon le moteur et la conception définie par le constructeur.",
+          "proposed_wording": "Pas nécessairement. Le filtre dépend surtout du moteur : pour un même modèle et une même année, des motorisations différentes peuvent demander des filtres différents, même d’apparence identique (clapets, filetage, finesse de filtration, pression admissible). Vérifiez la motorisation exacte avant de commander.",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, the problem is that many filters look identical but have completely different insides depending on the engine."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "They also can differ in the oil pressure of the bypass valve, filter media, the fineness of the filter or the permissible operational overpressure."
+            },
+            {
+              "cid": "sha256:809c3efd864a3be850c5e63ba2d400064b61dcd4090342b171d45ceba11c0178",
+              "path": "sources/auto-captures/filtre-a-huile/filtron-eu-wl-filtre-a-huile-clapets-b8431d6f.md",
+              "quote": "Their use in a given filter depends on the design of the filter, as determined by the engine or vehicle manufacturer."
+            }
+          ],
+          "text": "Même modèle et même année : le filtre n’est pas nécessairement identique ; vérifiez la motorisation exacte et les restrictions de la référence.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:4",
+      "sha256": "4736f6bc70dcce7a632599aa58a878ee64d9771bafa19d8322512c79efee6454"
+    },
+    {
+      "claims": [
+        {
+          "id": "c5",
+          "limite": "Aucune capture ne traite de correspondance entre marques. Les caractéristiques à comparer sont citées, mais aucune méthode d’équivalence n’est fournie. En cas de doute, faites confirmer l’équivalence par un professionnel.",
+          "portee": "Les captures indiquent les caractéristiques qui différencient des filtres d’apparence semblable.",
+          "proposed_wording": "Pas forcément : ce qui compte, c’est que le filtre convienne exactement à votre moteur. Un filtre d’une autre marque n’est équivalent que s’il reprend les mêmes caractéristiques : clapet anti-retour, filetage, pression du clapet de dérivation, finesse de filtration, pression admissible. Faites confirmer l’équivalence pour votre véhicule exact.",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "For example, they may be with or without anti-drain valve or have different connection threads."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "They also can differ in the oil pressure of the bypass valve, filter media, the fineness of the filter or the permissible operational overpressure."
+            }
+          ],
+          "text": "Le choix dépend d’abord de la référence et de son application ; une autre marque peut proposer une correspondance, mais l’équivalence doit être établie pour le véhicule exact.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:5",
+      "sha256": "2443768a22ed344b14ba3526bc4c72448a77b4b6889d61f3e1206057c9e70354"
+    },
+    {
+      "claims": [
+        {
+          "id": "c6",
+          "limite": "Aucune capture ne porte ce renvoi.",
+          "portee": "Il s’agit d’un renvoi interne ; aucune capture ne le porte.",
+          "proposed_wording": null,
+          "sources": [],
+          "text": "Consultez le guide du filtre à huile pour préparer l’intervention.",
+          "verdict": "retirer"
+        },
+        {
+          "id": "c7",
+          "limite": "Les captures ne fournissent ni couple de serrage, ni procédure de montage, ni valeur propre à un montage. La consigne Renault sur le témoin de pression d’huile ne vaut que pour la Clio 5 phase 1 ; pour les autres véhicules, reportez-vous à leur notice. Si le témoin de pression d’huile s’allume, arrêtez-vous et faites appel à un professionnel.",
+          "portee": "MAHLE : les intervalles de remplacement relèvent du constructeur automobile, et le montage correct conditionne le fonctionnement. Renault : la conduite à tenir face au témoin de pression d’huile concerne la Clio 5 phase 1 (18/12/2018 à 01/06/2023) et dépend de l’équipement et du pays.",
+          "proposed_wording": "Respectez les intervalles de remplacement fixés par le constructeur du véhicule. Pour la procédure et les valeurs de montage, reportez-vous à la documentation du véhicule et du fabricant du filtre : un filtre ne fonctionne correctement que s’il est bien monté. Si le témoin de pression d’huile s’allume en roulant, arrêtez-vous et coupez le contact, comme l’indique par exemple la notice de la Clio 5 phase 1. Vérifiez ensuite le niveau d’huile et faites appel à un professionnel.",
+          "sources": [
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "However, an important consideration for optimum functioning of oil filters is that filters are replaced within the maintenance intervals stipulated by the automobile manufacturers."
+            },
+            {
+              "cid": "sha256:8358e439faddebc32395175c9fb161ee7d9abce755ead940aeadb7b6ddc5f589",
+              "path": "sources/auto-captures/filtre-a-huile/mahle-aftermarket-com-wl-filtre-a-huile-conception-media-fa488c04.md",
+              "quote": "As simple as it may sound—also a high quality oil filter can only work properly when it has been fitted correctly beforehand."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "S’il s’allume sur route, accompagné du témoin ® et d’un signal sonore, arrêtez-vous impérativement et coupez le contact."
+            },
+            {
+              "cid": "sha256:fc3dc89072596e51a15b1520f44c9b74f8180379a0eeb957ebb5de0fa2349235",
+              "path": "sources/auto-captures/filtre-a-huile/user-manual-renault-com-wl-filtre-a-huile-alerte-pression-re-a64b110a.md",
+              "quote": "Vérifiez le niveau d'huile. Si le niveau est normal, cela provient d'une autre cause."
+            }
+          ],
+          "text": "Pour les instructions et les valeurs propres à votre montage, reportez-vous à la documentation du véhicule et du fabricant du filtre.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:6",
+      "sha256": "8a21b8667eddb99995608ed3395f3474ec9828ff9236df489db8b14fe90e57c3"
+    }
+  ],
+  "subject": {
+    "commit": null,
+    "path": "lignes 153-157 ; réponses de L155 et L157 = formulations proposées par le 11 le 2026-11-07 (texte d'origine inconnu)",
+    "repo": "pc:r1-atelier.html (avant-faq, sha256 eb57e4ad8169a253886edf67b211036d5b3ec2e1a0dc3197bda14e003252e939)",
+    "slug": "filtre-a-huile"
+  }
+}

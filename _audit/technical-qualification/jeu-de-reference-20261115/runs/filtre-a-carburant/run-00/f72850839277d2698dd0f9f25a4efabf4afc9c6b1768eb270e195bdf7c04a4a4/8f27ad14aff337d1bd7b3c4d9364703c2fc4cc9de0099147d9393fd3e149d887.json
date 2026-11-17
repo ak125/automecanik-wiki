@@ -1,0 +1,878 @@
+{
+  "freshness": {
+    "checked_at": "2026-11-15T17:52:04Z",
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "raw_commit": "4b4de7180092dd5145f106ed37bbd166b6fd9fb1",
+    "read_from": "origin",
+    "ref": "origin/main"
+  },
+  "key": "f72850839277d2698dd0f9f25a4efabf4afc9c6b1768eb270e195bdf7c04a4a4",
+  "key_inputs": {
+    "capture_domains": [
+      {
+        "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      },
+      {
+        "cid": "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Delphi Technologies"
+      },
+      {
+        "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Delphi Technologies"
+      },
+      {
+        "cid": "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+        "domain": "equipementier",
+        "editorial_role": "proof",
+        "publisher": "Filtron (MANN+HUMMEL)"
+      },
+      {
+        "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      },
+      {
+        "cid": "sha256:5a62d2be5b756d233c83ee8c0ba6cabd0b9df97f8710f457e599a99336b61681",
+        "domain": "constructeur",
+        "editorial_role": "proof",
+        "publisher": "Renault"
+      }
+    ],
+    "captures": [
+      {
+        "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+        "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md"
+      },
+      {
+        "cid": "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+        "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-common-rail-827c5aac.md"
+      },
+      {
+        "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+        "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md"
+      },
+      {
+        "cid": "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+        "path": "sources/auto-captures/filtre-a-carburant/filtron-eu-wl-filtre-a-carburant-filtron-hiver-20261115-607df51b.md"
+      },
+      {
+        "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+        "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md"
+      },
+      {
+        "cid": "sha256:5a62d2be5b756d233c83ee8c0ba6cabd0b9df97f8710f457e599a99336b61681",
+        "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-7ed46e83.md"
+      }
+    ],
+    "domain_basis": "source-catalog.yaml sha256 0b51f1ddbabafd152d55c5c610fbea9d83d0a64ad52624582676eb02c82030bb + table domaines-i1.yaml sha256 32a48fe5a5441fde0664be083addf6c2171b450f4fa247c38201f9e4dfea464c fusionnée en mémoire",
+    "domain_definition": "publisher_class",
+    "skill_sha256": "bbab905fb5183582c34591fa930aa2de651b4f9f289a82f447c6c74593bb2b65",
+    "text_sha256": "71143d2316da9b736f7139a8b14d3f74d9a1a7a6b43aaa4c69bff971adf9358a"
+  },
+  "producer": {
+    "basis": "wiki/gamme/filtre-a-carburant.md@67e49d8, provenance.ingested_by (ligne 27)",
+    "declared": "agent:claude-code@degrippage-wave1",
+    "provider": "anthropic"
+  },
+  "retake_questions": [
+    {
+      "claim_id": "c0",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Une source constructeur (notice ou manuel d'entretien) indique-t-elle que le filtre à carburant protège la pompe et les injecteurs, et précise-t-elle si la séparation de l'eau concerne aussi les filtres essence ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c2",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Une source constructeur confirme-t-elle la présence d'un filtre à carburant remplaçable sur les motorisations essence, et pour quels véhicules ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c3",
+      "domains_present": [],
+      "question": "Une source constructeur ou équipementier compare-t-elle, pour des motorisations identifiées, les intervalles de remplacement des filtres diesel et essence, et en donne-t-elle la cause ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:2"
+    },
+    {
+      "claim_id": "c4",
+      "domains_present": [],
+      "question": "Une source constructeur ou équipementier précise-t-elle les critères d'identification d'un filtre à carburant compatible (motorisation, numéro de pièce, type d'injection) ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c5",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Trouver une capture d'un domaine d'autorité autre que : constructeur, equipementier, qui porte ou contredit : « Intervalle : suivre la préconisation constructeur ; la préconisation constructeur prime. »",
+      "question_source": "template",
+      "reason": "single_domain",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c6",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Quels intervalles de remplacement du filtre à carburant les documents d'entretien constructeur donnent-ils pour des moteurs HDI, TDI et essence identifiés ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c7",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Une source constructeur indique-t-elle les risques d'un filtre à carburant encrassé pour le moteur et recommande-t-elle un remplacement préventif ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:4"
+    },
+    {
+      "claim_id": "c8",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Quels intervalles les documents d'entretien constructeur donnent-ils pour le filtre à carburant de moteurs HDI, TDI et essence identifiés ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:7"
+    },
+    {
+      "claim_id": "c9",
+      "domains_present": [],
+      "question": "Une source pétrolière, normative ou équipementier compare-t-elle la teneur en contaminants (eau, particules) du gazole et de l'essence ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:7"
+    },
+    {
+      "claim_id": "c10",
+      "domains_present": [
+        "constructeur",
+        "equipementier"
+      ],
+      "question": "Une source constructeur indique-t-elle, pour des moteurs diesel identifiés, s'il faut amorcer le circuit ou pré-remplir le filtre après son remplacement, et selon quelle méthode ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:9"
+    },
+    {
+      "claim_id": "c11",
+      "domains_present": [
+        "constructeur"
+      ],
+      "question": "Une source équipementier ou atelier décrit-elle la procédure d'amorçage par poire manuelle après remplacement du filtre diesel, et pour quels véhicules ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:9"
+    },
+    {
+      "claim_id": "c12",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Une source constructeur relie-t-elle des à-coups ou un manque de puissance à l'accélération à un filtre à carburant obstrué, et pour quels moteurs ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:11"
+    },
+    {
+      "claim_id": "c13",
+      "domains_present": [],
+      "question": "Une source constructeur ou équipementier associe-t-elle les à-coups au ralenti à des causes identifiées (injecteur, allumage, alimentation), selon le type de moteur ?",
+      "question_source": "model",
+      "reason": "no_capture",
+      "segment_id": "body:11"
+    },
+    {
+      "claim_id": "c14",
+      "domains_present": [
+        "equipementier"
+      ],
+      "question": "Une source constructeur recommande-t-elle de contrôler en priorité le filtre à carburant lors d'un diagnostic de manque de puissance, et pour quels systèmes d'injection ?",
+      "question_source": "model",
+      "reason": "single_domain",
+      "segment_id": "body:11"
+    }
+  ],
+  "reviewer": {
+    "cli_version": "2.1.325 (Claude Code)",
+    "model": "claude-opus-5-5",
+    "provider": "anthropic"
+  },
+  "role": "qualification",
+  "schema_version": "technical-qualification/v2",
+  "segments": [
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:slug",
+      "no_claims": true,
+      "sha256": "a6c0f03efd12887a4fddd35dd707523d554fac69d7f4663cfeb282d60e8f3500"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:source_refs",
+      "no_claims": true,
+      "sha256": "3dc335fa44b9cf2a185dd23624a6c827ed84b5b344231a81a801bee002b697d8"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "fm:title",
+      "no_claims": true,
+      "sha256": "dc39e58cb0ece2d8629ed92cbae7403eec12071191e13ea929fbce2195aa3715"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:1",
+      "no_claims": true,
+      "sha256": "92c1d8b1cea628b9559f4a3958e618faa8879d4cca683ca2036c2eabba171b3a"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+              "sha256:5a62d2be5b756d233c83ee8c0ba6cabd0b9df97f8710f457e599a99336b61681",
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c0",
+          "limite": "La séparation de l'eau n'est rattachée qu'aux filtres diesel ; le texte l'étend à l'essence. Aucune capture ne nomme explicitement injecteurs et pompe. Le texte omet que l'eau séparée doit être évacuée (décanteur à vider, ou passage chez un professionnel quand le véhicule signale de l'eau dans le filtre). Seul le domaine équipementier porte l'affirmation complète, Filtron et Delphi comptant pour un seul domaine.",
+          "portee": "Arrêt des contaminants solides : filtres à carburant en général (Filtron, Delphi). Séparation de l'eau : filtres diesel (Filtron ; Renault Kangoo 2024-2025 pour la présence d'eau dans le filtre diesel). Longévité des composants : systèmes d'injection Common Rail (Delphi).",
+          "proposed_wording": "Le filtre à carburant arrête les contaminants du carburant (rouille, copeaux métalliques, poussière) ; sur les moteurs diesel, il sépare aussi l'eau, qu'il faut évacuer (vidange du décanteur ou intervention d'un professionnel si le véhicule signale de l'eau dans le filtre). Sur les systèmes Common Rail, une filtration efficace protège la longévité des composants d'injection.",
+          "retake_question": "Une source constructeur (notice ou manuel d'entretien) indique-t-elle que le filtre à carburant protège la pompe et les injecteurs, et précise-t-elle si la séparation de l'eau concerne aussi les filtres essence ?",
+          "sources": [
+            {
+              "cid": "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+              "path": "sources/auto-captures/filtre-a-carburant/filtron-eu-wl-filtre-a-carburant-filtron-hiver-20261115-607df51b.md",
+              "quote": "Le filtre à carburant arrête les contaminants dans le carburant, qui peuvent être de la rouille, des copeaux métalliques, de la poussière et d’autres particules solides."
+            },
+            {
+              "cid": "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+              "path": "sources/auto-captures/filtre-a-carburant/filtron-eu-wl-filtre-a-carburant-filtron-hiver-20261115-607df51b.md",
+              "quote": "Dans le cas des filtres à carburant de moteur diesel, la séparation de l’eau est également importante."
+            },
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Le filtre à carburant maintient le flux de carburant dans le moteur du véhicule exempt de contaminants."
+            },
+            {
+              "cid": "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-common-rail-827c5aac.md",
+              "quote": "Les systèmes d’injection Common Rail requièrent un niveau supérieur de filtration pour garantir la longévité de leurs composants."
+            },
+            {
+              "cid": "sha256:5a62d2be5b756d233c83ee8c0ba6cabd0b9df97f8710f457e599a99336b61681",
+              "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-7ed46e83.md",
+              "quote": "Indicates the presence of water in the diesel filter; contact an approved Dealer as soon as possible."
+            }
+          ],
+          "text": "Le filtre à carburant retient l'eau et les impuretés du carburant pour protéger les injecteurs et la pompe.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c1",
+          "limite": "La source constructeur ne couvre que la Clio 5 phase 1. La périodicité dépend du document d'entretien de chaque véhicule.",
+          "portee": "Remplacement périodique du filtre selon le calendrier d'entretien : Renault Clio 5 phase 1 (filtre à gazole) et filtres à carburant en général (Delphi).",
+          "proposed_wording": null,
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+              "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+              "quote": "Le remplacement des éléments filtrants (filtre à air, filtre habitacle, filtre à gazole…) est prévu dans les opérations d’entretien de votre véhicule."
+            },
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Un filtre à carburant doit être remplacé régulièrement, conformément au calendrier d’entretien du véhicule, par exemple tous les 30 000 miles ou tous les deux ans."
+            }
+          ],
+          "text": "Pièce de maintenance périodique du circuit d'alimentation.",
+          "verdict": "conserver"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+              "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc"
+            ],
+            "concordance": "single_source",
+            "declassed_by": "model",
+            "declassed_from": "conserver",
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c2",
+          "limite": "Seul le domaine équipementier couvre la présence du filtre sur les motorisations essence ; aucune capture constructeur ne le confirme.",
+          "portee": "Équipementiers : filtres sur les systèmes essence (Delphi) et diesel (Filtron, Delphi). Constructeur : filtre à gazole de la Renault Clio 5 seulement.",
+          "proposed_wording": "Un filtre à carburant équipe les circuits diesel et, selon les équipementiers, les circuits essence ; son emplacement et son entretien dépendent du véhicule.",
+          "retake_question": "Une source constructeur confirme-t-elle la présence d'un filtre à carburant remplaçable sur les motorisations essence, et pour quels véhicules ?",
+          "sources": [
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Systèmes de carburant Systèmes de carburant essence"
+            },
+            {
+              "cid": "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+              "path": "sources/auto-captures/filtre-a-carburant/filtron-eu-wl-filtre-a-carburant-filtron-hiver-20261115-607df51b.md",
+              "quote": "Dans le cas des filtres à carburant de moteur diesel, la séparation de l’eau est également importante."
+            },
+            {
+              "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+              "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+              "quote": "Le remplacement des éléments filtrants (filtre à air, filtre habitacle, filtre à gazole…) est prévu dans les opérations d’entretien de votre véhicule."
+            }
+          ],
+          "text": "Présente sur les motorisations essence comme diesel.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c3",
+          "limite": "Aucune capture ne compare la teneur en impuretés du gazole et de l'essence ni les fréquences de remplacement. La périodicité relève du document d'entretien de chaque véhicule.",
+          "portee": "Aucune capture.",
+          "proposed_wording": null,
+          "retake_question": "Une source constructeur ou équipementier compare-t-elle, pour des motorisations identifiées, les intervalles de remplacement des filtres diesel et essence, et en donne-t-elle la cause ?",
+          "sources": [],
+          "text": "Le gazole contenant davantage d'impuretés, son filtre est remplacé plus fréquemment.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "doubt"
+      ],
+      "id": "body:2",
+      "sha256": "33ac78db92132ee67f8cb799d0fc3bb5ed2f53889a7d151c62bf1fc8bd5ef6d5"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:3",
+      "no_claims": true,
+      "sha256": "405115da18603cc17ffc499b64799ca8cbdb0dce7e4541724359e96e91cb351b"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c4",
+          "limite": "Aucune capture ne définit ces critères de sélection ni ne valide le sélecteur du site. Delphi recommande un filtre d'origine sur les systèmes Common Rail (« Il est conseillé d’installer un filtre d’origine sur tous les systèmes d’injection Common Rail afin de garantir la sécurité du circuit hydraulique. »), condition que le texte omet.",
+          "portee": "Aucune capture.",
+          "proposed_wording": null,
+          "retake_question": "Une source constructeur ou équipementier précise-t-elle les critères d'identification d'un filtre à carburant compatible (motorisation, numéro de pièce, type d'injection) ?",
+          "sources": [],
+          "text": "Critères de sélection : marque, modèle et année du véhicule (le sélecteur véhicule du site fait cette vérification).",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+              "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc"
+            ],
+            "concordance": "concordant",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c5",
+          "limite": "Le texte omet la précaution hivernale : vidanger le décanteur des filtres diesel, avec risque de gel et d'endommagement du filtre, et envisager le remplacement avant l'hiver à cause de la paraffine. La source constructeur ne couvre que la Clio 5.",
+          "portee": "Périodicité fixée par le document ou le calendrier d'entretien du véhicule (Renault Clio 5 ; Delphi en général). Remplacement avant l'hiver et vidange du décanteur pour les filtres diesel (Filtron).",
+          "proposed_wording": "Intervalle : suivre le document d'entretien du véhicule. Sur les diesels, vidanger le décanteur d'eau avant l'hiver (l'eau peut geler et endommager le filtre) ; Filtron conseille aussi de remplacer le filtre avant l'hiver.",
+          "retake_question": null,
+          "sources": [
+            {
+              "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+              "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+              "quote": "Périodicité de remplacement des éléments filtrants : reportez-vous au document d’entretien de votre véhicule."
+            },
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Un filtre à carburant doit être remplacé régulièrement, conformément au calendrier d’entretien du véhicule, par exemple tous les 30 000 miles ou tous les deux ans."
+            },
+            {
+              "cid": "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+              "path": "sources/auto-captures/filtre-a-carburant/filtron-eu-wl-filtre-a-carburant-filtron-hiver-20261115-607df51b.md",
+              "quote": "Il est conseillé de remplacer le filtre à carburant avant chaque début d’hiver, car l’écoulement du carburant à travers le filtre usagé est beaucoup plus difficile."
+            },
+            {
+              "cid": "sha256:8a61c710d5d7d6177db2c69db591d56c644591b423228a9902dd277a7c3058ce",
+              "path": "sources/auto-captures/filtre-a-carburant/filtron-eu-wl-filtre-a-carburant-filtron-hiver-20261115-607df51b.md",
+              "quote": "Avant l’hiver, le décanteur doit être vidé, car l’eau qu’il contient peut geler et provoquer l’endommagement du filtre."
+            }
+          ],
+          "text": "Intervalle : suivre la préconisation constructeur ; la préconisation constructeur prime.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c6",
+          "limite": "Aucune capture ne porte les fourchettes 15 000–20 000 km, 20 000–30 000 km (HDI/TDI) ni 60 000 km (essence). L'exemple Delphi s'en écarte. Ces valeurs ne peuvent pas être généralisées.",
+          "portee": "Delphi ne donne qu'un exemple indicatif (30 000 miles ou deux ans), soumis au calendrier d'entretien du véhicule.",
+          "proposed_wording": null,
+          "retake_question": "Quels intervalles de remplacement du filtre à carburant les documents d'entretien constructeur donnent-ils pour des moteurs HDI, TDI et essence identifiés ?",
+          "sources": [
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Un filtre à carburant doit être remplacé régulièrement, conformément au calendrier d’entretien du véhicule, par exemple tous les 30 000 miles ou tous les deux ans."
+            }
+          ],
+          "text": "Les fourchettes observées divergent selon les sources : 15 000–20 000 km en moyenne chez certains comparateurs ; diesels HDI/TDI 20 000–30 000 km et essences jusqu'à 60 000 km dans le corpus.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2"
+            ],
+            "concordance": "single_source",
+            "declassed_by": "model",
+            "declassed_from": "conserver",
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c7",
+          "limite": "Un seul domaine (équipementier) porte l'affirmation. Le texte omet le risque de déversement et de contamination, ainsi que la recommandation de confier le remplacement à un professionnel.",
+          "portee": "Filtres à carburant en général (Delphi) : un filtre encrassé réduit les performances et peut endommager le moteur.",
+          "proposed_wording": "Ne pas attendre la panne : un filtre encrassé réduit les performances et peut endommager le moteur. Le remplacement expose à un risque de déversement de carburant et de contamination ; il est préférable de le confier à un professionnel.",
+          "retake_question": "Une source constructeur indique-t-elle les risques d'un filtre à carburant encrassé pour le moteur et recommande-t-elle un remplacement préventif ?",
+          "sources": [
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "En effet, le filtre à carburant doit être en bon état à chaque fois que le moteur tourne - la saleté obstruant le filtre peut réduire considérablement les performances et même endommager le moteur."
+            },
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Bien que le processus soit assez simple, pour assurer votre sécurité et éviter la possibilité de causer des dommages par déversement de carburant ou contamination, il vaut mieux laisser la tâche aux professionnels."
+            }
+          ],
+          "text": "Ne pas attendre la panne complète pour intervenir.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:4",
+      "sha256": "e9bb9bb764066b9185309e4104c3ead732edc8f4a8b9eadbabfb35761923bc10"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:5",
+      "no_claims": true,
+      "sha256": "b07ed55203f0d88ebed77a69ea750333f4f62ec38193b32272aa2987376f7b86"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:6",
+      "no_claims": true,
+      "sha256": "4fbcce0dfde208559a0811b645e92a38519873d41022081cd5daa9263c747b2e"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc"
+            ],
+            "concordance": "undetermined",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c8",
+          "limite": "Aucune capture ne porte ces valeurs ni la distinction de fréquence entre essence et diesel. Généraliser ces intervalles à tous les véhicules peut retarder un remplacement nécessaire.",
+          "portee": "Les captures renvoient au calendrier d'entretien de chaque véhicule ; Delphi ne donne qu'un exemple sans distinguer essence et diesel.",
+          "proposed_wording": null,
+          "retake_question": "Quels intervalles les documents d'entretien constructeur donnent-ils pour le filtre à carburant de moteurs HDI, TDI et essence identifiés ?",
+          "sources": [
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Un filtre à carburant doit être remplacé régulièrement, conformément au calendrier d’entretien du véhicule, par exemple tous les 30 000 miles ou tous les deux ans."
+            },
+            {
+              "cid": "sha256:e8d1142018e75e730b775d2f908d2faf7aa7aa0ba77fcd84e21219a98a6f25cc",
+              "path": "sources/auto-captures/filtre-a-air/user-manual-renault-com-wl-filtre-a-air-renault-notice-filtr-02aebf07.md",
+              "quote": "Périodicité de remplacement des éléments filtrants : reportez-vous au document d’entretien de votre véhicule."
+            }
+          ],
+          "text": "Non (essence et diesel n'ont pas la même fréquence). Diesels HDI/TDI : 20 000–30 000 km. Essences : jusqu'à 60 000 km.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c9",
+          "limite": "Aucune capture ne compare les impuretés du gazole et de l'essence. Filtron rattache au diesel la séparation de l'eau, pas une teneur supérieure en impuretés.",
+          "portee": "Aucune capture.",
+          "proposed_wording": null,
+          "retake_question": "Une source pétrolière, normative ou équipementier compare-t-elle la teneur en contaminants (eau, particules) du gazole et de l'essence ?",
+          "sources": [],
+          "text": "Le gazole contient plus d'impuretés.",
+          "verdict": "retirer"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:7",
+      "sha256": "86bbf5c79a57ec4c8afeef1684539ce7d2d4ae1e1970fd19cd3819c1ee67d343"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:8",
+      "no_claims": true,
+      "sha256": "09fa0212add35f8fc55366e62b1246ee3d4c1f2da6df37ee9fde05e9620a0ea2"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur",
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c10",
+          "limite": "Aucune capture n'impose l'amorçage après tout remplacement de filtre ; Delphi indique que le pré-remplissage ne s'applique pas toujours. La méthode dépend du véhicule. Le texte omet de renvoyer à la notice ou à un professionnel.",
+          "portee": "Renault Kangoo 2 phase 2 (2013-2021) : réamorçage après une panne sèche. Delphi : le pré-remplissage du filtre neuf dépend des cas.",
+          "proposed_wording": "Selon le véhicule, le circuit doit être réamorcé (Renault l'exige par exemple après une panne sèche sur le Kangoo 2) et le filtre neuf doit parfois être pré-rempli, parfois non : suivez la notice du véhicule ou confiez l'opération à un professionnel.",
+          "retake_question": "Une source constructeur indique-t-elle, pour des moteurs diesel identifiés, s'il faut amorcer le circuit ou pré-remplir le filtre après son remplacement, et selon quelle méthode ?",
+          "sources": [
+            {
+              "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+              "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md",
+              "quote": "After a breakdown caused by completely running out of fuel, the system must be reprimed before the engine is restarted:"
+            },
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "Quand pré-remplir le nouveau filtre... et quand ne pas le faire"
+            },
+            {
+              "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+              "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md",
+              "quote": "No modifications whatsoever are permitted on any part of the fuel supply system (electronic unit, wiring, fuel circuit, injector, protective covers, etc.) as this may be dangerous (unless undertaken by qualified Network personnel)."
+            }
+          ],
+          "text": "Après remplacement du filtre diesel, il faut amorcer le circuit.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "constructeur"
+            ],
+            "proof": true
+          },
+          "id": "c11",
+          "limite": "Ne vaut que pour les véhicules munis d'une poire manuelle ; sans poire, Renault prescrit de mettre le contact et d'attendre quelques minutes. Le texte omet l'ouverture de la vis de purge si elle existe, le critère d'arrêt (poire durcie et carburant présent dans les tuyaux), la protection des organes périphériques contre les projections et le risque de moteur chaud. Un seul domaine (constructeur) porte l'affirmation.",
+          "portee": "Renault Kangoo 2 phase 2, véhicules équipés d'une poire d'amorçage manuelle, après une panne sèche.",
+          "proposed_wording": "Sur les véhicules équipés d'une poire d'amorçage manuelle (exemple : Renault Kangoo 2) : ouvrez la vis de purge du filtre si elle existe, puis actionnez la poire jusqu'à ce qu'elle durcisse et que le carburant circule dans les tuyaux, en protégeant alternateur et démarreur des projections. Sans poire, suivez la procédure de la notice (mise du contact et attente) ou faites appel à un professionnel.",
+          "retake_question": "Une source équipementier ou atelier décrit-elle la procédure d'amorçage par poire manuelle après remplacement du filtre diesel, et pour quels véhicules ?",
+          "sources": [
+            {
+              "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+              "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md",
+              "quote": "If fitted to the vehicle, turn the bleed screw located on the diesel filter;"
+            },
+            {
+              "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+              "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md",
+              "quote": "activate the priming bulb 1 until it hardens and fuel runs in the pipes."
+            },
+            {
+              "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+              "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md",
+              "quote": "The peripheral components (alternator, starter, engine mountings, etc.) should be protected against splashes of fuel."
+            },
+            {
+              "cid": "sha256:b4add7a8b3e2307882d1cb6a7995559c4275e8143eaa94a9b13915c2655c670f",
+              "path": "sources/auto-captures/filtre-a-carburant/user-manual-renault-com-wl-filtre-a-carburant-renault-notice-48436346.md",
+              "quote": "Please note when working close to the engine that it may be hot."
+            }
+          ],
+          "text": "Pompez jusqu'à sentir une résistance.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:9",
+      "sha256": "99e937ecd5b7ea67bb52a4388cdc0e940ad5ef82e83f0638ca39d5edb082cc74"
+    },
+    {
+      "depth": "allegee",
+      "depth_floor": "allegee",
+      "depth_reasons": [],
+      "id": "body:10",
+      "no_claims": true,
+      "sha256": "96f0c6d89d6aa809dd287e6d06bb8aaa8de9e95fc757b44085711ef62bdeda61"
+    },
+    {
+      "claims": [
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+              "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c12",
+          "limite": "Les captures décrivent un manque de puissance à forte charge, pas des « à-coups » en général. L'équivalence « = filtre » est trop large et peut conduire à un mauvais diagnostic : Delphi fait confirmer l'obstruction par des mesures de pression ou de dépression et par les codes défauts. Un seul domaine (équipementier) porte l'affirmation.",
+          "portee": "Delphi : manque de puissance à forte charge ou forte accélération, défauts intermittents et défauts de régulation de pression, notamment sur les diesels Common Rail.",
+          "proposed_wording": "Un manque de puissance à forte charge ou à forte accélération peut révéler un filtre à carburant obstrué, surtout sur les diesels Common Rail ; le diagnostic se confirme par une mesure de pression ou de dépression et la lecture des codes défauts, en atelier.",
+          "retake_question": "Une source constructeur relie-t-elle des à-coups ou un manque de puissance à l'accélération à un filtre à carburant obstrué, et pour quels moteurs ?",
+          "sources": [
+            {
+              "cid": "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-common-rail-827c5aac.md",
+              "quote": "Si vous remarquez un manque de puissance à forte charge (vitesse élevée du moteur et accélération lourde), ainsi que des défauts au niveau de la régulation ou du capteur de pression, il peut s’avérer utile de concentrer le diagnostic sur le circuit de filtration"
+            },
+            {
+              "cid": "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-common-rail-827c5aac.md",
+              "quote": "Compte tenu du niveau de filtration requis par les systèmes d’injection Common Rail, une obstruction peut entraîner des défauts intermittents qu’il faut mentionner."
+            },
+            {
+              "cid": "sha256:7378bd98b762c7e4a2ce2d3a49e9ad726670dd441892dc488ae0e16479cbc8f2",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-remplacemen-10616d4f.md",
+              "quote": "À grande vitesse ou à forte accélération, le véhicule peut sembler lent et lent."
+            }
+          ],
+          "text": "À-coups à l'accélération = filtre suspect.",
+          "verdict": "preciser"
+        },
+        {
+          "corroboration": {
+            "captures": [],
+            "concordance": "no_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [],
+            "proof": false
+          },
+          "id": "c13",
+          "limite": "Aucune capture n'attribue les à-coups au ralenti aux injecteurs ou à la bobine. La bobine ne concerne que l'allumage commandé. Cette équivalence peut conduire à un mauvais diagnostic.",
+          "portee": "Aucune capture.",
+          "proposed_wording": null,
+          "retake_question": "Une source constructeur ou équipementier associe-t-elle les à-coups au ralenti à des causes identifiées (injecteur, allumage, alimentation), selon le type de moteur ?",
+          "sources": [],
+          "text": "À-coups au ralenti = injecteur/bobine.",
+          "verdict": "retirer"
+        },
+        {
+          "corroboration": {
+            "captures": [
+              "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b"
+            ],
+            "concordance": "single_source",
+            "declassed_by": null,
+            "declassed_from": null,
+            "discordance_on": null,
+            "domains": [
+              "equipementier"
+            ],
+            "proof": true
+          },
+          "id": "c14",
+          "limite": "Delphi fait contrôler tout le circuit (obstruction, fuites d'air, fuites de carburant) et mesurer la pression avec propreté, par des techniciens ; la source ne prescrit pas de remplacer d'abord le filtre. Le texte omet le recours à un professionnel. Un seul domaine porte l'affirmation.",
+          "portee": "Delphi : diagnostic en atelier des systèmes Common Rail présentant des codes défauts ; contrôle de l'ensemble du circuit d'alimentation.",
+          "proposed_wording": "Sur un diesel Common Rail présentant un manque de puissance ou des défauts de pression, faites inclure le filtre et le circuit d'alimentation (obstruction, fuites d'air ou de carburant) dans le diagnostic, réalisé par un professionnel avec mesure de pression.",
+          "retake_question": "Une source constructeur recommande-t-elle de contrôler en priorité le filtre à carburant lors d'un diagnostic de manque de puissance, et pour quels systèmes d'injection ?",
+          "sources": [
+            {
+              "cid": "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-common-rail-827c5aac.md",
+              "quote": "Dans la plupart des cas, le filtre à carburant est ignoré, des éléments plus complexes étant envisagés pour déterminer la cause principale d’une situation ayant généré un code défaut."
+            },
+            {
+              "cid": "sha256:494fee488ec64938f642a3af6f894bc6cde1af6891d114882e047dd2ffd1470b",
+              "path": "sources/auto-captures/filtre-a-carburant/delphiautoparts-com-wl-filtre-a-carburant-delphi-common-rail-827c5aac.md",
+              "quote": "Le circuit d’alimentation en carburant doit être contrôlé (obstruction du circuit, fuite d’air, fuites de carburant)."
+            }
+          ],
+          "text": "Commencez par le filtre.",
+          "verdict": "preciser"
+        }
+      ],
+      "depth": "complete",
+      "depth_floor": "allegee",
+      "depth_reasons": [
+        "escalated"
+      ],
+      "id": "body:11",
+      "sha256": "b5bda7d3423c1e6932ef1629909646651e6cf04639c03d79c9513b137f994b76"
+    }
+  ],
+  "subject": {
+    "commit": "67e49d821f17a73692ca0eb976791bcb092483ca",
+    "path": "wiki/gamme/filtre-a-carburant.md, extrait verbatim des lignes 80, 82, 99, 101, 107, 109, 111, 117, 119, 125, 127 ; frontmatter réduit à slug, title et aux captures RAW du cas",
+    "repo": "automecanik-wiki",
+    "slug": "filtre-a-carburant"
+  }
+}

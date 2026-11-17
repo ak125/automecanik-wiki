@@ -864,8 +864,10 @@ sources:
       après fusion de la PR #84, sha256:ecb22317…), « Remplacement du filtre à
       huile moteur » (Juke 2024). Passages retenus : dépose à la clé à filtre,
       surface d'appui sans reste de l'ancien joint, joint huilé, vissage jusqu'à
-      une légère résistance puis complément de serrage, remise d'huile, contrôle
-      de fuite moteur tournant. Le serrage « 2/3 de tour » est propre au véhicule
+      une légère résistance puis complément de serrage, remise d'huile. Le contrôle
+      de fuite moteur tournant, confirmé aussi par Filtron, n'est pas publié en
+      révision 10 (gate symptom_unstructured : pas de relation diagnostic pour
+      « fuite »). Le serrage « 2/3 de tour » est propre au véhicule
       et diverge de Filtron : il n'est pas publié. Surface plane, frein de
       stationnement et moteur arrêté : constructeur seul, non publiés.
       STATUS to_capture : activation = acte owner (complément n° 4 T, palier 2).

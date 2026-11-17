@@ -1,6 +1,6 @@
 fiche: filtre-a-huile
 schema_version: 1.0.0
-generated_at: '2026-11-17'
+generated_at: '2026-11-18'
 coverage_entries:
 - claim_id: filtre-huile-temoin-couper-controler--renault-clio5p1-alerte-pression-huile
   section: '## Symptômes & diagnostic'
@@ -58,6 +58,14 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
+- claim_id: filtre-huile-remplace-avec-vidange--kia-programme-entretien-huile-filtre
+  section: '## Entretien & bonnes pratiques'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: kia_programme_entretien_huile_filtre
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
 - claim_id: filtre-huile-echeance-constructeur--mahle-oem-conception-filtre-huile
   section: '## Entretien & bonnes pratiques'
   text_anchor: L'échéance est celle que fixe le constructeur du véhicule
@@ -70,6 +78,86 @@ coverage_entries:
   section: '## Entretien & bonnes pratiques'
   text_anchor: L'échéance est celle que fixe le constructeur du véhicule
   source_slug: renault_captur2_niveau_vidange_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-depose-cle-filtre--filtron-oem-remplacement-filtre-huile
+  section: '### Dépose'
+  text_anchor: déposer le filtre usagé, au besoin avec une clé à filtre
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-depose-cle-filtre--nissan-juke2024-remplacement-filtre-huile
+  section: '### Dépose'
+  text_anchor: déposer le filtre usagé, au besoin avec une clé à filtre
+  source_slug: nissan_juke2024_remplacement_filtre_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-depose-surface-ancien-joint--filtron-oem-remplacement-filtre-huile
+  section: '### Dépose'
+  text_anchor: s'assurer qu'il n'y reste rien de l'ancien joint
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-depose-surface-ancien-joint--nissan-juke2024-remplacement-filtre-huile
+  section: '### Dépose'
+  text_anchor: s'assurer qu'il n'y reste rien de l'ancien joint
+  source_slug: nissan_juke2024_remplacement_filtre_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-joint-huile--filtron-oem-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Enduire le joint du filtre neuf d'un peu d'huile moteur propre
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-joint-huile--nissan-juke2024-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Enduire le joint du filtre neuf d'un peu d'huile moteur propre
+  source_slug: nissan_juke2024_remplacement_filtre_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-vissage-complement--filtron-oem-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Visser le filtre neuf jusqu'à ce que son joint touche le moteur
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-vissage-complement--nissan-juke2024-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Visser le filtre neuf jusqu'à ce que son joint touche le moteur
+  source_slug: nissan_juke2024_remplacement_filtre_huile
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-remettre-huile--filtron-oem-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Remettre de l'huile moteur
+  source_slug: filtron_oem_remplacement_filtre_huile
+  evidence_type: oem_technical_page
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
+- claim_id: filtre-huile-repose-remettre-huile--nissan-juke2024-remplacement-filtre-huile
+  section: '### Repose'
+  text_anchor: Remettre de l'huile moteur
+  source_slug: nissan_juke2024_remplacement_filtre_huile
   evidence_type: oem_owner_manual_excerpt
   confidence: high
   source_policy: 1_high
@@ -138,6 +226,14 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
+- claim_id: filtre-huile-faq-quand-avec-vidange--kia-programme-entretien-huile-filtre
+  section: '## FAQ'
+  text_anchor: Le filtre à huile se remplace avec la vidange
+  source_slug: kia_programme_entretien_huile_filtre
+  evidence_type: oem_owner_manual_excerpt
+  confidence: high
+  source_policy: 1_high
+  source_status: pending_capture
 - claim_id: filtre-huile-faq-quand-echeance-constructeur--mahle-oem-conception-filtre-huile
   section: '## FAQ'
   text_anchor: L'échéance est celle que fixe le constructeur du véhicule
@@ -186,15 +282,13 @@ coverage_entries:
   confidence: high
   source_policy: 1_high
   source_status: pending_capture
-notes: 'Révision 9 du 2026-11-17 (complément n° 3 au mandat T). Une entrée par source et par
-  affirmation : 10 affirmations, chacune portée par au moins un fabricant (Filtron ou MAHLE,
-  un seul domaine) et un constructeur (Renault ou Dacia). Les 60 claims de la révision 8 sont
-  retirés avec leur texte : ils n''avaient qu''un domaine, ou portaient sur la notice Twingo,
-  sortie des sources.
+notes: 'Révision 10 du 2026-11-18 (complément n° 4 au mandat T, palier 2). Une entrée par
+  source et par affirmation : 15 affirmations, chacune portée par au moins un fabricant (Filtron
+  ou MAHLE, un seul domaine) et un constructeur (Renault, Dacia, Nissan ou Kia).
 
 
-  23 entrées : 7 captured (MAHLE conception, notice Clio 5 phase 1), 16 pending_capture (Filtron
+  35 entrées : 7 captured (MAHLE conception, notice Clio 5 phase 1), 28 pending_capture (Filtron
   remplacement et témoin, capturés par automecanik-raw PR #78 le 2026-11-15 ; Renault révision,
-  Dacia, notices Captur 2 et Talisman, capturés par la même PR le 2026-11-17). Passage en
-  captured = activation owner de la source après fusion RAW, puis relecture du claim contre
-  sa capture.'
+  Dacia, notices Captur 2 et Talisman, capturés par la même PR le 2026-11-17 ; notices Nissan
+  Juke 2024 et Kia, capturées par la même PR le 2026-11-17 au palier 2). Passage en captured
+  = activation owner de la source après fusion RAW, puis relecture du claim contre sa capture.'

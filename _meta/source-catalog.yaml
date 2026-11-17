@@ -840,9 +840,11 @@ sources:
     notes: |
       Page constructeur visée (palier 2, complément n° 3 T) :
       volkswagen.fr/fr/entretenir-ma-volkswagen/entretien-et-pieces/fluides-huile-moteur.html,
-      FAQ « À quoi sert le filtre à huile ». Domaine en attente d'allowlist
-      (automecanik-raw PR #84). Pas encore capturée : aucun raw_ref, rien n'est
-      publié depuis cette entrée. STATUS to_capture : capture après fusion owner.
+      FAQ « À quoi sert le filtre à huile ». Domaine autorisé par automecanik-raw
+      PR #84 (fusionnée). Capture refusée le 2026-11-17 par le client de capture
+      (binary_body : octets de contrôle dans un script en ligne de la page) ; la
+      garde est respectée. Aucun raw_ref, rien n'est publié depuis cette entrée.
+      STATUS to_capture.
 
   - slug: nissan_juke2024_remplacement_filtre_huile
     title: 'Nissan Juke 2024 — notice : remplacement du filtre à huile moteur'
@@ -850,14 +852,23 @@ sources:
     publisher: 'Nissan'
     publisher_class: constructeur
     year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-df2a1e98ba1c60118fd29f61766bbbdfcd1d697c4a3d2abd56ded089a2a3bd85
+      expected_sha256: 'sha256:ecb223178180d4c89b5bdc959819852a6cc1ab37b1cb758c6ab1c80aba8cc509'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/nissan-fr-wl-filtre-a-huile-remplacement-nissan-20261117-df2a1e98.md'
     status: to_capture
     license: captured_for_internal_review
     notes: |
-      Notice constructeur visée (palier 2, complément n° 3 T), nissan.fr,
-      « Remplacement du filtre à huile moteur » (Juke 2024). Domaine en attente
-      d'allowlist (automecanik-raw PR #84). Pas encore capturée : aucun raw_ref.
-      Le serrage « 2/3 de tour » est propre au véhicule et n'a pas de second
-      domaine : il ne sera pas publié. STATUS to_capture : capture après fusion owner.
+      Notice constructeur (capture RAW 2026-11-17, automecanik-raw PR #78, palier 2
+      après fusion de la PR #84, sha256:ecb22317…), « Remplacement du filtre à
+      huile moteur » (Juke 2024). Passages retenus : dépose à la clé à filtre,
+      surface d'appui sans reste de l'ancien joint, joint huilé, vissage jusqu'à
+      une légère résistance puis complément de serrage, remise d'huile, contrôle
+      de fuite moteur tournant. Le serrage « 2/3 de tour » est propre au véhicule
+      et diverge de Filtron : il n'est pas publié. Surface plane, frein de
+      stationnement et moteur arrêté : constructeur seul, non publiés.
+      STATUS to_capture : activation = acte owner (complément n° 4 T, palier 2).
 
   - slug: kia_programme_entretien_huile_filtre
     title: 'Kia — notice : programme d’entretien, huile moteur et filtre à huile'
@@ -865,14 +876,21 @@ sources:
     publisher: 'Kia'
     publisher_class: constructeur
     year: null
+    raw_ref:
+      repo: automecanik-raw
+      manifest_id: src-auto-capture-40cc520957552ad6a1479a2e8462e1d4bf657dbb8ff08a1703f5142731f470df
+      expected_sha256: 'sha256:6b8396bcd55a180b5824023df8cd43c64290db245e7487d501a2161a4b7bab32'
+    archived_at: 'automecanik-raw/sources/auto-captures/filtre-a-huile/ownersmanual-kia-com-wl-filtre-a-huile-entretien-kia-2026111-40cc5209.md'
     status: to_capture
     license: captured_for_internal_review
     notes: |
-      Notice constructeur visée (palier 2, complément n° 3 T),
-      ownersmanual.kia.com (full_webhelp, fr_FR), programme d'entretien « Huile
-      moteur et filtre à huile ». Domaine en attente d'allowlist (automecanik-raw
-      PR #84). Pas encore capturée : aucun raw_ref. Intervalles chiffrés non
-      repris. STATUS to_capture : capture après fusion owner.
+      Notice constructeur (capture RAW 2026-11-17, automecanik-raw PR #78, palier 2
+      après fusion de la PR #84, sha256:6b8396bc…), ownersmanual.kia.com
+      (CD_PROCEED 2021, fr_FR), précautions de maintenance programmée. Passage
+      retenu : le programme d'entretien remplace ensemble l'huile moteur et le
+      filtre à huile. Intervalles chiffrés, conditions sévères et dommages en cas
+      de manque d'huile : non repris (constructeur seul ou propre au véhicule).
+      STATUS to_capture : activation = acte owner (complément n° 4 T, palier 2).
 
   - slug: eu_reg_461_2010_block_exemption
     title: 'Règlement (UE) n°461/2010 — exemption par catégorie automobile (qualité OE / OES / équivalente)'
